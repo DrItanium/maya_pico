@@ -510,9 +510,9 @@ static int FindError(
   void *theEnv,
   char *logicalName)
   {
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
+
+
+
 
    if ( (strcmp(logicalName,WERROR) == 0) ||
         (strcmp(logicalName,WWARNING) == 0) )

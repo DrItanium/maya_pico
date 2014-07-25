@@ -42,7 +42,8 @@
 /***************************************************************************/
 
 #include "clips.h"
-
+#include "binops.h"
+#include "arch.h"
 void UserFunctions(void);
 void EnvUserFunctions(void *);
 
@@ -66,5 +67,14 @@ void UserFunctions() {   }
 /*   included in another file.                             */
 /***********************************************************/
 void EnvUserFunctions(void *theEnv) {
+   /*==================================*/
+   /* Initialize Arch Detect Features. */
+   /*==================================*/
+   ArchitectureDetectionFunctionDefinitions(theEnv);
+
+   /*===============================*/
+   /* Initialize Logical Operations.*/
+   /*===============================*/
+   BinaryOperationsFunctionDefinitions(theEnv);
 }
 

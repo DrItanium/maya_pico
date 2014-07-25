@@ -143,10 +143,6 @@
 #include "developr.h"
 #endif
 
-/* Electron Includes */
-#include "arch.h"
-#include "binops.h"
-
 /***************/
 /* DEFINITIONS */
 /***************/
@@ -305,20 +301,6 @@ globle void EnvInitializeEnvironment(
    /*=========================================================*/
 
    InitializeNonportableFeatures(theEnvironment);
-
-   /* BEGIN ELECTRON */
-
-   /*==================================*/
-   /* Initialize Arch Detect Features. */
-   /*==================================*/
-   ArchitectureDetectionFunctionDefinitions(theEnvironment);
-
-   /*===============================*/
-   /* Initialize Logical Operations.*/
-   /*===============================*/
-   BinaryOperationsFunctionDefinitions(theEnvironment);
-
-   /* END ELECTRON */
 
    /*=============================================*/
    /* Register system and user defined functions. */
