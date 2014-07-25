@@ -1,6 +1,7 @@
 ########### MAKEFILE FOR MAYA ###########
 include config.mk
 LIBELECTRON=src/libelectron
+LIBMAYA=src/libmaya
 SRC = $(LIBELECTRON)/agenda.c \
 	  $(LIBELECTRON)/analysis.c \
 	  $(LIBELECTRON)/arch.c \
@@ -166,7 +167,8 @@ SRC = $(LIBELECTRON)/agenda.c \
 	  $(LIBELECTRON)/userdata.c \
 	  $(LIBELECTRON)/userfunctions.c \
 	  $(LIBELECTRON)/utility.c \
-	  $(LIBELECTRON)/watch.c
+	  $(LIBELECTRON)/watch.c \
+	  $(LIBMAYA)/init.c
 
 
 OBJS=${SRC:.c=.o}

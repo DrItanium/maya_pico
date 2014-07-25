@@ -44,6 +44,8 @@
 #include "clips.h"
 #include "binops.h"
 #include "arch.h"
+#include "libmaya.h"
+
 void UserFunctions(void);
 void EnvUserFunctions(void *);
 
@@ -76,5 +78,10 @@ void EnvUserFunctions(void *theEnv) {
    /* Initialize Logical Operations.*/
    /*===============================*/
    BinaryOperationsFunctionDefinitions(theEnv);
+
+   /*==================*/
+   /* Initialize Maya. */
+   /*==================*/
+   MayaDefinitions(theEnv);
 }
 
