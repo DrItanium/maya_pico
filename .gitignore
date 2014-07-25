@@ -3,6 +3,7 @@ electron
 electron.exe
 libelectron.so
 libelectron.a
+maya
 
 *.a
 *.o
