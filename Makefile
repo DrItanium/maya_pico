@@ -1,35 +1,173 @@
 ########### MAKEFILE FOR MAYA ###########
 include config.mk
+LIBELECTRON=src/libelectron
+SRC = $(LIBELECTRON)/agenda.c \
+	  $(LIBELECTRON)/analysis.c \
+	  $(LIBELECTRON)/arch.c \
+	  $(LIBELECTRON)/argacces.c \
+	  $(LIBELECTRON)/binops.c \
+	  $(LIBELECTRON)/bload.c \
+	  $(LIBELECTRON)/bmathfun.c \
+	  $(LIBELECTRON)/bsave.c \
+	  $(LIBELECTRON)/classcom.c \
+	  $(LIBELECTRON)/classexm.c \
+	  $(LIBELECTRON)/classfun.c \
+	  $(LIBELECTRON)/classinf.c \
+	  $(LIBELECTRON)/classini.c \
+	  $(LIBELECTRON)/classpsr.c \
+	  $(LIBELECTRON)/clsltpsr.c \
+	  $(LIBELECTRON)/commline.c \
+	  $(LIBELECTRON)/conscomp.c \
+	  $(LIBELECTRON)/constrct.c \
+	  $(LIBELECTRON)/constrnt.c \
+	  $(LIBELECTRON)/crstrtgy.c \
+	  $(LIBELECTRON)/cstrcbin.c \
+	  $(LIBELECTRON)/cstrccom.c \
+	  $(LIBELECTRON)/cstrcpsr.c \
+	  $(LIBELECTRON)/cstrnbin.c \
+	  $(LIBELECTRON)/cstrnchk.c \
+	  $(LIBELECTRON)/cstrncmp.c \
+	  $(LIBELECTRON)/cstrnops.c \
+	  $(LIBELECTRON)/cstrnpsr.c \
+	  $(LIBELECTRON)/cstrnutl.c \
+	  $(LIBELECTRON)/default.c \
+	  $(LIBELECTRON)/defins.c \
+	  $(LIBELECTRON)/developr.c \
+	  $(LIBELECTRON)/dffctbin.c \
+	  $(LIBELECTRON)/dffctbsc.c \
+	  $(LIBELECTRON)/dffctcmp.c \
+	  $(LIBELECTRON)/dffctdef.c \
+	  $(LIBELECTRON)/dffctpsr.c \
+	  $(LIBELECTRON)/dffnxbin.c \
+	  $(LIBELECTRON)/dffnxcmp.c \
+	  $(LIBELECTRON)/dffnxexe.c \
+	  $(LIBELECTRON)/dffnxfun.c \
+	  $(LIBELECTRON)/dffnxpsr.c \
+	  $(LIBELECTRON)/dfinsbin.c \
+	  $(LIBELECTRON)/dfinscmp.c \
+	  $(LIBELECTRON)/drive.c \
+	  $(LIBELECTRON)/emathfun.c \
+	  $(LIBELECTRON)/engine.c \
+	  $(LIBELECTRON)/envrnmnt.c \
+	  $(LIBELECTRON)/evaluatn.c \
+	  $(LIBELECTRON)/expressn.c \
+	  $(LIBELECTRON)/exprnbin.c \
+	  $(LIBELECTRON)/exprnops.c \
+	  $(LIBELECTRON)/exprnpsr.c \
+	  $(LIBELECTRON)/extnfunc.c \
+	  $(LIBELECTRON)/factbin.c \
+	  $(LIBELECTRON)/factbld.c \
+	  $(LIBELECTRON)/factcmp.c \
+	  $(LIBELECTRON)/factcom.c \
+	  $(LIBELECTRON)/factfun.c \
+	  $(LIBELECTRON)/factgen.c \
+	  $(LIBELECTRON)/facthsh.c \
+	  $(LIBELECTRON)/factlhs.c \
+	  $(LIBELECTRON)/factmch.c \
+	  $(LIBELECTRON)/factmngr.c \
+	  $(LIBELECTRON)/factprt.c \
+	  $(LIBELECTRON)/factqpsr.c \
+	  $(LIBELECTRON)/factqury.c \
+	  $(LIBELECTRON)/factrete.c \
+	  $(LIBELECTRON)/factrhs.c \
+	  $(LIBELECTRON)/filecom.c \
+	  $(LIBELECTRON)/filertr.c \
+	  $(LIBELECTRON)/generate.c \
+	  $(LIBELECTRON)/genrcbin.c \
+	  $(LIBELECTRON)/genrccmp.c \
+	  $(LIBELECTRON)/genrccom.c \
+	  $(LIBELECTRON)/genrcexe.c \
+	  $(LIBELECTRON)/genrcfun.c \
+	  $(LIBELECTRON)/genrcpsr.c \
+	  $(LIBELECTRON)/globlbin.c \
+	  $(LIBELECTRON)/globlbsc.c \
+	  $(LIBELECTRON)/globlcmp.c \
+	  $(LIBELECTRON)/globlcom.c \
+	  $(LIBELECTRON)/globldef.c \
+	  $(LIBELECTRON)/globlpsr.c \
+	  $(LIBELECTRON)/immthpsr.c \
+	  $(LIBELECTRON)/incrrset.c \
+	  $(LIBELECTRON)/inherpsr.c \
+	  $(LIBELECTRON)/inscom.c \
+	  $(LIBELECTRON)/insfile.c \
+	  $(LIBELECTRON)/insfun.c \
+	  $(LIBELECTRON)/insmngr.c \
+	  $(LIBELECTRON)/insmoddp.c \
+	  $(LIBELECTRON)/insmult.c \
+	  $(LIBELECTRON)/inspsr.c \
+	  $(LIBELECTRON)/insquery.c \
+	  $(LIBELECTRON)/insqypsr.c \
+	  $(LIBELECTRON)/iofun.c \
+	  $(LIBELECTRON)/lgcldpnd.c \
+	  $(LIBELECTRON)/main.c \
+	  $(LIBELECTRON)/memalloc.c \
+	  $(LIBELECTRON)/miscfun.c \
+	  $(LIBELECTRON)/modulbin.c \
+	  $(LIBELECTRON)/modulbsc.c \
+	  $(LIBELECTRON)/modulcmp.c \
+	  $(LIBELECTRON)/moduldef.c \
+	  $(LIBELECTRON)/modulpsr.c \
+	  $(LIBELECTRON)/modulutl.c \
+	  $(LIBELECTRON)/msgcom.c \
+	  $(LIBELECTRON)/msgfun.c \
+	  $(LIBELECTRON)/msgpass.c \
+	  $(LIBELECTRON)/msgpsr.c \
+	  $(LIBELECTRON)/multifld.c \
+	  $(LIBELECTRON)/multifun.c \
+	  $(LIBELECTRON)/objbin.c \
+	  $(LIBELECTRON)/objcmp.c \
+	  $(LIBELECTRON)/objrtbin.c \
+	  $(LIBELECTRON)/objrtbld.c \
+	  $(LIBELECTRON)/objrtcmp.c \
+	  $(LIBELECTRON)/objrtfnx.c \
+	  $(LIBELECTRON)/objrtgen.c \
+	  $(LIBELECTRON)/objrtmch.c \
+	  $(LIBELECTRON)/parsefun.c \
+	  $(LIBELECTRON)/pattern.c \
+	  $(LIBELECTRON)/pprint.c \
+	  $(LIBELECTRON)/prccode.c \
+	  $(LIBELECTRON)/prcdrfun.c \
+	  $(LIBELECTRON)/prcdrpsr.c \
+	  $(LIBELECTRON)/prdctfun.c \
+	  $(LIBELECTRON)/prntutil.c \
+	  $(LIBELECTRON)/proflfun.c \
+	  $(LIBELECTRON)/reorder.c \
+	  $(LIBELECTRON)/reteutil.c \
+	  $(LIBELECTRON)/retract.c \
+	  $(LIBELECTRON)/router.c \
+	  $(LIBELECTRON)/rulebin.c \
+	  $(LIBELECTRON)/rulebld.c \
+	  $(LIBELECTRON)/rulebsc.c \
+	  $(LIBELECTRON)/rulecmp.c \
+	  $(LIBELECTRON)/rulecom.c \
+	  $(LIBELECTRON)/rulecstr.c \
+	  $(LIBELECTRON)/ruledef.c \
+	  $(LIBELECTRON)/ruledlt.c \
+	  $(LIBELECTRON)/rulelhs.c \
+	  $(LIBELECTRON)/rulepsr.c \
+	  $(LIBELECTRON)/scanner.c \
+	  $(LIBELECTRON)/sortfun.c \
+	  $(LIBELECTRON)/strngfun.c \
+	  $(LIBELECTRON)/strngrtr.c \
+	  $(LIBELECTRON)/symblbin.c \
+	  $(LIBELECTRON)/symblcmp.c \
+	  $(LIBELECTRON)/symbol.c \
+	  $(LIBELECTRON)/sysdep.c \
+	  $(LIBELECTRON)/textpro.c \
+	  $(LIBELECTRON)/tmpltbin.c \
+	  $(LIBELECTRON)/tmpltbsc.c \
+	  $(LIBELECTRON)/tmpltcmp.c \
+	  $(LIBELECTRON)/tmpltdef.c \
+	  $(LIBELECTRON)/tmpltfun.c \
+	  $(LIBELECTRON)/tmpltlhs.c \
+	  $(LIBELECTRON)/tmpltpsr.c \
+	  $(LIBELECTRON)/tmpltrhs.c \
+	  $(LIBELECTRON)/tmpltutl.c \
+	  $(LIBELECTRON)/userdata.c \
+	  $(LIBELECTRON)/userfunctions.c \
+	  $(LIBELECTRON)/utility.c \
+	  $(LIBELECTRON)/watch.c
 
-SRC = agenda.c analysis.c argacces.c bload.c bmathfun.c bsave.c \
- 	classcom.c classexm.c classfun.c classinf.c classini.c \
-	classpsr.c clsltpsr.c commline.c conscomp.c constrct.c \
- 	constrnt.c crstrtgy.c cstrcbin.c cstrccom.c cstrcpsr.c \
- 	cstrnbin.c cstrnchk.c cstrncmp.c cstrnops.c cstrnpsr.c \
- 	cstrnutl.c default.c defins.c developr.c dffctbin.c dffctbsc.c \
- 	dffctcmp.c dffctdef.c dffctpsr.c dffnxbin.c dffnxcmp.c \
-	dffnxexe.c dffnxfun.c dffnxpsr.c dfinsbin.c dfinscmp.c drive.c \
-	emathfun.c engine.c envrnmnt.c evaluatn.c expressn.c exprnbin.c exprnops.c \
- 	exprnpsr.c extnfunc.c factbin.c factbld.c factcmp.c factcom.c \
- 	factfun.c factgen.c facthsh.c factlhs.c factmch.c factmngr.c \
- 	factprt.c factqpsr.c factqury.c factrete.c factrhs.c filecom.c \
- 	filertr.c generate.c genrcbin.c genrccmp.c genrccom.c genrcexe.c \
- 	genrcfun.c genrcpsr.c globlbin.c globlbsc.c globlcmp.c globlcom.c \
- 	globldef.c globlpsr.c immthpsr.c incrrset.c inherpsr.c \
- 	inscom.c insfile.c insfun.c insmngr.c insmoddp.c insmult.c \
- 	inspsr.c insquery.c insqypsr.c iofun.c lgcldpnd.c \
- 	memalloc.c miscfun.c modulbin.c modulbsc.c modulcmp.c moduldef.c \
- 	modulpsr.c modulutl.c msgcom.c msgfun.c msgpass.c msgpsr.c \
- 	multifld.c multifun.c objbin.c objcmp.c objrtbin.c objrtbld.c \
- 	objrtcmp.c objrtfnx.c objrtgen.c objrtmch.c parsefun.c pattern.c \
- 	pprint.c prccode.c prcdrfun.c prcdrpsr.c prdctfun.c prntutil.c \
- 	proflfun.c reorder.c reteutil.c retract.c router.c rulebin.c \
- 	rulebld.c rulebsc.c rulecmp.c rulecom.c rulecstr.c ruledef.c \
- 	ruledlt.c rulelhs.c rulepsr.c scanner.c sortfun.c strngfun.c \
- 	strngrtr.c symblbin.c symblcmp.c symbol.c sysdep.c textpro.c \
- 	tmpltbin.c tmpltbsc.c tmpltcmp.c tmpltdef.c tmpltfun.c tmpltlhs.c \
- 	tmpltpsr.c tmpltrhs.c tmpltutl.c userdata.c utility.c watch.c \
- 	binops.c arch.c 
 
 OBJS=${SRC:.c=.o}
 
@@ -37,9 +175,9 @@ OBJS=${SRC:.c=.o}
 
 all: program
 
-program: $(OBJS) main.o userfunctions.o
+program: $(OBJS) 
 	@echo Building $(OUTPUT)
-	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS) main.o userfunctions.o -lm -lrt
+	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS) -lm -lrt
 
 install:
 	@echo Installing binaries to $(PREFIX)/bin
@@ -53,19 +191,17 @@ deinstall uninstall:
 
 clean: 
 	@echo Cleaning
-	@rm -f *.o
+	@rm -f src/libelectron/*.o
 	@rm -f $(OUTPUT)
-	@rm -f libelectron.so
-	@rm -f libelectron.a
 
 
 .c.o :
 	@echo CC $<
-	@$(CC) -c $(CFLAGS) -D_POSIX_C_SOURCE=200112L \
+	@$(CC) -c $(CFLAGS) -o $@ -D_POSIX_C_SOURCE=200112L \
 		-std=c99 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
 	    -Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
 	    -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes \
-	    -Waggregate-return -Wno-implicit -fPIC $<
+	    -Waggregate-return -Wno-implicit -Iinclude/ $<
 
 agenda.o: agenda.c setup.h envrnmnt.h symbol.h usrsetup.h argacces.h \
   expressn.h exprnops.h exprnpsr.h extnfunc.h userdata.h scanner.h \
