@@ -146,9 +146,6 @@
 /* Electron Includes */
 #include "arch.h"
 #include "binops.h"
-#if !WIN_MVC
-#include "shellvar.h"
-#endif
 
 /***************/
 /* DEFINITIONS */
@@ -906,22 +903,6 @@ static void InitializeNonportableFeatures(
    signal(SIGINT,CatchCtrlC);
 #endif
 
-#if !WIN_MVC
-   /*==================================================*/
-   /* Initialize Shell Variable Manipulation Functions */
-   /*==================================================*/
-   ShellVariableQueryFunctions(theEnv);
-#endif
-
-/*
-#if WIN_MVC
-   SystemDependentData(theEnv)->OldCtrlC = _dos_getvect(0x23);
-   SystemDependentData(theEnv)->OldBreak = _dos_getvect(0x1b);
-   _dos_setvect(0x23,CatchCtrlC);
-   _dos_setvect(0x1b,CatchCtrlC);
-   atexit(RestoreInterruptVectors);
-#endif
-*/
 #endif
   }
 

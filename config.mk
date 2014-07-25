@@ -1,5 +1,5 @@
 CC ?= cc
-OUTPUT ?= electron
+OUTPUT ?= maya
 PREFIX ?= /usr/local
 LDFLAGS ?= -lm -lrt
 CFLAGS ?= -Os

@@ -1,4 +1,4 @@
-########### MAKEFILE FOR ELECTRON ###########
+########### MAKEFILE FOR MAYA ###########
 include config.mk
 
 SRC = agenda.c analysis.c argacces.c bload.c bmathfun.c bsave.c \
@@ -29,213 +29,25 @@ SRC = agenda.c analysis.c argacces.c bload.c bmathfun.c bsave.c \
  	strngrtr.c symblbin.c symblcmp.c symbol.c sysdep.c textpro.c \
  	tmpltbin.c tmpltbsc.c tmpltcmp.c tmpltdef.c tmpltfun.c tmpltlhs.c \
  	tmpltpsr.c tmpltrhs.c tmpltutl.c userdata.c utility.c watch.c \
- 	binops.c arch.c shellvar.c 
+ 	binops.c arch.c 
 
 OBJS=${SRC:.c=.o}
 
 .PHONY: clean all
 
-all: program libraries
+all: program
 
 program: $(OBJS) main.o userfunctions.o
 	@echo Building $(OUTPUT)
 	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS) main.o userfunctions.o -lm -lrt
 
-libraries: $(OBJS)
-	@echo Building lib$(OUTPUT).a
-	@$(AR) rcs lib$(OUTPUT).a $(OBJS)
-	@echo Building lib$(OUTPUT).so
-	@$(CC) $(LDFLAGS) -shared -o lib$(OUTPUT).so $(OBJS) -lm -lrt
-
 install:
-	@echo Installing headers to $(PREFIX)/include
-	@mkdir -p $(PREFIX)/include/$(OUTPUT)
-	@cp *.h $(PREFIX)/include/$(OUTPUT)
-	@echo Installing libraries to $(PREFIX)/lib
-	@mkdir -p $(PREFIX)/lib
-	@cp lib$(OUTPUT).so $(PREFIX)/lib
-	@cp lib$(OUTPUT).a $(PREFIX)/lib
 	@echo Installing binaries to $(PREFIX)/bin
 	@mkdir -p $(PREFIX)/bin
 	@cp $(OUTPUT) $(PREFIX)/bin
 
 deinstall uninstall:
 	@echo Uninstalling...
-	@rm -f $(PREFIX)/include/$(OUTPUT)/agenda.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/analysis.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/arch.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/argacces.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/binops.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/bload.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/bmathfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/bsave.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/classcom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/classexm.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/classfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/classinf.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/classini.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/classpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/clips.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/clsltpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/commline.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/conscomp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/constant.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/constrct.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/constrnt.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/crstrtgy.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrcbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrccmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrccom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrcpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrnbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrnchk.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrncmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrnops.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrnpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/cstrnutl.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/default.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/defins.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/developr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffctbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffctbsc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffctcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffctdef.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffctpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffnxbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffnxcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffnxexe.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffnxfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dffnxpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dfinsbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/dfinscmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/drive.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/emathfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/engine.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/envrnmnt.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/evaluatn.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/expressn.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/exprnbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/exprnops.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/exprnpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/extnfunc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factbld.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factcom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factgen.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/facthsh.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factlhs.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factmch.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factmngr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factprt.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factqpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factqury.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factrete.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/factrhs.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/filecom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/filertr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/generate.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/genrcbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/genrccmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/genrccom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/genrcexe.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/genrcfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/genrcpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/globlbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/globlbsc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/globlcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/globlcom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/globldef.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/globlpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/immthpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/incrrset.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/inherpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/inscom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insfile.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insmngr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insmoddp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insmult.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/inspsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insquery.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/insqypsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/iofun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/lgcldpnd.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/match.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/memalloc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/miscfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/modulbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/modulbsc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/modulcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/moduldef.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/modulpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/modulutl.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/msgcom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/msgfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/msgpass.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/msgpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/multifld.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/multifun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/network.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/object.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objrtbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objrtbld.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objrtcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objrtfnx.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objrtgen.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/objrtmch.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/parsefun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/pattern.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/pprint.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/prccode.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/prcdrfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/prcdrpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/prdctfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/prntutil.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/proflfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/reorder.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/reteutil.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/retract.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/router.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulebin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulebld.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulebsc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulecmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulecom.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulecstr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/ruledef.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/ruledlt.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulelhs.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/rulepsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/scanner.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/setup.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/shellvar.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/sortfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/strngfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/strngrtr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/symblbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/symblcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/symbol.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/sysdep.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/textpro.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltbin.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltbsc.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltcmp.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltdef.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltfun.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltlhs.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltpsr.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltrhs.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/tmpltutl.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/userdata.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/usrsetup.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/utility.h 
-	@rm -f $(PREFIX)/include/$(OUTPUT)/watch.h
-	@rm -f $(PREFIX)/lib/lib$(OUTPUT).so
-	@rm -f $(PREFIX)/lib/lib$(OUTPUT).a
 	@rm -f $(PREFIX)/bin/$(OUTPUT)
 
 
@@ -1466,6 +1278,3 @@ watch.o: watch.c setup.h envrnmnt.h symbol.h usrsetup.h constant.h \
 binops.o: binops.c clips.h binops.h
 
 arch.o: arch.c arch.h
-
-shellvar.o: shellvar.c shellvar.h
-
