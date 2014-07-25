@@ -193,7 +193,7 @@ deinstall uninstall:
 
 clean: 
 	@echo Cleaning
-	@rm -f src/libelectron/*.o
+	@rm -f $(OBJS)
 	@rm -f $(OUTPUT)
 
 
