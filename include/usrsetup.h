@@ -60,6 +60,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define OS_LINUX 0
 #define OS_NAME "Android"
 #endif
+#else
+#define OS_LINUX 0
+#define OS_ANDROID 0
 #endif
 
 #ifdef __FreeBSD__
