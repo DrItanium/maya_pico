@@ -22,68 +22,57 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#if ALLOW_FILE_SYSTEM_ROOTING
 #include <stdlib.h>
 #include "clips.h"
 #include "libmaya.h"
-static int FS_LoadStarCommand(void*);
-static int FS_LoadCommand(void*);
-static int FS_BatchCommand(void*);
-static int FS_BatchStarCommand(void*);
-static int FS_EnvBatchStar(void*, char*);
-static int FS_EnvLoad(void*, char*);
-static int FS_OpenBatch(void*, char*, int);
-static int FS_Batch(void*, char*);
-static int FS_OpenFunction(void*);
-static int FS_RemoveFunction(void*);
-static int FS_RenameFunction(void*);
+#if FILE_SYSTEM_ROOTING
 
 void DefineFSOverrideFunctions(void* theEnv) {
     EnvDefineFunction2(theEnv,
             (char*)"batch",
             'b',
-            PTIEF EFS_BatchCommand,
-            (char*)"EFS_BatchCommand",
+            PTIEF FS_BatchCommand,
+            (char*)"FS_BatchCommand",
             (char*)"11k");
     EnvDefineFunction2(theEnv,
             (char*)"batch*",
             'b',
-            PTIEF EFS_BatchStarCommand,
-            (char*)"EFS_BatchStarCommand",
+            PTIEF FS_BatchStarCommand,
+            (char*)"FS_BatchStarCommand",
             (char*)"11k");
     EnvDefineFunction2(theEnv,
             (char*)"load",
             'b',
-            PTIEF EFS_LoadCommand,
-            (char*)"EFS_LoadCommand",
+            PTIEF FS_LoadCommand,
+            (char*)"FS_LoadCommand",
             (char*)"11k");
     EnvDefineFunction2(theEnv,
             (char*)"load*",
             'b',
-            PTIEF EFS_LoadStarCommand,
-            (char*)"EFS_LoadStarCommand",
+            PTIEF FS_LoadStarCommand,
+            (char*)"FS_LoadStarCommand",
             (char*)"11k");
     EnvDefineFunction2(theEnv,
             (char*)"open",       
             'b', 
-            PTIEF EFS_OpenFunction,  
-            (char*)"EFS_OpenFunction", 
+            PTIEF FS_OpenFunction,  
+            (char*)"FS_OpenFunction", 
             (char*)"23*k");
     EnvDefineFunction2(theEnv,
             (char*)"remove",   
             'b', 
-            PTIEF EFS_RemoveFunction,  
-            (char*)"EFS_RemoveFunction", 
+            PTIEF FS_RemoveFunction,  
+            (char*)"FS_RemoveFunction", 
             (char*)"11k");
     EnvDefineFunction2(theEnv,
             (char*)"rename",   
             'b',
-            PTIEF EFS_RenameFunction, 
-            (char*)"EFS_RenameFunction", 
+            PTIEF FS_RenameFunction, 
+            (char*)"FS_RenameFunction", 
             (char*)"22k");
 }
 // C access functions
-int EFS_OpenBatch(void* theEnv, char* path, int placeAtEnd) {
+int FS_OpenBatch(void* theEnv, char* path, int placeAtEnd) {
     int result, size;
     char* tmp;
     char* base;
@@ -105,7 +94,7 @@ int EFS_OpenBatch(void* theEnv, char* path, int placeAtEnd) {
     }
 
 }
-int EFS_Batch(void* theEnv, char* path) {
+int FS_Batch(void* theEnv, char* path) {
     int result, size;
     char* tmp;
     char* base;
@@ -126,7 +115,7 @@ int EFS_Batch(void* theEnv, char* path) {
         return 0;
     }
 }
-int EFS_EnvBatchStar(void* theEnv, char* path) {
+int FS_EnvBatchStar(void* theEnv, char* path) {
     int result, size;
     char* tmp;
     char* base;
@@ -148,7 +137,7 @@ int EFS_EnvBatchStar(void* theEnv, char* path) {
     }
 }
 
-int EFS_EnvLoad(void* theEnv, char* path) {
+int FS_EnvLoad(void* theEnv, char* path) {
     int result, size;
     char* tmp; 
     char* base;
@@ -172,7 +161,7 @@ int EFS_EnvLoad(void* theEnv, char* path) {
 
 //Interface functions - Taken from electron/filecom.c
 
-int EFS_LoadCommand(void *theEnv) {
+int FS_LoadCommand(void *theEnv) {
 #if (! BLOAD_ONLY) && (! RUN_TIME)
     char *theFileName;
     int rv;
@@ -184,7 +173,7 @@ int EFS_LoadCommand(void *theEnv) {
 
     SetPrintWhileLoading(theEnv,TRUE);
 
-    if ((rv = EFS_EnvLoad(theEnv,theFileName)) == FALSE) {
+    if ((rv = FS_EnvLoad(theEnv,theFileName)) == FALSE) {
         SetPrintWhileLoading(theEnv,FALSE);
         OpenErrorMessage(theEnv,(char*)"load",theFileName);
         return(FALSE);
@@ -200,7 +189,7 @@ int EFS_LoadCommand(void *theEnv) {
 #endif
 }
 
-int EFS_LoadStarCommand(void *theEnv) {
+int FS_LoadStarCommand(void *theEnv) {
 #if (! BLOAD_ONLY) && (! RUN_TIME)
     char *theFileName;
     int rv;
@@ -210,7 +199,7 @@ int EFS_LoadStarCommand(void *theEnv) {
     if ((theFileName = GetFileName(theEnv,(char*)"load*",1)) == NULL) 
         return(FALSE);
 
-    if ((rv = EFS_EnvLoad(theEnv,theFileName)) == FALSE) {
+    if ((rv = FS_EnvLoad(theEnv,theFileName)) == FALSE) {
         OpenErrorMessage(theEnv,(char*)"load*",theFileName);
         return(FALSE);
     }
@@ -225,7 +214,7 @@ int EFS_LoadStarCommand(void *theEnv) {
 }
 
 
-int EFS_BatchCommand(void *theEnv) {
+int FS_BatchCommand(void *theEnv) {
     char *fileName;
 
     if (EnvArgCountCheck(theEnv,(char*)"batch",EXACTLY,1) == -1) 
@@ -233,10 +222,10 @@ int EFS_BatchCommand(void *theEnv) {
     if ((fileName = GetFileName(theEnv,(char*)"batch",1)) == NULL) 
         return(FALSE);
 
-    return(EFS_Batch(theEnv,fileName));
+    return(FS_Batch(theEnv,fileName));
 }
 
-int EFS_BatchStarCommand(void *theEnv) {
+int FS_BatchStarCommand(void *theEnv) {
     char *fileName;
 
     if (EnvArgCountCheck(theEnv,(char*)"batch*",EXACTLY,1) == -1) 
@@ -244,11 +233,11 @@ int EFS_BatchStarCommand(void *theEnv) {
     if ((fileName = GetFileName(theEnv,(char*)"batch*",1)) == NULL) 
         return(FALSE);
 
-    return(EFS_EnvBatchStar(theEnv,fileName));
+    return(FS_EnvBatchStar(theEnv,fileName));
 }
 
 
-int EFS_RemoveFunction(void *theEnv) {
+int FS_RemoveFunction(void *theEnv) {
     char *theFileName;
     char *base;
     char* tmp;
@@ -277,7 +266,7 @@ int EFS_RemoveFunction(void *theEnv) {
 
 }
 
-int EFS_RenameFunction(void *theEnv) {
+int FS_RenameFunction(void *theEnv) {
     char* oldFileName;
     char* newFileName;
     char* old;
@@ -312,7 +301,7 @@ int EFS_RenameFunction(void *theEnv) {
     }
 
 }
-int EFS_OpenFunction(void *theEnv) {
+int FS_OpenFunction(void *theEnv) {
     int numberOfArguments, size, result;
     char* base;
     char* tmp;

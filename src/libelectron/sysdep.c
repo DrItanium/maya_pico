@@ -143,6 +143,10 @@
 #include "developr.h"
 #endif
 
+#if MAYA_EXTENSIONS
+#include "libmaya.h"
+#endif
+
 /***************/
 /* DEFINITIONS */
 /***************/
@@ -568,32 +572,29 @@ globle void RerouteStdin(
       switch(theSwitch)
         {
          case BATCH_SWITCH:
+#if FILE_SYSTEM_ROOTING
+			FS_OpenBatch(theEnv, argv[++i],TRUE);
+#else
             OpenBatch(theEnv,argv[++i],TRUE);
+#endif /* FILE_SYSTEM_ROOTING */
             break;
 
 #if (! RUN_TIME) && (! BLOAD_ONLY)
          case BATCH_STAR_SWITCH:
+#if FILE_SYSTEM_ROOTING
+			FS_EnvBatchStar(theEnv, argv[++i]);
+#else
             EnvBatchStar(theEnv,argv[++i]);
+#endif /* FILE_SYSTEM_ROOTING */
             break;
 
          case LOAD_SWITCH:
+#if FILE_SYSTEM_ROOTING
+			FS_EnvLoad(theEnv, argv[++i]);
+#else
             EnvLoad(theEnv,argv[++i]);
+#endif /* FILE_SYSTEM_ROOTING */
             break;
-         case FACTS_FROM_COMMAND_LINE:
-            {
-               if(i < (argc - 1)) {
-                  size_t size = 33 + strlen(argv[++i]);
-                  char* ptr = genalloc(theEnv, size);
-                  gensprintf(ptr, "(args \"%s\")", argv[i]);
-                  EnvAssertString(theEnv, ptr);
-                  genfree(theEnv, ptr, size);
-                  break;
-               } else {
-                  PrintErrorID(theEnv,"SYSDEP",1,FALSE);
-                  EnvPrintRouter(theEnv, WERROR, "No input provided for the -args option\n");
-                  break;
-               }
-            }
          default:
             break;
 #endif

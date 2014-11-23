@@ -1,6 +1,6 @@
 /*
-electron
-Copyright (c) 2012-2013, Joshua Scoggins 
+maya
+Copyright (c) 2012-2014, Joshua Scoggins 
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -24,8 +24,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "clips.h"
-#include "arch.h"
+#include "libmaya.h"
 
+#if ARCHITECTURE_IDENTIFICATION
 static void* GetArchitecture(void* theEnv);
 extern void ArchitectureDetectionFunctionDefinitions(void* theEnv) {
    EnvDefineFunction2(theEnv,
@@ -39,3 +40,4 @@ extern void ArchitectureDetectionFunctionDefinitions(void* theEnv) {
 void* GetArchitecture(void* theEnv) {
    return EnvAddSymbol(theEnv, ARCH_STRING);
 }
+#endif /* ALLOW_ARCHITECTURE_IDENTIFICATION_EXTENSIONS */

@@ -28,7 +28,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 void MayaDefinitions(void* theEnv) {
 	/* Insert declarations here */
-#if ALLOW_FILE_SYSTEM_ROOTING
+#if FILE_SYSTEM_ROOTING
 	DefineFSOverrideFunctions(theEnv);
 #endif
+#if ARCHITECTURE_IDENTIFICATION
+   ArchitectureDetectionFunctionDefinitions(theEnv);
+#endif /* ARCHITECTURE_IDENTIFICATION */
+
+#if BINARY_LOGICAL_OPERATIONS
+   BinaryOperationsFunctionDefinitions(theEnv);
+#endif /* BINARY_LOGICAL_OPERATIONS */
 }

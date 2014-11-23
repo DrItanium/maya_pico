@@ -42,9 +42,9 @@
 /***************************************************************************/
 
 #include "clips.h"
-#include "binops.h"
-#include "arch.h"
+#if MAYA_EXTENSIONS
 #include "libmaya.h"
+#endif
 
 void UserFunctions(void);
 void EnvUserFunctions(void *);
@@ -69,19 +69,8 @@ void UserFunctions() {   }
 /*   included in another file.                             */
 /***********************************************************/
 void EnvUserFunctions(void *theEnv) {
-   /*==================================*/
-   /* Initialize Arch Detect Features. */
-   /*==================================*/
-   ArchitectureDetectionFunctionDefinitions(theEnv);
-
-   /*===============================*/
-   /* Initialize Logical Operations.*/
-   /*===============================*/
-   BinaryOperationsFunctionDefinitions(theEnv);
-
-   /*==================*/
-   /* Initialize Maya. */
-   /*==================*/
+#if MAYA_EXTENSIONS
    MayaDefinitions(theEnv);
+#endif
 }
 

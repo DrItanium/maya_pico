@@ -128,12 +128,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define OS_UNKNOWN 0
 #endif
 
-/* custom features */
-#ifndef ALLOW_FILE_SYSTEM_ROOTING
-#define ALLOW_FILE_SYSTEM_ROOTING 1
+/*******************/
+/* Maya Extensions */
+/*******************/
+
+#ifndef MAYA_EXTENSIONS
+#define MAYA_EXTENSIONS 1
 #endif
 
-#if ALLOW_FILE_SYSTEM_ROOTING
+// make sure we disable the corresponding features
+#if ! MAYA_EXTENSIONS
+#define ARCHITECTURE_IDENTIFICATION 0
+#define BINARY_LOGICAL_OPERATIONS 0
+#define FILE_SYSTEM_ROOTING 0
+#endif
+
+#ifndef ARCHITECTURE_IDENTIFICATION
+#define ARCHITECTURE_IDENTIFICATION 1
+#endif
+
+#ifndef BINARY_LOGICAL_OPERATIONS
+#define BINARY_LOGICAL_OPERATIONS 1
+#endif
+
+#ifndef FILE_SYSTEM_ROOTING
+#define FILE_SYSTEM_ROOTING 1
+#endif
+
+#if FILE_SYSTEM_ROOTING
 #define FILE_SYSTEM_BASE "MAYA_FS_ROOT"
 #endif
 
