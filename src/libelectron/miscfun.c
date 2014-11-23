@@ -551,7 +551,9 @@ globle void OptionsCommand(
    /*=================================*/
 
    EnvPrintRouter(theEnv,WDISPLAY,"Machine type: ");
-
+#if MAYA_EXTENSIONS
+   EnvPrintRouter(theEnv,WDISPLAY,OS_NAME);
+#else /* ! MAYA_EXTENSIONS */
 #if GENERIC
    EnvPrintRouter(theEnv,WDISPLAY,"Generic ");
 #endif
@@ -573,6 +575,7 @@ globle void OptionsCommand(
 #if WIN_GCC
    EnvPrintRouter(theEnv,WDISPLAY,"Microsoft Windows with DJGPP");
 #endif
+#endif /* MAYA_EXTENSIONS */
 EnvPrintRouter(theEnv,WDISPLAY,"\n");
 
 EnvPrintRouter(theEnv,WDISPLAY,"Defrule construct is ");
@@ -765,6 +768,27 @@ EnvPrintRouter(theEnv,WDISPLAY,"Run time module is ");
 #else
   EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
+
+#if MAYA_EXTENSIONS
+EnvPrintRouter(theEnv,WDISPLAY,"Architecture identification is ");
+#if ARCHITECTURE_IDENTIFICATION 
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
+EnvPrintRouter(theEnv,WDISPLAY, "Binary logical operators are ")
+#if BINARY_LOGICAL_OPERATIONS 
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
+EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ")
+#if FILE_SYSTEM_ROOTING 
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
+#endif /* MAYA_EXTENSIONS */
   }
 
 /***********************************************/
