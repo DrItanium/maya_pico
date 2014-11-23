@@ -1,6 +1,6 @@
 /*
 maya
-Copyright (c) 2012-2013, Joshua Scoggins 
+Copyright (c) 2012-2014, Joshua Scoggins 
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -25,4 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _LIBMAYA_H
 #define _LIBMAYA_H
 extern void MayaDefinitions(void* theEnv);
+#if ALLOW_FILE_SYSTEM_ROOTING
+extern void DefineFSOverrideFunctions(void* theEnv);
+#endif
 #endif
