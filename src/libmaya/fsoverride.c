@@ -48,16 +48,17 @@ void DefineFSOverrideFunctions(void* theEnv) {
 		size = 1;
 		tmp = gm1(theEnv, 1);
 		tmp[0] = '\0';
-		FileSystemRootData(theEnv)->rootingEnabled = FALSE;
+		FileSystemRootData(theEnv)->rootingenabled = FALSE;
 	} else {
 		//make a copy
 		size = sizeof(char) * (strlen(base) + 2);
 		tmp = gm1(theEnv, size);
 		gensprintf(tmp, "%s", base);
-		FileSystemRootData(theEnv)->rootingEnabled = TRUE;
+		FileSystemRootData(theEnv)->rootingenabled = TRUE;
 	}
 	FileSystemRootData(theEnv)->root = tmp;
 	FileSystemRootData(theEnv)->stringlength = size;
+	FileSystemRootData(theEnv)->issymbol = FALSE;
 	//TODO: define custom environment data structure for base path and if
 	//file-system rooting should take place (
 	EnvDefineFunction2(theEnv,
@@ -105,16 +106,15 @@ FILE* GenOpen(void* theEnv, char* fileName, char* accessType) {
 	int size;
 	FILE* result;
 
-	base = getenv((const char*)FILE_SYSTEM_BASE);
-
-	if(base == NULL) {
-		result = _GenOpen(theEnv, fileName, accessType);
-	} else {
+	if(FileSystemRootData(theEnv)->rootingenabled) {
+		base = FileSystemRootData(theEnv)->root;
 		size = sizeof(char) * (strlen(fileName) + strlen(base) + 2);
 		tmp = gm1(theEnv, size);
 		gensprintf(tmp, "%s/%s", base, fileName);
 		result = _GenOpen(theEnv, tmp, accessType);
 		rm(theEnv,tmp, size);
+	} else {
+		result = _GenOpen(theEnv, fileName, accessType);
 	}
 	return result;
 }
@@ -122,17 +122,15 @@ int GenOpenReadBinary(void* theEnv, char* funcName, char* fileName) {
 	char* base;
 	char* tmp;
 	int result, size;
-
-	base = getenv((const char*)FILE_SYSTEM_BASE);
-
-	if(base == NULL) {
-		result = _GenOpenReadBinary(theEnv, funcName, fileName);
-	} else {
+	if(FileSystemRootData(theEnv)->rootingenabled) {
+		base = FileSystemRootData(theEnv)->root;
 		size = sizeof(char) * (strlen(fileName) + strlen(base) + 2);
 		tmp = gm1(theEnv, size);
 		gensprintf(tmp, "%s/%s", base, fileName);
 		result = _GenOpenReadBinary(theEnv, funcName, tmp);
 		rm(theEnv,tmp, size);
+	} else {
+		result = _GenOpenReadBinary(theEnv, funcName, fileName);
 	}
 	return result;
 }
@@ -150,19 +148,18 @@ int FS_RemoveFunction(void *theEnv) {
     if ((theFileName = GetFileName(theEnv,(char*)"remove",1)) == NULL) 
         return(FALSE);
 
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-
-    if(base == NULL) {
-        result = (genremove(theFileName));
-    } else {
+	if(FileSystemRootData(theEnv)->rootingenabled) {
+		base = FileSystemRootData(theEnv)->root;
         size = sizeof(char) * (strlen(theFileName) + strlen(base) + 2);
         tmp = gm1(theEnv, size);
         gensprintf(tmp, "%s/%s", base, theFileName);
         result = (genremove(tmp));
         rm(theEnv,tmp, size);
-    }
-	return result;
+	} else {
+        result = (genremove(theFileName));
+	}
 
+	return result;
 }
 
 int FS_RenameFunction(void *theEnv) {
@@ -173,20 +170,19 @@ int FS_RenameFunction(void *theEnv) {
     char* base;
     int sizeOld, sizeNew, result;
 
-    if (EnvArgCountCheck(theEnv,(char*)"rename",EXACTLY,2) == -1) 
+    if(EnvArgCountCheck(theEnv,(char*)"rename",EXACTLY,2) == -1) {
         return(FALSE);
+	}
 
 
-    if ((oldFileName = GetFileName(theEnv,(char*)"rename",1)) == NULL) 
+    if((oldFileName = GetFileName(theEnv,(char*)"rename",1)) == NULL) {
         return(FALSE);
-    if ((newFileName = GetFileName(theEnv,(char*)"rename",2)) == NULL) 
+	}
+    if((newFileName = GetFileName(theEnv,(char*)"rename",2)) == NULL) {
         return(FALSE);
-
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-
-	if(base == NULL) {
-		result = genrename(oldFileName, newFileName);
-	} else {
+	}
+	if(FileSystemRootData(theEnv)->rootingenabled) {
+		base = FileSystemRootData(theEnv)->root;
 		sizeOld = sizeof(char) * (strlen(base) + strlen(oldFileName) + 2);
 		sizeNew = sizeof(char) * (strlen(base) + strlen(newFileName) + 2);
 		old = gm1(theEnv, sizeOld);
@@ -196,7 +192,10 @@ int FS_RenameFunction(void *theEnv) {
 		result = genrename(old,new);
 		rm(theEnv,old, sizeOld);
 		rm(theEnv,new, sizeNew);
+	} else {
+		result = genrename(oldFileName, newFileName);
 	}
+
 	return result;
 
 }
@@ -208,7 +207,7 @@ void deallocateFileSystemRootData(void* theEnv) {
 	FileSystemRootData(theEnv)->stringlength = 0;
 }
 int GetFileSystemRootingIsEnabled(void* theEnv) {
-	if (FileSystemRootData(theEnv)->rootingEnabled) {
+	if (FileSystemRootData(theEnv)->rootingenabled) {
 		return TRUE;
 	} else {
 		return FALSE;
@@ -217,44 +216,69 @@ int GetFileSystemRootingIsEnabled(void* theEnv) {
 int SetFileSystemRootingIsEnabled(void* theEnv) {
 	int oldValue;
 	DATA_OBJECT arg;
-	oldValue = FileSystemRootData(theEnv)->rootingEnabled;
+	oldValue = FileSystemRootData(theEnv)->rootingenabled;
 	EnvRtnUnknown(theEnv, 1, &arg);
 	if((arg.value == EnvFalseSymbol(theEnv)) && (arg.type == SYMBOL)) {
-		FileSystemRootData(theEnv)->rootingEnabled = FALSE;
+		FileSystemRootData(theEnv)->rootingenabled = FALSE;
 	} else {
-		FileSystemRootData(theEnv)->rootingEnabled = TRUE;
+		FileSystemRootData(theEnv)->rootingenabled = TRUE;
 	}
 	return oldValue;
 }
-void* GetFileSystemRoot(void* theEnv) {
-	return EnvAddSymbol(theEnv, FileSystemRootData(theEnv)->root);
+void GetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret) {
+	if(EnvArgCountCheck(theEnv, "get-file-system-root", EXACTLY, 0) == -1) {
+		SetpType(ret, SYMBOL);
+		SetpValue(ret, EnvFalseSymbol(theEnv));
+		return;
+	}
+	if(FileSystemRootData(theEnv)->issymbol) {
+		SetpType(ret, SYMBOL);
+	} else {
+		SetpType(ret, STRING);
+	}
+	SetpValue(ret, EnvAddSymbol(theEnv, FileSystemRootData(theEnv)->root));
 }
+
 void SetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret) {
 	DATA_OBJECT arg0;
 	void* oldValue;
 	char* newRoot;
 	char* value;
 	int size;
-	if (EnvArgCountCheck("set-file-system-root", EXACTLY, 1) == -1) {
+	if(EnvArgCountCheck(theEnv, "set-file-system-root", EXACTLY, 1) == -1) {
 		SetpType(ret, SYMBOL);
 		SetpValue(ret, EnvFalseSymbol(theEnv));
 		return;
 	}
-	if (!ArgTypeCheck("set-file-system-root", 1, SYMBOL_OR_STRING, &arg0)) {
+	if(!EnvArgTypeCheck(theEnv, "set-file-system-root", 1, SYMBOL_OR_STRING, &arg0)) {
 		SetpType(ret, SYMBOL);
 		SetpValue(ret, EnvFalseSymbol(theEnv));
 		return;
 	}
 	oldValue = EnvAddSymbol(theEnv, FileSystemRootData(theEnv)->root);
+	if(FileSystemRootData(theEnv)->issymbol) {
+		SetpType(ret, SYMBOL);
+	} else {
+		SetpType(ret, STRING);
+	}
+	SetpValue(ret, oldValue);
 	rm(theEnv, FileSystemRootData(theEnv)->root,
 			   FileSystemRootData(theEnv)->stringlength);
-	newRoot = EnvRtnLexeme(theEnv, 1);
+	if(arg0.type == SYMBOL) {
+		FileSystemRootData(theEnv)->issymbol = TRUE;
+	} else {
+		FileSystemRootData(theEnv)->issymbol = FALSE;
+	}
+	newRoot = DOToString(arg0);
     size = sizeof(char) * strlen(newRoot) + 1;
 	value = gm1(theEnv, size);
 	gensprintf(value, "%s", newRoot);
+	if (size > 1) {
+		FileSystemRootData(theEnv)->rootingenabled = TRUE;
+	} else {
+		FileSystemRootData(theEnv)->rootingenabled = FALSE;
+	}
 	FileSystemRootData(theEnv)->root = value;
 	FileSystemRootData(theEnv)->stringlength = size;
-	//okay that is all setup
-	return oldValue;
 }
 #endif /* FILE_SYSTEM_ROOTING */

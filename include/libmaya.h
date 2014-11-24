@@ -29,10 +29,10 @@ extern void MayaDefinitions(void* theEnv);
 
 #define FILE_SYSTEM_ROOT_DATA USER_ENVIRONMENT_DATA + 0
 typedef struct FileSystemRootData {
-	int rootingEnabled;
+	int rootingenabled;
 	char* root;
 	int stringlength;
-	int isSymbol;
+	int issymbol;
 } FileSystemRootData;
 #define FileSystemRootData(theEnv) \
 	((struct FileSystemRootData*) GetEnvironmentData(theEnv, FILE_SYSTEM_ROOT_DATA))
