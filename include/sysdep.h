@@ -94,6 +94,10 @@
    LOCALE void                        genprintfile(void *,FILE *,char *);
    LOCALE int                         gengetchar(void *);
    LOCALE int                         genungetchar(void *,int);
+#if FILE_SYSTEM_ROOTING
+   LOCALE int                         _GenOpenReadBinary(void *,char *,char *);
+   LOCALE FILE                       *_GenOpen(void *,char *,char *);
+#endif
    
 #endif
 

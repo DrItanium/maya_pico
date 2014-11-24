@@ -26,16 +26,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _LIBMAYA_H
 extern void MayaDefinitions(void* theEnv);
 #if FILE_SYSTEM_ROOTING
+
+#define FILE_SYSTEM_ROOT_DATA USER_ENVIRONMENT_DATA + 0
+typedef struct FileSystemRootData {
+	int rootingEnabled;
+	char* root;
+	int stringlength;
+	int isSymbol;
+} FileSystemRootData;
+#define FileSystemRootData(theEnv) \
+	((struct FileSystemRootData*) GetEnvironmentData(theEnv, FILE_SYSTEM_ROOT_DATA))
+
 extern void DefineFSOverrideFunctions(void* theEnv);
-extern int FS_LoadStarCommand(void*);
-extern int FS_LoadCommand(void*);
-extern int FS_BatchCommand(void*);
-extern int FS_BatchStarCommand(void*);
-extern int FS_EnvBatchStar(void*, char*);
-extern int FS_EnvLoad(void*, char*);
-extern int FS_OpenBatch(void*, char*, int);
-extern int FS_Batch(void*, char*);
-extern int FS_OpenFunction(void*);
 extern int FS_RemoveFunction(void*);
 extern int FS_RenameFunction(void*);
 #endif

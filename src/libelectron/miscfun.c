@@ -776,13 +776,13 @@ EnvPrintRouter(theEnv,WDISPLAY,"Architecture identification is ");
 #else
   EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
-EnvPrintRouter(theEnv,WDISPLAY, "Binary logical operators are ")
+EnvPrintRouter(theEnv,WDISPLAY, "Binary logical operators are ");
 #if BINARY_LOGICAL_OPERATIONS 
   EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
 #else
   EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
-EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ")
+EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ");
 #if FILE_SYSTEM_ROOTING 
   EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
 #else

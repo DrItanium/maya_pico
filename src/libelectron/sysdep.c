@@ -572,28 +572,16 @@ globle void RerouteStdin(
       switch(theSwitch)
         {
          case BATCH_SWITCH:
-#if FILE_SYSTEM_ROOTING
-			FS_OpenBatch(theEnv, argv[++i],TRUE);
-#else
             OpenBatch(theEnv,argv[++i],TRUE);
-#endif /* FILE_SYSTEM_ROOTING */
             break;
 
 #if (! RUN_TIME) && (! BLOAD_ONLY)
          case BATCH_STAR_SWITCH:
-#if FILE_SYSTEM_ROOTING
-			FS_EnvBatchStar(theEnv, argv[++i]);
-#else
             EnvBatchStar(theEnv,argv[++i]);
-#endif /* FILE_SYSTEM_ROOTING */
             break;
 
          case LOAD_SWITCH:
-#if FILE_SYSTEM_ROOTING
-			FS_EnvLoad(theEnv, argv[++i]);
-#else
             EnvLoad(theEnv,argv[++i]);
-#endif /* FILE_SYSTEM_ROOTING */
             break;
          default:
             break;
@@ -1118,7 +1106,11 @@ globle int (*EnvSetAfterOpenFunction(void *theEnv,
 /*********************************************/
 /* GenOpen: Trap routine for opening a file. */
 /*********************************************/
+#if FILE_SYSTEM_ROOTING
+globle FILE *_GenOpen(
+#else
 globle FILE *GenOpen(
+#endif
   void *theEnv,
   char *fileName,
   char *accessType)
@@ -1212,7 +1204,11 @@ globle int GenClose(
 /*   open at a time when using this function since the file */
 /*   pointer is stored in a global variable.                */
 /************************************************************/
+#if FILE_SYSTEM_ROOTING
+globle int _GenOpenReadBinary(
+#else
 globle int GenOpenReadBinary(
+#endif
   void *theEnv,
   char *funcName,
   char *fileName)

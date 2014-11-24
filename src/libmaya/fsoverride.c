@@ -26,217 +26,116 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "clips.h"
 #include "libmaya.h"
 #if FILE_SYSTEM_ROOTING
-
+#if ! RUN_TIME
+static void deallocateFileSystemRootData(void* theEnv);
+static int GetFileSystemRootingIsEnabled(void* theEnv);
+static int SetFileSystemRootingIsEnabled(void* theEnv);
+static void GetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret);
+static void SetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret);
+#endif
 void DefineFSOverrideFunctions(void* theEnv) {
+#if ! RUN_TIME
+	char* base;
+	char* tmp;
+	int size;
+	if(!AllocateEnvironmentData(theEnv, FILE_SYSTEM_ROOT_DATA, 
+				sizeof(FileSystemRootData), deallocateFileSystemRootData)) {
+		printf("Error allocating environment data for FILE_SYSTEM_ROOT_DATA\n");
+		exit(EXIT_FAILURE);
+	}
+	base = getenv((const char*)FILE_SYSTEM_BASE);
+	if (base == NULL) {
+		size = 1;
+		tmp = gm1(theEnv, 1);
+		tmp[0] = '\0';
+		FileSystemRootData(theEnv)->rootingEnabled = FALSE;
+	} else {
+		//make a copy
+		size = sizeof(char) * (strlen(base) + 2);
+		tmp = gm1(theEnv, size);
+		gensprintf(tmp, "%s", base);
+		FileSystemRootData(theEnv)->rootingEnabled = TRUE;
+	}
+	FileSystemRootData(theEnv)->root = tmp;
+	FileSystemRootData(theEnv)->stringlength = size;
+	//TODO: define custom environment data structure for base path and if
+	//file-system rooting should take place (
+	EnvDefineFunction2(theEnv,
+			"get-file-system-rooting-is-enabled",
+			'b',
+			PTIEF GetFileSystemRootingIsEnabled,
+			"GetFileSystemRootingIsEnabled",
+			"00a");
+	EnvDefineFunction2(theEnv,
+			"set-file-system-rooting-is-enabled",
+			'b',
+			PTIEF SetFileSystemRootingIsEnabled,
+			"SetFileSystemRootingIsEnabled",
+			"11w");
+	EnvDefineFunction2(theEnv,
+			"get-file-system-root",
+			'k',
+			PTIEF GetFileSystemRoot,
+			"GetFileSystemRoot",
+			"00a");
+	EnvDefineFunction2(theEnv,
+			"set-file-system-root",
+			'k',
+			PTIEF SetFileSystemRoot,
+			"SetFileSystemRoot",
+			"11k");
     EnvDefineFunction2(theEnv,
-            (char*)"batch",
-            'b',
-            PTIEF FS_BatchCommand,
-            (char*)"FS_BatchCommand",
-            (char*)"11k");
-    EnvDefineFunction2(theEnv,
-            (char*)"batch*",
-            'b',
-            PTIEF FS_BatchStarCommand,
-            (char*)"FS_BatchStarCommand",
-            (char*)"11k");
-    EnvDefineFunction2(theEnv,
-            (char*)"load",
-            'b',
-            PTIEF FS_LoadCommand,
-            (char*)"FS_LoadCommand",
-            (char*)"11k");
-    EnvDefineFunction2(theEnv,
-            (char*)"load*",
-            'b',
-            PTIEF FS_LoadStarCommand,
-            (char*)"FS_LoadStarCommand",
-            (char*)"11k");
-    EnvDefineFunction2(theEnv,
-            (char*)"open",       
-            'b', 
-            PTIEF FS_OpenFunction,  
-            (char*)"FS_OpenFunction", 
-            (char*)"23*k");
-    EnvDefineFunction2(theEnv,
-            (char*)"remove",   
+            "remove",   
             'b', 
             PTIEF FS_RemoveFunction,  
-            (char*)"FS_RemoveFunction", 
-            (char*)"11k");
+            "FS_RemoveFunction", 
+            "11k");
     EnvDefineFunction2(theEnv,
-            (char*)"rename",   
+            "rename",   
             'b',
             PTIEF FS_RenameFunction, 
-            (char*)"FS_RenameFunction", 
-            (char*)"22k");
-}
-// C access functions
-int FS_OpenBatch(void* theEnv, char* path, int placeAtEnd) {
-    int result, size;
-    char* tmp;
-    char* base;
-
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-
-    if(base != NULL) {
-        size = sizeof(char) * (strlen(path) + strlen(base) + 2);
-        tmp = gm1(theEnv, size);
-        gensprintf(tmp, "%s/%s", base, path);
-        result = OpenBatch(theEnv, tmp, placeAtEnd);
-        rm(theEnv,tmp, size);
-        return result;
-    } else {
-        EnvPrintRouter(theEnv, WERROR, (char*)"Variable " FILE_SYSTEM_BASE " was not defined, can't continue!\n");
-        SetEvaluationError(theEnv, TRUE);
-        SetHaltExecution(theEnv, TRUE);
-        return 0;
-    }
-
-}
-int FS_Batch(void* theEnv, char* path) {
-    int result, size;
-    char* tmp;
-    char* base;
-
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-
-    if(base != NULL) {
-        size = sizeof(char) * (strlen(path) + strlen(base) + 2);
-        tmp = gm1(theEnv, size);
-        gensprintf(tmp, "%s/%s", base, path);
-        result = Batch(theEnv, tmp);
-        rm(theEnv,tmp, size);
-        return result;
-    } else {
-        EnvPrintRouter(theEnv, WERROR, (char*)"Variable " FILE_SYSTEM_BASE " was not defined, can't continue!\n");
-        SetEvaluationError(theEnv, TRUE);
-        SetHaltExecution(theEnv, TRUE);
-        return 0;
-    }
-}
-int FS_EnvBatchStar(void* theEnv, char* path) {
-    int result, size;
-    char* tmp;
-    char* base;
-
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-
-    if(base != NULL) {
-        size = sizeof(char) * (strlen(path) + strlen(base) + 2);
-        tmp = gm1(theEnv, size);
-        gensprintf(tmp, "%s/%s", base, path);
-        result = EnvBatchStar(theEnv, tmp);
-        rm(theEnv,tmp, size);
-        return result;
-    } else {
-        EnvPrintRouter(theEnv, WERROR, (char*)"Variable " FILE_SYSTEM_BASE " was not defined, can't continue!\n");
-        SetEvaluationError(theEnv, TRUE);
-        SetHaltExecution(theEnv, TRUE);
-        return 0;
-    }
-}
-
-int FS_EnvLoad(void* theEnv, char* path) {
-    int result, size;
-    char* tmp; 
-    char* base;
-
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-
-    if(base != NULL) {
-        size = sizeof(char) * (strlen(path) + strlen(base) + 2);
-        tmp = gm1(theEnv, size);
-        gensprintf(tmp, "%s/%s", base, path);
-        result = EnvLoad(theEnv, tmp);
-        rm(theEnv,tmp, size);
-        return result;
-    } else {
-        EnvPrintRouter(theEnv, WERROR, (char*)"Variable " FILE_SYSTEM_BASE " was not defined, can't continue!\n");
-        SetEvaluationError(theEnv, TRUE);
-        SetHaltExecution(theEnv, TRUE);
-        return 0;
-    }
-}
-
-//Interface functions - Taken from electron/filecom.c
-
-int FS_LoadCommand(void *theEnv) {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
-    char *theFileName;
-    int rv;
-
-    if (EnvArgCountCheck(theEnv,(char*)"load",EXACTLY,1) == -1) 
-        return(FALSE);
-    if ((theFileName = GetFileName(theEnv,(char*)"load",1)) == NULL) 
-        return(FALSE);
-
-    SetPrintWhileLoading(theEnv,TRUE);
-
-    if ((rv = FS_EnvLoad(theEnv,theFileName)) == FALSE) {
-        SetPrintWhileLoading(theEnv,FALSE);
-        OpenErrorMessage(theEnv,(char*)"load",theFileName);
-        return(FALSE);
-    }
-
-    SetPrintWhileLoading(theEnv,FALSE);
-    if (rv == -1) 
-        return(FALSE);
-    return(TRUE);
-#else
-    EnvPrintRouter(theEnv,WDIALOG,(char*)"Load is not available in this environment\n");
-    return(FALSE);
+            "FS_RenameFunction", 
+            "22k");
 #endif
 }
 
-int FS_LoadStarCommand(void *theEnv) {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
-    char *theFileName;
-    int rv;
+FILE* GenOpen(void* theEnv, char* fileName, char* accessType) {
+	char* base;
+	char* tmp;
+	int size;
+	FILE* result;
 
-    if (EnvArgCountCheck(theEnv,(char*)"load*",EXACTLY,1) == -1) 
-        return(FALSE);
-    if ((theFileName = GetFileName(theEnv,(char*)"load*",1)) == NULL) 
-        return(FALSE);
+	base = getenv((const char*)FILE_SYSTEM_BASE);
 
-    if ((rv = FS_EnvLoad(theEnv,theFileName)) == FALSE) {
-        OpenErrorMessage(theEnv,(char*)"load*",theFileName);
-        return(FALSE);
-    }
-
-    if (rv == -1) 
-        return(FALSE);
-    return(TRUE);
-#else
-    EnvPrintRouter(theEnv,WDIALOG,(char*)"Load* is not available in this environment\n");
-    return(FALSE);
-#endif
+	if(base == NULL) {
+		result = _GenOpen(theEnv, fileName, accessType);
+	} else {
+		size = sizeof(char) * (strlen(fileName) + strlen(base) + 2);
+		tmp = gm1(theEnv, size);
+		gensprintf(tmp, "%s/%s", base, fileName);
+		result = _GenOpen(theEnv, tmp, accessType);
+		rm(theEnv,tmp, size);
+	}
+	return result;
 }
+int GenOpenReadBinary(void* theEnv, char* funcName, char* fileName) {
+	char* base;
+	char* tmp;
+	int result, size;
 
+	base = getenv((const char*)FILE_SYSTEM_BASE);
 
-int FS_BatchCommand(void *theEnv) {
-    char *fileName;
-
-    if (EnvArgCountCheck(theEnv,(char*)"batch",EXACTLY,1) == -1) 
-        return(FALSE);
-    if ((fileName = GetFileName(theEnv,(char*)"batch",1)) == NULL) 
-        return(FALSE);
-
-    return(FS_Batch(theEnv,fileName));
+	if(base == NULL) {
+		result = _GenOpenReadBinary(theEnv, funcName, fileName);
+	} else {
+		size = sizeof(char) * (strlen(fileName) + strlen(base) + 2);
+		tmp = gm1(theEnv, size);
+		gensprintf(tmp, "%s/%s", base, fileName);
+		result = _GenOpenReadBinary(theEnv, funcName, tmp);
+		rm(theEnv,tmp, size);
+	}
+	return result;
 }
-
-int FS_BatchStarCommand(void *theEnv) {
-    char *fileName;
-
-    if (EnvArgCountCheck(theEnv,(char*)"batch*",EXACTLY,1) == -1) 
-        return(FALSE);
-    if ((fileName = GetFileName(theEnv,(char*)"batch*",1)) == NULL) 
-        return(FALSE);
-
-    return(FS_EnvBatchStar(theEnv,fileName));
-}
-
-
 int FS_RemoveFunction(void *theEnv) {
     char *theFileName;
     char *base;
@@ -254,15 +153,15 @@ int FS_RemoveFunction(void *theEnv) {
     base = getenv((const char*)FILE_SYSTEM_BASE);
 
     if(base == NULL) {
-        return 0;
+        result = (genremove(theFileName));
     } else {
         size = sizeof(char) * (strlen(theFileName) + strlen(base) + 2);
         tmp = gm1(theEnv, size);
         gensprintf(tmp, "%s/%s", base, theFileName);
-        result = (genremove(theFileName));
+        result = (genremove(tmp));
         rm(theEnv,tmp, size);
-        return result;
     }
+	return result;
 
 }
 
@@ -285,93 +184,77 @@ int FS_RenameFunction(void *theEnv) {
 
     base = getenv((const char*)FILE_SYSTEM_BASE);
 
-    if(base == NULL) {
-        return 0;
-    } else {
-        sizeOld = sizeof(char) * (strlen(base) + strlen(oldFileName) + 2);
-        sizeNew = sizeof(char) * (strlen(base) + strlen(newFileName) + 2);
-        old = gm1(theEnv, sizeOld);
-        new = gm1(theEnv, sizeNew);
-        gensprintf(old, "%s/%s", base, oldFileName);
-        gensprintf(new, "%s/%s", base, newFileName);
-        result = genrename(old,new);
-        rm(theEnv,old, sizeOld);
-        rm(theEnv,new, sizeNew);
-        return result;
-    }
+	if(base == NULL) {
+		result = genrename(oldFileName, newFileName);
+	} else {
+		sizeOld = sizeof(char) * (strlen(base) + strlen(oldFileName) + 2);
+		sizeNew = sizeof(char) * (strlen(base) + strlen(newFileName) + 2);
+		old = gm1(theEnv, sizeOld);
+		new = gm1(theEnv, sizeNew);
+		gensprintf(old, "%s/%s", base, oldFileName);
+		gensprintf(new, "%s/%s", base, newFileName);
+		result = genrename(old,new);
+		rm(theEnv,old, sizeOld);
+		rm(theEnv,new, sizeNew);
+	}
+	return result;
 
 }
-int FS_OpenFunction(void *theEnv) {
-    int numberOfArguments, size, result;
-    char* base;
-    char* tmp;
-    char* fileName;
-    char* logicalName;
-    char* accessMode = NULL;
-    DATA_OBJECT theArgument;
 
-    if ((numberOfArguments = EnvArgRangeCheck(theEnv,(char*)"open",2,3)) == -1) 
-        return(0);
-
-    if ((fileName = GetFileName(theEnv,(char*)"open",1)) == NULL) 
-        return(0);
-
-
-    logicalName = GetLogicalName(theEnv,2,NULL);
-    if (logicalName == NULL) {
-        SetHaltExecution(theEnv,TRUE);
-        SetEvaluationError(theEnv,TRUE);
-        IllegalLogicalNameMessage(theEnv,(char*)"open");
-        return(0);
-    }
-
-    if (FindFile(theEnv,logicalName)) {
-        SetHaltExecution(theEnv,TRUE);
-        SetEvaluationError(theEnv,TRUE);
-        PrintErrorID(theEnv,(char*)"IOFUN",2,FALSE);
-        EnvPrintRouter(theEnv,WERROR,(char*)"Logical name ");
-        EnvPrintRouter(theEnv,WERROR,logicalName);
-        EnvPrintRouter(theEnv,WERROR,(char*)" already in use.\n");
-        return(0);
-    }
-
-    if (numberOfArguments == 2) { 
-        accessMode = (char*)"r"; 
-    } else if (numberOfArguments == 3) {
-        if (EnvArgTypeCheck(theEnv,(char*)"open",3,STRING,&theArgument) == FALSE) 
-            return(0);
-        accessMode = DOToString(theArgument);
-    }
-
-    if ((strcmp(accessMode,"r") != 0) &&
-            (strcmp(accessMode,"w") != 0) &&
-            (strcmp(accessMode,"a") != 0) &&
-            (strcmp(accessMode,"r+") != 0) &&
-            (strcmp(accessMode,"w+") != 0) &&
-            (strcmp(accessMode,"a+") != 0) &&
-            (strcmp(accessMode,"rb") != 0) &&
-            (strcmp(accessMode,"wb") != 0) &&
-            (strcmp(accessMode,"ab") != 0) &&
-            (strcmp(accessMode,"r+b") != 0) &&
-            (strcmp(accessMode,"w+b") != 0) &&
-            (strcmp(accessMode,"a+b") != 0)) {
-        SetHaltExecution(theEnv,TRUE);
-        SetEvaluationError(theEnv,TRUE);
-        ExpectedTypeError1(theEnv,(char*)"open",3,(char*)"string with value \"r\", \"w\", \"a\", \"r+\", \"w+\", \"rb\", \"wb\", \"ab\", \"r+b\", or \"w+b\"");
-        return(0);
-    }
-
-
-    base = getenv((const char*)FILE_SYSTEM_BASE);
-    if(base == NULL) {
-        return 0;
-    } else {
-        size = sizeof(char) * (strlen(fileName) + strlen(base) + 2);
-        tmp = gm1(theEnv, size);
-        gensprintf(tmp, "%s/%s", base, fileName);
-        result = OpenAFile(theEnv,tmp,accessMode,logicalName);
-        rm(theEnv,tmp, size);
-        return result;
-    }
+void deallocateFileSystemRootData(void* theEnv) {
+	rm(theEnv,FileSystemRootData(theEnv)->root, 
+			  FileSystemRootData(theEnv)->stringlength);
+	FileSystemRootData(theEnv)->root = 0;
+	FileSystemRootData(theEnv)->stringlength = 0;
 }
-#endif /* ALLOW_FILE_SYSTEM_ROOTING */
+int GetFileSystemRootingIsEnabled(void* theEnv) {
+	if (FileSystemRootData(theEnv)->rootingEnabled) {
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+int SetFileSystemRootingIsEnabled(void* theEnv) {
+	int oldValue;
+	DATA_OBJECT arg;
+	oldValue = FileSystemRootData(theEnv)->rootingEnabled;
+	EnvRtnUnknown(theEnv, 1, &arg);
+	if((arg.value == EnvFalseSymbol(theEnv)) && (arg.type == SYMBOL)) {
+		FileSystemRootData(theEnv)->rootingEnabled = FALSE;
+	} else {
+		FileSystemRootData(theEnv)->rootingEnabled = TRUE;
+	}
+	return oldValue;
+}
+void* GetFileSystemRoot(void* theEnv) {
+	return EnvAddSymbol(theEnv, FileSystemRootData(theEnv)->root);
+}
+void SetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret) {
+	DATA_OBJECT arg0;
+	void* oldValue;
+	char* newRoot;
+	char* value;
+	int size;
+	if (EnvArgCountCheck("set-file-system-root", EXACTLY, 1) == -1) {
+		SetpType(ret, SYMBOL);
+		SetpValue(ret, EnvFalseSymbol(theEnv));
+		return;
+	}
+	if (!ArgTypeCheck("set-file-system-root", 1, SYMBOL_OR_STRING, &arg0)) {
+		SetpType(ret, SYMBOL);
+		SetpValue(ret, EnvFalseSymbol(theEnv));
+		return;
+	}
+	oldValue = EnvAddSymbol(theEnv, FileSystemRootData(theEnv)->root);
+	rm(theEnv, FileSystemRootData(theEnv)->root,
+			   FileSystemRootData(theEnv)->stringlength);
+	newRoot = EnvRtnLexeme(theEnv, 1);
+    size = sizeof(char) * strlen(newRoot) + 1;
+	value = gm1(theEnv, size);
+	gensprintf(value, "%s", newRoot);
+	FileSystemRootData(theEnv)->root = value;
+	FileSystemRootData(theEnv)->stringlength = size;
+	//okay that is all setup
+	return oldValue;
+}
+#endif /* FILE_SYSTEM_ROOTING */
