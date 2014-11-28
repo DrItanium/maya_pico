@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.23  01/31/05            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*              DEFTEMPLATE PARSER MODULE              */
    /*******************************************************/
@@ -17,6 +17,9 @@
 /* Revision History:                                         */
 /*      6.23: Added support for templates maintaining their  */
 /*            own list of facts.                             */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -59,10 +62,10 @@
 /***************************************/
 
 #if (! RUN_TIME) && (! BLOAD_ONLY)
-   static struct templateSlot    *SlotDeclarations(void *,char *,struct token *);
-   static struct templateSlot    *ParseSlot(void *,char *,struct token *,struct templateSlot *);
-   static struct templateSlot    *DefinedSlots(void *,char *,SYMBOL_HN *,int,struct token *);
-   static intBool                 ParseFacetAttribute(void *,char *,struct templateSlot *,intBool);
+   static struct templateSlot    *SlotDeclarations(void *,const char *,struct token *);
+   static struct templateSlot    *ParseSlot(void *,const char *,struct token *,struct templateSlot *);
+   static struct templateSlot    *DefinedSlots(void *,const char *,SYMBOL_HN *,int,struct token *);
+   static intBool                 ParseFacetAttribute(void *,const char *,struct templateSlot *,intBool);
 #endif
 
 /*******************************************************/
@@ -70,7 +73,7 @@
 /*******************************************************/
 globle int ParseDeftemplate(
   void *theEnv,
-  char *readSource)
+  const char *readSource)
   {
 
 #if (! RUN_TIME) && (! BLOAD_ONLY)
@@ -237,7 +240,7 @@ globle void InstallDeftemplate(
 /********************************************************************/
 static struct templateSlot *SlotDeclarations(
   void *theEnv,
-  char *readSource,
+  const char *readSource,
   struct token *inputToken)
   {
    struct templateSlot *newSlot, *slotList = NULL, *lastSlot = NULL;
@@ -321,7 +324,7 @@ static struct templateSlot *SlotDeclarations(
 /*****************************************************/
 static struct templateSlot *ParseSlot(
   void *theEnv,
-  char *readSource,
+  const char *readSource,
   struct token *inputToken,
   struct templateSlot *slotList)
   {
@@ -414,7 +417,7 @@ static struct templateSlot *ParseSlot(
 
    if ((rv != NO_VIOLATION) && EnvGetStaticConstraintChecking(theEnv))
      {
-      char *temp;
+      const char *temp;
       if (newSlot->defaultDynamic) temp = "the default-dynamic attribute";
       else temp = "the default attribute";
       ConstraintViolationErrorMessage(theEnv,"An expression",temp,FALSE,0,
@@ -436,7 +439,7 @@ static struct templateSlot *ParseSlot(
 /**************************************************************/
 static struct templateSlot *DefinedSlots(
   void *theEnv,
-  char *readSource,
+  const char *readSource,
   SYMBOL_HN *slotName,
   int multifieldSlot,
   struct token *inputToken)
@@ -636,7 +639,7 @@ static struct templateSlot *DefinedSlots(
 /***************************************************/
 static intBool ParseFacetAttribute(
   void *theEnv,
-  char *readSource,
+  const char *readSource,
   struct templateSlot *theSlot,
   intBool multifacet)
   {

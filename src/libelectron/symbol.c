@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.24  06/05/06            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*                    SYMBOL MODULE                    */
    /*******************************************************/
@@ -31,6 +31,9 @@
 /*                                                           */
 /*            Corrected code generating compilation          */
 /*            warnings.                                      */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -76,8 +79,8 @@
    static void                    RemoveEphemeralHashNodes(void *,struct ephemeron **,
                                                            GENERIC_HN **,
                                                            int,int,int);
-   static char                   *StringWithinString(char *,char *);
-   static size_t                  CommonPrefixLength(char *,char *);
+   static const char             *StringWithinString(const char *,const char *);
+   static size_t                  CommonPrefixLength(const char *,const char *);
    static void                    DeallocateSymbolData(void *);
 
 /*******************************************************/
@@ -289,7 +292,7 @@ static void DeallocateSymbolData(
 /*********************************************************************/
 globle void *EnvAddSymbol(
   void *theEnv,
-  char *str)
+  const char *str)
   {
    unsigned long tally;
    size_t length;
@@ -361,7 +364,7 @@ globle void *EnvAddSymbol(
 /*****************************************************************/
 globle SYMBOL_HN *FindSymbolHN(
   void *theEnv,
-  char *str)
+  const char *str)
   {
    unsigned long tally;
    SYMBOL_HN *peek;
@@ -685,7 +688,7 @@ globle void *EnvAddExternalAddress(
 /* HashSymbol: Computes a hash value for a symbol. */
 /***************************************************/
 globle unsigned long HashSymbol(
-  char *word,
+  const char *word,
   unsigned long range)
   {
    register int i;
@@ -774,7 +777,7 @@ globle unsigned long HashExternalAddress(
 /* HashBitMap: Computes a hash value for a bitmap. */
 /***************************************************/
 globle unsigned long HashBitMap(
-  char *word,
+  const char *word,
   unsigned long range,
   unsigned length)
   {
@@ -1315,7 +1318,7 @@ globle void RefreshSpecialSymbols(
 /***********************************************************/
 globle struct symbolMatch *FindSymbolMatches(
   void *theEnv,
-  char *searchString,
+  const char *searchString,
   unsigned *numberOfMatches,
   size_t *commonPrefixLength)
   {
@@ -1377,7 +1380,7 @@ globle void ClearBitString(
 /*****************************************************************/
 globle SYMBOL_HN *GetNextSymbolMatch(
   void *theEnv,
-  char *searchString,
+  const char *searchString,
   size_t searchLength,
   SYMBOL_HN *prevSymbol,
   int anywhere,
@@ -1510,9 +1513,9 @@ globle SYMBOL_HN *GetNextSymbolMatch(
 /* StringWithinString: Determines if a string */
 /*   is contained within another string.      */
 /**********************************************/
-static char *StringWithinString(
-  char *cs,
-  char *ct)
+static const char *StringWithinString(
+  const char *cs,
+  const char *ct)
   {
    register unsigned i,j,k;
 
@@ -1530,8 +1533,8 @@ static char *StringWithinString(
 /*    the maximumcommon prefix of two strings   */
 /************************************************/
 static size_t CommonPrefixLength(
-  char *cs,
-  char *ct)
+  const char *cs,
+  const char *ct)
   {
    register unsigned i;
 

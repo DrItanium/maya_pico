@@ -100,7 +100,7 @@ void DefineFSOverrideFunctions(void* theEnv) {
 #endif
 }
 
-FILE* GenOpen(void* theEnv, char* fileName, char* accessType) {
+FILE* GenOpen(void* theEnv, const char* fileName, const char* accessType) {
 	char* base;
 	char* tmp;
 	int size;
@@ -118,7 +118,7 @@ FILE* GenOpen(void* theEnv, char* fileName, char* accessType) {
 	}
 	return result;
 }
-int GenOpenReadBinary(void* theEnv, char* funcName, char* fileName) {
+int GenOpenReadBinary(void* theEnv, const char* funcName, const char* fileName) {
 	char* base;
 	char* tmp;
 	int result, size;
@@ -135,17 +135,17 @@ int GenOpenReadBinary(void* theEnv, char* funcName, char* fileName) {
 	return result;
 }
 int FS_RemoveFunction(void *theEnv) {
-    char *theFileName;
+    const char *theFileName;
     char *base;
     char* tmp;
     int result, size;
 
 
-    if (EnvArgCountCheck(theEnv,(char*)"remove",EXACTLY,1) == -1) 
+    if (EnvArgCountCheck(theEnv,"remove",EXACTLY,1) == -1) 
         return(FALSE);
 
 
-    if ((theFileName = GetFileName(theEnv,(char*)"remove",1)) == NULL) 
+    if ((theFileName = GetFileName(theEnv,"remove",1)) == NULL) 
         return(FALSE);
 
 	if(FileSystemRootData(theEnv)->rootingenabled) {
@@ -163,22 +163,22 @@ int FS_RemoveFunction(void *theEnv) {
 }
 
 int FS_RenameFunction(void *theEnv) {
-    char* oldFileName;
-    char* newFileName;
+    const char* oldFileName;
+    const char* newFileName;
     char* old;
     char* new;
     char* base;
     int sizeOld, sizeNew, result;
 
-    if(EnvArgCountCheck(theEnv,(char*)"rename",EXACTLY,2) == -1) {
+    if(EnvArgCountCheck(theEnv,"rename",EXACTLY,2) == -1) {
         return(FALSE);
 	}
 
 
-    if((oldFileName = GetFileName(theEnv,(char*)"rename",1)) == NULL) {
+    if((oldFileName = GetFileName(theEnv,"rename",1)) == NULL) {
         return(FALSE);
 	}
-    if((newFileName = GetFileName(theEnv,(char*)"rename",2)) == NULL) {
+    if((newFileName = GetFileName(theEnv,"rename",2)) == NULL) {
         return(FALSE);
 	}
 	if(FileSystemRootData(theEnv)->rootingenabled) {

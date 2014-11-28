@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  03/04/08            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*                 CLASS EXAMINATION MODULE            */
    /*******************************************************/
@@ -35,6 +35,9 @@
 /*      6.30: Used %zd for printing size_t arguments.         */
 /*                                                            */
 /*            Added EnvSlotDefaultP function.                 */
+/*                                                            */
+/*            Added const qualifiers to remove C++            */
+/*            deprecation warnings.                           */
 /*                                                            */
 /**************************************************************/
 
@@ -71,19 +74,19 @@
    =========================================
    ***************************************** */
 
-static int CheckTwoClasses(void *,char *,DEFCLASS **,DEFCLASS **);
-static SLOT_DESC *CheckSlotExists(void *,char *,DEFCLASS **,intBool,intBool);
-static SLOT_DESC *LookupSlot(void *,DEFCLASS *,char *,intBool);
+static int CheckTwoClasses(void *,const char *,DEFCLASS **,DEFCLASS **);
+static SLOT_DESC *CheckSlotExists(void *,const char *,DEFCLASS **,intBool,intBool);
+static SLOT_DESC *LookupSlot(void *,DEFCLASS *,const char *,intBool);
 
 #if DEBUGGING_FUNCTIONS
-static DEFCLASS *CheckClass(void *,char *,char *);
-static char *GetClassNameArgument(void *,char *);
-static void PrintClassBrowse(void *,char *,DEFCLASS *,long);
-static void DisplaySeparator(void *,char *,char *,int,int);
-static void DisplaySlotBasicInfo(void *,char *,char *,char *,char *,DEFCLASS *);
-static intBool PrintSlotSources(void *,char *,SYMBOL_HN *,PACKED_CLASS_LINKS *,long,int);
-static void DisplaySlotConstraintInfo(void *,char *,char *,char *,unsigned,DEFCLASS *);
-static char *ConstraintCode(CONSTRAINT_RECORD *,unsigned,unsigned);
+static DEFCLASS *CheckClass(void *,const char *,const char *);
+static const char *GetClassNameArgument(void *,const char *);
+static void PrintClassBrowse(void *,const char *,DEFCLASS *,long);
+static void DisplaySeparator(void *,const char *,char *,int,int);
+static void DisplaySlotBasicInfo(void *,const char *,const char *,const char *,char *,DEFCLASS *);
+static intBool PrintSlotSources(void *,const char *,SYMBOL_HN *,PACKED_CLASS_LINKS *,long,int);
+static void DisplaySlotConstraintInfo(void *,const char *,const char *,char *,unsigned,DEFCLASS *);
+static const char *ConstraintCode(CONSTRAINT_RECORD *,unsigned,unsigned);
 #endif
 
 /* =========================================
@@ -139,7 +142,7 @@ globle void BrowseClassesCommand(
  ****************************************************************/
 globle void EnvBrowseClasses(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   void *clsptr)
   {
    PrintClassBrowse(theEnv,logicalName,(DEFCLASS *) clsptr,0);
@@ -158,7 +161,7 @@ globle void EnvBrowseClasses(
 globle void DescribeClassCommand(
   void *theEnv)
   {
-   char *cname;
+   const char *cname;
    DEFCLASS *cls;
    
    cname = GetClassNameArgument(theEnv,"describe-class");
@@ -183,7 +186,7 @@ globle void DescribeClassCommand(
  ******************************************************/
 globle void EnvDescribeClass(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   void *clsptr)
   {
    DEFCLASS *cls;
@@ -289,7 +292,7 @@ globle void EnvDescribeClass(
   SIDE EFFECTS : None
   NOTES        : Used by (describe-class) and (slot-facets)
  **********************************************************/
-globle char *GetCreateAccessorString(
+globle const char *GetCreateAccessorString(
   void *vsd)
   {
    SLOT_DESC *sd = (SLOT_DESC *) vsd;
@@ -446,7 +449,7 @@ globle int SlotExistPCommand(
 globle intBool EnvSlotExistP(
   void *theEnv,
   void *theDefclass,
-  char *slotName,
+  const char *slotName,
   intBool inheritFlag)
   {
    return((LookupSlot(theEnv,(DEFCLASS *) theDefclass,slotName,inheritFlag) != NULL)
@@ -529,7 +532,7 @@ globle intBool SlotWritablePCommand(
 globle intBool EnvSlotWritableP(
   void *theEnv,
   void *theDefclass,
-  char *slotName)
+  const char *slotName)
   {
    SLOT_DESC *sd;
 
@@ -572,7 +575,7 @@ globle intBool SlotInitablePCommand(
 globle intBool EnvSlotInitableP(
   void *theEnv,
   void *theDefclass,
-  char *slotName)
+  const char *slotName)
   {
    SLOT_DESC *sd;
 
@@ -615,7 +618,7 @@ globle intBool SlotPublicPCommand(
 globle intBool EnvSlotPublicP(
   void *theEnv,
   void *theDefclass,
-  char *slotName)
+  const char *slotName)
   {
    SLOT_DESC *sd;
 
@@ -637,7 +640,7 @@ globle intBool EnvSlotPublicP(
 globle int EnvSlotDefaultP(
   void *theEnv,
   void *theDefclass,
-  char *slotName)
+  const char *slotName)
   {
    SLOT_DESC *sd;
 
@@ -691,7 +694,7 @@ globle intBool SlotDirectAccessPCommand(
 globle intBool EnvSlotDirectAccessP(
   void *theEnv,
   void *theDefclass,
-  char *slotName)
+  const char *slotName)
   {
    SLOT_DESC *sd;
 
@@ -753,7 +756,7 @@ globle void SlotDefaultValueCommand(
 globle intBool EnvSlotDefaultValue(
   void *theEnv,
   void *theDefclass,
-  char *slotName,
+  const char *slotName,
   DATA_OBJECT_PTR theValue)
   {
    SLOT_DESC *sd;
@@ -815,7 +818,7 @@ globle intBool ClassExistPCommand(
  ******************************************************/
 static int CheckTwoClasses(
   void *theEnv,
-  char *func,
+  const char *func,
   DEFCLASS **c1,
   DEFCLASS **c2)
   {
@@ -860,7 +863,7 @@ static int CheckTwoClasses(
  ***************************************************/
 static SLOT_DESC *CheckSlotExists(
   void *theEnv,
-  char *func,
+  const char *func,
   DEFCLASS **classBuffer,
   intBool existsErrorFlag,
   intBool inheritFlag)
@@ -912,7 +915,7 @@ static SLOT_DESC *CheckSlotExists(
 static SLOT_DESC *LookupSlot(
   void *theEnv,
   DEFCLASS *theDefclass,
-  char *slotName,
+  const char *slotName,
   intBool inheritFlag)
   {
    SYMBOL_HN *slotSymbol;
@@ -947,8 +950,8 @@ static SLOT_DESC *LookupSlot(
  ******************************************************/
 static DEFCLASS *CheckClass(
   void *theEnv,
-  char *func,
-  char *cname)
+  const char *func,
+  const char *cname)
   {
    DEFCLASS *cls;
 
@@ -966,9 +969,9 @@ static DEFCLASS *CheckClass(
   SIDE EFFECTS : None
   NOTES        : Assumes only 1 argument
  *********************************************************/
-static char *GetClassNameArgument(
+static const char *GetClassNameArgument(
   void *theEnv,
-  char *fname)
+  const char *fname)
   {
    DATA_OBJECT temp;
 
@@ -989,7 +992,7 @@ static char *GetClassNameArgument(
  ****************************************************************/
 static void PrintClassBrowse(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   DEFCLASS *cls,
   long depth)
   {
@@ -1018,7 +1021,7 @@ static void PrintClassBrowse(
  *********************************************************/
 static void DisplaySeparator(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   char *buf,
   int maxlen,
   int sepchar)
@@ -1063,15 +1066,15 @@ static void DisplaySeparator(
  *************************************************************/
 static void DisplaySlotBasicInfo(
   void *theEnv,
-  char *logicalName,
-  char *slotNamePrintFormat,
-  char *overrideMessagePrintFormat,
+  const char *logicalName,
+  const char *slotNamePrintFormat,
+  const char *overrideMessagePrintFormat,
   char *buf,
   DEFCLASS *cls)
   {
    long i;
    SLOT_DESC *sp;
-   char *createString;
+   const char *createString;
 
    gensprintf(buf,slotNamePrintFormat,"SLOTS");
 #if DEFRULE_CONSTRUCT
@@ -1143,7 +1146,7 @@ static void DisplaySlotBasicInfo(
  ***************************************************/
 static intBool PrintSlotSources(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   SYMBOL_HN *sname,
   PACKED_CLASS_LINKS *sprec,
   long theIndex,
@@ -1195,15 +1198,15 @@ static intBool PrintSlotSources(
  *********************************************************/
 static void DisplaySlotConstraintInfo(
   void *theEnv,
-  char *logicalName,
-  char *slotNamePrintFormat,
+  const char *logicalName,
+  const char *slotNamePrintFormat,
   char *buf,
   unsigned maxlen,
   DEFCLASS *cls)
   {
    long i;
    CONSTRAINT_RECORD *cr;
-   char *strdest = "***describe-class***";
+   const char *strdest = "***describe-class***";
 
    gensprintf(buf,slotNamePrintFormat,"SLOTS");
    genstrcat(buf,"SYM STR INN INA EXA FTA INT FLT\n");
@@ -1272,7 +1275,7 @@ static void DisplaySlotConstraintInfo(
   SIDE EFFECTS : None
   NOTES        : Used by DisplaySlotConstraintInfo
  ******************************************************/
-static char *ConstraintCode(
+static const char *ConstraintCode(
   CONSTRAINT_RECORD *cr,
   unsigned allow,
   unsigned restrictValues)

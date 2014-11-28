@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.24  06/02/06            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*                CLASS FUNCTIONS MODULE               */
    /*******************************************************/
@@ -20,6 +20,9 @@
 /*                                                           */
 /*            Corrected code to remove run-time program      */
 /*            compiler warning.                              */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -208,8 +211,8 @@ globle SLOT_DESC *FindClassSlot(
  ***************************************************************/
 globle void ClassExistError(
   void *theEnv,
-  char *func,
-  char *cname)
+  const char *func,
+  const char *cname)
   {
    PrintErrorID(theEnv,"CLASSFUN",1,FALSE);
    EnvPrintRouter(theEnv,WERROR,"Unable to find class ");
@@ -255,7 +258,7 @@ globle void DeleteClassLinks(
  ******************************************************/
 globle void PrintClassName(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   DEFCLASS *theDefclass,
   intBool linefeedFlag)
   {
@@ -286,8 +289,8 @@ globle void PrintClassName(
  ***************************************************/
 globle void PrintPackedClassLinks(
   void *theEnv,
-  char *logicalName,
-  char *title,
+  const char *logicalName,
+  const char *title,
   PACKED_CLASS_LINKS *plinks)
   {
    long i;

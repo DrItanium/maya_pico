@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.24  06/05/06            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*          DEFTEMPLATE BASIC COMMANDS MODULE          */
    /*******************************************************/
@@ -30,6 +30,9 @@
 /*                                                           */
 /*            Corrected code to remove compiler warnings     */
 /*            when ENVIRONMENT_API_ONLY flag is set.         */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -73,7 +76,7 @@
    static void                    ResetDeftemplates(void *);
 #endif
    static void                    ClearDeftemplates(void *);
-   static void                    SaveDeftemplates(void *,void *,char *);
+   static void                    SaveDeftemplates(void *,void *,const char *);
 
 /*********************************************************************/
 /* DeftemplateBasicCommands: Initializes basic deftemplate commands. */
@@ -148,7 +151,7 @@ static void ClearDeftemplates(
 static void SaveDeftemplates(
   void *theEnv,
   void *theModule,
-  char *logicalName)
+  const char *logicalName)
   {   
    SaveConstruct(theEnv,theModule,logicalName,DeftemplateData(theEnv)->DeftemplateConstruct);
   }
@@ -225,8 +228,8 @@ globle void PPDeftemplateCommand(
 /***************************************/
 globle int PPDeftemplate(
   void *theEnv,
-  char *deftemplateName,
-  char *logicalName)
+  const char *deftemplateName,
+  const char *logicalName)
   {   
    return(PPConstruct(theEnv,deftemplateName,logicalName,DeftemplateData(theEnv)->DeftemplateConstruct)); 
   }
@@ -247,7 +250,7 @@ globle void ListDeftemplatesCommand(
 /*****************************************/
 globle void EnvListDeftemplates(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   void *theModule)
   {   
    ListConstruct(theEnv,DeftemplateData(theEnv)->DeftemplateConstruct,logicalName,(struct defmodule *) theModule); 
@@ -299,7 +302,7 @@ globle unsigned DeftemplateWatchAccess(
 /*************************************************************************/
 globle unsigned DeftemplateWatchPrint(
   void *theEnv,
-  char *logName,
+  const char *logName,
   int code,
   EXPRESSION *argExprs)
   {

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  02/28/08            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*               STRING FUNCTIONS MODULE               */
    /*******************************************************/
@@ -19,10 +19,14 @@
 /*      Barry Cameron                                        */
 /*                                                           */
 /* Revision History:                                         */
+/*                                                           */
 /*      6.23: Correction for FalseSymbol/TrueSymbol. DR0859  */
 /*                                                           */
 /*      6.30: Added support for UTF-8 strings to str-length, */
 /*            str-index, and sub-string functions.           */
+/*                                                           */
+/*            Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -123,7 +127,7 @@ static void StrOrSymCatFunction(
    char *theString;
    SYMBOL_HN **arrayOfStrings;
    SYMBOL_HN *hashPtr;
-   char *functionName;
+   const char *functionName;
 
    /*============================================*/
    /* Determine the calling function name.       */
@@ -637,7 +641,7 @@ globle void StringToFieldFunction(
 /*************************************************************/
 globle void StringToField(
   void *theEnv,
-  char *theString,
+  const char *theString,
   DATA_OBJECT *returnValue)
   {
    struct token theToken;
@@ -726,7 +730,7 @@ globle void EvalFunction(
 /****************************/
 #if ALLOW_ENVIRONMENT_GLOBALS
 globle int Eval(
-  char *theString,
+  const char *theString,
   DATA_OBJECT_PTR returnValue)
   {
    return EnvEval(GetCurrentEnvironment(),theString,returnValue);
@@ -739,7 +743,7 @@ globle int Eval(
 /*****************************/
 globle int EnvEval(
   void *theEnv,
-  char *theString,
+  const char *theString,
   DATA_OBJECT_PTR returnValue)
   {
    struct expr *top;
@@ -888,7 +892,7 @@ globle void EvalFunction(
 /*****************************************************/
 globle int EnvEval(
   void *theEnv,
-  char *theString,
+  const char *theString,
   DATA_OBJECT_PTR returnValue)
   {
    PrintErrorID(theEnv,"STRNGFUN",1,FALSE);
@@ -936,7 +940,7 @@ globle int BuildFunction(
 /*****************************/
 #if ALLOW_ENVIRONMENT_GLOBALS
 globle int Build(
-  char *theString)
+  const char *theString)
   {
    return EnvBuild(GetCurrentEnvironment(),theString);
   }
@@ -948,7 +952,7 @@ globle int Build(
 /******************************/
 globle int EnvBuild(
   void *theEnv,
-  char *theString)
+  const char *theString)
   {
    char *constructType;
    struct token theToken;
@@ -1062,7 +1066,7 @@ globle int BuildFunction(
 /******************************************************/
 globle int EnvBuild(
   void *theEnv,
-  char *theString)
+  const char *theString)
   { 
    PrintErrorID(theEnv,"STRNGFUN",1,FALSE);
    EnvPrintRouter(theEnv,WERROR,"Function build does not work in run time modules.\n");

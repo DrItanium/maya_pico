@@ -1,11 +1,10 @@
-/*******************************************************/
-/*      "C" Language Integrated Production System      */
-/*                                                     */
-/*             CLIPS Version 6.24  06/05/06            */
-/*                                                     */
-/*                    WATCH MODULE                     */
-/*******************************************************/
-
+    /*******************************************************/
+    /*      "C" Language Integrated Production System      */
+    /*                                                     */
+    /*             CLIPS Version 6.30  07/25/14            */
+    /*                                                     */
+    /*                    WATCH MODULE                     */
+    /*******************************************************/
 
 /*************************************************************/
 /* Purpose: Support functions for the watch and unwatch      */
@@ -25,6 +24,9 @@
 /*      6.24: Renamed BOOLEAN macro type to intBool.         */
 /*                                                           */
 /*            Added EnvSetWatchItem function.                */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -46,21 +48,13 @@
 #include "extnfunc.h"
 #include "watch.h"
 
-#define sym_all "all"
-#define sym_watchable_symbol "watchable symbol"
-#define sym_equalson " = on\n"
-#define sym_equalsoff " = off\n"
-#define name_listwatchitems "list-watch-items"
-#define name_getwatchitem "get-watch-item"
-#define name_watch "watch"
-#define name_unwatch "unwatch"
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-static struct watchItem       *ValidWatchItem(void *,char *,int *);
-static intBool                 RecognizeWatchRouters(void *,char *);
-static int                     CaptureWatchPrints(void *,char *,char *);
+static struct watchItem       *ValidWatchItem(void *,const char *,int *);
+static intBool                 RecognizeWatchRouters(void *,const char *);
+static int                     CaptureWatchPrints(void *,const char *,const char *);
 static void                    DeallocateWatchData(void *);
 
 /**********************************************/
@@ -99,12 +93,12 @@ static void DeallocateWatchData(
 /*************************************************************/
 globle intBool AddWatchItem(
       void *theEnv,
-      char *name,
+      const char *name,
       int code,
       unsigned *flag,
       int priority,
       unsigned (*accessFunc)(void *,int,unsigned,struct expr *),
-      unsigned (*printFunc)(void *,char *,int,struct expr *))
+      unsigned (*printFunc)(void *,const char *,int,struct expr *))
 {
    struct watchItem *newPtr, *currentPtr, *lastPtr;
 
@@ -160,7 +154,7 @@ globle intBool AddWatchItem(
 /*****************************************************/
 globle intBool EnvWatch(
       void *theEnv,
-      char *itemName)
+      const char *itemName)
 {
    return(EnvSetWatchItem(theEnv,itemName,ON,NULL));
 }
@@ -170,7 +164,7 @@ globle intBool EnvWatch(
 /**************************************************/
 #if ALLOW_ENVIRONMENT_GLOBALS
 globle intBool Watch(
-      char *itemName)
+      const char *itemName)
 {
    return(EnvWatch(GetCurrentEnvironment(),itemName));
 }
@@ -181,7 +175,7 @@ globle intBool Watch(
 /*********************************************************/
 globle intBool EnvUnwatch(
       void *theEnv,
-      char *itemName)
+      const char *itemName)
 {
    return(EnvSetWatchItem(theEnv,itemName,OFF,NULL));
 }
@@ -191,7 +185,7 @@ globle intBool EnvUnwatch(
 /******************************************************/
 #if ALLOW_ENVIRONMENT_GLOBALS
 globle intBool Unwatch(
-      char *itemName)
+      const char *itemName)
 {
    return(EnvUnwatch(GetCurrentEnvironment(),itemName));
 }
@@ -203,7 +197,7 @@ globle intBool Unwatch(
 /***********************************************************************/
 globle int EnvSetWatchItem(
       void *theEnv,
-      char *itemName,
+      const char *itemName,
       unsigned newState,
       struct expr *argExprs)
 {
@@ -221,7 +215,7 @@ globle int EnvSetWatchItem(
    /* is returned.                                      */
    /*===================================================*/
 
-   if (strcmp(itemName,sym_all) == 0)
+   if (strcmp(itemName,"all") == 0)
    {
       for (wPtr = WatchData(theEnv)->ListOfWatchItems; wPtr != NULL; wPtr = wPtr->next)
       {
@@ -294,7 +288,7 @@ globle int EnvSetWatchItem(
 /******************************************************************/
 globle int EnvGetWatchItem(
       void *theEnv,
-      char *itemName)
+      const char *itemName)
 {
    struct watchItem *wPtr;
 
@@ -313,13 +307,13 @@ globle int EnvGetWatchItem(
 /****************************************************************/
 static struct watchItem *ValidWatchItem(
       void *theEnv,
-      char *itemName,
+      const char *itemName,
       int *recognized)
 {
    struct watchItem *wPtr;
 
    *recognized = TRUE;
-   if (strcmp(itemName,sym_all) == 0)
+   if (strcmp(itemName,"all") == 0)
       return(NULL);
 
    for (wPtr = WatchData(theEnv)->ListOfWatchItems; wPtr != NULL; wPtr = wPtr->next)
@@ -334,7 +328,7 @@ static struct watchItem *ValidWatchItem(
 /*   item in the list of watchable items. If the nth item    */
 /*   does not exist, then NULL is returned.                  */
 /*************************************************************/
-globle char *GetNthWatchName(
+globle const char *GetNthWatchName(
       void *theEnv,
       int whichItem)
 {
@@ -384,13 +378,13 @@ globle void WatchCommand(
    /* Determine which item is to be watched. */
    /*========================================*/
 
-   if (EnvArgTypeCheck(theEnv,name_watch,1,SYMBOL,&theValue) == FALSE) return;
+   if (EnvArgTypeCheck(theEnv,"watch",1,SYMBOL,&theValue) == FALSE) return;
    argument = DOToString(theValue);
    wPtr = ValidWatchItem(theEnv,argument,&recognized);
    if (recognized == FALSE)
    {
       SetEvaluationError(theEnv,TRUE);
-      ExpectedTypeError1(theEnv,name_watch,1,sym_watchable_symbol);
+      ExpectedTypeError1(theEnv,"watch",1,"watchable symbol");
       return;
    }
 
@@ -403,7 +397,7 @@ globle void WatchCommand(
       if ((wPtr == NULL) ? TRUE : (wPtr->accessFunc == NULL))
       {
          SetEvaluationError(theEnv,TRUE);
-         ExpectedCountError(theEnv,name_watch,EXACTLY,1);
+         ExpectedCountError(theEnv,"watch",EXACTLY,1);
          return;
       }
    }
@@ -430,13 +424,13 @@ globle void UnwatchCommand(
    /* Determine which item is to be unwatched. */
    /*==========================================*/
 
-   if (EnvArgTypeCheck(theEnv,name_unwatch,1,SYMBOL,&theValue) == FALSE) return;
+   if (EnvArgTypeCheck(theEnv,"unwatch",1,SYMBOL,&theValue) == FALSE) return;
    argument = DOToString(theValue);
    wPtr = ValidWatchItem(theEnv,argument,&recognized);
    if (recognized == FALSE)
    {
       SetEvaluationError(theEnv,TRUE);
-      ExpectedTypeError1(theEnv,name_unwatch,1,sym_watchable_symbol);
+      ExpectedTypeError1(theEnv,"unwatch",1,"watchable symbol");
       return;
    }
 
@@ -449,7 +443,7 @@ globle void UnwatchCommand(
       if ((wPtr == NULL) ? TRUE : (wPtr->accessFunc == NULL))
       {
          SetEvaluationError(theEnv,TRUE);
-         ExpectedCountError(theEnv,name_unwatch,EXACTLY,1);
+         ExpectedCountError(theEnv,"unwatch",EXACTLY,1);
          return;
       }
    }
@@ -481,8 +475,8 @@ globle void ListWatchItemsCommand(
       for (wPtr = WatchData(theEnv)->ListOfWatchItems; wPtr != NULL; wPtr = wPtr->next)
       {
          EnvPrintRouter(theEnv,WDISPLAY,wPtr->name);
-         if (*(wPtr->flag)) EnvPrintRouter(theEnv,WDISPLAY,sym_equalson);
-         else EnvPrintRouter(theEnv,WDISPLAY,sym_equalsoff);
+         if (*(wPtr->flag)) EnvPrintRouter(theEnv,WDISPLAY," = on\n");
+         else EnvPrintRouter(theEnv,WDISPLAY," = off\n");
       }
       return;
    }
@@ -490,12 +484,12 @@ globle void ListWatchItemsCommand(
    /*=======================================*/
    /* Determine which item is to be listed. */
    /*=======================================*/
-   if (EnvArgTypeCheck(theEnv,name_listwatchitems,1,SYMBOL,&theValue) == FALSE) return;
+   if (EnvArgTypeCheck(theEnv,"list-watch-items",1,SYMBOL,&theValue) == FALSE) return;
    wPtr = ValidWatchItem(theEnv,DOToString(theValue),&recognized);
    if ((recognized == FALSE) || (wPtr == NULL))
    {
       SetEvaluationError(theEnv,TRUE);
-      ExpectedTypeError1(theEnv,name_listwatchitems,1,sym_watchable_symbol);
+      ExpectedTypeError1(theEnv,"list-watch-items",1,"watchable symbol");
       return;
    }
 
@@ -507,7 +501,7 @@ globle void ListWatchItemsCommand(
          (GetNextArgument(GetFirstArgument()) != NULL))
    {
       SetEvaluationError(theEnv,TRUE);
-      ExpectedCountError(theEnv,name_listwatchitems,EXACTLY,1);
+      ExpectedCountError(theEnv,"list-watch-items",EXACTLY,1);
       return;
    }
 
@@ -516,8 +510,8 @@ globle void ListWatchItemsCommand(
    /*====================================*/
 
    EnvPrintRouter(theEnv,WDISPLAY,wPtr->name);
-   if (*(wPtr->flag)) EnvPrintRouter(theEnv,WDISPLAY,sym_equalson);
-   else EnvPrintRouter(theEnv,WDISPLAY,sym_equalsoff);
+   if (*(wPtr->flag)) EnvPrintRouter(theEnv,WDISPLAY," = on\n");
+   else EnvPrintRouter(theEnv,WDISPLAY," = off\n");
 
    /*============================================*/
    /* List the status of individual watch items. */
@@ -546,14 +540,14 @@ globle int GetWatchItemCommand(
    /* Check for the correct number of arguments. */
    /*============================================*/
 
-   if (EnvArgCountCheck(theEnv,name_getwatchitem,EXACTLY,1) == -1)
+   if (EnvArgCountCheck(theEnv,"get-watch-item",EXACTLY,1) == -1)
    { return(FALSE); }
 
    /*========================================*/
    /* Determine which item is to be watched. */
    /*========================================*/
 
-   if (EnvArgTypeCheck(theEnv,name_getwatchitem,1,SYMBOL,&theValue) == FALSE)
+   if (EnvArgTypeCheck(theEnv,"get-watch-item",1,SYMBOL,&theValue) == FALSE)
    { return(FALSE); }
 
    argument = DOToString(theValue);
@@ -561,7 +555,7 @@ globle int GetWatchItemCommand(
    if (recognized == FALSE)
    {
       SetEvaluationError(theEnv,TRUE);
-      ExpectedTypeError1(theEnv,name_getwatchitem, 1, sym_watchable_symbol);
+      ExpectedTypeError1(theEnv,"get-watch-item", 1, "watchable symbol");
       return(FALSE);
    }
 
@@ -578,29 +572,25 @@ globle int GetWatchItemCommand(
 /*************************************************************/
 /* WatchFunctionDefinitions: Initializes the watch commands. */
 /*************************************************************/
-#define fWatchCommand "WatchCommand"
-#define fUnwatchCommand "UnwatchCommand"
-#define fGetWatchItemCommand "GetWatchItemCommand"
-#define fListWatchItemsCommand "ListWatchItemsCommand"
 globle void WatchFunctionDefinitions(
       void *theEnv)
 {
 #if ! RUN_TIME
-   EnvDefineFunction2(theEnv,name_watch, 'v', 
+   EnvDefineFunction2(theEnv,"watch", 'v', 
          PTIEF WatchCommand, 
-         fWatchCommand, 
+         "WatchCommand", 
          "1**w");
-   EnvDefineFunction2(theEnv,name_unwatch, 'v', 
+   EnvDefineFunction2(theEnv,"unwatch", 'v', 
          PTIEF UnwatchCommand, 
-         fUnwatchCommand, 
+         "UnwatchCommand", 
          "1**w");
-   EnvDefineFunction2(theEnv, name_getwatchitem, 'b', 
+   EnvDefineFunction2(theEnv, "get-watch-item", 'b', 
          PTIEF GetWatchItemCommand,  
-         fGetWatchItemCommand, 
+         "GetWatchItemCommand", 
          "11w");
-   EnvDefineFunction2(theEnv,name_listwatchitems, 'v', 
+   EnvDefineFunction2(theEnv,"list-watch-items", 'v', 
          PTIEF ListWatchItemsCommand,
-         fListWatchItemsCommand,
+         "ListWatchItemsCommand",
          "0**w");
 #endif
 
@@ -614,7 +604,7 @@ globle void WatchFunctionDefinitions(
 /**************************************************/
 static intBool RecognizeWatchRouters(
       void *theEnv,
-      char *logName)
+      const char *logName)
 {
    if (strcmp(logName,WTRACE) == 0) return(TRUE);
 
@@ -626,23 +616,11 @@ static intBool RecognizeWatchRouters(
 /**************************************************/
 static int CaptureWatchPrints(
       void *theEnv,
-      char *logName,
-      char *str)
+      const char *logName,
+      const char *str)
 {
    return(1);
 }
 
 #endif /* DEBUGGING_FUNCTIONS */
 
-#undef sym_watchable_symbol
-#undef sym_all
-#undef name_listwatchitems
-#undef name_watch
-#undef name_unwatch
-#undef name_getwatchitem
-#undef fWatchCommand 
-#undef fUnwatchCommand 
-#undef fGetWatchItemCommand 
-#undef fListWatchItemsCommand 
-#undef sym_equalsoff
-#undef sym_equalson

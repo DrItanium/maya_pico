@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.24  07/01/05            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*        CLASS INFO PROGRAMMATIC ACCESS MODULE        */
    /*******************************************************/
@@ -27,6 +27,9 @@
 /*            DEFRULE_CONSTRUCT.                              */
 /*                                                            */
 /*            Renamed BOOLEAN macro type to intBool.          */
+/*                                                            */
+/*      6.30: Added const qualifiers to remove C++            */
+/*            deprecation warnings.                           */
 /*                                                            */
 /**************************************************************/
 
@@ -68,10 +71,10 @@
    =========================================
    ***************************************** */
 
-static void SlotInfoSupportFunction(void *,DATA_OBJECT *,char *,void (*)(void *,void *,char *,DATA_OBJECT *));
+static void SlotInfoSupportFunction(void *,DATA_OBJECT *,const char *,void (*)(void *,void *,const char *,DATA_OBJECT *));
 static unsigned CountSubclasses(DEFCLASS *,int,int);
 static unsigned StoreSubclasses(void *,unsigned,DEFCLASS *,int,int,short);
-static SLOT_DESC *SlotInfoSlot(void *,DATA_OBJECT *,DEFCLASS *,char *,char *);
+static SLOT_DESC *SlotInfoSlot(void *,DATA_OBJECT *,DEFCLASS *,const char *,const char *);
 
 /*********************************************************************
   NAME         : ClassAbstractPCommand
@@ -145,7 +148,7 @@ globle int ClassReactivePCommand(
  ***********************************************************/
 globle void *ClassInfoFnxArgs(
   void *theEnv,
-  char *fnx,
+  const char *fnx,
   int *inhp)
   {
    void *clsptr;
@@ -639,7 +642,7 @@ globle void ClassSubclassAddresses(
 globle void EnvSlotFacets(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register int i;
@@ -727,7 +730,7 @@ globle void EnvSlotFacets(
 globle void EnvSlotSources(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register unsigned i;
@@ -773,7 +776,7 @@ globle void EnvSlotSources(
 globle void EnvSlotTypes(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register unsigned i,j;
@@ -855,7 +858,7 @@ DefclassData(theEnv)->PrimitiveClassMap[j]));
 globle void EnvSlotAllowedValues(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register int i;
@@ -886,7 +889,7 @@ globle void EnvSlotAllowedValues(
 globle void EnvSlotAllowedClasses(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register int i;
@@ -917,7 +920,7 @@ globle void EnvSlotAllowedClasses(
 globle void EnvSlotRange(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register SLOT_DESC *sp;
@@ -946,7 +949,7 @@ globle void EnvSlotRange(
 globle void EnvSlotCardinality(
   void *theEnv,
   void *clsptr,
-  char *sname,
+  const char *sname,
   DATA_OBJECT *result)
   {
    register SLOT_DESC *sp;
@@ -997,8 +1000,8 @@ globle void EnvSlotCardinality(
 static void SlotInfoSupportFunction(
   void *theEnv,
   DATA_OBJECT *result,
-  char *fnxname,
-  void (*fnx)(void *,void *,char *,DATA_OBJECT *))
+  const char *fnxname,
+  void (*fnx)(void *,void *,const char *,DATA_OBJECT *))
   {
    SYMBOL_HN *ssym;
    DEFCLASS *cls;
@@ -1111,8 +1114,8 @@ static SLOT_DESC *SlotInfoSlot(
   void *theEnv,
   DATA_OBJECT *result,
   DEFCLASS *cls,
-  char *sname,
-  char *fnxname)
+  const char *sname,
+  const char *fnxname)
   {
    SYMBOL_HN *ssym;
    int i;

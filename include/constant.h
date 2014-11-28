@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  03/04/08            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*                CONSTANTS HEADER FILE                */
    /*******************************************************/

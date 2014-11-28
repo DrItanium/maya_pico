@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.24  06/05/06            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*            SYSTEM DEPENDENT HEADER FILE             */
    /*******************************************************/
@@ -24,6 +24,9 @@
 /*                                                           */
 /*            Added environment parameter to GenClose.       */
 /*            Added environment parameter to GenOpen.        */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -68,19 +71,19 @@
    LOCALE void                        RerouteStdin(void *,int,char *[]);
    LOCALE double                      gentime(void);
    LOCALE void                        gensystem(void *theEnv);
-   LOCALE int                         GenOpenReadBinary(void *,char *,char *);
+   LOCALE int                         GenOpenReadBinary(void *,const char *,const char *);
    LOCALE void                        GetSeekCurBinary(void *,long);
    LOCALE void                        GetSeekSetBinary(void *,long);
    LOCALE void                        GenTellBinary(void *,long *);
    LOCALE void                        GenCloseBinary(void *);
    LOCALE void                        GenReadBinary(void *,void *,size_t);
-   LOCALE FILE                       *GenOpen(void *,char *,char *);
+   LOCALE FILE                       *GenOpen(void *,const char *,const char *);
    LOCALE int                         GenClose(void *,FILE *);
    LOCALE void                        genexit(void *,int);
    LOCALE int                         genrand(void);
    LOCALE void                        genseed(int);
-   LOCALE int                         genremove(char *);
-   LOCALE int                         genrename(char *,char *);
+   LOCALE int                         genremove(const char *);
+   LOCALE int                         genrename(const char *,const char *);
    LOCALE char                       *gengetcwd(char *,int);
    LOCALE void                        GenWrite(void *,size_t,FILE *);
    LOCALE int                       (*EnvSetBeforeOpenFunction(void *,int (*)(void *)))(void *);
@@ -91,12 +94,12 @@
    LOCALE char                       *genstrcat(char *,const char *);
    LOCALE char                       *genstrncat(char *,const char *,size_t);
    LOCALE void                        SetJmpBuffer(void *,jmp_buf *);
-   LOCALE void                        genprintfile(void *,FILE *,char *);
+   LOCALE void                        genprintfile(void *,FILE *,const char *);
    LOCALE int                         gengetchar(void *);
    LOCALE int                         genungetchar(void *,int);
 #if FILE_SYSTEM_ROOTING
-   LOCALE int                         _GenOpenReadBinary(void *,char *,char *);
-   LOCALE FILE                       *_GenOpen(void *,char *,char *);
+   LOCALE int                         _GenOpenReadBinary(void *,const char *,const char *);
+   LOCALE FILE                       *_GenOpen(void *,const char *,const char *);
 #endif
    
 #endif

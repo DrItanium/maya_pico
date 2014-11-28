@@ -1,8 +1,7 @@
-
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.24  06/05/06            */
+   /*             CLIPS Version 6.30  07/25/14            */
    /*                                                     */
    /*                 FILE COMMANDS MODULE                */
    /*******************************************************/
@@ -25,6 +24,9 @@
 /*            Added environment parameter to GenOpen.        */
 /*                                                           */
 /*            Renamed BOOLEAN macro type to intBool.         */
+/*                                                           */
+/*      6.30: Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*************************************************************/
 
@@ -65,8 +67,8 @@ struct batchEntry
   {
    int batchType;
    void *inputSource;
-   char *theString;
-   char *fileName;
+   const char *theString;
+   const char *fileName;
    long lineNumber;
    struct batchEntry *next;
   };
@@ -108,18 +110,18 @@ struct fileCommandData
 /***************************************/
 
 #if DEBUGGING_FUNCTIONS
-   static int                     FindDribble(void *,char *);
-   static int                     GetcDribble(void *,char *);
-   static int                     UngetcDribble(void *,int,char *);
+   static int                     FindDribble(void *,const char *);
+   static int                     GetcDribble(void *,const char *);
+   static int                     UngetcDribble(void *,int,const char *);
    static int                     ExitDribble(void *,int);
-   static int                     PrintDribble(void *,char *,char *);
+   static int                     PrintDribble(void *,const char *,const char *);
    static void                    PutcDribbleBuffer(void *,int);
 #endif
-   static int                     FindBatch(void *,char *);
-   static int                     GetcBatch(void *,char *);
-   static int                     UngetcBatch(void *,int,char *);
+   static int                     FindBatch(void *,const char *);
+   static int                     GetcBatch(void *,const char *);
+   static int                     UngetcBatch(void *,int,const char *);
    static int                     ExitBatch(void *,int);
-   static void                    AddBatch(void *,int,void *,int,char *,char *);
+   static void                    AddBatch(void *,int,void *,int,const char *,const char *);
    static void                    DeallocateFileCommandData(void *);
 
 /***************************************/
@@ -169,7 +171,7 @@ static void DeallocateFileCommandData(
       if (theEntry->batchType == FILE_BATCH)
         { GenClose(theEnv,(FILE *) FileCommandData(theEnv)->TopOfBatchList->inputSource); }
       else
-        { rm(theEnv,theEntry->theString,strlen(theEntry->theString) + 1); }
+        { rm(theEnv,(void *) theEntry->theString,strlen(theEntry->theString) + 1); }
 
       rtn_struct(theEnv,batchEntry,theEntry);
          
@@ -197,7 +199,7 @@ static void DeallocateFileCommandData(
 /*****************************************************/
 static int FindDribble(
   void *theEnv,
-  char *logicalName)
+  const char *logicalName)
   {
 
    if ( (strcmp(logicalName,"stdout") == 0) ||
@@ -218,8 +220,8 @@ static int FindDribble(
 /*******************************************************/
 static int PrintDribble(
   void *theEnv,
-  char *logicalName,
-  char *str)
+  const char *logicalName,
+  const char *str)
   {
    int i;
 
@@ -246,7 +248,7 @@ static int PrintDribble(
 /*****************************************************/
 static int GetcDribble(
   void *theEnv,
-  char *logicalName)
+  const char *logicalName)
   {
    int rv;
 
@@ -336,7 +338,7 @@ static void PutcDribbleBuffer(
 static int UngetcDribble(
   void *theEnv,
   int ch,
-  char *logicalName)
+  const char *logicalName)
   {
    int rv;
 
@@ -385,7 +387,7 @@ static int ExitDribble(
 globle int DribbleOnCommand(
   void *theEnv)
   {
-   char *fileName;
+   const char *fileName;
 
    if (EnvArgCountCheck(theEnv,"dribble-on",EXACTLY,1) == -1) return(FALSE);
    if ((fileName = GetFileName(theEnv,"dribble-on",1)) == NULL) return(FALSE);
@@ -399,7 +401,7 @@ globle int DribbleOnCommand(
 /**********************************/
 globle intBool EnvDribbleOn(
   void *theEnv,
-  char *fileName)
+  const char *fileName)
   {
    /*==============================*/
    /* If a dribble file is already */
@@ -549,7 +551,7 @@ globle void SetDribbleStatusFunction(
 /*************************************************/
 static int FindBatch(
   void *theEnv,
-  char *logicalName)
+  const char *logicalName)
   {
 
    if (strcmp(logicalName,"stdin") == 0)
@@ -563,7 +565,7 @@ static int FindBatch(
 /*************************************************/
 static int GetcBatch(
   void *theEnv,
-  char *logicalName)
+  const char *logicalName)
   {
    return(LLGetcBatch(theEnv,logicalName,FALSE));
   }
@@ -574,7 +576,7 @@ static int GetcBatch(
 /***************************************************/
 globle int LLGetcBatch(
   void *theEnv,
-  char *logicalName,
+  const char *logicalName,
   int returnOnEOF)
   {
    int rv = EOF, flag = 1;
@@ -659,7 +661,7 @@ globle int LLGetcBatch(
 static int UngetcBatch(
   void *theEnv,
   int ch,
-  char *logicalName)
+  const char *logicalName)
   {
 
    if (FileCommandData(theEnv)->BatchCurrentPosition > 0) FileCommandData(theEnv)->BatchCurrentPosition--;
@@ -688,7 +690,7 @@ static int ExitBatch(
 globle int BatchCommand(
   void *theEnv)
   {
-   char *fileName;
+   const char *fileName;
 
    if (EnvArgCountCheck(theEnv,"batch",EXACTLY,1) == -1) return(FALSE);
    if ((fileName = GetFileName(theEnv,"batch",1)) == NULL) return(FALSE);
@@ -701,7 +703,7 @@ globle int BatchCommand(
 /**************************************************/
 globle int Batch(
   void *theEnv,
-  char *fileName)
+  const char *fileName)
   { return(OpenBatch(theEnv,fileName,FALSE)); }
 
 /***********************************************/
@@ -710,7 +712,7 @@ globle int Batch(
 /***********************************************/
 globle int OpenBatch(
   void *theEnv,
-  char *fileName,
+  const char *fileName,
   int placeAtEnd)
   {
    FILE *theFile;
@@ -787,8 +789,8 @@ globle int OpenBatch(
 /*****************************************************************/
 globle int OpenStringBatch(
   void *theEnv,
-  char *stringName,
-  char *theString,
+  const char *stringName,
+  const char *theString,
   int placeAtEnd)
   {
    if (OpenStringSource(theEnv,stringName,theString,0) == 0)
@@ -816,8 +818,8 @@ static void AddBatch(
   int placeAtEnd,
   void *theSource,
   int type,
-  char *theString,
-  char *theFileName)
+  const char *theString,
+  const char *theFileName)
   {
    struct batchEntry *bptr;
 
@@ -885,14 +887,15 @@ globle int RemoveBatch(
    else
      {
       CloseStringSource(theEnv,(char *) FileCommandData(theEnv)->TopOfBatchList->inputSource);
-      rm(theEnv,FileCommandData(theEnv)->TopOfBatchList->theString,strlen(FileCommandData(theEnv)->TopOfBatchList->theString) + 1);
+      rm(theEnv,(void *) FileCommandData(theEnv)->TopOfBatchList->theString,
+         strlen(FileCommandData(theEnv)->TopOfBatchList->theString) + 1);
      }
 
    /*=================================*/
    /* Remove the entry from the list. */
    /*=================================*/
 
-   DeleteString(theEnv,FileCommandData(theEnv)->TopOfBatchList->fileName);
+   DeleteString(theEnv,(char *) FileCommandData(theEnv)->TopOfBatchList->fileName);
    bptr = FileCommandData(theEnv)->TopOfBatchList;
    FileCommandData(theEnv)->TopOfBatchList = FileCommandData(theEnv)->TopOfBatchList->next;
 
@@ -1001,7 +1004,7 @@ globle void CloseAllBatchSources(
 globle int BatchStarCommand(
   void *theEnv)
   {
-   char *fileName;
+   const char *fileName;
 
    if (EnvArgCountCheck(theEnv,"batch*",EXACTLY,1) == -1) return(FALSE);
    if ((fileName = GetFileName(theEnv,"batch*",1)) == NULL) return(FALSE);
@@ -1016,7 +1019,7 @@ globle int BatchStarCommand(
 /**********************************************************/
 globle int EnvBatchStar(
   void *theEnv,
-  char *fileName)
+  const char *fileName)
   {
    int inchar;
    FILE *theFile;
@@ -1135,7 +1138,7 @@ globle int LoadCommand(
   void *theEnv)
   {
 #if (! BLOAD_ONLY) && (! RUN_TIME)
-   char *theFileName;
+   const char *theFileName;
    int rv;
 
    if (EnvArgCountCheck(theEnv,"load",EXACTLY,1) == -1) return(FALSE);
@@ -1166,7 +1169,7 @@ globle int LoadStarCommand(
   void *theEnv)
   {
 #if (! BLOAD_ONLY) && (! RUN_TIME)
-   char *theFileName;
+   const char *theFileName;
    int rv;
 
    if (EnvArgCountCheck(theEnv,"load*",EXACTLY,1) == -1) return(FALSE);
@@ -1194,7 +1197,7 @@ globle int SaveCommand(
   void *theEnv)
   {
 #if (! BLOAD_ONLY) && (! RUN_TIME)
-   char *theFileName;
+   const char *theFileName;
 
    if (EnvArgCountCheck(theEnv,"save",EXACTLY,1) == -1) return(FALSE);
    if ((theFileName = GetFileName(theEnv,"save",1)) == NULL) return(FALSE);
