@@ -3,15 +3,15 @@ include config.mk
 LIBELECTRON_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libelectron/*.c))
 LIBMAYA_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libmaya/*.c))
 MAYA_EXECUTABLE_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/cmd/maya/*.c))
-OBJS = ${LIBELECTRON_OBJECTS} ${LIBMAYA_OBJECTS}
+OBJS = ${LIBELECTRON_OBJECTS} ${LIBMAYA_OBJECTS} ${MAYA_EXECUTABLE_OBJECTS}
 
 .PHONY: clean all
 
 all: program
 
-program: $(OBJS) $(MAYA_EXECUTABLE_OBJECTS)
+program: $(OBJS) 
 	@echo Building $(OUTPUT)
-	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS) $(MAYA_EXECUTABLE_OBJECTS) -lm -lrt
+	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS) -lm -lrt
 
 install:
 	@echo Installing binaries to $(PREFIX)/bin
