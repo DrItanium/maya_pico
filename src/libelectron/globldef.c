@@ -901,7 +901,7 @@ globle intBool SetDefglobalValue(
 globle void SetGlobalsChanged(
   int value)
   {
-   return EnvSetGlobalsChanged(GetCurrentEnvironment(),value);
+   EnvSetGlobalsChanged(GetCurrentEnvironment(),value);
   }
 
 #endif /* ALLOW_ENVIRONMENT_GLOBALS */

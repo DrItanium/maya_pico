@@ -1972,7 +1972,7 @@ globle void ListDefmethods(
   const char *logicalName,
   void *vptr)
   {
-   return EnvListDefmethods(GetCurrentEnvironment(),logicalName,vptr);
+   EnvListDefmethods(GetCurrentEnvironment(),logicalName,vptr);
   }
 
 globle void SetDefmethodWatch(

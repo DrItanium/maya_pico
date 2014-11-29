@@ -1037,7 +1037,7 @@ globle void ListDefinstances(
   const char *logicalName,
   struct defmodule *theModule)
   {
-   return EnvListDefinstances(GetCurrentEnvironment(),logicalName,theModule);
+   EnvListDefinstances(GetCurrentEnvironment(),logicalName,theModule);
   }
 #endif
 
