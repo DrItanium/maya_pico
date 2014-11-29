@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  08/22/14            */
    /*                                                     */
    /*                 FILE COMMANDS MODULE                */
    /*******************************************************/
@@ -1149,7 +1149,7 @@ globle int EnvBatchStar(
 /**************************************************/
 globle int EnvBatchStar(
   void *theEnv,
-  char *fileName)
+  const char *fileName)
   {
 
    PrintErrorID(theEnv,"FILECOM",1,FALSE);

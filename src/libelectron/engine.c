@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  08/22/14            */
    /*                                                     */
    /*                    ENGINE MODULE                    */
    /*******************************************************/
@@ -162,7 +162,7 @@ globle long long EnvRun(
    struct patternEntity *theMatchingItem;
    struct partialMatch *theBasis;
    ACTIVATION *theActivation;
-   char *ruleFiring;
+   const char *ruleFiring;
 #if PROFILING_FUNCTIONS
    struct profileFrameInfo profileFrame;
 #endif
@@ -1137,7 +1137,7 @@ globle void SetBreakCommand(
   void *theEnv)
   {
    DATA_OBJECT argPtr;
-   char *argument;
+   const char *argument;
    void *defrulePtr;
 
    if (EnvArgCountCheck(theEnv,"set-break",EXACTLY,1) == -1) return;
@@ -1163,7 +1163,7 @@ globle void RemoveBreakCommand(
   void *theEnv)
   {
    DATA_OBJECT argPtr;
-   char *argument;
+   const char *argument;
    int nargs;
    void *defrulePtr;
 
@@ -1371,7 +1371,7 @@ globle int FocusCommand(
   void *theEnv)
   {
    DATA_OBJECT argPtr;
-   char *argument;
+   const char *argument;
    struct defmodule *theModule;
    int argCount, i;
 

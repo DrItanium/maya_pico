@@ -1,7 +1,7 @@
     /*******************************************************/
     /*      "C" Language Integrated Production System      */
     /*                                                     */
-    /*             CLIPS Version 6.30  08/16/14            */
+    /*             CLIPS Version 6.30  08/22/14            */
     /*                                                     */
     /*                    WATCH MODULE                     */
     /*******************************************************/
@@ -356,7 +356,7 @@ globle void WatchCommand(
       void *theEnv)
 {
    DATA_OBJECT theValue;
-   char *argument;
+   const char *argument;
    int recognized;
    struct watchItem *wPtr;
    /*========================================*/
@@ -402,7 +402,7 @@ globle void UnwatchCommand(
       void *theEnv)
 {
    DATA_OBJECT theValue;
-   char *argument;
+   const char *argument;
    int recognized;
    struct watchItem *wPtr;
    /*==========================================*/
@@ -518,7 +518,7 @@ globle int GetWatchItemCommand(
       void *theEnv)
 {
    DATA_OBJECT theValue;
-   char *argument;
+   const char *argument;
    int recognized;
 
    /*============================================*/

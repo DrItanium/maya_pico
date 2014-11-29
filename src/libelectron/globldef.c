@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  08/22/14            */
    /*                                                     */
    /*                  DEFGLOBAL MODULE                   */
    /*******************************************************/
@@ -808,14 +808,14 @@ globle void *GetNextDefglobalInScope(
 /* Additional Environment Functions */
 /*##################################*/
 
-globle char *EnvDefglobalModule(
+globle const char *EnvDefglobalModule(
   void *theEnv,
   void *theDefglobal)
   {
    return GetConstructModuleName((struct constructHeader *) theDefglobal);
   }
 
-globle char *EnvGetDefglobalName(
+globle const char *EnvGetDefglobalName(
   void *theEnv,
   void *theDefglobal)
   {
@@ -835,7 +835,7 @@ globle char *EnvGetDefglobalPPForm(
 
 #if ALLOW_ENVIRONMENT_GLOBALS
 
-globle char *DefglobalModule(
+globle const char *DefglobalModule(
   void *theDefglobal)
   {
    return EnvDefglobalModule(GetCurrentEnvironment(),theDefglobal);
@@ -847,7 +847,7 @@ globle void *FindDefglobal(
    return EnvFindDefglobal(GetCurrentEnvironment(),defglobalName);
   }
 
-globle char *GetDefglobalName(
+globle const char *GetDefglobalName(
   void *theDefglobal)
   {
    return EnvGetDefglobalName(GetCurrentEnvironment(),theDefglobal);
