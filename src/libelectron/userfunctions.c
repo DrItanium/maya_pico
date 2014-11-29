@@ -76,9 +76,9 @@ void UserFunctions()
 /*   this function can be deleted from this file and       */
 /*   included in another file.                             */
 /***********************************************************/
-void EnvUserFunctions(void *theEnv) {
+void EnvUserFunctions(void *environment) {
 #if MAYA_EXTENSIONS
-   MayaDefinitions(theEnv);
+   MayaDefinitions(environment);
 #endif
 }
 
