@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/05/14            */
+   /*             CLIPS Version 6.30  08/16/14            */
    /*                                                     */
    /*                CONSTANTS HEADER FILE                */
    /*******************************************************/
@@ -19,6 +19,10 @@
 /*      6.30: Moved default type constants (NO_DEFAULT,      */
 /*            STATIC_DEFAULT, and DYNAMIC_DEFAULT) to        */
 /*            constant.h                                     */
+/*                                                           */
+/*            Added DATA_OBJECT_ARRAY primitive type.        */
+/*                                                           */
+/*            Added NESTED_RHS constant.                     */
 /*                                                           */
 /*************************************************************/
 
