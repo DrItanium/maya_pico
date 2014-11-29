@@ -1,9 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  12/07/07            */
-   /*             AdventureEngine 2/21/2013               */
-   /*             electron 6/12/2013                      */
+   /*             CLIPS Version 6.30  08/05/14            */
    /*                                                     */
    /*                  SETUP HEADER FILE                  */
    /*******************************************************/
@@ -49,6 +47,8 @@
 /*                                                           */
 /*            Removed VOID definition because of conflict    */
 /*            with Windows.h header file.                    */
+/*                                                           */    
+/*            Removed deprecated definitions.                */
 /*                                                           */    
 /*      AdventureEngine 2/21/2013: Added automatic system    */
 /*      identification                                       */
@@ -478,25 +478,6 @@ typedef long long vlong;
 /***************************/
 
 #include "envrnmnt.h"
-
-/******************************/
-/* Compatibilty Redefinitions */
-/******************************/
-
-#define PrintCLIPS(x,y) EnvPrintRouter(GetCurrentEnvironment(),x,y)
-#define GetcCLIPS(x,y) EnvGetcRouter(GetCurrentEnvironment(),x)
-#define UngetcCLIPS(x,y) EnvUngetcRouter(GetCurrentEnvironment(),x,y)
-#define ExitCLIPS(x) EnvExitRouter(GetCurrentEnvironment(),x)
-#define CLIPSSystemError(x,y) SystemError(x,y)
-#define CLIPSFunctionCall(x,y,z) FunctionCall(x,y,z)
-#define InitializeCLIPS() InitializeEnvironment()
-#define WCLIPS WPROMPT
-#define CLIPSTrueSymbol EnvTrueSymbol(GetCurrentEnvironment())
-#define CLIPSFalseSymbol EnvFalseSymbol(GetCurrentEnvironment())
-#define EnvCLIPSTrueSymbol(theEnv) EnvTrueSymbol(theEnv)
-#define EnvCLIPSFalseSymbol(theEnv) EnvFalseSymbol(theEnv)
-#define CLIPS_FALSE 0
-#define CLIPS_TRUE 1
 
 /*************************************************/
 /* Any user defined global setup information can */
