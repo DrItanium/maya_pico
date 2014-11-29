@@ -795,7 +795,7 @@ globle void DeinstallConstructHeader(
    DecrementSymbolCount(theEnv,theHeader->name);
    if (theHeader->ppForm != NULL)
      {
-      rm(theEnv,theHeader->ppForm,
+      rm(theEnv,(void *) theHeader->ppForm,
          sizeof(char) * (strlen(theHeader->ppForm) + 1));
       theHeader->ppForm = NULL;
      }
@@ -819,7 +819,7 @@ globle void DestroyConstructHeader(
   {
    if (theHeader->ppForm != NULL)
      {
-      rm(theEnv,theHeader->ppForm,
+      rm(theEnv,(void *) theHeader->ppForm,
          sizeof(char) * (strlen(theHeader->ppForm) + 1));
       theHeader->ppForm = NULL;
      }
@@ -842,7 +842,7 @@ globle struct construct *AddConstruct(
   int (*parseFunction)(void *,const char *),
   void *(*findFunction)(void *,const char *),
   SYMBOL_HN *(*getConstructNameFunction)(struct constructHeader *),
-  char *(*getPPFormFunction)(void *,struct constructHeader *),
+  const char *(*getPPFormFunction)(void *,struct constructHeader *),
   struct defmoduleItemHeader *(*getModuleItemFunction)(struct constructHeader *),
   void *(*getNextItemFunction)(void *,void *),
   void (*setNextItemFunction)(struct constructHeader *,struct constructHeader *),

@@ -678,7 +678,7 @@ static void SaveDefclass(
   {
    const char *logName = (const char *) userBuffer;
    unsigned hnd;
-   char *ppForm;
+   const char *ppForm;
 
    ppForm = EnvGetDefclassPPForm(theEnv,(void *) theDefclass);
    if (ppForm != NULL)
@@ -840,7 +840,7 @@ globle const char *EnvGetDefclassName(
    return EnvGetConstructNameString(theEnv,(struct constructHeader *) theClass);
   }
 
-globle char *EnvGetDefclassPPForm(
+globle const char *EnvGetDefclassPPForm(
   void *theEnv,
   void *theClass)
   {
@@ -924,7 +924,7 @@ globle const char *GetDefclassName(
    return EnvGetDefclassName(GetCurrentEnvironment(),theClass);
   }
 
-globle char *GetDefclassPPForm(
+globle const char *GetDefclassPPForm(
   void *theClass)
   {
    return EnvGetDefclassPPForm(GetCurrentEnvironment(),theClass);

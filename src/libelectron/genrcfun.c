@@ -514,7 +514,7 @@ globle long FindMethodByIndex(
 globle void PrintMethod(
   void *theEnv,
   char *buf,
-  int buflen,
+  size_t buflen,
   DEFMETHOD *meth)
   {
    long j,k;

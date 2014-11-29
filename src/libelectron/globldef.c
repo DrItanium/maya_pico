@@ -478,7 +478,7 @@ globle struct defglobal *QFindDefglobal(
 globle void EnvGetDefglobalValueForm(
   void *theEnv,
   char *buffer,
-  unsigned bufferLength,
+  size_t bufferLength,
   void *vTheGlobal)
   {
    struct defglobal *theGlobal = (struct defglobal *) vTheGlobal;
@@ -822,7 +822,7 @@ globle const char *EnvGetDefglobalName(
    return GetConstructNameString((struct constructHeader *) theDefglobal);
   }
 
-globle char *EnvGetDefglobalPPForm(
+globle const char *EnvGetDefglobalPPForm(
   void *theEnv,
   void *theDefglobal)
   {
@@ -853,7 +853,7 @@ globle const char *GetDefglobalName(
    return EnvGetDefglobalName(GetCurrentEnvironment(),theDefglobal);
   }
 
-globle char *GetDefglobalPPForm(
+globle const char *GetDefglobalPPForm(
   void *theDefglobal)
   {
    return EnvGetDefglobalPPForm(GetCurrentEnvironment(),theDefglobal);

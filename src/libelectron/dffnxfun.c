@@ -1033,7 +1033,7 @@ globle const char *EnvGetDeffunctionName(
    return GetConstructNameString((struct constructHeader *) theDeffunction);
   }
 
-globle char *EnvGetDeffunctionPPForm(
+globle const char *EnvGetDeffunctionPPForm(
   void *theEnv,
   void *theDeffunction)
   {
@@ -1050,7 +1050,7 @@ globle SYMBOL_HN *EnvGetDeffunctionNamePointer(
 globle void EnvSetDeffunctionPPForm(
   void *theEnv,
   void *theDeffunction,
-  char *thePPForm)
+  const char *thePPForm)
   {
    SetConstructPPForm(theEnv,(struct constructHeader *) theDeffunction,thePPForm);
   }
@@ -1091,7 +1091,7 @@ globle const char *GetDeffunctionName(
    return EnvGetDeffunctionName(GetCurrentEnvironment(),theDeffunction);
   }
 
-globle char *GetDeffunctionPPForm(
+globle const char *GetDeffunctionPPForm(
   void *theDeffunction)
   {
    return EnvGetDeffunctionPPForm(GetCurrentEnvironment(),theDeffunction);

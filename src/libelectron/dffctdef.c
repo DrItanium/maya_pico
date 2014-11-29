@@ -284,7 +284,7 @@ globle const char *EnvGetDeffactsName(
    return GetConstructNameString((struct constructHeader *) theDeffacts);
   }
 
-globle char *EnvGetDeffactsPPForm(
+globle const char *EnvGetDeffactsPPForm(
   void *theEnv,
   void *theDeffacts)
   {
@@ -327,7 +327,7 @@ globle const char *GetDeffactsName(
    return EnvGetDeffactsName(GetCurrentEnvironment(),theDeffacts);
   }
 
-globle char *GetDeffactsPPForm(
+globle const char *GetDeffactsPPForm(
   void *theDeffacts)
   {
    return EnvGetDeffactsPPForm(GetCurrentEnvironment(),theDeffacts);
