@@ -1,10 +1,5 @@
 #ignore the electron executable and the object files
-electron
-electron.exe
-libelectron.so
-libelectron.a
 maya
-
 *.a
 *.o
 *.swp
