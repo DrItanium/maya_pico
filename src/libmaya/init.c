@@ -39,3 +39,26 @@ void MayaDefinitions(void* theEnv) {
    BinaryOperationsFunctionDefinitions(theEnv);
 #endif /* BINARY_LOGICAL_OPERATIONS */
 }
+
+void MayaOptions(void* theEnv) {
+#if MAYA_EXTENSIONS
+EnvPrintRouter(theEnv,WDISPLAY,"Architecture identification is ");
+#if ARCHITECTURE_IDENTIFICATION 
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
+EnvPrintRouter(theEnv,WDISPLAY, "Binary logical operators are ");
+#if BINARY_LOGICAL_OPERATIONS 
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
+EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ");
+#if FILE_SYSTEM_ROOTING 
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
+#endif /* MAYA_EXTENSIONS */
+}

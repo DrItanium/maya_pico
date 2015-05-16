@@ -27,6 +27,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _CORE_USER_SETUP_H
 #define _CORE_USER_SETUP_H
 
+typedef signed char schar;
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef unsigned long long uvlong;
+typedef long long vlong;
 
 /* Operating System Specific Defines */
 #ifdef _WIN32
@@ -159,4 +166,5 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define FILE_SYSTEM_BASE "MAYA_FS_ROOT"
 #endif
 
+extern void MayaOptions(void* theEnv);
 #endif
