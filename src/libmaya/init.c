@@ -38,6 +38,10 @@ void MayaDefinitions(void* theEnv) {
 #if BINARY_LOGICAL_OPERATIONS
    BinaryOperationsFunctionDefinitions(theEnv);
 #endif /* BINARY_LOGICAL_OPERATIONS */
+
+#if PARSING_EXTENSIONS
+   ParsingExtensionsFunctions(theEnv);
+#endif /* PARSING_EXTENSIONS */
 }
 
 void MayaOptions(void* theEnv) {
@@ -60,5 +64,11 @@ EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ");
 #else
   EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
+EnvPrintRouter(theEnv, WDISPLAY, "CLIPS Parsing Extensions are ");
+#if PARSING_EXTENSIONS
+  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+#else
+  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif 
 #endif /* MAYA_EXTENSIONS */
 }
