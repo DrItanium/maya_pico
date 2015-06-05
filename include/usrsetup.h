@@ -148,6 +148,7 @@ typedef long long vlong;
 #define ARCHITECTURE_IDENTIFICATION 0
 #define BINARY_LOGICAL_OPERATIONS 0
 #define FILE_SYSTEM_ROOTING 0
+#define PARSING_EXTENSIONS 0
 #endif
 
 #ifndef ARCHITECTURE_IDENTIFICATION
@@ -164,6 +165,10 @@ typedef long long vlong;
 
 #if FILE_SYSTEM_ROOTING
 #define FILE_SYSTEM_BASE "MAYA_FS_ROOT"
+#endif
+
+#ifndef PARSING_EXTENSIONS
+#define PARSING_EXTENSIONS 1
 #endif
 
 extern void MayaOptions(void* theEnv);

@@ -170,4 +170,7 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 #endif
 extern void ArchitectureDetectionFunctionDefinitions(void* theEnv);
 #endif /* ARCHITECTURE_IDENTIFICATION */
+#if PARSING_EXTENSIONS
+extern void ParsingExtensionsFunctions(void* theEnv);
+#endif // PARSING_EXTENSIONS
 #endif
