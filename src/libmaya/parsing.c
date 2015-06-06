@@ -89,11 +89,6 @@ globle void NextTokenFunction(
 #endif
        (theToken.type == SYMBOL) || (theToken.type == INTEGER))
      { returnValue->value = theToken.value; }
-   else if (theToken.type == STOP)
-     {
-      returnValue->type = SYMBOL;
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"EOF");
-     }
    else if (theToken.type == UNKNOWN_VALUE)
      {
       returnValue->type = STRING;
