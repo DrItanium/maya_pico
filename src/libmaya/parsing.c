@@ -1,17 +1,30 @@
 #include "clips.h"
 #include "libmaya.h"
 #if PARSING_EXTENSIONS 
-static void NextTokenFunction(void *,DATA_OBJECT_PTR);
-static void NextTokenFromStdin(void *,struct token *);
+void NextTokenFunction(void *,DATA_OBJECT_PTR);
+void NextTokenFromStdin(void *,struct token *);
+void* EmptyList(void*);
 
 void ParsingExtensionsFunctions(void* theEnv) {
-   EnvDefineFunction2(theEnv,"next-token",       'u', PTIEF NextTokenFunction,  "NextTokenFunction", "*1");
+   EnvDefineFunction2(theEnv,"next-token", 'u', PTIEF NextTokenFunction,  "NextTokenFunction", "*1");
+   EnvDefineFunction2(theEnv,"empty$",     'w', PTIEF EmptyList, "EmptyList", "11m");
 }
-
+void* EmptyList(void* theEnv) {
+	DATA_OBJECT arg;
+	if (EnvArgTypeCheck(theEnv,"empty$",1, MULTIFIELD, &arg) == 0) {
+		return EnvFalseSymbol(theEnv);
+	} else {
+		if (GetDOLength(arg) == 0) {
+			return EnvTrueSymbol(theEnv);
+		} else {
+			return EnvFalseSymbol(theEnv);
+		}
+	}
+}
 /****************************************************************/
 /* NextTokenFunction: H/L access routine for the read function. */
 /****************************************************************/
-globle void NextTokenFunction(
+void NextTokenFunction(
   void *theEnv,
   DATA_OBJECT_PTR returnValue)
   {
@@ -142,7 +155,7 @@ specialCaseEntry(MF_WILDCARD, "MF_WILDCARD")
 /* NextTokenFromStdin: Special routine used by the read */
 /*   function to read a token from standard input.      */
 /********************************************************/
-static void NextTokenFromStdin(
+void NextTokenFromStdin(
   void *theEnv,
   struct token *theToken)
   {
