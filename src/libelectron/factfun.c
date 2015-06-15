@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  01/26/15            */
    /*                                                     */
    /*               FACT FUNCTIONS MODULE                 */
    /*******************************************************/
@@ -59,6 +59,9 @@
 /*                                                           */
 /*            Converted API macros to function calls.        */
 /*                                                           */
+/*            Added STDOUT and STDIN logical name            */
+/*            definitions.                                   */
+/*                                                           */
 /*************************************************************/
 
 #include <stdio.h>
@@ -95,6 +98,9 @@ globle void FactFunctionDefinitions(
    EnvDefineFunction2(theEnv,"get-fact-list",'m',PTIEF GetFactListFunction,"GetFactListFunction","01w");
    EnvDefineFunction2(theEnv,"ppfact",'v',PTIEF PPFactFunction,"PPFactFunction","13*z");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 
@@ -136,6 +142,9 @@ globle void *EnvFactDeftemplate(
   void *theEnv,
   void *vTheFact)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    struct fact *theFact = (struct fact *) vTheFact;
 
@@ -166,6 +175,9 @@ globle int EnvFactExistp(
   void *theEnv,
   void *vTheFact)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    struct fact *theFact = (struct fact *) vTheFact;
 
    if (theFact == NULL) return(FALSE);
@@ -529,10 +541,10 @@ globle void PPFactFunction(
    /*===============================================================*/
 
    if (numberOfArguments == 1)
-     { logicalName = "stdout"; }
+     { logicalName = STDOUT; }
    else
      {
-      logicalName = GetLogicalName(theEnv,2,"stdout");
+      logicalName = GetLogicalName(theEnv,2,STDOUT);
       if (logicalName == NULL)
         {
          IllegalLogicalNameMessage(theEnv,"ppfact");
@@ -582,6 +594,9 @@ globle void EnvPPFact(
   const char *logicalName,
   int ignoreDefaults)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    struct fact *theFact = (struct fact *) vTheFact;
 
    if (theFact == NULL) return;

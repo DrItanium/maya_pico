@@ -265,6 +265,9 @@ globle const char *EnvGetDefmessageHandlerName(
   void *ptr,
   int theIndex)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(ValueToString(((DEFCLASS *) ptr)->handlers[theIndex-1].name));
   }
@@ -304,6 +307,9 @@ globle int EnvGetNextDefmessageHandler(
   int theIndex)
   {
    DEFCLASS *cls;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    cls = (DEFCLASS *) ptr;
    if (theIndex == 0)
@@ -348,6 +354,10 @@ globle unsigned EnvGetDefmessageHandlerWatch(
   void *theClass,
   int theIndex)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
    return(((DEFCLASS *) theClass)->handlers[theIndex-1].trace);
   }
 
@@ -369,6 +379,10 @@ globle void EnvSetDefmessageHandlerWatch(
   void *theClass,
   int theIndex)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
    ((DEFCLASS *) theClass)->handlers[theIndex-1].trace = newState;
   }
 
@@ -678,6 +692,10 @@ globle const char *EnvGetDefmessageHandlerPPForm(
   void *ptr,
   int theIndex)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
    return(((DEFCLASS *) ptr)->handlers[theIndex-1].ppForm);
   }
 
@@ -894,6 +912,9 @@ static unsigned DefmessageHandlerWatchAccess(
   unsigned newState,
   EXPRESSION *argExprs)
   {
+#if MAC_XCD
+#pragma unused(code)
+#endif
    if (newState)
      return(DefmessageHandlerWatchSupport(theEnv,"watch",NULL,newState,
                                         NULL,EnvSetDefmessageHandlerWatch,argExprs));
@@ -922,6 +943,9 @@ static unsigned DefmessageHandlerWatchPrint(
   int code,
   EXPRESSION *argExprs)
   {
+#if MAC_XCD
+#pragma unused(code)
+#endif
    return(DefmessageHandlerWatchSupport(theEnv,"list-watch-items",logName,-1,
                                         PrintHandlerWatchFlag,NULL,argExprs));
   }

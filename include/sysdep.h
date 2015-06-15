@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  05/18/15            */
    /*                                                     */
    /*            SYSTEM DEPENDENT HEADER FILE             */
    /*******************************************************/
@@ -74,14 +74,13 @@
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
+/*      6.31: Refactored code to reduce header dependencies  */
+/*            in sysdep.c.                                   */
+/*                                                           */
 /*************************************************************/
 
 #ifndef _H_sysdep
 #define _H_sysdep
-
-#ifndef _H_symbol
-#include "symbol.h"
-#endif
 
 #ifndef _STDIO_INCLUDED_
 #define _STDIO_INCLUDED_
@@ -90,9 +89,9 @@
 
 #include <setjmp.h>
 
-#if WIN_MVC
-#include <dos.h>
-#endif
+//#if WIN_MVC
+//#include <dos.h>
+//#endif
 
 #ifdef LOCALE
 #undef LOCALE
@@ -104,19 +103,14 @@
 #define LOCALE extern
 #endif
 
-   LOCALE void                        InitializeEnvironment(void);
-   LOCALE void                        EnvInitializeEnvironment(void *,struct symbolHashNode **,struct floatHashNode **,
-															   struct integerHashNode **,struct bitMapHashNode **,
-															   struct externalAddressHashNode **);
    LOCALE void                        SetRedrawFunction(void *,void (*)(void *));
    LOCALE void                        SetPauseEnvFunction(void *,void (*)(void *));
    LOCALE void                        SetContinueEnvFunction(void *,void (*)(void *,int));
    LOCALE void                        (*GetRedrawFunction(void *))(void *);
    LOCALE void                        (*GetPauseEnvFunction(void *))(void *);
    LOCALE void                        (*GetContinueEnvFunction(void *))(void *,int);
-   LOCALE void                        RerouteStdin(void *,int,char *[]);
    LOCALE double                      gentime(void);
-   LOCALE void                        gensystem(void *theEnv);
+   LOCALE void                        gensystem(void *theEnv,const char *);
    LOCALE int                         GenOpenReadBinary(void *,const char *,const char *);
    LOCALE void                        GetSeekCurBinary(void *,long);
    LOCALE void                        GetSeekSetBinary(void *,long);
@@ -143,11 +137,14 @@
    LOCALE void                        genprintfile(void *,FILE *,const char *);
    LOCALE int                         gengetchar(void *);
    LOCALE int                         genungetchar(void *,int);
+   LOCALE void                        InitializeSystemDependentData(void *);
+   LOCALE void                        InitializeNonportableFeatures(void *);
 #if FILE_SYSTEM_ROOTING
    LOCALE int                         _GenOpenReadBinary(void *,const char *,const char *);
    LOCALE FILE                       *_GenOpen(void *,const char *,const char *);
 #endif
-   
+
+
 #endif /* _H_sysdep */
 
 

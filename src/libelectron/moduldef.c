@@ -511,6 +511,10 @@ globle const char *EnvGetDefmoduleName(
   void *theEnv,
   void *defmodulePtr)
   { 
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
    return(ValueToString(((struct defmodule *) defmodulePtr)->name)); 
   }
 
@@ -522,6 +526,9 @@ globle const char *EnvGetDefmodulePPForm(
   void *theEnv,
   void *defmodulePtr)
   { 
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((struct defmodule *) defmodulePtr)->ppForm); 
   }

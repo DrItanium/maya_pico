@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*               CLIPS Version 6.30  08/22/14          */
+   /*               CLIPS Version 6.30  01/25/15          */
    /*                                                     */
    /*               CLASS INITIALIZATION MODULE           */
    /*******************************************************/
@@ -36,6 +36,10 @@
 /*                                                            */
 /*            Added const qualifiers to remove C++            */
 /*            deprecation warnings.                           */
+/*                                                            */
+/*            Changed find construct functionality so that    */
+/*            imported modules are search when locating a     */
+/*            named construct.                                */
 /*                                                            */
 /**************************************************************/
 
@@ -308,6 +312,9 @@ static void DestroyDefclassAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
    struct defclass *theDefclass = (struct defclass *) theConstruct;
 
    if (theDefclass == NULL) return;
@@ -315,6 +322,9 @@ static void DestroyDefclassAction(
 #if (! BLOAD_ONLY) 
    DestroyDefclass(theEnv,theDefclass);
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 #endif
@@ -579,7 +589,7 @@ static void SetupDefclasses(
 #else
                                     NULL,
 #endif
-                                    EnvFindDefclass);
+                                    EnvFindDefclassInModule);
 
    DefclassData(theEnv)->DefclassConstruct =  AddConstruct(theEnv,"defclass","defclasses",
 #if (! BLOAD_ONLY) && (! RUN_TIME)
@@ -734,10 +744,10 @@ static DEFCLASS *AddSystemClass(
 /*****************************************************
   NAME         : AllocateModule
   DESCRIPTION  : Creates and initializes a
-                 list of deffunctions for a new module
+                 list of defclasses for a new module
   INPUTS       : None
-  RETURNS      : The new deffunction module
-  SIDE EFFECTS : Deffunction module created
+  RETURNS      : The new defclass module
+  SIDE EFFECTS : Defclass module created
   NOTES        : None
  *****************************************************/
 static void *AllocateModule(
@@ -748,11 +758,11 @@ static void *AllocateModule(
 
 /***************************************************
   NAME         : ReturnModule
-  DESCRIPTION  : Removes a deffunction module and
-                 all associated deffunctions
-  INPUTS       : The deffunction module
+  DESCRIPTION  : Removes a defclass module and
+                 all associated defclasses
+  INPUTS       : The defclass module
   RETURNS      : Nothing useful
-  SIDE EFFECTS : Module and deffunctions deleted
+  SIDE EFFECTS : Module and defclasses deleted
   NOTES        : None
  ***************************************************/
 static void ReturnModule(

@@ -396,6 +396,9 @@ static void MarkDefclassItems(
   struct constructHeader *theDefclass,
   void *buf)
   {
+#if MAC_XCD
+#pragma unused(buf)
+#endif
    DEFCLASS *cls = (DEFCLASS *) theDefclass;
    long i;
    EXPRESSION *tmpexp;
@@ -911,6 +914,9 @@ static void BsaveTemplateSlots(
    DEFCLASS *cls = (DEFCLASS *) theDefclass;
    long i;
    long tsp;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    
    for (i = 0 ; i < cls->instanceSlotCount ; i++)
      {
@@ -934,6 +940,9 @@ static void BsaveSlotMap(
   void *buf)
   {
    DEFCLASS *cls = (DEFCLASS *) theDefclass;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if (cls->instanceSlotCount != 0)
      GenWrite((void *) cls->slotNameMap,
@@ -995,6 +1004,9 @@ static void BsaveHandlerMap(
   void *buf)
   {
    DEFCLASS *cls = (DEFCLASS *) theDefclass;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    GenWrite((void *) cls->handlerOrderMap,
             (sizeof(unsigned) * cls->handlerCount),(FILE *) buf);

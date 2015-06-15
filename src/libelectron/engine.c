@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.31  06/05/15            */
    /*                                                     */
    /*                    ENGINE MODULE                    */
    /*******************************************************/
@@ -59,6 +59,8 @@
 /*                                                           */
 /*            Converted API macros to function calls.        */
 /*                                                           */
+/*            Fixed dangling construct issue.                */
+/*                                                           */
 /*************************************************************/
 
 #define _ENGINE_SOURCE_
@@ -73,6 +75,7 @@
 
 #include "agenda.h"
 #include "argacces.h"
+#include "commline.h"
 #include "constant.h"
 #include "envrnmnt.h"
 #include "factmngr.h"
@@ -145,7 +148,7 @@ globle long long EnvRun(
   {
    long long rulesFired = 0;
    DATA_OBJECT result;
-   struct callFunctionItemWithArg* theBeforeRunFunction;
+   struct callFunctionItemWithArg *theBeforeRunFunction;
    struct callFunctionItem *theRunFunction;
 #if DEBUGGING_FUNCTIONS
    unsigned long maxActivations = 0, sumActivations = 0;
@@ -168,6 +171,7 @@ globle long long EnvRun(
 #endif
    struct trackedMemory *theTM;
    struct garbageFrame newGarbageFrame, *oldGarbageFrame;
+   int danglingConstructs;
 
    /*=====================================================*/
    /* Make sure the run command is not already executing. */
@@ -343,6 +347,7 @@ globle long long EnvRun(
       EvaluationData(theEnv)->CurrentEvaluationDepth++;
       SetEvaluationError(theEnv,FALSE);
       EngineData(theEnv)->ExecutingRule->executing = TRUE;
+      danglingConstructs = ConstructData(theEnv)->DanglingConstructs;
 
 #if PROFILING_FUNCTIONS
       StartProfile(theEnv,&profileFrame,
@@ -361,6 +366,9 @@ globle long long EnvRun(
       EngineData(theEnv)->ExecutingRule->executing = FALSE;
       SetEvaluationError(theEnv,FALSE);
       EvaluationData(theEnv)->CurrentEvaluationDepth--;
+      if ((! CommandLineData(theEnv)->EvaluatingTopLevelCommand) &&
+          (EvaluationData(theEnv)->CurrentExpression == NULL))
+        { ConstructData(theEnv)->DanglingConstructs = danglingConstructs; }
       
       /*=====================================*/
       /* Remove information for logical CEs. */
@@ -563,7 +571,7 @@ globle long long EnvRun(
       else
         { EnvPrintRouter(theEnv,WDIALOG,"\n"); }
 #else
-      EnvPrintRouter(theEnv, WDIALOG, "\n");
+      EnvPrintRouter(theEnv,WDIALOG,"\n");
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT
@@ -917,7 +925,7 @@ globle intBool EnvAddRunFunction(
                                               EngineData(theEnv)->ListOfRunFunctions,TRUE);
    return(1);
   }
-
+  
 /********************************************/
 /* EnvAddBeforeRunFunction: Adds a function */
 /*   to the ListOfBeforeRunFunctions.       */
@@ -926,12 +934,13 @@ globle intBool EnvAddBeforeRunFunction(
   void *theEnv,
   const char *name,
   void (*functionPtr)(void *, void *),
-  int priority) {
+  int priority)
+  {
    EngineData(theEnv)->ListOfBeforeRunFunctions = AddFunctionToCallListWithArg(theEnv,name,priority,
                                               functionPtr,
                                               EngineData(theEnv)->ListOfBeforeRunFunctions,TRUE);
    return(1);
-}
+  }
   
 /*****************************************/
 /* EnvAddRunFunctionWithContext: Adds a  */
@@ -999,7 +1008,7 @@ globle intBool EnvRemoveBeforeRunFunction(
 
    EngineData(theEnv)->ListOfBeforeRunFunctions = 
       RemoveFunctionFromCallListWithArg(theEnv,name,EngineData(theEnv)->ListOfBeforeRunFunctions,&found);
- 
+
    if (found) return(TRUE);
 
    return(FALSE);
@@ -1060,6 +1069,9 @@ globle void EnvSetBreak(
   void *theEnv,
   void *theRule)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    struct defrule *thePtr;
 
    for (thePtr = (struct defrule *) theRule;
@@ -1076,6 +1088,9 @@ globle intBool EnvRemoveBreak(
   void *theEnv,
   void *theRule)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    struct defrule *thePtr;
    int rv = FALSE;
 
@@ -1133,6 +1148,9 @@ globle intBool EnvDefruleHasBreakpoint(
   void *theEnv,
   void *theRule)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((struct defrule *) theRule)->afterBreakpoint);
   }
@@ -1509,8 +1527,7 @@ globle void GetFocusStack(
    EnvGetFocusStack(GetCurrentEnvironment(),returnValue);
   }
 
-globle void *GetFocus(
-  void *theEnv)
+globle void *GetFocus()
   {
    return EnvGetFocus(GetCurrentEnvironment());
   }

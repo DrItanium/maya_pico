@@ -206,6 +206,9 @@ globle struct lhsParseNode *CreateInitialFactPattern(
 globle int FactPatternParserFind(
   SYMBOL_HN *theRelation)
   {
+#if MAC_XCD
+#pragma unused(theRelation)
+#endif
    return(TRUE);
   }
 

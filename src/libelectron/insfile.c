@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*              CLIPS Version 6.30  08/22/14           */
+   /*              CLIPS Version 6.31  05/18/15           */
    /*                                                     */
    /*         INSTANCE LOAD/SAVE (ASCII/BINARY) MODULE    */
    /*******************************************************/
@@ -33,6 +33,11 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*            For save-instances, bsave-instances, and       */
+/*            bload-instances, the class name does not       */
+/*            have to be in scope if the module name is      */
+/*            specified.                                     */
 /*                                                           */
 /*************************************************************/
 
@@ -190,7 +195,7 @@ globle void SetupInstanceFileCommands(
 globle long SaveInstancesCommand(
   void *theEnv)
   {
-   return(InstancesSaveCommandParser(theEnv,"save-instances",EnvSaveInstances));
+   return(InstancesSaveCommandParser(theEnv,"save-instances",EnvSaveInstancesDriver));
   }
 
 /******************************************************
@@ -375,6 +380,7 @@ globle long EnvBinaryLoadInstances(
 
    if (GenOpenReadBinary(theEnv,"bload-instances",theFile) == 0)
      {
+      OpenErrorMessage(theEnv,"bload-instances",theFile);
       SetEvaluationError(theEnv,TRUE);
       return(-1L);
      }
@@ -437,6 +443,32 @@ globle long EnvBinaryLoadInstances(
 globle long EnvSaveInstances(
   void *theEnv,
   const char *file,
+  int saveCode)
+  {
+   return EnvSaveInstancesDriver(theEnv,file,saveCode,NULL,TRUE);
+  }
+
+/*******************************************************
+  NAME         : EnvSaveInstancesDriver
+  DESCRIPTION  : Saves current instances to named file
+  INPUTS       : 1) The name of the output file
+                 2) A flag indicating whether to
+                    save local (current module only)
+                    or visible instances
+                    LOCAL_SAVE or VISIBLE_SAVE
+                 3) A list of expressions containing
+                    the names of classes for which
+                    instances are to be saved
+                 4) A flag indicating if the subclasses
+                    of specified classes shoudl also
+                    be processed
+  RETURNS      : The number of instances saved
+  SIDE EFFECTS : Instances saved to file
+  NOTES        : None
+ *******************************************************/
+globle long EnvSaveInstancesDriver(
+  void *theEnv,
+  const char *file,
   int saveCode,
   EXPRESSION *classExpressionList,
   intBool inheritFlag)
@@ -497,11 +529,31 @@ globle long EnvSaveInstances(
 globle long BinarySaveInstancesCommand(
   void *theEnv)
   {
-   return(InstancesSaveCommandParser(theEnv,"bsave-instances",EnvBinarySaveInstances));
+   return(InstancesSaveCommandParser(theEnv,"bsave-instances",EnvBinarySaveInstancesDriver));
   }
 
 /*******************************************************
   NAME         : EnvBinarySaveInstances
+  DESCRIPTION  : Saves current instances to binary file
+  INPUTS       : 1) The name of the output file
+                 2) A flag indicating whether to
+                    save local (current module only)
+                    or visible instances
+                    LOCAL_SAVE or VISIBLE_SAVE
+  RETURNS      : The number of instances saved
+  SIDE EFFECTS : Instances saved to file
+  NOTES        : None
+ *******************************************************/
+globle long EnvBinarySaveInstances(
+  void *theEnv,
+  const char *file,
+  int saveCode)
+  {
+   return EnvBinarySaveInstancesDriver(theEnv,file,saveCode,NULL,TRUE);
+  }
+  
+/*******************************************************
+  NAME         : EnvBinarySaveInstancesDriver
   DESCRIPTION  : Saves current instances to binary file
   INPUTS       : 1) The name of the output file
                  2) A flag indicating whether to
@@ -518,7 +570,7 @@ globle long BinarySaveInstancesCommand(
   SIDE EFFECTS : Instances saved to file
   NOTES        : None
  *******************************************************/
-globle long EnvBinarySaveInstances(
+globle long EnvBinarySaveInstancesDriver(
   void *theEnv,
   const char *file,
   int saveCode,
@@ -676,7 +728,9 @@ static DATA_OBJECT *ProcessSaveClassList(
       if (saveCode == LOCAL_SAVE)
         theDefclass = LookupDefclassAnywhere(theEnv,currentModule,DOToString(tmp));
       else
-        theDefclass = LookupDefclassInScope(theEnv,DOToString(tmp));
+        //theDefclass = LookupDefclassInScope(theEnv,DOToString(tmp));
+        { theDefclass = LookupDefclassByMdlOrScope(theEnv,DOToString(tmp)); }
+
       if (theDefclass == NULL)
         goto ProcessClassListError;
       else if (theDefclass->abstract && (inheritFlag == FALSE))
@@ -965,6 +1019,9 @@ static void MarkSingleInstance(
   void *theOutput,
   INSTANCE_TYPE *theInstance)
   {
+#if MAC_XCD
+#pragma unused(theOutput)
+#endif
    INSTANCE_SLOT *sp;
    long i, j;
 
@@ -1363,7 +1420,8 @@ static intBool LoadSingleBinaryInstance(
       Make sure the defclass exists
       and check the slot count
       ============================= */
-   theDefclass = LookupDefclassInScope(theEnv,ValueToString(className));
+   //theDefclass = LookupDefclassInScope(theEnv,ValueToString(className));
+   theDefclass = LookupDefclassByMdlOrScope(theEnv,ValueToString(className));
    if (theDefclass == NULL)
      {
       ClassExistError(theEnv,"bload-instances",ValueToString(className));
@@ -1662,11 +1720,9 @@ globle long BinaryLoadInstances(
 #if BSAVE_INSTANCES
 globle long BinarySaveInstances(
   const char *file,
-  int saveCode,
-  EXPRESSION *classExpressionList,
-  intBool inheritFlag)
+  int saveCode)
   {
-   return EnvBinarySaveInstances(GetCurrentEnvironment(),file,saveCode,classExpressionList,inheritFlag);
+   return EnvBinarySaveInstances(GetCurrentEnvironment(),file,saveCode);
   }
 #endif
 
@@ -1698,11 +1754,9 @@ globle long RestoreInstancesFromString(
 
 globle long SaveInstances(
   const char *file,
-  int saveCode,
-  EXPRESSION *classExpressionList,
-  intBool inheritFlag)
+  int saveCode)
   {
-   return EnvSaveInstances(GetCurrentEnvironment(),file,saveCode,classExpressionList,inheritFlag);
+   return EnvSaveInstances(GetCurrentEnvironment(),file,saveCode);
   }
 
 #endif /* ALLOW_ENVIRONMENT_GLOBALS */

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  01/25/15            */
    /*                                                     */
    /*         DEFFACTS BASIC COMMANDS HEADER FILE         */
    /*******************************************************/
@@ -32,6 +32,10 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
 /*                                                           */
 /*************************************************************/
 
@@ -127,6 +131,9 @@ static void ResetDeffactsAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
    DATA_OBJECT result;
    struct deffacts *theDeffacts = (struct deffacts *) theConstruct;
 
@@ -154,7 +161,7 @@ static void ClearDeffacts(
    /*=====================================*/
 
    stub = GenConstant(theEnv,FCALL,FindFunction(theEnv,"assert"));
-   stub->argList = GenConstant(theEnv,DEFTEMPLATE_PTR,EnvFindDeftemplate(theEnv,"initial-fact"));
+   stub->argList = GenConstant(theEnv,DEFTEMPLATE_PTR,EnvFindDeftemplateInModule(theEnv,"initial-fact"));
    ExpressionInstall(theEnv,stub);
 
    /*=============================================*/
@@ -179,6 +186,9 @@ static void ClearDeffacts(
 
    AddConstructToModule(&newDeffacts->header);
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 

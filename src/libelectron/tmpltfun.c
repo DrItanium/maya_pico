@@ -117,7 +117,7 @@ globle void DeftemplateFunctions(
    EnvDefineFunction(theEnv,"duplicate",'u', PTIEF DuplicateCommand,"DuplicateCommand");
 
    EnvDefineFunction2(theEnv,"deftemplate-slot-names",'u', PTIEF DeftemplateSlotNamesFunction,
-                   "DeftemplateSlotNamesFunction","11z");
+                   "DeftemplateSlotNamesFunction", "11z");
    EnvDefineFunction2(theEnv,"deftemplate-slot-default-value",'u',PTIEF DeftemplateSlotDefaultValueFunction,
                    "DeftemplateSlotDefaultValueFunction","22w");
    EnvDefineFunction2(theEnv,"deftemplate-slot-cardinality",'u',PTIEF DeftemplateSlotCardinalityFunction,
@@ -151,6 +151,9 @@ globle void DeftemplateFunctions(
    FuncSeqOvlFlags(theEnv,"modify",FALSE,FALSE);
    FuncSeqOvlFlags(theEnv,"duplicate",FALSE,FALSE);
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 

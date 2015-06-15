@@ -301,6 +301,9 @@ static void MarkDefclassAndSlots(
    MARK_INFO *markInfo = (MARK_INFO *) vTheBuffer;
    long i;
    PACKED_LOCATION_INFO theLocationInfo;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    theDefclass->header.bsaveID = markInfo->classCount++;
    for (i = 0 ; i < theDefclass->slotCount ; i++)
@@ -364,6 +367,9 @@ static void InitObjectsCode(
   int imageID,
   int maxIndices)
   {
+#if MAC_XCD
+#pragma unused(maxIndices)
+#endif
 
    fprintf(initFP,"   ObjectsRunTimeInitialize(theEnv,%s%d_1,%s%d_1,%s%d_1,%s%d);\n",
                       ClassHashPrefix(),imageID,SlotNameHashPrefix(),imageID,

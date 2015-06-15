@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.30  01/25/15            */
    /*                                                     */
    /*                 DEFTEMPLATE MODULE                  */
    /*******************************************************/
@@ -41,6 +41,10 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
 /*                                                           */
 /*************************************************************/
 
@@ -169,6 +173,9 @@ static void DestroyDeftemplateAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
    struct deftemplate *theDeftemplate = (struct deftemplate *) theConstruct;
    
    if (theDeftemplate == NULL) return;
@@ -197,7 +204,7 @@ static void InitializeDeftemplateModules(
 #else
                                     NULL,
 #endif
-                                    EnvFindDeftemplate);
+                                    EnvFindDeftemplateInModule);
 
 #if (! BLOAD_ONLY) && (! RUN_TIME) && DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"deftemplate",SYMBOL);
@@ -244,7 +251,19 @@ globle void *EnvFindDeftemplate(
   void *theEnv,
   const char *deftemplateName)
   {  
-   return(FindNamedConstruct(theEnv,deftemplateName,DeftemplateData(theEnv)->DeftemplateConstruct)); 
+   return(FindNamedConstructInModuleOrImports(theEnv,deftemplateName,DeftemplateData(theEnv)->DeftemplateConstruct)); 
+  }
+
+/*****************************************************/
+/* EnvFindDeftemplateInModule: Searches for a deftemplate in */
+/*   the list of deftemplates. Returns a pointer to  */
+/*   the deftemplate if  found, otherwise NULL.      */
+/*****************************************************/
+globle void *EnvFindDeftemplateInModule(
+  void *theEnv,
+  const char *deftemplateName)
+  {  
+   return(FindNamedConstructInModule(theEnv,deftemplateName,DeftemplateData(theEnv)->DeftemplateConstruct));
   }
 
 /***********************************************************************/
@@ -286,7 +305,6 @@ static void ReturnDeftemplate(
   void *theEnv,
   void *vTheConstruct)
   {
-
 #if (! BLOAD_ONLY) && (! RUN_TIME)
    struct deftemplate *theConstruct = (struct deftemplate *) vTheConstruct;
    struct templateSlot *slotPtr;
@@ -339,7 +357,6 @@ static void DestroyDeftemplate(
   void *theEnv,
   void *vTheConstruct)
   {
-
    struct deftemplate *theConstruct = (struct deftemplate *) vTheConstruct;
 #if (! BLOAD_ONLY) && (! RUN_TIME)
    struct templateSlot *slotPtr, *nextSlot;
@@ -378,7 +395,6 @@ globle void ReturnSlots(
   void *theEnv,
   struct templateSlot *slotPtr)
   {
-
 #if (! BLOAD_ONLY) && (! RUN_TIME)
    struct templateSlot *nextSlot;
 
@@ -416,6 +432,9 @@ globle void IncrementDeftemplateBusyCount(
   void *vTheTemplate)
   {
    struct deftemplate *theTemplate = (struct deftemplate *) vTheTemplate;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    theTemplate->busyCount++;
   }
@@ -430,6 +449,9 @@ globle void *EnvGetNextFactInTemplate(
   void *theTemplate,
   void *factPtr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    if (factPtr == NULL)
      { return((void *) ((struct deftemplate *) theTemplate)->factList); }
 
@@ -493,6 +515,9 @@ static void RuntimeDeftemplateAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
    struct deftemplate *theDeftemplate = (struct deftemplate *) theConstruct;
    
    SearchForHashedPatternNodes(theEnv,theDeftemplate->patternNetwork);

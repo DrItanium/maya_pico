@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.30  02/05/15            */
    /*                                                     */
    /*                 DEFFUNCTION MODULE                  */
    /*******************************************************/
@@ -43,6 +43,14 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
+/*                                                           */
+/*            Added code to keep track of pointers to        */
+/*            constructs that are contained externally to    */
+/*            to constructs, DanglingConstructs.             */
 /*                                                           */
 /*************************************************************/
 
@@ -170,7 +178,7 @@ globle void SetupDeffunctions(
 #else
                                     NULL,
 #endif
-                                    EnvFindDeffunction);
+                                    EnvFindDeffunctionInModule);
 
    DeffunctionData(theEnv)->DeffunctionConstruct = AddConstruct(theEnv,"deffunction","deffunctions",
 #if (! BLOAD_ONLY) && (! RUN_TIME)
@@ -256,6 +264,9 @@ static void DeallocateDeffunctionData(
       rtn_struct(theEnv,deffunctionModule,theModuleItem);
      }
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
   
@@ -269,6 +280,9 @@ static void DestroyDeffunctionAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
 #if (! BLOAD_ONLY) && (! RUN_TIME)
    struct deffunctionStruct *theDeffunction = (struct deffunctionStruct *) theConstruct;
    
@@ -280,6 +294,9 @@ static void DestroyDeffunctionAction(
    
    rtn_struct(theEnv,deffunctionStruct,theDeffunction);
 #else
+#if MAC_XCD
+#pragma unused(theConstruct,theEnv)
+#endif
 #endif
   }
 #endif
@@ -298,7 +315,24 @@ globle void *EnvFindDeffunction(
   void *theEnv,
   const char *dfnxModuleAndName)
   {
-   return(FindNamedConstruct(theEnv,dfnxModuleAndName,DeffunctionData(theEnv)->DeffunctionConstruct));
+   return(FindNamedConstructInModuleOrImports(theEnv,dfnxModuleAndName,DeffunctionData(theEnv)->DeffunctionConstruct));
+  }
+
+/***************************************************
+  NAME         : EnvFindDeffunctionInModule
+  DESCRIPTION  : Searches for a deffunction
+  INPUTS       : The name of the deffunction
+                 (possibly including a module name)
+  RETURNS      : Pointer to the deffunction if
+                 found, otherwise NULL
+  SIDE EFFECTS : None
+  NOTES        : None
+ ***************************************************/
+globle void *EnvFindDeffunctionInModule(
+  void *theEnv,
+  const char *dfnxModuleAndName)
+  {
+   return(FindNamedConstructInModule(theEnv,dfnxModuleAndName,DeffunctionData(theEnv)->DeffunctionConstruct));
   }
 
 /***************************************************
@@ -351,7 +385,6 @@ globle intBool EnvUndeffunction(
   void *theEnv,
   void *vptr)
   {
-
 #if BLOAD_ONLY || RUN_TIME
    return(FALSE);
 #else
@@ -627,6 +660,11 @@ static void PrintDeffunctionCall(
      }
    EnvPrintRouter(theEnv,logName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logName)
+#pragma unused(value)
+#endif
 #endif
   }
 
@@ -693,6 +731,13 @@ static void IncrementDeffunctionBusyCount(
   void *theEnv,
   void *value)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+#if (! RUN_TIME) && (! BLOAD_ONLY)
+   if (! ConstructData(theEnv)->ParsingConstruct)
+     { ConstructData(theEnv)->DanglingConstructs++; }
+#endif
 
    ((DEFFUNCTION *) value)->busy++;
   }
@@ -946,6 +991,9 @@ static unsigned DeffunctionWatchAccess(
   unsigned newState,
   EXPRESSION *argExprs)
   {
+#if MAC_XCD
+#pragma unused(code)
+#endif
 
    return(ConstructSetWatchAccess(theEnv,DeffunctionData(theEnv)->DeffunctionConstruct,newState,argExprs,
                                     EnvGetDeffunctionWatch,EnvSetDeffunctionWatch));
@@ -970,6 +1018,9 @@ static unsigned DeffunctionWatchPrint(
   int code,
   EXPRESSION *argExprs)
   {
+#if MAC_XCD
+#pragma unused(code)
+#endif
 
    return(ConstructPrintWatchAccess(theEnv,DeffunctionData(theEnv)->DeffunctionConstruct,logName,argExprs,
                                     EnvGetDeffunctionWatch,EnvSetDeffunctionWatch));
@@ -991,6 +1042,9 @@ globle void EnvSetDeffunctionWatch(
   unsigned newState,
   void *dptr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    ((DEFFUNCTION *) dptr)->trace = (unsigned short) newState;
   }
@@ -1009,6 +1063,9 @@ globle unsigned EnvGetDeffunctionWatch(
   void *theEnv,
   void *dptr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((DEFFUNCTION *) dptr)->trace);
   }

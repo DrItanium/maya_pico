@@ -109,13 +109,10 @@ globle void InitializeAgenda(
    EnvDefineFunction2(theEnv,"refresh", 'v', PTIEF RefreshCommand, "RefreshCommand", "11w");
 
    EnvDefineFunction2(theEnv,"refresh-agenda",'v',
-                   PTIEF RefreshAgendaCommand,
-                   "RefreshAgendaCommand", 
-                   "01w");
+                   PTIEF RefreshAgendaCommand,"RefreshAgendaCommand", "01w");
    EnvDefineFunction2(theEnv,"get-salience-evaluation",'w',
                    PTIEF GetSalienceEvaluationCommand,
-                   "GetSalienceEvaluationCommand", 
-                   "00");
+                   "GetSalienceEvaluationCommand", "00");
    EnvDefineFunction2(theEnv,"set-salience-evaluation",'w',
                    PTIEF SetSalienceEvaluationCommand,
                    "SetSalienceEvaluationCommand",
@@ -344,6 +341,9 @@ globle struct partialMatch *EnvGetActivationBasis(
   void *theEnv,
   void *actPtr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    return ((struct activation *) actPtr)->basis;
   }
 
@@ -355,6 +355,10 @@ globle const char *EnvGetActivationName(
   void *theEnv,
   void *actPtr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
    return(ValueToString(((struct activation *) actPtr)->theRule->header.name)); 
   }
 
@@ -366,6 +370,9 @@ globle struct defrule *EnvGetActivationRule(
   void *theEnv,
   void *actPtr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    return ((struct activation *) actPtr)->theRule;
   }
 
@@ -377,6 +384,9 @@ globle int EnvGetActivationSalience(
   void *theEnv,
   void *actPtr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    return ((struct activation *) actPtr)->salience;
   }
 
@@ -390,6 +400,10 @@ globle int EnvSetActivationSalience(
   int value)
   {
    int temp;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
    temp = ((struct activation *) actPtr)->salience;
    ((struct activation *) actPtr)->salience = value;
    return(temp);

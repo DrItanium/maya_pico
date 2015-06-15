@@ -135,6 +135,10 @@ static int CheckFunctionReturnType(
         if (constraints->instanceAddressesAllowed) return(TRUE);
         else return(FALSE);
 
+      case 'y':
+        if (constraints->factAddressesAllowed) return(TRUE);
+        else return(FALSE);
+
       case 'o':
         if (constraints->instanceNamesAllowed) return(TRUE);
         else return(FALSE);
@@ -469,6 +473,13 @@ globle intBool CheckAllowedClassesConstraint(
 
    return(FALSE);
 #else
+
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(type)
+#pragma unused(vPtr)
+#pragma unused(constraints)
+#endif
 
    return(TRUE);
 #endif     

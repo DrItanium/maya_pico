@@ -205,6 +205,9 @@ static void MarkDefinstancesItems(
   struct constructHeader *theDefinstances,
   void *userBuffer)
   {
+#if MAC_XCD
+#pragma unused(userBuffer)
+#endif
 
    MarkConstructHeaderNeededItems(theDefinstances,DefinstancesBinaryData(theEnv)->DefinstancesCount++);
    ExpressionData(theEnv)->ExpressionCount += ExpressionSize(((DEFINSTANCES *) theDefinstances)->mkinstance);

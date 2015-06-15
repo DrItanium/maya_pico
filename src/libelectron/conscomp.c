@@ -200,7 +200,7 @@ globle void ConstructsToCCommand(
    int argCount;
    long long id, max; 
    int nameLength, pathLength;
-#if WIN_MVC 
+#if VAX_VMS || WIN_MVC
    int i;
 #endif
 
@@ -220,12 +220,12 @@ globle void ConstructsToCCommand(
    fileName = DOToString(theArg);
    nameLength = (int) strlen(fileName);
 
-   /*=================================*/
-   /* File names for the IBM PC can't */
-   /* contain a period.               */
-   /*=================================*/
+   /*================================*/
+   /* File names for the VAX and IBM */
+   /* PCs can't contain a period.    */
+   /*================================*/
 
-#if WIN_MVC 
+#if VAX_VMS || WIN_MVC
    for (i = 0 ; *(fileName+i) ; i++)
      {
       if (*(fileName+i) == '.')
@@ -425,7 +425,7 @@ static int ConstructsToC(
    fprintf(ConstructCompilerData(theEnv)->HeaderFP,"/****************************/\n");
    fprintf(ConstructCompilerData(theEnv)->HeaderFP,"/* EXTERN ARRAY DEFINITIONS */\n");
    fprintf(ConstructCompilerData(theEnv)->HeaderFP,"/****************************/\n\n");
-     
+
    /*================================================*/
    /* Write out the first portion of the fixup file. */
    /*================================================*/
@@ -579,6 +579,7 @@ static void WriteFunctionExternDeclarations(
 
          case 'a':
          case 'x':
+         case 'y':
            fprintf(fp,"void * ");
            break;
 
@@ -612,6 +613,7 @@ static void WriteFunctionExternDeclarations(
          case 'c':
          case 'a':
          case 'x':
+         case 'y':
          case 'v':
            if (theFunction->environmentAware) 
              { fprintf(fp,"void *"); }
@@ -1480,6 +1482,9 @@ static void MarkConstruct(
   void *vTheBuffer)
   {
    long *count = (long *) vTheBuffer;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    theConstruct->bsaveID = (*count)++;
   }
@@ -1608,6 +1613,9 @@ globle void ConstructModuleToCode(
 void ConstructsToCCommand(
   void *theEnv) 
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
   }
 
 #endif /* CONSTRUCT_COMPILER && (! RUN_TIME) */

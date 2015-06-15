@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  02/05/15            */
    /*                                                     */
    /*            MEMORY ALLOCATION HEADER FILE            */
    /*******************************************************/
@@ -34,6 +34,11 @@
 /*                                                           */
 /*            Converted API macros to function calls.        */
 /*                                                           */
+/*            Removed deallocating message parameter from    */
+/*            EnvReleaseMem.                                 */
+/*                                                           */
+/*            Removed support for BLOCK_MEMORY.              */
+/*                                                           */
 /*************************************************************/
 
 #ifndef _H_memalloc
@@ -46,7 +51,9 @@ struct chunkInfo;
 struct blockInfo;
 struct memoryPtr;
 
+#ifndef MEM_TABLE_SIZE
 #define MEM_TABLE_SIZE 500
+#endif
 
 #ifdef LOCALE
 #undef LOCALE
@@ -78,6 +85,11 @@ struct memoryPtr
   {
    struct memoryPtr *next;
   };
+
+#if (MEM_TABLE_SIZE > 0)
+/*
+ * Normal memory management case
+ */
 
 #define get_struct(theEnv,type) \
   ((MemoryData(theEnv)->MemoryTable[sizeof(struct type)] == NULL) ? \
@@ -128,6 +140,27 @@ struct memoryPtr
      MemoryData(theEnv)->MemoryTable[MemoryData(theEnv)->TempSize] =  MemoryData(theEnv)->TempMemoryPtr) : \
     (genfree(theEnv,(void *) ptr,MemoryData(theEnv)->TempSize),(struct memoryPtr *) ptr)))
 
+#else // MEM_TABLE_SIZE == 0
+/*
+ * Debug case (routes all memory management through genalloc/genfree to take advantage of
+ * platform, memory debugging aids)
+ */
+#define get_struct(theEnv,type) ((struct type *) genalloc(theEnv,sizeof(struct type)))
+
+#define rtn_struct(theEnv,type,struct_ptr) (genfree(theEnv,struct_ptr,sizeof(struct type)))
+
+#define rtn_sized_struct(theEnv,size,struct_ptr) (genfree(theEnv,struct_ptr,size))
+
+#define get_var_struct(theEnv,type,vsize) ((struct type *) genalloc(theEnv,(sizeof(struct type) + vsize)))
+
+#define rtn_var_struct(theEnv,type,vsize,struct_ptr) (genfree(theEnv,struct_ptr,sizeof(struct type)+vsize))
+
+#define get_mem(theEnv,size) ((struct type *) genalloc(theEnv,(size_t) (size)))
+
+#define rtn_mem(theEnv,size,ptr) (genfree(theEnv,ptr,size))
+
+#endif
+
 #define GenCopyMemory(type,cnt,dst,src) \
    memcpy((void *) (dst),(void *) (src),sizeof(type) * (size_t) (cnt))
 
@@ -139,12 +172,6 @@ struct memoryData
    long int MemoryCalls;
    intBool ConserveMemory;
    int (*OutOfMemoryFunction)(void *,size_t);
-#if BLOCK_MEMORY
-   struct blockInfo *TopMemoryBlock;
-   int BlockInfoSize;
-   int ChunkInfoSize;
-   int BlockMemoryInitialized;
-#endif
    struct memoryPtr *TempMemoryPtr;
    struct memoryPtr **MemoryTable;
    size_t TempSize;
@@ -162,7 +189,7 @@ struct memoryData
    LOCALE long                           EnvMemRequests(void *);
    LOCALE long                           UpdateMemoryUsed(void *,long int);
    LOCALE long                           UpdateMemoryRequests(void *,long int);
-   LOCALE long                           EnvReleaseMem(void *,long,int);
+   LOCALE long                           EnvReleaseMem(void *,long);
    LOCALE void                          *gm1(void *,size_t);
    LOCALE void                          *gm2(void *,size_t);
    LOCALE void                          *gm3(void *,size_t);
@@ -182,9 +209,9 @@ struct memoryData
    LOCALE intBool                        GetConserveMemory(void);
    LOCALE long int                       MemRequests(void);
    LOCALE long int                       MemUsed(void);
-   LOCALE long int                       ReleaseMem(long int,int);
+   LOCALE long int                       ReleaseMem(long);
    LOCALE intBool                        SetConserveMemory(intBool);
-   LOCALE int                          (*SetOutOfMemoryFunction(void *,int (*)(void *,size_t)))(void *,size_t);
+   LOCALE int                          (*SetOutOfMemoryFunction(int (*)(void *,size_t)))(void *,size_t);
  
 #endif /* ALLOW_ENVIRONMENT_GLOBALS */
 

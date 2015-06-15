@@ -124,8 +124,10 @@ globle void ExtendedMathFunctionDefinitions(
    EnvDefineFunction2(theEnv,"grad-deg", 'd', PTIEF GradDegFunction,  "GradDegFunction", "11n");
    EnvDefineFunction2(theEnv,"**",       'd', PTIEF PowFunction,      "PowFunction", "22n");
    EnvDefineFunction2(theEnv,"round",    'g', PTIEF RoundFunction,    "RoundFunction", "11n");
-   EnvDefineFunction2(theEnv,"multiply-add", 'n', PTIEF MultiplyAddFunction, "MultiplyAddFunction", "33n");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 
@@ -932,51 +934,6 @@ static double genacoth(
   {
    return((0.5) * log((num + 1.0) / (num - 1.0)));
   }
-
-void MultiplyAddFunction(void* theEnv, DATA_OBJECT_PTR result) {
-   DATA_OBJECT item1, item2, item3;
-   double fnum1, fnum2, fnum3;
-   long long lnum1, lnum2, lnum3;
-
-   if (EnvArgCountCheck(theEnv,"multiply-add",EXACTLY,3) == -1) {
-      result->type = INTEGER;
-      result->value = (void *) EnvAddLong(theEnv,0L);
-      return;
-   }
-
-   if (EnvArgTypeCheck(theEnv,"multiply-add",1,INTEGER_OR_FLOAT,&item1) == FALSE) {
-      result->type = INTEGER;
-      result->value = (void *) EnvAddLong(theEnv,0L);
-      return;
-   }
-
-   if (EnvArgTypeCheck(theEnv,"multiply-add",2,INTEGER_OR_FLOAT,&item2) == FALSE) {
-      result->type = INTEGER;
-      result->value = (void *) EnvAddLong(theEnv,0L);
-      return;
-   }
-
-   if (EnvArgTypeCheck(theEnv,"multiply-add",3,INTEGER_OR_FLOAT,&item3) == FALSE) {
-      result->type = INTEGER;
-      result->value = (void *) EnvAddLong(theEnv,0L);
-      return;
-   }
-
-   if ((item1.type == FLOAT) || (item2.type == FLOAT) || (item3.type == FLOAT)) {
-      fnum1 = CoerceToDouble(item1.type,item1.value);
-      fnum2 = CoerceToDouble(item2.type,item2.value);
-      fnum3 = CoerceToDouble(item3.type,item3.value);
-      result->type = FLOAT;
-      result->value = (void *) EnvAddDouble(theEnv, (fnum1 * fnum2) + fnum3);
-   } else {
-      lnum1 = DOToLong(item1);
-      lnum2 = DOToLong(item2);
-      lnum3 = DOToLong(item3);
-      result->type = INTEGER;
-      result->value = (void *) EnvAddLong(theEnv, (lnum1 * lnum2) + lnum3);
-   }
-}
-
 
 #endif
 

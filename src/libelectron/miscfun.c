@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.39  08/22/14            */
+   /*             CLIPS Version 6.31  05/18/15            */
    /*                                                     */
    /*            MISCELLANEOUS FUNCTIONS MODULE           */
    /*******************************************************/
@@ -58,9 +58,14 @@
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
-/*     Electron: 08/17/2013                                  */
-/*     - Architecture Detection functions are now defined    */
-/*       in this file                                        */
+/*            Removed deallocating message parameter from    */
+/*            EnvReleaseMem.                                 */
+/*                                                           */
+/*            Removed support for BLOCK_MEMORY.              */
+/*                                                           */
+/*      6.31: Refactored code to reduce header dependencies  */
+/*            in sysdep.c.                                   */
+/*                                                           */
 /*************************************************************/
 
 #define _MISCFUN_SOURCE_
@@ -85,7 +90,6 @@
 #endif
 
 #include "miscfun.h"
-
 
 #define MISCFUN_DATA 9
 
@@ -117,7 +121,7 @@ globle void MiscFunctionDefinitions(
    EnvDefineFunction2(theEnv,"gensym",           'w', PTIEF GensymFunction,      "GensymFunction", "00");
    EnvDefineFunction2(theEnv,"gensym*",          'w', PTIEF GensymStarFunction,  "GensymStarFunction", "00");
    EnvDefineFunction2(theEnv,"setgen",           'g', PTIEF SetgenFunction,      "SetgenFunction", "11i");
-   EnvDefineFunction2(theEnv,"system",           'v', PTIEF gensystem,           "gensystem", "1*k");
+   EnvDefineFunction2(theEnv,"system",           'v', PTIEF SystemCommand,       "SystemCommand", "1*k");
    EnvDefineFunction2(theEnv,"length",           'g', PTIEF LengthFunction,      "LengthFunction", "11q");
    EnvDefineFunction2(theEnv,"length$",          'g', PTIEF LengthFunction,      "LengthFunction", "11q");
    EnvDefineFunction2(theEnv,"time",             'd', PTIEF TimeFunction,        "TimeFunction", "00");
@@ -415,7 +419,7 @@ globle long long ReleaseMemCommand(
    /* and return the amount of memory freed. */
    /*========================================*/
 
-   return(EnvReleaseMem(theEnv,-1L,FALSE));
+   return(EnvReleaseMem(theEnv,-1L));
   }
 
 /******************************************/
@@ -581,6 +585,9 @@ globle void OptionsCommand(
 #if GENERIC
    EnvPrintRouter(theEnv,WDISPLAY,"Generic ");
 #endif
+#if VAX_VMS
+   EnvPrintRouter(theEnv,WDISPLAY,"VAX VMS ");
+#endif
 #if UNIX_V
    EnvPrintRouter(theEnv,WDISPLAY,"UNIX System V or 4.2BSD ");
 #endif
@@ -592,6 +599,9 @@ globle void OptionsCommand(
 #endif
 #if UNIX_7
    EnvPrintRouter(theEnv,WDISPLAY,"UNIX System III Version 7 or Sun Unix ");
+#endif
+#if MAC_XCD
+   EnvPrintRouter(theEnv,WDISPLAY,"Apple Macintosh with Xcode");
 #endif
 #if WIN_MVC
    EnvPrintRouter(theEnv,WDISPLAY,"Microsoft Windows with Microsoft Visual C++");
@@ -765,13 +775,6 @@ EnvPrintRouter(theEnv,WDISPLAY,"Debugging function package is ");
   EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
 
-EnvPrintRouter(theEnv,WDISPLAY,"Block memory is ");
-#if BLOCK_MEMORY
-  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
-#else
-  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
-#endif
-
 EnvPrintRouter(theEnv,WDISPLAY,"Window Interface flag is ");
 #if WINDOW_INTERFACE
    EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
@@ -792,7 +795,6 @@ EnvPrintRouter(theEnv,WDISPLAY,"Run time module is ");
 #else
   EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
-  // Call into our maya extensions printer
   MayaOptions(theEnv);
   }
 
@@ -804,7 +806,7 @@ globle void *OperatingSystemFunction(
   void *theEnv)
   {
    EnvArgCountCheck(theEnv,"operating-system",EXACTLY,0);
-   return EnvAddSymbol(theEnv, OS_NAME); 
+   return EnvAddSymbol(theEnv, OS_NAME);
   }
   
 /********************************************************************
@@ -1450,4 +1452,62 @@ globle double TimerFunction(
    return(gentime() - startTime);
   }
 
-/* BEGIN ELECTRON CODE */
+/***************************************/
+/* SystemCommand: H/L access routine   */
+/*   for the system function.          */
+/***************************************/
+globle void SystemCommand(
+  void *theEnv)
+  {
+   char *commandBuffer = NULL;
+   size_t bufferPosition = 0;
+   size_t bufferMaximum = 0;
+   int numa, i;
+   DATA_OBJECT tempValue;
+   const char *theString;
+
+   /*===========================================*/
+   /* Check for the corret number of arguments. */
+   /*===========================================*/
+
+   if ((numa = EnvArgCountCheck(theEnv,"system",AT_LEAST,1)) == -1) return;
+
+   /*============================================================*/
+   /* Concatenate the arguments together to form a single string */
+   /* containing the command to be sent to the operating system. */
+   /*============================================================*/
+
+   for (i = 1 ; i <= numa; i++)
+     {
+      EnvRtnUnknown(theEnv,i,&tempValue);
+      if ((GetType(tempValue) != STRING) &&
+          (GetType(tempValue) != SYMBOL))
+        {
+         SetHaltExecution(theEnv,TRUE);
+         SetEvaluationError(theEnv,TRUE);
+         ExpectedTypeError2(theEnv,"system",i);
+         return;
+        }
+
+     theString = DOToString(tempValue);
+
+     commandBuffer = AppendToString(theEnv,theString,commandBuffer,&bufferPosition,&bufferMaximum);
+    }
+
+   if (commandBuffer == NULL) return;
+
+   /*=======================================*/
+   /* Execute the operating system command. */
+   /*=======================================*/
+   
+   gensystem(theEnv,commandBuffer);
+
+   /*==================================================*/
+   /* Return the string buffer containing the command. */
+   /*==================================================*/
+
+   rm(theEnv,commandBuffer,bufferMaximum);
+
+   return;
+  }
+

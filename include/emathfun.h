@@ -87,8 +87,6 @@
    LOCALE double                         DegGradFunction(void *);
    LOCALE double                         GradDegFunction(void *);
    LOCALE double                         PowFunction(void *);
-   //Added by DrItanium, May 5th, 2013
-   LOCALE void                           MultiplyAddFunction(void *, DATA_OBJECT_PTR);
 #endif
 
 #endif /* _H_emathfun */

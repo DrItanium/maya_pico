@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.31  05/18/15            */
    /*                                                     */
    /*                 SYMBOL HEADER FILE                  */
    /*******************************************************/
@@ -57,6 +57,9 @@
 /*                                                           */
 /*            Added ValueToPointer and EnvValueToPointer     */
 /*            macros.                                        */
+/*                                                           */
+/*      6.31: Refactored code to reduce header dependencies  */
+/*            in sysdep.c.                                   */
 /*                                                           */
 /*************************************************************/
 
@@ -310,6 +313,7 @@ struct symbolData
    LOCALE void                           RestoreAtomicValueBuckets(void *);
    LOCALE void                          *EnvFalseSymbol(void *);
    LOCALE void                          *EnvTrueSymbol(void *);
+   LOCALE void                           EphemerateValue(void *,int,void *);
 
 #if ALLOW_ENVIRONMENT_GLOBALS
 

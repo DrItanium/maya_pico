@@ -1428,6 +1428,9 @@ static intBool EvaluateBadCall(
   void *value,
   DATA_OBJECT *result)
   {
+#if MAC_XCD
+#pragma unused(value)
+#endif
    PrintErrorID(theEnv,"PRCCODE",1,FALSE);
    EnvPrintRouter(theEnv,WERROR,"Attempted to call a deffunction/generic function ");
    EnvPrintRouter(theEnv,WERROR,"which does not exist.\n");

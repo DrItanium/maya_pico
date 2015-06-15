@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  01/25/15            */
    /*                                                     */
    /*              DEFTEMPLATE PARSER MODULE              */
    /*******************************************************/
@@ -29,6 +29,10 @@
 /*                                                           */
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
 /*                                                           */
 /*************************************************************/
 
@@ -66,6 +70,7 @@
 #include "tmpltbsc.h"
 
 #include "tmpltpsr.h"
+
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
@@ -84,7 +89,6 @@ globle int ParseDeftemplate(
   void *theEnv,
   const char *readSource)
   {
-
 #if (! RUN_TIME) && (! BLOAD_ONLY)
    SYMBOL_HN *deftemplateName;
    struct deftemplate *newDeftemplate;
@@ -107,7 +111,7 @@ globle int ParseDeftemplate(
 #if BLOAD || BLOAD_AND_BSAVE
    if ((Bloaded(theEnv) == TRUE) && (! ConstructData(theEnv)->CheckSyntaxMode))
      {
-      CannotLoadWithBloadMessage(theEnv,("deftemplate"));
+      CannotLoadWithBloadMessage(theEnv,"deftemplate");
       return(TRUE);
      }
 #endif
@@ -120,15 +124,14 @@ globle int ParseDeftemplate(
    DeftemplateData(theEnv)->DeletedTemplateDebugFlags = 0;
 #endif
 
-   deftemplateName = GetConstructNameAndComment(theEnv,readSource,&inputToken,("deftemplate"),
-                                                EnvFindDeftemplate,EnvUndeftemplate,("%"),
+   deftemplateName = GetConstructNameAndComment(theEnv,readSource,&inputToken,"deftemplate",
+                                                EnvFindDeftemplateInModule,EnvUndeftemplate,"%",
                                                 TRUE,TRUE,TRUE,FALSE);
    if (deftemplateName == NULL) return(TRUE);
 
-   if (ReservedPatternSymbol(theEnv,ValueToString(deftemplateName),("deftemplate")))
+   if (ReservedPatternSymbol(theEnv,ValueToString(deftemplateName),"deftemplate"))
      {
-      ReservedPatternSymbolErrorMsg(theEnv,ValueToString(deftemplateName),
-            ("a deftemplate name"));
+      ReservedPatternSymbolErrorMsg(theEnv,ValueToString(deftemplateName),"a deftemplate name");
       return(TRUE);
      }
 
@@ -194,8 +197,7 @@ globle int ParseDeftemplate(
    /*=======================================================================*/
 
 #if DEBUGGING_FUNCTIONS
-   if ((BitwiseTest(DeftemplateData(theEnv)->DeletedTemplateDebugFlags,0)) || 
-         EnvGetWatchItem(theEnv,"facts"))
+   if ((BitwiseTest(DeftemplateData(theEnv)->DeletedTemplateDebugFlags,0)) || EnvGetWatchItem(theEnv,"facts"))
      { EnvSetDeftemplateWatch(theEnv,ON,(void *) newDeftemplate); }
 #endif
 
@@ -208,6 +210,9 @@ globle int ParseDeftemplate(
    InstallDeftemplate(theEnv,newDeftemplate);
 
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
 
    return(FALSE);
@@ -623,7 +628,7 @@ static struct templateSlot *DefinedSlots(
 
       else
         {
-         SyntaxErrorMessage(theEnv,("slot attributes"));
+         SyntaxErrorMessage(theEnv,"slot attributes");
          ReturnSlots(theEnv,newSlot);
          DeftemplateData(theEnv)->DeftemplateError = TRUE;
          return(NULL);
@@ -660,7 +665,7 @@ static intBool ParseFacetAttribute(
    /* Parse the name of the facet. */
    /*==============================*/
    
-   SavePPBuffer(theEnv,(" "));
+   SavePPBuffer(theEnv," ");
    GetToken(theEnv,readSource,&inputToken);
    
    /*==================================*/
@@ -669,8 +674,8 @@ static intBool ParseFacetAttribute(
    
    if (inputToken.type != SYMBOL)
      {
-      if (multifacet) SyntaxErrorMessage(theEnv,("multifacet attribute"));
-      else SyntaxErrorMessage(theEnv,("facet attribute"));
+      if (multifacet) SyntaxErrorMessage(theEnv,"multifacet attribute");
+      else SyntaxErrorMessage(theEnv,"facet attribute");
       return(FALSE);
      }
      
@@ -691,8 +696,8 @@ static intBool ParseFacetAttribute(
      {
       if (tempFacet->value == facetName)
         {
-         if (multifacet) AlreadyParsedErrorMessage(theEnv,("multifacet "),ValueToString(facetName));
-         else AlreadyParsedErrorMessage(theEnv,("facet "),ValueToString(facetName));
+         if (multifacet) AlreadyParsedErrorMessage(theEnv,"multifacet ",ValueToString(facetName));
+         else AlreadyParsedErrorMessage(theEnv,"facet ",ValueToString(facetName));
          return(FALSE);
         }
      }
@@ -701,7 +706,7 @@ static intBool ParseFacetAttribute(
    /* Parse the value of the facet. */
    /*===============================*/
    
-   SavePPBuffer(theEnv,(" "));
+   SavePPBuffer(theEnv," ");
    GetToken(theEnv,readSource,&inputToken);
 
    while (inputToken.type != RPAREN)
@@ -712,10 +717,8 @@ static intBool ParseFacetAttribute(
    
       if (! ConstantType(inputToken.type))
         {
-         if (multifacet) SyntaxErrorMessage(theEnv,
-               ("multifacet attribute"));
-         else SyntaxErrorMessage(theEnv,
-               ("facet attribute"));
+         if (multifacet) SyntaxErrorMessage(theEnv,"multifacet attribute");
+         else SyntaxErrorMessage(theEnv,"facet attribute");
          ReturnExpression(theEnv,facetValue);
          return(FALSE);
         }
@@ -739,7 +742,7 @@ static intBool ParseFacetAttribute(
       /* Get the next token. */
       /*=====================*/
       
-      SavePPBuffer(theEnv,(" "));
+      SavePPBuffer(theEnv," ");
       GetToken(theEnv,readSource,&inputToken);
       
       /*===============================================*/
@@ -748,7 +751,7 @@ static intBool ParseFacetAttribute(
       
       if ((! multifacet) && (inputToken.type != RPAREN))
         {
-         SyntaxErrorMessage(theEnv,("facet attribute"));
+         SyntaxErrorMessage(theEnv,"facet attribute");
          ReturnExpression(theEnv,facetValue);
          return(FALSE);
         }
@@ -760,7 +763,7 @@ static intBool ParseFacetAttribute(
    
    PPBackup(theEnv);
    PPBackup(theEnv);
-   SavePPBuffer(theEnv,(")"));
+   SavePPBuffer(theEnv,")");
 
    /*====================================*/
    /* A facet must contain one constant. */
@@ -768,7 +771,7 @@ static intBool ParseFacetAttribute(
       
    if ((! multifacet) && (facetValue == NULL))
      {
-      SyntaxErrorMessage(theEnv,("facet attribute"));
+      SyntaxErrorMessage(theEnv,"facet attribute");
       return(FALSE);
      }
 
@@ -780,8 +783,7 @@ static intBool ParseFacetAttribute(
    
    if (multifacet)
      { 
-      facetPair->argList = GenConstant(theEnv,FCALL,
-            (void *) FindFunction(theEnv,("create$")));
+      facetPair->argList = GenConstant(theEnv,FCALL,(void *) FindFunction(theEnv,"create$"));
       facetPair->argList->argList = facetValue;
      }
    else
@@ -798,6 +800,7 @@ static intBool ParseFacetAttribute(
   }
 
 #endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+
 #endif /* DEFTEMPLATE_CONSTRUCT */
 
 

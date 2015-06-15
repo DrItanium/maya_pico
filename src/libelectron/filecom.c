@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.30  01/26/15            */
    /*                                                     */
    /*                 FILE COMMANDS MODULE                */
    /*******************************************************/
@@ -40,6 +40,9 @@
 /*                                                           */
 /*            Fixed linkage issue when BLOAD_ONLY compiler   */
 /*            flag is set to 1.                              */
+/*                                                           */
+/*            Added STDOUT and STDIN logical name            */
+/*            definitions.                                   */
 /*                                                           */
 /*************************************************************/
 
@@ -214,9 +217,12 @@ static int FindDribble(
   void *theEnv,
   const char *logicalName)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
-   if ( (strcmp(logicalName,"stdout") == 0) ||
-        (strcmp(logicalName,"stdin") == 0) ||
+   if ( (strcmp(logicalName,STDOUT) == 0) ||
+        (strcmp(logicalName,STDIN) == 0) ||
         (strcmp(logicalName,WPROMPT) == 0) ||
         (strcmp(logicalName,WTRACE) == 0) ||
         (strcmp(logicalName,WERROR) == 0) ||
@@ -385,6 +391,9 @@ static int ExitDribble(
   void *theEnv,
   int num)
   {
+#if MAC_XCD
+#pragma unused(num)
+#endif
 
    if (FileCommandData(theEnv)->DribbleCurrentPosition > 0)
      { fprintf(FileCommandData(theEnv)->DribbleFP,"%s",FileCommandData(theEnv)->DribbleBuffer); }
@@ -567,8 +576,11 @@ static int FindBatch(
   void *theEnv,
   const char *logicalName)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
-   if (strcmp(logicalName,"stdin") == 0)
+   if (strcmp(logicalName,STDIN) == 0)
      { return(TRUE); }
 
    return(FALSE);
@@ -609,7 +621,7 @@ globle int LLGetcBatch(
 
       if (rv == EOF)
         {
-         if (FileCommandData(theEnv)->BatchCurrentPosition > 0) EnvPrintRouter(theEnv,"stdout",(char *) FileCommandData(theEnv)->BatchBuffer);
+         if (FileCommandData(theEnv)->BatchCurrentPosition > 0) EnvPrintRouter(theEnv,STDOUT,(char *) FileCommandData(theEnv)->BatchBuffer);
          flag = RemoveBatch(theEnv);
         }
      }
@@ -622,7 +634,7 @@ globle int LLGetcBatch(
 
    if (rv == EOF)
      {
-      if (FileCommandData(theEnv)->BatchCurrentPosition > 0) EnvPrintRouter(theEnv,"stdout",(char *) FileCommandData(theEnv)->BatchBuffer);
+      if (FileCommandData(theEnv)->BatchCurrentPosition > 0) EnvPrintRouter(theEnv,STDOUT,(char *) FileCommandData(theEnv)->BatchBuffer);
       EnvDeleteRouter(theEnv,"batch");
       RemoveBatch(theEnv);
       if (returnOnEOF == TRUE)
@@ -645,7 +657,7 @@ globle int LLGetcBatch(
 
    if ((char) rv == '\n')
      {
-      EnvPrintRouter(theEnv,"stdout",(char *) FileCommandData(theEnv)->BatchBuffer);
+      EnvPrintRouter(theEnv,STDOUT,(char *) FileCommandData(theEnv)->BatchBuffer);
       FileCommandData(theEnv)->BatchCurrentPosition = 0;
       if ((FileCommandData(theEnv)->BatchBuffer != NULL) && (FileCommandData(theEnv)->BatchMaximumPosition > BUFFER_SIZE))
         {
@@ -677,6 +689,9 @@ static int UngetcBatch(
   int ch,
   const char *logicalName)
   {
+#if MAC_XCD
+#pragma unused(logicalName)
+#endif
 
    if (FileCommandData(theEnv)->BatchCurrentPosition > 0) FileCommandData(theEnv)->BatchCurrentPosition--;
    if (FileCommandData(theEnv)->BatchBuffer != NULL) FileCommandData(theEnv)->BatchBuffer[FileCommandData(theEnv)->BatchCurrentPosition] = EOS;
@@ -693,6 +708,9 @@ static int ExitBatch(
   void *theEnv,
   int num)
   {
+#if MAC_XCD
+#pragma unused(num)
+#endif
    CloseAllBatchSources(theEnv);
    return(1);
   }
@@ -998,7 +1016,7 @@ globle void CloseAllBatchSources(
 
    if (FileCommandData(theEnv)->BatchBuffer != NULL)
      {
-      if (FileCommandData(theEnv)->BatchCurrentPosition > 0) EnvPrintRouter(theEnv,"stdout",(char *) FileCommandData(theEnv)->BatchBuffer);
+      if (FileCommandData(theEnv)->BatchCurrentPosition > 0) EnvPrintRouter(theEnv,STDOUT,(char *) FileCommandData(theEnv)->BatchBuffer);
       rm(theEnv,FileCommandData(theEnv)->BatchBuffer,FileCommandData(theEnv)->BatchMaximumPosition);
       FileCommandData(theEnv)->BatchBuffer = NULL;
       FileCommandData(theEnv)->BatchCurrentPosition = 0;
@@ -1151,7 +1169,6 @@ globle int EnvBatchStar(
   void *theEnv,
   const char *fileName)
   {
-
    PrintErrorID(theEnv,"FILECOM",1,FALSE);
    EnvPrintRouter(theEnv,WERROR,"Function batch* does not work in run time modules.\n");
    return(FALSE);

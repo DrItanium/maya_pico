@@ -120,6 +120,9 @@ static void InitDefmoduleCode(
   int imageID,
   int maxIndices)
   {
+#if MAC_XCD
+#pragma unused(maxIndices)
+#endif
 
    if (EnvGetNextDefmodule(theEnv,NULL) != NULL)
      { fprintf(initFP,"   SetListOfDefmodules(theEnv,(void *) %s%d_1);\n",DefmodulePrefix(),imageID); }

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.31  06/10/15            */
    /*                                                     */
    /*                   DEVELOPER MODULE                  */
    /*******************************************************/
@@ -34,6 +34,8 @@
 /*                                                           */
 /*            Replaced deprecated WCLIPS logical name with   */
 /*            WPROMPT.                                       */
+/*                                                           */
+/*      6.31: Crash fix for show-opn.                        */
 /*                                                           */
 /*************************************************************/
 
@@ -86,7 +88,7 @@ globle void DeveloperCommands(
    EnvDefineFunction2(theEnv,"primitives-usage",'v', PTIEF PrimitiveTablesUsage,"PrimitiveTablesUsage","00");
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
-   EnvDefineFunction2(theEnv,"validate-fact-integrity", 'b', PTIEF ValidateFactIntegrity, "ValidateFactIntegrity", "00");
+   EnvDefineFunction2(theEnv,"validate-fact-integrity", 'b', ValidateFactIntegrity, "ValidateFactIntegrity", "00");
 
    EnvDefineFunction2(theEnv,"show-fpn",'v', PTIEF ShowFactPatternNetwork,"ShowFactPatternNetwork","11w");
    EnvDefineFunction2(theEnv,"show-fht",'v', PTIEF ShowFactHashTable,"ShowFactHashTable","00");
@@ -282,11 +284,14 @@ globle void PrimitiveTablesUsage(
   }
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
+
 /***********************************************/
 /* ValidateFactIntegrity: Command for checking */
 /*   the facts for atom value integrity.       */
 /***********************************************/
-globle intBool ValidateFactIntegrity(void *theEnv) {
+globle intBool ValidateFactIntegrity(
+  void *theEnv)
+  {
    struct fact *theFact;
    struct multifield *theSegment;
    int i;
@@ -294,41 +299,41 @@ globle intBool ValidateFactIntegrity(void *theEnv) {
    FLOAT_HN *theFloat;
    INTEGER_HN *theInteger;
      
-   if (((struct environmentData *) theEnv)->initialized == FALSE) { 
-      return TRUE; 
-   }
+   if (((struct environmentData *) theEnv)->initialized == FALSE)
+     { return TRUE; }
 
    for (theFact = (struct fact *) EnvGetNextFact(theEnv,NULL);
         theFact != NULL;
-        theFact = (struct fact *) EnvGetNextFact(theEnv,theFact)) {
-      if (theFact->factHeader.busyCount <= 0) { 
-         return FALSE; 
-      }
+        theFact = (struct fact *) EnvGetNextFact(theEnv,theFact))
+     {
+      if (theFact->factHeader.busyCount <= 0)
+        { return FALSE; }
       
       theSegment = &theFact->theProposition;
       
-      for (i = 0 ; i < (int) theSegment->multifieldLength ; i++) {
+      for (i = 0 ; i < (int) theSegment->multifieldLength ; i++)
+        {
          if ((theSegment->theFields[i].type == SYMBOL) ||
              (theSegment->theFields[i].type == STRING) ||
-             (theSegment->theFields[i].type == INSTANCE_NAME)) {
+             (theSegment->theFields[i].type == INSTANCE_NAME))
+           {
             theSymbol = (SYMBOL_HN *) theSegment->theFields[i].value;
-            if (theSymbol->count <= 0) {
-               return FALSE; 
-            }
-         }
-
-         if (theSegment->theFields[i].type == INTEGER) {
-            theInteger = (INTEGER_HN *) theSegment->theFields[i].value;
-            if (theInteger->count <= 0) { 
-               return FALSE; 
-            }
+            if (theSymbol->count <= 0)
+              { return FALSE; }
            }
 
-         if (theSegment->theFields[i].type == FLOAT) {
+         if (theSegment->theFields[i].type == INTEGER)
+           {
+            theInteger = (INTEGER_HN *) theSegment->theFields[i].value;
+            if (theInteger->count <= 0)
+              { return FALSE; }
+           }
+
+         if (theSegment->theFields[i].type == FLOAT)
+           {
             theFloat = (FLOAT_HN *) theSegment->theFields[i].value;
-            if (theFloat->count <= 0) { 
-               return FALSE; 
-            }
+            if (theFloat->count <= 0)
+              { return FALSE; }
            }
         }
      }
@@ -456,7 +461,7 @@ static void PrintOPNLevel(
       EnvPrintRouter(theEnv,WDISPLAY,pptr->endSlot ? "EPF#" : "PF#");
       PrintLongInteger(theEnv,WDISPLAY,(long long) pptr->whichField);
       EnvPrintRouter(theEnv,WDISPLAY," ");
-      EnvPrintRouter(theEnv,WDISPLAY,pptr->multifieldNode ? "$? " :  "? ");
+      EnvPrintRouter(theEnv,WDISPLAY,pptr->multifieldNode ? "$? " : "? ");
       if (pptr->networkTest != NULL)
         PrintExpression(theEnv,WDISPLAY,pptr->networkTest);
       EnvPrintRouter(theEnv,WDISPLAY,"\n");
@@ -474,13 +479,13 @@ static void PrintOPNLevel(
              }
          if (alphaPtr->slotbmp != NULL)
            {
-            sbmp = (SLOT_BITMAP *) ValueToBitMap(pptr->alphaNode->slotbmp);
+            sbmp = (SLOT_BITMAP *) ValueToBitMap(alphaPtr->slotbmp);
             EnvPrintRouter(theEnv,WDISPLAY," *** Slots:");
             for (i = NAME_ID ; i <= sbmp->maxid ; i++)
               if (TestBitMap(sbmp->map,i))
                 {
                  for (uptr = pptr ; uptr != NULL ; uptr  = uptr->lastLevel)
-                   if ((unsigned)(uptr->slotNameID) == i)
+                   if (uptr->slotNameID == i)
                      break;
                  if (uptr == NULL)
                    {
@@ -575,8 +580,13 @@ globle void InstanceTableUsage(
 static void ExamineMemory(
   void *theEnv,
   struct joinNode *theJoin,
-  struct betaMemory *theMemory)  {
-   if (theMemory->size > 10000) { 
+  struct betaMemory *theMemory)  
+  {
+#if MAC_XCD
+#pragma unused(theJoin)
+#endif
+   if (theMemory->size > 10000)
+     { 
       /* Set a break point here */
      }
   }
@@ -586,27 +596,23 @@ static void ExamineMemory(
 /*************************/
 static void TraverseBetaMemories(
   void *theEnv,
-  struct joinNode *theJoin) {
-   if (theJoin == NULL) { 
-      return; 
-   }
+  struct joinNode *theJoin)
+  {
+   if (theJoin == NULL) 
+     { return; }
      
-   if (theJoin->lastLevel != NULL) {
-      TraverseBetaMemories(theEnv,theJoin->lastLevel); 
-   }
+   if (theJoin->lastLevel != NULL)
+     { TraverseBetaMemories(theEnv,theJoin->lastLevel); }
      
-   if (theJoin->depth > 2) { 
-      ExamineMemory(theEnv,theJoin,theJoin->leftMemory); 
-   }
+   if (theJoin->depth > 2)
+     { ExamineMemory(theEnv,theJoin,theJoin->leftMemory); }
    
-   if (theJoin->joinFromTheRight) { 
-      TraverseBetaMemories(theEnv,(struct joinNode *) theJoin->rightSideEntryStructure); 
-   }
+   if (theJoin->joinFromTheRight)
+     { TraverseBetaMemories(theEnv,(struct joinNode *) theJoin->rightSideEntryStructure); }
 
    if ((theJoin->joinFromTheRight) &&
-       (((struct joinNode *) (theJoin->rightSideEntryStructure))->depth > 1)) {
-      ExamineMemory(theEnv,theJoin,theJoin->rightMemory); 
-   }
+       (((struct joinNode *) (theJoin->rightSideEntryStructure))->depth > 1))
+     { ExamineMemory(theEnv,theJoin,theJoin->rightMemory); }
   }
 
 /***********************************/  
@@ -615,12 +621,17 @@ static void TraverseBetaMemories(
 static void ValidateRuleBetaMemoriesAction(
   void *theEnv,
   struct constructHeader *theConstruct,
-  void *buffer) {
-   struct defrule *rulePtr;
+  void *buffer)
+  {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
+   struct defrule *rulePtr, *tmpPtr;
 
-   for (rulePtr = (struct defrule *) theConstruct;
+   for (rulePtr = (struct defrule *) theConstruct, tmpPtr = rulePtr;
         rulePtr != NULL;
-        rulePtr = rulePtr->disjunct) {
+        rulePtr = rulePtr->disjunct)
+     {
       TraverseBetaMemories(theEnv,rulePtr->lastJoin);
      }
   }
@@ -629,14 +640,14 @@ static void ValidateRuleBetaMemoriesAction(
 /* ValidateBetaMemories */
 /************************/
 globle void ValidateBetaMemories(
-  void *theEnv) {
-  EnvPrintRouter(theEnv, WPROMPT, "ValidateBetaMemories");
+  void *theEnv)
+  {
+  EnvPrintRouter(theEnv,WPROMPT,"ValidateBetaMemories");
    DoForAllConstructs(theEnv,ValidateRuleBetaMemoriesAction,DefruleData(theEnv)->DefruleModuleIndex,FALSE,NULL); 
   }
 
 #endif
 
 #endif
-
 
 

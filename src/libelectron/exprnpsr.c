@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  02/05/15            */
    /*                                                     */
    /*              EXPRESSION PARSER MODULE               */
    /*******************************************************/
@@ -33,6 +33,10 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
 /*                                                           */
 /*************************************************************/
 
@@ -179,7 +183,7 @@ globle struct expr *Function2Parse(
      { 
       if (ConstructExported(theEnv,"defgeneric",moduleName,constructName) ||
           EnvGetCurrentModule(theEnv) == EnvFindDefmodule(theEnv,ValueToString(moduleName)))
-        { gfunc = (void *) EnvFindDefgeneric(theEnv,name); }
+        { gfunc = (void *) EnvFindDefgenericInModule(theEnv,name); }
       else
         { gfunc = NULL; }
      }
@@ -188,16 +192,17 @@ globle struct expr *Function2Parse(
 #endif
 
 #if DEFFUNCTION_CONSTRUCT
-   if ((theFunction == NULL)
 #if DEFGENERIC_CONSTRUCT
-        && (gfunc == NULL)
+   if ((theFunction == NULL)
+        && (gfunc == NULL))
+#else
+   if (theFunction == NULL)
 #endif
-     )
      if (moduleSpecified)
        { 
         if (ConstructExported(theEnv,"deffunction",moduleName,constructName) ||
             EnvGetCurrentModule(theEnv) == EnvFindDefmodule(theEnv,ValueToString(moduleName)))
-          { dptr = (void *) EnvFindDeffunction(theEnv,name); }
+          { dptr = (void *) EnvFindDeffunctionInModule(theEnv,name); }
         else
           { dptr = NULL; }
        }

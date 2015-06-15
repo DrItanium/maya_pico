@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.30  01/25/15            */
    /*                                                     */
    /*               STRING FUNCTIONS MODULE               */
    /*******************************************************/
@@ -39,6 +39,13 @@
 /*                                                           */
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
+/*                                                           */
+/*            Added code to keep track of pointers to        */
+/*            constructs that are contained externally to    */
+/*            to constructs, DanglingConstructs.             */
+/*                                                           */
+/*            Fixed str-cat bug that could be invoked by     */
+/*            (funcall str-cat).                             */
 /*                                                           */
 /*************************************************************/
 
@@ -100,6 +107,9 @@ globle void StringFunctionDefinitions(
    EnvDefineFunction2(theEnv,"build", 'b', PTIEF BuildFunction, "BuildFunction", "11k");
    EnvDefineFunction2(theEnv,"string-to-field", 'u', PTIEF StringToFieldFunction, "StringToFieldFunction", "11j");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 
@@ -166,6 +176,8 @@ static void StrOrSymCatFunction(
    /*===============================================*/
 
    numArgs = EnvRtnArgCount(theEnv);
+   if (numArgs == 0) return;
+   
    arrayOfStrings = (SYMBOL_HN **) gm1(theEnv,(int) sizeof(SYMBOL_HN *) * numArgs);
    for (i = 0; i < numArgs; i++)   
      { arrayOfStrings[i] = NULL; }
@@ -766,6 +778,7 @@ globle int EnvEval(
    static int depth = 0;
    char logicalNameBuffer[20];
    struct BindInfo *oldBinds;
+   int danglingConstructs;
 
    /*======================================================*/
    /* Evaluate the string. Create a different logical name */
@@ -791,6 +804,7 @@ globle int EnvEval(
    SetPPBufferStatus(theEnv,FALSE);
    oldBinds = GetParsedBindNames(theEnv);
    SetParsedBindNames(theEnv,NULL);
+   danglingConstructs = ConstructData(theEnv)->DanglingConstructs;
 
    /*========================================================*/
    /* Parse the string argument passed to the eval function. */
@@ -817,6 +831,7 @@ globle int EnvEval(
       SetpType(returnValue,SYMBOL);
       SetpValue(returnValue,EnvFalseSymbol(theEnv));
       depth--;
+      ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
       return(FALSE);
      }
 
@@ -835,6 +850,7 @@ globle int EnvEval(
       SetpValue(returnValue,EnvFalseSymbol(theEnv));
       ReturnExpression(theEnv,top);
       depth--;
+      ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
       return(FALSE);
      }
 
@@ -853,6 +869,7 @@ globle int EnvEval(
       SetpValue(returnValue,EnvFalseSymbol(theEnv));
       ReturnExpression(theEnv,top);
       depth--;
+      ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
       return(FALSE);
      }
 
@@ -868,6 +885,14 @@ globle int EnvEval(
    depth--;
    ReturnExpression(theEnv,top);
    CloseStringSource(theEnv,logicalNameBuffer);
+
+   /*==============================================*/
+   /* If embedded, reset dangling construct count. */
+   /*==============================================*/
+   
+   if ((! CommandLineData(theEnv)->EvaluatingTopLevelCommand) &&
+       (EvaluationData(theEnv)->CurrentExpression == NULL))
+     { ConstructData(theEnv)->DanglingConstructs = danglingConstructs; }
 
    /*==========================================*/
    /* Perform periodic cleanup if the eval was */

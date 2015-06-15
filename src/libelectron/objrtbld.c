@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
+   /*               CLIPS Version 6.30  01/13/15          */
    /*                                                     */
    /*          OBJECT PATTERN MATCHER MODULE              */
    /*******************************************************/
@@ -323,6 +323,9 @@ static struct lhsParseNode *ObjectLHSParse(
   const char *readSource,
   struct token *lastToken)
   {
+#if MAC_XCD
+#pragma unused(lastToken)
+#endif
    struct token theToken;
    struct lhsParseNode *firstNode = NULL,*lastNode = NULL,*tmpNode;
    CLASS_BITMAP *clsset,*tmpset;
@@ -1109,9 +1112,9 @@ static void DetachObjectPattern(
      }
    alphaPtr->patternNode->alphaNode = NULL;
    RemoveHashedExpression(theEnv,alphaPtr->header.rightHash);
+   upperLevel = alphaPtr->patternNode;
    rtn_struct(theEnv,objectAlphaNode,alphaPtr);
 
-   upperLevel = alphaPtr->patternNode;
    if (upperLevel->nextLevel != NULL)
      return;
 
@@ -1589,6 +1592,9 @@ static void *CopyClassBitMap(
   void *theEnv,
   void *gset)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if (gset != NULL)
      IncrementBitMapCount(gset);
@@ -1742,7 +1748,8 @@ static intBool ProcessClassRestriction(
      {
       if (chk->type == SYMBOL)
         {
-         chk->value = (void *) LookupDefclassInScope(theEnv,ValueToString(chk->value));
+         //chk->value = (void *) LookupDefclassInScope(theEnv,ValueToString(chk->value));
+         chk->value = (void *) LookupDefclassByMdlOrScope(theEnv,ValueToString(chk->value));
          if (chk->value == NULL)
            {
             PrintErrorID(theEnv,"OBJRTBLD",5,FALSE);
@@ -2320,6 +2327,9 @@ static void MarkObjectPtnIncrementalReset(
   struct patternNodeHeader *thePattern,
   int value)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if (thePattern->initialize == FALSE)
      return;

@@ -116,13 +116,15 @@
 #endif
 
 #if defined(__APPLE__)
-	#define DARWIN 1
+   #define DARWIN 1
+   #define MAC_XCD 1
 #else 
    #define DARWIN 0
+   #define MAC_XCD 0
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
-	#define WIN_MVC 1
+   #define WIN_MVC 1
 #else
    #define WIN_MVC 0
 #endif
@@ -132,12 +134,20 @@
 #define WIN_GCC 0   /* Windows XP, with DJGPP 3.21 */
 #endif
 
+#ifndef MAC_XCD
+#define MAC_XCD 0   /* Darwin Mac OS 10.10.2, with Xcode 6.2 and Cocoa GUI */
+#endif
+
+#ifndef VAX_VMS
+#define VAX_VMS 0   /* VAX_VMS */
+#endif
+
 
 /* Use GENERIC if nothing else is used. */
 
 #ifndef GENERIC
 #if (! UNIX_V) && (! LINUX) && (! UNIX_7) && \
-    (! DARWIN) && (! WIN_MVC) && (! WIN_GCC)
+    (! DARWIN) && (! WIN_MVC) && (! WIN_GCC) && (! VAX_VMS)
 #define GENERIC 1   /* Generic (any machine)                   */
 #else
 #define GENERIC 0   /* Generic (any machine)                   */
@@ -431,23 +441,6 @@
 
 #ifndef PROFILING_FUNCTIONS
 #define PROFILING_FUNCTIONS 1
-#endif
-
-/************************************************************************/
-/* BLOCK_MEMORY: Causes memory to be allocated in large blocks.         */
-/*   INITBUFFERSIZE and BLOCKSIZE should both be set to less than the   */
-/*   maximum size of a signed integer.                                  */
-/************************************************************************/
-
-#ifndef BLOCK_MEMORY
-#define BLOCK_MEMORY 0
-#endif
-
-#if BLOCK_MEMORY
-
-#define INITBLOCKSIZE 32000
-#define BLOCKSIZE 32000
-
 #endif
 
 /*******************************************************************/

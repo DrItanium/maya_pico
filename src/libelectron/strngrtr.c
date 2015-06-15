@@ -183,6 +183,9 @@ static int UngetcString(
   const char *logicalName)
   {
    struct stringRouter *head;
+#if MAC_XCD
+#pragma unused(ch)
+#endif
 
    head = FindStringRouter(theEnv,logicalName);
 

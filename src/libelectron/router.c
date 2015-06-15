@@ -76,7 +76,7 @@ globle void InitializeDefaultRouters(
    RouterData(theEnv)->AwaitingInput = TRUE;
    
 #if (! RUN_TIME)
-   EnvDefineFunction2(theEnv,"exit", 'v', PTIEF ExitCommand, "ExitCommand", "*1i");
+   EnvDefineFunction2(theEnv,"exit",    'v', PTIEF ExitCommand,    "ExitCommand", "*1i");
 #endif
    InitializeFileRouter(theEnv);
    InitializeStringRouter(theEnv);

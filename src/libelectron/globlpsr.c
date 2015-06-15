@@ -81,7 +81,6 @@ globle intBool ParseDefglobal(
   const char *readSource)
   {
    int defglobalError = FALSE;
-
 #if (! RUN_TIME) && (! BLOAD_ONLY)
 
    struct token theToken;

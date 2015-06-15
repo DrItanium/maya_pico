@@ -411,6 +411,11 @@ static void PrintObjectGetVarJN1(
      }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -454,6 +459,11 @@ static void PrintObjectGetVarJN2(
      }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -498,6 +508,11 @@ static void PrintObjectGetVarPN1(
      }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -536,6 +551,11 @@ static void PrintObjectGetVarPN2(
      }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -574,6 +594,11 @@ static void PrintObjectCmpConstant(
      }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -595,6 +620,11 @@ static void PrintSlotLengthTest(
    PrintLongInteger(theEnv,logicalName,(long long) hack->minLength);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -633,6 +663,11 @@ static void PrintPNSimpleCompareFunction1(
    EnvPrintRouter(theEnv,logicalName,ValueToString(FindIDSlotName(theEnv,(unsigned) hack->secondSlot)));
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -678,6 +713,11 @@ static void PrintPNSimpleCompareFunction2(
    EnvPrintRouter(theEnv,logicalName,ValueToString(FindIDSlotName(theEnv,(unsigned) hack->secondSlot)));
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -727,6 +767,11 @@ static void PrintPNSimpleCompareFunction3(
    PrintLongInteger(theEnv,logicalName,(long long) hack->secondOffset);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -776,6 +821,11 @@ static void PrintJNSimpleCompareFunction1(
    EnvPrintRouter(theEnv,logicalName,ValueToString(FindIDSlotName(theEnv,(unsigned) hack->secondSlot)));
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -829,6 +879,11 @@ static void PrintJNSimpleCompareFunction2(
    EnvPrintRouter(theEnv,logicalName,ValueToString(FindIDSlotName(theEnv,(unsigned) hack->secondSlot)));
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -886,6 +941,11 @@ static void PrintJNSimpleCompareFunction3(
    PrintLongInteger(theEnv,logicalName,(long long) hack->secondOffset);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 

@@ -110,6 +110,9 @@ globle int BsaveCommand(
    if (fileName != NULL)
      { if (EnvBsave(theEnv,fileName)) return(TRUE); }
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
    return(FALSE);
   }

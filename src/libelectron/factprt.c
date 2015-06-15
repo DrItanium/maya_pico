@@ -85,6 +85,11 @@ globle void PrintFactJNCompVars1(
    PrintLongInteger(theEnv,logicalName,(long long) hack->slot2);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -140,6 +145,11 @@ globle void PrintFactJNCompVars2(
    PrintLongInteger(theEnv,logicalName,(long long) hack->offset2);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -164,6 +174,11 @@ globle void PrintFactPNCompVars1(
    PrintLongInteger(theEnv,logicalName,(long long) hack->field2);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -189,6 +204,11 @@ globle void PrintFactSlotLength(
    PrintLongInteger(theEnv,logicalName,(long long) hack->minLength);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -224,6 +244,11 @@ globle void PrintFactJNGetVar1(
      { EnvPrintRouter(theEnv,logicalName," R"); }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -252,6 +277,11 @@ globle void PrintFactJNGetVar2(
      { EnvPrintRouter(theEnv,logicalName," R"); }
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -290,6 +320,11 @@ globle void PrintFactJNGetVar3(
      
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -317,6 +352,11 @@ globle void PrintFactPNGetVar1(
    PrintLongInteger(theEnv,logicalName,(long long) hack->whichSlot);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -337,6 +377,11 @@ globle void PrintFactPNGetVar2(
    PrintLongInteger(theEnv,logicalName,(long long) hack->whichSlot);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -367,6 +412,11 @@ globle void PrintFactPNGetVar3(
    PrintLongInteger(theEnv,logicalName,(long long) hack->whichSlot);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -394,6 +444,11 @@ globle void PrintFactPNConstant1(
    PrintAtom(theEnv,logicalName,GetFirstArgument()->type,GetFirstArgument()->value);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 
@@ -425,6 +480,11 @@ globle void PrintFactPNConstant2(
    PrintAtom(theEnv,logicalName,GetFirstArgument()->type,GetFirstArgument()->value);
    EnvPrintRouter(theEnv,logicalName,")");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#pragma unused(logicalName)
+#pragma unused(theValue)
+#endif
 #endif
   }
 

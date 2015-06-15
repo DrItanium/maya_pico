@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/20/14            */
+   /*             CLIPS Version 6.30  02/04/15            */
    /*                                                     */
    /*          DEFRULE BASIC COMMANDS HEADER FILE         */
    /*******************************************************/
@@ -148,7 +148,7 @@ static void ResetDefrules(
    for (theLink = DefruleData(theEnv)->RightPrimeJoins;
         theLink != NULL;
         theLink = theLink->next)
-     { PosEntryRetractAlpha(theEnv,theLink->join->rightMemory->beta[0]); }
+     { PosEntryRetractAlpha(theEnv,theLink->join->rightMemory->beta[0],NETWORK_ASSERT); }
 
    for (theLink = DefruleData(theEnv)->LeftPrimeJoins;
         theLink != NULL;
@@ -169,7 +169,7 @@ static void ResetDefrules(
          notParent->marker = notParent;
          
          if (notParent->children != NULL)
-           { PosEntryRetractBeta(theEnv,notParent,notParent->children); }
+           { PosEntryRetractBeta(theEnv,notParent,notParent->children,NETWORK_ASSERT); }
            /*
          if (notParent->dependents != NULL) 
            { RemoveLogicalSupport(theEnv,notParent); } */
@@ -208,7 +208,7 @@ static void ResetDefrulesPrime(
 
          notParent->marker = NULL;
 
-         EPMDrive(theEnv,notParent,theLink->join);
+         EPMDrive(theEnv,notParent,theLink->join,NETWORK_ASSERT);
         }
      }
 
@@ -370,6 +370,9 @@ globle unsigned EnvGetDefruleWatchActivations(
   void *rulePtr)
   {
    struct defrule *thePtr;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    for (thePtr = (struct defrule *) rulePtr;
         thePtr != NULL;
@@ -389,6 +392,9 @@ globle unsigned EnvGetDefruleWatchFirings(
   void *rulePtr)
   {
    struct defrule *thePtr;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    for (thePtr = (struct defrule *) rulePtr;
         thePtr != NULL;
@@ -409,6 +415,9 @@ globle void EnvSetDefruleWatchActivations(
   void *rulePtr)
   {
    struct defrule *thePtr;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    for (thePtr = (struct defrule *) rulePtr;
         thePtr != NULL;
@@ -427,6 +436,9 @@ globle void EnvSetDefruleWatchFirings(
   void *rulePtr)
   {
    struct defrule *thePtr;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    for (thePtr = (struct defrule *) rulePtr;
         thePtr != NULL;
@@ -513,7 +525,7 @@ globle void SetDefruleWatchActivations(
    EnvSetDefruleWatchActivations(GetCurrentEnvironment(),newState,rulePtr);
   }
 
-globle void DefruleWatchFirings(
+globle void SetDefruleWatchFirings(
   unsigned newState,
   void *rulePtr)
   {

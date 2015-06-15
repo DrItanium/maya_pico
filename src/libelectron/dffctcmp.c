@@ -117,11 +117,9 @@ static int ConstructToCode(
      {
       EnvSetCurrentModule(theEnv,(void *) theModule);
 
-      moduleFile = OpenFileIfNeeded(theEnv,moduleFile,fileName,pathName,
-                                    fileNameBuffer,fileID,imageID,&fileCount,
+      moduleFile = OpenFileIfNeeded(theEnv,moduleFile,fileName,pathName,fileNameBuffer,fileID,imageID,&fileCount,
                                     moduleArrayVersion,headerFP,
-                                    "struct deffactsModule",
-                                    ModulePrefix(DeffactsData(theEnv)->DeffactsCodeItem),
+                                    "struct deffactsModule",ModulePrefix(DeffactsData(theEnv)->DeffactsCodeItem),
                                     FALSE,NULL);
 
       if (moduleFile == NULL)
@@ -142,11 +140,9 @@ static int ConstructToCode(
            theDeffacts != NULL;
            theDeffacts = (struct deffacts *) EnvGetNextDeffacts(theEnv,theDeffacts))
         {
-         deffactsFile = OpenFileIfNeeded(theEnv,deffactsFile,fileName,pathName,
-                                         fileNameBuffer,fileID,imageID,
-                                         &fileCount, deffactsArrayVersion,headerFP,
-                                         "struct deffacts",
-                                         ConstructPrefix(DeffactsData(theEnv)->DeffactsCodeItem),
+         deffactsFile = OpenFileIfNeeded(theEnv,deffactsFile,fileName,pathName,fileNameBuffer,fileID,imageID,&fileCount,
+                                         deffactsArrayVersion,headerFP,
+                                         "struct deffacts",ConstructPrefix(DeffactsData(theEnv)->DeffactsCodeItem),
                                          FALSE,NULL);
          if (deffactsFile == NULL)
            {
@@ -208,6 +204,9 @@ static void DeffactsModuleToCode(
   int maxIndices,
   int moduleCount)
   {
+#if MAC_XCD
+#pragma unused(moduleCount)
+#endif
    
    fprintf(theFile,"{");
 

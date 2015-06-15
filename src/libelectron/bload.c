@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
+   /*               CLIPS Version 6.31  05/18/15          */
    /*                                                     */
    /*                    BLOAD MODULE                     */
    /*******************************************************/
@@ -29,6 +29,9 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*      6.31: Refactored code to reduce header dependencies  */
+/*            in sysdep.c.                                   */
 /*                                                           */
 /*************************************************************/
 
@@ -70,6 +73,7 @@ globle void InitializeBloadData(
   {
    AllocateEnvironmentData(theEnv,BLOAD_DATA,sizeof(struct bloadData),NULL);
    AddEnvironmentCleanupFunction(theEnv,"bload",DeallocateBloadData,-1500);
+   EnvAddClearFunction(theEnv,"bload",(void (*)(void *)) ClearBload,10000);
 
    BloadData(theEnv)->BinaryPrefixID = "\1\2\3\4CLIPS";
    BloadData(theEnv)->BinaryVersionID = "V6.30";
@@ -108,7 +112,11 @@ globle int EnvBload(
    /* Open the file. */
    /*================*/
 
-   if (GenOpenReadBinary(theEnv,"bload",fileName) == 0) return(FALSE);
+   if (GenOpenReadBinary(theEnv,"bload",fileName) == 0)
+     {
+      OpenErrorMessage(theEnv,"bload",fileName);
+      return(FALSE);
+     }
 
    /*=====================================*/
    /* Determine if this is a binary file. */
@@ -174,6 +182,7 @@ globle int EnvBload(
    /* executed before a bload occurs.  */
    /*==================================*/
 
+   ConstructData(theEnv)->ClearInProgress = TRUE;
    for (bfPtr = BloadData(theEnv)->BeforeBloadFunctions;
         bfPtr != NULL;
         bfPtr = bfPtr->next)
@@ -183,6 +192,7 @@ globle int EnvBload(
       else            
         { (* (void (*)(void)) bfPtr->func)(); }
      }
+   ConstructData(theEnv)->ClearInProgress = FALSE;
 
    /*====================================================*/
    /* Read in the functions needed by this binary image. */
@@ -356,7 +366,6 @@ globle int EnvBload(
    /*=======================================*/
 
    BloadData(theEnv)->BloadActive = TRUE;
-   EnvAddClearFunction(theEnv,"bload",(void (*)(void *)) ClearBload,10000);
 
    /*=============================*/
    /* Return TRUE to indicate the */
@@ -593,6 +602,14 @@ static int ClearBload(
    struct callFunctionItem *bfPtr;
    int ready,error;
 
+   /*======================================*/
+   /* If bload is not active, then there's */
+   /* no need to clear bload data.         */
+   /*======================================*/
+   
+   if (! BloadData(theEnv)->BloadActive)
+     { return TRUE; }
+     
    /*=================================================*/
    /* Make sure it's safe to clear the bloaded image. */
    /*=================================================*/
@@ -660,7 +677,6 @@ static int ClearBload(
    /*==================================*/
 
    BloadData(theEnv)->BloadActive = FALSE;
-   EnvRemoveClearFunction(theEnv,"bload");
 
    /*====================================*/
    /* Return TRUE to indicate the binary */
@@ -767,6 +783,9 @@ static int BloadOutOfMemoryFunction(
   void *theEnv,
   size_t size)
   {
+#if MAC_XCD
+#pragma unused(size,theEnv)
+#endif
    return(TRUE);
   }
 
@@ -815,6 +834,9 @@ globle int BloadCommand(
    fileName = GetFileName(theEnv,"bload",1);
    if (fileName != NULL) return(EnvBload(theEnv,fileName));
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
    return(FALSE);
   }

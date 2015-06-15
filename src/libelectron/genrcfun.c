@@ -397,6 +397,9 @@ globle void DestroyMethodInfo(
   {
    register int j;
    register RESTRICTION *rptr;
+#if MAC_XCD
+#pragma unused(gfunc)
+#endif
 
    ReturnPackedExpression(theEnv,meth->actions);
    
@@ -517,6 +520,9 @@ globle void PrintMethod(
   size_t buflen,
   DEFMETHOD *meth)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
    long j,k;
    register RESTRICTION *rptr;
    char numbuf[15];

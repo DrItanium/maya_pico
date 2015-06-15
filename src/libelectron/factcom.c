@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.30  01/25/15            */
    /*                                                     */
    /*                FACT COMMANDS MODULE                 */
    /*******************************************************/
@@ -40,6 +40,10 @@
 /*            Added code to prevent a clear command from     */
 /*            being executed during fact assertions via      */
 /*            Increment/DecrementClearReadyLocks API.        */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
 /*                                                           */
 /*************************************************************/
 
@@ -125,6 +129,9 @@ globle void FactCommandDefinitions(
    AddFunctionParser(theEnv,"assert",AssertParse);
    FuncSeqOvlFlags(theEnv,"assert",FALSE,FALSE);
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 
@@ -839,7 +846,7 @@ globle int SaveFactsCommand(
    /* Call the SaveFacts driver routine. */
    /*====================================*/
 
-   if (EnvSaveFacts(theEnv,fileName,saveCode,theList) == FALSE)
+   if (EnvSaveFactsDriver(theEnv,fileName,saveCode,theList) == FALSE)
      { return(FALSE); }
 
    return(TRUE);
@@ -879,6 +886,17 @@ globle int LoadFactsCommand(
 /* EnvSaveFacts: C access routine for the save-facts command. */
 /**************************************************************/
 globle intBool EnvSaveFacts(
+  void *theEnv,
+  const char *fileName,
+  int saveCode)
+  {
+   return EnvSaveFactsDriver(theEnv,fileName,saveCode,NULL);
+  }
+
+/********************************************************************/
+/* EnvSaveFactsDriver: C access routine for the save-facts command. */
+/********************************************************************/
+globle intBool EnvSaveFactsDriver(
   void *theEnv,
   const char *fileName,
   int saveCode,
@@ -1111,7 +1129,7 @@ static DATA_OBJECT_PTR GetSaveFactsDeftemplateNames(
       if (saveCode == LOCAL_SAVE)
         {
          theDeftemplate = (struct deftemplate *)
-                         EnvFindDeftemplate(theEnv,ValueToString(theDOArray[i].value));
+                         EnvFindDeftemplateInModule(theEnv,ValueToString(theDOArray[i].value));
          if (theDeftemplate == NULL)
            {
             *error = TRUE;
@@ -1340,10 +1358,9 @@ globle intBool LoadFacts(
 
 globle intBool SaveFacts(
   const char *fileName,
-  int saveCode,
-  struct expr *theList)
+  int saveCode)
   {
-   return EnvSaveFacts(GetCurrentEnvironment(),fileName,saveCode,theList);
+   return EnvSaveFacts(GetCurrentEnvironment(),fileName,saveCode);
   }
 
 globle intBool LoadFactsFromString(

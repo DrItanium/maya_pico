@@ -80,7 +80,6 @@ globle void ReturnDefrule(
   void *theEnv,
   void *vWaste)
   {
-
 #if (! RUN_TIME) && (! BLOAD_ONLY)
    struct defrule *waste = (struct defrule *) vWaste;
    int first = TRUE;

@@ -197,7 +197,7 @@ globle void FactPatternMatch(
                  {
                   if (tempPtr->header.stopNode)
                     { ProcessFactAlphaMatch(theEnv,theFact,markers,tempPtr); }
-                
+               
                   patternPtr = GetNextFactPatternNode(theEnv,FALSE,tempPtr);
                  }
               }
@@ -787,7 +787,6 @@ static int SkipFactPatternNode(
   void *theEnv,
   struct factPatternNode *thePattern)
   {
-
 #if (! RUN_TIME) && (! BLOAD_ONLY)
    if (EngineData(theEnv)->IncrementalResetInProgress &&
        (thePattern->header.initialize == FALSE))
@@ -813,6 +812,9 @@ globle void MarkFactPatternForIncrementalReset(
   {
    struct factPatternNode *patternPtr = (struct factPatternNode *) thePattern;
    struct joinNode *theJoin;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    /*=====================================*/
    /* We should be passed a valid pointer */

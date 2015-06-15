@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  02/04/15            */
    /*                                                     */
    /*                 ENGINE HEADER FILE                  */
    /*******************************************************/
@@ -97,7 +97,7 @@ struct engineData
    struct dependency *UnsupportedDataEntities;
    int alreadyEntered;
    struct callFunctionItem *ListOfRunFunctions;
-   struct callFunctionItemWithArg* ListOfBeforeRunFunctions;
+   struct callFunctionItemWithArg *ListOfBeforeRunFunctions;
    struct focus *CurrentFocus;
    int FocusChanged;
 #if DEBUGGING_FUNCTIONS
@@ -183,7 +183,6 @@ struct engineData
    LOCALE void                    EnvSetHaltRules(void *,intBool);
    LOCALE struct activation      *NextActivationToFire(void *);
 
-
 #if ALLOW_ENVIRONMENT_GLOBALS
 
    LOCALE intBool                 AddBeforeRunFunction(const char *,void (*)(void *),int);
@@ -191,7 +190,7 @@ struct engineData
    LOCALE void                    ClearFocusStack(void);
    LOCALE void                    Focus(void *);
    LOCALE void                    GetFocusStack(DATA_OBJECT_PTR);
-   LOCALE void                   *GetFocus(void *);
+   LOCALE void                   *GetFocus(void);
    LOCALE int                     GetFocusChanged(void);
    LOCALE void                   *GetNextFocus(void *);
    LOCALE void                    Halt(void);
@@ -206,13 +205,13 @@ struct engineData
    LOCALE void                    SetBreak(void *);
    LOCALE void                    ShowBreaks(const char *,void *);
 #endif
- 
+
 #endif /* ALLOW_ENVIRONMENT_GLOBALS */
- 
+
 #endif /* _H_engine */
- 
- 
- 
- 
+
+
+
+
 
 

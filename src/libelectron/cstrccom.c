@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.31  05/16/15            */
    /*                                                     */
    /*              CONSTRUCT COMMANDS MODULE              */
    /*******************************************************/
@@ -39,6 +39,13 @@
 /*                                                           */
 /*      6.30: Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
+/*                                                           */
+/*            Change find construct functionality so that    */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
+/*                                                           */
+/*      6.31: Fixed use after free issue for deallocation    */
+/*            functions passed to DoForAllConstructs.        */
 /*                                                           */
 /*************************************************************/
 
@@ -156,22 +163,68 @@ globle intBool DeleteNamedConstruct(
 
    return(FALSE);
 #else
+#if MAC_XCD
+#pragma unused(theEnv,constructName,constructClass)
+#endif
    return(FALSE);
 #endif
   }
 
-/*******************************************/
-/* FindNamedConstruct: Generic routine for */
-/*   searching for a specified construct.  */
-/*******************************************/
-globle void *FindNamedConstruct(
+/********************************************************/
+/* FindNamedConstructInModuleOrImports: Generic routine */
+/*   for searching for a specified construct.           */
+/********************************************************/
+globle void *FindNamedConstructInModuleOrImports(
+  void *theEnv,
+  const char *constructName,
+  struct construct *constructClass)
+  {
+   void *theConstruct;
+   int count;
+
+   /*================================================*/
+   /* First look in the current or specified module. */
+   /*================================================*/
+   
+   theConstruct = FindNamedConstructInModule(theEnv,constructName,constructClass);
+   if (theConstruct != NULL) return theConstruct;
+   
+   /*=====================================*/
+   /* If there's a module specifier, then */
+   /* the construct does not exist.       */
+   /*=====================================*/
+
+   if (FindModuleSeparator(constructName))
+     { return(NULL); }
+   
+   /*========================================*/
+   /* Otherwise, search in imported modules. */
+   /*========================================*/
+
+   theConstruct = FindImportedConstruct(theEnv,constructClass->constructName,NULL,
+                                        constructName,&count,TRUE,NULL);
+         
+   if (count > 1)
+     {
+      AmbiguousReferenceErrorMessage(theEnv,constructClass->constructName,constructName);
+      return(NULL);
+     }
+         
+   return(theConstruct);
+  }
+
+/***********************************************/
+/* FindNamedConstructInModule: Generic routine */
+/*   for searching for a specified construct.  */
+/***********************************************/
+globle void *FindNamedConstructInModule(
   void *theEnv,
   const char *constructName,
   struct construct *constructClass)
   {
    void *theConstruct;
    SYMBOL_HN *findValue;
-
+     
    /*==========================*/
    /* Save the current module. */
    /*==========================*/
@@ -471,6 +524,11 @@ globle intBool Undefconstruct(
   struct construct *constructClass)
   {
 #if BLOAD_ONLY || RUN_TIME
+#if MAC_XCD
+#pragma unused(theConstruct)
+#pragma unused(constructClass)
+#pragma unused(theEnv)
+#endif
    return(FALSE);
 #else
    void *currentConstruct,*nextConstruct;
@@ -664,6 +722,9 @@ globle const char *EnvGetConstructNameString(
   void *theEnv,
   struct constructHeader *theConstruct)
   { 
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(ValueToString(theConstruct->name)); 
   }
@@ -1128,6 +1189,9 @@ globle const char *GetConstructPPForm(
   void *theEnv,
   struct constructHeader *theConstruct)
   { 
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(theConstruct->ppForm); 
   }
@@ -1210,7 +1274,7 @@ globle long DoForAllConstructs(
   int interruptable,
   void *userBuffer)
   {
-   struct constructHeader *theConstruct;
+   struct constructHeader *theConstruct, *next = NULL;
    struct defmoduleItemHeader *theModuleItem;
    void *theModule;
    long moduleCount = 0L;
@@ -1245,8 +1309,12 @@ globle long DoForAllConstructs(
 
       for (theConstruct = theModuleItem->firstItem;
            theConstruct != NULL;
-           theConstruct = theConstruct->next)
+           theConstruct = next)
         {
+         /*==========================================*/
+         /* Check to see iteration should be halted. */
+         /*==========================================*/
+         
          if (interruptable)
            {
             if (GetHaltExecution(theEnv) == TRUE)
@@ -1255,7 +1323,18 @@ globle long DoForAllConstructs(
                return(-1L);
               }
            }
-
+           
+         /*===============================================*/
+         /* Determine the next construct since the action */
+         /* could delete the current construct.           */
+         /*===============================================*/
+         
+         next = theConstruct->next;
+         
+         /*===============================================*/
+         /* Perform the action for the current construct. */
+         /*===============================================*/
+         
          (*actionFunction)(theEnv,theConstruct,userBuffer);
         }
      }
@@ -1640,6 +1719,9 @@ globle intBool ConstructsDeletable(
   void *theEnv)
   {
 #if BLOAD_ONLY || RUN_TIME || ((! BLOAD) && (! BLOAD_AND_BSAVE))
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
 
 #if BLOAD_ONLY || RUN_TIME

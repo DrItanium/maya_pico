@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*              CLIPS Version 6.30  08/16/14           */
+   /*              CLIPS Version 6.30  02/05/15           */
    /*                                                     */
    /*                INSTANCE FUNCTIONS MODULE            */
    /*******************************************************/
@@ -55,6 +55,9 @@
 /*            Converted API macros to function calls.        */
 /*                                                           */
 /*            Fixed slot override default ?NONE bug.         */
+/*                                                           */
+/*            Instances of the form [<name>] are now         */
+/*            searched for in all modules.                   */
 /*                                                           */
 /*************************************************************/
 
@@ -132,6 +135,9 @@ globle void EnvIncrementInstanceCount(
   void *theEnv,
   void *vptr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    ((INSTANCE_TYPE *) vptr)->busy++;
   }
@@ -149,6 +155,9 @@ globle void EnvDecrementInstanceCount(
   void *theEnv,
   void *vptr)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    ((INSTANCE_TYPE *) vptr)->busy--;
   }
@@ -195,11 +204,12 @@ globle void CleanupInstances(
    gtmp = InstanceData(theEnv)->InstanceGarbageList;
    while (gtmp != NULL)
      {
-      if ((gtmp->ins->busy == 0)
 #if DEFRULE_CONSTRUCT
-          && (gtmp->ins->header.busyCount == 0)
+      if ((gtmp->ins->busy == 0)
+          && (gtmp->ins->header.busyCount == 0))
+#else
+      if (gtmp->ins->busy == 0)
 #endif
-         )
         {
          DecrementSymbolCount(theEnv,gtmp->ins->name);
          rtn_struct(theEnv,instance,gtmp->ins);
@@ -330,7 +340,9 @@ globle void RemoveInstanceData(
   SIDE EFFECTS : None
   NOTES        : An instance is searched for by name first in the
                  current module - then in imported modules according
-                 to the order given in the current module's definition
+                 to the order given in the current module's definition.
+                 Instances of the form [<name>] are now searched for in
+                 all modules.
  ***************************************************************************/
 globle INSTANCE_TYPE *FindInstanceBySymbol(
   void *theEnv,
@@ -349,9 +361,21 @@ globle INSTANCE_TYPE *FindInstanceBySymbol(
    modulePosition = FindModuleSeparator(ValueToString(moduleAndInstanceName));
    if (modulePosition == FALSE)
      {
+      /*
       theModule = currentModule;
       instanceName = moduleAndInstanceName;
       searchImports = FALSE;
+      */
+      INSTANCE_TYPE *ins;
+
+      ins = InstanceData(theEnv)->InstanceTable[HashInstance(moduleAndInstanceName)];
+      while (ins != NULL)
+        {
+         if (ins->name == moduleAndInstanceName)
+           { return ins; }
+         ins = ins->nxtHash;
+        }
+      return(NULL);
      }
 
    /* =========================================
@@ -397,7 +421,9 @@ globle INSTANCE_TYPE *FindInstanceBySymbol(
                     given module as well
   RETURNS      : The instance (NULL if none found)
   SIDE EFFECTS : None
-  NOTES        : None
+  NOTES        : The class no longer needs to be in
+                 scope of the current module if the
+                 instance's module name has been specified.
  ***************************************************/
 globle INSTANCE_TYPE *FindInstanceInModule(
   void *theEnv,
@@ -432,8 +458,9 @@ globle INSTANCE_TYPE *FindInstanceInModule(
    for (ins = startInstance ;
         (ins != NULL) ? (ins->name == startInstance->name) : FALSE ;
         ins = ins->nxtHash)
-     if ((ins->cls->header.whichModule->theModule == theModule) &&
-          DefclassInScope(theEnv,ins->cls,currentModule))
+     //if ((ins->cls->header.whichModule->theModule == theModule) &&
+     //     DefclassInScope(theEnv,ins->cls,currentModule))
+     if (ins->cls->header.whichModule->theModule == theModule)
        return(ins);
 
    /* ================================
@@ -1204,8 +1231,32 @@ globle intBool NetworkSynchronized(
   void *theEnv,
   void *vins)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((INSTANCE_TYPE *) vins)->reteSynchronized);
+  }
+
+/***************************************************
+  NAME         : InstanceIsDeleted
+  DESCRIPTION  : Determines if an instance has been
+                 deleted
+  INPUTS       : The instance
+  RETURNS      : TRUE if instance has been deleted, 
+                 FALSE otherwise
+  SIDE EFFECTS : None
+  NOTES        : None
+ ***************************************************/
+globle intBool InstanceIsDeleted(
+  void *theEnv,
+  void *vins)
+  {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
+
+   return(((INSTANCE_TYPE *) vins)->garbage);
   }
 #endif
 

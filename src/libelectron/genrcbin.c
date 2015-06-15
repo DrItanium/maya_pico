@@ -258,6 +258,9 @@ static void MarkDefgenericItems(
   struct constructHeader *theDefgeneric,
   void *userBuffer)
   {
+#if MAC_XCD
+#pragma unused(userBuffer)
+#endif
    DEFGENERIC *gfunc = (DEFGENERIC *) theDefgeneric;
    long i,j;
    DEFMETHOD *meth;
@@ -608,6 +611,9 @@ static void BsaveRestrictionTypes(
    long dummy_type;
    RESTRICTION *rptr;
    short i,j,k;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    for (i = 0 ; i < gfunc->mcnt ; i++)
      {

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*             CLIPS Version 6.30  02/04/15            */
    /*                                                     */
    /*                  EVALUATION MODULE                  */
    /*******************************************************/
@@ -80,6 +80,7 @@
 
 #if OBJECT_SYSTEM
 #include "object.h"
+#include "inscom.h"
 #endif
 
 #include "evaluatn.h"
@@ -323,6 +324,9 @@ globle int EvaluateExpression(
                  returnValue->value =
                                 (* (void *(*)(void)) fptr->functionPointer)();
                 }
+              if (returnValue->value == NULL)
+                { returnValue->value = (void *) &InstanceData(theEnv)->DummyInstance; }
+                
               break;
             case 'o' :
               returnValue->type = INSTANCE_NAME;
@@ -338,6 +342,26 @@ globle int EvaluateExpression(
                 }
               break;
 #endif
+
+#if DEFTEMPLATE_CONSTRUCT
+            case 'y' :
+              returnValue->type = FACT_ADDRESS;
+              if (fptr->environmentAware)
+                {
+                 returnValue->value =
+                                (* (void *(*)(void *)) fptr->functionPointer)(theEnv);
+                }
+              else
+                {
+                 returnValue->value =
+                                (* (void *(*)(void)) fptr->functionPointer)();
+                }
+              if (returnValue->value == NULL)
+                { returnValue->value = (void *) &FactData(theEnv)->DummyFact; }
+                
+              break;
+#endif
+
             case 'c' :
               {
                char cbuff[2];
@@ -1176,16 +1200,10 @@ static void PrintCAddress(
   void *theValue)
   {
    char buffer[20];
-	void* ptr;
+
    EnvPrintRouter(theEnv,logicalName,"<Pointer-C-");
-	ptr = ValueToExternalAddress(theValue);
-  	if(ptr) {
-		/* theValue is a clips structure */
-		gensprintf(buffer,"%p",ptr);
-	} else {
-		/* theValue is not a clips structure but a direct data pointer. */
-		gensprintf(buffer,"%p",theValue);
-	}
+        
+   gensprintf(buffer,"%p",ValueToExternalAddress(theValue));
    EnvPrintRouter(theEnv,logicalName,buffer);
    EnvPrintRouter(theEnv,logicalName,">");
   }
@@ -1234,7 +1252,6 @@ static intBool DiscardCAddress(
 #if ALLOW_ENVIRONMENT_GLOBALS
 
 globle void SetMultifieldErrorValue(
-  void *theEnv,
   DATA_OBJECT_PTR returnValue)
   {
    EnvSetMultifieldErrorValue(GetCurrentEnvironment(),returnValue);

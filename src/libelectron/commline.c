@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.31  05/18/15            */
    /*                                                     */
    /*                COMMAND LINE MODULE                  */
    /*******************************************************/
@@ -50,6 +50,16 @@
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
+/*            Added code to keep track of pointers to        */
+/*            constructs that are contained externally to    */
+/*            to constructs, DanglingConstructs.             */
+/*                                                           */
+/*            Added STDOUT and STDIN logical name            */
+/*            definitions.                                   */
+/*                                                           */
+/*      6.31: Refactored code to reduce header dependencies  */
+/*            in sysdep.c.                                   */
+/*                                                           */
 /*************************************************************/
 
 #define _COMMLINE_SOURCE_
@@ -80,6 +90,15 @@
 #include "utility.h"
 
 #include "commline.h"
+
+/***************/
+/* DEFINITIONS */
+/***************/
+
+#define NO_SWITCH         0
+#define BATCH_SWITCH      1
+#define BATCH_STAR_SWITCH 2
+#define LOAD_SWITCH       3
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
@@ -122,7 +141,96 @@ static void DeallocateCommandLineData(
    if (CommandLineData(theEnv)->CurrentCommand != NULL) 
      { ReturnExpression(theEnv,CommandLineData(theEnv)->CurrentCommand); }
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
 #endif
+#endif
+  }
+
+/*************************************************/
+/* RerouteStdin: Processes the -f, -f2, and -l   */
+/*   options available on machines which support */
+/*   argc and arv command line options.          */
+/*************************************************/
+globle void RerouteStdin(
+  void *theEnv,
+  int argc,
+  char *argv[])
+  {
+   int i;
+   int theSwitch = NO_SWITCH;
+
+   /*======================================*/
+   /* If there aren't enough arguments for */
+   /* the -f argument, then return.        */
+   /*======================================*/
+
+   if (argc < 3)
+     { return; }
+
+   /*=====================================*/
+   /* If argv was not passed then return. */
+   /*=====================================*/
+
+   if (argv == NULL) return;
+
+   /*=============================================*/
+   /* Process each of the command line arguments. */
+   /*=============================================*/
+
+   for (i = 1 ; i < argc ; i++)
+     {
+      if (strcmp(argv[i],"-f") == 0) theSwitch = BATCH_SWITCH;
+#if ! RUN_TIME
+      else if (strcmp(argv[i],"-f2") == 0) theSwitch = BATCH_STAR_SWITCH;
+      else if (strcmp(argv[i],"-l") == 0) theSwitch = LOAD_SWITCH;
+#endif
+      else if (theSwitch == NO_SWITCH)
+        {
+         PrintErrorID(theEnv,"SYSDEP",2,FALSE);
+         EnvPrintRouter(theEnv,WERROR,"Invalid option\n");
+        }
+
+      if (i > (argc-1))
+        {
+         PrintErrorID(theEnv,"SYSDEP",1,FALSE);
+         EnvPrintRouter(theEnv,WERROR,"No file found for ");
+
+         switch(theSwitch)
+           {
+            case BATCH_SWITCH:
+               EnvPrintRouter(theEnv,WERROR,"-f");
+               break;
+
+            case BATCH_STAR_SWITCH:
+               EnvPrintRouter(theEnv,WERROR,"-f2");
+               break;
+
+            case LOAD_SWITCH:
+               EnvPrintRouter(theEnv,WERROR,"-l");
+           }
+
+         EnvPrintRouter(theEnv,WERROR," option\n");
+         return;
+        }
+
+      switch(theSwitch)
+        {
+         case BATCH_SWITCH:
+            OpenBatch(theEnv,argv[++i],TRUE);
+            break;
+
+#if (! RUN_TIME) && (! BLOAD_ONLY)
+         case BATCH_STAR_SWITCH:
+            EnvBatchStar(theEnv,argv[++i]);
+            break;
+
+         case LOAD_SWITCH:
+            EnvLoad(theEnv,argv[++i]);
+            break;
+#endif
+        }
+     }
   }
 
 #if ! RUN_TIME
@@ -528,7 +636,7 @@ globle void CommandLoop(
 
       if (BatchActive(theEnv) == TRUE)
         {
-         inchar = LLGetcBatch(theEnv,"stdin",TRUE);
+         inchar = LLGetcBatch(theEnv,STDIN,TRUE);
          if (inchar == EOF)
            { (*CommandLineData(theEnv)->EventFunction)(theEnv); }
          else
@@ -623,7 +731,7 @@ globle void CommandLoopBatchDriver(
 
       if (BatchActive(theEnv) == TRUE)
         {
-         inchar = LLGetcBatch(theEnv,"stdin",TRUE);
+         inchar = LLGetcBatch(theEnv,STDIN,TRUE);
          if (inchar == EOF)
            { return; }
          else
@@ -764,6 +872,7 @@ globle intBool RouteCommand(
    struct expr *top;
    const char *commandName;
    struct token theToken;
+   int danglingConstructs;
 
    if (command == NULL)
      { return(0); }
@@ -788,8 +897,8 @@ globle intBool RouteCommand(
       CloseStringSource(theEnv,"command");
       if (printResult)
         {
-         PrintAtom(theEnv,"stdout",theToken.type,theToken.value);
-         EnvPrintRouter(theEnv,"stdout","\n");
+         PrintAtom(theEnv,STDOUT,theToken.type,theToken.value);
+         EnvPrintRouter(theEnv,STDOUT,"\n");
         }
       return(1);
      }
@@ -808,8 +917,8 @@ globle intBool RouteCommand(
       rtn_struct(theEnv,expr,top);
       if (printResult)
         {
-         PrintDataObject(theEnv,"stdout",&result);
-         EnvPrintRouter(theEnv,"stdout","\n");
+         PrintDataObject(theEnv,STDOUT,&result);
+         EnvPrintRouter(theEnv,STDOUT,"\n");
         }
       return(1);
      }
@@ -872,6 +981,7 @@ globle intBool RouteCommand(
    /* Parse a function call. */
    /*========================*/
 
+   danglingConstructs = ConstructData(theEnv)->DanglingConstructs;
    CommandLineData(theEnv)->ParsingTopLevelCommand = TRUE;
    top = Function2Parse(theEnv,"command",commandName);
    CommandLineData(theEnv)->ParsingTopLevelCommand = FALSE;
@@ -887,7 +997,11 @@ globle intBool RouteCommand(
    /* Evaluate function call. */
    /*=========================*/
 
-   if (top == NULL) return(0);
+   if (top == NULL)
+     {
+      ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
+      return(0);
+     }
    
    ExpressionInstall(theEnv,top);
    
@@ -899,6 +1013,7 @@ globle intBool RouteCommand(
    
    ExpressionDeinstall(theEnv,top);
    ReturnExpression(theEnv,top);
+   ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
    
    /*=================================================*/
    /* Print the return value of the function/command. */
@@ -906,8 +1021,8 @@ globle intBool RouteCommand(
    
    if ((result.type != RVOID) && printResult)
      {
-      PrintDataObject(theEnv,"stdout",&result);
-      EnvPrintRouter(theEnv,"stdout","\n");
+      PrintDataObject(theEnv,STDOUT,&result);
+      EnvPrintRouter(theEnv,STDOUT,"\n");
      }
 
    return(1);
@@ -924,7 +1039,7 @@ static int DefaultGetNextEvent(
   {
    int inchar;
 
-   inchar = EnvGetcRouter(theEnv,"stdin");
+   inchar = EnvGetcRouter(theEnv,STDIN);
 
    if (inchar == EOF) inchar = '\n';
 

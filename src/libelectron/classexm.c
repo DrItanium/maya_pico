@@ -249,7 +249,7 @@ globle void EnvDescribeClass(
         maxSlotNameLength = 16;
       if (maxOverrideMessageLength > 12)
         maxOverrideMessageLength = 12;
-#if WIN_MVC 
+#if WIN_MVC
       gensprintf(slotNamePrintFormat,"%%-%Id.%Ids : ",maxSlotNameLength,maxSlotNameLength);
       gensprintf(overrideMessagePrintFormat,"%%-%Id.%Ids ",maxOverrideMessageLength,
                                               maxOverrideMessageLength);
@@ -366,6 +366,9 @@ globle intBool EnvSuperclassP(
   void *firstClass,
   void *secondClass)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(HasSuperclass((DEFCLASS *) secondClass,(DEFCLASS *) firstClass));
   }
@@ -405,6 +408,9 @@ globle intBool EnvSubclassP(
   void *firstClass,
   void *secondClass)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(HasSuperclass((DEFCLASS *) firstClass,(DEFCLASS *) secondClass));
   }

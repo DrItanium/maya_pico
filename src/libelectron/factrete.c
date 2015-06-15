@@ -272,6 +272,9 @@ globle intBool FactPNConstant1(
   void *theValue,
   DATA_OBJECT_PTR returnValue)
   {
+#if MAC_XCD
+#pragma unused(returnValue)
+#endif
    struct factConstantPN1Call *hack;
    struct field *fieldPtr;
    struct expr *theConstant;
@@ -310,6 +313,9 @@ globle intBool FactPNConstant2(
   void *theValue,
   DATA_OBJECT_PTR returnValue)
   {
+#if MAC_XCD
+#pragma unused(returnValue)
+#endif
    struct factConstantPN2Call *hack;
    struct field *fieldPtr;
    struct expr *theConstant;
@@ -659,6 +665,9 @@ globle int FactJNCompVars1(
   void *theValue,
   DATA_OBJECT *theResult)
   {
+#if MAC_XCD
+#pragma unused(theResult)
+#endif
    int p1, e1, p2, e2;
    struct fact *fact1, *fact2;
    struct factCompVarsJN1Call *hack;
@@ -713,6 +722,9 @@ globle int FactJNCompVars2(
   void *theValue,
   DATA_OBJECT *theResult)
   {
+#if MAC_XCD
+#pragma unused(theResult)
+#endif
    int p1, s1, p2, s2;
    struct fact *fact1, *fact2;
    struct factCompVarsJN2Call *hack;
@@ -842,6 +854,9 @@ globle unsigned short AdjustFieldPosition(
   int *extent)
   {
    unsigned short actualIndex;
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    actualIndex = whichField;
    for (;
@@ -901,6 +916,10 @@ globle int FactStoreMultifield(
   void *theValue,
   DATA_OBJECT *theResult)
   {
+#if MAC_XCD
+#pragma unused(theValue)
+#endif
+
    StoreInMultifield(theEnv,theResult,GetFirstArgument(),FALSE);
    return(TRUE);
   }

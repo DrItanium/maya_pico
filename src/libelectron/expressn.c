@@ -127,6 +127,9 @@ static void DeallocateExpressionData(
    rm(theEnv,ExpressionData(theEnv)->ExpressionHashTable,
       (int) (sizeof(EXPRESSION_HN *) * EXPRESSION_HASH_SIZE));
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
    
 #if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)

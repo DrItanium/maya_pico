@@ -83,6 +83,9 @@ globle void PredicateFunctionDefinitions(
    EnvDefineFunction2(theEnv,"sequencep",'b', MultifieldpFunction, "MultifieldpFunction", "11");
    EnvDefineFunction2(theEnv,"pointerp", 'b', PointerpFunction, "PointerpFunction", "11");
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 
@@ -114,7 +117,7 @@ globle intBool EqFunction(
 
    /*=====================================*/
    /* Compare all arguments to the first. */
-   /* If any are different, return FALSE. */
+   /* If any are the same, return FALSE.  */
    /*=====================================*/
 
    theExpression = GetNextArgument(theExpression);
@@ -135,9 +138,10 @@ globle intBool EqFunction(
 
       theExpression = GetNextArgument(theExpression);
      }
+
    /*=====================================*/
-   /* All of the arguments were identical */
-   /* to the first. Return TRUE.          */
+   /* All of the arguments were different */
+   /* from the first. Return TRUE.        */
    /*=====================================*/
 
    return(TRUE);
@@ -171,7 +175,7 @@ globle intBool NeqFunction(
 
    /*=====================================*/
    /* Compare all arguments to the first. */
-   /* If any are the same, return FALSE.  */
+   /* If any are different, return FALSE. */
    /*=====================================*/
 
    for (i = 2, theExpression = GetNextArgument(theExpression);
@@ -191,8 +195,8 @@ globle intBool NeqFunction(
      }
 
    /*=====================================*/
-   /* All of the arguments were different */
-   /* from the first. Return TRUE.        */
+   /* All of the arguments were identical */
+   /* to the first. Return TRUE.          */
    /*=====================================*/
 
    return(TRUE);

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*               CLIPS Version 6.30  08/22/14          */
+   /*               CLIPS Version 6.30  02/04/15          */
    /*                                                     */
    /*                  CLASS COMMANDS MODULE              */
    /*******************************************************/
@@ -34,6 +34,10 @@
 /*            deprecation warnings.                           */
 /*                                                            */
 /*            Converted API macros to function calls.         */
+/*                                                            */
+/*            Changed find construct functionality so that    */
+/*            imported modules are search when locating a     */
+/*            named construct.                                */
 /*                                                            */
 /**************************************************************/
 
@@ -90,7 +94,49 @@ static const char *GetClassDefaultsModeName(unsigned short);
   SIDE EFFECTS : None
   NOTES        : None
  ******************************************************************/
-globle void *EnvFindDefclass(
+globle void *EnvFindDefclass( // TBD Needs to look in imported
+  void *theEnv,
+  const char *classAndModuleName)
+  {
+   SYMBOL_HN *classSymbol = NULL;
+   DEFCLASS *cls;
+   struct defmodule *theModule = NULL;
+   const char *className;
+
+   SaveCurrentModule(theEnv);
+   className = ExtractModuleAndConstructName(theEnv,classAndModuleName);
+   if (className != NULL)
+     {
+      classSymbol = FindSymbolHN(theEnv,ExtractModuleAndConstructName(theEnv,classAndModuleName));
+      theModule = ((struct defmodule *) EnvGetCurrentModule(theEnv));
+     }
+   RestoreCurrentModule(theEnv);
+
+   if (classSymbol == NULL)
+     return(NULL);
+   cls = DefclassData(theEnv)->ClassTable[HashClass(classSymbol)];
+   while (cls != NULL)
+     {
+      if (cls->header.name == classSymbol)
+        {
+         if (cls->system || (cls->header.whichModule->theModule == theModule))
+           return(cls->installed ? (void *) cls : NULL);
+        }
+      cls = cls->nxtHash;
+     }
+   return(NULL);
+  }
+
+/*******************************************************************
+  NAME         : EnvFindDefclass
+  DESCRIPTION  : Looks up a specified class in the class hash table
+                 (Only looks in current or specified module)
+  INPUTS       : The name-string of the class (including module)
+  RETURNS      : The address of the found class, NULL otherwise
+  SIDE EFFECTS : None
+  NOTES        : None
+ ******************************************************************/
+globle void *EnvFindDefclassInModule(
   void *theEnv,
   const char *classAndModuleName)
   {
@@ -259,6 +305,9 @@ globle intBool DefclassInScope(
    moduleID = (int) theModule->bsaveID;
    return(TestBitMap(scopeMap,moduleID) ? TRUE : FALSE);
 #else
+#if MAC_XCD
+#pragma unused(theEnv,theDefclass,theModule)
+#endif
    return(TRUE);
 #endif
   }
@@ -337,7 +386,6 @@ globle intBool EnvUndefclass(
   void *theEnv,
   void *theDefclass)
   {
-
 #if RUN_TIME || BLOAD_ONLY
    return(FALSE);
 #else
@@ -418,6 +466,9 @@ globle unsigned EnvGetDefclassWatchInstances(
   void *theEnv,
   void *theClass)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((DEFCLASS *) theClass)->traceInstances);
   }
@@ -439,6 +490,9 @@ globle void EnvSetDefclassWatchInstances(
   unsigned newState,
   void *theClass)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if (((DEFCLASS *) theClass)->abstract)
      return;
@@ -460,6 +514,9 @@ globle unsigned EnvGetDefclassWatchSlots(
   void *theEnv,
   void *theClass)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((DEFCLASS *) theClass)->traceSlots);
   }
@@ -480,6 +537,9 @@ globle void EnvSetDefclassWatchSlots(
   unsigned newState,
   void *theClass)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    ((DEFCLASS *) theClass)->traceSlots = newState;
   }
@@ -648,6 +708,9 @@ globle void SaveDefclasses(
 #if DEBUGGING_FUNCTIONS
    DoForAllConstructsInModule(theEnv,theModule,SaveDefclass,DefclassData(theEnv)->DefclassModuleIndex,FALSE,(void *) logName);
 #else
+#if MAC_XCD
+#pragma unused(theEnv,theModule,logName)
+#endif
 #endif
   }
 
@@ -889,7 +952,6 @@ globle void GetDefclassList(
   }
 
 globle void *GetNextDefclass(
-  void *theEnv,
   void *ptr)
   {
    return EnvGetNextDefclass(GetCurrentEnvironment(),ptr);

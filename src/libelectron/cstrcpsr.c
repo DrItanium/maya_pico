@@ -528,9 +528,9 @@ static int FindError(
   void *theEnv,
   const char *logicalName)
   {
-
-
-
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if ( (strcmp(logicalName,WERROR) == 0) ||
         (strcmp(logicalName,WWARNING) == 0) )
@@ -778,6 +778,9 @@ globle SYMBOL_HN *GetConstructNameAndComment(
   int moduleNameAllowed,
   int ignoreRedefinition)
   {
+#if (MAC_XCD) && (! DEBUGGING_FUNCTIONS)
+#pragma unused(fullMessageCR)
+#endif
    SYMBOL_HN *name, *moduleName;
    int redefining = FALSE;
    void *theConstruct;

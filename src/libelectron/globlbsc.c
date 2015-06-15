@@ -129,6 +129,9 @@ static void ResetDefglobalAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
    struct defglobal *theDefglobal = (struct defglobal *) theConstruct;
    DATA_OBJECT assignValue;
 
@@ -263,6 +266,9 @@ globle unsigned EnvGetDefglobalWatch(
   void *theEnv,
   void *theGlobal)
   { 
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    return(((struct defglobal *) theGlobal)->watch); 
   }
@@ -276,6 +282,9 @@ globle void EnvSetDefglobalWatch(
   unsigned newState,
   void *theGlobal)
   {  
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    ((struct defglobal *) theGlobal)->watch = newState; 
   }
@@ -292,6 +301,9 @@ static unsigned DefglobalWatchAccess(
   unsigned newState,
   EXPRESSION *argExprs)
   {
+#if MAC_XCD
+#pragma unused(code)
+#endif
 
    return(ConstructSetWatchAccess(theEnv,DefglobalData(theEnv)->DefglobalConstruct,newState,argExprs,
                                   EnvGetDefglobalWatch,EnvSetDefglobalWatch));
@@ -307,6 +319,9 @@ static unsigned DefglobalWatchPrint(
   int code,
   EXPRESSION *argExprs)
   {
+#if MAC_XCD
+#pragma unused(code)
+#endif
 
    return(ConstructPrintWatchAccess(theEnv,DefglobalData(theEnv)->DefglobalConstruct,logName,argExprs,
                                     EnvGetDefglobalWatch,EnvSetDefglobalWatch));

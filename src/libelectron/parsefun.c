@@ -355,6 +355,9 @@ static int FindErrorCapture(
   void *theEnv,
   const char *logicalName)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if ((strcmp(logicalName,WERROR) == 0) ||
        (strcmp(logicalName,WWARNING) == 0))
@@ -412,7 +415,6 @@ globle int CheckSyntax(
   const char *theString,
   DATA_OBJECT_PTR returnValue)
   {
-
    PrintErrorID(theEnv,"PARSEFUN",1,FALSE);
    EnvPrintRouter(theEnv,WERROR,"Function check-syntax does not work in run time modules.\n");
    SetpType(returnValue,SYMBOL);

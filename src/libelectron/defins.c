@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*             CLIPS Version 6.30  02/04/15            */
    /*                                                     */
    /*                  DEFINSTANCES MODULE                */
    /*******************************************************/
@@ -42,6 +42,10 @@
 /*            deprecation warnings.                          */
 /*                                                           */
 /*            Converted API macros to function calls.        */
+/*                                                           */
+/*            Changed find construct functionality so that   */
+/*            imported modules are search when locating a    */
+/*            named construct.                               */
 /*                                                           */
 /*************************************************************/
 
@@ -160,7 +164,7 @@ globle void SetupDefinstances(
 #else
                                     NULL,
 #endif
-                                    EnvFindDefinstances);
+                                    EnvFindDefinstancesInModule);
 
    DefinstancesData(theEnv)->DefinstancesConstruct =
       AddConstruct(theEnv,"definstances","definstances",
@@ -242,6 +246,9 @@ static void DeallocateDefinstancesData(
       rtn_struct(theEnv,definstancesModule,theModuleItem);
      }
 #else
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 #endif
   }
 
@@ -255,6 +262,9 @@ static void DestroyDefinstancesAction(
   struct constructHeader *theConstruct,
   void *buffer)
   {
+#if MAC_XCD
+#pragma unused(buffer)
+#endif
 #if (! BLOAD_ONLY) && (! RUN_TIME)
    struct definstances *theDefinstances = (struct definstances *) theConstruct;
    
@@ -266,6 +276,9 @@ static void DestroyDefinstancesAction(
 
    rtn_struct(theEnv,definstances,theDefinstances);
 #else
+#if MAC_XCD
+#pragma unused(theConstruct,theEnv)
+#endif
 #endif
   }
 #endif
@@ -302,7 +315,24 @@ globle void *EnvFindDefinstances(
   void *theEnv,
   const char *name)
   {
-   return(FindNamedConstruct(theEnv,name,DefinstancesData(theEnv)->DefinstancesConstruct));
+   return(FindNamedConstructInModuleOrImports(theEnv,name,DefinstancesData(theEnv)->DefinstancesConstruct));
+  }
+
+/***************************************************
+  NAME         : EnvFindDefinstancesInModule
+  DESCRIPTION  : Looks up a definstance construct
+                   by name-string
+  INPUTS       : The symbolic name
+  RETURNS      : The definstance address, or NULL
+                    if not found
+  SIDE EFFECTS : None
+  NOTES        : None
+ ***************************************************/
+globle void *EnvFindDefinstancesInModule(
+  void *theEnv,
+  const char *name)
+  {
+   return(FindNamedConstructInModule(theEnv,name,DefinstancesData(theEnv)->DefinstancesConstruct));
   }
 
 /***************************************************
@@ -366,6 +396,9 @@ globle intBool EnvUndefinstances(
   void *vptr)
   {
 #if RUN_TIME || BLOAD_ONLY
+#if MAC_XCD
+#pragma unused(theEnv,vptr)
+#endif
    return(FALSE);
 #else
    DEFINSTANCES *dptr;
@@ -621,7 +654,7 @@ static SYMBOL_HN *ParseDefinstancesName(
 
    *active = FALSE;
    dname = GetConstructNameAndComment(theEnv,readSource,&DefclassData(theEnv)->ObjectParseToken,"definstances",
-                                      EnvFindDefinstances,EnvUndefinstances,"@",
+                                      EnvFindDefinstancesInModule,EnvUndefinstances,"@",
                                       TRUE,FALSE,TRUE,FALSE);
    if (dname == NULL)
      return(NULL);
@@ -861,6 +894,9 @@ static void CheckDefinstancesBusy(
   struct constructHeader *theDefinstances,
   void *userBuffer)
   {
+#if MAC_XCD
+#pragma unused(theEnv)
+#endif
 
    if (((DEFINSTANCES *) theDefinstances)->busy > 0)
      * (int *) userBuffer = FALSE;
@@ -903,6 +939,9 @@ static void ResetDefinstancesAction(
   struct constructHeader *vDefinstances,
   void *userBuffer)
   {
+#if MAC_XCD
+#pragma unused(userBuffer)
+#endif
    DEFINSTANCES *theDefinstances = (DEFINSTANCES *) vDefinstances;
    EXPRESSION *theExp;
    DATA_OBJECT temp;
@@ -1007,7 +1046,6 @@ globle const char *GetDefinstancesName(
   }
 
 globle const char *GetDefinstancesPPForm(
-  void *theEnv,
   void *theDefinstances)
   {
    return EnvGetDefinstancesPPForm(GetCurrentEnvironment(),theDefinstances);

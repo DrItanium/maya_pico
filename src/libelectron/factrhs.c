@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/20/14            */
+   /*             CLIPS Version 6.30  02/05/15            */
    /*                                                     */
    /*            FACT RHS PATTERN PARSER MODULE           */
    /*******************************************************/
@@ -28,6 +28,10 @@
 /*            Added code to prevent a clear command from     */
 /*            being executed during fact assertions via      */
 /*            Increment/DecrementClearReadyLocks API.        */
+/*                                                           */
+/*            Added code to keep track of pointers to        */
+/*            constructs that are contained externally to    */
+/*            to constructs, DanglingConstructs.             */
 /*                                                           */
 /*************************************************************/
 
@@ -346,6 +350,12 @@ globle struct expr *GetRHSPattern(
       firstOne->nextArg = ParseAssertTemplate(theEnv,readSource,tempToken,
                                               error,endType,
                                               constantsOnly,theDeftemplate);
+
+#if (! RUN_TIME) && (! BLOAD_ONLY)
+      if (! ConstructData(theEnv)->ParsingConstruct)
+        { ConstructData(theEnv)->DanglingConstructs++; }
+#endif
+
       if (*error)
         {
          ReturnExpression(theEnv,firstOne);
@@ -360,6 +370,11 @@ globle struct expr *GetRHSPattern(
    /*========================================*/
 
    firstOne = GenConstant(theEnv,DEFTEMPLATE_PTR,theDeftemplate);
+
+#if (! RUN_TIME) && (! BLOAD_ONLY)
+   if (! ConstructData(theEnv)->ParsingConstruct)
+     { ConstructData(theEnv)->DanglingConstructs++; }
+#endif
 
 #if (! RUN_TIME) && (! BLOAD_ONLY)
    SavePPBuffer(theEnv," ");

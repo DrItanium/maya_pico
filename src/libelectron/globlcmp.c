@@ -89,6 +89,11 @@ static void InitDefglobalsCode(
   int imageID,
   int maxIndices)
   {
+#if MAC_XCD
+#pragma unused(maxIndices)
+#pragma unused(imageID)
+#pragma unused(theEnv)
+#endif
    fprintf(initFP,"   ResetDefglobals(theEnv);\n");
   }
 
@@ -213,6 +218,9 @@ static void DefglobalModuleToCode(
   int maxIndices,
   int moduleCount)
   {
+#if MAC_XCD
+#pragma unused(moduleCount)
+#endif
 
    fprintf(theFile,"{");
 
