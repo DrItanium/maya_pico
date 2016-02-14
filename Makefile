@@ -1,9 +1,11 @@
 ########### MAKEFILE FOR MAYA ###########
 include config.mk
-LIBELECTRON_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libelectron/*.c))
-LIBMAYA_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libmaya/*.c))
-MAYA_EXECUTABLE_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/cmd/repl/*.c))
-OBJS = ${LIBELECTRON_OBJECTS} ${LIBMAYA_OBJECTS} ${MAYA_EXECUTABLE_OBJECTS}
+OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
+#LIBELECTRON_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libelectron/*.c))
+#LIBMAYA_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libmaya/*.c))
+#MAYA_EXECUTABLE_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/cmd/repl/*.c))
+#OBJS = ${LIBELECTRON_OBJECTS} ${LIBMAYA_OBJECTS} ${MAYA_EXECUTABLE_OBJECTS}
+OBJS = ${OBJECTS}
 
 .PHONY: clean all
 
@@ -11,7 +13,7 @@ all: program
 
 program: $(OBJS) 
 	@echo Building $(OUTPUT)
-	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS) -lm -lrt
+	@$(CC) $(LDFLAGS) -o $(OUTPUT) $(OBJS)
 
 install:
 	@echo Installing binaries to $(PREFIX)/bin
