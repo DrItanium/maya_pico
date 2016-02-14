@@ -27,14 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _CORE_USER_SETUP_H
 #define _CORE_USER_SETUP_H
 
-typedef signed char schar;
-typedef unsigned char uchar;
-typedef unsigned short ushort;
-typedef unsigned int uint;
-typedef unsigned long ulong;
-typedef unsigned long long uvlong;
-typedef long long vlong;
-
 /* Operating System Specific Defines */
 #ifdef _WIN32
 #define OS_NAME "Nt"

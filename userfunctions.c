@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*               CLIPS Version 6.30  08/16/14          */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*                USER FUNCTIONS MODULE                */
    /*******************************************************/
@@ -46,9 +46,6 @@
 /***************************************************************************/
 
 #include "clips.h"
-#if MAYA_EXTENSIONS
-#include "libmaya.h"
-#endif
 
 void UserFunctions(void);
 void EnvUserFunctions(void *);
@@ -62,11 +59,12 @@ void EnvUserFunctions(void *);
 /*   this function can be deleted from this file and     */
 /*   included in another file.                           */
 /*********************************************************/
-void UserFunctions() 
+void UserFunctions()
   {
-      // Use of UserFunctions is deprecated
-      // Use EnvUserFunctions instead
+   // Use of UserFunctions is deprecated.
+   // Use EnvUserFunctions instead.
   }
+  
 /***********************************************************/
 /* EnvUserFunctions: Informs the expert system environment */
 /*   of any user defined functions. In the default case,   */
@@ -76,9 +74,11 @@ void UserFunctions()
 /*   this function can be deleted from this file and       */
 /*   included in another file.                             */
 /***********************************************************/
-void EnvUserFunctions(void *environment) {
-#if MAYA_EXTENSIONS
-   MayaDefinitions(environment);
+void EnvUserFunctions(
+  void *environment)
+  {
+#if MAC_XCD
+#pragma unused(environment)
 #endif
-}
+  }
 

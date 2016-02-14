@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.31  06/04/15            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*               SYSTEM DEPENDENT MODULE               */
    /*******************************************************/
@@ -75,7 +75,7 @@
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
 /*                                                           */
-/*      6.31: Refactored code to reduce header dependencies  */
+/*      6.40: Refactored code to reduce header dependencies  */
 /*            in sysdep.c.                                   */
 /*                                                           */
 /*            Modified gentime to return "comparable" epoch  */
@@ -83,28 +83,21 @@
 /*                                                           */
 /*            Updated compilations flags for CatchCtrlC.     */
 /*                                                           */
+/*            Added genchdir function for changing the       */
+/*            current directory.                             */
+/*                                                           */
+/*            Moved CatchCtrlC to main.c.                    */
+/*                                                           */
 /*************************************************************/
-
-#define _SYSDEP_SOURCE_
 
 #include "setup.h"
 
 #include <stdio.h>
-#define _STDIO_INCLUDED_
 #include <string.h>
 
 #include <stdlib.h>
 #include <time.h>
 #include <stdarg.h>
-
-#if   VAX_VMS
-#include timeb
-#include <descrip.h>
-#include <ssdef.h>
-#include <stsdef.h>
-#include signal
-extern int LIB$SPAWN();
-#endif
 
 #if MAC_XCD
 #include <sys/time.h>
@@ -127,6 +120,7 @@ extern int LIB$SPAWN();
 #if   UNIX_V || LINUX || DARWIN
 #include <sys/time.h>
 #include <signal.h>
+#include <unistd.h>
 #endif
 
 #include "envrnmnt.h"
@@ -161,19 +155,11 @@ struct systemDependentData
 
 #define SystemDependentData(theEnv) ((struct systemDependentData *) GetEnvironmentData(theEnv,SYSTEM_DEPENDENT_DATA))
 
-/***************************************/
-/* LOCAL INTERNAL FUNCTION DEFINITIONS */
-/***************************************/
-
-#if   (VAX_VMS || UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC) && ((! WINDOW_INTERFACE) && ALLOW_ENVIRONMENT_GLOBALS)
-   static void                    CatchCtrlC(int);
-#endif
-
 /********************************************************/
 /* InitializeSystemDependentData: Allocates environment */
 /*    data for system dependent routines.               */
 /********************************************************/
-globle void InitializeSystemDependentData(
+void InitializeSystemDependentData(
   void *theEnv)
   {
    AllocateEnvironmentData(theEnv,SYSTEM_DEPENDENT_DATA,sizeof(struct systemDependentData),NULL);
@@ -184,7 +170,7 @@ globle void InitializeSystemDependentData(
 /*   for use with a user interface that may be        */
 /*   overwritten by execution of a command.           */
 /******************************************************/
-globle void SetRedrawFunction(
+void SetRedrawFunction(
   void *theEnv,
   void (*theFunction)(void *))
   {
@@ -195,7 +181,7 @@ globle void SetRedrawFunction(
 /* SetPauseEnvFunction: Set the normal state function */
 /*   which puts terminal in a normal state.           */
 /******************************************************/
-globle void SetPauseEnvFunction(
+void SetPauseEnvFunction(
   void *theEnv,
   void (*theFunction)(void *))
   {
@@ -207,7 +193,7 @@ globle void SetPauseEnvFunction(
 /*   function which returns the terminal to a special    */
 /*   screen interface state.                             */
 /*********************************************************/
-globle void SetContinueEnvFunction(
+void SetContinueEnvFunction(
   void *theEnv,
   void (*theFunction)(void *,int))
   {
@@ -217,7 +203,7 @@ globle void SetContinueEnvFunction(
 /*******************************************************/
 /* GetRedrawFunction: Gets the redraw screen function. */
 /*******************************************************/
-globle void (*GetRedrawFunction(void *theEnv))(void *)
+void (*GetRedrawFunction(void *theEnv))(void *)
   {
    return SystemDependentData(theEnv)->RedrawScreenFunction;
   }
@@ -225,7 +211,7 @@ globle void (*GetRedrawFunction(void *theEnv))(void *)
 /*****************************************************/
 /* GetPauseEnvFunction: Gets the normal state function. */
 /*****************************************************/
-globle void (*GetPauseEnvFunction(void *theEnv))(void *)
+void (*GetPauseEnvFunction(void *theEnv))(void *)
   {
    return SystemDependentData(theEnv)->PauseEnvFunction;
   }
@@ -234,7 +220,7 @@ globle void (*GetPauseEnvFunction(void *theEnv))(void *)
 /* GetContinueEnvFunction: Gets the continue */
 /*   environment function.                   */
 /*********************************************/
-globle void (*GetContinueEnvFunction(void *theEnv))(void *,int)
+void (*GetContinueEnvFunction(void *theEnv))(void *,int)
   {
    return SystemDependentData(theEnv)->ContinueEnvFunction;
   }
@@ -244,7 +230,7 @@ globle void (*GetContinueEnvFunction(void *theEnv))(void *,int)
 /*   which indicates the present time. Used internally   */
 /*   for timing rule firings and debugging.              */
 /*********************************************************/
-globle double gentime()
+double gentime()
   {
 #if MAC_XCD || UNIX_V || DARWIN || LINUX || UNIX_7
    struct timeval now;
@@ -270,7 +256,7 @@ globle double gentime()
 /* gensystem: Generic routine for passing a string   */
 /*   representing a command to the operating system. */
 /*****************************************************/
-globle void gensystem(
+void gensystem(
   void *theEnv,
   const char *commandBuffer)
   {
@@ -284,7 +270,7 @@ globle void gensystem(
 /* gengetchar: Generic routine for getting */
 /*    a character from stdin.              */
 /*******************************************/
-globle int gengetchar(
+int gengetchar(
   void *theEnv)
   {
 /*
@@ -321,7 +307,7 @@ globle int gengetchar(
 /* genungetchar: Generic routine for ungetting */
 /*    a character from stdin.                  */
 /***********************************************/
-globle int genungetchar(
+int genungetchar(
   void *theEnv,
   int theChar)
   {
@@ -346,7 +332,7 @@ globle int genungetchar(
 /* genprintfile: Generic routine for print a single */
 /*   character string to a file (including stdout). */
 /****************************************************/
-globle void genprintfile(
+void genprintfile(
   void *theEnv,
   FILE *fptr,
   const char *str)
@@ -386,51 +372,18 @@ globle void genprintfile(
 /*   requiring initialization is the interrupt handler     */
 /*   which allows execution to be halted.                  */
 /***********************************************************/
-globle void InitializeNonportableFeatures(
+void InitializeNonportableFeatures(
   void *theEnv)
   {
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
-#if (! WINDOW_INTERFACE) && ALLOW_ENVIRONMENT_GLOBALS
-
-#if VAX_VMS || UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
-#endif
-
-#endif
   }
-
-/*************************************************************/
-/* Functions For Handling Control C Interrupt: The following */
-/*   functions handle interrupt processing for several       */
-/*   machines. For the Macintosh control-c is not handle,    */
-/*   but a function is provided to call periodically which   */
-/*   calls SystemTask (allowing periodic tasks to be handled */
-/*   by the operating system).                               */
-/*************************************************************/
-
-#if (! WINDOW_INTERFACE) && ALLOW_ENVIRONMENT_GLOBALS
-
-#if   VAX_VMS || UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
-/**********************************************/
-/* CatchCtrlC: VMS and UNIX specific function */
-/*   to allow control-c interrupts.           */
-/**********************************************/
-static void CatchCtrlC(
-  int sgnl)
-  {
-   InterruptCurrentEnvironment();
-   signal(SIGINT,CatchCtrlC);
-  }
-#endif
-
-#endif
 
 /**************************************/
 /* genexit:  A generic exit function. */
 /**************************************/
-globle void genexit(
+void genexit(
   void *theEnv,
   int num)
   {
@@ -443,7 +396,7 @@ globle void genexit(
 /**************************************/
 /* SetJmpBuffer: */
 /**************************************/
-globle void SetJmpBuffer(
+void SetJmpBuffer(
   void *theEnv,
   jmp_buf *theJmpBuffer)
   {
@@ -523,7 +476,7 @@ int genrand()
 /**********************************************************************/
 /* genseed: Generic function for seeding the random number generator. */
 /**********************************************************************/
-globle void genseed(
+void genseed(
   int seed)
   {
    srand((unsigned) seed);
@@ -533,7 +486,7 @@ globle void genseed(
 /* gengetcwd: Generic function for returning */
 /*   the current directory.                  */
 /*********************************************/
-globle char *gengetcwd(
+char *gengetcwd(
   char *buffer,
   int buflength)
   {
@@ -546,34 +499,51 @@ globle char *gengetcwd(
    return(buffer);
   }
 
+/******************************************/
+/* genchdir: Generic function for setting */
+/*   the current directory.               */
+/******************************************/
+int genchdir(
+  const char *directory)
+  {
+#if MAC_XCD || DARWIN || LINUX
+   return(chdir(directory));
+#endif
+#if WIN_MVC
+   return(_chdir(directory));
+#endif
+
+   return -1;
+  }
+
 /****************************************************/
 /* genremove: Generic function for removing a file. */
 /****************************************************/
-globle int genremove(
+bool genremove(
   const char *fileName)
   {
-   if (remove(fileName)) return(0);
+   if (remove(fileName)) return(false);
 
-   return(1);
+   return(true);
   }
 
 /****************************************************/
 /* genrename: Generic function for renaming a file. */
 /****************************************************/
-globle int genrename(
+bool genrename(
   const char *oldFileName,
   const char *newFileName)
   {
-   if (rename(oldFileName,newFileName)) return(0);
+   if (rename(oldFileName,newFileName)) return(false);
 
-   return(1);
+   return(true);
   }
 
 /**************************************/
 /* EnvSetBeforeOpenFunction: Sets the */
 /*  value of BeforeOpenFunction.      */
 /**************************************/
-globle int (*EnvSetBeforeOpenFunction(void *theEnv,
+int (*EnvSetBeforeOpenFunction(void *theEnv,
                                       int (*theFunction)(void *)))(void *)
   {
    int (*tempFunction)(void *);
@@ -587,7 +557,7 @@ globle int (*EnvSetBeforeOpenFunction(void *theEnv,
 /* EnvSetAfterOpenFunction: Sets the */
 /*  value of AfterOpenFunction.      */
 /*************************************/
-globle int (*EnvSetAfterOpenFunction(void *theEnv,
+int (*EnvSetAfterOpenFunction(void *theEnv,
                                      int (*theFunction)(void *)))(void *)
   {
    int (*tempFunction)(void *);
@@ -600,11 +570,7 @@ globle int (*EnvSetAfterOpenFunction(void *theEnv,
 /*********************************************/
 /* GenOpen: Trap routine for opening a file. */
 /*********************************************/
-#if FILE_SYSTEM_ROOTING
-globle FILE *_GenOpen(
-#else
-globle FILE *GenOpen(
-#endif // FILE_SYSTEM_ROOTING
+FILE *GenOpen(
   void *theEnv,
   const char *fileName,
   const char *accessType)
@@ -675,7 +641,7 @@ globle FILE *GenOpen(
 /**********************************************/
 /* GenClose: Trap routine for closing a file. */
 /**********************************************/
-globle int GenClose(
+int GenClose(
   void *theEnv,
   FILE *theFile)
   {
@@ -698,11 +664,7 @@ globle int GenClose(
 /*   open at a time when using this function since the file */
 /*   pointer is stored in a global variable.                */
 /************************************************************/
-#if FILE_SYSTEM_ROOTING
-globle int _GenOpenReadBinary(
-#else
-globle int GenOpenReadBinary(
-#endif // FILE_SYSTEM_ROOTING
+int GenOpenReadBinary(
   void *theEnv,
   const char *funcName,
   const char *fileName)
@@ -739,7 +701,7 @@ globle int GenOpenReadBinary(
 /* GenReadBinary: Generic and machine specific */
 /*   code for reading from a file.             */
 /***********************************************/
-globle void GenReadBinary(
+void GenReadBinary(
   void *theEnv,
   void *dataPtr,
   size_t size)
@@ -768,7 +730,7 @@ globle void GenReadBinary(
 /* GetSeekCurBinary:  Generic and machine specific */
 /*   code for seeking a position in a file.        */
 /***************************************************/
-globle void GetSeekCurBinary(
+void GetSeekCurBinary(
   void *theEnv,
   long offset)
   {
@@ -785,7 +747,7 @@ globle void GetSeekCurBinary(
 /* GetSeekSetBinary:  Generic and machine specific */
 /*   code for seeking a position in a file.        */
 /***************************************************/
-globle void GetSeekSetBinary(
+void GetSeekSetBinary(
   void *theEnv,
   long offset)
   {
@@ -802,7 +764,7 @@ globle void GetSeekSetBinary(
 /* GenTellBinary:  Generic and machine specific */
 /*   code for telling a position in a file.     */
 /************************************************/
-globle void GenTellBinary(
+void GenTellBinary(
   void *theEnv,
   long *offset)
   {
@@ -819,7 +781,7 @@ globle void GenTellBinary(
 /* GenCloseBinary:  Generic and machine */
 /*   specific code for closing a file.  */
 /****************************************/
-globle void GenCloseBinary(
+void GenCloseBinary(
   void *theEnv)
   {
    if (SystemDependentData(theEnv)->BeforeOpenFunction != NULL)
@@ -841,7 +803,7 @@ globle void GenCloseBinary(
 /* GenWrite: Generic routine for writing to a  */
 /*   file. No machine specific code as of yet. */
 /***********************************************/
-globle void GenWrite(
+void GenWrite(
   void *dataPtr,
   size_t size,
   FILE *fp)

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*                DEFFACTS PARSER MODULE               */
    /*******************************************************/
@@ -32,22 +32,21 @@
 /*                                                           */
 /*************************************************************/
 
-#define _DFFCTPSR_SOURCE_
-
 #include "setup.h"
 
 #if DEFFACTS_CONSTRUCT
 
-#include "envrnmnt.h"
-#include "memalloc.h"
-#include "router.h"
-#include "cstrcpsr.h"
-#include "factrhs.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
-#include "dffctdef.h"
+
+#include "cstrcpsr.h"
 #include "dffctbsc.h"
+#include "dffctdef.h"
+#include "envrnmnt.h"
+#include "factrhs.h"
+#include "memalloc.h"
+#include "router.h"
 
 #include "dffctpsr.h"
 
@@ -57,7 +56,7 @@
 /*   environment. Called when parsing a construct after the */
 /*   deffacts keyword has been found.                       */
 /************************************************************/
-globle int ParseDeffacts(
+bool ParseDeffacts(
   void *theEnv,
   const char *readSource)
   {
@@ -65,15 +64,15 @@ globle int ParseDeffacts(
    SYMBOL_HN *deffactsName;
    struct expr *temp;
    struct deffacts *newDeffacts;
-   int deffactsError;
+   bool deffactsError;
    struct token inputToken;
 
    /*=========================*/
    /* Parsing initialization. */
    /*=========================*/
 
-   deffactsError = FALSE;
-   SetPPBufferStatus(theEnv,ON);
+   deffactsError = false;
+   SetPPBufferStatus(theEnv,true);
 
    FlushPPBuffer(theEnv);
    SetIndentDepth(theEnv,3);
@@ -84,10 +83,10 @@ globle int ParseDeffacts(
    /*==========================================================*/
 
 #if BLOAD || BLOAD_AND_BSAVE
-   if ((Bloaded(theEnv) == TRUE) && (! ConstructData(theEnv)->CheckSyntaxMode))
+   if ((Bloaded(theEnv) == true) && (! ConstructData(theEnv)->CheckSyntaxMode))
      {
       CannotLoadWithBloadMessage(theEnv,"deffacts");
-      return(TRUE);
+      return(true);
      }
 #endif
 
@@ -96,23 +95,23 @@ globle int ParseDeffacts(
    /*============================*/
 
    deffactsName = GetConstructNameAndComment(theEnv,readSource,&inputToken,"deffacts",
-                                             EnvFindDeffactsInModule,EnvUndeffacts,"$",TRUE,
-                                             TRUE,TRUE,FALSE);
-   if (deffactsName == NULL) { return(TRUE); }
+                                             EnvFindDeffactsInModule,EnvUndeffacts,"$",true,
+                                             true,true,false);
+   if (deffactsName == NULL) { return(true); }
 
    /*===============================================*/
    /* Parse the list of facts in the deffacts body. */
    /*===============================================*/
 
-   temp = BuildRHSAssert(theEnv,readSource,&inputToken,&deffactsError,FALSE,FALSE,"deffacts");
+   temp = BuildRHSAssert(theEnv,readSource,&inputToken,&deffactsError,false,false,"deffacts");
 
-   if (deffactsError == TRUE) { return(TRUE); }
+   if (deffactsError == true) { return(true); }
 
-   if (ExpressionContainsVariables(temp,FALSE))
+   if (ExpressionContainsVariables(temp,false))
      {
       LocalVariableErrorMessage(theEnv,"a deffacts construct");
       ReturnExpression(theEnv,temp);
-      return(TRUE);
+      return(true);
      }
 
    SavePPBuffer(theEnv,"\n");
@@ -125,7 +124,7 @@ globle int ParseDeffacts(
    if (ConstructData(theEnv)->CheckSyntaxMode)
      {
       ReturnExpression(theEnv,temp);
-      return(FALSE);
+      return(false);
      }
 
    /*==========================*/
@@ -148,7 +147,7 @@ globle int ParseDeffacts(
    /* Save the pretty print representation of the deffacts. */
    /*=======================================================*/
 
-   if (EnvGetConserveMemory(theEnv) == TRUE)
+   if (EnvGetConserveMemory(theEnv) == true)
      { newDeffacts->header.ppForm = NULL; }
    else
      { newDeffacts->header.ppForm = CopyPPBuffer(theEnv); }
@@ -162,10 +161,10 @@ globle int ParseDeffacts(
 #endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
 
    /*================================================================*/
-   /* Return FALSE to indicate the deffacts was successfully parsed. */
+   /* Return false to indicate the deffacts was successfully parsed. */
    /*================================================================*/
 
-   return(FALSE);
+   return(false);
   }
 
 #endif /* DEFFACTS_CONSTRUCT */

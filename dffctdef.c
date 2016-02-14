@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  01/25/15            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*              DEFFACTS DEFINITION MODULE             */
    /*******************************************************/
@@ -39,19 +39,16 @@
 /*                                                           */
 /*************************************************************/
 
-#define _DFFCTDEF_SOURCE_
-
 #include "setup.h"
 
 #if DEFFACTS_CONSTRUCT
 
 #include <stdio.h>
-#define _STDIO_INCLUDED_
 
-#include "memalloc.h"
-#include "dffctpsr.h"
 #include "dffctbsc.h"
+#include "dffctpsr.h"
 #include "envrnmnt.h"
+#include "memalloc.h"
 
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
 #include "bload.h"
@@ -80,7 +77,7 @@
 /***********************************************************/
 /* InitializeDeffacts: Initializes the deffacts construct. */
 /***********************************************************/
-globle void InitializeDeffacts(  
+void InitializeDeffacts(  
   void *theEnv)
   {
    AllocateEnvironmentData(theEnv,DEFFACTS_DATA,sizeof(struct deffactsData),DeallocateDeffactsData);
@@ -111,7 +108,7 @@ static void DeallocateDeffactsData(
    if (Bloaded(theEnv)) return;
 #endif
 
-   DoForAllConstructs(theEnv,DestroyDeffactsAction,DeffactsData(theEnv)->DeffactsModuleIndex,FALSE,NULL); 
+   DoForAllConstructs(theEnv,DestroyDeffactsAction,DeffactsData(theEnv)->DeffactsModuleIndex,false,NULL);
 
    for (theModule = EnvGetNextDefmodule(theEnv,NULL);
         theModule != NULL;
@@ -208,7 +205,7 @@ static void ReturnModule(
 /* GetDeffactsModuleItem: Returns a pointer to the defmodule */
 /*  item for the specified deffacts or defmodule.            */
 /*************************************************************/
-globle struct deffactsModule *GetDeffactsModuleItem(
+struct deffactsModule *GetDeffactsModuleItem(
   void *theEnv,
   struct defmodule *theModule)
   { 
@@ -220,7 +217,7 @@ globle struct deffactsModule *GetDeffactsModuleItem(
 /*   list of deffacts. Returns a pointer to the   */
 /*   deffact if found, otherwise NULL.            */
 /**************************************************/
-globle void *EnvFindDeffacts(
+void *EnvFindDeffacts(
   void *theEnv,
   const char *deffactsName)
   { 
@@ -232,7 +229,7 @@ globle void *EnvFindDeffacts(
 /*   list of deffacts. Returns a pointer to the   */
 /*   deffact if found, otherwise NULL.            */
 /**************************************************/
-globle void *EnvFindDeffactsInModule(
+void *EnvFindDeffactsInModule(
   void *theEnv,
   const char *deffactsName)
   { 
@@ -245,7 +242,7 @@ globle void *EnvFindDeffactsInModule(
 /*   returns the next deffacts following the deffacts    */
 /*   passed as an argument.                              */
 /*********************************************************/
-globle void *EnvGetNextDeffacts(
+void *EnvGetNextDeffacts(
   void *theEnv,
   void *deffactsPtr)
   {
@@ -253,10 +250,10 @@ globle void *EnvGetNextDeffacts(
   }
 
 /********************************************************/
-/* EnvIsDeffactsDeletable: Returns TRUE if a particular */
-/*   deffacts can be deleted, otherwise returns FALSE.  */
+/* EnvIsDeffactsDeletable: Returns true if a particular */
+/*   deffacts can be deleted, otherwise returns false.  */
 /********************************************************/
-globle intBool EnvIsDeffactsDeletable(
+bool EnvIsDeffactsDeletable(
   void *theEnv,
   void *ptr)
   {
@@ -264,11 +261,11 @@ globle intBool EnvIsDeffactsDeletable(
 #pragma unused(ptr)
 #endif
    if (! ConstructsDeletable(theEnv))
-     { return FALSE; }
+     { return false; }
 
-   if (ConstructData(theEnv)->ResetInProgress) return(FALSE);
+   if (ConstructData(theEnv)->ResetInProgress) return(false);
 
-   return(TRUE);
+   return(true);
   }
 
 /***********************************************************/
@@ -297,70 +294,27 @@ static void ReturnDeffacts(
 /* Additional Environment Functions */
 /*##################################*/
 
-globle const char *EnvDeffactsModule(
+const char *EnvDeffactsModule(
   void *theEnv,
   void *theDeffacts)
   {
    return GetConstructModuleName((struct constructHeader *) theDeffacts);
   }
 
-globle const char *EnvGetDeffactsName(
+const char *EnvGetDeffactsName(
   void *theEnv,
   void *theDeffacts)
   {
    return GetConstructNameString((struct constructHeader *) theDeffacts);
   }
 
-globle const char *EnvGetDeffactsPPForm(
+const char *EnvGetDeffactsPPForm(
   void *theEnv,
   void *theDeffacts)
   {
    return GetConstructPPForm(theEnv,(struct constructHeader *) theDeffacts);
   }
 
-/*#####################################*/
-/* ALLOW_ENVIRONMENT_GLOBALS Functions */
-/*#####################################*/
-
-#if ALLOW_ENVIRONMENT_GLOBALS
-
-globle void *FindDeffacts(
-  const char *deffactsName)
-  {
-   return EnvFindDeffacts(GetCurrentEnvironment(),deffactsName);
-  }
-
-globle void *GetNextDeffacts(
-  void *deffactsPtr)
-  {
-   return EnvGetNextDeffacts(GetCurrentEnvironment(),deffactsPtr);
-  }
-
-globle intBool IsDeffactsDeletable(
-  void *ptr)
-  {
-   return EnvIsDeffactsDeletable(GetCurrentEnvironment(),ptr);
-  }
-
-globle const char *DeffactsModule(
-  void *theDeffacts)
-  {
-   return EnvDeffactsModule(GetCurrentEnvironment(),theDeffacts);
-  }
-
-globle const char *GetDeffactsName(
-  void *theDeffacts)
-  {
-   return EnvGetDeffactsName(GetCurrentEnvironment(),theDeffacts);
-  }
-
-globle const char *GetDeffactsPPForm(
-  void *theDeffacts)
-  {
-   return EnvGetDeffactsPPForm(GetCurrentEnvironment(),theDeffacts);
-  }
-
-#endif
 
 #endif /* DEFFACTS_CONSTRUCT */
 

@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.31  05/18/15            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*                  MULTIFIELD MODULE                  */
    /*******************************************************/
@@ -40,36 +40,33 @@
 /*            asserting void values in implied deftemplate   */
 /*            facts.                                         */
 /*                                                           */
-/*      6.31: Refactored code to reduce header dependencies  */
+/*      6.40: Refactored code to reduce header dependencies  */
 /*            in sysdep.c.                                   */
 /*                                                           */
 /*************************************************************/
 
-#define _MULTIFLD_SOURCE_
-
 #include <stdio.h>
-#define _STDIO_INCLUDED_
 
 #include "setup.h"
 
 #include "constant.h"
-#include "memalloc.h"
 #include "envrnmnt.h"
 #include "evaluatn.h"
+#include "memalloc.h"
+#if OBJECT_SYSTEM
+#include "object.h"
+#endif
 #include "scanner.h"
 #include "router.h"
 #include "strngrtr.h"
 #include "utility.h"
-#if OBJECT_SYSTEM
-#include "object.h"
-#endif
 
 #include "multifld.h"
 
 /**********************/
 /* CreateMultifield2: */
 /**********************/
-globle void *CreateMultifield2(
+void *CreateMultifield2(
   void *theEnv,
   long size)
   {
@@ -90,7 +87,7 @@ globle void *CreateMultifield2(
 /*********************/
 /* ReturnMultifield: */
 /*********************/
-globle void ReturnMultifield(
+void ReturnMultifield(
   void *theEnv,
   struct multifield *theSegment)
   {
@@ -107,7 +104,7 @@ globle void ReturnMultifield(
 /**********************/
 /* MultifieldInstall: */
 /**********************/
-globle void MultifieldInstall(
+void MultifieldInstall(
   void *theEnv,
   struct multifield *theSegment)
   {
@@ -128,7 +125,7 @@ globle void MultifieldInstall(
 /************************/
 /* MultifieldDeinstall: */
 /************************/
-globle void MultifieldDeinstall(
+void MultifieldDeinstall(
   void *theEnv,
   struct multifield *theSegment)
   {
@@ -149,7 +146,7 @@ globle void MultifieldDeinstall(
 /* StringToMultifield: Returns a multifield structure  */
 /*    that represents the string sent as the argument. */
 /*******************************************************/
-globle struct multifield *StringToMultifield(
+struct multifield *StringToMultifield(
   void *theEnv,
   const char *theString)
   {
@@ -224,7 +221,7 @@ globle struct multifield *StringToMultifield(
 /* EnvCreateMultifield: Creates a multifield of the specified */
 /*   size and adds it to the list of segments.                */
 /**************************************************************/
-globle void *EnvCreateMultifield(
+void *EnvCreateMultifield(
   void *theEnv,
   long size)
   {
@@ -242,7 +239,7 @@ globle void *EnvCreateMultifield(
 
    theSegment->next = UtilityData(theEnv)->CurrentGarbageFrame->ListOfMultifields;
    UtilityData(theEnv)->CurrentGarbageFrame->ListOfMultifields = theSegment;
-   UtilityData(theEnv)->CurrentGarbageFrame->dirty = TRUE;
+   UtilityData(theEnv)->CurrentGarbageFrame->dirty = true;
    if (UtilityData(theEnv)->CurrentGarbageFrame->LastMultifield == NULL)
      { UtilityData(theEnv)->CurrentGarbageFrame->LastMultifield = theSegment; }
 
@@ -252,7 +249,7 @@ globle void *EnvCreateMultifield(
 /*******************/
 /* DOToMultifield: */
 /*******************/
-globle void *DOToMultifield(
+void *DOToMultifield(
   void *theEnv,
   DATA_OBJECT *theValue)
   {
@@ -272,13 +269,13 @@ globle void *DOToMultifield(
 /************************/
 /* AddToMultifieldList: */
 /************************/
-globle void AddToMultifieldList(
+void AddToMultifieldList(
   void *theEnv,
   struct multifield *theSegment)
   {
    theSegment->next = UtilityData(theEnv)->CurrentGarbageFrame->ListOfMultifields;
    UtilityData(theEnv)->CurrentGarbageFrame->ListOfMultifields = theSegment;
-   UtilityData(theEnv)->CurrentGarbageFrame->dirty = TRUE;
+   UtilityData(theEnv)->CurrentGarbageFrame->dirty = true;
    if (UtilityData(theEnv)->CurrentGarbageFrame->LastMultifield == NULL)
      { UtilityData(theEnv)->CurrentGarbageFrame->LastMultifield = theSegment; }
   }
@@ -286,7 +283,7 @@ globle void AddToMultifieldList(
 /*********************/
 /* FlushMultifields: */
 /*********************/
-globle void FlushMultifields(
+void FlushMultifields(
   void *theEnv)
   {
    struct multifield *theSegment, *nextPtr, *lastPtr = NULL;
@@ -324,7 +321,7 @@ globle void FlushMultifields(
 /* DuplicateMultifield: Allocates a new segment and copies results from */
 /*   old value to new. This value is not put on the ListOfMultifields.  */
 /************************************************************************/
-globle void DuplicateMultifield(
+void DuplicateMultifield(
   void *theEnv,
   DATA_OBJECT_PTR dst,
   DATA_OBJECT_PTR src)
@@ -340,7 +337,7 @@ globle void DuplicateMultifield(
 /*******************/
 /* CopyMultifield: */
 /*******************/
-globle void *CopyMultifield(
+void *CopyMultifield(
   void *theEnv,
   struct multifield *src)
   {
@@ -355,7 +352,7 @@ globle void *CopyMultifield(
 /* EphemerateMultifield: Marks the values of a multifield */
 /*   as ephemeral if they have not already been marker.   */
 /**********************************************************/
-globle void EphemerateMultifield(
+void EphemerateMultifield(
   void *theEnv,
   struct multifield *theSegment)
   {
@@ -375,13 +372,13 @@ globle void EphemerateMultifield(
 /*********************************************/
 /* PrintMultifield: Prints out a multifield. */
 /*********************************************/
-globle void PrintMultifield(
+void PrintMultifield(
   void *theEnv,
   const char *fileid,
   struct multifield *segment,
   long begin,
   long end,
-  int printParens)
+  bool printParens)
   {
    struct field *theMultifield;
    int i;
@@ -403,11 +400,11 @@ globle void PrintMultifield(
 /****************************************************/
 /* StoreInMultifield: Append function for segments. */
 /****************************************************/
-globle void StoreInMultifield(
+void StoreInMultifield(
   void *theEnv,
   DATA_OBJECT *returnValue,
   EXPRESSION *expptr,
-  int garbageSegment)
+  bool garbageSegment)
   {
    DATA_OBJECT val_ptr;
    DATA_OBJECT *val_arr;
@@ -527,7 +524,7 @@ globle void StoreInMultifield(
 /*************************************************************/
 /* MultifieldDOsEqual: determines if two segments are equal. */
 /*************************************************************/
-globle intBool MultifieldDOsEqual(
+bool MultifieldDOsEqual(
   DATA_OBJECT_PTR dobj1,
   DATA_OBJECT_PTR dobj2)
   {
@@ -537,17 +534,17 @@ globle intBool MultifieldDOsEqual(
    extent1 = GetpDOLength(dobj1);
    extent2 = GetpDOLength(dobj2);
    if (extent1 != extent2)
-     { return(FALSE); }
+     { return(false); }
 
    e1 = (FIELD_PTR) GetMFPtr(GetpValue(dobj1),GetpDOBegin(dobj1));
    e2 = (FIELD_PTR) GetMFPtr(GetpValue(dobj2),GetpDOBegin(dobj2));
    while (extent1 != 0)
      {
       if (e1->type != e2->type)
-        { return(FALSE); }
+        { return(false); }
 
       if (e1->value != e2->value)
-        { return(FALSE); }
+        { return(false); }
 
       extent1--;
 
@@ -557,13 +554,13 @@ globle intBool MultifieldDOsEqual(
          e2++;
         }
      }
-   return(TRUE);
+   return(true);
   }
 
 /******************************************************************/
 /* MultifieldsEqual: Determines if two multifields are identical. */
 /******************************************************************/
-globle int MultifieldsEqual(
+bool MultifieldsEqual(
   struct multifield *segment1,
   struct multifield *segment2)
   {
@@ -573,7 +570,7 @@ globle int MultifieldsEqual(
 
    length = segment1->multifieldLength;
    if (length != segment2->multifieldLength)
-     { return(FALSE); }
+     { return(false); }
 
    elem1 = segment1->theFields;
    elem2 = segment2->theFields;
@@ -586,26 +583,26 @@ globle int MultifieldsEqual(
    while (i < length)
      {
       if (elem1[i].type != elem2[i].type)
-        { return(FALSE); }
+        { return(false); }
 
       if (elem1[i].type == MULTIFIELD)
         {
          if (MultifieldsEqual((struct multifield *) elem1[i].value,
-                              (struct multifield *) elem2[i].value) == FALSE)
-          { return(FALSE); }
+                              (struct multifield *) elem2[i].value) == false)
+          { return(false); }
         }
       else if (elem1[i].value != elem2[i].value)
-        { return(FALSE); }
+        { return(false); }
 
       i++;
      }
-   return(TRUE);
+   return(true);
   }
 
 /************************************************************/
 /* HashMultifield: Returns the hash value for a multifield. */
 /************************************************************/
-globle unsigned long HashMultifield(
+unsigned long HashMultifield(
   struct multifield *theSegment,
   unsigned long theRange)
   {
@@ -691,7 +688,7 @@ globle unsigned long HashMultifield(
 /**********************/
 /* GetMultifieldList: */
 /**********************/
-globle struct multifield *GetMultifieldList(
+struct multifield *GetMultifieldList(
   void *theEnv)
   {
    return(UtilityData(theEnv)->CurrentGarbageFrame->ListOfMultifields);
@@ -701,7 +698,7 @@ globle struct multifield *GetMultifieldList(
 /* ImplodeMultifield: C access routine */
 /*   for the implode$ function.        */
 /***************************************/
-globle void *ImplodeMultifield(
+void *ImplodeMultifield(
   void *theEnv,
   DATA_OBJECT *value)
   {
@@ -868,19 +865,4 @@ globle void *ImplodeMultifield(
    rm(theEnv,ret_str,strsize);
    return(rv);
   }
-
-/*#####################################*/
-/* ALLOW_ENVIRONMENT_GLOBALS Functions */
-/*#####################################*/
-
-#if ALLOW_ENVIRONMENT_GLOBALS
-
-globle void *CreateMultifield(
-  long size)
-  {
-   return EnvCreateMultifield(GetCurrentEnvironment(),size);
-  }
-
-#endif /* ALLOW_ENVIRONMENT_GLOBALS */
-
 

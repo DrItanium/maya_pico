@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/16/14            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*                  SETUP HEADER FILE                  */
    /*******************************************************/
@@ -69,107 +69,87 @@
 /*            with Windows.h header file.                    */
 /*                                                           */    
 /*            Removed deprecated definitions.                */
-/*                                                           */    
 /*                                                           */
 /*            The ALLOW_ENVIRONMENT_GLOBALS flag now         */
 /*            defaults to 0. The use of functions enabled    */
 /*            by this flag is deprecated.                    */
 /*                                                           */
-/*      AdventureEngine 2/21/2013: Added automatic system    */
-/*      identification                                       */
+/*            Removed support for BLOCK_MEMORY.              */
+/*                                                           */
+/*      6.40: ALLOW_ENVIRONMENT_GLOBALS no longer supported. */
+/*                                                           */
+/*            Removed VAX_VMS support.                       */
+/*                                                           */
 /*************************************************************/
 
 #ifndef _H_setup
+
+#pragma once
+
 #define _H_setup
 
 /****************************************************************/
 /* -------------------- COMPILER FLAGS ------------------------ */
 /****************************************************************/
-
+#include "os_shim.h"
 /*********************************************************************/
 /* Flag denoting the environment in which the executable is to run.  */
 /* Only one of these flags should be turned on (set to 1) at a time. */
 /*********************************************************************/
 
+#ifndef UNIX_V
+#define UNIX_V  0   /* UNIX System V, 4.2bsd, or HP Unix, presumably with gcc */
+#endif
 
-//#ifndef UNIX_V
-//#define UNIX_V  0   /* UNIX System V, 4.2bsd, or HP Unix, presumably with gcc */
-//#endif
-//
 #ifndef UNIX_7
 #define UNIX_7  0   /* UNIX System III Version 7 or Sun Unix, presumably with gcc */
 #endif
 
-
-#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__DragonFlyBSD__)
-	#define UNIX_V 1
-#else
-	#define UNIX_V 0
+#ifndef LINUX
+#define LINUX   0   /* Untested, presumably with gcc */
 #endif
 
-//TODO: Add solaris support
-
-#if defined(__linux__)
-    #define LINUX 1
-#else
-	 #define LINUX 0
+#ifndef DARWIN
+#define DARWIN  0   /* Darwin Mac OS 10.10.2, presumably with gcc or Xcode 6.2 with Console */
 #endif
 
-#if defined(__APPLE__)
-   #define DARWIN 1
-   #define MAC_XCD 1
-#else 
-   #define DARWIN 0
-   #define MAC_XCD 0
+#ifndef MAC_XCD
+#define MAC_XCD 0   /* MacOS 10.10.2, with Xcode 6.2 and Cocoa GUI */
 #endif
 
-#if defined(_WIN32) || defined(_WIN64)
-   #define WIN_MVC 1
-#else
-   #define WIN_MVC 0
+#ifndef WIN_MVC
+#define WIN_MVC 0   /* Windows 7, with Visual Studio 2013 */
 #endif
 
+/* The following are unsupported: */
 
 #ifndef WIN_GCC
 #define WIN_GCC 0   /* Windows XP, with DJGPP 3.21 */
 #endif
 
-#ifndef MAC_XCD
-#define MAC_XCD 0   /* Darwin Mac OS 10.10.2, with Xcode 6.2 and Cocoa GUI */
-#endif
-
-#ifndef VAX_VMS
-#define VAX_VMS 0   /* VAX_VMS */
-#endif
-
-
 /* Use GENERIC if nothing else is used. */
 
 #ifndef GENERIC
 #if (! UNIX_V) && (! LINUX) && (! UNIX_7) && \
-    (! DARWIN) && (! WIN_MVC) && (! WIN_GCC) && (! VAX_VMS)
+    (! MAC_XCD) && (! DARWIN) && \
+    (! WIN_MVC) && (! WIN_GCC) 
 #define GENERIC 1   /* Generic (any machine)                   */
 #else
 #define GENERIC 0   /* Generic (any machine)                   */
 #endif
 #endif
 
-#if WIN_MVC 
+#if WIN_MVC
 #define IBM 1
 #else
 #define IBM 0
 #endif
 
-
 /***********************************************/
 /* Some definitions for use with declarations. */
 /***********************************************/
 
-#define VOID_ARG void
 #define STD_SIZE size_t
-
-#define intBool int
-#define globle
 
 /*******************************************/
 /* RUN_TIME:  Specifies whether a run-time */
@@ -231,7 +211,7 @@
 /*   construct is included.                         */
 /****************************************************/
 
-#ifndef DEFFACT_CONSTRUCT
+#ifndef DEFFACTS_CONSTRUCT
 #define DEFFACTS_CONSTRUCT 1
 #endif
 
@@ -455,25 +435,13 @@
 #define WINDOW_INTERFACE 0
 #endif
 
-/*************************************************************/
-/* ALLOW_ENVIRONMENT_GLOBALS: If enabled, tracks the current */
-/*   environment and allows environments to be referred to   */
-/*   by index. If disabled, CLIPS makes no use of global     */
-/*   variables.                                              */
-/*************************************************************/
-
-#ifndef ALLOW_ENVIRONMENT_GLOBALS
-#define ALLOW_ENVIRONMENT_GLOBALS 0
-#endif
-
-
 /********************************************/
 /* DEVELOPER: Enables code for debugging a  */
 /*   development version of the executable. */
 /********************************************/
 
 #ifndef DEVELOPER
-#define DEVELOPER 1
+#define DEVELOPER 0
 #endif
 
 #if DEVELOPER
@@ -482,7 +450,6 @@
 #else
 #define Bogus(x)
 #endif
-
 
 /***************************/
 /* Environment Definitions */

@@ -1,9 +1,9 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  01/26/15            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
-   /*                 I/O FUNCTIONS MODULE                */
+   /*                I/O FUNCTIONS MODULE                 */
    /*******************************************************/
 
 /*************************************************************/
@@ -63,9 +63,22 @@
 /*            Added STDOUT and STDIN logical name            */
 /*            definitions.                                   */
 /*                                                           */
+/*      6.40: Added Env prefix to GetEvaluationError and     */
+/*            SetEvaluationError functions.                  */
+/*                                                           */
+/*            Added Env prefix to GetHaltExecution and       */
+/*            SetHaltExecution functions.                    */
+/*                                                           */
+/*            Modified ReadTokenFromStdin to capture         */
+/*            carriage returns in the input buffer so that   */
+/*            input buffer count will accurately reflect     */
+/*            the number of characters typed for GUI         */
+/*            interfaces that support deleting carriage      */
+/*            returns.                                       */
+/*                                                           */
+/*            Added print and println functions.             */
+/*                                                           */
 /*************************************************************/
-
-#define _IOFUN_SOURCE_
 
 #include "setup.h"
 
@@ -76,19 +89,18 @@
 #endif
 
 #include <stdio.h>
-#define _STDIO_INCLUDED_
 #include <string.h>
 
-#include "envrnmnt.h"
-#include "router.h"
-#include "strngrtr.h"
-#include "filertr.h"
 #include "argacces.h"
-#include "extnfunc.h"
-#include "scanner.h"
-#include "constant.h"
-#include "memalloc.h"
 #include "commline.h"
+#include "constant.h"
+#include "envrnmnt.h"
+#include "extnfunc.h"
+#include "filertr.h"
+#include "memalloc.h"
+#include "router.h"
+#include "scanner.h"
+#include "strngrtr.h"
 #include "sysdep.h"
 #include "utility.h"
 
@@ -110,7 +122,7 @@
 struct IOFunctionData
   { 
    void *locale;
-   intBool useFullCRLF;
+   bool useFullCRLF;
   };
 
 #define IOFunctionData(theEnv) ((struct IOFunctionData *) GetEnvironmentData(theEnv,IO_FUNCTION_DATA))
@@ -125,38 +137,41 @@ struct IOFunctionData
    static char             FindFormatFlag(const char *,size_t *,char *,size_t);
    static const char      *PrintFormatFlag(void *,const char *,int,int);
    static char            *FillBuffer(void *,const char *,size_t *,size_t *);
-   static void             ReadNumber(void *,const char *,struct token *,int);
+   static void             ReadNumber(void *,const char *,struct token *,bool);
+   static void             PrintDriver(UDFContext *,const char *,bool);
 #endif
 
 /**************************************/
 /* IOFunctionDefinitions: Initializes */
 /*   the I/O functions.               */
 /**************************************/
-globle void IOFunctionDefinitions(
+void IOFunctionDefinitions(
   void *theEnv)
   {
    AllocateEnvironmentData(theEnv,IO_FUNCTION_DATA,sizeof(struct IOFunctionData),NULL);
 
 #if IO_FUNCTIONS
-   IOFunctionData(theEnv)->useFullCRLF = FALSE;
+   IOFunctionData(theEnv)->useFullCRLF = false;
    IOFunctionData(theEnv)->locale = (SYMBOL_HN *) EnvAddSymbol(theEnv,setlocale(LC_ALL,NULL));
    IncrementSymbolCount(IOFunctionData(theEnv)->locale);
 #endif
 
 #if ! RUN_TIME
 #if IO_FUNCTIONS
-   EnvDefineFunction2(theEnv,"printout",   'v', PTIEF PrintoutFunction, "PrintoutFunction", "1*");
-   EnvDefineFunction2(theEnv,"read",       'u', PTIEF ReadFunction,  "ReadFunction", "*1");
-   EnvDefineFunction2(theEnv,"open",       'b', OpenFunction,  "OpenFunction", "23*k");
-   EnvDefineFunction2(theEnv,"close",      'b', CloseFunction, "CloseFunction", "*1");
-   EnvDefineFunction2(theEnv,"get-char",   'i', GetCharFunction, "GetCharFunction", "*1");
-   EnvDefineFunction2(theEnv,"put-char",   'v', PTIEF PutCharFunction, "PutCharFunction", "12");
-   EnvDefineFunction2(theEnv,"remove",   'b', RemoveFunction,  "RemoveFunction", "11k");
-   EnvDefineFunction2(theEnv,"rename",   'b', RenameFunction, "RenameFunction", "22k");
-   EnvDefineFunction2(theEnv,"format",   's', PTIEF FormatFunction, "FormatFunction", "2**us");
-   EnvDefineFunction2(theEnv,"readline", 'k', PTIEF ReadlineFunction, "ReadlineFunction", "*1");
-   EnvDefineFunction2(theEnv,"set-locale", 'u', PTIEF SetLocaleFunction,  "SetLocaleFunction", "*1");
-   EnvDefineFunction2(theEnv,"read-number",       'u', PTIEF ReadNumberFunction,  "ReadNumberFunction", "*1");
+   EnvAddUDF(theEnv,"printout",    "v",        PrintoutFunction,  "PrintoutFunction",  1,UNBOUNDED,NULL,NULL);
+   EnvAddUDF(theEnv,"print",       "v",        PrintFunction,     "PrintFunction",     0,UNBOUNDED,NULL,NULL);
+   EnvAddUDF(theEnv,"println",     "v",        PrintlnFunction,   "PrintlnFunction",   0,UNBOUNDED,NULL,NULL);
+   EnvAddUDF(theEnv,"read",        "synldfie", ReadFunction,      "ReadFunction",      0,1,NULL,NULL);
+   EnvAddUDF(theEnv,"open",        "b",        OpenFunction,      "OpenFunction",      2,3,"*;sy",NULL);
+   EnvAddUDF(theEnv,"close",       "b",        CloseFunction,     "CloseFunction",     0,1,NULL,NULL);
+   EnvAddUDF(theEnv,"get-char",    "l",        GetCharFunction,   "GetCharFunction",   0,1,NULL,NULL);
+   EnvAddUDF(theEnv,"put-char",    "v",        PutCharFunction,   "PutCharFunction",   1,2,NULL,NULL);
+   EnvAddUDF(theEnv,"remove",      "b",        RemoveFunction,    "RemoveFunction",    1,1,"sy",NULL);
+   EnvAddUDF(theEnv,"rename",      "b",        RenameFunction,    "RenameFunction",    2,2,"sy",NULL);
+   EnvAddUDF(theEnv,"format",      "s",        FormatFunction,    "FormatFunction",    2,UNBOUNDED, "*;*;s",NULL);
+   EnvAddUDF(theEnv,"readline",    "sy",       ReadlineFunction,  "ReadlineFunction",  0,1,NULL,NULL);
+   EnvAddUDF(theEnv,"set-locale",  "sy",       SetLocaleFunction, "SetLocaleFunction", 0,1,NULL,NULL);
+   EnvAddUDF(theEnv,"read-number", "syld",     ReadNumberFunction, "ReadNumberFunction", 0,1,NULL,NULL);
 #endif
 #else
 #if MAC_XCD
@@ -171,29 +186,23 @@ globle void IOFunctionDefinitions(
 /* PrintoutFunction: H/L access routine   */
 /*   for the printout function.           */
 /******************************************/
-globle void PrintoutFunction(
-  void *theEnv)
+void PrintoutFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
-   const char *dummyid;
-   int i, argCount;
-   DATA_OBJECT theArgument;
-
-   /*=======================================================*/
-   /* The printout function requires at least one argument. */
-   /*=======================================================*/
-
-   if ((argCount = EnvArgCountCheck(theEnv,"printout",AT_LEAST,1)) == -1) return;
+   const char *logicalName;
+   Environment *theEnv = UDFContextEnvironment(context);
 
    /*=====================================================*/
    /* Get the logical name to which output is to be sent. */
    /*=====================================================*/
 
-   dummyid = GetLogicalName(theEnv,1,STDOUT);
-   if (dummyid == NULL)
+   logicalName = GetLogicalName(context,STDOUT);
+   if (logicalName == NULL)
      {
       IllegalLogicalNameMessage(theEnv,"printout");
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
       return;
      }
 
@@ -201,60 +210,102 @@ globle void PrintoutFunction(
    /* Determine if any router recognizes the output destination. */
    /*============================================================*/
 
-   if (strcmp(dummyid,"nil") == 0)
+   if (strcmp(logicalName,"nil") == 0)
      { return; }
-   else if (QueryRouters(theEnv,dummyid) == FALSE)
+   else if (QueryRouters(theEnv,logicalName) == false)
      {
-      UnrecognizedRouterMessage(theEnv,dummyid);
+      UnrecognizedRouterMessage(theEnv,logicalName);
       return;
      }
 
-   /*===============================================*/
-   /* Print each of the arguments sent to printout. */
-   /*===============================================*/
+   /*========================*/
+   /* Call the print driver. */
+   /*========================*/
+   
+   PrintDriver(context,logicalName,false);
+  }
 
-   for (i = 2; i <= argCount; i++)
+/*************************************/
+/* PrintFunction: H/L access routine */
+/*   for the print function.         */
+/*************************************/
+void PrintFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
+  {
+   PrintDriver(context,STDOUT,false);
+  }
+
+/*************************************/
+/* PrintlnFunction: H/L access routine */
+/*   for the println function.         */
+/*************************************/
+void PrintlnFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
+  {
+   PrintDriver(context,STDOUT,true);
+  }
+
+/*************************************************/
+/* PrintDriver: Driver routine for the printout, */
+/*   print, and println functions.               */
+/*************************************************/
+static void PrintDriver(
+  UDFContext *context,
+  const char *logicalName,
+  bool endCRLF)
+  {
+   CLIPSValue theArg;
+   Environment *theEnv = UDFContextEnvironment(context);
+
+   /*==============================*/
+   /* Print each of the arguments. */
+   /*==============================*/
+
+   while (UDFHasNextArgument(context))
      {
-      EnvRtnUnknown(theEnv,i,&theArgument);
+      if (! UDFNextArgument(context,ANY_TYPE,&theArg))
+        { break; }
+      
       if (EvaluationData(theEnv)->HaltExecution) break;
 
-      switch(GetType(theArgument))
+      switch(GetType(theArg))
         {
          case SYMBOL:
-           if (strcmp(DOToString(theArgument),"crlf") == 0)
+           if (strcmp(CVToString(&theArg),"crlf") == 0)
              {    
               if (IOFunctionData(theEnv)->useFullCRLF)
-                { EnvPrintRouter(theEnv,dummyid,"\r\n"); }
+                { EnvPrintRouter(theEnv,logicalName,"\r\n"); }
               else
-                { EnvPrintRouter(theEnv,dummyid,"\n"); }
+                { EnvPrintRouter(theEnv,logicalName,"\n"); }
              }
-           else if (strcmp(DOToString(theArgument),"tab") == 0)
-             { EnvPrintRouter(theEnv,dummyid,"\t"); }
-           else if (strcmp(DOToString(theArgument),"vtab") == 0)
-             { EnvPrintRouter(theEnv,dummyid,"\v"); }
-           else if (strcmp(DOToString(theArgument),"ff") == 0)
-             { EnvPrintRouter(theEnv,dummyid,"\f"); }
-             /*
-           else if (strcmp(DOToString(theArgument),"t") == 0)
-             { 
-              if (IOFunctionData(theEnv)->useFullCRLF)
-                { EnvPrintRouter(theEnv,dummyid,"\r\n"); }
-              else
-                { EnvPrintRouter(theEnv,dummyid,"\n"); }
-             }
-             */
+           else if (strcmp(CVToString(&theArg),"tab") == 0)
+             { EnvPrintRouter(theEnv,logicalName,"\t"); }
+           else if (strcmp(CVToString(&theArg),"vtab") == 0)
+             { EnvPrintRouter(theEnv,logicalName,"\v"); }
+           else if (strcmp(CVToString(&theArg),"ff") == 0)
+             { EnvPrintRouter(theEnv,logicalName,"\f"); }
            else
-             { EnvPrintRouter(theEnv,dummyid,DOToString(theArgument)); }
+             { EnvPrintRouter(theEnv,logicalName,CVToString(&theArg)); }
            break;
 
          case STRING:
-           EnvPrintRouter(theEnv,dummyid,DOToString(theArgument));
+           EnvPrintRouter(theEnv,logicalName,CVToString(&theArg));
            break;
 
          default:
-           PrintDataObject(theEnv,dummyid,&theArgument);
+           PrintDataObject(theEnv,logicalName,&theArg);
            break;
         }
+     }
+     
+   if (endCRLF)
+     {
+      if (IOFunctionData(theEnv)->useFullCRLF)
+        { EnvPrintRouter(theEnv,logicalName,"\r\n"); }
+      else
+        { EnvPrintRouter(theEnv,logicalName,"\n"); }
      }
   }
 
@@ -262,11 +313,11 @@ globle void PrintoutFunction(
 /* SetFullCRLF: Set the flag which indicates whether */
 /*   crlf is treated just as '\n' or '\r\n'.         */
 /*****************************************************/
-globle intBool SetFullCRLF(
+bool SetFullCRLF(
   void *theEnv,
-  intBool value)
+  bool value)
   {
-   intBool oldValue = IOFunctionData(theEnv)->useFullCRLF;
+   bool oldValue = IOFunctionData(theEnv)->useFullCRLF;
    
    IOFunctionData(theEnv)->useFullCRLF = value;
    
@@ -276,41 +327,29 @@ globle intBool SetFullCRLF(
 /*************************************************************/
 /* ReadFunction: H/L access routine for the read function.   */
 /*************************************************************/
-globle void ReadFunction(
-  void *theEnv,
-  DATA_OBJECT_PTR returnValue)
+void ReadFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    struct token theToken;
-   int numberOfArguments;
    const char *logicalName = NULL;
-
-   /*===============================================*/
-   /* Check for an appropriate number of arguments. */
-   /*===============================================*/
-
-   if ((numberOfArguments = EnvArgCountCheck(theEnv,"read",NO_MORE_THAN,1)) == -1)
-     {
-      returnValue->type = STRING;
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
-      return;
-     }
+   Environment *theEnv = UDFContextEnvironment(context);
 
    /*======================================================*/
    /* Determine the logical name from which input is read. */
    /*======================================================*/
 
-   if (numberOfArguments == 0)
+   if (! UDFHasNextArgument(context))
      { logicalName = STDIN; }
-   else if (numberOfArguments == 1)
+   else
      {
-      logicalName = GetLogicalName(theEnv,1,STDIN);
+      logicalName = GetLogicalName(context,STDIN);
       if (logicalName == NULL)
         {
          IllegalLogicalNameMessage(theEnv,"read");
-         SetHaltExecution(theEnv,TRUE);
-         SetEvaluationError(theEnv,TRUE);
-         returnValue->type = STRING;
-         returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+         EnvSetHaltExecution(theEnv,true);
+         EnvSetEvaluationError(theEnv,true);
+         CVSetString(returnValue,"*** READ ERROR ***");
          return;
         }
      }
@@ -319,13 +358,12 @@ globle void ReadFunction(
    /* Check to see that the logical name exists. */
    /*============================================*/
 
-   if (QueryRouters(theEnv,logicalName) == FALSE)
+   if (QueryRouters(theEnv,logicalName) == false)
      {
       UnrecognizedRouterMessage(theEnv,logicalName);
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      returnValue->type = STRING;
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      CVSetString(returnValue,"*** READ ERROR ***");
       return;
      }
 
@@ -340,7 +378,7 @@ globle void ReadFunction(
      { GetToken(theEnv,logicalName,&theToken); }
 
    RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->AwaitingInput = FALSE;
+   RouterData(theEnv)->AwaitingInput = false;
 
    /*====================================================*/
    /* Copy the token to the return value data structure. */
@@ -360,8 +398,7 @@ globle void ReadFunction(
      }
    else if (theToken.type == UNKNOWN_VALUE)
      {
-      returnValue->type = STRING;
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+      CVSetString(returnValue,"*** READ ERROR ***");
      }
    else
      {
@@ -383,6 +420,16 @@ static void ReadTokenFromStdin(
    char *inputString;
    size_t inputStringSize;
    int inchar;
+   
+   /*===========================================*/
+   /* Initialize the variables used for storing */
+   /* the characters retrieved from stdin.      */
+   /*===========================================*/
+
+   inputString = NULL;
+   RouterData(theEnv)->CommandBufferInputCount = 0;
+   RouterData(theEnv)->AwaitingInput = true;
+   inputStringSize = 0;
 
    /*=============================================*/
    /* Continue processing until a token is found. */
@@ -391,17 +438,6 @@ static void ReadTokenFromStdin(
    theToken->type = STOP;
    while (theToken->type == STOP)
      {
-      /*===========================================*/
-      /* Initialize the variables used for storing */
-      /* the characters retrieved from stdin.      */
-      /*===========================================*/
-
-      inputString = NULL;
-      RouterData(theEnv)->CommandBufferInputCount = 0;
-      RouterData(theEnv)->AwaitingInput = TRUE;
-      inputStringSize = 0;
-      inchar = EnvGetcRouter(theEnv,STDIN);
-
       /*========================================================*/
       /* Continue reading characters until a carriage return is */
       /* entered or the user halts execution (usually with      */
@@ -410,14 +446,26 @@ static void ReadTokenFromStdin(
       /* a space is entered after a symbol has been typed).     */
       /*========================================================*/
 
+      inchar = EnvGetcRouter(theEnv,STDIN);
+     
       while ((inchar != '\n') && (inchar != '\r') && (inchar != EOF) &&
-             (! GetHaltExecution(theEnv)))
+             (! EnvGetHaltExecution(theEnv)))
         {
          inputString = ExpandStringWithChar(theEnv,inchar,inputString,&RouterData(theEnv)->CommandBufferInputCount,
                                             &inputStringSize,inputStringSize + 80);
          inchar = EnvGetcRouter(theEnv,STDIN);
         }
 
+      /*====================================================*/
+      /* Add the final carriage return to the input buffer. */
+      /*====================================================*/
+      
+      if  ((inchar == '\n') || (inchar == '\r'))
+        {
+         inputString = ExpandStringWithChar(theEnv,inchar,inputString,&RouterData(theEnv)->CommandBufferInputCount,
+                                            &inputStringSize,inputStringSize + 80);
+        }
+        
       /*==================================================*/
       /* Open a string input source using the characters  */
       /* retrieved from stdin and extract the first token */
@@ -427,14 +475,13 @@ static void ReadTokenFromStdin(
       OpenStringSource(theEnv,"read",inputString,0);
       GetToken(theEnv,"read",theToken);
       CloseStringSource(theEnv,"read");
-      if (inputStringSize > 0) rm(theEnv,inputString,inputStringSize);
 
       /*===========================================*/
       /* Pressing control-c (or comparable action) */
       /* aborts the read function.                 */
       /*===========================================*/
 
-      if (GetHaltExecution(theEnv))
+      if (EnvGetHaltExecution(theEnv))
         {
          theToken->type = STRING;
          theToken->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
@@ -453,42 +500,44 @@ static void ReadTokenFromStdin(
          theToken->value = (void *) EnvAddSymbol(theEnv,"EOF");
         }
      }
+     
+   if (inputStringSize > 0) rm(theEnv,inputString,inputStringSize);
   }
 
 /*************************************************************/
 /* OpenFunction: H/L access routine for the open function.   */
 /*************************************************************/
-globle int OpenFunction(
-  void *theEnv)
+void OpenFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
-   int numberOfArguments;
    const char *fileName, *logicalName, *accessMode = NULL;
-   DATA_OBJECT theArgument;
-
-   /*========================================*/
-   /* Check for a valid number of arguments. */
-   /*========================================*/
-
-   if ((numberOfArguments = EnvArgRangeCheck(theEnv,"open",2,3)) == -1) return(0);
+   CLIPSValue theArg;
+   Environment *theEnv = UDFContextEnvironment(context);
 
    /*====================*/
    /* Get the file name. */
    /*====================*/
 
-   if ((fileName = GetFileName(theEnv,"open",1)) == NULL) return(0);
+   if ((fileName = GetFileName(context)) == NULL)
+     {
+      CVSetBoolean(returnValue,false);
+      return;
+     }
 
    /*=======================================*/
    /* Get the logical name to be associated */
    /* with the opened file.                 */
    /*=======================================*/
 
-   logicalName = GetLogicalName(theEnv,2,NULL);
+   logicalName = GetLogicalName(context,NULL);
    if (logicalName == NULL)
      {
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
       IllegalLogicalNameMessage(theEnv,"open");
-      return(0);
+      CVSetBoolean(returnValue,false);
+      return;
      }
 
    /*==================================*/
@@ -498,25 +547,27 @@ globle int OpenFunction(
 
    if (FindFile(theEnv,logicalName))
      {
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      PrintErrorID(theEnv,"IOFUN",2,FALSE);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      PrintErrorID(theEnv,"IOFUN",2,false);
       EnvPrintRouter(theEnv,WERROR,"Logical name ");
       EnvPrintRouter(theEnv,WERROR,logicalName);
       EnvPrintRouter(theEnv,WERROR," already in use.\n");
-      return(0);
+      CVSetBoolean(returnValue,false);
+      return;
      }
 
    /*===========================*/
    /* Get the file access mode. */
    /*===========================*/
 
-   if (numberOfArguments == 2)
+   if (! UDFHasNextArgument(context))
      { accessMode = "r"; }
-   else if (numberOfArguments == 3)
+   else
      {
-      if (EnvArgTypeCheck(theEnv,"open",3,STRING,&theArgument) == FALSE) return(0);
-      accessMode = DOToString(theArgument);
+      if (! UDFNextArgument(context,STRING_TYPE,&theArg))
+        { return; }
+      accessMode = CVToString(&theArg);
      }
 
    /*=====================================*/
@@ -530,119 +581,121 @@ globle int OpenFunction(
        (strcmp(accessMode,"wb") != 0) &&
        (strcmp(accessMode,"ab") != 0))
      {
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
       ExpectedTypeError1(theEnv,"open",3,"string with value \"r\", \"w\", \"a\", \"rb\", \"wb\", or \"ab\"");
-      return(0);
+      CVSetBoolean(returnValue,false);
+      return;
      }
 
    /*================================================*/
    /* Open the named file and associate it with the  */
-   /* specified logical name. Return TRUE if the     */
-   /* file was opened successfully, otherwise FALSE. */
+   /* specified logical name. Return true if the     */
+   /* file was opened successfully, otherwise false. */
    /*================================================*/
 
-   return(OpenAFile(theEnv,fileName,accessMode,logicalName));
+   CVSetBoolean(returnValue,OpenAFile(theEnv,fileName,accessMode,logicalName));
   }
 
 /***************************************************************/
 /* CloseFunction: H/L access routine for the close function.   */
 /***************************************************************/
-globle int CloseFunction(
-  void *theEnv)
+void CloseFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
-   int numberOfArguments;
    const char *logicalName;
-
-   /*======================================*/
-   /* Check for valid number of arguments. */
-   /*======================================*/
-
-   if ((numberOfArguments = EnvArgCountCheck(theEnv,"close",NO_MORE_THAN,1)) == -1) return(0);
+   Environment *theEnv = UDFContextEnvironment(context);
 
    /*=====================================================*/
    /* If no arguments are specified, then close all files */
-   /* opened with the open command. Return TRUE if all    */
-   /* files were closed successfully, otherwise FALSE.    */
+   /* opened with the open command. Return true if all    */
+   /* files were closed successfully, otherwise false.    */
    /*=====================================================*/
 
-   if (numberOfArguments == 0) return(CloseAllFiles(theEnv));
+   if (! UDFHasNextArgument(context))
+     {
+      CVSetBoolean(returnValue,CloseAllFiles(theEnv));
+      return;
+     }
 
    /*================================*/
    /* Get the logical name argument. */
    /*================================*/
 
-   logicalName = GetLogicalName(theEnv,1,NULL);
+   logicalName = GetLogicalName(context,NULL);
    if (logicalName == NULL)
      {
       IllegalLogicalNameMessage(theEnv,"close");
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      return(0);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      CVSetBoolean(returnValue,false);
+      return;
      }
 
    /*========================================================*/
    /* Close the file associated with the specified logical   */
-   /* name. Return TRUE if the file was closed successfully, */
+   /* name. Return true if the file was closed successfully, */
    /* otherwise false.                                       */
    /*========================================================*/
 
-   return(CloseFile(theEnv,logicalName));
+   CVSetBoolean(returnValue,CloseFile(theEnv,logicalName));
   }
 
 /***************************************/
 /* GetCharFunction: H/L access routine */
 /*   for the get-char function.        */
 /***************************************/
-globle int GetCharFunction(
-  void *theEnv)
+void GetCharFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
-   int numberOfArguments;
    const char *logicalName;
+   Environment *theEnv = UDFContextEnvironment(context);
 
-   if ((numberOfArguments = EnvArgCountCheck(theEnv,"get-char",NO_MORE_THAN,1)) == -1)
-     { return(-1); }
-
-   if (numberOfArguments == 0 )
+   if (! UDFHasNextArgument(context))
      { logicalName = STDIN; }
    else
      {
-      logicalName = GetLogicalName(theEnv,1,STDIN);
+      logicalName = GetLogicalName(context,STDIN);
       if (logicalName == NULL)
         {
          IllegalLogicalNameMessage(theEnv,"get-char");
-         SetHaltExecution(theEnv,TRUE);
-         SetEvaluationError(theEnv,TRUE);
-         return(-1);
+         EnvSetHaltExecution(theEnv,true);
+         EnvSetEvaluationError(theEnv,true);
+         CVSetInteger(returnValue,-1);
+         return;
         }
      }
 
-   if (QueryRouters(theEnv,logicalName) == FALSE)
+   if (QueryRouters(theEnv,logicalName) == false)
      {
       UnrecognizedRouterMessage(theEnv,logicalName);
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      return(-1);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      CVSetInteger(returnValue,-1);
+      return;
      }
 
-   return(EnvGetcRouter(theEnv,logicalName));
+   CVSetInteger(returnValue,EnvGetcRouter(theEnv,logicalName));
   }
 
 /***************************************/
 /* PutCharFunction: H/L access routine */
 /*   for the put-char function.        */
 /***************************************/
-globle void PutCharFunction(
-  void *theEnv)
+void PutCharFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    int numberOfArguments;
    const char *logicalName;
-   DATA_OBJECT theValue;
+   CLIPSValue theArg;
    long long theChar;
    FILE *theFile;
+   Environment *theEnv = UDFContextEnvironment(context);
 
-   if ((numberOfArguments = EnvArgRangeCheck(theEnv,"put-char",1,2)) == -1)
-     { return; }
+   numberOfArguments = UDFArgumentCount(context);
      
    /*=======================*/
    /* Get the logical name. */
@@ -652,21 +705,21 @@ globle void PutCharFunction(
      { logicalName = STDOUT; }
    else
      {
-      logicalName = GetLogicalName(theEnv,1,STDOUT);
+      logicalName = GetLogicalName(context,STDOUT);
       if (logicalName == NULL)
         {
          IllegalLogicalNameMessage(theEnv,"put-char");
-         SetHaltExecution(theEnv,TRUE);
-         SetEvaluationError(theEnv,TRUE);
+         EnvSetHaltExecution(theEnv,true);
+         EnvSetEvaluationError(theEnv,true);
          return;
         }
      }
 
-   if (QueryRouters(theEnv,logicalName) == FALSE)
+   if (QueryRouters(theEnv,logicalName) == false)
      {
       UnrecognizedRouterMessage(theEnv,logicalName);
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
       return;
      }
 
@@ -674,12 +727,10 @@ globle void PutCharFunction(
    /* Get the character to put. */
    /*===========================*/
    
-   if (numberOfArguments == 1)
-     { if (EnvArgTypeCheck(theEnv,"put-char",1,INTEGER,&theValue) == FALSE) return; }
-   else
-     { if (EnvArgTypeCheck(theEnv,"put-char",2,INTEGER,&theValue) == FALSE) return; }
-     
-   theChar = DOToLong(theValue);
+   if (! UDFNextArgument(context,INTEGER_TYPE,&theArg))
+     { return; }
+      
+   theChar = CVToInteger(&theArg);
    
    /*===================================================*/
    /* If the "fast load" option is being used, then the */
@@ -697,67 +748,71 @@ globle void PutCharFunction(
 /* RemoveFunction: H/L access routine   */
 /*   for the remove function.           */
 /****************************************/
-globle int RemoveFunction(
-  void *theEnv)
+void RemoveFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    const char *theFileName;
-
-   /*======================================*/
-   /* Check for valid number of arguments. */
-   /*======================================*/
-
-   if (EnvArgCountCheck(theEnv,"remove",EXACTLY,1) == -1) return(FALSE);
 
    /*====================*/
    /* Get the file name. */
    /*====================*/
 
-   if ((theFileName = GetFileName(theEnv,"remove",1)) == NULL) return(FALSE);
+   if ((theFileName = GetFileName(context)) == NULL)
+     {
+      CVSetBoolean(returnValue,false);
+      return;
+     }
 
    /*==============================================*/
-   /* Remove the file. Return TRUE if the file was */
-   /* sucessfully removed, otherwise FALSE.        */
+   /* Remove the file. Return true if the file was */
+   /* sucessfully removed, otherwise false.        */
    /*==============================================*/
 
-   return(genremove(theFileName));
+   CVSetBoolean(returnValue,genremove(theFileName));
   }
 
 /****************************************/
 /* RenameFunction: H/L access routine   */
 /*   for the rename function.           */
 /****************************************/
-globle int RenameFunction(
-  void *theEnv)
+void RenameFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    const char *oldFileName, *newFileName;
-
-   /*========================================*/
-   /* Check for a valid number of arguments. */
-   /*========================================*/
-
-   if (EnvArgCountCheck(theEnv,"rename",EXACTLY,2) == -1) return(FALSE);
 
    /*===========================*/
    /* Check for the file names. */
    /*===========================*/
 
-   if ((oldFileName = GetFileName(theEnv,"rename",1)) == NULL) return(FALSE);
-   if ((newFileName = GetFileName(theEnv,"rename",2)) == NULL) return(FALSE);
+   if ((oldFileName = GetFileName(context)) == NULL)
+     {
+      CVSetBoolean(returnValue,false);
+      return;
+     }
+
+   if ((newFileName = GetFileName(context)) == NULL)
+     {
+      CVSetBoolean(returnValue,false);
+      return;
+     }
 
    /*==============================================*/
-   /* Rename the file. Return TRUE if the file was */
-   /* sucessfully renamed, otherwise FALSE.        */
+   /* Rename the file. Return true if the file was */
+   /* sucessfully renamed, otherwise false.        */
    /*==============================================*/
 
-   return(genrename(oldFileName,newFileName));
+   CVSetBoolean(returnValue,genrename(oldFileName,newFileName));
   }
 
 /****************************************/
 /* FormatFunction: H/L access routine   */
 /*   for the format function.           */
 /****************************************/
-globle void *FormatFunction(
-  void *theEnv)
+void FormatFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    int argCount;
    size_t start_pos;
@@ -772,6 +827,7 @@ globle void *FormatFunction(
    size_t fpos = 0;
    void *hptr;
    const char *theString;
+   Environment *theEnv = UDFContextEnvironment(context);
 
    /*======================================*/
    /* Set default return value for errors. */
@@ -784,27 +840,28 @@ globle void *FormatFunction(
    /* a logical name and a format string.     */
    /*=========================================*/
 
-   if ((argCount = EnvArgCountCheck(theEnv,"format",AT_LEAST,2)) == -1)
-     { return(hptr); }
+   argCount = UDFArgumentCount(context);
 
    /*========================================*/
    /* First argument must be a logical name. */
    /*========================================*/
 
-   if ((logicalName = GetLogicalName(theEnv,1,STDOUT)) == NULL)
+   if ((logicalName = GetLogicalName(context,STDOUT)) == NULL)
      {
       IllegalLogicalNameMessage(theEnv,"format");
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      return(hptr);
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      CVSetCLIPSString(returnValue,hptr);
+      return;
      }
 
    if (strcmp(logicalName,"nil") == 0)
      { /* do nothing */ }
-   else if (QueryRouters(theEnv,logicalName) == FALSE)
+   else if (QueryRouters(theEnv,logicalName) == false)
      {
       UnrecognizedRouterMessage(theEnv,logicalName);
-      return(hptr);
+      CVSetCLIPSString(returnValue,hptr);
+      return;
      }
 
    /*=====================================================*/
@@ -814,7 +871,10 @@ globle void *FormatFunction(
    /*=====================================================*/
 
    if ((formatString = ControlStringCheck(theEnv,argCount)) == NULL)
-     { return (hptr); }
+     {
+      CVSetCLIPSString(returnValue,hptr);
+      return;
+     }
 
    /*========================================*/
    /* Search the format string, printing the */
@@ -840,16 +900,25 @@ globle void *FormatFunction(
             if ((theString = PrintFormatFlag(theEnv,percentBuffer,f_cur_arg,formatFlagType)) == NULL)
               {
                if (fstr != NULL) rm(theEnv,fstr,fmaxm);
-               return (hptr);
+               CVSetCLIPSString(returnValue,hptr);
+               return;
               }
             fstr = AppendToString(theEnv,theString,fstr,&fpos,&fmaxm);
-            if (fstr == NULL) return(hptr);
+            if (fstr == NULL)
+              {
+               CVSetCLIPSString(returnValue,hptr);
+               return;
+              }
             f_cur_arg++;
            }
          else
            {
             fstr = AppendToString(theEnv,percentBuffer,fstr,&fpos,&fmaxm);
-            if (fstr == NULL) return(hptr);
+            if (fstr == NULL)
+              {
+               CVSetCLIPSString(returnValue,hptr);
+               return;
+              }
            }
         }
      }
@@ -863,7 +932,7 @@ globle void *FormatFunction(
    else
      { hptr = EnvAddSymbol(theEnv,""); }
 
-   return(hptr);
+   CVSetCLIPSString(returnValue,hptr);
   }
 
 /*********************************************************************/
@@ -881,7 +950,7 @@ static const char *ControlStringCheck(
    int per_count;
    char formatFlag;
 
-   if (EnvArgTypeCheck(theEnv,"format",2,STRING,&t_ptr) == FALSE) return(NULL);
+   if (EnvArgTypeCheck(theEnv,"format",2,STRING,&t_ptr) == false) return(NULL);
 
    per_count = 0;
    str_array = ValueToString(t_ptr.value);
@@ -893,11 +962,11 @@ static const char *ControlStringCheck(
          formatFlag = FindFormatFlag(str_array,&i,print_buff,FLAG_MAX);
          if (formatFlag == '-')
            { 
-            PrintErrorID(theEnv,"IOFUN",3,FALSE);
+            PrintErrorID(theEnv,"IOFUN",3,false);
             EnvPrintRouter(theEnv,WERROR,"Invalid format flag \"");
             EnvPrintRouter(theEnv,WERROR,print_buff);
             EnvPrintRouter(theEnv,WERROR,"\" specified in format function.\n");
-            SetEvaluationError(theEnv,TRUE);
+            EnvSetEvaluationError(theEnv,true);
             return (NULL);
            }
          else if (formatFlag != ' ')
@@ -910,7 +979,7 @@ static const char *ControlStringCheck(
    if (per_count != (argCount - 2))
      {
       ExpectedCountError(theEnv,"format",EXACTLY,per_count+2);
-      SetEvaluationError(theEnv,TRUE);
+      EnvSetEvaluationError(theEnv,true);
       return (NULL);
      }
 
@@ -1057,7 +1126,7 @@ static const char *PrintFormatFlag(
    switch (formatType)
      {
       case 's':
-        if (EnvArgTypeCheck(theEnv,"format",whichArg,SYMBOL_OR_STRING,&theResult) == FALSE) return(NULL);
+        if (EnvArgTypeCheck(theEnv,"format",whichArg,SYMBOL_OR_STRING,&theResult) == false) return(NULL);
         theLength = strlen(formatString) + strlen(ValueToString(theResult.value)) + 200;
         printBuffer = (char *) gm2(theEnv,(sizeof(char) * theLength));
         gensprintf(printBuffer,formatString,ValueToString(theResult.value));
@@ -1089,7 +1158,7 @@ static const char *PrintFormatFlag(
       case 'x':
       case 'o':
       case 'u':
-        if (EnvArgTypeCheck(theEnv,"format",whichArg,INTEGER_OR_FLOAT,&theResult) == FALSE) return(NULL);
+        if (EnvArgTypeCheck(theEnv,"format",whichArg,INTEGER_OR_FLOAT,&theResult) == false) return(NULL);
         theLength = strlen(formatString) + 200;
         printBuffer = (char *) gm2(theEnv,(sizeof(char) * theLength));
         
@@ -1107,7 +1176,7 @@ static const char *PrintFormatFlag(
       case 'f':
       case 'g':
       case 'e':
-        if (EnvArgTypeCheck(theEnv,"format",whichArg,INTEGER_OR_FLOAT,&theResult) == FALSE) return(NULL);
+        if (EnvArgTypeCheck(theEnv,"format",whichArg,INTEGER_OR_FLOAT,&theResult) == false) return(NULL);
         theLength = strlen(formatString) + 200;
         printBuffer = (char *) gm2(theEnv,(sizeof(char) * theLength));
 
@@ -1127,7 +1196,7 @@ static const char *PrintFormatFlag(
       default:
          EnvPrintRouter(theEnv,WERROR," Error in format, the conversion character");
          EnvPrintRouter(theEnv,WERROR," for formatted output is not valid\n");
-         return(FALSE);
+         return(NULL);
      }
 
    theString = ValueToString(EnvAddSymbol(theEnv,printBuffer));
@@ -1139,68 +1208,59 @@ static const char *PrintFormatFlag(
 /* ReadlineFunction: H/L access routine   */
 /*   for the readline function.           */
 /******************************************/
-globle void ReadlineFunction(
-  void *theEnv,
-  DATA_OBJECT_PTR returnValue)
+void ReadlineFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    char *buffer;
    size_t line_max = 0;
-   int numberOfArguments;
    const char *logicalName;
+   Environment *theEnv = UDFContextEnvironment(context);
 
-   returnValue->type = STRING;
-
-   if ((numberOfArguments = EnvArgCountCheck(theEnv,"readline",NO_MORE_THAN,1)) == -1)
-     {
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
-      return;
-     }
-
-   if (numberOfArguments == 0 )
+   if (! UDFHasNextArgument(context))
      { logicalName = STDIN; }
    else
      {
-      logicalName = GetLogicalName(theEnv,1,STDIN);
+      logicalName = GetLogicalName(context,STDIN);
       if (logicalName == NULL)
         {
          IllegalLogicalNameMessage(theEnv,"readline");
-         SetHaltExecution(theEnv,TRUE);
-         SetEvaluationError(theEnv,TRUE);
-         returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+         EnvSetHaltExecution(theEnv,true);
+         EnvSetEvaluationError(theEnv,true);
+         CVSetString(returnValue,"*** READ ERROR ***");
          return;
         }
      }
 
-   if (QueryRouters(theEnv,logicalName) == FALSE)
+   if (QueryRouters(theEnv,logicalName) == false)
      {
       UnrecognizedRouterMessage(theEnv,logicalName);
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      CVSetString(returnValue,"*** READ ERROR ***");
       return;
      }
 
    RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->AwaitingInput = TRUE;
+   RouterData(theEnv)->AwaitingInput = true;
    buffer = FillBuffer(theEnv,logicalName,&RouterData(theEnv)->CommandBufferInputCount,&line_max);
    RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->AwaitingInput = FALSE;
+   RouterData(theEnv)->AwaitingInput = false;
 
-   if (GetHaltExecution(theEnv))
+   if (EnvGetHaltExecution(theEnv))
      {
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+      CVSetString(returnValue,"*** READ ERROR ***");
       if (buffer != NULL) rm(theEnv,buffer,(int) sizeof (char) * line_max);
       return;
      }
 
    if (buffer == NULL)
      {
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"EOF");
-      returnValue->type = SYMBOL;
+      CVSetSymbol(returnValue,"EOF");
       return;
      }
 
-   returnValue->value = (void *) EnvAddSymbol(theEnv,buffer);
+   CVSetString(returnValue,buffer);
    rm(theEnv,buffer,(int) sizeof (char) * line_max);
    return;
   }
@@ -1233,7 +1293,7 @@ static char *FillBuffer(
    /*==================================*/
 
    while ((c != '\n') && (c != '\r') && (c != EOF) &&
-          (! GetHaltExecution(theEnv)))
+          (! EnvGetHaltExecution(theEnv)))
      {
       buf = ExpandStringWithChar(theEnv,c,buf,currentPosition,maximumSize,*maximumSize+80);
       c = EnvGetcRouter(theEnv,logicalName);
@@ -1251,33 +1311,21 @@ static char *FillBuffer(
 /* SetLocaleFunction: H/L access routine */
 /*   for the set-locale function.        */
 /*****************************************/
-globle void SetLocaleFunction(
-  void *theEnv,
-  DATA_OBJECT_PTR returnValue)
+void SetLocaleFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
-   DATA_OBJECT theResult;
-   int numArgs;
+   DATA_OBJECT theArg;
+   Environment *theEnv = UDFContextEnvironment(context);
    
-   /*======================================*/
-   /* Check for valid number of arguments. */
-   /*======================================*/
-   
-   if ((numArgs = EnvArgCountCheck(theEnv,"set-locale",NO_MORE_THAN,1)) == -1)
-     {
-      returnValue->type = SYMBOL;
-      returnValue->value = EnvFalseSymbol(theEnv);
-      return;
-     }
-     
    /*=================================*/
    /* If there are no arguments, just */
    /* return the current locale.      */
    /*=================================*/
    
-   if (numArgs == 0)
+   if (! UDFHasNextArgument(context))
      {
-      returnValue->type = STRING;
-      returnValue->value = IOFunctionData(theEnv)->locale;
+      CVSetCLIPSString(returnValue,IOFunctionData(theEnv)->locale);
       return;
      }
 
@@ -1285,26 +1333,21 @@ globle void SetLocaleFunction(
    /* Get the locale. */
    /*=================*/
    
-   if (EnvArgTypeCheck(theEnv,"set-locale",1,STRING,&theResult) == FALSE)
-     {
-      returnValue->type = SYMBOL;
-      returnValue->value = EnvFalseSymbol(theEnv);
-      return;
-     }
+   if (! UDFFirstArgument(context,STRING_TYPE,&theArg))
+     { return; }
      
    /*=====================================*/
    /* Return the old value of the locale. */
    /*=====================================*/
    
-   returnValue->type = STRING;
-   returnValue->value = IOFunctionData(theEnv)->locale;
+   CVSetCLIPSString(returnValue,IOFunctionData(theEnv)->locale);
    
    /*======================================================*/
    /* Change the value of the locale to the one specified. */
    /*======================================================*/
    
    DecrementSymbolCount(theEnv,(struct symbolHashNode *) IOFunctionData(theEnv)->locale);
-   IOFunctionData(theEnv)->locale = DOToPointer(theResult);
+   IOFunctionData(theEnv)->locale = CVToRawValue(&theArg);
    IncrementSymbolCount(IOFunctionData(theEnv)->locale);
   }
 
@@ -1312,41 +1355,29 @@ globle void SetLocaleFunction(
 /* ReadNumberFunction: H/L access routine */
 /*   for the read-number function.        */
 /******************************************/
-globle void ReadNumberFunction(
-  void *theEnv,
-  DATA_OBJECT_PTR returnValue)
+void ReadNumberFunction(
+  UDFContext *context,
+  CLIPSValue *returnValue)
   {
    struct token theToken;
-   int numberOfArguments;
    const char *logicalName = NULL;
-
-   /*===============================================*/
-   /* Check for an appropriate number of arguments. */
-   /*===============================================*/
-
-   if ((numberOfArguments = EnvArgCountCheck(theEnv,"read",NO_MORE_THAN,1)) == -1)
-     {
-      returnValue->type = STRING;
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
-      return;
-     }
+   Environment *theEnv = UDFContextEnvironment(context);
 
    /*======================================================*/
    /* Determine the logical name from which input is read. */
    /*======================================================*/
 
-   if (numberOfArguments == 0)
+   if (! UDFHasNextArgument(context))
      { logicalName = STDIN; }
-   else if (numberOfArguments == 1)
+   else
      {
-      logicalName = GetLogicalName(theEnv,1,STDIN);
+      logicalName = GetLogicalName(context,STDIN);
       if (logicalName == NULL)
         {
          IllegalLogicalNameMessage(theEnv,"read");
-         SetHaltExecution(theEnv,TRUE);
-         SetEvaluationError(theEnv,TRUE);
-         returnValue->type = STRING;
-         returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+         EnvSetHaltExecution(theEnv,true);
+         EnvSetEvaluationError(theEnv,true);
+         CVSetString(returnValue,"*** READ ERROR ***");
          return;
         }
      }
@@ -1355,13 +1386,12 @@ globle void ReadNumberFunction(
    /* Check to see that the logical name exists. */
    /*============================================*/
 
-   if (QueryRouters(theEnv,logicalName) == FALSE)
+   if (QueryRouters(theEnv,logicalName) == false)
      {
       UnrecognizedRouterMessage(theEnv,logicalName);
-      SetHaltExecution(theEnv,TRUE);
-      SetEvaluationError(theEnv,TRUE);
-      returnValue->type = STRING;
-      returnValue->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");
+      EnvSetHaltExecution(theEnv,true);
+      EnvSetEvaluationError(theEnv,true);
+      CVSetString(returnValue,"*** READ ERROR ***");
       return;
      }
 
@@ -1371,12 +1401,12 @@ globle void ReadNumberFunction(
    /*=======================================*/
 
    if (strcmp(logicalName,STDIN) == 0)
-     { ReadNumber(theEnv,logicalName,&theToken,TRUE); }
+     { ReadNumber(theEnv,logicalName,&theToken,true); }
    else
-     { ReadNumber(theEnv,logicalName,&theToken,FALSE); }
+     { ReadNumber(theEnv,logicalName,&theToken,false); }
 
    RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->AwaitingInput = FALSE;
+   RouterData(theEnv)->AwaitingInput = false;
 
    /*====================================================*/
    /* Copy the token to the return value data structure. */
@@ -1416,7 +1446,7 @@ static void ReadNumber(
   void *theEnv,
   const char *logicalName,
   struct token *theToken,
-  int isStdin)
+  bool isStdin)
   {
    char *inputString;
    char *charPtr = NULL;
@@ -1435,7 +1465,7 @@ static void ReadNumber(
 
    inputString = NULL;
    RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->AwaitingInput = TRUE;
+   RouterData(theEnv)->AwaitingInput = true;
    inputStringSize = 0;
    inchar = EnvGetcRouter(theEnv,logicalName);
             
@@ -1444,7 +1474,7 @@ static void ReadNumber(
    /*====================================*/
       
    while (isspace(inchar) && (inchar != EOF) && 
-          (! GetHaltExecution(theEnv)))
+          (! EnvGetHaltExecution(theEnv)))
      { inchar = EnvGetcRouter(theEnv,logicalName); }
 
    /*=============================================================*/
@@ -1455,7 +1485,7 @@ static void ReadNumber(
    while ((((! isStdin) && (! isspace(inchar))) || 
           (isStdin && (inchar != '\n') && (inchar != '\r'))) &&
           (inchar != EOF) &&
-          (! GetHaltExecution(theEnv)))
+          (! EnvGetHaltExecution(theEnv)))
      {
       inputString = ExpandStringWithChar(theEnv,inchar,inputString,&RouterData(theEnv)->CommandBufferInputCount,
                                          &inputStringSize,inputStringSize + 80);
@@ -1467,7 +1497,7 @@ static void ReadNumber(
    /* aborts the read-number function.          */
    /*===========================================*/
 
-   if (GetHaltExecution(theEnv))
+   if (EnvGetHaltExecution(theEnv))
      {
       theToken->type = STRING;
       theToken->value = (void *) EnvAddSymbol(theEnv,"*** READ ERROR ***");

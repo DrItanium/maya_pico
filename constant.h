@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.30  08/22/14            */
+   /*            CLIPS Version 6.40  01/06/16             */
    /*                                                     */
    /*                CONSTANTS HEADER FILE                */
    /*******************************************************/
@@ -24,23 +24,28 @@
 /*                                                           */
 /*            Added NESTED_RHS constant.                     */
 /*                                                           */
+/*      6.40: Added support for booleans with <stdbool.h>.   */
+/*                                                           */
 /*************************************************************/
 
 #ifndef _H_constant
 
+#pragma once
+
 #define _H_constant
+
+#include <stdbool.h>
 
 #ifndef FALSE
 #define FALSE 0
-#endif
-#ifndef TRUE
-#define TRUE 1
 #endif
 
 #define EXACTLY       0
 #define AT_LEAST      1
 #define NO_MORE_THAN  2
 #define RANGE         3
+
+#define UNBOUNDED    -1
 
 #define OFF           0
 #define ON            1
@@ -71,27 +76,23 @@
 #endif
 
 #ifndef APPLICATION_NAME
-#define APPLICATION_NAME "maya"
+#define APPLICATION_NAME "CLIPS"
 #endif
 
 #ifndef COMMAND_PROMPT
-#define COMMAND_PROMPT APPLICATION_NAME "> "
+#define COMMAND_PROMPT "CLIPS> "
 #endif
 
 #ifndef VERSION_STRING
-#define VERSION_STRING "0.1"
+#define VERSION_STRING "6.40"
 #endif
 
 #ifndef CREATION_DATE_STRING
-#define CREATION_DATE_STRING __DATE__
-#endif
-
-#ifndef CREATION_TIME_STAMP
-#define CREATION_TIME_STAMP __TIME__
+#define CREATION_DATE_STRING "2/02/16"
 #endif
 
 #ifndef BANNER_STRING
-#define BANNER_STRING APPLICATION_NAME " (Compiled on " CREATION_DATE_STRING " at " CREATION_TIME_STAMP ")\n"
+#define BANNER_STRING "         CLIPS (Cypher Alpha 2/02/16)\n"
 #endif
 
 /*************************/
@@ -128,6 +129,30 @@
 #define LEXEME_TYPE_CODE               12
 #define ADDRESS_TYPE_CODE              13
 #define INSTANCE_TYPE_CODE             14
+
+typedef enum
+  {
+   VOID_TYPE = (1 << 0),
+   FLOAT_TYPE = (1 << 1),
+   INTEGER_TYPE = (1 << 2),
+   SYMBOL_TYPE = (1 << 3),
+   STRING_TYPE = (1 << 4),
+   MULTIFIELD_TYPE = (1 << 5),
+   EXTERNAL_ADDRESS_TYPE = (1 << 6),
+   FACT_ADDRESS_TYPE = (1 << 7),
+   INSTANCE_ADDRESS_TYPE = (1 << 8),
+   INSTANCE_NAME_TYPE = (1 << 9),
+   BOOLEAN_TYPE = (1 << 10),
+   NUMBER_TYPES = INTEGER_TYPE | FLOAT_TYPE,
+   LEXEME_TYPES = SYMBOL_TYPE | STRING_TYPE,
+   ADDRESS_TYPES = EXTERNAL_ADDRESS_TYPE | FACT_ADDRESS_TYPE | INSTANCE_ADDRESS_TYPE,
+   INSTANCE_TYPES = INSTANCE_ADDRESS_TYPE | INSTANCE_NAME_TYPE,
+   SINGLEFIELD_TYPES = NUMBER_TYPES | LEXEME_TYPES | ADDRESS_TYPES | INSTANCE_NAME_TYPE,
+   ANY_TYPE = VOID_TYPE | SINGLEFIELD_TYPES | MULTIFIELD_TYPE
+  } CLIPSType;
+
+typedef long long CLIPSInteger;
+typedef double CLIPSFloat;
 
 /****************************************************/
 /* The first 9 primitive types need to retain their */
@@ -222,6 +247,13 @@
 #define INSTANCE_OR_INSTANCE_NAME     182
 
 typedef long int FACT_ID;
+
+/*************************/
+/* Macintosh Definitions */
+/*************************/
+
+#define CREATOR_STRING "CLIS"
+#define CREATOR_CODE   'CLIS'
 
 #endif
 
