@@ -49,6 +49,7 @@
 
 void UserFunctions(void);
 void EnvUserFunctions(void *);
+void EmptyFunction(UDFContext *, CLIPSValue *);
 
 /*********************************************************/
 /* UserFunctions: Informs the expert system environment  */
@@ -77,8 +78,19 @@ void UserFunctions()
 void EnvUserFunctions(
   void *environment)
   {
-#if MAC_XCD
-#pragma unused(environment)
-#endif
+	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
   }
+
+void
+EmptyFunction(UDFContext *context, CLIPSValue *ret) {
+	CLIPSValue collection;
+	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
+		return;
+	}
+	if (CVLength(&collection) == 0) {
+		CVSetBoolean(ret, true);
+	} else {
+		CVSetBoolean(ret, false);
+	}
+}
 
