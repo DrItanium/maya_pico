@@ -26,7 +26,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef _CORE_USER_SETUP_H
 #define _CORE_USER_SETUP_H
-
 /* Operating System Specific Defines */
 #ifdef _WIN32
 #define OS_NAME "Nt"
@@ -132,7 +131,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*******************/
 
 #ifndef MAYA_EXTENSIONS
-#define MAYA_EXTENSIONS 1
+#define MAYA_EXTENSIONS 0
 #endif
 
 // make sure we disable the corresponding features
