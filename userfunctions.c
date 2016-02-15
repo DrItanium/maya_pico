@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  01/06/16             */
-   /*                                                     */
-   /*                USER FUNCTIONS MODULE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  01/06/16             */
+/*                                                     */
+/*                USER FUNCTIONS MODULE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -49,7 +49,8 @@
 
 void UserFunctions(void);
 void EnvUserFunctions(void *);
-void EmptyFunction(UDFContext *, CLIPSValue *);
+void EmptyFunction(UDFContext*, CLIPSValue*);
+void IsDeffunction(UDFContext*, CLIPSValue*);
 
 /*********************************************************/
 /* UserFunctions: Informs the expert system environment  */
@@ -61,11 +62,11 @@ void EmptyFunction(UDFContext *, CLIPSValue *);
 /*   included in another file.                           */
 /*********************************************************/
 void UserFunctions()
-  {
-   // Use of UserFunctions is deprecated.
-   // Use EnvUserFunctions instead.
-  }
-  
+{
+	// Use of UserFunctions is deprecated.
+	// Use EnvUserFunctions instead.
+}
+
 /***********************************************************/
 /* EnvUserFunctions: Informs the expert system environment */
 /*   of any user defined functions. In the default case,   */
@@ -76,13 +77,29 @@ void UserFunctions()
 /*   included in another file.                             */
 /***********************************************************/
 void EnvUserFunctions(
-  void *environment)
-  {
+		void *environment)
+{
 	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
-  }
-
+	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
+}
 void
-EmptyFunction(UDFContext *context, CLIPSValue *ret) {
+IsDeffunction(UDFContext* context, CLIPSValue* ret) {
+	FUNCTION_REFERENCE theReference;
+	const char* name;
+	CLIPSValue func;
+	Environment* theEnv = UDFContextEnvironment(context);
+
+	if (!UDFFirstArgument(context, SYMBOL_TYPE, &func)) {
+		CVSetBoolean(ret, false);
+	} 
+	if (! GetFunctionReference(theEnv, CVToString(&func), &theReference)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetBoolean(ret, true);
+	}
+}
+void
+EmptyFunction(UDFContext* context, CLIPSValue* ret) {
 	CLIPSValue collection;
 	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
 		return;
