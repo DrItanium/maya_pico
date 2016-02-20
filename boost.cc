@@ -28,6 +28,9 @@ extern "C" {
 #include <string>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 
 #if BOOST_EXTENSIONS
@@ -36,7 +39,7 @@ void HasSuffix(UDFContext*, CLIPSValue*);
 void TrimString(UDFContext*, CLIPSValue*);
 void TrimStringFront(UDFContext*, CLIPSValue*);
 void TrimStringBack(UDFContext*, CLIPSValue*);
-
+void NewUUID(UDFContext*, CLIPSValue*);
 #endif 
 
 extern "C" void InstallBoostExtensions(void* theEnv) {
@@ -46,11 +49,17 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 	EnvAddUDF(theEnv, "string-trim", "y", TrimString, "TrimString", 1, 1, "s", NULL);
 	EnvAddUDF(theEnv, "string-trim-front", "y", TrimStringFront, "TrimStringFront", 1, 1, "s", NULL);
 	EnvAddUDF(theEnv, "string-trim-back", "y", TrimStringBack, "TrimStringBack", 1, 1, "s", NULL);
+	EnvAddUDF(theEnv, "new-uuid", "s", NewUUID, "NewUUID", 0, 0, "", NULL);
 #endif 
 }
 
 
 #if BOOST_EXTENSIONS
+void NewUUID(UDFContext* context, CLIPSValue* ret) {
+	boost::uuids::uuid theUUID;
+	const std::string tmp = boost::lexical_cast<std::string>(theUUID);
+	CVSetSymbol(ret, tmp.c_str());
+}
 void HasPrefix(UDFContext* context, CLIPSValue* ret) {
 	CLIPSValue data, prefix;
 	if (!UDFFirstArgument(context, LEXEME_TYPES, &data)) {
