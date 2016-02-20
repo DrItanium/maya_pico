@@ -46,11 +46,9 @@
 /***************************************************************************/
 
 #include "clips.h"
-
+#include "maya.h"
 void UserFunctions(void);
 void EnvUserFunctions(void *);
-void EmptyFunction(UDFContext*, CLIPSValue*);
-void IsDeffunction(UDFContext*, CLIPSValue*);
 
 /*********************************************************/
 /* UserFunctions: Informs the expert system environment  */
@@ -79,35 +77,6 @@ void UserFunctions()
 void EnvUserFunctions(
 		void *environment)
 {
-	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
-	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
-}
-void
-IsDeffunction(UDFContext* context, CLIPSValue* ret) {
-	FUNCTION_REFERENCE theReference;
-	const char* name;
-	CLIPSValue func;
-	Environment* theEnv = UDFContextEnvironment(context);
-
-	if (!UDFFirstArgument(context, SYMBOL_TYPE, &func)) {
-		CVSetBoolean(ret, false);
-	} 
-	if (! GetFunctionReference(theEnv, CVToString(&func), &theReference)) {
-		CVSetBoolean(ret, false);
-	} else {
-		CVSetBoolean(ret, true);
-	}
-}
-void
-EmptyFunction(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue collection;
-	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
-		return;
-	}
-	if (CVLength(&collection) == 0) {
-		CVSetBoolean(ret, true);
-	} else {
-		CVSetBoolean(ret, false);
-	}
+	InstallMayaExtensions(environment);
 }
 

@@ -2,7 +2,7 @@
 include config.mk
 OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
 CFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='$(COMMAND_PROMPT)'
-OBJS = ${OBJECTS}
+OBJS = ${OBJECTS} 
 
 .PHONY: clean all
 
@@ -35,4 +35,12 @@ clean:
 	    -Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
 	    -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes \
 	    -Waggregate-return -Wno-implicit -Iinclude/ $<
+
+.cc.o :
+	@echo CXX $<
+	@$(CXX) -c $(CXXFLAGS) -o $@ -D_POSIX_C_SOURCE=200112L \
+		-std=c++11 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
+		-Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
+		-Wmissing-prototypes -Wnested-externs -Wstrict-prototypes \
+		-Waggregate-return -Wno-implicit -Iinclude/ $<
 
