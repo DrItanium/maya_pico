@@ -41,7 +41,7 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 #if BOOST_EXTENSIONS
 	EnvAddUDF(theEnv, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
 	EnvAddUDF(theEnv, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
-	EnvAddUDF(theEnv, "has-suffix", "y", TrimString, "TrimString", 1, 1, "y", NULL);
+	EnvAddUDF(theEnv, "string-trim", "y", TrimString, "TrimString", 1, 1, "s", NULL);
 #endif 
 }
 
