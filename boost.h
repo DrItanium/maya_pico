@@ -20,54 +20,15 @@
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#include "clips.h"
-#include "maya.h"
-#include "mayasetup.h"
-#include "boost.h"
+#ifndef __MAYA_BOOST_H__
+#define __MAYA_BOOST_H__
 
-#if !MAYA_EXTENSIONS
-void InstallMayaExtensions(void* environment) { }
-#else
-static void EmptyFunction(UDFContext*, CLIPSValue*);
-static void IsDeffunction(UDFContext*, CLIPSValue*);
+#ifdef __cplusplus
+extern "C" {
+#endif
+void InstallBoostExtensions(void* theEnv);
 
-void InstallMayaExtensions(void* environment) {
-	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
-	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
-	InstallBoostExtensions(environment);
+#ifdef __cplusplus
 }
-
-void
-IsDeffunction(UDFContext* context, CLIPSValue* ret) {
-	FUNCTION_REFERENCE theReference;
-	CLIPSValue func;
-	Environment* environment = UDFContextEnvironment(context);
-
-	if (!UDFFirstArgument(context, SYMBOL_TYPE, &func)) {
-		CVSetBoolean(ret, false);
-		return;
-	} 
-	if (! GetFunctionReference(environment, CVToString(&func), &theReference)) {
-		CVSetBoolean(ret, false);
-	} else {
-		CVSetBoolean(ret, true);
-	}
-}
-void
-EmptyFunction(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue collection;
-	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
-		return;
-	}
-	if (CVLength(&collection) == 0) {
-		CVSetBoolean(ret, true);
-	} else {
-		CVSetBoolean(ret, false);
-	}
-}
-
-
-
-
-
-#endif // end MAYA_EXTENSIONS
+#endif
+#endif

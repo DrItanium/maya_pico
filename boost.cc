@@ -20,54 +20,57 @@
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+extern "C" {
 #include "clips.h"
-#include "maya.h"
+}
 #include "mayasetup.h"
 #include "boost.h"
+#include <string>
+#include <boost/algorithm/string/predicate.hpp>
 
-#if !MAYA_EXTENSIONS
-void InstallMayaExtensions(void* environment) { }
-#else
-static void EmptyFunction(UDFContext*, CLIPSValue*);
-static void IsDeffunction(UDFContext*, CLIPSValue*);
 
-void InstallMayaExtensions(void* environment) {
-	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
-	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
-	InstallBoostExtensions(environment);
+#if BOOST_EXTENSIONS
+void HasPrefix(UDFContext*, CLIPSValue*);
+void HasSuffix(UDFContext*, CLIPSValue*);
+#endif 
+
+extern "C" void InstallBoostExtensions(void* theEnv) {
+#if BOOST_EXTENSIONS
+	EnvAddUDF(theEnv, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
+	EnvAddUDF(theEnv, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
+#endif 
 }
 
-void
-IsDeffunction(UDFContext* context, CLIPSValue* ret) {
-	FUNCTION_REFERENCE theReference;
-	CLIPSValue func;
-	Environment* environment = UDFContextEnvironment(context);
 
-	if (!UDFFirstArgument(context, SYMBOL_TYPE, &func)) {
+#if BOOST_EXTENSIONS
+void HasPrefix(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue data, prefix;
+	if (!UDFFirstArgument(context, LEXEME_TYPES, &data)) {
 		CVSetBoolean(ret, false);
 		return;
-	} 
-	if (! GetFunctionReference(environment, CVToString(&func), &theReference)) {
+	} else if (!UDFNextArgument(context, LEXEME_TYPES, &prefix)) {
 		CVSetBoolean(ret, false);
-	} else {
-		CVSetBoolean(ret, true);
-	}
-}
-void
-EmptyFunction(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue collection;
-	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
 		return;
 	}
-	if (CVLength(&collection) == 0) {
-		CVSetBoolean(ret, true);
-	} else {
-		CVSetBoolean(ret, false);
-	}
+	std::string dataStr(CVToString(&data));
+	std::string prefixStr(CVToString(&prefix));
+	CVSetBoolean(ret, boost::starts_with(dataStr, prefixStr));
 }
 
+void HasSuffix(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue data, suffix;
+	if (!UDFFirstArgument(context, LEXEME_TYPES, &data)) {
+		CVSetBoolean(ret, false);
+		return;
+	} else if (!UDFNextArgument(context, LEXEME_TYPES, &suffix)) {
+		CVSetBoolean(ret, false);
+		return;
+	}
+	std::string dataStr(CVToString(&data));
+	std::string suffixStr(CVToString(&suffix));
+	CVSetBoolean(ret, boost::ends_with(dataStr, suffixStr));
+}
+#endif
 
 
 
-
-#endif // end MAYA_EXTENSIONS
