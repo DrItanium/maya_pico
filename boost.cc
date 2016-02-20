@@ -32,6 +32,7 @@ extern "C" {
 #include <boost/uuid/random_generator.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <boost/math/common_factor.hpp>
 
 
 #if BOOST_EXTENSIONS
@@ -41,6 +42,8 @@ void TrimString(UDFContext*, CLIPSValue*);
 void TrimStringFront(UDFContext*, CLIPSValue*);
 void TrimStringBack(UDFContext*, CLIPSValue*);
 void NewUUID(UDFContext*, CLIPSValue*);
+void gcdFunction(UDFContext*, CLIPSValue*);
+void lcmFunction(UDFContext*, CLIPSValue*);
 #endif 
 
 extern "C" void InstallBoostExtensions(void* theEnv) {
@@ -51,11 +54,33 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 	EnvAddUDF(theEnv, "string-trim-front", "y", TrimStringFront, "TrimStringFront", 1, 1, "s", NULL);
 	EnvAddUDF(theEnv, "string-trim-back", "y", TrimStringBack, "TrimStringBack", 1, 1, "s", NULL);
 	EnvAddUDF(theEnv, "new-uuid", "s", NewUUID, "NewUUID", 0, 0, "", NULL);
+	EnvAddUDF(theEnv, "gcd", "l", gcdFunction, "gcdFunction", 2, 2, "l;l;l", NULL);
+	EnvAddUDF(theEnv, "lcm", "l", lcmFunction, "lcmFunction", 2, 2, "l;l;l", NULL);
 #endif 
 }
 
 
 #if BOOST_EXTENSIONS
+void gcdFunction(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue first, second;
+	if (!UDFFirstArgument(context, INTEGER_TYPE, &first)) {
+		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, INTEGER_TYPE, &second)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetInteger(ret, boost::math::gcd(CVToInteger(&first), CVToInteger(&second)));
+	}
+}
+void lcmFunction(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue first, second;
+	if (!UDFFirstArgument(context, INTEGER_TYPE, &first)) {
+		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, INTEGER_TYPE, &second)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetInteger(ret, boost::math::lcm(CVToInteger(&first), CVToInteger(&second)));
+	}
+}
 void NewUUID(UDFContext* context, CLIPSValue* ret) {
 	boost::uuids::random_generator rgen;
 	boost::uuids::uuid theUUID(rgen());
