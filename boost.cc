@@ -34,6 +34,8 @@ extern "C" {
 void HasPrefix(UDFContext*, CLIPSValue*);
 void HasSuffix(UDFContext*, CLIPSValue*);
 void TrimString(UDFContext*, CLIPSValue*);
+void TrimStringFront(UDFContext*, CLIPSValue*);
+void TrimStringBack(UDFContext*, CLIPSValue*);
 
 #endif 
 
@@ -42,6 +44,8 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 	EnvAddUDF(theEnv, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
 	EnvAddUDF(theEnv, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
 	EnvAddUDF(theEnv, "string-trim", "y", TrimString, "TrimString", 1, 1, "s", NULL);
+	EnvAddUDF(theEnv, "string-trim-front", "y", TrimStringFront, "TrimStringFront", 1, 1, "s", NULL);
+	EnvAddUDF(theEnv, "string-trim-back", "y", TrimStringBack, "TrimStringBack", 1, 1, "s", NULL);
 #endif 
 }
 
@@ -81,6 +85,26 @@ void TrimString(UDFContext* context, CLIPSValue* ret) {
 	} else {
 		std::string tmp(CVToString(&str));
 		boost::algorithm::trim(tmp);
+		CVSetString(ret, tmp.c_str());
+	}
+}
+void TrimStringFront(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue str;
+	if (!UDFFirstArgument(context, STRING_TYPE, &str)) {
+		CVSetBoolean(ret, false);
+	} else {
+		std::string tmp(CVToString(&str));
+		boost::algorithm::trim_left(tmp);
+		CVSetString(ret, tmp.c_str());
+	}
+}
+void TrimStringBack(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue str;
+	if (!UDFFirstArgument(context, STRING_TYPE, &str)) {
+		CVSetBoolean(ret, false);
+	} else {
+		std::string tmp(CVToString(&str));
+		boost::algorithm::trim_right(tmp);
 		CVSetString(ret, tmp.c_str());
 	}
 }
