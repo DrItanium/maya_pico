@@ -27,17 +27,21 @@ extern "C" {
 #include "boost.h"
 #include <string>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 
 #if BOOST_EXTENSIONS
 void HasPrefix(UDFContext*, CLIPSValue*);
 void HasSuffix(UDFContext*, CLIPSValue*);
+void TrimString(UDFContext*, CLIPSValue*);
+
 #endif 
 
 extern "C" void InstallBoostExtensions(void* theEnv) {
 #if BOOST_EXTENSIONS
 	EnvAddUDF(theEnv, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
 	EnvAddUDF(theEnv, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
+	EnvAddUDF(theEnv, "has-suffix", "y", TrimString, "TrimString", 1, 1, "y", NULL);
 #endif 
 }
 
@@ -69,6 +73,16 @@ void HasSuffix(UDFContext* context, CLIPSValue* ret) {
 	std::string dataStr(CVToString(&data));
 	std::string suffixStr(CVToString(&suffix));
 	CVSetBoolean(ret, boost::ends_with(dataStr, suffixStr));
+}
+void TrimString(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue str;
+	if (!UDFFirstArgument(context, STRING_TYPE, &str)) {
+		CVSetBoolean(ret, false);
+	} else {
+		std::string tmp(CVToString(&str));
+		boost::algorithm::trim(tmp);
+		CVSetString(ret, tmp.c_str());
+	}
 }
 #endif
 
