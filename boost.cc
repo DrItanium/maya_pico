@@ -29,6 +29,7 @@ extern "C" {
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/uuid/uuid.hpp>
+#include <boost/uuid/random_generator.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
@@ -56,7 +57,8 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 
 #if BOOST_EXTENSIONS
 void NewUUID(UDFContext* context, CLIPSValue* ret) {
-	boost::uuids::uuid theUUID;
+	boost::uuids::random_generator rgen;
+	boost::uuids::uuid theUUID(rgen());
 	const std::string tmp = boost::lexical_cast<std::string>(theUUID);
 	CVSetSymbol(ret, tmp.c_str());
 }
