@@ -33,6 +33,9 @@ extern "C" {
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/math/common_factor.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/system/error_code.hpp>
+#include <boost/algorithm/clamp.hpp>
 
 
 #if BOOST_EXTENSIONS
@@ -44,6 +47,10 @@ void TrimStringBack(UDFContext*, CLIPSValue*);
 void NewUUID(UDFContext*, CLIPSValue*);
 void gcdFunction(UDFContext*, CLIPSValue*);
 void lcmFunction(UDFContext*, CLIPSValue*);
+void FileExists(UDFContext*, CLIPSValue*);
+void IsDirectory(UDFContext*, CLIPSValue*);
+void IsRegularFile(UDFContext*, CLIPSValue*);
+void ClampValue(UDFContext*, CLIPSValue*);
 #endif 
 
 extern "C" void InstallBoostExtensions(void* theEnv) {
@@ -56,11 +63,54 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 	EnvAddUDF(theEnv, "new-uuid", "s", NewUUID, "NewUUID", 0, 0, "", NULL);
 	EnvAddUDF(theEnv, "gcd", "l", gcdFunction, "gcdFunction", 2, 2, "l;l;l", NULL);
 	EnvAddUDF(theEnv, "lcm", "l", lcmFunction, "lcmFunction", 2, 2, "l;l;l", NULL);
+	EnvAddUDF(theEnv, "path-exists", "b", FileExists, "FileExists", 1, 1, "sy", NULL);
+	EnvAddUDF(theEnv, "directoryp", "b", IsDirectory, "IsDirectory", 1, 1, "sy", NULL);
+	EnvAddUDF(theEnv, "regular-filep", "b", IsRegularFile, "IsRegularFile", 1, 1, "sy", NULL);
+	EnvAddUDF(theEnv, "clamp", "l", ClampValue, "ClampValue", 3, 3, "l;l;l;l", NULL);
 #endif 
 }
 
 
 #if BOOST_EXTENSIONS
+void ClampValue(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue v, lo, hi;
+	if (!UDFFirstArgument(context, INTEGER_TYPE,  &v)) {
+		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, INTEGER_TYPE, &lo)) {
+		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, INTEGER_TYPE, &hi)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetInteger(ret, boost::algorithm::clamp(CVToInteger(&v), CVToInteger(&lo), CVToInteger(&hi)));
+	}
+}
+void FileExists(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue path;
+	if (!UDFFirstArgument(context, LEXEME_TYPES, &path)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetBoolean(ret, boost::filesystem::exists(CVToString(&path)));
+	}
+}
+
+void IsDirectory(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue path;
+	if (!UDFFirstArgument(context, LEXEME_TYPES, &path)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetBoolean(ret, boost::filesystem::is_directory(CVToString(&path)));
+	}
+}
+
+void IsRegularFile(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue path;
+	if (!UDFFirstArgument(context, LEXEME_TYPES, &path)) {
+		CVSetBoolean(ret, false);
+	} else {
+		CVSetBoolean(ret, boost::filesystem::is_regular_file(CVToString(&path)));
+	}
+}
+
 void gcdFunction(UDFContext* context, CLIPSValue* ret) {
 	CLIPSValue first, second;
 	if (!UDFFirstArgument(context, INTEGER_TYPE, &first)) {
