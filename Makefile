@@ -1,10 +1,7 @@
 ########### MAKEFILE FOR MAYA ###########
 include config.mk
 OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
-#LIBELECTRON_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libelectron/*.c))
-#LIBMAYA_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/libmaya/*.c))
-#MAYA_EXECUTABLE_OBJECTS = $(patsubst %.c,%.o, $(wildcard src/cmd/repl/*.c))
-#OBJS = ${LIBELECTRON_OBJECTS} ${LIBMAYA_OBJECTS} ${MAYA_EXECUTABLE_OBJECTS}
+CFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='$(COMMAND_PROMPT)'
 OBJS = ${OBJECTS}
 
 .PHONY: clean all
