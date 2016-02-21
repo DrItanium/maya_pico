@@ -36,6 +36,7 @@ extern "C" {
 #include <boost/filesystem.hpp>
 #include <boost/system/error_code.hpp>
 #include <boost/algorithm/clamp.hpp>
+#include <boost/algorithm/minmax.hpp>
 
 
 #if BOOST_EXTENSIONS
@@ -51,6 +52,7 @@ void FileExists(UDFContext*, CLIPSValue*);
 void IsDirectory(UDFContext*, CLIPSValue*);
 void IsRegularFile(UDFContext*, CLIPSValue*);
 void ClampValue(UDFContext*, CLIPSValue*);
+void MinMaxFunction(UDFContext*, CLIPSValue*);
 #endif 
 
 extern "C" void InstallBoostExtensions(void* theEnv) {
@@ -67,11 +69,40 @@ extern "C" void InstallBoostExtensions(void* theEnv) {
 	EnvAddUDF(theEnv, "directoryp", "b", IsDirectory, "IsDirectory", 1, 1, "sy", NULL);
 	EnvAddUDF(theEnv, "regular-filep", "b", IsRegularFile, "IsRegularFile", 1, 1, "sy", NULL);
 	EnvAddUDF(theEnv, "clamp", "l", ClampValue, "ClampValue", 3, 3, "l;l;l;l", NULL);
+	EnvAddUDF(theEnv, "min-max", "m", MinMaxFunction, "MinMaxFunction", 2, 2, "ld;ld;ld", NULL);
 #endif 
 }
 
 
 #if BOOST_EXTENSIONS
+void MinMaxFunction(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue a, b;
+	if (!UDFFirstArgument(context, NUMBER_TYPES, &a)) {
+		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, NUMBER_TYPES, &b)) {
+		CVSetBoolean(ret, false);
+	} else {
+		Environment* environment = UDFContextEnvironment(context);
+		ret->type = MULTIFIELD;
+		ret->begin = 0;
+		ret->end = 1;
+		ret->value = EnvCreateMultifield(environment, 2L);
+		if (CVIsType(&a, INTEGER_TYPE) && CVIsType(&b, INTEGER_TYPE)) {
+			auto result = boost::minmax(CVToInteger(&a), CVToInteger(&b));
+			SetMFType(ret->value, 1, INTEGER);
+			SetMFValue(ret->value, 1, EnvAddLong(environment, result.get<0>()));
+			SetMFType(ret->value, 2, INTEGER);
+			SetMFValue(ret->value, 2, EnvAddLong(environment, result.get<1>()));
+		} else {
+			// one of them is FLOAT_TYPE
+			auto result = boost::minmax(CVToFloat(&a), CVToFloat(&b));
+			SetMFType(ret->value, 1, FLOAT);
+			SetMFValue(ret->value, 1, EnvAddDouble(environment, result.get<0>()));
+			SetMFType(ret->value, 2, FLOAT);
+			SetMFValue(ret->value, 2, EnvAddDouble(environment, result.get<1>()));
+		}
+	}
+}
 void ClampValue(UDFContext* context, CLIPSValue* ret) {
 	CLIPSValue v, lo, hi;
 	if (!UDFFirstArgument(context, INTEGER_TYPE,  &v)) {
