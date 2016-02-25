@@ -30,8 +30,7 @@ extern "C" {
 #include <vector>
 
 #if FUNCTIONAL_EXTENSIONS
-void MapFunction_OneCall(UDFContext* context, CLIPSValue* ret, CLIPSValue* value, CLIPSInteger index);
-void MapFunction(UDFContext*, CLIPSValue*);
+void MapFunction(UDFContext* context, CLIPSValue* ret);
 #endif
 
 
@@ -45,10 +44,10 @@ extern "C" void InstallFunctionalExtensions(void* theEnv) {
 void
 MapFunction(UDFContext* context, CLIPSValue* ret) {
 	std::vector<CLIPSValue> retStorage;
-	void* mf;
 	int count = 0;
 	std::string name;
 	Environment* env= UDFContextEnvironment(context);
+	struct expr *tmp2 = nullptr;
 	CLIPSValue func, curr, tmp;
 	if (!UDFFirstArgument(context, LEXEME_TYPES, &func)) {
 		CVSetBoolean(ret, false);
@@ -173,16 +172,19 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 				return; 
 			} else {
 				if (body(context, &tmp, &curr, name)) {
-					EnvIncrementClearReadyLocks(env);
-					StoreInMultifield(env, ret, ConvertValueToExpression(env, &tmp), false);
-					// resize the number of elements in the array
-					EnvDecrementClearReadyLocks(env);
+					if (!tmp2) {
+						tmp2 = ConvertValueToExpression(env, &tmp);
+					} else {
+						tmp2 = AppendExpressions(tmp2, ConvertValueToExpression(env, &tmp));
+					}
 				} else {
 					return;
 				}
 			}
 		}
+		StoreInMultifield(env, ret, tmp2, true);
 	}
 }
+
 #endif
 
