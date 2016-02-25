@@ -20,30 +20,15 @@
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#ifndef __MAYA_FUNCTIONAL_H__
+#define __MAYA_FUNCTIONAL_H__
 
-// header for all the different maya extensions
-#ifndef __MAYA_SETUP_H__
-#define __MAYA_SETUP_H__
-
-#ifndef MAYA_EXTENSIONS
-#define MAYA_EXTENSIONS 1
+#ifdef __cplusplus
+extern "C" {
 #endif
+void InstallFunctionalExtensions(void* theEnv);
 
-#if !MAYA_EXTENSIONS
-#define BOOST_EXTENSIONS 0
-#define FUNCTIONAL_EXTENSIONS 0
+#ifdef __cplusplus
+}
 #endif
-
-// should we enable the boost library extensions (header only!)
-#ifndef BOOST_EXTENSIONS
-#define BOOST_EXTENSIONS 1
 #endif
-
-// should we enable the functional programming extensions?
-#ifndef FUNCTIONAL_EXTENSIONS
-#define FUNCTIONAL_EXTENSIONS 1
-#endif
-
-
-#endif // end __MAYA_SETUP_H__
-
