@@ -1,5 +1,5 @@
 // maya
-// Copyright (c) 2012-2016, Joshua Scoggins 
+// Copyright (c) 2012-2016, Joshua Scoggins
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 // ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 // (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -36,7 +36,7 @@ void MapFunction(UDFContext* context, CLIPSValue* ret);
 
 extern "C" void InstallFunctionalExtensions(void* theEnv) {
 #if FUNCTIONAL_EXTENSIONS
-	EnvAddUDF(theEnv, "map$", "m", MapFunction, "MapFunction", 1, UNBOUNDED, "*;y;*", NULL);
+	EnvAddUDF((Environment*)theEnv, "map$", "m", MapFunction, "MapFunction", 1, UNBOUNDED, "*;y;*", NULL);
 #endif
 }
 
@@ -54,7 +54,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 		return;
 	} else {
 		name = CVToString(&func);
-		std::function<bool(UDFContext*, CLIPSValue*, CLIPSValue*, const std::string&)> body = 
+		std::function<bool(UDFContext*, CLIPSValue*, CLIPSValue*, const std::string&)> body =
 			[](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name) -> bool {
 				int j;
 				struct multifield *theMultifield;
@@ -112,7 +112,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 						{ lastAdd->nextArg = nextAdd; }
 						lastAdd = nextAdd;
 						ExpressionInstall(theEnv,lastAdd);
-						break;    
+						break;
 				}
 
 				/*===========================================================*/
@@ -128,7 +128,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 						EnvPrintRouter(theEnv,WERROR,"Function map$ called with the wrong number of arguments for deffunction ");
 						EnvPrintRouter(theEnv,WERROR,EnvGetDeffunctionName(theEnv,fref.value));
 						EnvPrintRouter(theEnv,WERROR,"\n");
-						ExpressionDeinstall(theEnv,&fref);   
+						ExpressionDeinstall(theEnv,&fref);
 						ReturnExpression(theEnv,fref.argList);
 						return false;
 					}
@@ -169,7 +169,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 			if (! UDFNextArgument(context,ANY_TYPE,&curr))
 			{
 				CVSetBoolean(ret, false);
-				return; 
+				return;
 			} else {
 				if (body(context, &tmp, &curr, name)) {
 					if (!tmp2) {

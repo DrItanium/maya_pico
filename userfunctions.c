@@ -1,10 +1,10 @@
-/*******************************************************/
-/*      "C" Language Integrated Production System      */
-/*                                                     */
-/*            CLIPS Version 6.40  01/06/16             */
-/*                                                     */
-/*                USER FUNCTIONS MODULE                */
-/*******************************************************/
+   /*******************************************************/
+   /*      "C" Language Integrated Production System      */
+   /*                                                     */
+   /*            CLIPS Version 6.40  01/06/16             */
+   /*                                                     */
+   /*                USER FUNCTIONS MODULE                */
+   /*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -47,6 +47,7 @@
 
 #include "clips.h"
 #include "maya.h"
+
 void UserFunctions(void);
 void EnvUserFunctions(void *);
 
@@ -60,10 +61,10 @@ void EnvUserFunctions(void *);
 /*   included in another file.                           */
 /*********************************************************/
 void UserFunctions()
-{
-	// Use of UserFunctions is deprecated.
-	// Use EnvUserFunctions instead.
-}
+  {
+   // Use of UserFunctions is deprecated.
+   // Use EnvUserFunctions instead.
+  }
 
 /***********************************************************/
 /* EnvUserFunctions: Informs the expert system environment */
@@ -75,8 +76,8 @@ void UserFunctions()
 /*   included in another file.                             */
 /***********************************************************/
 void EnvUserFunctions(
-		void *environment)
-{
-	InstallMayaExtensions(environment);
-}
+  void *environment)
+  {
+      InstallMayaExtensions(environment);
+  }
 

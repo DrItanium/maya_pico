@@ -1,5 +1,5 @@
 // maya
-// Copyright (c) 2012-2016, Joshua Scoggins 
+// Copyright (c) 2012-2016, Joshua Scoggins
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 // ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 // (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -50,7 +50,7 @@ IsDeffunction(UDFContext* context, CLIPSValue* ret) {
 	if (!UDFFirstArgument(context, SYMBOL_TYPE, &func)) {
 		CVSetBoolean(ret, false);
 		return;
-	} 
+	}
 	if (! GetFunctionReference(environment, CVToString(&func), &theReference)) {
 		CVSetBoolean(ret, false);
 	} else {
@@ -63,7 +63,7 @@ EmptyFunction(UDFContext* context, CLIPSValue* ret) {
 	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
 		return;
 	}
-	if (CVLength(&collection) == 0) {
+	if (mMFLength(&collection) == 0) {
 		CVSetBoolean(ret, true);
 	} else {
 		CVSetBoolean(ret, false);

@@ -1,5 +1,5 @@
 // maya
-// Copyright (c) 2012-2016, Joshua Scoggins 
+// Copyright (c) 2012-2016, Joshua Scoggins
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
 // ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 // (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -53,24 +53,25 @@ void IsDirectory(UDFContext*, CLIPSValue*);
 void IsRegularFile(UDFContext*, CLIPSValue*);
 void ClampValue(UDFContext*, CLIPSValue*);
 void MinMaxFunction(UDFContext*, CLIPSValue*);
-#endif 
+#endif
 
 extern "C" void InstallBoostExtensions(void* theEnv) {
 #if BOOST_EXTENSIONS
-	EnvAddUDF(theEnv, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
-	EnvAddUDF(theEnv, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
-	EnvAddUDF(theEnv, "string-trim", "y", TrimString, "TrimString", 1, 1, "s", NULL);
-	EnvAddUDF(theEnv, "string-trim-front", "y", TrimStringFront, "TrimStringFront", 1, 1, "s", NULL);
-	EnvAddUDF(theEnv, "string-trim-back", "y", TrimStringBack, "TrimStringBack", 1, 1, "s", NULL);
-	EnvAddUDF(theEnv, "new-uuid", "s", NewUUID, "NewUUID", 0, 0, "", NULL);
-	EnvAddUDF(theEnv, "gcd", "l", gcdFunction, "gcdFunction", 2, 2, "l;l;l", NULL);
-	EnvAddUDF(theEnv, "lcm", "l", lcmFunction, "lcmFunction", 2, 2, "l;l;l", NULL);
-	EnvAddUDF(theEnv, "path-exists", "b", FileExists, "FileExists", 1, 1, "sy", NULL);
-	EnvAddUDF(theEnv, "directoryp", "b", IsDirectory, "IsDirectory", 1, 1, "sy", NULL);
-	EnvAddUDF(theEnv, "regular-filep", "b", IsRegularFile, "IsRegularFile", 1, 1, "sy", NULL);
-	EnvAddUDF(theEnv, "clamp", "l", ClampValue, "ClampValue", 3, 3, "l;l;l;l", NULL);
-	EnvAddUDF(theEnv, "min-max", "m", MinMaxFunction, "MinMaxFunction", 2, 2, "ld;ld;ld", NULL);
-#endif 
+    Environment* env = (Environment*)theEnv;
+	EnvAddUDF(env, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
+	EnvAddUDF(env, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
+	EnvAddUDF(env, "string-trim", "y", TrimString, "TrimString", 1, 1, "s", NULL);
+	EnvAddUDF(env, "string-trim-front", "y", TrimStringFront, "TrimStringFront", 1, 1, "s", NULL);
+	EnvAddUDF(env, "string-trim-back", "y", TrimStringBack, "TrimStringBack", 1, 1, "s", NULL);
+	EnvAddUDF(env, "new-uuid", "s", NewUUID, "NewUUID", 0, 0, "", NULL);
+	EnvAddUDF(env, "gcd", "l", gcdFunction, "gcdFunction", 2, 2, "l;l;l", NULL);
+	EnvAddUDF(env, "lcm", "l", lcmFunction, "lcmFunction", 2, 2, "l;l;l", NULL);
+	EnvAddUDF(env, "path-exists", "b", FileExists, "FileExists", 1, 1, "sy", NULL);
+	EnvAddUDF(env, "directoryp", "b", IsDirectory, "IsDirectory", 1, 1, "sy", NULL);
+	EnvAddUDF(env, "regular-filep", "b", IsRegularFile, "IsRegularFile", 1, 1, "sy", NULL);
+	EnvAddUDF(env, "clamp", "l", ClampValue, "ClampValue", 3, 3, "l;l;l;l", NULL);
+	EnvAddUDF(env, "min-max", "m", MinMaxFunction, "MinMaxFunction", 2, 2, "ld;ld;ld", NULL);
+#endif
 }
 
 
