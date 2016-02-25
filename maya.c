@@ -35,6 +35,8 @@ static void IsDeffunction(UDFContext*, CLIPSValue*);
 void InstallMayaExtensions(void* environment) {
 	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
 	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
+	EnvAddUDF(environment, "quit",   "v", ExitCommand,    "ExitCommand", 0,1,"l",NULL);
+	EnvAddUDF(environment, "bye",   "v", ExitCommand,    "ExitCommand", 0,1,"l",NULL);
 	InstallBoostExtensions(environment);
 	InstallFunctionalExtensions(environment);
 }
