@@ -1,9 +1,16 @@
 ########### MAKEFILE FOR MAYA ###########
 include config.mk
 OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
-CXX_OBJECTS = $(patsubst %.cc,%.o, $(wildcard *.cc))
 CFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='$(COMMAND_PROMPT)'
-OBJS = ${OBJECTS} ${CXX_OBJECTS}
+CXXFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='${COMMAND_PROMPT}'
+ifeq ($(CXXEXTENSIONS), TRUE)
+CXX_OBJECTS = $(patsubst %.cc,%.o, $(wildcard *.cc))
+endif
+ifeq ($(CXXEXTENSIONS), TRUE)
+	OBJS = ${OBJECTS} ${CXX_OBJECTS}
+else
+	OBJS = ${OBJECTS}
+endif
 
 .PHONY: clean all
 
@@ -11,7 +18,7 @@ all: program
 
 program: $(OBJS)
 	@echo Building $(OUTPUT)
-	@$(CXX) $(LDFLAGS) -o $(OUTPUT) $(OBJS)
+	@$(LD) $(LDFLAGS) -o $(OUTPUT) $(OBJS)
 
 install:
 	@echo Installing binaries to $(PREFIX)/bin

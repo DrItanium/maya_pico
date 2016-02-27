@@ -23,8 +23,14 @@
 #include "clips.h"
 #include "maya.h"
 #include "mayasetup.h"
+
+#if BOOST_EXTENSIONS
 #include "boost.h"
+#endif 
+
+#if FUNCTIONAL_EXTENSIONS
 #include "functional.h"
+#endif
 
 #if !MAYA_EXTENSIONS
 void InstallMayaExtensions(void* environment) { }
@@ -37,8 +43,12 @@ void InstallMayaExtensions(void* environment) {
 	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
 	EnvAddUDF(environment, "quit",   "v", ExitCommand,    "ExitCommand", 0,1,"l",NULL);
 	EnvAddUDF(environment, "bye",   "v", ExitCommand,    "ExitCommand", 0,1,"l",NULL);
+#if  BOOST_EXTENSIONS
 	InstallBoostExtensions(environment);
+#endif
+#if FUNCTIONAL_EXTENSIONS
 	InstallFunctionalExtensions(environment);
+#endif
 }
 
 void
