@@ -1,4 +1,5 @@
 CC := cc
+CXX := c++
 OUTPUT := maya
 PREFIX := /usr/local
 LDFLAGS := -lm -lrt -lboost_system -lboost_filesystem
