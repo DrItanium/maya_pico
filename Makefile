@@ -9,7 +9,7 @@ OBJS = ${OBJECTS} ${CXX_OBJECTS}
 
 all: program
 
-program: $(OBJS) 
+program: $(OBJS)
 	@echo Building $(OUTPUT)
 	@$(CXX) $(LDFLAGS) -o $(OUTPUT) $(OBJS)
 
@@ -23,7 +23,7 @@ deinstall uninstall:
 	@rm -f $(PREFIX)/bin/$(OUTPUT)
 
 
-clean: 
+clean:
 	@echo Cleaning
 	@rm -f $(OBJS)
 	@rm -f $(OUTPUT)
@@ -40,7 +40,7 @@ clean:
 .cc.o :
 	@echo CXX $<
 	@$(CXX) -c $(CXXFLAGS) -o $@ -D_POSIX_C_SOURCE=200112L \
-		-std=c++11 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
+		-std=c++11 -Wall -Wundef -Wpointer-arith -Wcast-qual \
 		-Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
 		-Waggregate-return $<
 
