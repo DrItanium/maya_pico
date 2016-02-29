@@ -57,29 +57,12 @@ void
 IsDeffunction(UDFContext* context, CLIPSValue* ret) {
 	FUNCTION_REFERENCE theReference;
 	CLIPSValue func;
-	Environment* environment = UDFContextEnvironment(context);
-
-	if (!UDFFirstArgument(context, SYMBOL_TYPE, &func)) {
-		CVSetBoolean(ret, false);
-		return;
-	}
-	if (! GetFunctionReference(environment, CVToString(&func), &theReference)) {
-		CVSetBoolean(ret, false);
-	} else {
-		CVSetBoolean(ret, true);
-	}
+	CVSetBoolean(ret, UDFFirstArgument(context, SYMBOL_TYPE, &func) && GetFunctionReference(UDFContextEnvironment(context), CVToString(&func), &theReference));
 }
 void
 EmptyFunction(UDFContext* context, CLIPSValue* ret) {
 	CLIPSValue collection;
-	if (!UDFFirstArgument(context, MULTIFIELD_TYPE, &collection)) {
-		return;
-	}
-	if (mMFLength(&collection) == 0) {
-		CVSetBoolean(ret, true);
-	} else {
-		CVSetBoolean(ret, false);
-	}
+	CVSetBoolean(ret, UDFFirstArgument(context, MULTIFIELD_TYPE, &collection) && (mMFLength(&collection) == 0));
 }
 
 void
