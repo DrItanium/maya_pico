@@ -306,7 +306,7 @@ FilterFunction(UDFContext* context, CLIPSValue* ret) {
 				return;
 			} else {
 				if (body(context, &tmp, &curr, name, &fref, theFunction)) {
-					if (mCVIsFalseSymbol(&tmp)) {
+					if (!mCVIsFalseSymbol(&tmp)) {
 						if (!tmp2) {
 							tmp2 = ConvertValueToExpression(env, &curr);
 						} else {
