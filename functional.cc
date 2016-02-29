@@ -36,7 +36,7 @@ static void FilterFunction(UDFContext* context, CLIPSValue* ret);
 
 extern "C" void InstallFunctionalExtensions(void* theEnv) {
 #if FUNCTIONAL_EXTENSIONS
-	EnvAddUDF((Environment*)theEnv, "map$", "m", MapFunction, "MapFunction", 1, UNBOUNDED, "*;y;*", NULL);
+	EnvAddUDF((Environment*)theEnv, "map", "m", MapFunction, "MapFunction", 1, UNBOUNDED, "*;y;*", NULL);
 	EnvAddUDF((Environment*)theEnv, "filter", "m", FilterFunction, "FilterFunction", 1, UNBOUNDED, "*;y;*", NULL);
 #endif
 }
@@ -103,7 +103,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 			if (fref->type == PCALL) {
 				if (!CheckDeffunctionCall(theEnv,fref->value,CountArguments(fref->argList))) {
 					PrintErrorID(theEnv,"MISCFUN",4,false);
-					EnvPrintRouter(theEnv,WERROR,"Function map$ called with the wrong number of arguments for deffunction ");
+					EnvPrintRouter(theEnv,WERROR,"Function map called with the wrong number of arguments for deffunction ");
 					EnvPrintRouter(theEnv,WERROR,EnvGetDeffunctionName(theEnv,fref->value));
 					EnvPrintRouter(theEnv,WERROR,"\n");
 					ExpressionDeinstall(theEnv,fref);
@@ -149,14 +149,14 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 		FUNCTION_REFERENCE fref;
 
 		if (!GetFunctionReference(env, name.c_str(), &fref)) {
-			ExpectedTypeError1(env,"map$",1,"function, deffunction, or generic function name");
+			ExpectedTypeError1(env,"map",1,"function, deffunction, or generic function name");
 			return;
 		}
 
 		if (fref.type == FCALL) {
 			theFunction = FindFunction(env, name.c_str());
 			if (theFunction->parser != NULL) {
-				ExpectedTypeError1(env,"map$",1,"function without specialized parser");
+				ExpectedTypeError1(env,"map",1,"function without specialized parser");
 				return;
 			}
 		}
