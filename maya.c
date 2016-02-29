@@ -38,19 +38,42 @@ void InstallMayaExtensions(void* environment) { }
 static void EmptyFunction(UDFContext*, CLIPSValue*);
 static void IsDeffunction(UDFContext*, CLIPSValue*);
 static void NextToken(UDFContext* context, CLIPSValue* ret);
+static void LastFunction(UDFContext* context, CLIPSValue* ret);
 
 void InstallMayaExtensions(void* environment) {
 	EnvAddUDF(environment, "empty$", "b", EmptyFunction, "EmptyFunction", 1, 1, "m", NULL);
 	EnvAddUDF(environment, "deffunctionp", "b", IsDeffunction, "IsDeffunction", 1, 1, "y", NULL);
 	EnvAddUDF(environment, "quit",   "v", ExitCommand,    "ExitCommand", 0,1,"l",NULL);
 	EnvAddUDF(environment, "bye",   "v", ExitCommand,    "ExitCommand", 0,1,"l",NULL);
-    EnvAddUDF(environment, "next-token", "synldfie", NextToken, "NextToken", 1, 1, "y", NULL);
+	EnvAddUDF(environment, "next-token", "synldfie", NextToken, "NextToken", 1, 1, "y", NULL);
+	EnvAddUDF(environment, "last$", "m", LastFunction, "LastFunction", 1,1,"m",NULL);
 #if  BOOST_EXTENSIONS
 	InstallBoostExtensions(environment);
 #endif
 #if FUNCTIONAL_EXTENSIONS
 	InstallFunctionalExtensions(environment);
 #endif
+}
+
+void
+LastFunction(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue theArg;
+	struct multifield *theList;
+
+	/*===================================*/
+	/* Get the segment to be subdivided. */
+	/*===================================*/
+
+	if (! UDFFirstArgument(context,MULTIFIELD_TYPE,&theArg)) { 
+		return; 
+	}
+
+	theList = (struct multifield *) DOToPointer(theArg);
+
+	SetpType(ret,MULTIFIELD);
+	SetpValue(ret,theList);
+	SetpDOBegin(ret, GetDOEnd(theArg));
+	SetpDOEnd(ret, GetDOEnd(theArg));
 }
 
 void
