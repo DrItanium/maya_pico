@@ -31,6 +31,7 @@ extern "C" {
 #if FUNCTIONAL_EXTENSIONS
 static void MapFunction(UDFContext* context, CLIPSValue* ret);
 static void FilterFunction(UDFContext* context, CLIPSValue* ret);
+static void ExistsFunction(UDFContext* context, CLIPSValue* ret);
 #endif
 
 
@@ -38,6 +39,7 @@ extern "C" void InstallFunctionalExtensions(void* theEnv) {
 #if FUNCTIONAL_EXTENSIONS
 	EnvAddUDF((Environment*)theEnv, "map", "m", MapFunction, "MapFunction", 1, UNBOUNDED, "*;y;*", NULL);
 	EnvAddUDF((Environment*)theEnv, "filter", "m", FilterFunction, "FilterFunction", 1, UNBOUNDED, "*;y;*", NULL);
+	EnvAddUDF((Environment*)theEnv, "exists", "m", ExistsFunction, "ExistsFunction", 1, UNBOUNDED, "*;y;&", NULL);
 #endif
 }
 
@@ -319,6 +321,143 @@ FilterFunction(UDFContext* context, CLIPSValue* ret) {
 			}
 		}
 		StoreInMultifield(env, ret, tmp2, true);
+	}
+}
+
+void
+ExistsFunction(UDFContext* context, CLIPSValue* ret) {
+	CLIPSValue func;
+	if (!UDFFirstArgument(context, LEXEME_TYPES, &func)) {
+		CVSetBoolean(ret, false);
+		return;
+	} else {
+		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, struct FunctionDefinition *theFunction) -> bool {
+			struct multifield *theMultifield = nullptr;
+			struct expr *lastAdd = nullptr, 
+						*nextAdd = nullptr, 
+						*multiAdd = nullptr;
+			Environment* theEnv = UDFContextEnvironment(context);
+			ExpressionInstall(theEnv,fref);
+
+			switch(GetpType(theArg)) {
+				case MULTIFIELD:
+					nextAdd = GenConstant(theEnv,FCALL,(void *) FindFunction(theEnv,"create$"));
+
+					if (lastAdd == NULL) { 
+						fref->argList = nextAdd; 
+					} else { 
+						lastAdd->nextArg = nextAdd; 
+					}
+					lastAdd = nextAdd;
+
+					multiAdd = NULL;
+					theMultifield = (struct multifield *) GetpValue(theArg);
+					for (int j = GetpDOBegin(theArg); j <= GetpDOEnd(theArg); j++) {
+						nextAdd = GenConstant(theEnv,GetMFType(theMultifield,j),GetMFValue(theMultifield,j));
+						if (multiAdd == NULL) {
+							lastAdd->argList = nextAdd;
+						} else {
+							multiAdd->nextArg = nextAdd;
+						}
+						multiAdd = nextAdd;
+					}
+
+					ExpressionInstall(theEnv,lastAdd);
+					break;
+
+				default:
+					nextAdd = GenConstant(theEnv,GetpType(theArg),GetpValue(theArg));
+					if (lastAdd == NULL) { 
+						fref->argList = nextAdd; 
+					} else { 
+						lastAdd->nextArg = nextAdd; 
+					}
+					lastAdd = nextAdd;
+					ExpressionInstall(theEnv,lastAdd);
+					break;
+			}
+
+			/*===========================================================*/
+			/* Verify a deffunction has the correct number of arguments. */
+			/*===========================================================*/
+
+#if DEFFUNCTION_CONSTRUCT
+			if (fref->type == PCALL) {
+				if (!CheckDeffunctionCall(theEnv,fref->value,CountArguments(fref->argList))) {
+					PrintErrorID(theEnv,"MISCFUN",4,false);
+					EnvPrintRouter(theEnv,WERROR,"Function exists called with the wrong number of arguments for deffunction ");
+					EnvPrintRouter(theEnv,WERROR,EnvGetDeffunctionName(theEnv,fref->value));
+					EnvPrintRouter(theEnv,WERROR,"\n");
+					ExpressionDeinstall(theEnv,fref);
+					ReturnExpression(theEnv,fref->argList);
+					return false;
+				}
+			}
+#endif
+
+			/*=========================================*/
+			/* Verify the correct number of arguments. */
+			/*=========================================*/
+
+			if (fref->type == FCALL) {
+				if (CheckExpressionAgainstRestrictions(theEnv,fref,theFunction,name.c_str())) {
+					ExpressionDeinstall(theEnv,fref);
+					ReturnExpression(theEnv,fref->argList);
+					return false;
+				}
+			}
+
+			/*======================*/
+			/* Call the expression. */
+			/*======================*/
+
+			EvaluateExpression(theEnv,fref,ret);
+
+			/*========================================*/
+			/* Return the expression data structures. */
+			/*========================================*/
+
+			ExpressionDeinstall(theEnv,fref);
+			ReturnExpression(theEnv,fref->argList);
+			fref->argList = nullptr;
+
+			return true;
+		};
+		std::string name(CVToString(&func));
+		Environment* env = UDFContextEnvironment(context);
+		struct expr *tmp2 = nullptr;
+		struct FunctionDefinition *theFunction = nullptr;
+		CLIPSValue curr, tmp;
+		FUNCTION_REFERENCE fref;
+
+		if (!GetFunctionReference(env, name.c_str(), &fref)) {
+			ExpectedTypeError1(env,"exists",1,"function, deffunction, or generic function name");
+			return;
+		}
+
+		if (fref.type == FCALL) {
+			theFunction = FindFunction(env, name.c_str());
+			if (theFunction->parser != NULL) {
+				ExpectedTypeError1(env,"exists",1,"function without specialized parser");
+				return;
+			}
+		}
+
+		while (UDFHasNextArgument(context)) {
+			if (! UDFNextArgument(context,ANY_TYPE,&curr)) {
+				CVSetBoolean(ret, false);
+				return;
+			} else {
+				if (body(context, &tmp, &curr, name, &fref, theFunction)) {
+					if (mCVIsTrueSymbol(&tmp)) {
+						CVSetBoolean(ret, true);
+						return;
+					}
+				} else {
+					return;
+				}
+			}
+		}
 	}
 }
 
