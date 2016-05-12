@@ -14,16 +14,16 @@ endif
 
 .PHONY: clean all
 
-all: program
+all: repl
 
-program: $(OBJS)
-	@echo Building $(OUTPUT)
-	@$(LD) $(LDFLAGS) -o $(OUTPUT) $(OBJS)
+repl: $(OBJS) cmd/repl/main.o
+	@echo Building maya
+	@$(LD) $(LDFLAGS) -o maya $(OBJS) cmd/repl/main.o
 
 install:
 	@echo Installing binaries to $(PREFIX)/bin
 	@mkdir -p $(PREFIX)/bin
-	@cp $(OUTPUT) $(PREFIX)/bin
+	@cp maya $(PREFIX)/bin
 
 deinstall uninstall:
 	@echo Uninstalling...
@@ -32,8 +32,7 @@ deinstall uninstall:
 
 clean:
 	@echo Cleaning
-	@rm -f $(OBJS)
-	@rm -f $(OUTPUT)
+	@rm -f $(OBJS) cmd/repl/main.o maya
 
 
 .c.o :
@@ -42,12 +41,12 @@ clean:
 		-std=c99 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
 	    -Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
 	    -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes \
-	    -Waggregate-return -Wno-implicit $<
+	    -Waggregate-return -Wno-implicit -I. $<
 
 .cc.o :
 	@echo CXX $<
 	@$(CXX) -c $(CXXFLAGS) -o $@ -D_POSIX_C_SOURCE=200112L \
 		-std=c++11 -Wall -Wundef -Wpointer-arith -Wcast-qual \
 		-Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
-		-Waggregate-return $<
+		-Waggregate-return -I. $<
 
