@@ -18,7 +18,7 @@ all: repl
 
 repl: archive cmd/repl/main.o
 	@echo Building maya
-	@$(LD) $(LDFLAGS) -o maya libmaya.a cmd/repl/main.o
+	@$(LD) $(LDFLAGS) -o maya cmd/repl/main.o libmaya.a
 
 install: repl
 	@echo Installing binaries to $(PREFIX)/bin
