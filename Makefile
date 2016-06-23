@@ -16,23 +16,38 @@ endif
 
 all: repl
 
-repl: $(OBJS) cmd/repl/main.o
+repl: archive cmd/repl/main.o
 	@echo Building maya
-	@$(LD) $(LDFLAGS) -o maya $(OBJS) cmd/repl/main.o
+	@$(LD) $(LDFLAGS) -o maya libmaya.a cmd/repl/main.o
 
-install:
+install: repl
 	@echo Installing binaries to $(PREFIX)/bin
 	@mkdir -p $(PREFIX)/bin
-	@cp maya $(PREFIX)/bin
+	@cp $(OUTPUT) $(PREFIX)/bin
+	@echo Installing headers to $(PREFIX)/include/maya
+	@mkdir -p $(PREFIX)/include/maya
+	@cp *.h $(PREFIX)/include/maya
+	@echo Installing libmaya.a to $(PREFIX)/lib
+	@mkdir -p $(PREFIX)/lib
+	@cp libmaya.a $(PREFIX)/lib
+
+archive: $(OBJS)
+	@echo Building archive
+	@$(AR) cr libmaya.a $(OBJS)
+
 
 deinstall uninstall:
 	@echo Uninstalling...
 	@rm -f $(PREFIX)/bin/$(OUTPUT)
+	@echo Removing headers in $(PREFIX)/include/maya
+	@rm -f $(PREFIX)/include/maya
+	@echo Deleting libmaya.a from $(PREFIX)/lib/
+	@rm $(PREFIX)/lib/libmaya.a
 
 
 clean:
 	@echo Cleaning
-	@rm -f $(OBJS) cmd/repl/main.o maya
+	@rm -f $(OBJS) cmd/repl/main.o $(OUTPUT) libmaya.a
 
 
 .c.o :
