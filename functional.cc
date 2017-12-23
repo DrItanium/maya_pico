@@ -61,9 +61,43 @@ MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 				return;
 			} else {
 				CLIPSValue tmp;
-				maya::FunctionCallBuilder fcb(env);
+				maya::FunctionCallBuilder fcb(env, 0);
 				fcb.append(&curr);
-				fcb.call(func.lexemeValue->contents, &tmp);
+				auto result = fcb.call(func.lexemeValue->contents, &tmp);
+				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+					PrintErrorID(env, "FUNCTIONAL", 1, false);
+					switch(result) {
+						case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
+							WriteString(env, STDERR, "Error during evaluation of arguments!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
+							WriteString(env, STDERR, "Argument type check failed!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
+							WriteString(env, STDERR, "Argument count check failed!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
+							WriteString(env, STDERR, "Function '");
+							WriteString(env, STDERR, func.lexemeValue->contents);
+							WriteString(env, STDERR, "' does not exist!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
+							WriteString(env, STDERR, "Function '");
+							WriteString(env, STDERR, func.lexemeValue->contents);
+							WriteString(env, STDERR, "' has a custom parser and cannot be used with map$!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
+							WriteString(env, STDERR, "Provided function name is null!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_NO_ERROR:
+							WriteString(env, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
+							break;
+						default:
+							WriteString(env, STDERR, "Unknown function builder error occurred!\n");
+							break;
+					}
+					break;
+				}
 				mb.append(&tmp);
 			}
 		}
