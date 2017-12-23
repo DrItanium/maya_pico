@@ -47,7 +47,6 @@ void InstallMayaExtensions(Environment* environment) {
 	AddUDF(environment, "functionp", "b", 1, 1, "y", Functionp, "Functionp", NULL);
 	AddUDF(environment, "quit", "v", 0, 1, "l", ExitCommand, "ExitCommand", NULL);
 	AddUDF(environment, "bye", "v", 0, 1, "l", ExitCommand, "ExitCommand", NULL);
-//	AddUDF(environment, "next-token", "synldfie", 1, 1, "y", NextToken, "NextToken", NULL);
 	AddUDF(environment, "last$", "m", 1, 1, "m", LastFunction, "LastFunction", NULL);
 #if  BOOST_EXTENSIONS
 //	InstallBoostExtensions(environment);
@@ -95,79 +94,5 @@ EmptyFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 	}
 	ret->lexemeValue = (theArg.range > 0) ? FalseSymbol(env) : TrueSymbol(env);
 }
-
-//void
-//NextToken(Environment* env, UDFContext* context, CLIPSValue* ret) {
-//    struct token theToken;
-//    const char *logicalName = 0;
-//    Environment* theEnv = UDFContextEnvironment(context);
-//    logicalName = GetLogicalName(context, STDIN); // if we find a logical name then return it, else stdin
-//    if (!logicalName) {
-//        IllegalLogicalNameMessage(theEnv, "next-token");
-//        EnvSetHaltExecution(theEnv, true);
-//        EnvSetEvaluationError(theEnv, true);
-//        mCVSetString(ret, "*** READ ERROR ***");
-//        return;
-//    }
-//
-//    if (!QueryRouters(theEnv, logicalName)) {
-//        UnrecognizedRouterMessage(theEnv, logicalName);
-//        EnvSetHaltExecution(theEnv, true);
-//        EnvSetEvaluationError(theEnv, true);
-//        mCVSetString(ret, "*** READ ERROR ***");
-//        return;
-//    }
-//    GetToken(theEnv, logicalName, &theToken);
-//
-//    RouterData(theEnv)->CommandBufferInputCount = 0;
-//    RouterData(theEnv)->AwaitingInput = false;
-//
-//    // copy the token tot he return value data structure
-//    ret->type = theToken.type;
-//
-//    if ((theToken.type == FLOAT) || (theToken.type == STRING) ||
-//#if OBJECT_SYSTEM
-//        (theToken.type == INSTANCE_NAME) ||
-//#endif
-//        (theToken.type == SYMBOL) || (theToken.type == INTEGER)) {
-//        ret->value = theToken.value;
-//    } else if (theToken.type == UNKNOWN_VALUE) {
-//        mCVSetString(ret, "*** READ ERROR ***");
-//	}
-//#define specialCaseEntry(symbol, str) \
-//   else if(theToken.type == symbol) { \
-//       void *mf = EnvCreateMultifield(theEnv, 2); \
-//       SetMFType(mf, 1, SYMBOL); \
-//       SetMFValue(mf, 1, EnvAddSymbol(theEnv, str)); \
-//       SetMFType(mf, 2, STRING); \
-//       SetMFValue(mf, 2, EnvAddSymbol(theEnv, theToken.printForm)); \
-//       ret->type = MULTIFIELD; \
-//       ret->value = mf; \
-//       SetpDOBegin(ret, 1); \
-//       SetpDOEnd(ret, 2); \
-//   }
-//specialCaseEntry(STOP, "STOP")
-//specialCaseEntry(NOT_CONSTRAINT, "NOT_CONSTRAINT")
-//specialCaseEntry(AND_CONSTRAINT, "AND_CONSTRAINT")
-//specialCaseEntry(OR_CONSTRAINT, "OR_CONSTRAINT")
-//specialCaseEntry(LPAREN, "LPAREN")
-//specialCaseEntry(RPAREN, "RPAREN")
-//specialCaseEntry(GBL_VARIABLE, "GBL_VARIABLE")
-//specialCaseEntry(MF_GBL_VARIABLE, "MF_GBL_VARIABLE")
-//specialCaseEntry(SF_VARIABLE, "SF_VARIABLE")
-//specialCaseEntry(MF_VARIABLE, "MF_VARIABLE")
-//specialCaseEntry(SF_WILDCARD, "SF_WILDCARD")
-//specialCaseEntry(MF_WILDCARD, "MF_WILDCARD")
-//#undef specialCaseEntry
-//    else {
-//        ret->type = STRING;
-//        ret->value = (void *) EnvAddSymbol(theEnv,theToken.printForm);
-//    }
-//
-//}
-
-
-
-
 
 #endif // end MAYA_EXTENSIONS
