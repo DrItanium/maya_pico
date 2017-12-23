@@ -7,7 +7,7 @@ CXXEXTENSIONS ?= TRUE
 ifeq ($(CXXEXTENSIONS), TRUE)
 	CXX := c++
 	LDFLAGS += -lboost_system -lboost_filesystem 
-	CXXFLAGS := -Os -g3 -std=c++11 -DFUNCTIONAL_EXTENSIONS=0
+	CXXFLAGS := -Os -g3 -std=c++11
 	LD := $(CXX)
 else
 	CFLAGS += -DBOOST_EXTENSIONS=0 -DFUNCTIONAL_EXTENSIONS=0
