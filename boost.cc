@@ -40,190 +40,194 @@ extern "C" {
 
 
 #if BOOST_EXTENSIONS
-void HasPrefix(UDFContext*, CLIPSValue*);
-void HasSuffix(UDFContext*, CLIPSValue*);
-void TrimString(UDFContext*, CLIPSValue*);
-void TrimStringFront(UDFContext*, CLIPSValue*);
-void TrimStringBack(UDFContext*, CLIPSValue*);
-void NewUUID(UDFContext*, CLIPSValue*);
-void gcdFunction(UDFContext*, CLIPSValue*);
-void lcmFunction(UDFContext*, CLIPSValue*);
-void FileExists(UDFContext*, CLIPSValue*);
-void IsDirectory(UDFContext*, CLIPSValue*);
-void IsRegularFile(UDFContext*, CLIPSValue*);
-void ClampValue(UDFContext*, CLIPSValue*);
-void MinMaxFunction(UDFContext*, CLIPSValue*);
+void HasPrefix(Environment*, UDFContext*, UDFValue*);
+void HasSuffix(Environment*, UDFContext*, UDFValue*);
+void TrimString(Environment*, UDFContext*, UDFValue*);
+void TrimStringFront(Environment*, UDFContext*, UDFValue*);
+void TrimStringBack(Environment*, UDFContext*, UDFValue*);
+void NewUUID(Environment*, UDFContext*, UDFValue*);
+void gcdFunction(Environment*, UDFContext*, UDFValue*);
+void lcmFunction(Environment*, UDFContext*, UDFValue*);
+void FileExists(Environment*, UDFContext*, UDFValue*);
+void IsDirectory(Environment*, UDFContext*, UDFValue*);
+void IsRegularFile(Environment*, UDFContext*, UDFValue*);
+void ClampValue(Environment*, UDFContext*, UDFValue*);
+//void MinMaxFunction(Environment*, UDFContext*, UDFValue*);
 #endif
 
-extern "C" void InstallBoostExtensions(void* theEnv) {
+extern "C" void InstallBoostExtensions(Environment* theEnv) {
 #if BOOST_EXTENSIONS
-    Environment* env = (Environment*)theEnv;
-	EnvAddUDF(env, "has-prefix", "b", HasPrefix, "HasPrefix", 2, 2, "sy;sy;sy", NULL);
-	EnvAddUDF(env, "has-suffix", "b", HasSuffix, "HasSuffix", 2, 2, "sy;sy;sy", NULL);
-	EnvAddUDF(env, "string-trim", "y", TrimString, "TrimString", 1, 1, "s", NULL);
-	EnvAddUDF(env, "string-trim-front", "y", TrimStringFront, "TrimStringFront", 1, 1, "s", NULL);
-	EnvAddUDF(env, "string-trim-back", "y", TrimStringBack, "TrimStringBack", 1, 1, "s", NULL);
-	EnvAddUDF(env, "new-uuid", "s", NewUUID, "NewUUID", 0, 0, "", NULL);
-	EnvAddUDF(env, "gcd", "l", gcdFunction, "gcdFunction", 2, 2, "l;l;l", NULL);
-	EnvAddUDF(env, "lcm", "l", lcmFunction, "lcmFunction", 2, 2, "l;l;l", NULL);
-	EnvAddUDF(env, "path-exists", "b", FileExists, "FileExists", 1, 1, "sy", NULL);
-	EnvAddUDF(env, "directoryp", "b", IsDirectory, "IsDirectory", 1, 1, "sy", NULL);
-	EnvAddUDF(env, "regular-filep", "b", IsRegularFile, "IsRegularFile", 1, 1, "sy", NULL);
-	EnvAddUDF(env, "clamp", "l", ClampValue, "ClampValue", 3, 3, "l;l;l;l", NULL);
-	EnvAddUDF(env, "min-max", "m", MinMaxFunction, "MinMaxFunction", 2, 2, "ld;ld;ld", NULL);
+	AddUDF(theEnv, "has-prefix", "b", 2, 2, "sy;sy;sy", HasPrefix, "HasPrefix",  NULL);
+	AddUDF(theEnv, "has-suffix", "b", 2, 2, "sy;sy;sy", HasSuffix, "HasSuffix",  NULL);
+	AddUDF(theEnv, "string-trim", "y", 1, 1, "s", TrimString, "TrimString", NULL);
+	AddUDF(theEnv, "string-trim-front", "y", 1, 1, "s", TrimStringFront, "TrimStringFront", NULL);
+	AddUDF(theEnv, "string-trim-back", "y",  1, 1, "s", TrimStringBack, "TrimStringBack", NULL);
+	AddUDF(theEnv, "new-uuid", "s", 0, 0, "", NewUUID, "NewUUID", NULL);
+	AddUDF(theEnv, "gcd", "l",  2, 2, "l;l;l", gcdFunction, "gcdFunction", NULL);
+	AddUDF(theEnv, "lcm", "l",  2, 2, "l;l;l", lcmFunction, "lcmFunction", NULL);
+	AddUDF(theEnv, "path-exists",   "b", 1, 1, "sy", FileExists, "FileExists", NULL);
+	AddUDF(theEnv, "directoryp",    "b", 1, 1, "sy", IsDirectory, "IsDirectory", NULL);
+	AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, "IsRegularFile", NULL);
+	AddUDF(theEnv, "clamp", "l",  3, 3, "l;l;l;l", ClampValue, "ClampValue", NULL);
+//	AddUDF(theEnv, "min-max", "m", 2, 2, "ld;ld;ld", MinMaxFunction, "MinMaxFunction", NULL);
 #endif
 }
 
 
 #if BOOST_EXTENSIONS
-void MinMaxFunction(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue a, b;
-	if (!UDFFirstArgument(context, NUMBER_TYPES, &a)) {
-		CVSetBoolean(ret, false);
-	} else if (!UDFNextArgument(context, NUMBER_TYPES, &b)) {
-		CVSetBoolean(ret, false);
-	} else {
-		Environment* environment = UDFContextEnvironment(context);
-		ret->type = MULTIFIELD;
-		ret->begin = 0;
-		ret->end = 1;
-		ret->value = EnvCreateMultifield(environment, 2L);
-		if (CVIsType(&a, INTEGER_TYPE) && CVIsType(&b, INTEGER_TYPE)) {
-			auto result = boost::minmax(CVToInteger(&a), CVToInteger(&b));
-			SetMFType(ret->value, 1, INTEGER);
-			SetMFValue(ret->value, 1, EnvAddLong(environment, result.get<0>()));
-			SetMFType(ret->value, 2, INTEGER);
-			SetMFValue(ret->value, 2, EnvAddLong(environment, result.get<1>()));
-		} else {
-			// one of them is FLOAT_TYPE
-			auto result = boost::minmax(CVToFloat(&a), CVToFloat(&b));
-			SetMFType(ret->value, 1, FLOAT);
-			SetMFValue(ret->value, 1, EnvAddDouble(environment, result.get<0>()));
-			SetMFType(ret->value, 2, FLOAT);
-			SetMFValue(ret->value, 2, EnvAddDouble(environment, result.get<1>()));
-		}
-	}
-}
-void ClampValue(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue v, lo, hi;
+//void MinMaxFunction(Environment* env, UDFContext* context, UDFValue* ret) {
+//	UDFValue a, b;
+//	if (!UDFFirstArgument(context, NUMBER_BITS, &a)) {
+//		ret->lexemeValue = FalseSymbol(env);
+//	} else if (!UDFNextArgument(context, NUMBER_BITS, &b)) {
+//		ret->lexemeValue = FalseSymbol(env);
+//	} else {
+//		Environment* environment = UDFContextEnvironment(context);
+//		ret->type = MULTIFIELD;
+//		ret->begin = 0;
+//		ret->end = 1;
+//		ret->value = EnvCreateMultifield(environment, 2L);
+//		if (CVIsType(&a, INTEGER_TYPE) && CVIsType(&b, INTEGER_TYPE)) {
+//			auto result = boost::minmax(CVToInteger(&a), CVToInteger(&b));
+//			SetMFType(ret->value, 1, INTEGER);
+//			SetMFValue(ret->value, 1, EnvAddLong(environment, result.get<0>()));
+//			SetMFType(ret->value, 2, INTEGER);
+//			SetMFValue(ret->value, 2, EnvAddLong(environment, result.get<1>()));
+//		} else {
+//			// one of them is FLOAT_TYPE
+//			auto result = boost::minmax(CVToFloat(&a), CVToFloat(&b));
+//			SetMFType(ret->value, 1, FLOAT);
+//			SetMFValue(ret->value, 1, EnvAddDouble(environment, result.get<0>()));
+//			SetMFType(ret->value, 2, FLOAT);
+//			SetMFValue(ret->value, 2, EnvAddDouble(environment, result.get<1>()));
+//		}
+//	}
+//}
+void ClampValue(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue v, lo, hi;
 	if (!UDFFirstArgument(context, INTEGER_TYPE,  &v)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else if (!UDFNextArgument(context, INTEGER_TYPE, &lo)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else if (!UDFNextArgument(context, INTEGER_TYPE, &hi)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		CVSetInteger(ret, boost::algorithm::clamp(CVToInteger(&v), CVToInteger(&lo), CVToInteger(&hi)));
+		ret->integerValue = CreateInteger(env, boost::algorithm::clamp(CVCoerceToInteger(&v), CVCoerceToInteger(&lo), CVCoerceToInteger(&hi)));
 	}
 }
-void FileExists(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue path;
-	if (!UDFFirstArgument(context, LEXEME_TYPES, &path)) {
-		CVSetBoolean(ret, false);
+
+void FileExists(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue path;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		CVSetBoolean(ret, boost::filesystem::exists(CVToString(&path)));
 	}
 }
 
-void IsDirectory(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue path;
-	if (!UDFFirstArgument(context, LEXEME_TYPES, &path)) {
-		CVSetBoolean(ret, false);
+void IsDirectory(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue path;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		CVSetBoolean(ret, boost::filesystem::is_directory(CVToString(&path)));
 	}
 }
 
-void IsRegularFile(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue path;
-	if (!UDFFirstArgument(context, LEXEME_TYPES, &path)) {
-		CVSetBoolean(ret, false);
+void IsRegularFile(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue path;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		CVSetBoolean(ret, boost::filesystem::is_regular_file(CVToString(&path)));
+		ret->lexemeValue = boost::filesystem::is_regular_file(path.lexemeValue->contents) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
-void gcdFunction(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue first, second;
+void gcdFunction(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue first, second;
 	if (!UDFFirstArgument(context, INTEGER_TYPE, &first)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else if (!UDFNextArgument(context, INTEGER_TYPE, &second)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		CVSetInteger(ret, boost::math::gcd(CVToInteger(&first), CVToInteger(&second)));
+		ret->integerValue = CreateInteger(env, boost::math::gcd(CVCoerceToInteger(&first), CVCoerceToInteger(&second)));
 	}
 }
-void lcmFunction(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue first, second;
+void lcmFunction(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue first, second;
 	if (!UDFFirstArgument(context, INTEGER_TYPE, &first)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else if (!UDFNextArgument(context, INTEGER_TYPE, &second)) {
-		CVSetBoolean(ret, false);
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		CVSetInteger(ret, boost::math::lcm(CVToInteger(&first), CVToInteger(&second)));
+		ret->integerValue = CreateInteger(env, boost::math::lcm(CVCoerceToInteger(&first), CVCoerceToInteger(&second))));
 	}
 }
-void NewUUID(UDFContext* context, CLIPSValue* ret) {
+void NewUUID(Environment* env, UDFContext* context, UDFValue* ret) {
 	boost::uuids::random_generator rgen;
 	boost::uuids::uuid theUUID(rgen());
 	const std::string tmp = boost::lexical_cast<std::string>(theUUID);
-	CVSetSymbol(ret, tmp.c_str());
+	ret->value = CreateSymbol(env, tmp.c_str());
 }
-void HasPrefix(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue data, prefix;
-	if (!UDFFirstArgument(context, LEXEME_TYPES, &data)) {
-		CVSetBoolean(ret, false);
+void HasPrefix(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue data, prefix;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &data)) {
+		ret->lexemeValue = FalseSymbol(env);
 		return;
-	} else if (!UDFNextArgument(context, LEXEME_TYPES, &prefix)) {
-		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, LEXEME_BITS, &prefix)) {
+		ret->lexemeValue = FalseSymbol(env);
 		return;
 	}
-	std::string dataStr(CVToString(&data));
-	std::string prefixStr(CVToString(&prefix));
-	CVSetBoolean(ret, boost::starts_with(dataStr, prefixStr));
+	std::string dataStr(data.lexemeValue->contents);
+	std::string prefixStr(prefix.lexemeValue->contents);
+	ret->lexemeValue = boost::starts_with(dataStr, prefixStr) ? TrueSymbol(env) : FalseSymbol(env);
 }
 
-void HasSuffix(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue data, suffix;
-	if (!UDFFirstArgument(context, LEXEME_TYPES, &data)) {
-		CVSetBoolean(ret, false);
+void HasSuffix(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue data, suffix;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &data)) {
+		ret->lexemeValue = FalseSymbol(env);
 		return;
-	} else if (!UDFNextArgument(context, LEXEME_TYPES, &suffix)) {
-		CVSetBoolean(ret, false);
+	} else if (!UDFNextArgument(context, LEXEME_BITS, &suffix)) {
+		ret->lexemeValue = FalseSymbol(env);
 		return;
 	}
 	std::string dataStr(CVToString(&data));
 	std::string suffixStr(CVToString(&suffix));
-	CVSetBoolean(ret, boost::ends_with(dataStr, suffixStr));
-}
-void TrimString(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue str;
-	if (!UDFFirstArgument(context, STRING_TYPE, &str)) {
-		CVSetBoolean(ret, false);
+	if (boost::ends_with(dataStr, suffixStr)) {
+		ret->lexemeValue = TrueSymbol(env);
 	} else {
-		std::string tmp(CVToString(&str));
+		ret->lexemeValue = FalseSymbol(env);
+	}
+}
+void TrimString(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue str;
+	if (!UDFFirstArgument(context, STRING_BIT, &str)) {
+		ret->lexemeValue = FalseSymbol(env);
+	} else {
+		std::string tmp(str.lexemeValue->contents);
 		boost::algorithm::trim(tmp);
-		CVSetString(ret, tmp.c_str());
+		ret->value = CreateString(env, tmp.c_str());
 	}
 }
-void TrimStringFront(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue str;
-	if (!UDFFirstArgument(context, STRING_TYPE, &str)) {
-		CVSetBoolean(ret, false);
+void TrimStringFront(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue str;
+	if (!UDFFirstArgument(context, STRING_BIT, &str)) {
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		std::string tmp(CVToString(&str));
+		std::string tmp(str.lexemeValue->contents);
 		boost::algorithm::trim_left(tmp);
-		CVSetString(ret, tmp.c_str());
+		ret->value = CreateString(env, tmp.c_str());
 	}
 }
-void TrimStringBack(UDFContext* context, CLIPSValue* ret) {
-	CLIPSValue str;
-	if (!UDFFirstArgument(context, STRING_TYPE, &str)) {
-		CVSetBoolean(ret, false);
+void TrimStringBack(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue str;
+	if (!UDFFirstArgument(context, STRING_BIT, &str)) {
+		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		std::string tmp(CVToString(&str));
+		std::string tmp(str.lexemeValue->contents);
 		boost::algorithm::trim_right(tmp);
-		CVSetString(ret, tmp.c_str());
+		ret->value = CreateString(env, tmp.c_str());
 	}
 }
 #endif
