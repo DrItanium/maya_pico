@@ -52,7 +52,7 @@ void InstallMayaExtensions(Environment* environment) {
 	InstallBoostExtensions(environment);
 #endif
 #if FUNCTIONAL_EXTENSIONS
-//	InstallFunctionalExtensions(environment);
+	InstallFunctionalExtensions(environment);
 #endif
 }
 
