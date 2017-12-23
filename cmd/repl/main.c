@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  01/06/16             */
+   /*               CLIPS Version 6.40  08/06/16          */
    /*                                                     */
    /*                     MAIN MODULE                     */
    /*******************************************************/
@@ -19,7 +19,10 @@
 /*      6.24: Moved UserFunctions and EnvUserFunctions to    */
 /*            the new userfunctions.c file.                  */
 /*                                                           */
-/*      6.40: Moved CatchCtrlC functionality into this file. */
+/*      6.40: Removed use of void pointers for specific      */
+/*            data structures.                               */
+/*                                                           */
+/*            Moved CatchCtrlC to main.c.                    */
 /*                                                           */
 /*************************************************************/
 
@@ -61,7 +64,7 @@
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
 
-   static void                   *mainEnv;
+   static Environment            *mainEnv;
 
 /****************************************/
 /* main: Starts execution of the expert */
@@ -72,17 +75,13 @@ int main(
   char *argv[])
   {
    mainEnv = CreateEnvironment();
+
+#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
+   signal(SIGINT,CatchCtrlC);
+#endif
+
    RerouteStdin(mainEnv,argc,argv);
-
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
-#endif
-
    CommandLoop(mainEnv);
-
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
-#endif
 
    /*==================================================================*/
    /* Control does not normally return from the CommandLoop function.  */
@@ -93,10 +92,10 @@ int main(
    /* CLIPS. If you have a multi-threaded application, no environments */
    /* can be currently executing.                                      */
    /*==================================================================*/
-   
+
    DestroyEnvironment(mainEnv);
-   
-   return(-1);
+
+   return -1;
   }
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
@@ -106,9 +105,8 @@ int main(
 static void CatchCtrlC(
   int sgnl)
   {
-   EnvSetHaltExecution(mainEnv,true);
+   SetHaltExecution(mainEnv,true);
    CloseAllBatchSources(mainEnv);
    signal(SIGINT,CatchCtrlC);
   }
 #endif
-
