@@ -90,7 +90,8 @@ void FileExists(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		ret->lexemeValue = boost::filesystem::exists(path.lexemeValue->contents) ? TrueSymbol(env) : FalseSymbol(env);
+		std::string p(path.lexemeValue->contents);
+		ret->lexemeValue = boost::filesystem::exists(p) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
@@ -99,7 +100,8 @@ void IsDirectory(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		ret->lexemeValue = boost::filesystem::is_directory(path.lexemeValue->contents) ? TrueSymbol(env) : FalseSymbol(env);
+		std::string p(path.lexemeValue->contents);
+		ret->lexemeValue = boost::filesystem::is_directory(p) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
@@ -108,7 +110,8 @@ void IsRegularFile(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		ret->lexemeValue = boost::filesystem::is_regular_file(path.lexemeValue->contents) ? TrueSymbol(env) : FalseSymbol(env);
+		std::string p(path.lexemeValue->contents);
+		ret->lexemeValue = boost::filesystem::is_regular_file(p) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
