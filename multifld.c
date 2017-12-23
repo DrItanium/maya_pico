@@ -435,7 +435,10 @@ void UDFToCLIPSValue(
    
    if ((uv->begin == 0) &&
        (uv->range == uv->multifieldValue->length))
-     { return; }
+     {
+		 cv->multifieldValue = uv->multifieldValue;
+		 return; 
+	 }
      
    copy = CreateMultifield(theEnv,uv->range);
    GenCopyMemory(struct clipsValue,uv->range,&copy->contents[0],
