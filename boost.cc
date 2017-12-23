@@ -36,7 +36,6 @@ extern "C" {
 #include <boost/filesystem.hpp>
 #include <boost/system/error_code.hpp>
 #include <boost/algorithm/clamp.hpp>
-#include <boost/algorithm/minmax.hpp>
 
 
 #if BOOST_EXTENSIONS
@@ -52,7 +51,6 @@ void FileExists(Environment*, UDFContext*, UDFValue*);
 void IsDirectory(Environment*, UDFContext*, UDFValue*);
 void IsRegularFile(Environment*, UDFContext*, UDFValue*);
 void ClampValue(Environment*, UDFContext*, UDFValue*);
-//void MinMaxFunction(Environment*, UDFContext*, UDFValue*);
 #endif
 
 extern "C" void InstallBoostExtensions(Environment* theEnv) {
@@ -69,40 +67,11 @@ extern "C" void InstallBoostExtensions(Environment* theEnv) {
 	AddUDF(theEnv, "directoryp",    "b", 1, 1, "sy", IsDirectory, "IsDirectory", NULL);
 	AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, "IsRegularFile", NULL);
 	AddUDF(theEnv, "clamp", "l",  3, 3, "l;l;l;l", ClampValue, "ClampValue", NULL);
-//	AddUDF(theEnv, "min-max", "m", 2, 2, "ld;ld;ld", MinMaxFunction, "MinMaxFunction", NULL);
 #endif
 }
 
 
 #if BOOST_EXTENSIONS
-//void MinMaxFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-//	UDFValue a, b;
-//	if (!UDFFirstArgument(context, NUMBER_BITS, &a)) {
-//		ret->lexemeValue = FalseSymbol(env);
-//	} else if (!UDFNextArgument(context, NUMBER_BITS, &b)) {
-//		ret->lexemeValue = FalseSymbol(env);
-//	} else {
-//		Environment* environment = UDFContextEnvironment(context);
-//		ret->type = MULTIFIELD;
-//		ret->begin = 0;
-//		ret->end = 1;
-//		ret->value = EnvCreateMultifield(environment, 2L);
-//		if (CVIsType(&a, INTEGER_TYPE) && CVIsType(&b, INTEGER_TYPE)) {
-//			auto result = boost::minmax(CVToInteger(&a), CVToInteger(&b));
-//			SetMFType(ret->value, 1, INTEGER);
-//			SetMFValue(ret->value, 1, EnvAddLong(environment, result.get<0>()));
-//			SetMFType(ret->value, 2, INTEGER);
-//			SetMFValue(ret->value, 2, EnvAddLong(environment, result.get<1>()));
-//		} else {
-//			// one of them is FLOAT_TYPE
-//			auto result = boost::minmax(CVToFloat(&a), CVToFloat(&b));
-//			SetMFType(ret->value, 1, FLOAT);
-//			SetMFValue(ret->value, 1, EnvAddDouble(environment, result.get<0>()));
-//			SetMFType(ret->value, 2, FLOAT);
-//			SetMFValue(ret->value, 2, EnvAddDouble(environment, result.get<1>()));
-//		}
-//	}
-//}
 void ClampValue(Environment* env, UDFContext* context, UDFValue* ret) {
 	UDFValue v, lo, hi;
 	if (!UDFFirstArgument(context, INTEGER_TYPE,  &v)) {
