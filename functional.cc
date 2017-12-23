@@ -53,7 +53,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 		CVSetBoolean(ret, false);
 		return;
 	} else {
-		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, struct FunctionDefinition *theFunction) -> bool {
+		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, FunctionDefinition *theFunction) -> bool {
 			struct multifield *theMultifield = nullptr;
 			struct expr *lastAdd = nullptr, 
 						*nextAdd = nullptr, 
@@ -148,7 +148,7 @@ MapFunction(UDFContext* context, CLIPSValue* ret) {
 		std::string name(CVToString(&func));
 		Environment* env = UDFContextEnvironment(context);
 		struct expr *tmp2 = nullptr;
-		struct FunctionDefinition *theFunction = nullptr;
+		FunctionDefinition *theFunction = nullptr;
 		CLIPSValue curr, tmp;
 		FUNCTION_REFERENCE fref;
 
@@ -192,7 +192,7 @@ FilterFunction(UDFContext* context, CLIPSValue* ret) {
 		CVSetBoolean(ret, false);
 		return;
 	} else {
-		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, struct FunctionDefinition *theFunction) -> bool {
+		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, FunctionDefinition *theFunction) -> bool {
 			struct multifield *theMultifield = nullptr;
 			struct expr *lastAdd = nullptr, 
 						*nextAdd = nullptr, 
@@ -287,7 +287,7 @@ FilterFunction(UDFContext* context, CLIPSValue* ret) {
 		std::string name(CVToString(&func));
 		Environment* env = UDFContextEnvironment(context);
 		struct expr *tmp2 = nullptr;
-		struct FunctionDefinition *theFunction = nullptr;
+		FunctionDefinition *theFunction = nullptr;
 		CLIPSValue curr, tmp;
 		FUNCTION_REFERENCE fref;
 
@@ -333,7 +333,7 @@ ExistsFunction(UDFContext* context, CLIPSValue* ret) {
 		CVSetBoolean(ret, false);
 		return;
 	} else {
-		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, struct FunctionDefinition *theFunction) -> bool {
+		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, FunctionDefinition *theFunction) -> bool {
 			struct multifield *theMultifield = nullptr;
 			struct expr *lastAdd = nullptr, 
 						*nextAdd = nullptr, 
@@ -428,7 +428,7 @@ ExistsFunction(UDFContext* context, CLIPSValue* ret) {
 		std::string name(CVToString(&func));
 		Environment* env = UDFContextEnvironment(context);
 		struct expr *tmp2 = nullptr;
-		struct FunctionDefinition *theFunction = nullptr;
+		FunctionDefinition *theFunction = nullptr;
 		CLIPSValue curr, tmp;
 		FUNCTION_REFERENCE fref;
 
@@ -471,7 +471,7 @@ NotExistsFunction(UDFContext* context, CLIPSValue* ret) {
 		CVSetBoolean(ret, false);
 		return;
 	} else {
-		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, struct FunctionDefinition *theFunction) -> bool {
+		auto body = [](UDFContext* context, CLIPSValue* ret, CLIPSValue* theArg, const std::string& name, FUNCTION_REFERENCE* fref, FunctionDefinition *theFunction) -> bool {
 			struct multifield *theMultifield = nullptr;
 			struct expr *lastAdd = nullptr, 
 						*nextAdd = nullptr, 
@@ -566,7 +566,7 @@ NotExistsFunction(UDFContext* context, CLIPSValue* ret) {
 		std::string name(CVToString(&func));
 		Environment* env = UDFContextEnvironment(context);
 		struct expr *tmp2 = nullptr;
-		struct FunctionDefinition *theFunction = nullptr;
+		FunctionDefinition *theFunction = nullptr;
 		CLIPSValue curr, tmp;
 		FUNCTION_REFERENCE fref;
 

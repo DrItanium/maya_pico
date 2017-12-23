@@ -49,6 +49,7 @@
 /***************************************************************************/
 
 #include "clips.h"
+#include "maya.h"
 
 void UserFunctions(Environment *);
 
@@ -61,10 +62,7 @@ void UserFunctions(Environment *);
 /*   this function can be deleted from this file and     */
 /*   included in another file.                           */
 /*********************************************************/
-void UserFunctions(
-  Environment *env)
-  {
-#if MAC_XCD
-#pragma unused(env)
-#endif
-  }
+void UserFunctions(Environment *env)
+{
+	InstallMayaExtensions(env);
+}

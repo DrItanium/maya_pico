@@ -3,7 +3,7 @@ OUTPUT := maya
 PREFIX := /usr/local
 CFLAGS := -Os -g3 -std=c99
 LDFLAGS := -lm -lrt
-CXXEXTENSIONS ?= TRUE
+CXXEXTENSIONS ?= FALSE
 ifeq ($(CXXEXTENSIONS), TRUE)
 	CXX := c++
 	LDFLAGS += -lboost_system -lboost_filesystem
