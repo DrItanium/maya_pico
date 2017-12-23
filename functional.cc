@@ -39,7 +39,7 @@ static void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
 
 extern "C" void InstallFunctionalExtensions(Environment* theEnv) {
 #if FUNCTIONAL_EXTENSIONS
-	AddUDF(theEnv, "map", "m", 1, UNBOUNDED, "*;y;*", MapFunction, "MapFunction", nullptr);
+	AddUDF(theEnv, "map$", "m", 1, UNBOUNDED, "*;y;*", MapFunction, "MapFunction", nullptr);
 	//AddUDF(theEnv, "filter", "m", 1. UNBOUNDED, "*;y;*", FilterFunction, "FilterFunction", nullptr);
 	//AddUDF(theEnv, "exists", "m", 1. UNBOUNDED, "*;y;*", ExistsFunction, "ExistsFunction", nullptr);
 	//AddUDF(theEnv, "not-exists", "m", 1, UNBOUNDED, "*;y;*", NotExistsFunction, "NotExistsFunction", nullptr);
@@ -54,117 +54,7 @@ MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 		return;
 	} else {
-		
-//		auto body = [](Environment* theEnv, UDFContext* context, UDFValue* ret, UDFValue* theArg, const std::string& name, Expression* fref, FunctionDefinition *theFunction) -> bool {
-//			struct multifield *theMultifield = nullptr;
-//			struct expr *lastAdd = nullptr, 
-//						*nextAdd = nullptr, 
-//						*multiAdd = nullptr;
-//			ExpressionInstall(theEnv,fref);
-//
-//			switch(GetpType(theArg)) {
-//				case MULTIFIELD:
-//					nextAdd = GenConstant(theEnv,FCALL,(void *) FindFunction(theEnv,"create$"));
-//
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//
-//					multiAdd = NULL;
-//					theMultifield = (struct multifield *) GetpValue(theArg);
-//					for (int j = GetpDOBegin(theArg); j <= GetpDOEnd(theArg); j++) {
-//						nextAdd = GenConstant(theEnv,GetMFType(theMultifield,j),GetMFValue(theMultifield,j));
-//						if (multiAdd == NULL) {
-//							lastAdd->argList = nextAdd;
-//						} else {
-//							multiAdd->nextArg = nextAdd;
-//						}
-//						multiAdd = nextAdd;
-//					}
-//
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//
-//				default:
-//					nextAdd = GenConstant(theEnv,GetpType(theArg),GetpValue(theArg));
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//			}
-//
-//			/*===========================================================*/
-//			/* Verify a deffunction has the correct number of arguments. */
-//			/*===========================================================*/
-//
-//#if DEFFUNCTION_CONSTRUCT
-//			if (fref->type == PCALL) {
-//				if (!CheckDeffunctionCall(theEnv,fref->value,CountArguments(fref->argList))) {
-//					PrintErrorID(theEnv,"MISCFUN",4,false);
-//					WriteString(theEnv,STDERR,"Function map called with the wrong number of arguments for deffunction ");
-//					WriteString(theEnv,STDERR,EnvGetDeffunctionName(theEnv,fref->value));
-//					WriteString(theEnv,STDERR,"\n");
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//#endif
-//
-//			/*=========================================*/
-//			/* Verify the correct number of arguments. */
-//			/*=========================================*/
-//
-//			if (fref->type == FCALL) {
-//				if (CheckExpressionAgainstRestrictions(theEnv,fref,theFunction,name.c_str())) {
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//
-//			/*======================*/
-//			/* Call the expression. */
-//			/*======================*/
-//
-//			EvaluateExpression(theEnv,fref,ret);
-//
-//			/*========================================*/
-//			/* Return the expression data structures. */
-//			/*========================================*/
-//
-//			ExpressionDeinstall(theEnv,fref);
-//			ReturnExpression(theEnv,fref->argList);
-//			fref->argList = nullptr;
-//
-//			return true;
-//		};
-//		std::string name(CVToString(&func));
-//		Environment* env = UDFContextEnvironment(context);
-//		struct expr *tmp2 = nullptr;
-//		FunctionDefinition *theFunction = nullptr;
-//		UDFValue curr, tmp;
-//		Expression fref;
-//
-//		if (!GetFunctionReference(env, name.c_str(), &fref)) {
-//			ExpectedTypeError1(env,"map",1,"function, deffunction, or generic function name");
-//			return;
-//		}
-//
-//		if (fref.type == FCALL) {
-//			theFunction = FindFunction(env, name.c_str());
-//			if (theFunction->parser != NULL) {
-//				ExpectedTypeError1(env,"map",1,"function without specialized parser");
-//				return;
-//			}
-//		}
+		maya::MultifieldBuilder mb(env);
 		while (UDFHasNextArgument(context)) {
 			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
 				ret->lexemeValue = FalseSymbol(env);
@@ -174,8 +64,10 @@ MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 				maya::FunctionCallBuilder fcb(env);
 				fcb.append(&curr);
 				fcb.call(func.lexemeValue->contents, &tmp);
+				mb.append(&tmp);
 			}
 		}
+		ret->multifieldValue = mb.create();
 	}
 }
 //
