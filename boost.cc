@@ -121,7 +121,7 @@ void FileExists(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		CVSetBoolean(ret, boost::filesystem::exists(CVToString(&path)));
+		ret->lexemeValue = boost::filesystem::exists(path.lexemeValue->contents) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
@@ -130,7 +130,7 @@ void IsDirectory(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (!UDFFirstArgument(context, LEXEME_BITS, &path)) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		CVSetBoolean(ret, boost::filesystem::is_directory(CVToString(&path)));
+		ret->lexemeValue = boost::filesystem::is_directory(path.lexemeValue->contents) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
@@ -160,7 +160,7 @@ void lcmFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 	} else if (!UDFNextArgument(context, INTEGER_TYPE, &second)) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
-		ret->integerValue = CreateInteger(env, boost::math::lcm(CVCoerceToInteger(&first), CVCoerceToInteger(&second))));
+		ret->integerValue = CreateInteger(env, boost::math::lcm(CVCoerceToInteger(&first), CVCoerceToInteger(&second)));
 	}
 }
 void NewUUID(Environment* env, UDFContext* context, UDFValue* ret) {
@@ -192,13 +192,9 @@ void HasSuffix(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 		return;
 	}
-	std::string dataStr(CVToString(&data));
-	std::string suffixStr(CVToString(&suffix));
-	if (boost::ends_with(dataStr, suffixStr)) {
-		ret->lexemeValue = TrueSymbol(env);
-	} else {
-		ret->lexemeValue = FalseSymbol(env);
-	}
+	std::string dataStr(data.lexemeValue->contents);
+	std::string suffixStr(suffix.lexemeValue->contents);
+	ret->lexemeValue = boost::ends_with(dataStr, suffixStr) ? TrueSymbol(env) : FalseSymbol(env);
 }
 void TrimString(Environment* env, UDFContext* context, UDFValue* ret) {
 	UDFValue str;
