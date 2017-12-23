@@ -30,7 +30,7 @@ extern "C" {
 
 #if FUNCTIONAL_EXTENSIONS
 static void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
-//static void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
+static void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
 //static void ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
 //static void NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
 #endif
@@ -40,7 +40,7 @@ static void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
 extern "C" void InstallFunctionalExtensions(Environment* theEnv) {
 #if FUNCTIONAL_EXTENSIONS
 	AddUDF(theEnv, "map$", "m", 1, UNBOUNDED, "*;y;*", MapFunction, "MapFunction", nullptr);
-	//AddUDF(theEnv, "filter", "m", 1. UNBOUNDED, "*;y;*", FilterFunction, "FilterFunction", nullptr);
+	AddUDF(theEnv, "filter$", "m", 1, UNBOUNDED, "*;y;*", FilterFunction, "FilterFunction", nullptr);
 	//AddUDF(theEnv, "exists", "m", 1. UNBOUNDED, "*;y;*", ExistsFunction, "ExistsFunction", nullptr);
 	//AddUDF(theEnv, "not-exists", "m", 1, UNBOUNDED, "*;y;*", NotExistsFunction, "NotExistsFunction", nullptr);
 #endif
@@ -99,6 +99,66 @@ MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 					break;
 				}
 				mb.append(&tmp);
+			}
+		}
+		ret->multifieldValue = mb.create();
+	}
+}
+
+void
+FilterFunction(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue func, curr;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+		ret->lexemeValue = FalseSymbol(env);
+		return;
+	} else {
+		maya::MultifieldBuilder mb(env);
+		while (UDFHasNextArgument(context)) {
+			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
+				ret->lexemeValue = FalseSymbol(env);
+				return;
+			} else {
+				CLIPSValue tmp;
+				maya::FunctionCallBuilder fcb(env, 0);
+				fcb.append(&curr);
+				auto result = fcb.call(func.lexemeValue->contents, &tmp);
+				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+					PrintErrorID(env, "FUNCTIONAL", 1, false);
+					switch(result) {
+						case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
+							WriteString(env, STDERR, "Error during evaluation of arguments!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
+							WriteString(env, STDERR, "Argument type check failed!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
+							WriteString(env, STDERR, "Argument count check failed!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
+							WriteString(env, STDERR, "Function '");
+							WriteString(env, STDERR, func.lexemeValue->contents);
+							WriteString(env, STDERR, "' does not exist!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
+							WriteString(env, STDERR, "Function '");
+							WriteString(env, STDERR, func.lexemeValue->contents);
+							WriteString(env, STDERR, "' has a custom parser and cannot be used with map$!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
+							WriteString(env, STDERR, "Provided function name is null!\n");
+							break;
+						case FunctionCallBuilderError::FCBE_NO_ERROR:
+							WriteString(env, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
+							break;
+						default:
+							WriteString(env, STDERR, "Unknown function builder error occurred!\n");
+							break;
+					}
+					break;
+				}
+				if (tmp.lexemeValue != FalseSymbol(env)) {
+					mb.append(&curr);
+				}
 			}
 		}
 		ret->multifieldValue = mb.create();
