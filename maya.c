@@ -38,13 +38,13 @@
 void InstallMayaExtensions(void* environment) { }
 #else
 static void EmptyFunction(Environment*, UDFContext*, UDFValue*);
-//static void IsDeffunction(Environment*, UDFContext*, UDFValue*);
+static void Functionp(Environment*, UDFContext*, UDFValue*);
 //static void NextToken(Environment*, UDFContext* context, UDFValue* ret);
 static void LastFunction(Environment*, UDFContext* context, UDFValue* ret);
 
 void InstallMayaExtensions(Environment* environment) {
 	AddUDF(environment, "empty$", "b", 1, 1, "m", EmptyFunction, "EmptyFunction", NULL);
-//	AddUDF(environment, "deffunctionp", "b", 1, 1, "y", IsDeffunction, "IsDeffunction", NULL);
+	AddUDF(environment, "functionp", "b", 1, 1, "y", Functionp, "Functionp", NULL);
 	AddUDF(environment, "quit", "v", 0, 1, "l", ExitCommand, "ExitCommand", NULL);
 	AddUDF(environment, "bye", "v", 0, 1, "l", ExitCommand, "ExitCommand", NULL);
 //	AddUDF(environment, "next-token", "synldfie", 1, 1, "y", NextToken, "NextToken", NULL);
@@ -65,7 +65,7 @@ LastFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 	/*===================================*/
 	/* Get the segment to be subdivided. */
 	/*===================================*/
-	if (!UDFNthArgument(context, 1, MULTIFIELD_BIT, &theArg)) {
+	if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
 		return; 
 	}
 
@@ -81,16 +81,14 @@ LastFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 	}
 }
 
-//void
-//IsDeffunction(Environment* env, UDFContext* context, CLIPSValue* ret) {
-//	FUNCTION_REFERENCE theReference;
-//	CLIPSValue func;
-//	CVSetBoolean(ret, UDFFirstArgument(context, SYMBOL_TYPE, &func) && GetFunctionReference(UDFContextEnvironment(context), CVToString(&func), &theReference));
-//}
+void
+Functionp(Environment* env, UDFContext* context, UDFValue* ret) {
+	Expression theRef;
+	UDFValue theArg;
+	ret->lexemeValue = (UDFFirstArgument(context, LEXEME_BITS, &theArg) && GetFunctionReference(env, theArg.lexemeValue->contents, &theRef)) ? TrueSymbol(env) : FalseSymbol(env);
+}
 void
 EmptyFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	//CLIPSValue collection;
-	//CVSetBoolean(ret, UDFFirstArgument(context, MULTIFIELD_TYPE, &collection) && (mMFLength(&collection) == 0));
 	UDFValue theArg;
 	if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
 		return;
