@@ -29,10 +29,11 @@ extern "C" {
 #include <string>
 
 #if FUNCTIONAL_EXTENSIONS
-static void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
-static void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
-//static void ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
-//static void NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
+void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
+void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
+void ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
+void NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
+void FunctionError(Environment*, int, FunctionCallBuilderError, const std::string&) noexcept;
 #endif
 
 
@@ -41,12 +42,47 @@ extern "C" void InstallFunctionalExtensions(Environment* theEnv) {
 #if FUNCTIONAL_EXTENSIONS
 	AddUDF(theEnv, "map$", "m", 1, UNBOUNDED, "*;y;*", MapFunction, "MapFunction", nullptr);
 	AddUDF(theEnv, "filter$", "m", 1, UNBOUNDED, "*;y;*", FilterFunction, "FilterFunction", nullptr);
-	//AddUDF(theEnv, "exists", "m", 1. UNBOUNDED, "*;y;*", ExistsFunction, "ExistsFunction", nullptr);
-	//AddUDF(theEnv, "not-exists", "m", 1, UNBOUNDED, "*;y;*", NotExistsFunction, "NotExistsFunction", nullptr);
+	AddUDF(theEnv, "exists$", "b", 1, UNBOUNDED, "*;y;*", ExistsFunction, "ExistsFunction", nullptr);
+	AddUDF(theEnv, "not-exists$", "b", 1, UNBOUNDED, "*;y;*", NotExistsFunction, "NotExistsFunction", nullptr);
 #endif
 }
 
 #if FUNCTIONAL_EXTENSIONS
+void
+FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, const std::string& func) noexcept {
+	PrintErrorID(theEnv, "FUNCTIONAL", code, false);
+	switch(err) {
+		case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
+			WriteString(theEnv, STDERR, "Error during evaluation of arguments!\n");
+			break;
+		case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
+			WriteString(theEnv, STDERR, "Argument type check failed!\n");
+			break;
+		case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
+			WriteString(theEnv, STDERR, "Argument count check failed!\n");
+			break;
+		case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
+			WriteString(theEnv, STDERR, "Function '");
+			WriteString(theEnv, STDERR, func.c_str());
+			WriteString(theEnv, STDERR, "' does not exist!\n");
+			break;
+		case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
+			WriteString(theEnv, STDERR, "Function '");
+			WriteString(theEnv, STDERR, func.c_str());
+			WriteString(theEnv, STDERR, "' has a custom parser and cannot be used with map$!\n");
+			break;
+		case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
+			WriteString(theEnv, STDERR, "Provided function name is null!\n");
+			break;
+		case FunctionCallBuilderError::FCBE_NO_ERROR:
+			WriteString(theEnv, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
+			break;
+		default:
+			WriteString(theEnv, STDERR, "Unknown function builder error occurred!\n");
+			break;
+	}
+
+}
 void
 MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 	UDFValue func, curr;
@@ -65,37 +101,7 @@ MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 				fcb.append(&curr);
 				auto result = fcb.call(func.lexemeValue->contents, &tmp);
 				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-					PrintErrorID(env, "FUNCTIONAL", 1, false);
-					switch(result) {
-						case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
-							WriteString(env, STDERR, "Error during evaluation of arguments!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
-							WriteString(env, STDERR, "Argument type check failed!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
-							WriteString(env, STDERR, "Argument count check failed!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
-							WriteString(env, STDERR, "Function '");
-							WriteString(env, STDERR, func.lexemeValue->contents);
-							WriteString(env, STDERR, "' does not exist!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
-							WriteString(env, STDERR, "Function '");
-							WriteString(env, STDERR, func.lexemeValue->contents);
-							WriteString(env, STDERR, "' has a custom parser and cannot be used with map$!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
-							WriteString(env, STDERR, "Provided function name is null!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_NO_ERROR:
-							WriteString(env, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
-							break;
-						default:
-							WriteString(env, STDERR, "Unknown function builder error occurred!\n");
-							break;
-					}
+					FunctionError(env, 1, result, func.lexemeValue->contents);
 					break;
 				}
 				mb.append(&tmp);
@@ -123,37 +129,7 @@ FilterFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 				fcb.append(&curr);
 				auto result = fcb.call(func.lexemeValue->contents, &tmp);
 				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-					PrintErrorID(env, "FUNCTIONAL", 1, false);
-					switch(result) {
-						case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
-							WriteString(env, STDERR, "Error during evaluation of arguments!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
-							WriteString(env, STDERR, "Argument type check failed!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
-							WriteString(env, STDERR, "Argument count check failed!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
-							WriteString(env, STDERR, "Function '");
-							WriteString(env, STDERR, func.lexemeValue->contents);
-							WriteString(env, STDERR, "' does not exist!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
-							WriteString(env, STDERR, "Function '");
-							WriteString(env, STDERR, func.lexemeValue->contents);
-							WriteString(env, STDERR, "' has a custom parser and cannot be used with map$!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
-							WriteString(env, STDERR, "Provided function name is null!\n");
-							break;
-						case FunctionCallBuilderError::FCBE_NO_ERROR:
-							WriteString(env, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
-							break;
-						default:
-							WriteString(env, STDERR, "Unknown function builder error occurred!\n");
-							break;
-					}
+					FunctionError(env, 1, result, func.lexemeValue->contents);
 					break;
 				}
 				if (tmp.lexemeValue != FalseSymbol(env)) {
@@ -164,419 +140,66 @@ FilterFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->multifieldValue = mb.create();
 	}
 }
-//
-//void
-//FilterFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-//	UDFValue func;
-//	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-//		ret->lexemeValue = FalseSymbol(env);
-//		return;
-//	} else {
-//		auto body = [](Environment* env, UDFContext* context, UDFValue* ret, UDFValue* theArg, const std::string& name, Expression* fref, FunctionDefinition *theFunction) -> bool {
-//			struct multifield *theMultifield = nullptr;
-//			struct expr *lastAdd = nullptr, 
-//						*nextAdd = nullptr, 
-//						*multiAdd = nullptr;
-//			Environment* theEnv = UDFContextEnvironment(context);
-//			ExpressionInstall(theEnv,fref);
-//
-//			switch(GetpType(theArg)) {
-//				case MULTIFIELD:
-//					nextAdd = GenConstant(theEnv,FCALL,(void *) FindFunction(theEnv,"create$"));
-//
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//
-//					multiAdd = NULL;
-//					theMultifield = (struct multifield *) GetpValue(theArg);
-//					for (int j = GetpDOBegin(theArg); j <= GetpDOEnd(theArg); j++) {
-//						nextAdd = GenConstant(theEnv,GetMFType(theMultifield,j),GetMFValue(theMultifield,j));
-//						if (multiAdd == NULL) {
-//							lastAdd->argList = nextAdd;
-//						} else {
-//							multiAdd->nextArg = nextAdd;
-//						}
-//						multiAdd = nextAdd;
-//					}
-//
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//
-//				default:
-//					nextAdd = GenConstant(theEnv,GetpType(theArg),GetpValue(theArg));
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//			}
-//
-//			/*===========================================================*/
-//			/* Verify a deffunction has the correct number of arguments. */
-//			/*===========================================================*/
-//
-//#if DEFFUNCTION_CONSTRUCT
-//			if (fref->type == PCALL) {
-//				if (!CheckDeffunctionCall(theEnv,fref->value,CountArguments(fref->argList))) {
-//					PrintErrorID(theEnv,"MISCFUN",4,false);
-//					WriteString(theEnv,STDERR,"Function filter called with the wrong number of arguments for deffunction ");
-//					WriteString(theEnv,STDERR,EnvGetDeffunctionName(theEnv,fref->value));
-//					WriteString(theEnv,STDERR,"\n");
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//#endif
-//
-//			/*=========================================*/
-//			/* Verify the correct number of arguments. */
-//			/*=========================================*/
-//
-//			if (fref->type == FCALL) {
-//				if (CheckExpressionAgainstRestrictions(theEnv,fref,theFunction,name.c_str())) {
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//
-//			/*======================*/
-//			/* Call the expression. */
-//			/*======================*/
-//
-//			EvaluateExpression(theEnv,fref,ret);
-//
-//			/*========================================*/
-//			/* Return the expression data structures. */
-//			/*========================================*/
-//
-//			ExpressionDeinstall(theEnv,fref);
-//			ReturnExpression(theEnv,fref->argList);
-//			fref->argList = nullptr;
-//
-//			return true;
-//		};
-//		std::string name(CVToString(&func));
-//		Environment* env = UDFContextEnvironment(context);
-//		struct expr *tmp2 = nullptr;
-//		FunctionDefinition *theFunction = nullptr;
-//		UDFValue curr, tmp;
-//		Expression fref;
-//
-//		if (!GetFunctionReference(env, name.c_str(), &fref)) {
-//			ExpectedTypeError1(env,"filter",1,"function, deffunction, or generic function name");
-//			return;
-//		}
-//
-//		if (fref.type == FCALL) {
-//			theFunction = FindFunction(env, name.c_str());
-//			if (theFunction->parser != NULL) {
-//				ExpectedTypeError1(env,"filter",1,"function without specialized parser");
-//				return;
-//			}
-//		}
-//
-//		while (UDFHasNextArgument(context)) {
-//			if (! UDFNextArgument(context,ANY_TYPE,&curr)) {
-//				ret->lexemeValue = FalseSymbol(env);
-//				return;
-//			} else {
-//				if (body(context, &tmp, &curr, name, &fref, theFunction)) {
-//					if (!mCVIsFalseSymbol(&tmp)) {
-//						if (!tmp2) {
-//							tmp2 = ConvertValueToExpression(env, &curr);
-//						} else {
-//							tmp2 = AppendExpressions(tmp2, ConvertValueToExpression(env, &curr));
-//						}
-//					}
-//				} else {
-//					return;
-//				}
-//			}
-//		}
-//		StoreInMultifield(env, ret, tmp2, true);
-//	}
-//}
-//
-//void
-//ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-//	UDFValue func;
-//	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-//		ret->lexemeValue = FalseSymbol(env);
-//		return;
-//	} else {
-//		auto body = [](Environment* env, UDFContext* context, UDFValue* ret, UDFValue* theArg, const std::string& name, Expression* fref, FunctionDefinition *theFunction) -> bool {
-//			struct multifield *theMultifield = nullptr;
-//			struct expr *lastAdd = nullptr, 
-//						*nextAdd = nullptr, 
-//						*multiAdd = nullptr;
-//			Environment* theEnv = UDFContextEnvironment(context);
-//			ExpressionInstall(theEnv,fref);
-//
-//			switch(GetpType(theArg)) {
-//				case MULTIFIELD:
-//					nextAdd = GenConstant(theEnv,FCALL,(void *) FindFunction(theEnv,"create$"));
-//
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//
-//					multiAdd = NULL;
-//					theMultifield = (struct multifield *) GetpValue(theArg);
-//					for (int j = GetpDOBegin(theArg); j <= GetpDOEnd(theArg); j++) {
-//						nextAdd = GenConstant(theEnv,GetMFType(theMultifield,j),GetMFValue(theMultifield,j));
-//						if (multiAdd == NULL) {
-//							lastAdd->argList = nextAdd;
-//						} else {
-//							multiAdd->nextArg = nextAdd;
-//						}
-//						multiAdd = nextAdd;
-//					}
-//
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//
-//				default:
-//					nextAdd = GenConstant(theEnv,GetpType(theArg),GetpValue(theArg));
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//			}
-//
-//			/*===========================================================*/
-//			/* Verify a deffunction has the correct number of arguments. */
-//			/*===========================================================*/
-//
-//#if DEFFUNCTION_CONSTRUCT
-//			if (fref->type == PCALL) {
-//				if (!CheckDeffunctionCall(theEnv,fref->value,CountArguments(fref->argList))) {
-//					PrintErrorID(theEnv,"MISCFUN",4,false);
-//					WriteString(theEnv,STDERR,"Function exists called with the wrong number of arguments for deffunction ");
-//					WriteString(theEnv,STDERR,EnvGetDeffunctionName(theEnv,fref->value));
-//					WriteString(theEnv,STDERR,"\n");
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//#endif
-//
-//			/*=========================================*/
-//			/* Verify the correct number of arguments. */
-//			/*=========================================*/
-//
-//			if (fref->type == FCALL) {
-//				if (CheckExpressionAgainstRestrictions(theEnv,fref,theFunction,name.c_str())) {
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//
-//			/*======================*/
-//			/* Call the expression. */
-//			/*======================*/
-//
-//			EvaluateExpression(theEnv,fref,ret);
-//
-//			/*========================================*/
-//			/* Return the expression data structures. */
-//			/*========================================*/
-//
-//			ExpressionDeinstall(theEnv,fref);
-//			ReturnExpression(theEnv,fref->argList);
-//			fref->argList = nullptr;
-//
-//			return true;
-//		};
-//		std::string name(CVToString(&func));
-//		Environment* env = UDFContextEnvironment(context);
-//		struct expr *tmp2 = nullptr;
-//		FunctionDefinition *theFunction = nullptr;
-//		UDFValue curr, tmp;
-//		Expression fref;
-//
-//		if (!GetFunctionReference(env, name.c_str(), &fref)) {
-//			ExpectedTypeError1(env,"exists",1,"function, deffunction, or generic function name");
-//			return;
-//		}
-//
-//		if (fref.type == FCALL) {
-//			theFunction = FindFunction(env, name.c_str());
-//			if (theFunction->parser != NULL) {
-//				ExpectedTypeError1(env,"exists",1,"function without specialized parser");
-//				return;
-//			}
-//		}
-//
-//		while (UDFHasNextArgument(context)) {
-//			if (! UDFNextArgument(context,ANY_TYPE,&curr)) {
-//				ret->lexemeValue = FalseSymbol(env);
-//				return;
-//			} else {
-//				if (body(context, &tmp, &curr, name, &fref, theFunction)) {
-//					if (!mCVIsFalseSymbol(&tmp)) {
-//						ret->lexemeValue = TrueSymbol(env);
-//						return;
-//					}
-//				} else {
-//					return;
-//				}
-//			}
-//		}
-//		ret->lexemeValue = FalseSymbol(env);
-//	}
-//}
-//
-//void
-//NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-//	UDFValue func;
-//	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-//		ret->lexemeValue = FalseSymbol(env);
-//		return;
-//	} else {
-//		auto body = [](Environment* theEnv, UDFContext* context, UDFValue* ret, UDFValue* theArg, const std::string& name, Expression* fref, FunctionDefinition *theFunction) -> bool {
-//			struct multifield *theMultifield = nullptr;
-//			struct expr *lastAdd = nullptr, 
-//						*nextAdd = nullptr, 
-//						*multiAdd = nullptr;
-//			ExpressionInstall(theEnv,fref);
-//			switch(theArg->header->type) {
-//				case MULTIFIELD_TYPE:
-//					nextAdd = GenConstant(theEnv,FCALL,(void *) FindFunction(theEnv,"create$"));
-//
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//
-//					multiAdd = NULL;
-//					theMultifield = (struct multifield *) GetpValue(theArg);
-//					for (int j = GetpDOBegin(theArg); j <= GetpDOEnd(theArg); j++) {
-//						nextAdd = GenConstant(theEnv,GetMFType(theMultifield,j),GetMFValue(theMultifield,j));
-//						if (multiAdd == NULL) {
-//							lastAdd->argList = nextAdd;
-//						} else {
-//							multiAdd->nextArg = nextAdd;
-//						}
-//						multiAdd = nextAdd;
-//					}
-//
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//
-//				default:
-//					nextAdd = GenConstant(theEnv,GetpType(theArg),GetpValue(theArg));
-//					if (lastAdd == NULL) { 
-//						fref->argList = nextAdd; 
-//					} else { 
-//						lastAdd->nextArg = nextAdd; 
-//					}
-//					lastAdd = nextAdd;
-//					ExpressionInstall(theEnv,lastAdd);
-//					break;
-//			}
-//
-//			/*===========================================================*/
-//			/* Verify a deffunction has the correct number of arguments. */
-//			/*===========================================================*/
-//
-//#if DEFFUNCTION_CONSTRUCT
-//			if (fref->type == PCALL) {
-//				if (!CheckDeffunctionCall(theEnv,fref->value,CountArguments(fref->argList))) {
-//					PrintErrorID(theEnv,"MISCFUN",4,false);
-//					WriteString(theEnv,STDERR,"Function not-exists called with the wrong number of arguments for deffunction ");
-//					WriteString(theEnv,STDERR, DeffunctionName(fref->value));
-//					WriteString(theEnv,STDERR,"\n");
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//#endif
-//
-//			/*=========================================*/
-//			/* Verify the correct number of arguments. */
-//			/*=========================================*/
-//
-//			if (fref->type == FCALL) {
-//				if (CheckExpressionAgainstRestrictions(theEnv,fref,theFunction,name.c_str())) {
-//					ExpressionDeinstall(theEnv,fref);
-//					ReturnExpression(theEnv,fref->argList);
-//					return false;
-//				}
-//			}
-//
-//			/*======================*/
-//			/* Call the expression. */
-//			/*======================*/
-//
-//			EvaluateExpression(theEnv,fref,ret);
-//
-//			/*========================================*/
-//			/* Return the expression data structures. */
-//			/*========================================*/
-//
-//			ExpressionDeinstall(theEnv,fref);
-//			ReturnExpression(theEnv,fref->argList);
-//			fref->argList = nullptr;
-//
-//			return true;
-//		};
-//		std::string name(func.lexemeValue->contents);
-//		FunctionDefinition *theFunction = nullptr;
-//		UDFValue curr, tmp;
-//		Expression fref;
-//
-//		if (!GetFunctionReference(env, name.c_str(), &fref)) {
-//			ExpectedTypeError1(env,"not-exists",1,"function, deffunction, or generic function name");
-//			return;
-//		}
-//
-//		if (fref.type == FCALL) {
-//			theFunction = FindFunction(env, name.c_str());
-//			if (theFunction->parser != NULL) {
-//				ExpectedTypeError1(env,"not-exists",1,"function without specialized parser");
-//				return;
-//			}
-//		}
-//
-//		while (UDFHasNextArgument(context)) {
-//			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
-//				ret->lexemeValue = FalseSymbol(env);
-//				return;
-//			} else {
-//				if (body(env, context, &tmp, &curr, name, &fref, theFunction)) {
-//					if (tmp.value != FalseSymbol(env)) {
-//						ret->lexemeValue = FalseSymbol(env);
-//						return;
-//					}
-//				} else {
-//					return;
-//				}
-//			}
-//		}
-//		ret->lexemeValue = TrueSymbol(env);
-//	}
-//}
+
+void
+ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue func, curr;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+		ret->lexemeValue = FalseSymbol(env);
+		return;
+	} else {
+		ret->lexemeValue = FalseSymbol(env);
+		while (UDFHasNextArgument(context)) {
+			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
+				ret->lexemeValue = FalseSymbol(env);
+				return;
+			} else {
+				CLIPSValue tmp;
+				maya::FunctionCallBuilder fcb(env, 0);
+				fcb.append(&curr);
+				auto result = fcb.call(func.lexemeValue->contents, &tmp);
+				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+					FunctionError(env, 1, result, func.lexemeValue->contents);
+					break;
+				}
+				if (tmp.lexemeValue != FalseSymbol(env)) {
+					ret->lexemeValue = TrueSymbol(env);
+					return;
+				}
+			}
+		}
+	}
+}
+
+void
+NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret) {
+	UDFValue func, curr;
+	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+		ret->lexemeValue = FalseSymbol(env);
+		return;
+	} else {
+		ret->lexemeValue = TrueSymbol(env);
+		while (UDFHasNextArgument(context)) {
+			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
+				ret->lexemeValue = FalseSymbol(env);
+				return;
+			} else {
+				CLIPSValue tmp;
+				maya::FunctionCallBuilder fcb(env, 0);
+				fcb.append(&curr);
+				auto result = fcb.call(func.lexemeValue->contents, &tmp);
+				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+					FunctionError(env, 1, result, func.lexemeValue->contents);
+					break;
+				}
+				if (tmp.lexemeValue != FalseSymbol(env)) {
+					ret->lexemeValue = FalseSymbol(env);
+					return;
+				}
+			}
+		}
+	}
+}
 
 namespace maya {
 	FunctionCallBuilder::FunctionCallBuilder(Environment* theEnv, size_t size) : _builder(CreateFunctionCallBuilder(theEnv, size)) { }
