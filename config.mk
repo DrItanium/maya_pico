@@ -7,8 +7,8 @@ LDFLAGS :=
 CXXEXTENSIONS ?= TRUE
 ifeq ($(CXXEXTENSIONS), TRUE)
 	CXX := c++
-	LIBRARIES += /usr/lib/libboost_system.a /usr/lib/libboost_filesystem.a
-	#-lboost_system -lboost_filesystem 
+	#LIBRARIES += /usr/lib/libboost_system.a /usr/lib/libboost_filesystem.a
+	LIBRARIES += -lboost_system -lboost_filesystem 
 	CXXFLAGS := -Os -g3 -std=c++14
 	LD := $(CXX)
 else
