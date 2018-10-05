@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  09/22/17             */
+   /*            CLIPS Version 6.40  01/29/18             */
    /*                                                     */
    /*                PRINT UTILITY MODULE                 */
    /*******************************************************/
@@ -48,6 +48,8 @@
 /*      6.31: Added additional error messages for retracted  */
 /*            facts, deleted instances, and invalid slots.   */
 /*                                                           */
+/*            Added under/overflow error message.            */
+/*                                                           */
 /*      6.40: Added Env prefix to GetEvaluationError and     */
 /*            SetEvaluationError functions.                  */
 /*                                                           */
@@ -84,6 +86,7 @@
 #include "multifun.h"
 #include "router.h"
 #include "scanner.h"
+#include "strngrtr.h"
 #include "symbol.h"
 #include "sysdep.h"
 #include "utility.h"
@@ -492,6 +495,31 @@ void DivideByZeroErrorMessage(
    WriteString(theEnv,STDERR,"' function.\n");
   }
 
+/********************************************************/
+/* ArgumentOverUnderflowErrorMessage: Generalized error */
+/*   message for an integer under or overflow.          */
+/********************************************************/
+void ArgumentOverUnderflowErrorMessage(
+  Environment *theEnv,
+  const char *functionName,
+  bool error)
+  {
+   if (error)
+     {
+      PrintErrorID(theEnv,"PRNTUTIL",17,false);
+      WriteString(theEnv,STDERR,"Over or underflow of long long integer in '");
+      WriteString(theEnv,STDERR,functionName);
+      WriteString(theEnv,STDERR,"' function.\n");
+     }
+   else
+     {
+      PrintWarningID(theEnv,"PRNTUTIL",17,false);
+      WriteString(theEnv,STDWRN,"Over or underflow of long long integer in '");
+      WriteString(theEnv,STDWRN,functionName);
+      WriteString(theEnv,STDWRN,"' function.\n");
+     }
+  }
+
 /*******************************************************/
 /* FloatToString: Converts number to KB string format. */
 /*******************************************************/
@@ -550,6 +578,8 @@ const char *DataObjectToString(
    const char *prefix, *postfix;
    size_t length;
    CLIPSExternalAddress *theAddress;
+   StringBuilder *theSB;
+   
    char buffer[30];
 
    switch (theDO->header->type)
@@ -607,9 +637,30 @@ const char *DataObjectToString(
 
       case EXTERNAL_ADDRESS_TYPE:
         theAddress = theDO->externalAddressValue;
-        /* TBD Need specific routine for creating name string. */
-        gensprintf(buffer,"<Pointer-%hu-%p>",theAddress->type,theDO->value);
-        thePtr = CreateString(theEnv,buffer);
+        
+        theSB = CreateStringBuilder(theEnv,30);
+
+        OpenStringBuilderDestination(theEnv,"DOTS",theSB);
+
+        if ((EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type] != NULL) &&
+            (EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type]->longPrintFunction != NULL))
+          { (*EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type]->longPrintFunction)(theEnv,"DOTS",theAddress); }
+        else
+          {
+           WriteString(theEnv,"DOTS","<Pointer-");
+
+           gensprintf(buffer,"%d-",theAddress->type);
+           WriteString(theEnv,"DOTS",buffer);
+
+           gensprintf(buffer,"%p",theAddress->contents);
+           WriteString(theEnv,"DOTS",buffer);
+           WriteString(theEnv,"DOTS",">");
+          }
+
+        thePtr = CreateString(theEnv,theSB->contents);
+        SBDispose(theSB);
+
+        CloseStringBuilderDestination(theEnv,"DOTS");
         return thePtr->contents;
 
 #if DEFTEMPLATE_CONSTRUCT
