@@ -1,5 +1,7 @@
 ########### MAKEFILE FOR MAYA ###########
 include config.mk
+CFLAGS += -I.
+CXXFLAGS += -I.
 OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
 CFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='$(COMMAND_PROMPT)'
 CXXFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='${COMMAND_PROMPT}'
@@ -16,54 +18,30 @@ endif
 
 all: repl
 
-repl: archive cmd/repl/main.o
+repl: $(OBJS) cmd/repl/main.o
 	@echo Building maya
-	@$(LD) $(LDFLAGS) -o maya cmd/repl/main.o libmaya.a
+	@$(LD) $(LDFLAGS) -o maya cmd/repl/main.o $(OBJS) ${LIBRARIES}
 
 install: repl
 	@echo Installing binaries to $(PREFIX)/bin
 	@mkdir -p $(PREFIX)/bin
 	@cp $(OUTPUT) $(PREFIX)/bin
-	@echo Installing headers to $(PREFIX)/include/maya
-	@mkdir -p $(PREFIX)/include/maya
-	@cp *.h $(PREFIX)/include/maya
-	@echo Installing libmaya.a to $(PREFIX)/lib
-	@mkdir -p $(PREFIX)/lib
-	@cp libmaya.a $(PREFIX)/lib
-
-archive: $(OBJS)
-	@echo Building archive
-	@$(AR) cr libmaya.a $(OBJS)
-
 
 deinstall uninstall:
 	@echo Uninstalling...
 	@rm -f $(PREFIX)/bin/$(OUTPUT)
-	@echo Removing headers in $(PREFIX)/include/maya
-	@rm -f $(PREFIX)/include/maya
-	@echo Deleting libmaya.a from $(PREFIX)/lib/
-	@rm $(PREFIX)/lib/libmaya.a
-
 
 clean:
 	@echo Cleaning
-	@rm -f $(OBJS) cmd/repl/main.o $(OUTPUT) libmaya.a
-
+	@rm -f $(OBJS) cmd/repl/main.o $(OUTPUT)
 
 .c.o :
 	@echo CC $<
-	@$(CC) -c $(CFLAGS) -o $@ -D_POSIX_C_SOURCE=200112L \
-		-std=c99 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
-	    -Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
-	    -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes \
-	    -Waggregate-return -Wno-implicit -I. $<
+	@${CC} ${CFLAGS} -c $< -o $@
 
 .cc.o :
 	@echo CXX $<
-	@$(CXX) -c $(CXXFLAGS) -o $@ -D_POSIX_C_SOURCE=200112L \
-		-std=c++11 -Wall -Wundef -Wpointer-arith -Wcast-qual \
-		-Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
-		-Waggregate-return -I. $<
+	@${CXX} ${CXXFLAGS} -c $< -o $@
 
 agenda.o: agenda.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \

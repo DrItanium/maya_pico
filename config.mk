@@ -2,12 +2,14 @@ CC := cc
 OUTPUT := maya
 PREFIX := /usr/local
 CFLAGS := -Os -g3 -std=c99
-LDFLAGS := -lm -lrt
+LIBRARIES := -lm -lrt -lc
+LDFLAGS :=
 CXXEXTENSIONS ?= TRUE
 ifeq ($(CXXEXTENSIONS), TRUE)
 	CXX := c++
-	LDFLAGS += -lboost_system -lboost_filesystem 
-	CXXFLAGS := -Os -g3 -std=c++11
+	LIBRARIES += /usr/lib/libboost_system.a /usr/lib/libboost_filesystem.a
+	#-lboost_system -lboost_filesystem 
+	CXXFLAGS := -Os -g3 -std=c++14
 	LD := $(CXX)
 else
 	CFLAGS += -DBOOST_EXTENSIONS=0 -DFUNCTIONAL_EXTENSIONS=0
