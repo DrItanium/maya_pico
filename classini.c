@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  11/01/16             */
+   /*            CLIPS Version 6.40  07/02/18             */
    /*                                                     */
    /*               CLASS INITIALIZATION MODULE           */
    /*******************************************************/
@@ -41,6 +41,9 @@
 /*            imported modules are search when locating a     */
 /*            named construct.                                */
 /*                                                            */
+/*      6.31: Optimization of slot ID creation previously    */
+/*            provided by NewSlotNameID function.            */
+/*                                                           */
 /*      6.40: Pragma once and other inclusion changes.        */
 /*                                                            */
 /*            Added support for booleans with <stdbool.h>.   */
@@ -52,6 +55,9 @@
 /*                                                           */
 /*            Removed initial-object support.                 */
 /*                                                            */
+/*            Pretty print functions accept optional logical */
+/*            name argument.                                 */
+/*                                                           */
 /**************************************************************/
 
 /* =========================================
@@ -170,6 +176,8 @@ void SetupObjectSystem(
    AddEnvironmentCleanupFunction(theEnv,"defclasses",DeallocateDefclassData,-500);
 
    memcpy(&DefclassData(theEnv)->DefclassEntityRecord,&defclassEntityRecord,sizeof(struct entityRecord));
+
+   DefclassData(theEnv)->newSlotID = 2; // IS_A and NAME assigned 0 and 1
 
 #if ! RUN_TIME
    DefclassData(theEnv)->ClassDefaultsModeValue = CONVENIENCE_MODE;
@@ -484,6 +492,8 @@ void CreateSystemClasses(
       =================================== */
    AddSlotName(theEnv,DefclassData(theEnv)->ISA_SYMBOL,ISA_ID,true);
    AddSlotName(theEnv,DefclassData(theEnv)->NAME_SYMBOL,NAME_ID,true);
+   
+   DefclassData(theEnv)->newSlotID = 2; // IS_A and NAME assigned 0 and 1
 
    /* =========================================================
       Bsave Indices for non-primitive classes start at 9
@@ -627,7 +637,7 @@ static void SetupDefclasses(
 
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"list-defclasses","v",0,1,"y",ListDefclassesCommand,"ListDefclassesCommand",NULL);
-   AddUDF(theEnv,"ppdefclass","v",1,1,"y",PPDefclassCommand,"PPDefclassCommand",NULL);
+   AddUDF(theEnv,"ppdefclass","vs",1,2,";y;ldsyn",PPDefclassCommand,"PPDefclassCommand",NULL);
    AddUDF(theEnv,"describe-class","v",1,1,"y",DescribeClassCommand,"DescribeClassCommand",NULL);
    AddUDF(theEnv,"browse-classes","v",0,1,"y",BrowseClassesCommand,"BrowseClassesCommand",NULL);
 #endif

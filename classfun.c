@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  08/25/16             */
+   /*            CLIPS Version 6.40  02/03/18             */
    /*                                                     */
    /*                CLASS FUNCTIONS MODULE               */
    /*******************************************************/
@@ -38,6 +38,12 @@
 /*                                                           */
 /*            Fixed linkage issue when BLOAD_AND_SAVE        */
 /*            compiler flag is set to 0.                     */
+/*                                                           */
+/*      6.31: Optimization of slot ID creation previously    */
+/*            provided by NewSlotNameID function.            */
+/*                                                           */
+/*            Optimization for marking relevant alpha nodes  */
+/*            in the object pattern network.                 */
 /*                                                           */
 /*      6.40: Added Env prefix to GetEvaluationError and     */
 /*            SetEvaluationError functions.                  */
@@ -110,7 +116,6 @@
    static unsigned int            HashSlotName(CLIPSLexeme *);
 
 #if (! RUN_TIME)
-   static unsigned short          NewSlotNameID(Environment *);
    static void                    DeassignClassID(Environment *,unsigned short);
 #endif
 
@@ -568,6 +573,7 @@ Defclass *NewClass(
    cls->nxtHash = NULL;
    cls->scopeMap = NULL;
    ClearBitString(cls->traversalRecord,TRAVERSAL_BYTES);
+   cls->relevant_terminal_alpha_nodes = NULL;
    return(cls);
   }
 
@@ -671,7 +677,7 @@ SLOT_NAME *AddSlotName(
       snp->name = slotName;
       snp->hashTableIndex = hashTableIndex;
       snp->use = 1;
-      snp->id = (usenewid ? newid : NewSlotNameID(theEnv));
+      snp->id = (unsigned short) (usenewid ? newid : DefclassData(theEnv)->newSlotID++);
       snp->nxt = DefclassData(theEnv)->SlotNameTable[hashTableIndex];
       DefclassData(theEnv)->SlotNameTable[hashTableIndex] = snp;
       IncrementLexemeCount(slotName);
@@ -746,6 +752,8 @@ void RemoveDefclass(
   {
    DefmessageHandler *hnd;
    unsigned long i;
+   CLASS_ALPHA_LINK *currentAlphaLink;
+   CLASS_ALPHA_LINK *nextAlphaLink;
 
    /* ====================================================
       Remove all of this class's superclasses' links to it
@@ -806,6 +814,15 @@ void RemoveDefclass(
       rm(theEnv,cls->handlerOrderMap,(sizeof(unsigned) * cls->handlerCount));
      }
 
+   currentAlphaLink = cls->relevant_terminal_alpha_nodes;
+   while (currentAlphaLink != NULL)
+     {
+      nextAlphaLink = currentAlphaLink->next;
+      rtn_struct(theEnv,classAlphaLink,currentAlphaLink);
+      currentAlphaLink = nextAlphaLink;
+     }
+   cls->relevant_terminal_alpha_nodes = NULL;
+
    SetDefclassPPForm(theEnv,cls,NULL);
    DeassignClassID(theEnv,cls->id);
    rtn_struct(theEnv,defclass,cls);
@@ -827,6 +844,9 @@ void DestroyDefclass(
   Defclass *cls)
   {
    long i;
+   CLASS_ALPHA_LINK *currentAlphaLink;
+   CLASS_ALPHA_LINK *nextAlphaLink;
+
 #if ! RUN_TIME
    DefmessageHandler *hnd;
    DeletePackedClassLinks(theEnv,&cls->directSuperclasses,false);
@@ -879,6 +899,15 @@ void DestroyDefclass(
       rm(theEnv,cls->handlers,(sizeof(DefmessageHandler) * cls->handlerCount));
       rm(theEnv,cls->handlerOrderMap,(sizeof(unsigned) * cls->handlerCount));
      }
+
+   currentAlphaLink = cls->relevant_terminal_alpha_nodes;
+   while (currentAlphaLink != NULL)
+     {
+      nextAlphaLink = currentAlphaLink->next;
+      rtn_struct(theEnv, classAlphaLink, currentAlphaLink);
+      currentAlphaLink = nextAlphaLink;
+     }
+   cls->relevant_terminal_alpha_nodes = NULL;
 
    DestroyConstructHeader(theEnv,&cls->header);
 
@@ -1278,40 +1307,6 @@ static unsigned int HashSlotName(
   }
 
 #if (! RUN_TIME)
-
-/***********************************************
-  NAME         : NewSlotNameID
-  DESCRIPTION  : Returns  an unused slot name id
-                 as close to 1 as possible
-  INPUTS       : None
-  RETURNS      : The new unused id
-  SIDE EFFECTS : None
-  NOTES        : None
- ***********************************************/
-static unsigned short NewSlotNameID(
-  Environment *theEnv)
-  {
-   unsigned short newid = 0;
-   unsigned i;
-   SLOT_NAME *snp;
-
-   while (true)
-     {
-      for (i = 0 ; i < SLOT_NAME_TABLE_HASH_SIZE ; i++)
-        {
-         snp = DefclassData(theEnv)->SlotNameTable[i];
-         while ((snp != NULL) ? (snp->id != newid) : false)
-           snp = snp->nxt;
-         if (snp != NULL)
-           break;
-        }
-      if (i < SLOT_NAME_TABLE_HASH_SIZE)
-        newid++;
-      else
-        break;
-     }
-   return newid;
-  }
 
 /***************************************************
   NAME         : DeassignClassID
