@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  11/01/16             */
+   /*            CLIPS Version 6.40  02/09/18             */
    /*                                                     */
    /*          OBJECT PATTERN MATCHER MODULE              */
    /*******************************************************/
@@ -38,6 +38,11 @@
 /*                                                           */
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
+/*                                                           */
+/*      6.31: Added class name to OBJRTBLD5 error message.   */
+/*                                                           */
+/*            Optimization for marking relevant alpha nodes  */
+/*            in the object pattern network.                 */
 /*                                                           */
 /*      6.40: Pragma once and other inclusion changes.       */
 /*                                                           */
@@ -659,6 +664,10 @@ static struct patternNodeHeader *PlaceObjectPattern(
    bool endSlot;
    CLIPSBitMap *newClassBitMap,*newSlotBitMap;
    struct expr *rightHash;
+   unsigned int i;
+   CLASS_BITMAP *cbmp;
+   Defclass *relevantDefclass;
+   CLASS_ALPHA_LINK *newAlphaLink;
 
    /*========================================================*/
    /* Get the top of the object pattern network and prepare  */
@@ -777,6 +786,25 @@ static struct patternNodeHeader *PlaceObjectPattern(
    lastLevel->alphaNode = newAlphaNode;
    newAlphaNode->nxtTerminal = ObjectNetworkTerminalPointer(theEnv);
    SetObjectNetworkTerminalPointer(theEnv,newAlphaNode);
+   
+   /*
+    * A new terminal alpha node has just been created. For each defclass
+    * relevant to this alpha node, add it to that defclass'
+    * relevant_terminal_alpha_nodes list
+    */
+   cbmp = (CLASS_BITMAP *) newClassBitMap->contents;
+   for (i = 0; i <= cbmp->maxid; i++)
+     {
+      if (TestBitMap(cbmp->map,i))
+        {
+         relevantDefclass = DefclassData(theEnv)->ClassIDMap[i];
+         newAlphaLink = get_struct(theEnv, classAlphaLink);
+         newAlphaLink->alphaNode = newAlphaNode;
+         newAlphaLink->next = relevantDefclass->relevant_terminal_alpha_nodes;
+         relevantDefclass->relevant_terminal_alpha_nodes = newAlphaLink;
+        }
+     }
+
    return((struct patternNodeHeader *) newAlphaNode);
   }
 
@@ -1045,6 +1073,42 @@ static void DetachObjectPattern(
 
    alphaPtr = (OBJECT_ALPHA_NODE *) thePattern;
    ClearObjectPatternMatches(theEnv,alphaPtr);
+
+   /*==================================*/
+   /* Remove alpha links from classes. */
+   /*==================================*/
+   
+   if (! ConstructData(theEnv)->ClearInProgress)
+     {
+      CLASS_BITMAP *cbmp;
+      unsigned int i;
+      Defclass *relevantDefclass;
+      CLASS_ALPHA_LINK *alphaLink, *lastAlpha;
+
+      cbmp = (CLASS_BITMAP *) alphaPtr->classbmp->contents;
+      for (i = 0; i <= cbmp->maxid; i++)
+        {
+         if (TestBitMap(cbmp->map,i))
+           {
+            relevantDefclass = DefclassData(theEnv)->ClassIDMap[i];
+         
+            for (lastAlpha = NULL, alphaLink = relevantDefclass->relevant_terminal_alpha_nodes;
+                 alphaLink != NULL;
+                 lastAlpha = alphaLink, alphaLink = alphaLink->next)
+              {
+               if (alphaLink->alphaNode == alphaPtr)
+                 {
+                  if (lastAlpha == NULL)
+                    { relevantDefclass->relevant_terminal_alpha_nodes = alphaLink->next; }
+                  else
+                    { lastAlpha->next = alphaLink->next; }
+                  rtn_struct(theEnv,classAlphaLink,alphaLink);
+                  break;
+                 }
+              }
+           }
+        }
+     }
 
    /*========================================================*/
    /* Unmark the classes to which the pattern is applicable  */
@@ -1737,11 +1801,15 @@ static bool ProcessClassRestriction(
      {
       if (chk->pnType == SYMBOL_NODE)
         {
-         chk->value = LookupDefclassByMdlOrScope(theEnv,chk->lexemeValue->contents);
+         const char *className = chk->lexemeValue->contents;
+
+         chk->value = LookupDefclassByMdlOrScope(theEnv,className);
          if (chk->value == NULL)
            {
             PrintErrorID(theEnv,"OBJRTBLD",5,false);
-            WriteString(theEnv,STDERR,"Undefined class in object pattern.\n");
+            WriteString(theEnv,STDERR,"Undefined class '");
+            WriteString(theEnv,STDERR,className);
+            WriteString(theEnv,STDERR,"' in object pattern.\n");
             DeleteIntermediateClassBitMap(theEnv,tmpset1);
             DeleteIntermediateClassBitMap(theEnv,tmpset2);
             return false;
