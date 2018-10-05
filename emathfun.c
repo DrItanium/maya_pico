@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  11/10/17             */
+   /*            CLIPS Version 6.40  01/29/18             */
    /*                                                     */
    /*            EXTENDED MATH FUNCTIONS MODULE           */
    /*******************************************************/
@@ -33,6 +33,8 @@
 /*                                                           */
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
+/*                                                           */
+/*      6.31: Fix for overflow error in div function.        */
 /*                                                           */
 /*      6.40: Added Env prefix to GetEvaluationError and     */
 /*            SetEvaluationError functions.                  */
@@ -286,6 +288,8 @@ void TanFunction(
   UDFValue *returnValue)
   {
    double tv;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -310,6 +314,8 @@ void SecFunction(
   UDFValue *returnValue)
   {
    double tv;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -334,6 +340,8 @@ void CscFunction(
   UDFValue *returnValue)
   {
    double tv;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -358,6 +366,8 @@ void CotFunction(
   UDFValue *returnValue)
   {
    double tv;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -383,6 +393,8 @@ void AcosFunction(
   {
    double num;
 
+   ClearErrorValue(theEnv);
+   
    if (! SingleNumberCheck(context,returnValue))
      { return; }
 
@@ -407,6 +419,8 @@ void AsinFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -446,6 +460,8 @@ void AsecFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -471,6 +487,8 @@ void AcscFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -581,6 +599,8 @@ void CschFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -610,6 +630,8 @@ void CothFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -639,6 +661,8 @@ void AcoshFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -678,6 +702,8 @@ void AtanhFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -702,6 +728,8 @@ void AsechFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -726,6 +754,8 @@ void AcschFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -750,6 +780,8 @@ void AcothFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -789,6 +821,8 @@ void LogFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -818,6 +852,8 @@ void Log10Function(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -847,6 +883,8 @@ void SqrtFunction(
   UDFValue *returnValue)
   {
    double num;
+   
+   ClearErrorValue(theEnv);
 
    if (! SingleNumberCheck(context,returnValue))
      { return; }
@@ -872,6 +910,8 @@ void PowFunction(
   {
    UDFValue value1, value2;
    double num1, num2;
+   
+   ClearErrorValue(theEnv);
 
    /*==================================*/
    /* Check for two numeric arguments. */
@@ -954,6 +994,15 @@ void ModFunction(
      {
       lnum1 = item1.integerValue->contents;
       lnum2 = item2.integerValue->contents;
+      
+      if ((lnum1 == LLONG_MIN) && (lnum2 == -1))
+        {
+         ArgumentOverUnderflowErrorMessage(theEnv,"mod",true);
+         SetEvaluationError(theEnv,true);
+         returnValue->integerValue = CreateInteger(theEnv,0);
+         return;
+        }
+
       returnValue->integerValue = CreateInteger(theEnv,lnum1 - (lnum1 / lnum2) * lnum2);
      }
   }
