@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.40  11/17/17             */
+   /*            CLIPS Version 6.40  07/09/18             */
    /*                                                     */
    /*                  MULTIFIELD MODULE                  */
    /*******************************************************/
@@ -53,6 +53,11 @@
 /*            ALLOW_ENVIRONMENT_GLOBALS no longer supported. */
 /*                                                           */
 /*            UDF redesign.                                  */
+/*                                                           */
+/*            The explode$ function via StringToMultifield   */
+/*            now converts non-primitive value tokens        */
+/*            (such as parentheses) to symbols rather than   */
+/*            strings.                                       */
 /*                                                           */
 /*************************************************************/
 
@@ -227,7 +232,7 @@ Multifield *StringToMultifield(
           (theToken.tknType == INSTANCE_NAME_TOKEN))
         { theAtom = GenConstant(theEnv,TokenTypeToType(theToken.tknType),theToken.value); }
       else
-        { theAtom = GenConstant(theEnv,STRING_TYPE,CreateString(theEnv,theToken.printForm)); }
+        { theAtom = GenConstant(theEnv,SYMBOL_TYPE,CreateSymbol(theEnv,theToken.printForm)); }
 
       numberOfFields++;
       if (topAtom == NULL) topAtom = theAtom;
@@ -436,9 +441,9 @@ void UDFToCLIPSValue(
    if ((uv->begin == 0) &&
        (uv->range == uv->multifieldValue->length))
      {
-		 cv->multifieldValue = uv->multifieldValue;
-		 return; 
-	 }
+      cv->multifieldValue = uv->multifieldValue;
+      return;
+     }
      
    copy = CreateMultifield(theEnv,uv->range);
    GenCopyMemory(struct clipsValue,uv->range,&copy->contents[0],
@@ -900,15 +905,6 @@ CLIPSLexeme *ImplodeMultifield(
             tmp_str++;
            }
         }
-#if OBJECT_SYSTEM
-      else if (theMultifield->contents[i].header->type == INSTANCE_NAME_TYPE)
-        { strsize += strlen(theMultifield->contents[i].lexemeValue->contents) + 3; }
-      else if (theMultifield->contents[i].header->type == INSTANCE_ADDRESS_TYPE)
-        {
-         strsize += strlen(theMultifield->contents[i].instanceValue->name->contents) + 3;
-        }
-#endif
-
       else
         {
          tempDO.value = theMultifield->contents[i].value;
@@ -980,32 +976,6 @@ CLIPSLexeme *ImplodeMultifield(
          *(ret_str+j) = '"';
          j++;
         }
-#if OBJECT_SYSTEM
-      else if (theMultifield->contents[i].header->type == INSTANCE_NAME_TYPE)
-        {
-         tmp_str = theMultifield->contents[i].lexemeValue->contents;
-         *(ret_str + j++) = '[';
-         while(*tmp_str)
-           {
-            *(ret_str+j) = *tmp_str;
-            j++;
-            tmp_str++;
-           }
-         *(ret_str + j++) = ']';
-        }
-      else if (theMultifield->contents[i].header->type == INSTANCE_ADDRESS_TYPE)
-        {
-         tmp_str = theMultifield->contents[i].instanceValue->name->contents;
-         *(ret_str + j++) = '[';
-         while(*tmp_str)
-           {
-            *(ret_str+j) = *tmp_str;
-            j++;
-            tmp_str++;
-           }
-         *(ret_str + j++) = ']';
-        }
-#endif
       else
         {
          tempDO.value = theMultifield->contents[i].value;
