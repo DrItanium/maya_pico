@@ -352,7 +352,7 @@
                  (files $?artist-files)
                  (name ?artist-name))
          (test (subsetp $?files
-                $?artist-files))
+                        $?artist-files))
          =>
          ;(printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf)
          (assert (album ?album has single author ?artist-name)))
@@ -382,5 +382,24 @@
          ; since that check failed it means that there are files in the album which this artist did not make
          =>
          (assert (album ?album is compilation album)))
-        
 
+(defrule identify-songs-not-part-of-an-album
+         (declare (salience -1))
+         (object (is-a file)
+                 (name ?file))
+         (not (object (is-a album)
+                      (files $? ?file $?)))
+         (object (is-a basic-tag-data)
+                 (parent ?file)
+                 (title ?title))
+         =>
+         (printout t "Song '" ?title "' is not part of an album" crlf))
+
+(deffunction list-all-albums
+             (?router)
+             (printout ?router
+                       "List of Albums: " crlf)
+             (do-for-all-instances ((?a album))
+                                   TRUE
+                                   (printout ?router 
+                                             tab "\"" ?a:title "\"" crlf)))
