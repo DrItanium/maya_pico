@@ -51,15 +51,12 @@ void GetAudioProperties(Environment* env, UDFContext* context, UDFValue* retValu
 	}
 	std::string path(theArg.lexemeValue->contents);
 	if (TagLib::FileRef f(path.c_str()); !f.isNull() && f.audioProperties()) {
-		auto* mb = CreateMultifieldBuilder(env, 10);
+		auto* mb = CreateMultifieldBuilder(env, 4);
 		auto properties = f.audioProperties();
-		auto seconds = properties->length() % 60;
-		auto minutes = properties->length() / 60;
 		MBAppendInteger(mb, properties->bitrate());
 		MBAppendInteger(mb, properties->sampleRate());
 		MBAppendInteger(mb, properties->channels());
-		MBAppendInteger(mb, minutes);
-		MBAppendInteger(mb, seconds);
+		MBAppendInteger(mb, properties->length());
 		retValue->multifieldValue = MBCreate(mb);
 		MBDispose(mb);
 	} else {
