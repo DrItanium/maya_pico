@@ -34,7 +34,11 @@
 #include "functional.h"
 #endif
 
-#if !MAYA_EXTENSIONS
+#if TAGLIB_EXTENSIONS
+#include "taglib_interface.h"
+#endif
+
+#if (!MAYA_EXTENSIONS)
 void InstallMayaExtensions(void* environment) { }
 #else
 static void EmptyFunction(Environment*, UDFContext*, UDFValue*);
@@ -53,6 +57,9 @@ void InstallMayaExtensions(Environment* environment) {
 #endif
 #if FUNCTIONAL_EXTENSIONS
 	InstallFunctionalExtensions(environment);
+#endif
+#if TAGLIB_EXTENSIONS
+	InstallTagLibMethods(environment);
 #endif
 }
 
