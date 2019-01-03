@@ -39,7 +39,7 @@ flags = [
     '-D_POSIX_SOURCE',
     '-Iinclude/',
     '-Wall',
-    '-std=c++11',
+    '-std=c++11'
 ]
 
 
