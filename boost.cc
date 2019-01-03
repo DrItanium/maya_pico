@@ -51,6 +51,7 @@ void FileExists(Environment*, UDFContext*, UDFValue*);
 void IsDirectory(Environment*, UDFContext*, UDFValue*);
 void IsRegularFile(Environment*, UDFContext*, UDFValue*);
 void ClampValue(Environment*, UDFContext*, UDFValue*);
+void GetDirectoryContents(Environment*, UDFContext*, UDFValue*);
 #endif
 
 extern "C" void InstallBoostExtensions(Environment* theEnv) {
@@ -67,11 +68,29 @@ extern "C" void InstallBoostExtensions(Environment* theEnv) {
 	AddUDF(theEnv, "directoryp",    "b", 1, 1, "sy", IsDirectory, "IsDirectory", NULL);
 	AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, "IsRegularFile", NULL);
 	AddUDF(theEnv, "clamp", "l",  3, 3, "l;l;l;l", ClampValue, "ClampValue", NULL);
+	AddUDF(theEnv, "get-directory-contents", "m", 1, 1, "sy", GetDirectoryContents, "GetDirectoryContents", NULL);
 #endif
 }
 
 
 #if BOOST_EXTENSIONS
+void GetDirectoryContents(Environment* env, UDFContext* context, UDFValue* ret) {
+	if (UDFValue path; !UDFFirstArgument(context, LEXEME_BITS, &path)) {
+		ret->multifieldValue = EmptyMultifield(env);
+	} else {
+		if (boost::filesystem::path p(path.lexemeValue->contents); boost::filesystem::is_directory(p)) {
+			auto mb = CreateMultifieldBuilder(env, 10);
+			boost::filesystem::directory_iterator it(p);
+			for (const auto& path : it) {
+				MBAppendString(mb, path.path().string().c_str());
+			}
+			ret->multifieldValue = MBCreate(mb);
+			MBDispose(mb);
+		} else {
+			ret->multifieldValue = EmptyMultifield(env);
+		}
+	}
+}
 void ClampValue(Environment* env, UDFContext* context, UDFValue* ret) {
 	UDFValue v, lo, hi;
 	if (!UDFFirstArgument(context, INTEGER_BIT,  &v)) {
