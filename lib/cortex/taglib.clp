@@ -91,6 +91,51 @@
         (storage local)
         (visibility public)))
 
+(defclass audio-properties
+ (is-a USER)
+ (slot parent
+       (type INSTANCE)
+       (storage local)
+       (visibility public)
+       (default ?NONE))
+ (slot bitrate 
+       (type NUMBER)
+       (storage local)
+       (visibility public)
+       (default ?NONE))
+ (slot sample-rate 
+       (type NUMBER)
+       (storage local)
+       (visibility public)
+       (default ?NONE))
+ (slot channels
+       (type NUMBER)
+       (storage local)
+       (visibility public)
+       (default ?NONE))
+ (slot length
+       (type NUMBER)
+       (storage local)
+       (visibility public)
+       (default ?NONE))
+ (slot mins 
+       (type NUMBER)
+       (storage local)
+       (visibility public))
+ (slot secs
+       (type NUMBER)
+       (storage local)
+       (visibility public))
+ (message-handler init after))
+(defmessage-handler audio-properties init after
+                    ()
+                    (dynamic-put mins 
+                                 (div (dynamic-get length)
+                                      60))
+                    (dynamic-put secs
+                                 (mod (dynamic-get length)
+                                      60)))
+
 ; testing routines
 (deffunction assert-file-facts
              (?path)
