@@ -34,11 +34,31 @@ extern "C" {
 extern "C" void InstallTagLibMethods(Environment* env) { }
 #else
 void GetBasicTagInformation(Environment*, UDFContext*, UDFValue*);
+void ShowTagProperties(Environment*, UDFContext*, UDFValue*);
 void GetTagProperties(Environment*, UDFContext*, UDFValue*);
 void GetAudioProperties(Environment*, UDFContext*, UDFValue*);
 extern "C" void InstallTagLibMethods(Environment* env) { 
 	AddUDF(env, "get-basic-tag-info", "m", 1, 1, "sy", GetBasicTagInformation, "GetBasicTagInformation",  NULL);
+	AddUDF(env, "show-tag-properties", "v", 1, 1, "sy", ShowTagProperties, "ShowTagProperties", NULL);
 	AddUDF(env, "get-tag-properties", "m", 1, 1, "sy", GetTagProperties, "GetTagProperties", NULL);
+}
+void ShowTagProperties(Environment* env, UDFContext* context, UDFValue* retValue) {
+	UDFValue theArg;
+	if (! UDFFirstArgument(context, LEXEME_BITS, &theArg)) {
+		return;
+	}
+	std::string path(theArg.lexemeValue->contents);
+	if (TagLib::FileRef f(path.c_str()); !f.isNull() && f.tag()) {
+		auto tags = f.file()->properties();
+		for (auto i = tags.begin(); i != tags.end(); ++i) {
+			for (auto j = i->second.begin(); j != i->second.end(); ++j) {
+				Write(env, i->first.toCString());
+				Write(env, " - \"");
+				Write(env, j->toCString());
+				Writeln(env, "\"");
+			}
+		}
+	} 
 }
 void GetTagProperties(Environment* env, UDFContext* context, UDFValue* retValue) {
 	UDFValue theArg;
@@ -47,6 +67,20 @@ void GetTagProperties(Environment* env, UDFContext* context, UDFValue* retValue)
 		return;
 	}
 	std::string path(theArg.lexemeValue->contents);
+	if (TagLib::FileRef f(path.c_str()); !f.isNull() && f.tag()) {
+		auto* mb = CreateMultifieldBuilder(env, 10);
+		auto tags = f.file()->properties();
+		for (auto i = tags.begin(); i != tags.end(); ++i) {
+			for (auto j = i->second.begin(); j != i->second.end(); ++j) {
+				MBAppendString(mb, i->first.toCString());
+				MBAppendString(mb, j->toCString());
+			}
+		}
+		retValue->multifieldValue = MBCreate(mb);
+		MBDispose(mb);
+	} else {
+		retValue->multifieldValue = EmptyMultifield(env);
+	}
 }
 void GetBasicTagInformation(Environment* env, UDFContext* context, UDFValue* retValue) {
 	UDFValue theArg;
@@ -55,8 +89,7 @@ void GetBasicTagInformation(Environment* env, UDFContext* context, UDFValue* ret
 		return;
 	}
 	std::string path(theArg.lexemeValue->contents);
-	TagLib::FileRef f(path.c_str());
-	if (!f.isNull() && f.tag()) {
+	if (TagLib::FileRef f(path.c_str()); !f.isNull() && f.tag()) {
 		auto* mb = CreateMultifieldBuilder(env, 10);
 		auto* tag = f.tag();
 		MBAppendString(mb, tag->title().toCString());
