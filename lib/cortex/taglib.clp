@@ -345,12 +345,42 @@
 (defrule album-by-a-single-artist
          (object (is-a album)
                  (title ?title)
-                 (files $?files))
+                 (files $?files)
+                 (name ?album))
          (object (is-a artist)
                  (title ?artist)
-                 (files $?artist-files))
+                 (files $?artist-files)
+                 (name ?artist-name))
          (test (subsetp $?files
                 $?artist-files))
          =>
-         (printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf))
-                        
+         ;(printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf)
+         (assert (album ?album has single author ?artist-name)))
+(defrule mark-artist-for-given-song
+         (object (is-a album)
+                 (title ?title)
+                 (files $? ?file $?)
+                 (name ?album))
+         (object (is-a artist)
+                 (title ?artist)
+                 (files $? ?file $?)
+                 (name ?artist-name))
+         =>
+         (assert (album ?album features artist ?artist-name)))
+(defrule album-is-compilation-album
+         (album ?album features artist ?artist-name)
+         (object (is-a album)
+                 (name ?album)
+                 (title ?title)
+                 (files $?files))
+         (object (is-a artist)
+                 (name ?artist-name)
+                 (title ?artist)
+                 (files $?artist-files))
+         (test (not (subsetp $?files
+                             $?artist-files)))
+         ; since that check failed it means that there are files in the album which this artist did not make
+         =>
+         (assert (album ?album is compilation album)))
+        
+
