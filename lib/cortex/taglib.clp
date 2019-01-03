@@ -136,6 +136,53 @@
                                  (mod (dynamic-get length)
                                       60)))
 
+(defclass property-correlation
+  "Associate tag properties with the same key and value"
+  (is-a USER)
+  (slot key
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot value 
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot associated-files))
+(defclass album
+  (is-a USER)
+  (slot title
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot files
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
+(defclass album-artist
+  (is-a USER)
+  (slot title
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot files
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
+(defclass artist
+  (is-a USER)
+  (slot title
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot files
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
 ; testing routines
 (deffunction assert-file-facts
              (?path)
@@ -245,20 +292,6 @@
          =>
          (unmake-instance ?o))
 
-(defclass property-correlation
-  "Associate tag properties with the same key and value"
-  (is-a USER)
-  (slot key
-        (type LEXEME)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot value 
-        (type LEXEME)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (multislot associated-files))
 
 (defrule construct-property-correlation
          (object (is-a tag-property)
@@ -291,26 +324,33 @@
                           (associated-files $?files 
                                             ?parent)))
 
-(defclass album
-  (is-a USER)
-  (slot title
-        (type LEXEME)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (multislot files
-             (storage local)
-             (visibility public)
-             (default ?NONE)))
-(defrule make-album-object
-         "take a property-correlation and construct a final album out of it."
+(deffacts high-level-prop-construction-facts
+          (make-object album from property-correlation "ALBUM")
+          (make-object album-artist from property-correlation "ALBUMARTIST")
+          (make-object artist from property-correlation "ARTIST"))
+
+(defrule translate-property-correlation
+         "take a property-correlation and construct another object of it."
          (declare (salience -1))
-         ?f <- (object (is-a property-correlation)
-                       (key "ALBUM")
-                       (value ?title)
-                       (associated-files $?files))
+         (make-object ?output-type from property-correlation ?key)
+         (object (is-a property-correlation)
+                 (key ?key)
+                 (value ?title)
+                 (associated-files $?files))
          =>
-         (unmake-instance ?f)
-         (make-instance of album
-          (title ?title)
-          (files $?files)))
+         (make-instance of ?output-type
+                        (title ?title)
+                        (files $?files)))
+; neat data correlations we can perform now
+(defrule album-by-a-single-artist
+         (object (is-a album)
+                 (title ?title)
+                 (files $?files))
+         (object (is-a artist)
+                 (title ?artist)
+                 (files $?artist-files))
+         (test (subsetp $?files
+                $?artist-files))
+         =>
+         (printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf))
+                        
