@@ -111,7 +111,11 @@
         (type LEXEME)
         (storage local)
         (visibility public)
-        (default ?NONE)))
+        (default ?NONE))
+  (multislot children 
+             (storage local)
+             (visibility public)))
+
 (defclass tag-property
   (is-a USER)
   (slot parent
@@ -389,17 +393,33 @@
          ?f <- (tag-properties ?parent
                                ?key ?value $?rest)
          =>
-         (make-instance of tag-property
-                        (parent ?parent)
-                        (key ?key)
-                        (value ?value))
          (retract ?f)
-         (assert (tag-properties ?parent $?rest)))
+         (assert (tag-properties ?parent 
+                                 $?rest))
+         (slot-insert$ ?parent
+                       children
+                       1
+                       (make-instance of tag-property
+                                      (parent ?parent)
+                                      (key ?key)
+                                      (value ?value))))
 (defrule done-with-tag-properties
          (stage (current generate))
          ?f <- (tag-properties ?)
          =>
          (retract ?f))
+(defrule make-audio-property-data-fact
+         (stage (current generate))
+         (object (is-a file)
+                 (path ?path)
+                 (name ?parent))
+         (test (audio-propertiesp ?path))
+         (not (audio-propery-data ?parent $?))
+         (not (object (is-a audio-properties)
+                      (parent ?parent)))
+         =>
+         (assert (audio-property-data ?parent
+                                      (get-audio-properties ?path))))
 
 
 (defrule construct-basic-tag-data
@@ -418,26 +438,17 @@
                       (parent ?parent)))
          =>
          (retract ?f)
-         (make-instance of basic-tag-data
-                        (parent ?parent)
-                        (title ?title)
-                        (artist ?artist)
-                        (album ?album)
-                        (year ?year)
-                        (track ?track)
-                        (genre ?genre)))
-(defrule make-audio-property-data-fact
-         (stage (current generate))
-         (object (is-a file)
-                 (path ?path)
-                 (name ?parent))
-         (test (audio-propertiesp ?path))
-         (not (audio-propery-data ?parent $?))
-         (not (object (is-a audio-properties)
-                      (parent ?parent)))
-         =>
-         (assert (audio-property-data ?parent
-                                      (get-audio-properties ?path))))
+         (slot-insert$ ?parent
+                       children
+                       1
+                       (make-instance of basic-tag-data
+                                      (parent ?parent)
+                                      (title ?title)
+                                      (artist ?artist)
+                                      (album ?album)
+                                      (year ?year)
+                                      (track ?track)
+                                      (genre ?genre))))
 (defrule construct-audio-properties
          (stage (current generate))
          ?f <- (audio-property-data ?parent
@@ -447,12 +458,15 @@
                                     ?length)
          =>
          (retract ?f)
-         (make-instance of audio-properties
-                        (parent ?parent)
-                        (bitrate ?bitrate)
-                        (sample-rate ?sampleRate)
-                        (channels ?channels)
-                        (length ?length)))
+         (slot-insert$ ?parent
+                       children
+                       1
+                       (make-instance of audio-properties
+                                      (parent ?parent)
+                                      (bitrate ?bitrate)
+                                      (sample-rate ?sampleRate)
+                                      (channels ?channels)
+                                      (length ?length))))
 (defrule eliminate-illegal-files
          (declare (salience -1))
          (stage (current generate))
