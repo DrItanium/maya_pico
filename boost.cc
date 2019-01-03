@@ -80,12 +80,18 @@ void GetDirectoryContents(Environment* env, UDFContext* context, UDFValue* ret) 
 	} else {
 		if (boost::filesystem::path p(path.lexemeValue->contents); boost::filesystem::is_directory(p)) {
 			auto mb = CreateMultifieldBuilder(env, 10);
-			boost::filesystem::directory_iterator it(p);
-			for (const auto& path : it) {
-				MBAppendString(mb, path.path().string().c_str());
+			try {
+				boost::filesystem::directory_iterator it(p);
+				for (const auto& path : it) {
+					MBAppendString(mb, path.path().string().c_str());
+				}
+				ret->multifieldValue = MBCreate(mb);
+				MBDispose(mb);
+			} catch (boost::filesystem::filesystem_error&) {
+				// probably permission denied or something similar so just 
+				// emit empty
+				ret->multifieldValue = EmptyMultifield(env);
 			}
-			ret->multifieldValue = MBCreate(mb);
-			MBDispose(mb);
 		} else {
 			ret->multifieldValue = EmptyMultifield(env);
 		}

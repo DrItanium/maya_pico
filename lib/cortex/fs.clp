@@ -38,3 +38,13 @@
              (filter-directory-contents directoryp
                                         ?path))
 
+(deffunction get-recursive-directory-contents 
+             "Get the list of all files from a given file system root. This is recursive and potentially expensive!"
+             (?root)
+             (bind ?output
+                   (get-files-in-directory ?root))
+             (progn$ (?path (get-subdirectories ?root)) 
+                     (bind ?output
+                           ?output
+                           (get-recursive-directory-contents ?path)))
+             ?output)
