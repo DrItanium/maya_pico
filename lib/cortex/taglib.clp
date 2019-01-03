@@ -20,7 +20,10 @@
 ; ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+(deffacts stage-layout
+          (stage (current generate)
+                 (rest correlate
+                       associate)))
 (deffunction audio-propertiesp
              "Check and see if we got audio properties back from the given file"
              (?path)
@@ -182,7 +185,11 @@
   (multislot files
              (storage local)
              (visibility public)
-             (default ?NONE)))
+             (default ?NONE))
+  (multislot albums
+             (storage local)
+             (visibility public)))
+            
 ; testing routines
 (deffunction assert-file-facts
              (?path)
@@ -190,6 +197,7 @@
                      (assert (file-check ?p))))
 ; testing rules
 (defrule make-file-object
+         (stage (current generate))
          ?f <- (file-check ?path)
          =>
          (retract ?f)
@@ -197,6 +205,7 @@
                         (path ?path)))
 
 (defrule make-basic-tag-data-fact
+         (stage (current generate))
          (object (is-a file)
                  (path ?path)
                  (name ?parent))
@@ -208,6 +217,7 @@
          =>
          (assert (basic-tag-info ?path (get-basic-tag-info ?path))))
 (defrule make-tag-property-fact
+         (stage (current generate))
          (object (is-a file)
                  (path ?path)
                  (name ?parent))
@@ -216,6 +226,7 @@
          (assert (tag-properties ?parent 
                                  (get-tag-properties ?path))))
 (defrule construct-single-tag-property
+         (stage (current generate))
          ?f <- (tag-properties ?parent
                                ?key ?value $?rest)
          =>
@@ -226,12 +237,14 @@
          (retract ?f)
          (assert (tag-properties ?parent $?rest)))
 (defrule done-with-tag-properties
+         (stage (current generate))
          ?f <- (tag-properties ?)
          =>
          (retract ?f))
 
 
 (defrule construct-basic-tag-data
+         (stage (current generate))
          ?f <- (basic-tag-info ?path
                                ?title
                                ?artist
@@ -255,6 +268,7 @@
                         (track ?track)
                         (genre ?genre)))
 (defrule make-audio-property-data-fact
+         (stage (current generate))
          (object (is-a file)
                  (path ?path)
                  (name ?parent))
@@ -266,6 +280,7 @@
          (assert (audio-property-data ?parent
                                       (get-audio-properties ?path))))
 (defrule construct-audio-properties
+         (stage (current generate))
          ?f <- (audio-property-data ?parent
                                     ?bitrate
                                     ?sampleRate
@@ -281,6 +296,7 @@
                         (length ?length)))
 (defrule eliminate-illegal-files
          (declare (salience -1))
+         (stage (current generate))
          ?o <- (object (is-a file)
                        (name ?name))
          (not (object (is-a basic-tag-data)
@@ -294,6 +310,7 @@
 
 
 (defrule construct-property-correlation
+         (stage (current generate))
          (object (is-a tag-property)
                  (key ?key)
                  (value ?value)
@@ -308,6 +325,7 @@
                                             (key ?key)
                                             (value ?value)))))
 (defrule update-property-correlation
+         (stage (current generate))
          (object (is-a tag-property)
                  (key ?key)
                  (value ?value)
@@ -331,7 +349,7 @@
 
 (defrule translate-property-correlation
          "take a property-correlation and construct another object of it."
-         (declare (salience -1))
+         (stage (current correlate))
          (make-object ?output-type from property-correlation ?key)
          (object (is-a property-correlation)
                  (key ?key)
@@ -343,6 +361,7 @@
                         (files $?files)))
 ; neat data correlations we can perform now
 (defrule album-by-a-single-artist
+         (stage (current associate))
          (object (is-a album)
                  (title ?title)
                  (files $?files)
@@ -357,6 +376,7 @@
          ;(printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf)
          (assert (album ?album has single author ?artist-name)))
 (defrule mark-artist-for-given-song
+         (stage (current associate))
          (object (is-a album)
                  (title ?title)
                  (files $? ?file $?)
@@ -368,6 +388,7 @@
          =>
          (assert (album ?album features artist ?artist-name)))
 (defrule album-is-compilation-album
+         (stage (current associate))
          (album ?album features artist ?artist-name)
          (object (is-a album)
                  (name ?album)
@@ -384,7 +405,7 @@
          (assert (album ?album is compilation album)))
 
 (defrule identify-songs-not-part-of-an-album
-         (declare (salience -1))
+         (stage (current associate))
          (object (is-a file)
                  (name ?file))
          (not (object (is-a album)
@@ -393,7 +414,34 @@
                  (parent ?file)
                  (title ?title))
          =>
-         (printout t "Song '" ?title "' is not part of an album" crlf))
+         (assert (song ?file has no album)))
+
+(defrule identify-songs-with-only-audio-data
+         (stage (current associate))
+         (object (is-a file)
+                 (name ?file))
+         (not (object (is-a tag-property)
+               (parent ?file)))
+         (not (object (is-a basic-tag-data)
+               (parent ?file)))
+         (object (is-a audio-properties)
+                 (parent ?file))
+         =>
+         (assert (file ?file is untagged)))
+
+(defrule add-album-to-artist
+         (stage (current associate))
+         (album ?album features artist ?artist)
+         ?art <- (object (is-a artist)
+                         (name ?artist)
+                         (albums $?albums))
+         (not (added album ?album to artist ?artist))
+         =>
+         (assert (added album ?album to artist ?artist))
+         (modify-instance ?art
+                          (albums $?albums
+                                  ?album)))
+
 
 (deffunction generic-list-all
              (?router ?title ?kind)
@@ -403,6 +451,7 @@
                                    TRUE
                                    (printout ?router
                                              tab "- \"" ?a:title "\"" crlf)))
+
              
 (deffunction list-all-albums
              (?router)
