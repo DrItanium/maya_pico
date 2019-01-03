@@ -677,7 +677,7 @@ maya.o: maya.c clips.h setup.h os_shim.h platform.h envrnmnt.h entities.h \
  classcom.h object.h multifld.h objrtmch.h classexm.h classfun.h \
  classinf.h classini.h classpsr.h defins.h inscom.h insfun.h insfile.h \
  insmngr.h msgcom.h msgpass.h miscfun.h maya.h mayasetup.h boost.h \
- functional.h
+ functional.h taglib_interface.h
 memalloc.o: memalloc.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h constant.h memalloc.h prntutil.h router.h utility.h \
  evaluatn.h moduldef.h userdata.h
@@ -1118,6 +1118,21 @@ functional.o: functional.cc clips.h setup.h os_shim.h platform.h \
  objrtmch.h classexm.h classfun.h classinf.h classini.h classpsr.h \
  defins.h inscom.h insfun.h insfile.h insmngr.h msgcom.h msgpass.h \
  mayasetup.h functional.h
+
+taglib_interface.o: taglib_interface.cc clips.h setup.h os_shim.h platform.h envrnmnt.h \
+ entities.h usrsetup.h argacces.h expressn.h exprnops.h constrct.h \
+ userdata.h moduldef.h utility.h evaluatn.h constant.h memalloc.h \
+ cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h symbol.h \
+ commline.h prntutil.h router.h filertr.h strngrtr.h iofun.h sysdep.h \
+ bmathfun.h exprnpsr.h scanner.h watch.h modulbsc.h bload.h exprnbin.h \
+ symblbin.h bsave.h ruledef.h network.h match.h agenda.h crstrtgy.h \
+ conscomp.h symblcmp.h constrnt.h cstrccom.h rulebsc.h engine.h \
+ lgcldpnd.h retract.h drive.h incrrset.h rulecom.h dffctdef.h dffctbsc.h \
+ tmpltdef.h factbld.h tmpltbsc.h tmpltfun.h factmngr.h facthsh.h \
+ factcom.h factfun.h globldef.h globlbsc.h globlcom.h dffnxfun.h \
+ genrccom.h genrcfun.h classcom.h object.h multifld.h objrtmch.h \
+ classexm.h classfun.h classinf.h classini.h classpsr.h defins.h inscom.h \
+ insfun.h insfile.h insmngr.h msgcom.h msgpass.h mayasetup.h taglib_interface.h
 
 
 main.o: cmd/repl/main.c clips.h setup.h os_shim.h platform.h envrnmnt.h \
