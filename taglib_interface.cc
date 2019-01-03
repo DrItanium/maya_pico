@@ -41,6 +41,30 @@ extern "C" void InstallTagLibMethods(Environment* env) {
 	AddUDF(env, "get-basic-tag-info", "m", 1, 1, "sy", GetBasicTagInformation, "GetBasicTagInformation",  NULL);
 	AddUDF(env, "show-tag-properties", "v", 1, 1, "sy", ShowTagProperties, "ShowTagProperties", NULL);
 	AddUDF(env, "get-tag-properties", "m", 1, 1, "sy", GetTagProperties, "GetTagProperties", NULL);
+	AddUDF(env, "get-audio-properties", "m", 1, 1, "sy", GetAudioProperties, "GetAudioProperties", NULL);
+}
+void GetAudioProperties(Environment* env, UDFContext* context, UDFValue* retValue) {
+	UDFValue theArg;
+	if (! UDFFirstArgument(context, LEXEME_BITS, &theArg)) {
+		retValue->multifieldValue = EmptyMultifield(env);
+		return;
+	}
+	std::string path(theArg.lexemeValue->contents);
+	if (TagLib::FileRef f(path.c_str()); !f.isNull() && f.audioProperties()) {
+		auto* mb = CreateMultifieldBuilder(env, 10);
+		auto properties = f.audioProperties();
+		auto seconds = properties->length() % 60;
+		auto minutes = properties->length() / 60;
+		MBAppendInteger(mb, properties->bitrate());
+		MBAppendInteger(mb, properties->sampleRate());
+		MBAppendInteger(mb, properties->channels());
+		MBAppendInteger(mb, minutes);
+		MBAppendInteger(mb, seconds);
+		retValue->multifieldValue = MBCreate(mb);
+		MBDispose(mb);
+	} else {
+		retValue->multifieldValue = EmptyMultifield(env);
+	}
 }
 void ShowTagProperties(Environment* env, UDFContext* context, UDFValue* retValue) {
 	UDFValue theArg;
