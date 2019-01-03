@@ -9,7 +9,7 @@ ifeq ($(CXXEXTENSIONS), TRUE)
 	CXX := c++
 	#LIBRARIES += /usr/lib/libboost_system.a /usr/lib/libboost_filesystem.a
 	LIBRARIES += -lboost_system -lboost_filesystem -ltag
-	CXXFLAGS := -Os -g3 -std=c++14 
+	CXXFLAGS := -Os -g3 -std=c++17 
 	LD := $(CXX)
 else
 	CFLAGS += -DBOOST_EXTENSIONS=0 -DFUNCTIONAL_EXTENSIONS=0 -DTAGLIB_EXTENSIONS=0
