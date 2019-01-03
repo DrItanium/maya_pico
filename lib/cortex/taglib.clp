@@ -34,7 +34,7 @@
              (?path)
              (not (empty$ (get-tag-properties ?path))))
 (defclass file
- (is-a USER)
+  (is-a USER)
   (slot path
         (type LEXEME)
         (storage local)
@@ -57,7 +57,7 @@
         (storage local)
         (visibility public)
         (default ?NONE)))
-        
+
 (defclass basic-tag-data
   "Extract and save the basic tag data from an extractable file!"
   (is-a USER)
@@ -92,41 +92,41 @@
         (visibility public)))
 
 (defclass audio-properties
- (is-a USER)
- (slot parent
-       (type INSTANCE)
-       (storage local)
-       (visibility public)
-       (default ?NONE))
- (slot bitrate 
-       (type NUMBER)
-       (storage local)
-       (visibility public)
-       (default ?NONE))
- (slot sample-rate 
-       (type NUMBER)
-       (storage local)
-       (visibility public)
-       (default ?NONE))
- (slot channels
-       (type NUMBER)
-       (storage local)
-       (visibility public)
-       (default ?NONE))
- (slot length
-       (type NUMBER)
-       (storage local)
-       (visibility public)
-       (default ?NONE))
- (slot mins 
-       (type NUMBER)
-       (storage local)
-       (visibility public))
- (slot secs
-       (type NUMBER)
-       (storage local)
-       (visibility public))
- (message-handler init after))
+  (is-a USER)
+  (slot parent
+        (type INSTANCE)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot bitrate 
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot sample-rate 
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot channels
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot length
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot mins 
+        (type NUMBER)
+        (storage local)
+        (visibility public))
+  (slot secs
+        (type NUMBER)
+        (storage local)
+        (visibility public))
+  (message-handler init after))
 (defmessage-handler audio-properties init after
                     ()
                     (dynamic-put mins 
@@ -147,8 +147,8 @@
          =>
          (retract ?f)
          (make-instance of file
-          (path ?path)))
-                        
+                        (path ?path)))
+
 (defrule make-basic-tag-data-fact
          (object (is-a file)
                  (path ?path)
@@ -183,7 +183,7 @@
          =>
          (retract ?f))
 
-                                 
+
 (defrule construct-basic-tag-data
          ?f <- (basic-tag-info ?path
                                ?title
@@ -207,6 +207,31 @@
                         (year ?year)
                         (track ?track)
                         (genre ?genre)))
+(defrule make-audio-property-data-fact
+         (object (is-a file)
+                 (path ?path)
+                 (name ?parent))
+         (test (audio-propertiesp ?path))
+         (not (audio-propery-data ?parent $?))
+         (not (object (is-a audio-properties)
+                      (parent ?parent)))
+         =>
+         (assert (audio-property-data ?parent
+                                      (get-audio-properties ?path))))
+(defrule construct-audio-properties
+         ?f <- (audio-property-data ?parent
+                                    ?bitrate
+                                    ?sampleRate
+                                    ?channels
+                                    ?length)
+         =>
+         (retract ?f)
+         (make-instance of audio-properties
+                        (parent ?parent)
+                        (bitrate ?bitrate)
+                        (sample-rate ?sampleRate)
+                        (channels ?channels)
+                        (length ?length)))
 (defrule eliminate-illegal-files
          (declare (salience -1))
          ?o <- (object (is-a file)
@@ -215,5 +240,53 @@
                       (parent ?name)))
          (not (object (is-a tag-property)
                       (parent ?name)))
+         (not (object (is-a audio-properties)
+                      (parent ?name)))
          =>
          (unmake-instance ?o))
+
+(defclass property-correlation
+  "Associate tag properties with the same key and value"
+  (is-a USER)
+  (slot key
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot value 
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot associated-files))
+
+(defrule construct-property-correlation
+         (object (is-a tag-property)
+                 (key ?key)
+                 (value ?value)
+                 (parent ?parent))
+         (not (object (is-a property-correlation)
+                      (key ?key)
+                      (value ?value)))
+         =>
+         (assert (associated ?parent with 
+                             (make-instance of property-correlation 
+                                            (associated-files ?parent)
+                                            (key ?key)
+                                            (value ?value)))))
+(defrule update-property-correlation
+         (object (is-a tag-property)
+                 (key ?key)
+                 (value ?value)
+                 (parent ?parent))
+         ?obj <- (object (is-a property-correlation)
+                         (key ?key)
+                         (value ?value)
+                         (associated-files $?files)
+                         (name ?pc))
+         (not (associated ?parent with ?pc))
+         =>
+         (assert (associated ?parent with ?pc))
+         (modify-instance ?obj
+                          (associated-files $?files 
+                                            ?parent)))
