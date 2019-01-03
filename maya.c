@@ -38,7 +38,7 @@
 #include "taglib_interface.h"
 #endif
 
-#if (!MAYA_EXTENSIONS)
+#if !MAYA_EXTENSIONS
 void InstallMayaExtensions(void* environment) { }
 #else
 static void EmptyFunction(Environment*, UDFContext*, UDFValue*);

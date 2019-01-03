@@ -23,6 +23,7 @@
 extern "C" {
 #include "clips.h"
 }
+#include "mayasetup.h"
 #include "taglib_interface.h"
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
@@ -36,7 +37,7 @@ void GetBasicTagInformation(Environment*, UDFContext*, UDFValue*);
 void GetTagProperties(Environment*, UDFContext*, UDFValue*);
 void GetAudioProperties(Environment*, UDFContext*, UDFValue*);
 extern "C" void InstallTagLibMethods(Environment* env) { 
-	AddUDF(theEnv, "get-basic-tag-info", "m", 1, 1, "sy", GetBasicTagInformation, "GetBasicTagInformation",  NULL);
+	AddUDF(env, "get-basic-tag-info", "m", 1, 1, "sy", GetBasicTagInformation, "GetBasicTagInformation",  NULL);
 }
 
 void GetBasicTagInformation(Environment* env, UDFContext* context, UDFValue* retValue) {
@@ -49,12 +50,12 @@ void GetBasicTagInformation(Environment* env, UDFContext* context, UDFValue* ret
 	if (!f.isNull() && f.tag()) {
 		auto* mb = CreateMultifieldBuilder(env, 10);
 		auto* tag = f.tag();
-		MBAppendString(mb, tag->title().c_str());
-		MBAppendString(mb, tag->artist().c_str());
-		MBAppendString(mb, tag->album().c_str());
+		MBAppendString(mb, tag->title().toCString());
+		MBAppendString(mb, tag->artist().toCString());
+		MBAppendString(mb, tag->album().toCString());
 		MBAppendInteger(mb, tag->year());
 		MBAppendInteger(mb, tag->track());
-		MBAppendString(mb, tag->genre().c_str());
+		MBAppendString(mb, tag->genre().toCString());
 		retValue->multifieldValue = MBCreate(mb);
 		MBDispose(mb);
 	} else {
