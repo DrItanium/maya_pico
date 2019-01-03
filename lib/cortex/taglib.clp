@@ -395,11 +395,27 @@
          =>
          (printout t "Song '" ?title "' is not part of an album" crlf))
 
+(deffunction generic-list-all
+             (?router ?title ?kind)
+             (printout ?router
+                       ?title crlf)
+             (do-for-all-instances ((?a ?kind))
+                                   TRUE
+                                   (printout ?router
+                                             tab "- \"" ?a:title "\"" crlf)))
+             
 (deffunction list-all-albums
              (?router)
-             (printout ?router
-                       "List of Albums: " crlf)
-             (do-for-all-instances ((?a album))
-                                   TRUE
-                                   (printout ?router 
-                                             tab "\"" ?a:title "\"" crlf)))
+             (generic-list-all ?router
+                               "List of Albums: "
+                               album))
+(deffunction list-all-artists
+             (?router)
+             (generic-list-all ?router
+                               "List of Artists: "
+                               artist))
+(deffunction list-all-songs
+             (?router)
+             (generic-list-all ?router
+                               "List of Songs: "
+                               basic-tag-data))
