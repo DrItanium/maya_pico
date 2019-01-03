@@ -88,525 +88,524 @@
                                  (format nil
                                          "(modify-instance ?%s 
                                                            (%s $?things
-                                                               ?%s))"
-                                         ?s1
-                                         ?s2
-                                         ?s0) 
-                                 ")")))
+                                                               ?%s)))"
+                                 ?s1
+                                 ?s2
+                                 ?s0) )))
 
-         (deffunction audio-propertiesp
-                      "Check and see if we got audio properties back from the given file"
-                      (?path)
-                      (not (empty$ (get-audio-properties ?path))))
-         (deffunction basic-tag-infop 
-                      "Check and see if we have basic tag info in the given file"
-                      (?path)
-                      (not (empty$ (get-basic-tag-info ?path))))
-         (deffunction tag-propertiesp
-                      "Check and see if we have tag properties in the given file"
-                      (?path)
-                      (not (empty$ (get-tag-properties ?path))))
-         (defclass file
-           (is-a USER)
-           (slot path
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE)))
-         (defclass tag-property
-           (is-a USER)
-           (slot parent
-                 (type INSTANCE)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot key
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot value 
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE)))
+(deffunction audio-propertiesp
+             "Check and see if we got audio properties back from the given file"
+             (?path)
+             (not (empty$ (get-audio-properties ?path))))
+(deffunction basic-tag-infop 
+             "Check and see if we have basic tag info in the given file"
+             (?path)
+             (not (empty$ (get-basic-tag-info ?path))))
+(deffunction tag-propertiesp
+             "Check and see if we have tag properties in the given file"
+             (?path)
+             (not (empty$ (get-tag-properties ?path))))
+(defclass file
+  (is-a USER)
+  (slot path
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE)))
+(defclass tag-property
+  (is-a USER)
+  (slot parent
+        (type INSTANCE)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot key
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot value 
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE)))
 
-         (defclass basic-tag-data
-           "Extract and save the basic tag data from an extractable file!"
-           (is-a USER)
-           (slot parent
-                 (type INSTANCE)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot title
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public))
-           (slot artist 
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public))
-           (slot album 
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public))
-           (slot year 
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public))
-           (slot track 
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public))
-           (slot genre 
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)))
+(defclass basic-tag-data
+  "Extract and save the basic tag data from an extractable file!"
+  (is-a USER)
+  (slot parent
+        (type INSTANCE)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot title
+        (type LEXEME)
+        (storage local)
+        (visibility public))
+  (slot artist 
+        (type LEXEME)
+        (storage local)
+        (visibility public))
+  (slot album 
+        (type LEXEME)
+        (storage local)
+        (visibility public))
+  (slot year 
+        (type NUMBER)
+        (storage local)
+        (visibility public))
+  (slot track 
+        (type NUMBER)
+        (storage local)
+        (visibility public))
+  (slot genre 
+        (type LEXEME)
+        (storage local)
+        (visibility public)))
 
-         (defclass audio-properties
-           (is-a USER)
-           (slot parent
-                 (type INSTANCE)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot bitrate 
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot sample-rate 
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot channels
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot length
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot mins 
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public))
-           (slot secs
-                 (type NUMBER)
-                 (storage local)
-                 (visibility public))
-           (message-handler init after))
-         (defmessage-handler audio-properties init after
-                             ()
-                             (dynamic-put mins 
-                                          (div (dynamic-get length)
-                                               60))
-                             (dynamic-put secs
-                                          (mod (dynamic-get length)
-                                               60)))
+(defclass audio-properties
+  (is-a USER)
+  (slot parent
+        (type INSTANCE)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot bitrate 
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot sample-rate 
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot channels
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot length
+        (type NUMBER)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot mins 
+        (type NUMBER)
+        (storage local)
+        (visibility public))
+  (slot secs
+        (type NUMBER)
+        (storage local)
+        (visibility public))
+  (message-handler init after))
+(defmessage-handler audio-properties init after
+                    ()
+                    (dynamic-put mins 
+                                 (div (dynamic-get length)
+                                      60))
+                    (dynamic-put secs
+                                 (mod (dynamic-get length)
+                                      60)))
 
-         (defclass property-correlation
-           "Associate tag properties with the same key and value"
-           (is-a USER)
-           (slot key
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (slot value 
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (multislot associated-files))
-         (defclass generic-correlation
-           (is-a USER)
-           (slot title
-                 (type LEXEME)
-                 (storage local)
-                 (visibility public)
-                 (default ?NONE))
-           (multislot files
-                      (storage local)
-                      (visibility public)
-                      (default ?NONE)))
+(defclass property-correlation
+  "Associate tag properties with the same key and value"
+  (is-a USER)
+  (slot key
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot value 
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot associated-files))
+(defclass generic-correlation
+  (is-a USER)
+  (slot title
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot files
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
 
-         (deffacts cgen-album
-                   (cgen put genre into album)
-                   (cgen put artist into album))
-         (defclass album
-           (is-a generic-correlation)
-           (multislot artists
-                      (storage local)
-                      (visibility public))
-           (multislot genres 
-                      (storage local)
-                      (visibility public))
-           (slot length
-                 (type INTEGER)
-                 (storage local)
-                 (visibility public)
-                 (default-dynamic -1))
-           (message-handler get-minutes primary)
-           (message-handler get-seconds primary)
-           (message-handler get-artist-names primary)
-           (message-handler get-song-names primary)
-           (message-handler init after))
-         (defmessage-handler album get-minutes primary
-                             ()
-                             (div (dynamic-get length) 60))
-         (defmessage-handler album get-minutes primary
-                             ()
-                             (div (dynamic-get length) 60))
-         (defmessage-handler album init after
-                             ()
-                             (if (= -1 (dynamic-get length)) then
-                               (bind ?count
-                                     0)
-                               (progn$ (?f (dynamic-get files)) do
-                                       (bind ?count
-                                             (+ ?count 
-                                                (do-for-instance ((?ap audio-properties))
-                                                                 (eq ?ap:parent
-                                                                     ?f)
-                                                                 ?ap:length))))
-                               (dynamic-put length
-                                            ?count)))
+(deffacts cgen-album
+          (cgen put genre into album)
+          (cgen put artist into album))
+(defclass album
+  (is-a generic-correlation)
+  (multislot artists
+             (storage local)
+             (visibility public))
+  (multislot genres 
+             (storage local)
+             (visibility public))
+  (slot length
+        (type INTEGER)
+        (storage local)
+        (visibility public)
+        (default-dynamic -1))
+  (message-handler get-minutes primary)
+  (message-handler get-seconds primary)
+  (message-handler get-artist-names primary)
+  (message-handler get-song-names primary)
+  (message-handler init after))
+(defmessage-handler album get-minutes primary
+                    ()
+                    (div (dynamic-get length) 60))
+(defmessage-handler album get-minutes primary
+                    ()
+                    (div (dynamic-get length) 60))
+(defmessage-handler album init after
+                    ()
+                    (if (= -1 (dynamic-get length)) then
+                      (bind ?count
+                            0)
+                      (progn$ (?f (dynamic-get files)) do
+                              (bind ?count
+                                    (+ ?count 
+                                       (do-for-instance ((?ap audio-properties))
+                                                        (eq ?ap:parent
+                                                            ?f)
+                                                        ?ap:length))))
+                      (dynamic-put length
+                                   ?count)))
 
-         (defmessage-handler album get-song-names primary
-                             ()
-                             (bind ?output
-                                   (create$))
-                             (progn$ (?a (dynamic-get files))
-                                     (bind ?output
-                                           ?output 
-                                           (do-for-instance ((?b basic-tag-data)) 
-                                                            (eq ?b:parent
-                                                                ?a)
-                                                            ?b:title)))
-                             ?output)
-         (defmessage-handler album get-artist-names primary
-                             ()
-                             (bind ?output
-                                   (create$))
-                             (progn$ (?a (dynamic-get artists))
-                                     (bind ?output
-                                           ?output
-                                           (send ?a 
-                                                 get-title)))
-                             ?output)
-
-
-         (defclass album-artist
-           (is-a generic-correlation))
-         (deffacts cgen-artist
-                   (cgen put genre into artist)
-                   (cgen put album into artist))
-         (defclass artist
-           (is-a generic-correlation)
-           (multislot albums
-                      (storage local)
-                      (visibility public))
-           (multislot genres
-                      (storage local)
-                      (visibility public))
-           (message-handler get-song-names primary)
-           (message-handler get-album-names primary))
-         (defmessage-handler artist get-song-names primary
-                             ()
-                             ; to prevent DRY violations use the album's get-song-names message handler
-                             (bind ?output
-                                   (create$))
-                             (progn$ (?album (dynamic-get albums))
-                                     (bind ?output
-                                           ?output
-                                           (send ?album
-                                                 get-song-names)))
-                             ?output)
-         (defmessage-handler artist get-album-names primary
-                             ()
-                             (bind ?output
-                                   (create$))
-                             (progn$ (?album (dynamic-get albums))
-                                     (bind ?output
-                                           ?output
-                                           (send ?album 
-                                                 get-title)))
-                             ?output)
-         (deffacts cgen-genre
-                   (cgen put album into genre)
-                   (cgen put artist into genre))
-         (defclass genre
-           (is-a generic-correlation)
-           (multislot albums 
-                      (storage local)
-                      (visibility public))
-           (multislot artists
-                      (storage local)
-                      (visibility public)))
+(defmessage-handler album get-song-names primary
+                    ()
+                    (bind ?output
+                          (create$))
+                    (progn$ (?a (dynamic-get files))
+                            (bind ?output
+                                  ?output 
+                                  (do-for-instance ((?b basic-tag-data)) 
+                                                   (eq ?b:parent
+                                                       ?a)
+                                                   ?b:title)))
+                    ?output)
+(defmessage-handler album get-artist-names primary
+                    ()
+                    (bind ?output
+                          (create$))
+                    (progn$ (?a (dynamic-get artists))
+                            (bind ?output
+                                  ?output
+                                  (send ?a 
+                                        get-title)))
+                    ?output)
 
 
-         ; testing routines
-         (deffunction assert-file-facts
-                      (?path)
-                      (progn$ (?p (get-recursive-directory-contents ?path))
-                              (assert (file-check ?p))))
-         ; testing rules
-         (defrule make-file-object
-                  (stage (current generate))
-                  ?f <- (file-check ?path)
-                  =>
-                  (retract ?f)
-                  (make-instance of file
-                                 (path ?path)))
-
-         (defrule make-basic-tag-data-fact
-                  (stage (current generate))
-                  (object (is-a file)
-                          (path ?path)
-                          (name ?parent))
-                  (not (basic-tag-info ?path
-                                       $?))
-                  (not (object (is-a basic-tag-data)
-                               (parent ?parent)))
-                  (test (basic-tag-infop ?path))
-                  =>
-                  (assert (basic-tag-info ?path (get-basic-tag-info ?path))))
-         (defrule make-tag-property-fact
-                  (stage (current generate))
-                  (object (is-a file)
-                          (path ?path)
-                          (name ?parent))
-                  (test (tag-propertiesp ?path))
-                  =>
-                  (assert (tag-properties ?parent 
-                                          (get-tag-properties ?path))))
-         (defrule construct-single-tag-property
-                  (stage (current generate))
-                  ?f <- (tag-properties ?parent
-                                        ?key ?value $?rest)
-                  =>
-                  (make-instance of tag-property
-                                 (parent ?parent)
-                                 (key ?key)
-                                 (value ?value))
-                  (retract ?f)
-                  (assert (tag-properties ?parent $?rest)))
-         (defrule done-with-tag-properties
-                  (stage (current generate))
-                  ?f <- (tag-properties ?)
-                  =>
-                  (retract ?f))
+(defclass album-artist
+  (is-a generic-correlation))
+(deffacts cgen-artist
+          (cgen put genre into artist)
+          (cgen put album into artist))
+(defclass artist
+  (is-a generic-correlation)
+  (multislot albums
+             (storage local)
+             (visibility public))
+  (multislot genres
+             (storage local)
+             (visibility public))
+  (message-handler get-song-names primary)
+  (message-handler get-album-names primary))
+(defmessage-handler artist get-song-names primary
+                    ()
+                    ; to prevent DRY violations use the album's get-song-names message handler
+                    (bind ?output
+                          (create$))
+                    (progn$ (?album (dynamic-get albums))
+                            (bind ?output
+                                  ?output
+                                  (send ?album
+                                        get-song-names)))
+                    ?output)
+(defmessage-handler artist get-album-names primary
+                    ()
+                    (bind ?output
+                          (create$))
+                    (progn$ (?album (dynamic-get albums))
+                            (bind ?output
+                                  ?output
+                                  (send ?album 
+                                        get-title)))
+                    ?output)
+(deffacts cgen-genre
+          (cgen put album into genre)
+          (cgen put artist into genre))
+(defclass genre
+  (is-a generic-correlation)
+  (multislot albums 
+             (storage local)
+             (visibility public))
+  (multislot artists
+             (storage local)
+             (visibility public)))
 
 
-         (defrule construct-basic-tag-data
-                  (stage (current generate))
-                  ?f <- (basic-tag-info ?path
-                                        ?title
-                                        ?artist
-                                        ?album
-                                        ?year
-                                        ?track
-                                        ?genre)
-                  (object (is-a file)
-                          (path ?path)
-                          (name ?parent))
-                  (not (object (is-a basic-tag-data)
-                               (parent ?parent)))
-                  =>
-                  (retract ?f)
-                  (make-instance of basic-tag-data
-                                 (parent ?parent)
-                                 (title ?title)
-                                 (artist ?artist)
-                                 (album ?album)
-                                 (year ?year)
-                                 (track ?track)
-                                 (genre ?genre)))
-         (defrule make-audio-property-data-fact
-                  (stage (current generate))
-                  (object (is-a file)
-                          (path ?path)
-                          (name ?parent))
-                  (test (audio-propertiesp ?path))
-                  (not (audio-propery-data ?parent $?))
-                  (not (object (is-a audio-properties)
-                               (parent ?parent)))
-                  =>
-                  (assert (audio-property-data ?parent
-                                               (get-audio-properties ?path))))
-         (defrule construct-audio-properties
-                  (stage (current generate))
-                  ?f <- (audio-property-data ?parent
-                                             ?bitrate
-                                             ?sampleRate
-                                             ?channels
-                                             ?length)
-                  =>
-                  (retract ?f)
-                  (make-instance of audio-properties
-                                 (parent ?parent)
-                                 (bitrate ?bitrate)
-                                 (sample-rate ?sampleRate)
-                                 (channels ?channels)
-                                 (length ?length)))
-         (defrule eliminate-illegal-files
-                  (declare (salience -1))
-                  (stage (current generate))
-                  ?o <- (object (is-a file)
-                                (name ?name))
-                  (not (object (is-a basic-tag-data)
-                               (parent ?name)))
-                  (not (object (is-a tag-property)
-                               (parent ?name)))
-                  (not (object (is-a audio-properties)
-                               (parent ?name)))
-                  =>
-                  (unmake-instance ?o))
+; testing routines
+(deffunction assert-file-facts
+             (?path)
+             (progn$ (?p (get-recursive-directory-contents ?path))
+                     (assert (file-check ?p))))
+; testing rules
+(defrule make-file-object
+         (stage (current generate))
+         ?f <- (file-check ?path)
+         =>
+         (retract ?f)
+         (make-instance of file
+                        (path ?path)))
+
+(defrule make-basic-tag-data-fact
+         (stage (current generate))
+         (object (is-a file)
+                 (path ?path)
+                 (name ?parent))
+         (not (basic-tag-info ?path
+                              $?))
+         (not (object (is-a basic-tag-data)
+                      (parent ?parent)))
+         (test (basic-tag-infop ?path))
+         =>
+         (assert (basic-tag-info ?path (get-basic-tag-info ?path))))
+(defrule make-tag-property-fact
+         (stage (current generate))
+         (object (is-a file)
+                 (path ?path)
+                 (name ?parent))
+         (test (tag-propertiesp ?path))
+         =>
+         (assert (tag-properties ?parent 
+                                 (get-tag-properties ?path))))
+(defrule construct-single-tag-property
+         (stage (current generate))
+         ?f <- (tag-properties ?parent
+                               ?key ?value $?rest)
+         =>
+         (make-instance of tag-property
+                        (parent ?parent)
+                        (key ?key)
+                        (value ?value))
+         (retract ?f)
+         (assert (tag-properties ?parent $?rest)))
+(defrule done-with-tag-properties
+         (stage (current generate))
+         ?f <- (tag-properties ?)
+         =>
+         (retract ?f))
 
 
-         (defrule construct-property-correlation
-                  (stage (current generate))
-                  (object (is-a tag-property)
-                          (key ?key)
-                          (value ?value)
-                          (parent ?parent))
-                  (not (object (is-a property-correlation)
-                               (key ?key)
-                               (value ?value)))
-                  =>
-                  (assert (associated ?parent with 
-                                      (make-instance of property-correlation 
-                                                     (associated-files ?parent)
-                                                     (key ?key)
-                                                     (value ?value)))))
-         (defrule update-property-correlation
-                  (stage (current generate))
-                  (object (is-a tag-property)
-                          (key ?key)
-                          (value ?value)
-                          (parent ?parent))
-                  ?obj <- (object (is-a property-correlation)
-                                  (key ?key)
-                                  (value ?value)
-                                  (associated-files $?files)
-                                  (name ?pc))
-                  (not (associated ?parent with ?pc))
-                  =>
-                  (assert (associated ?parent with ?pc))
-                  (modify-instance ?obj
-                                   (associated-files $?files 
-                                                     ?parent)))
+(defrule construct-basic-tag-data
+         (stage (current generate))
+         ?f <- (basic-tag-info ?path
+                               ?title
+                               ?artist
+                               ?album
+                               ?year
+                               ?track
+                               ?genre)
+         (object (is-a file)
+                 (path ?path)
+                 (name ?parent))
+         (not (object (is-a basic-tag-data)
+                      (parent ?parent)))
+         =>
+         (retract ?f)
+         (make-instance of basic-tag-data
+                        (parent ?parent)
+                        (title ?title)
+                        (artist ?artist)
+                        (album ?album)
+                        (year ?year)
+                        (track ?track)
+                        (genre ?genre)))
+(defrule make-audio-property-data-fact
+         (stage (current generate))
+         (object (is-a file)
+                 (path ?path)
+                 (name ?parent))
+         (test (audio-propertiesp ?path))
+         (not (audio-propery-data ?parent $?))
+         (not (object (is-a audio-properties)
+                      (parent ?parent)))
+         =>
+         (assert (audio-property-data ?parent
+                                      (get-audio-properties ?path))))
+(defrule construct-audio-properties
+         (stage (current generate))
+         ?f <- (audio-property-data ?parent
+                                    ?bitrate
+                                    ?sampleRate
+                                    ?channels
+                                    ?length)
+         =>
+         (retract ?f)
+         (make-instance of audio-properties
+                        (parent ?parent)
+                        (bitrate ?bitrate)
+                        (sample-rate ?sampleRate)
+                        (channels ?channels)
+                        (length ?length)))
+(defrule eliminate-illegal-files
+         (declare (salience -1))
+         (stage (current generate))
+         ?o <- (object (is-a file)
+                       (name ?name))
+         (not (object (is-a basic-tag-data)
+                      (parent ?name)))
+         (not (object (is-a tag-property)
+                      (parent ?name)))
+         (not (object (is-a audio-properties)
+                      (parent ?name)))
+         =>
+         (unmake-instance ?o))
 
 
-         (defrule translate-property-correlation
-                  "take a property-correlation and construct another object of it."
-                  (stage (current correlate))
-                  (make-object ?output-type from property-correlation ?key)
-                  (object (is-a property-correlation)
-                          (key ?key)
-                          (value ?title)
-                          (associated-files $?files)
-                          (name ?pc))
-                  =>
-                  (assert (translated property-correlation ?pc to 
-                                      (make-instance of ?output-type
-                                                     (title ?title)
-                                                     (files $?files)))))
-         ; neat data correlations we can perform now
-         (defrule album-by-a-single-artist
-                  (stage (current associate))
-                  (object (is-a album)
-                          (title ?title)
-                          (files $?files)
-                          (name ?album))
-                  (object (is-a artist)
-                          (title ?artist)
-                          (files $?artist-files)
-                          (name ?artist-name))
-                  (test (subsetp $?files
-                                 $?artist-files))
-                  =>
-                  ;(printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf)
-                  (assert (album ?album has single author ?artist-name)))
-         (defrule mark-artist-for-given-song
-                  (stage (current associate))
-                  (object (is-a album)
-                          (title ?title)
-                          (files $? ?file $?)
-                          (name ?album))
-                  (object (is-a artist)
-                          (title ?artist)
-                          (files $? ?file $?)
-                          (name ?artist-name))
-                  =>
-                  (assert (album ?album features artist ?artist-name)))
-         (defrule album-is-compilation-album
-                  (stage (current associate))
-                  (album ?album features artist ?artist-name)
-                  (object (is-a album)
-                          (name ?album)
-                          (title ?title)
-                          (files $?files))
-                  (object (is-a artist)
-                          (name ?artist-name)
-                          (title ?artist)
-                          (files $?artist-files))
-                  (test (not (subsetp $?files
-                                      $?artist-files)))
-                  ; since that check failed it means that there are files in the album which this artist did not make
-                  =>
-                  (assert (album ?album is compilation album)))
-
-         (defrule identify-songs-not-part-of-an-album
-                  (stage (current associate))
-                  (object (is-a file)
-                          (name ?file))
-                  (not (object (is-a album)
-                               (files $? ?file $?)))
-                  (object (is-a basic-tag-data)
-                          (parent ?file)
-                          (title ?title))
-                  =>
-                  (assert (song ?file has no album)))
-
-         (defrule identify-songs-with-only-audio-data
-                  (stage (current associate))
-                  (object (is-a file)
-                          (name ?file))
-                  (not (object (is-a tag-property)
-                               (parent ?file)))
-                  (not (object (is-a basic-tag-data)
-                               (parent ?file)))
-                  (object (is-a audio-properties)
-                          (parent ?file))
-                  =>
-                  (assert (file ?file is untagged)))
+(defrule construct-property-correlation
+         (stage (current generate))
+         (object (is-a tag-property)
+                 (key ?key)
+                 (value ?value)
+                 (parent ?parent))
+         (not (object (is-a property-correlation)
+                      (key ?key)
+                      (value ?value)))
+         =>
+         (assert (associated ?parent with 
+                             (make-instance of property-correlation 
+                                            (associated-files ?parent)
+                                            (key ?key)
+                                            (value ?value)))))
+(defrule update-property-correlation
+         (stage (current generate))
+         (object (is-a tag-property)
+                 (key ?key)
+                 (value ?value)
+                 (parent ?parent))
+         ?obj <- (object (is-a property-correlation)
+                         (key ?key)
+                         (value ?value)
+                         (associated-files $?files)
+                         (name ?pc))
+         (not (associated ?parent with ?pc))
+         =>
+         (assert (associated ?parent with ?pc))
+         (modify-instance ?obj
+                          (associated-files $?files 
+                                            ?parent)))
 
 
-         (deffunction generic-list-all
-                      (?router ?title ?kind)
-                      (printout ?router
-                                ?title crlf)
-                      (do-for-all-instances ((?a ?kind))
-                                            TRUE
-                                            (printout ?router
-                                                      tab "- \"" ?a:title "\"" crlf)))
+(defrule translate-property-correlation
+         "take a property-correlation and construct another object of it."
+         (stage (current correlate))
+         (make-object ?output-type from property-correlation ?key)
+         (object (is-a property-correlation)
+                 (key ?key)
+                 (value ?title)
+                 (associated-files $?files)
+                 (name ?pc))
+         =>
+         (assert (translated property-correlation ?pc to 
+                             (make-instance of ?output-type
+                                            (title ?title)
+                                            (files $?files)))))
+; neat data correlations we can perform now
+(defrule album-by-a-single-artist
+         (stage (current associate))
+         (object (is-a album)
+                 (title ?title)
+                 (files $?files)
+                 (name ?album))
+         (object (is-a artist)
+                 (title ?artist)
+                 (files $?artist-files)
+                 (name ?artist-name))
+         (test (subsetp $?files
+                        $?artist-files))
+         =>
+         ;(printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf)
+         (assert (album ?album has single author ?artist-name)))
+(defrule mark-artist-for-given-song
+         (stage (current associate))
+         (object (is-a album)
+                 (title ?title)
+                 (files $? ?file $?)
+                 (name ?album))
+         (object (is-a artist)
+                 (title ?artist)
+                 (files $? ?file $?)
+                 (name ?artist-name))
+         =>
+         (assert (album ?album features artist ?artist-name)))
+(defrule album-is-compilation-album
+         (stage (current associate))
+         (album ?album features artist ?artist-name)
+         (object (is-a album)
+                 (name ?album)
+                 (title ?title)
+                 (files $?files))
+         (object (is-a artist)
+                 (name ?artist-name)
+                 (title ?artist)
+                 (files $?artist-files))
+         (test (not (subsetp $?files
+                             $?artist-files)))
+         ; since that check failed it means that there are files in the album which this artist did not make
+         =>
+         (assert (album ?album is compilation album)))
+
+(defrule identify-songs-not-part-of-an-album
+         (stage (current associate))
+         (object (is-a file)
+                 (name ?file))
+         (not (object (is-a album)
+                      (files $? ?file $?)))
+         (object (is-a basic-tag-data)
+                 (parent ?file)
+                 (title ?title))
+         =>
+         (assert (song ?file has no album)))
+
+(defrule identify-songs-with-only-audio-data
+         (stage (current associate))
+         (object (is-a file)
+                 (name ?file))
+         (not (object (is-a tag-property)
+                      (parent ?file)))
+         (not (object (is-a basic-tag-data)
+                      (parent ?file)))
+         (object (is-a audio-properties)
+                 (parent ?file))
+         =>
+         (assert (file ?file is untagged)))
 
 
-         (deffunction list-all-songs
-                      (?router)
-                      (generic-list-all ?router
-                                        "List of Songs: "
-                                        basic-tag-data))
+(deffunction generic-list-all
+             (?router ?title ?kind)
+             (printout ?router
+                       ?title crlf)
+             (do-for-all-instances ((?a ?kind))
+                                   TRUE
+                                   (printout ?router
+                                             tab "- \"" ?a:title "\"" crlf)))
 
 
-         (deffunction process-media
-                      (?path)
-                      (reset)
-                      (assert-file-facts ?path)
-                      (run))
+(deffunction list-all-songs
+             (?router)
+             (generic-list-all ?router
+                               "List of Songs: "
+                               basic-tag-data))
+
+
+(deffunction process-media
+             (?path)
+             (reset)
+             (assert-file-facts ?path)
+             (run))
