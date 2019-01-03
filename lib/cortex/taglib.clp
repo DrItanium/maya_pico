@@ -290,3 +290,27 @@
          (modify-instance ?obj
                           (associated-files $?files 
                                             ?parent)))
+
+(defclass album
+  (is-a USER)
+  (slot title
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot files
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
+(defrule make-album-object
+         "take a property-correlation and construct a final album out of it."
+         (declare (salience -1))
+         ?f <- (object (is-a property-correlation)
+                       (key "ALBUM")
+                       (value ?title)
+                       (associated-files $?files))
+         =>
+         (unmake-instance ?f)
+         (make-instance of album
+          (title ?title)
+          (files $?files)))
