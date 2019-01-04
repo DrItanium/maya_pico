@@ -37,6 +37,11 @@
                                           codegen))))
              ?str)
 
+(defmessage-handler USER build primary 
+                    "anything that is not buildable should still respond to the build message"
+                    () 
+                    ; does nothing
+                    )
 (defmessage-handler LEXEME codegen primary () ?self)
 (defmessage-handler NUMBER codegen primary () ?self)
 (defclass buildable
@@ -131,15 +136,13 @@
 
 
 (defclass argument
-  (is-a buildable
-        has-title)
+  (is-a has-title)
   (slot title-prefix
         (type LEXEME)
         (storage shared)
         (visibility public)
         (access read-only)
         (default ERROR-NOT-OVERWRITTEN-IN-CHILD))
-  (message-handler build primary)
   (message-handler codegen primary))
 
 (defmessage-handler argument codegen primary
@@ -148,9 +151,6 @@
                             "%s%s"
                             (dynamic-get title-prefix)
                             (dynamic-get title)))
-(defmessage-handler argument build primary
-                    ())
-
 
 (defclass singlefield-argument
   (is-a argument)
@@ -281,9 +281,7 @@
                                 (space-concat (dynamic-get body))))
 
 (defclass conditional-element
-          (is-a USER)
-          (message-handler build primary))
-(defmessage-handler conditional-element build primary ())
+          (is-a USER))
 (defclass non-pattern-ce
           (is-a conditional-element)
           (slot action-kind
@@ -444,6 +442,27 @@
                     (paren-wrap (dynamic-get deftemplate-name)
                                 " "
                                 (space-concat (dynamic-get lhs-slots))))
+
+(defclass basic-attribute-constraint
+          (is-a USER)
+          (slot slot-name
+                (type SYMBOL)
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (message-handler codegen primary))
+(defclass object-pattern-ce 
+  (is-a assignable-pattern-conditional-element)
+  (multislot attribute-constraints 
+             (allowed-classes attribute-constraint)
+             (storage local)
+             (visibility public))
+  (message-handler codegen primary))
+
+(defmessage-handler template-pattern-ce codegen primary 
+                    ()
+                    (paren-wrap "object "
+                                (space-concat (dynamic-get attribute-constraints))))
                
 ; TODO implement object-pattern-CE
                 
