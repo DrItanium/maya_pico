@@ -44,13 +44,27 @@
                (str-cat ?target s))
          (bind ?title
                (str-cat list-all- ?plural))
-         (build (str-cat "(defgeneric " ?title ")"))
-         (build (str-cat "(defmethod " ?title
-                         "((?router SYMBOL)) (generic-list-all ?router \"List of " 
-                         ?plural
-                         ": \" "
-                         ?target "))"))
-         (build (str-cat "(defmethod " ?title " () (" ?title " t))")))
+         (bind ?objects
+               (make-instance of defgeneric
+                              (title ?title))
+               (make-instance of defmethod
+                              (title ?title)
+                              (arguments (bind ?arg0
+                                               (make-instance of defmethod-singlefield-argument 
+                                                              (title router)
+                                                              (conditional-elements SYMBOL))))
+                              (body (str-cat "(generic-list-all ?router "
+                                             "\"List of " ?plural ": \"" 
+                                             ?target
+                                             ")")))
+               (make-instance of defmethod
+                              (title ?title)
+                              (arguments)
+                              (body (str-cat "(" ?title " t)")))
+               ?arg0)
+         (progn$ (?object ?objects)
+                 (send ?object build)
+                 (unmake-instance ?object)))
 (defrule cgen:generate-put-into-rule
          (stage (current cgen))
          ?f <- (cgen put ?s0 into ?s1)

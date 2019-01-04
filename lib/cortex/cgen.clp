@@ -28,7 +28,7 @@
 (deffunction space-concat
              ($?elements)
              (bind ?str
-              "")
+                   "")
              (progn$ (?element ?elements)
                      (bind ?str
                            (str-cat ?str
@@ -39,6 +39,14 @@
 
 (defmessage-handler LEXEME codegen primary () ?self)
 (defmessage-handler NUMBER codegen primary () ?self)
+(defclass buildable
+  (is-a USER)
+  (message-handler build primary)
+  (message-handler codegen primary))
+(defmessage-handler buildable build primary
+                    ()
+                    (build (send ?self
+                                 codegen)))
 (defclass has-title
   (is-a USER)
   (slot title
@@ -47,16 +55,17 @@
         (storage local)
         (default ?NONE)))
 (defclass has-module-declaration
-          (is-a USER)
-          (slot module-declaration
-                (type SYMBOL)
-                (visibility public)
-                (storage local)
-                (allowed-symbols FALSE)
-                (default-dynamic FALSE)))
+  (is-a USER)
+  (slot module-declaration
+        (type SYMBOL)
+        (visibility public)
+        (storage local)
+        (allowed-symbols FALSE)
+        (default-dynamic FALSE)))
 (defclass simple-declaration
   (is-a has-title
-        has-module-declaration)
+        has-module-declaration
+        buildable)
   (slot decl-title
         (type SYMBOL)
         (storage shared)
@@ -69,17 +78,18 @@
         (visibility public)
         (access read-only)
         (default "::"))
-  (message-handler codegen primary)
-(defmessage-handler declaration codegen primary
+  (message-handler codegen primary))
+
+(defmessage-handler simple-declaration codegen primary
                     ()
                     (str-cat (dynamic-get decl-title) 
                              " "
                              (if (bind ?m
                                        (dynamic-get module-declaration)) then
-                                 (str-cat ?m 
-                                          (dynamic-get module-separator))
-                                 else
-                                 "")
+                               (str-cat ?m 
+                                        (dynamic-get module-separator))
+                               else
+                               "")
                              (dynamic-get title)))
 (defclass has-doc-string
   (is-a USER)
@@ -128,6 +138,7 @@
         (visibility public)
         (access read-only)
         (default ERROR-NOT-OVERWRITTEN-IN-CHILD))
+  (message-handler build primary)
   (message-handler codegen primary))
 
 (defmessage-handler argument codegen primary
@@ -136,17 +147,20 @@
                             "%s%s"
                             (dynamic-get title-prefix)
                             (dynamic-get title)))
+(defmessage-handler argument build primary
+                    ())
+
 
 (defclass singlefield-argument
-          (is-a argument)
-          (slot title-prefix
-                (source composite)
-                (default "?")))
+  (is-a argument)
+  (slot title-prefix
+        (source composite)
+        (default "?")))
 (defclass multifield-argument
-          (is-a argument)
-          (slot title-prefix
-                (source composite)
-                (default "$?")))
+  (is-a argument)
+  (slot title-prefix
+        (source composite)
+        (default "$?")))
 
 (defclass defmethod-argument
   (is-a argument))
@@ -171,7 +185,7 @@
                       else
                       ?output))
 (defclass deffunction-argument
- (is-a argument))
+  (is-a argument))
 (defclass deffunction-singlefield-argument
   (is-a deffunction-argument
         singlefield-argument))
@@ -199,10 +213,10 @@
              (storage local)))
 
 (defclass subroutine
-          (is-a declaration
-                has-arguments
-                has-body)
-          (message-handler codegen primary))
+  (is-a declaration
+        has-arguments
+        has-body)
+  (message-handler codegen primary))
 
 (defmessage-handler subroutine codegen primary
                     ()
@@ -211,7 +225,7 @@
                                 (paren-wrap (space-concat (dynamic-get arguments)))
                                 " "
                                 (space-concat (dynamic-get body))))
-        
+
 (defclass defmethod
   (is-a subroutine)
   (slot decl-title
@@ -231,12 +245,12 @@
              (source composite)
              (allowed-classes deffunction-argument)))
 (defclass defglobal-entry
-          (is-a has-title)
-          (slot value
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a has-title)
+  (slot value
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
 
 (defmessage-handler defglobal-entry codegen primary
                     ()
@@ -247,18 +261,18 @@
                                   codegen)))
 
 (defclass defglobal
-         (is-a simple-declaration
-               has-body)
-         (slot decl-title
-               (source composite)
-               (default defglobal))
-         (slot module-separator
-               (source composite)
-               (default " "))
-         (multislot body
-                    (source composite)
-                    (allowed-classes defglobal-entry))
-         (message-handler codegen primary))
+  (is-a simple-declaration
+        has-body)
+  (slot decl-title
+        (source composite)
+        (default defglobal))
+  (slot module-separator
+        (source composite)
+        (default " "))
+  (multislot body
+             (source composite)
+             (allowed-classes defglobal-entry))
+  (message-handler codegen primary))
 (defmessage-handler defglobal codegen primary
                     ()
                     (paren-wrap (call-next-handler)
