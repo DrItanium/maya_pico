@@ -39,6 +39,13 @@ extern "C" {
 
 
 #if BOOST_EXTENSIONS
+using Path = boost::filesystem::path;
+using DirectoryIterator = boost::filesystem::directory_iterator;
+using FilesystemError = boost::filesystem::filesystem_error;
+using boost::filesystem::is_regular_file;
+using boost::filesystem::is_directory;
+using boost::starts_with;
+using boost::ends_with;
 void HasPrefix(Environment*, UDFContext*, UDFValue*);
 void HasSuffix(Environment*, UDFContext*, UDFValue*);
 void TrimString(Environment*, UDFContext*, UDFValue*);
@@ -52,42 +59,55 @@ void IsDirectory(Environment*, UDFContext*, UDFValue*);
 void IsRegularFile(Environment*, UDFContext*, UDFValue*);
 void ClampValue(Environment*, UDFContext*, UDFValue*);
 void GetDirectoryContents(Environment*, UDFContext*, UDFValue*);
+void GetFileExtension(Environment*, UDFContext*, UDFValue*);
 #endif
 
 extern "C" void InstallBoostExtensions(Environment* theEnv) {
 #if BOOST_EXTENSIONS
-	AddUDF(theEnv, "has-prefix", "b", 2, 2, "sy;sy;sy", HasPrefix, "HasPrefix",  NULL);
-	AddUDF(theEnv, "has-suffix", "b", 2, 2, "sy;sy;sy", HasSuffix, "HasSuffix",  NULL);
-	AddUDF(theEnv, "string-trim", "y", 1, 1, "s", TrimString, "TrimString", NULL);
-	AddUDF(theEnv, "string-trim-front", "y", 1, 1, "s", TrimStringFront, "TrimStringFront", NULL);
-	AddUDF(theEnv, "string-trim-back", "y",  1, 1, "s", TrimStringBack, "TrimStringBack", NULL);
-	AddUDF(theEnv, "new-uuid", "s", 0, 0, "", NewUUID, "NewUUID", NULL);
-	AddUDF(theEnv, "gcd", "l",  2, 2, "l;l;l", gcdFunction, "gcdFunction", NULL);
-	AddUDF(theEnv, "lcm", "l",  2, 2, "l;l;l", lcmFunction, "lcmFunction", NULL);
-	AddUDF(theEnv, "path-exists",   "b", 1, 1, "sy", FileExists, "FileExists", NULL);
-	AddUDF(theEnv, "directoryp",    "b", 1, 1, "sy", IsDirectory, "IsDirectory", NULL);
-	AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, "IsRegularFile", NULL);
-	AddUDF(theEnv, "clamp", "l",  3, 3, "l;l;l;l", ClampValue, "ClampValue", NULL);
-	AddUDF(theEnv, "get-directory-contents", "m", 1, 1, "sy", GetDirectoryContents, "GetDirectoryContents", NULL);
+	AddUDF(theEnv, "has-prefix", "b", 2, 2, "sy;sy;sy", HasPrefix, "HasPrefix",  nullptr);
+	AddUDF(theEnv, "has-suffix", "b", 2, 2, "sy;sy;sy", HasSuffix, "HasSuffix",  nullptr);
+	AddUDF(theEnv, "string-trim", "y", 1, 1, "s", TrimString, "TrimString", nullptr);
+	AddUDF(theEnv, "string-trim-front", "y", 1, 1, "s", TrimStringFront, "TrimStringFront", nullptr);
+	AddUDF(theEnv, "string-trim-back", "y",  1, 1, "s", TrimStringBack, "TrimStringBack", nullptr);
+	AddUDF(theEnv, "new-uuid", "s", 0, 0, "", NewUUID, "NewUUID", nullptr);
+	AddUDF(theEnv, "gcd", "l",  2, 2, "l;l;l", gcdFunction, "gcdFunction", nullptr);
+	AddUDF(theEnv, "lcm", "l",  2, 2, "l;l;l", lcmFunction, "lcmFunction", nullptr);
+	AddUDF(theEnv, "path-exists",   "b", 1, 1, "sy", FileExists, "FileExists", nullptr);
+	AddUDF(theEnv, "directoryp",    "b", 1, 1, "sy", IsDirectory, "IsDirectory", nullptr);
+	AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, "IsRegularFile", nullptr);
+	AddUDF(theEnv, "clamp", "l",  3, 3, "l;l;l;l", ClampValue, "ClampValue", nullptr);
+	AddUDF(theEnv, "get-directory-contents", "m", 1, 1, "sy", GetDirectoryContents, "GetDirectoryContents", nullptr);
+	AddUDF(theEnv, "get-file-extension", "sy", 1, 1, "sy", GetFileExtension, "GetFileExtension", nullptr);
 #endif
 }
 
 
 #if BOOST_EXTENSIONS
+void GetFileExtension(Environment* env, UDFContext* context, UDFValue* ret) {
+	if (UDFValue path; !UDFFirstArgument(context, LEXEME_BITS, &path)) {
+		ret->lexemeValue = CreateString(env, "");
+	} else {
+		if (Path p(path.lexemeValue->contents); is_regular_file(p)) {
+			ret->lexemeValue = CreateString(env, p.has_extension() ? p.extension().string().c_str() : "");
+		} else {
+			ret->lexemeValue = CreateString(env, "");
+		}
+	}
+}
 void GetDirectoryContents(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (UDFValue path; !UDFFirstArgument(context, LEXEME_BITS, &path)) {
 		ret->multifieldValue = EmptyMultifield(env);
 	} else {
-		if (boost::filesystem::path p(path.lexemeValue->contents); boost::filesystem::is_directory(p)) {
+		if (Path p(path.lexemeValue->contents); is_directory(p)) {
 			auto mb = CreateMultifieldBuilder(env, 10);
 			try {
-				boost::filesystem::directory_iterator it(p);
+				DirectoryIterator it(p);
 				for (const auto& path : it) {
 					MBAppendString(mb, path.path().string().c_str());
 				}
 				ret->multifieldValue = MBCreate(mb);
 				MBDispose(mb);
-			} catch (boost::filesystem::filesystem_error&) {
+			} catch (FilesystemError &) {
 				// probably permission denied or something similar so just 
 				// emit empty
 				ret->multifieldValue = EmptyMultifield(env);
@@ -126,7 +146,7 @@ void IsDirectory(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		std::string p(path.lexemeValue->contents);
-		ret->lexemeValue = boost::filesystem::is_directory(p) ? TrueSymbol(env) : FalseSymbol(env);
+		ret->lexemeValue = is_directory(p) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
@@ -136,7 +156,7 @@ void IsRegularFile(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		std::string p(path.lexemeValue->contents);
-		ret->lexemeValue = boost::filesystem::is_regular_file(p) ? TrueSymbol(env) : FalseSymbol(env);
+		ret->lexemeValue = is_regular_file(p) ? TrueSymbol(env) : FalseSymbol(env);
 	}
 }
 
@@ -177,7 +197,7 @@ void HasPrefix(Environment* env, UDFContext* context, UDFValue* ret) {
 	}
 	std::string dataStr(data.lexemeValue->contents);
 	std::string prefixStr(prefix.lexemeValue->contents);
-	ret->lexemeValue = boost::starts_with(dataStr, prefixStr) ? TrueSymbol(env) : FalseSymbol(env);
+	ret->lexemeValue = starts_with(dataStr, prefixStr) ? TrueSymbol(env) : FalseSymbol(env);
 }
 
 void HasSuffix(Environment* env, UDFContext* context, UDFValue* ret) {
@@ -191,7 +211,7 @@ void HasSuffix(Environment* env, UDFContext* context, UDFValue* ret) {
 	}
 	std::string dataStr(data.lexemeValue->contents);
 	std::string suffixStr(suffix.lexemeValue->contents);
-	ret->lexemeValue = boost::ends_with(dataStr, suffixStr) ? TrueSymbol(env) : FalseSymbol(env);
+	ret->lexemeValue = ends_with(dataStr, suffixStr) ? TrueSymbol(env) : FalseSymbol(env);
 }
 void TrimString(Environment* env, UDFContext* context, UDFValue* ret) {
 	UDFValue str;

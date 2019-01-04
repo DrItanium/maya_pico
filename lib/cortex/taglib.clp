@@ -505,13 +505,10 @@
          (declare (salience -1))
          (stage (current generate))
          ?o <- (object (is-a file)
-                       (name ?name))
-         (not (object (is-a basic-tag-data)
-                      (parent ?name)))
-         (not (object (is-a tag-property)
-                      (parent ?name)))
-         (not (object (is-a audio-properties)
-                      (parent ?name)))
+                       (name ?name)
+                       (basic-data FALSE)
+                       (audio-props FALSE)
+                       (properties))
          =>
          (unmake-instance ?o))
 
