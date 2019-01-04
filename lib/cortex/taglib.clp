@@ -24,7 +24,8 @@
           (stage (current cgen)
                  (rest generate
                        correlate
-                       associate)))
+                       associate
+                       infer)))
 (deffacts high-level-prop-construction-facts
           (make-object album from property-correlation "ALBUM")
           (make-object album-artist from property-correlation "ALBUMARTIST")
@@ -379,6 +380,7 @@
 (deffacts cgen-genre
           (cgen put album into genre)
           (cgen put artist into genre))
+
 (defclass genre
   (is-a generic-correlation)
   (multislot albums 
@@ -390,10 +392,6 @@
 
 
 ; testing routines
-(deffunction assert-file-facts
-             (?path)
-             (progn$ (?p (get-recursive-directory-contents ?path))
-                     (assert (file-check ?p))))
 ; testing rules
 (defrule make-file-object
          (stage (current generate))
@@ -561,73 +559,44 @@
                              (make-instance of ?output-type
                                             (title ?title)
                                             (files $?files)))))
-; neat data correlations we can perform now
+; inference rules
 (defrule album-by-a-single-artist
-         (stage (current associate))
+         (stage (current infer))
          (object (is-a album)
                  (title ?title)
-                 (files $?files)
-                 (name ?album))
-         (object (is-a artist)
-                 (title ?artist)
-                 (files $?artist-files)
-                 (name ?artist-name))
-         (test (subsetp $?files
-                        $?artist-files))
+                 (name ?album)
+                 (artists ?artist))
          =>
-         ;(printout t "The album '" ?title "' has the single artist '" ?artist "'!" crlf)
-         (assert (album ?album has single author ?artist-name)))
-(defrule mark-artist-for-given-song
-         (stage (current associate))
-         (object (is-a album)
-                 (title ?title)
-                 (files $? ?file $?)
-                 (name ?album))
-         (object (is-a artist)
-                 (title ?artist)
-                 (files $? ?file $?)
-                 (name ?artist-name))
-         =>
-         (assert (album ?album features artist ?artist-name)))
+         (assert (album ?album has single artist)))
+
 (defrule album-is-compilation-album
-         (stage (current associate))
-         (album ?album features artist ?artist-name)
+         (stage (current infer))
          (object (is-a album)
                  (name ?album)
                  (title ?title)
-                 (files $?files))
-         (object (is-a artist)
-                 (name ?artist-name)
-                 (title ?artist)
-                 (files $?artist-files))
-         (test (not (subsetp $?files
-                             $?artist-files)))
-         ; since that check failed it means that there are files in the album which this artist did not make
+                 (files $?files)
+                 (artists $?artists))
+         (test (> (length$ ?artists) 1))
          =>
          (assert (album ?album is compilation album)))
 
 (defrule identify-songs-not-part-of-an-album
-         (stage (current associate))
+         (stage (current infer))
          (object (is-a file)
-                 (name ?file))
+                 (name ?file)
+                 (basic-data ~FALSE))
          (not (object (is-a album)
                       (files $? ?file $?)))
-         (object (is-a basic-tag-data)
-                 (parent ?file)
-                 (title ?title))
          =>
          (assert (song ?file has no album)))
 
 (defrule identify-songs-with-only-audio-data
-         (stage (current associate))
+         (stage (current infer))
          (object (is-a file)
-                 (name ?file))
-         (not (object (is-a tag-property)
-                      (parent ?file)))
-         (not (object (is-a basic-tag-data)
-                      (parent ?file)))
-         (object (is-a audio-properties)
-                 (parent ?file))
+                 (name ?file)
+                 (audio-props ~FALSE)
+                 (basic-data FALSE)
+                 (properties))
          =>
          (assert (file ?file is untagged)))
 
@@ -639,18 +608,72 @@
              (do-for-all-instances ((?a ?kind))
                                    TRUE
                                    (printout ?router
-                                             tab "- \"" ?a:title "\"" crlf)))
+                                             tab "- " ?a:title crlf)))
 
 
-(deffunction list-all-songs
+(defgeneric list-all-songs)
+(defmethod list-all-songs
+           ((?router SYMBOL))
+           (generic-list-all ?router
+                             "List of songs: "
+                             basic-tag-data))
+(defmethod list-all-songs
+           ()
+           (list-all-songs t))
+
+
+(deffunction list-all-tag-kinds
              (?router)
-             (generic-list-all ?router
-                               "List of Songs: "
-                               basic-tag-data))
+             (printout ?router
+                       "List of all acquired tag properties: " crlf)
+             (bind ?collection
+                   (create$))
+             (do-for-all-instances ((?a property-correlation))
+                                   (not (member$ ?a:key
+                                                 ?collection))
+                                   (bind ?collection
+                                         ?collection
+                                         ?a:key)
+                                   (printout ?router
+                                             tab "- " ?a:key crlf)))
+(deffunction list-property-correlation-data
+             (?router ?key)
+             (printout ?router
+                       "List of property correlation values with key " ?key crlf)
+             (bind ?lookup-key 
+                   (if (stringp ?key) then
+                    ?key
+                    else
+                    (str-cat ?key)))
+                        
+             (do-for-all-instances ((?a property-correlation))
+                                   (eq ?a:key
+                                       ?lookup-key)
+                                   (printout ?router
+                                             tab "- " ?a:value crlf)))
+(deffunction list-all-songs-by-artist
+             (?router ?artist)
+             (printout ?router
+                       "List of songs by artist " ?artist crlf)
+             (do-for-all-instances ((?a artist))
+                                   (eq ?a:title
+                                       ?artist)
+                                   (progn$ (?song (send ?a 
+                                                        get-song-names))
+                                           (printout ?router
+                                                     tab "- " ?song crlf))))
 
+            
 
-(deffunction process-media
+(deffunction assert-file-facts
              (?path)
+             (progn$ (?p (get-recursive-directory-contents ?path))
+                     (assert (file-check ?p))))
+(deffunction process-media
+             "Convinence method for constructing knowledge about a media library (or multiple)"
+             (?first $?rest)
              (reset)
-             (assert-file-facts ?path)
+             (assert-file-facts ?first)
+             (progn$ (?root ?rest)
+                     (assert-file-facts ?root))
              (run))
