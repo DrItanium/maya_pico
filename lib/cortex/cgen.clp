@@ -131,7 +131,8 @@
 
 
 (defclass argument
-  (is-a has-title)
+  (is-a buildable
+        has-title)
   (slot title-prefix
         (type LEXEME)
         (storage shared)
@@ -277,4 +278,140 @@
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
+                                (space-concat (dynamic-get body))))
+
+(defclass conditional-element
+          (is-a USER)
+          (message-handler build primary))
+(defmessage-handler conditional-element build primary ())
+(defclass non-pattern-ce
+          (is-a conditional-element)
+          (slot action-kind
+                (storage shared)
+                (visibility public)
+                (access read-only)
+                (default OVERRIDE))
+          (message-handler codegen primary))
+(defmessage-handler non-pattern-ce codegen primary 
+                    ()
+                    (dynamic-get action-kind))
+(defclass non-pattern-singlefield-ce
+          (is-a non-pattern-ce)
+          (slot conditional-element
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (message-handler codegen primary))
+(defmessage-handler non-pattern-singlefield-ce codegen primary
+                    ()
+                    (paren-wrap (call-next-handler)
+                                " "
+                                (send (dynamic-get conditional-element)
+                                      codegen)))
+
+(defclass not-ce 
+  (is-a non-pattern-singlefield-ce)
+  (slot action-kind
+        (source composite)
+        (default not)))
+(defclass test-ce 
+  (is-a non-pattern-singlefield-ce)
+  (slot action-kind
+        (source composite)
+        (default test)))
+(defclass non-pattern-multifield-ce
+ (is-a non-pattern-ce)
+ (multislot conditional-elements
+            (storage local)
+            (visibility public)
+            (default ?NONE))
+ (message-handler codegen primary))
+(defmessage-handler non-pattern-multifield-ce codegen primary
+                    ()
+                    (paren-wrap (call-next-handler)
+                                " "
+                                (space-concat (dynamic-get conditional-element))))
+(defclass and-ce 
+  (is-a non-pattern-multifield-ce)
+  (slot action-kind
+        (source composite)
+        (default and)))
+(defclass or-ce 
+  (is-a non-pattern-multifield-ce)
+  (slot action-kind
+        (source composite)
+        (default or)))
+(defclass logical-ce 
+  (is-a non-pattern-multifield-ce)
+  (slot action-kind
+        (source composite)
+        (default logical)))
+(defclass exists-ce 
+  (is-a non-pattern-multifield-ce)
+  (slot action-kind
+        (source composite)
+        (default exists)))
+(defclass forall-ce 
+  (is-a non-pattern-multifield-ce)
+  (slot action-kind
+        (source composite)
+        (default forall)))
+   
+          
+(defclass assignable-pattern-conditional-element
+          (is-a conditional-element)
+          (slot bind-name
+                (type SYMBOL)
+                (storage local)
+                (visibility public)
+                (default-dynamic FALSE))
+          (message-handler codegen around))
+(defmessage-handler assignable-pattern-conditional-element codegen around
+                    ()
+                    (bind ?ce
+                          (call-next-handler))
+                    (if (bind ?k
+                              (dynamic-get bind-name)) then
+                      (format nil
+                              "?%s <- %s"
+                              ?k ?ce)
+                      else
+                      ?ce))
+
+(defclass ordered-pattern-ce
+          (is-a assignable-pattern-conditional-element)
+          (slot symbol
+                (type SYMBOL)
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (multislot constraints
+                (storage local)
+                (visibility public))
+          (message-handler codegen primary))
+(defmessage-handler ordered-pattern-ce codegen primary 
+                    ()
+                    (paren-wrap (dynamic-get symbol)
+                                " "
+                                (space-concat (dynamic-get constraints))))
+; TODO implement template-pattern-CE and object-pattern-CE
+                
+(defclass defrule
+          (is-a declaration
+                has-body)
+          (multislot conditional-elements
+                     (allowed-classes conditional-element)
+                     (storage local)
+                     (visibility public))
+          (slot decl-title 
+                (source composite)
+                (default defrule))
+          (message-handler codegen primary))
+
+(defmessage-handler defrule codegen primary
+                    ()
+                    (paren-wrap (call-next-handler)
+                                " "
+                                (space-concat (dynamic-get conditional-elements))
+                                " => "
                                 (space-concat (dynamic-get body))))
