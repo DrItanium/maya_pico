@@ -23,59 +23,134 @@
 
 ; cgen.clp - helps streamline process of dynamic code generation
 (deffunction paren-wrap
-             (?str)
-             (str-cat "(" ?str ")"))
+             ($?str)
+             (str-cat "(" (expand$ ?str) ")"))
+(deffunction space-concat
+             ($?elements)
+             (bind ?str
+              "")
+             (progn$ (?element ?elements)
+                     (bind ?str
+                           (str-cat ?str
+                                    " "
+                                    (send ?element
+                                          codegen))))
+             ?str)
 
+(defmessage-handler LEXEME codegen primary () ?self)
+(defmessage-handler NUMBER codegen primary () ?self)
 (defclass has-title
-          (is-a USER)
-          (slot title
-                (type SYMBOL)
-                (visibility public)
-                (storage local)
-                (default ?NONE)))
+  (is-a USER)
+  (slot title
+        (type SYMBOL)
+        (visibility public)
+        (storage local)
+        (default ?NONE)))
 (defclass has-doc-string
-          (is-a USER)
-          (slot documentation
-                (type STRING
-                      SYMBOL)
-                (visibility public)
-                (storage local)
-                (allowed-symbols FALSE)
-                (default-dynamic FALSE)))
+  (is-a USER)
+  (slot documentation
+        (type STRING
+              SYMBOL)
+        (visibility public)
+        (storage local)
+        (allowed-symbols FALSE)
+        (default-dynamic FALSE)))
+(defclass declaration
+  (is-a has-title
+        has-doc-string)
+  (slot decl-title
+        (type SYMBOL)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default PLEASE-OVERRIDE-IN-CHILD-CLASS))
+  (message-handler codegen primary))
+(defmessage-handler declaration codegen primary
+                    ()
+                    (str-cat (dynamic-get decl-title) " "
+                             (dynamic-get title)
+                             " \""
+                             (if (bind ?k 
+                                       (dynamic-get documentation)) then
+                               ?k
+                               else
+                               "")
+                             "\""))
+
 (defclass defgeneric
-          (is-a has-title
-                has-doc-string))
+  (is-a declaration)
+  (message-handler codegen primary))
+(defmessage-handler defgeneric codegen primary
+                    ()
+                    (paren-wrap (call-next-handler)))
+
+
+
 (defclass defmethod-argument
-          (is-a has-title)
-          (slot title-prefix
-                (type LEXEME)
-                (storage shared)
-                (visibility public)
-                (access read-only)
-                (default ERROR-NOT-OVERWRITTEN-IN-CHILD)))
-                
+  (is-a has-title)
+  (slot title-prefix
+        (type LEXEME)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default ERROR-NOT-OVERWRITTEN-IN-CHILD))
+  (message-handler codegen primary))
+
+(defmessage-handler defmethod-argument codegen primary
+                    ()
+                    (format nil
+                            "%s%s"
+                            (dynamic-get title-prefix)
+                            (dynamic-get title)))
+
+
 (defclass defmethod-singlefield-argument
-          (is-a defmethod-argument)
-          (slot title-prefix
-                (source composite)
-                (default "?"))
-          (multislot conditional-elements
-                     (visibility public)
-                     (storage local)))
+  (is-a defmethod-argument)
+  (slot title-prefix
+        (source composite)
+        (default "?"))
+  (multislot conditional-elements
+             (visibility public)
+             (storage local))
+  (message-handler codegen around))
+(defmessage-handler defmethod-singlefield-argument codegen around
+                    ()
+                    (bind ?output 
+                          (call-next-handler))
+                    (if (not (empty$ (dynamic-get conditional-elements))) then
+                      ; now we must generate the conditional elements one after another
+                      (paren-wrap ?output 
+                                  (space-concat (dynamic-get conditional-elements)))
+                      else
+                      ?output))
+
+
+
 (defclass defmethod-multifield-argument
-          (is-a defmethod-argument)
-          (slot title-prefix
-                (source composite)
-                (default "$?")))
-          
+  (is-a defmethod-argument)
+  (slot title-prefix
+        (source composite)
+        (default "$?")))
+
 (defclass defmethod
-          (is-a has-title
-                has-doc-string)
-          (multislot arguments
-                     (type INSTANCE)
-                     (visibility public)
-                     (storage local))
-          (multislot body
-                     (visibility public)
-                     (storage local)))
+  (is-a declaration)
+  (multislot arguments
+             (type INSTANCE)
+             (visibility public)
+             (storage local))
+  (multislot body
+             (visibility public)
+             (storage local))
+  (message-handler codegen primary))
+
+(defmessage-handler defmethod codegen primary
+                    ()
+                    (paren-wrap (call-next-handler)
+                                " "
+                                (paren-wrap (space-concat (dynamic-get arguments)))
+                                " "
+                                (space-concat (dynamic-get body))))
+
+
+
 
