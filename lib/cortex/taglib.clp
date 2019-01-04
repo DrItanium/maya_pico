@@ -112,7 +112,19 @@
         (storage local)
         (visibility public)
         (default ?NONE))
-  (multislot children 
+  (slot basic-data
+        (type INSTANCE
+              SYMBOL)
+        (storage local)
+        (visibility public)
+        (allowed-symbols FALSE))
+  (slot audio-props 
+        (type INSTANCE
+              SYMBOL)
+        (storage local)
+        (visibility public)
+        (allowed-symbols FALSE))
+  (multislot properties
              (storage local)
              (visibility public)))
 
@@ -226,6 +238,7 @@
         (visibility public)
         (default ?NONE))
   (multislot associated-files))
+
 (defclass generic-correlation
   (is-a USER)
   (slot title
@@ -236,7 +249,32 @@
   (multislot files
              (storage local)
              (visibility public)
-             (default ?NONE)))
+             (default ?NONE))
+  (message-handler get-generic-properties primary)
+  (message-handler get-audio-props primary)
+  (message-handler get-file-basic-data primary))
+(defmessage-handler generic-correlation get-generic-properties primary
+                    (?msg)
+                    (bind ?output
+                          (create$))
+                    (progn$ (?f (dynamic-get files))
+                            (bind ?output
+                                  ?output
+                                  (send ?f
+                                        ?msg)))
+                    ?output)
+        
+(defmessage-handler generic-correlation get-file-basic-data primary
+                    ()
+                    (send ?self
+                          get-generic-properties
+                          get-basic-data))
+
+(defmessage-handler generic-correlation get-audio-props primary
+                    ()
+                    (send ?self
+                          get-generic-properties
+                          get-audio-props))
 
 (deffacts cgen-album
           (cgen put genre into album)
@@ -262,9 +300,9 @@
 (defmessage-handler album get-minutes primary
                     ()
                     (div (dynamic-get length) 60))
-(defmessage-handler album get-minutes primary
+(defmessage-handler album get-remainder-seconds primary
                     ()
-                    (div (dynamic-get length) 60))
+                    (mod (dynamic-get length) 60))
 (defmessage-handler album init after
                     ()
                     (if (= -1 (dynamic-get length)) then
@@ -273,10 +311,9 @@
                       (progn$ (?f (dynamic-get files)) do
                               (bind ?count
                                     (+ ?count 
-                                       (do-for-instance ((?ap audio-properties))
-                                                        (eq ?ap:parent
-                                                            ?f)
-                                                        ?ap:length))))
+                                       (send (send ?f 
+                                                   get-audio-props)
+                                             get-length))))
                       (dynamic-put length
                                    ?count)))
 
@@ -284,13 +321,12 @@
                     ()
                     (bind ?output
                           (create$))
-                    (progn$ (?a (dynamic-get files))
+                    (progn$ (?f (dynamic-get files))
                             (bind ?output
                                   ?output 
-                                  (do-for-instance ((?b basic-tag-data)) 
-                                                   (eq ?b:parent
-                                                       ?a)
-                                                   ?b:title)))
+                                  (send (send ?f 
+                                              get-basic-data)
+                                        get-title)))
                     ?output)
 (defmessage-handler album get-artist-names primary
                     ()
@@ -397,7 +433,7 @@
          (assert (tag-properties ?parent 
                                  $?rest))
          (slot-insert$ ?parent
-                       children
+                       properties
                        1
                        (make-instance of tag-property
                                       (parent ?parent)
@@ -438,17 +474,16 @@
                       (parent ?parent)))
          =>
          (retract ?f)
-         (slot-insert$ ?parent
-                       children
-                       1
-                       (make-instance of basic-tag-data
-                                      (parent ?parent)
-                                      (title ?title)
-                                      (artist ?artist)
-                                      (album ?album)
-                                      (year ?year)
-                                      (track ?track)
-                                      (genre ?genre))))
+         (send ?parent
+               put-basic-data
+               (make-instance of basic-tag-data
+                              (parent ?parent)
+                              (title ?title)
+                              (artist ?artist)
+                              (album ?album)
+                              (year ?year)
+                              (track ?track)
+                              (genre ?genre))))
 (defrule construct-audio-properties
          (stage (current generate))
          ?f <- (audio-property-data ?parent
@@ -458,15 +493,14 @@
                                     ?length)
          =>
          (retract ?f)
-         (slot-insert$ ?parent
-                       children
-                       1
-                       (make-instance of audio-properties
-                                      (parent ?parent)
-                                      (bitrate ?bitrate)
-                                      (sample-rate ?sampleRate)
-                                      (channels ?channels)
-                                      (length ?length))))
+         (send ?parent
+               put-audio-props
+               (make-instance of audio-properties
+                              (parent ?parent)
+                              (bitrate ?bitrate)
+                              (sample-rate ?sampleRate)
+                              (channels ?channels)
+                              (length ?length))))
 (defrule eliminate-illegal-files
          (declare (salience -1))
          (stage (current generate))
