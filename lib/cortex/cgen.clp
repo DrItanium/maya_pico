@@ -76,9 +76,12 @@
                                else
                                "")
                              "\""))
-
 (defclass defgeneric
   (is-a declaration)
+  (slot decl-title
+        (source composite)
+        (default defgeneric))
+
   (message-handler codegen primary))
 (defmessage-handler defgeneric codegen primary
                     ()
@@ -86,7 +89,7 @@
 
 
 
-(defclass defmethod-argument
+(defclass argument
   (is-a has-title)
   (slot title-prefix
         (type LEXEME)
@@ -96,19 +99,32 @@
         (default ERROR-NOT-OVERWRITTEN-IN-CHILD))
   (message-handler codegen primary))
 
-(defmessage-handler defmethod-argument codegen primary
+(defmessage-handler argument codegen primary
                     ()
                     (format nil
                             "%s%s"
                             (dynamic-get title-prefix)
                             (dynamic-get title)))
 
+(defclass singlefield-argument
+          (is-a argument)
+          (slot title-prefix
+                (source composite)
+                (default "?")))
+(defclass multifield-argument
+          (is-a argument)
+          (slot title-prefix
+                (source composite)
+                (default "$?")))
+
+(defclass defmethod-argument
+  (is-a argument))
+
+
 
 (defclass defmethod-singlefield-argument
-  (is-a defmethod-argument)
-  (slot title-prefix
-        (source composite)
-        (default "?"))
+  (is-a defmethod-argument
+        singlefield-argument)
   (multislot conditional-elements
              (visibility public)
              (storage local))
@@ -123,34 +139,64 @@
                                   (space-concat (dynamic-get conditional-elements)))
                       else
                       ?output))
+(defclass deffunction-argument
+ (is-a argument))
+(defclass deffunction-singlefield-argument
+  (is-a deffunction-argument
+        singlefield-argument))
+(defclass deffunction-multifield-argument
+  (is-a deffunction-argument
+        multifield-argument))
 
 
 
 (defclass defmethod-multifield-argument
-  (is-a defmethod-argument)
-  (slot title-prefix
-        (source composite)
-        (default "$?")))
+  (is-a defmethod-argument
+        multifield-argument))
 
-(defclass defmethod
-  (is-a declaration)
+(defclass has-arguments
+  (is-a USER)
   (multislot arguments
              (type INSTANCE)
              (visibility public)
-             (storage local))
+             (storage local)))
+
+(defclass has-body
+  (is-a USER)
   (multislot body
              (visibility public)
-             (storage local))
-  (message-handler codegen primary))
+             (storage local)))
 
-(defmessage-handler defmethod codegen primary
+(defclass subroutine
+          (is-a declaration
+                has-arguments
+                has-body)
+          (message-handler codegen primary))
+
+(defmessage-handler subroutine codegen primary
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
                                 (paren-wrap (space-concat (dynamic-get arguments)))
                                 " "
                                 (space-concat (dynamic-get body))))
+        
+(defclass defmethod
+  (is-a subroutine)
+  (slot decl-title
+        (source composite)
+        (default defmethod))
+  (multislot arguments
+             (source composite)
+             (allowed-classes defmethod-argument)))
 
 
-
+(defclass deffunction
+  (is-a subroutine)
+  (slot decl-title
+        (source composite)
+        (default deffunction))
+  (multislot arguments
+             (source composite)
+             (allowed-classes deffunction-argument)))
 
