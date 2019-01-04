@@ -46,6 +46,41 @@
         (visibility public)
         (storage local)
         (default ?NONE)))
+(defclass has-module-declaration
+          (is-a USER)
+          (slot module-declaration
+                (type SYMBOL)
+                (visibility public)
+                (storage local)
+                (allowed-symbols FALSE)
+                (default-dynamic FALSE)))
+(defclass simple-declaration
+  (is-a has-title
+        has-module-declaration)
+  (slot decl-title
+        (type SYMBOL)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default PLEASE-OVERRIDE-IN-CHILD-CLASS))
+  (slot module-separator
+        (type LEXEME)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default "::"))
+  (message-handler codegen primary)
+(defmessage-handler declaration codegen primary
+                    ()
+                    (str-cat (dynamic-get decl-title) 
+                             " "
+                             (if (bind ?m
+                                       (dynamic-get module-declaration)) then
+                                 (str-cat ?m 
+                                          (dynamic-get module-separator))
+                                 else
+                                 "")
+                             (dynamic-get title)))
 (defclass has-doc-string
   (is-a USER)
   (slot documentation
@@ -55,34 +90,16 @@
         (storage local)
         (allowed-symbols FALSE)
         (default-dynamic FALSE)))
-(defclass has-module-declaration
-          (is-a USER)
-          (slot module-declaration
-                (type SYMBOL)
-                (visibility public)
-                (storage local)
-                (allowed-symbols FALSE)
-                (default-dynamic FALSE)))
+
 (defclass declaration
-  (is-a has-title
-        has-doc-string
-        has-module-declaration)
-  (slot decl-title
-        (type SYMBOL)
-        (storage shared)
-        (visibility public)
-        (access read-only)
-        (default PLEASE-OVERRIDE-IN-CHILD-CLASS))
+  (is-a simple-declaration
+        has-doc-string)
   (message-handler codegen primary))
+
 (defmessage-handler declaration codegen primary
                     ()
-                    (str-cat (dynamic-get decl-title) " "
-                             (if (bind ?m
-                                       (dynamic-get module-declaration)) then
-                                 (str-cat ?m "::")
-                                 else
-                                 "")
-                             (dynamic-get title)
+                    (str-cat (call-next-handler) 
+                             " "
                              " \""
                              (if (bind ?k 
                                        (dynamic-get documentation)) then
@@ -213,4 +230,37 @@
   (multislot arguments
              (source composite)
              (allowed-classes deffunction-argument)))
+(defclass defglobal-entry
+          (is-a has-title)
+          (slot value
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (message-handler codegen primary))
 
+(defmessage-handler defglobal-entry codegen primary
+                    ()
+                    (format nil
+                            "?*%s* = %s"
+                            (dynamic-get title)
+                            (send (dynamic-get value)
+                                  codegen)))
+
+(defclass defglobal
+         (is-a simple-declaration
+               has-body)
+         (slot decl-title
+               (source composite)
+               (default defglobal))
+         (slot module-separator
+               (source composite)
+               (default " "))
+         (multislot body
+                    (source composite)
+                    (allowed-classes defglobal-entry))
+         (message-handler codegen primary))
+(defmessage-handler defglobal codegen primary
+                    ()
+                    (paren-wrap (call-next-handler)
+                                " "
+                                (space-concat (dynamic-get body))))
