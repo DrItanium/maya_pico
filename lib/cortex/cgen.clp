@@ -394,7 +394,58 @@
                     (paren-wrap (dynamic-get symbol)
                                 " "
                                 (space-concat (dynamic-get constraints))))
-; TODO implement template-pattern-CE and object-pattern-CE
+(defclass lhs-slot
+          (is-a USER)
+          (slot slot-name
+                (type SYMBOL)
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (message-handler codegen primary))
+(defclass singlefield-lhs-slot
+  (is-a lhs-slot)
+  (slot constraint
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
+(defmessage-handler singlefield-lhs-slot codegen primary
+                    ()
+                    (paren-wrap (dynamic-get slot-name)
+                                " "
+                                (send (dynamic-get constraint)
+                                      codegen)))
+(defclass multifield-lhs-slot
+  (is-a lhs-slot)
+  (multislot constraints
+        (storage local)
+        (visibility public))
+  (message-handler codegen primary))
+(defmessage-handler multifield-lhs-slot codegen primary
+                    ()
+                    (paren-wrap (dynamic-get slot-name)
+                                " "
+                                (space-concat (dynamic-get constraints))))
+(defclass template-pattern-ce 
+  (is-a assignable-pattern-conditional-element)
+  (slot deftemplate-name
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot lhs-slots
+             (allowed-classes lhs-slot)
+             (storage local)
+             (visibility public))
+  (message-handler codegen primary))
+
+(defmessage-handler template-pattern-ce codegen primary 
+                    ()
+                    (paren-wrap (dynamic-get deftemplate-name)
+                                " "
+                                (space-concat (dynamic-get lhs-slots))))
+               
+; TODO implement object-pattern-CE
                 
 (defclass defrule
           (is-a declaration
