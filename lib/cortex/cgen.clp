@@ -55,9 +55,18 @@
         (storage local)
         (allowed-symbols FALSE)
         (default-dynamic FALSE)))
+(defclass has-module-declaration
+          (is-a USER)
+          (slot module-declaration
+                (type SYMBOL)
+                (visibility public)
+                (storage local)
+                (allowed-symbols FALSE)
+                (default-dynamic FALSE)))
 (defclass declaration
   (is-a has-title
-        has-doc-string)
+        has-doc-string
+        has-module-declaration)
   (slot decl-title
         (type SYMBOL)
         (storage shared)
@@ -68,6 +77,11 @@
 (defmessage-handler declaration codegen primary
                     ()
                     (str-cat (dynamic-get decl-title) " "
+                             (if (bind ?m
+                                       (dynamic-get module-declaration)) then
+                                 (str-cat ?m "::")
+                                 else
+                                 "")
                              (dynamic-get title)
                              " \""
                              (if (bind ?k 
