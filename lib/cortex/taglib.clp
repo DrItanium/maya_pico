@@ -40,15 +40,17 @@
          ?f <- (cgen list-all ?target)
          =>
          (retract ?f)
-         (build (str-cat "(defgeneric list-all-" ?target "s)"))
-         (build (str-cat "(defmethod list-all-" 
-                         ?target 
-                         "s ((?router SYMBOL)) (generic-list-all ?router \"List of " 
-                         ?target 
-                         "s: \" "
+         (bind ?plural
+               (str-cat ?target s))
+         (bind ?title
+               (str-cat list-all- ?plural))
+         (build (str-cat "(defgeneric " ?title ")"))
+         (build (str-cat "(defmethod " ?title
+                         "((?router SYMBOL)) (generic-list-all ?router \"List of " 
+                         ?plural
+                         ": \" "
                          ?target "))"))
-         (build (str-cat "(defmethod list-all-" ?target "s () (list-all-" ?target "s t))")))
-
+         (build (str-cat "(defmethod " ?title " () (" ?title " t))")))
 (defrule cgen:generate-put-into-rule
          (stage (current cgen))
          ?f <- (cgen put ?s0 into ?s1)
@@ -92,7 +94,7 @@
                                                                ?%s)))"
                                  ?s1
                                  ?s2
-                                 ?s0) )))
+                                 ?s0))))
 
 (deffunction audio-propertiesp
              "Check and see if we got audio properties back from the given file"
