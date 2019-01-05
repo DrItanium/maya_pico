@@ -52,6 +52,40 @@
                     ()
                     (build (send ?self
                                  codegen)))
+(defclass expression
+          (is-a USER)
+          (message-handler codegen primary))
+(defclass constant
+          (is-a expression)
+          (slot value
+                (type LEXEME 
+                      NUMBER)
+                (visibility public)
+                (storage local)
+                (default ?NONE))
+          (message-handler codegen primary))
+(defmessage-handler constant codegen primary
+                    ()
+                    (send (dynamic-get value)
+                          codegen))
+
+(defclass function-call
+  (is-a expression)
+  (slot function-name
+        (type SYMBOL)
+        (visibility public)
+        (storage local)
+        (default ?NONE))
+  (multislot expression
+             (allowed-classes expression)
+             (visibility public)
+             (storage local))
+  (message-handler codegen primary))
+(defmessage-handler function-call codegen primary
+                    ()
+                    (paren-wrap (dynamic-get function-name)
+                                " "
+                                (space-concat (dynamic-get expression))))
 (defclass has-title
   (is-a USER)
   (slot title
@@ -135,8 +169,9 @@
 
 
 
-(defclass argument
-  (is-a has-title)
+(defclass variable 
+  (is-a expression
+   has-title)
   (slot title-prefix
         (type LEXEME)
         (storage shared)
@@ -145,23 +180,25 @@
         (default ERROR-NOT-OVERWRITTEN-IN-CHILD))
   (message-handler codegen primary))
 
-(defmessage-handler argument codegen primary
+(defmessage-handler variable codegen primary
                     ()
                     (format nil
                             "%s%s"
                             (dynamic-get title-prefix)
                             (dynamic-get title)))
-
-(defclass singlefield-argument
-  (is-a argument)
+(defclass singlefield-variable
+  (is-a variable)
   (slot title-prefix
         (source composite)
         (default "?")))
-(defclass multifield-argument
-  (is-a argument)
+(defclass multifield-variable
+  (is-a variable)
   (slot title-prefix
         (source composite)
         (default "$?")))
+(defclass argument
+  (is-a variable))
+
 
 (defclass defmethod-argument
   (is-a argument))
@@ -170,7 +207,7 @@
 
 (defclass defmethod-singlefield-argument
   (is-a defmethod-argument
-        singlefield-argument)
+        singlefield-variable)
   (multislot conditional-elements
              (visibility public)
              (storage local))
@@ -189,16 +226,16 @@
   (is-a argument))
 (defclass deffunction-singlefield-argument
   (is-a deffunction-argument
-        singlefield-argument))
+        singlefield-variable))
 (defclass deffunction-multifield-argument
   (is-a deffunction-argument
-        multifield-argument))
+        multifield-variable))
 
 
 
 (defclass defmethod-multifield-argument
   (is-a defmethod-argument
-        multifield-argument))
+        multifield-variable))
 
 (defclass has-arguments
   (is-a USER)
@@ -312,22 +349,6 @@
           (slot symbol
                 (source composite)
                 (default "$?")))
-(defclass function-call
-  (is-a USER)
-  (slot function-name
-        (type SYMBOL)
-        (visibility public)
-        (storage local)
-        (default ?NONE))
-  (multislot expression
-             (visibility public)
-             (storage local))
-  (message-handler codegen primary))
-(defmessage-handler function-call codegen primary
-                    ()
-                    (paren-wrap (dynamic-get function-name)
-                                " "
-                                (space-concat (dynamic-get expression))))
                     
 (defclass term-invocation
           (is-a USER)
@@ -368,10 +389,10 @@
   (is-a argument))
 (defclass defrule-singlefield-argument
   (is-a defrule-argument
-        singlefield-argument))
+        singlefield-variable))
 (defclass defrule-multifield-argument
   (is-a defrule-argument
-        multifield-argument))
+        multifield-variable))
 (defclass single-rule-constraint 
     (is-a connected-rule-constraint)
           (role concrete)
@@ -387,7 +408,7 @@
                 LEXEME
                 INSTANCE)
           (allowed-classes defrule-argument 
-                           singlefield-argument)
+                           singlefield-variable)
           (visibility public)
           (storage local)
           (default ?NONE))
