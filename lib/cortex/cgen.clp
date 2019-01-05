@@ -326,10 +326,10 @@
                     ()
                     (space-concat (dynamic-get arguments)
                                   (if (dynamic-get wildcard-parameter) then
-                                      (dynamic-get wildcard-parameter)
-                                      else
-                                      (create$))))
-                                  
+                                    (dynamic-get wildcard-parameter)
+                                    else
+                                    (create$))))
+
 
 
 (defclass defglobal-entry
@@ -615,18 +615,18 @@
 (defmessage-handler assignable-pattern-conditional-element generate-binder primary
                     ()
                     (if (dynamic-get bind-name) then
-                        (format nil
-                                "?%s <-"
-                                (dynamic-get bind-name))
-                        else
-                        ""))
+                      (format nil
+                              "?%s <-"
+                              (dynamic-get bind-name))
+                      else
+                      ""))
 
 (defmessage-handler assignable-pattern-conditional-element codegen around
                     ()
                     (format nil
                             "%s %s"
                             (send ?self
-                                   generate-binder)
+                                  generate-binder)
                             (call-next-handler)))
 
 (defclass ordered-pattern-ce
@@ -852,3 +852,35 @@
                                 " => "
                                 (send ?self
                                       build-body)))
+
+(defclass defclass 
+  (is-a declaration)
+  (multislot isa 
+             (type SYMBOL
+                   INSTANCE)
+             (storage local)
+             (visibility public)
+             (cardinality 1 ?VARIABLE)
+             (default ?NONE))
+  (slot role
+        (type SYMBOL)
+        (allowed-symbols concrete
+                         abstract)
+        (storage local)
+        (visibility public)
+        (default-dynamic concrete))
+  (slot pattern-match 
+        (type SYMBOL)
+        (allowed-symbols reactive
+                         non-reactive)
+        (storage local)
+        (visibility public)
+        (default-dynamic reactive))
+  (multislot slots
+             (storage local)
+             (visibility public))
+  (multislot handler-documentation
+             (storage local)
+             (visibility public))
+  (message-handler codegen primary))
+        
