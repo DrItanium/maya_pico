@@ -335,6 +335,8 @@
 (defclass defglobal-entry
   (is-a has-title)
   (slot value
+        (type INSTANCE)
+        (allowed-classes expression)
         (storage local)
         (visibility public)
         (default ?NONE))
@@ -365,14 +367,15 @@
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
-                                (space-concat (dynamic-get body))))
+                                (send ?self
+                                      build-body)))
 ; TODO define constraint classes
 
 (defclass rule-constraint
   (is-a USER)
   (role abstract)
-  (pattern-match non-reactive)
-  (message-handler codegen primary))
+  (pattern-match non-reactive))
+
 (defclass unnamed-constraint 
   (is-a rule-constraint)
   (slot symbol
@@ -382,9 +385,11 @@
         (access read-only)
         (default OVERRIDE))
   (message-handler codegen primary))
+
 (defmessage-handler unnamed-constraint codegen primary
                     ()
                     (dynamic-get symbol))
+
 (defclass unnamed-singlefield-constraint
   (is-a unnamed-constraint)
   (role concrete)
@@ -392,6 +397,7 @@
   (slot symbol
         (source composite)
         (default "?")))
+
 (defclass unnamed-multifield-constraint
   (is-a unnamed-constraint)
   (role concrete)
@@ -559,12 +565,17 @@
              (storage local)
              (visibility public)
              (default ?NONE))
+  (message-handler build-ces primary)
   (message-handler codegen primary))
 (defmessage-handler non-pattern-multifield-ce codegen primary
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
-                                (space-concat (dynamic-get conditional-element))))
+                                (send ?self
+                                      build-ces)))
+(defmessage-handler non-pattern-multifield-ce build-ces primary
+                    ()
+                    (space-concat (dynamic-get conditional-element)))
 (defclass and-ce 
   (is-a non-pattern-multifield-ce)
   (slot action-kind
@@ -599,18 +610,24 @@
         (storage local)
         (visibility public)
         (default-dynamic FALSE))
+  (message-handler generate-binder primary)
   (message-handler codegen around))
+(defmessage-handler assignable-pattern-conditional-element generate-binder primary
+                    ()
+                    (if (dynamic-get bind-name) then
+                        (format nil
+                                "?%s <-"
+                                (dynamic-get bind-name))
+                        else
+                        ""))
+
 (defmessage-handler assignable-pattern-conditional-element codegen around
                     ()
-                    (bind ?ce
-                          (call-next-handler))
-                    (if (bind ?k
-                              (dynamic-get bind-name)) then
-                      (format nil
-                              "?%s <- %s"
-                              ?k ?ce)
-                      else
-                      ?ce))
+                    (format nil
+                            "%s %s"
+                            (send ?self
+                                   generate-binder)
+                            (call-next-handler)))
 
 (defclass ordered-pattern-ce
   (is-a assignable-pattern-conditional-element)
@@ -622,12 +639,20 @@
   (multislot constraints
              (storage local)
              (visibility public))
+  (message-handler build-constraints primary)
   (message-handler codegen primary))
+
 (defmessage-handler ordered-pattern-ce codegen primary 
                     ()
                     (paren-wrap (dynamic-get symbol)
                                 " "
-                                (space-concat (dynamic-get constraints))))
+                                (send ?self
+                                      build-constraints)))
+
+(defmessage-handler ordered-pattern-ce build-constraints primary
+                    ()
+                    (space-concat (dynamic-get constraints)))
+
 (defclass lhs-slot
   (is-a USER)
   (slot slot-name
