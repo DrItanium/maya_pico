@@ -364,6 +364,14 @@
 (defclass connected-rule-constraint
     (is-a rule-constraint))
 
+(defclass defrule-argument
+  (is-a argument))
+(defclass defrule-singlefield-argument
+  (is-a defrule-argument
+        singlefield-argument))
+(defclass defrule-multifield-argument
+  (is-a defrule-argument
+        multifield-argument))
 (defclass single-rule-constraint 
     (is-a connected-rule-constraint)
           (role concrete)
@@ -378,7 +386,8 @@
           (type NUMBER
                 LEXEME
                 INSTANCE)
-          (allowed-classes term-invocation)
+          (allowed-classes defrule-argument 
+                           singlefield-argument)
           (visibility public)
           (storage local)
           (default ?NONE))
