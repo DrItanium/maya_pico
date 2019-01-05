@@ -279,7 +279,7 @@
                     (paren-wrap (call-next-handler)
                                 " "
                                 (space-concat (dynamic-get body))))
-
+; TODO define constraint classes
 (defclass conditional-element
           (is-a USER))
 (defclass non-pattern-ce
@@ -451,6 +451,52 @@
                 (visibility public)
                 (default ?NONE))
           (message-handler codegen primary))
+
+(defclass generic-attribute-constraint
+  (is-a basic-attribute-constraint)
+  (multislot constraints
+             (storage local)
+             (visibility public))
+  (message-handler codegen primary))
+
+(defmessage-handler generic-attribute-constraint codegen primary
+                    ()
+                    (paren-wrap (dynamic-get slot-name)
+                                " "
+                                (space-concat (dynamic-get constraints))))
+
+
+(defclass fixed-attribute-constraint
+          (is-a basic-attribute-constraint)
+          (slot slot-name
+                (source composite)
+                (storage shared)
+                (access read-only)
+                (create-accessor read)
+                (default OVERRIDE))
+          (slot constraint
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (message-handler codegen primary))
+(defmessage-handler fixed-attribute-constraint codegen primary 
+                    ()
+                    (paren-wrap (dynamic-get slot-name)
+                                " "
+                                (send (dynamic-get constraint)
+                                      codegen)))
+(defclass isa-attribute-constraint
+          (is-a fixed-attribute-constraint)
+          (slot slot-name
+                (source composite)
+                (default is-a)))
+
+(defclass name-attribute-constraint
+          (is-a fixed-attribute-constraint)
+          (slot slot-name
+                (source composite)
+                (default name)))
+
 (defclass object-pattern-ce 
   (is-a assignable-pattern-conditional-element)
   (multislot attribute-constraints 
@@ -463,8 +509,6 @@
                     ()
                     (paren-wrap "object "
                                 (space-concat (dynamic-get attribute-constraints))))
-               
-; TODO implement object-pattern-CE
                 
 (defclass defrule
           (is-a declaration
