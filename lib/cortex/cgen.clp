@@ -827,18 +827,28 @@
   (slot decl-title 
         (source composite)
         (default defrule))
+  (message-handler build-declarations primary)
+  (message-handler build-ces primary)
   (message-handler codegen primary))
-
+(defmessage-handler defrule build-ces primary
+                    ()
+                    (space-concat (dynamic-get conditional-elements)))
+(defmessage-handler defrule build-declarations primary
+                    ()
+                    (if (not (empty$ (dynamic-get declarations))) then
+                      (paren-wrap "declare "
+                                  (space-concat (dynamic-get declarations)))
+                      else
+                      ""))
 (defmessage-handler defrule codegen primary
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
-                                (if (not (empty$ (dynamic-get declarations))) then
-                                  (paren-wrap "declare "
-                                              (space-concat (dynamic-get declarations)))
-                                  else
-                                  "")
+                                (send ?self
+                                      build-declarations)
                                 " "
-                                (space-concat (dynamic-get conditional-elements))
+                                (send ?self
+                                      build-ces)
                                 " => "
-                                (space-concat (dynamic-get body))))
+                                (send ?self
+                                      build-body)))
