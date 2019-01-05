@@ -572,8 +572,11 @@
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
-                                (paren-wrap "declare "
-                                            (space-concat (dynamic-get declarations)))
+                                (if (not (empty$ (dynamic-get declarations))) then
+                                  (paren-wrap "declare "
+                                              (space-concat (dynamic-get declarations)))
+                                  else
+                                  "")
                                 " "
                                 (space-concat (dynamic-get conditional-elements))
                                 " => "
