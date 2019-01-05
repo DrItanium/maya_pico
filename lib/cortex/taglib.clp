@@ -59,7 +59,8 @@
                               (body (bind ?call0
                                           (make-instance of function-call 
                                              (function-name generic-list-all)
-                                             (expression "?router"
+                                             (expression (send ?arg0 
+                                                                reference-variable)
                                                           (str-cat "\"List of " ?plural ": \"")
                                                           ?target)))))
                                                         

@@ -178,9 +178,16 @@
         (visibility public)
         (access read-only)
         (default ERROR-NOT-OVERWRITTEN-IN-CHILD))
-  (message-handler codegen primary))
+  (message-handler codegen primary)
+  (message-handler reference-variable primary))
 
 (defmessage-handler variable codegen primary
+                    ()
+                    (format nil
+                            "%s%s"
+                            (dynamic-get title-prefix)
+                            (dynamic-get title)))
+(defmessage-handler variable reference-variable primary
                     ()
                     (format nil
                             "%s%s"
