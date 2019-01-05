@@ -479,12 +479,14 @@
                 (visibility public)
                 (default ?NONE))
           (message-handler codegen primary))
+
 (defmessage-handler fixed-attribute-constraint codegen primary 
                     ()
                     (paren-wrap (dynamic-get slot-name)
                                 " "
                                 (send (dynamic-get constraint)
                                       codegen)))
+
 (defclass isa-attribute-constraint
           (is-a fixed-attribute-constraint)
           (slot slot-name
