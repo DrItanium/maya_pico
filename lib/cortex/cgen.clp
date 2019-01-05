@@ -280,6 +280,162 @@
                                 " "
                                 (space-concat (dynamic-get body))))
 ; TODO define constraint classes
+
+(defclass rule-constraint
+          (is-a USER)
+          (role abstract)
+          (pattern-match non-reactive)
+          (message-handler codegen primary))
+(defclass unnamed-constraint 
+          (is-a rule-constraint)
+          (slot symbol
+                (type LEXEME)
+                (storage shared)
+                (visibility public)
+                (access read-only)
+                (default OVERRIDE))
+          (message-handler codegen primary))
+(defmessage-handler unnamed-constraint codegen primary
+                    ()
+                    (dynamic-get symbol))
+(defclass unnamed-singlefield-constraint
+          (is-a unnamed-constraint)
+          (role concrete)
+          (pattern-match reactive)
+          (slot symbol
+                (source composite)
+                (default "?")))
+(defclass unnamed-multifield-constraint
+          (is-a unnamed-constraint)
+          (role concrete)
+          (pattern-match reactive)
+          (slot symbol
+                (source composite)
+                (default "$?")))
+(defclass function-call
+  (is-a USER)
+  (slot function-name
+        (type SYMBOL)
+        (visibility public)
+        (storage local)
+        (default ?NONE))
+  (multislot expression
+             (visibility public)
+             (storage local))
+  (message-handler codegen primary))
+(defmessage-handler function-call codegen primary
+                    ()
+                    (paren-wrap (dynamic-get function-name)
+                                " "
+                                (space-concat (dynamic-get expression))))
+                    
+(defclass term-invocation
+          (is-a USER)
+          (slot invocation-symbol
+                (type LEXEME)
+                (storage shared)
+                (visibility public)
+                (access read-only)
+                (default OVERRIDE))
+          (slot function-call
+                (type INSTANCE)
+                (allowed-classes function-call)
+                (storage local)
+                (visibility public)
+                (default ?NONE))
+          (message-handler codegen primary))
+(defmessage-handler term-invocation codegen primary
+                ()
+                (str-cat (dynamic-get invocation-symbol)
+                         (send (dynamic-get function-call)
+                               codegen)))
+(defclass boolean-term-invocation
+        (is-a term-invocation)
+        (slot invocation-symbol
+              (source composite)
+              (default ":")))
+(defclass equality-term-invocation
+        (is-a term-invocation)
+        (slot invocation-symbol
+              (source composite)
+              (default "=")))
+
+
+(defclass connected-rule-constraint
+    (is-a rule-constraint))
+
+(defclass single-rule-constraint 
+    (is-a connected-rule-constraint)
+          (role concrete)
+          (pattern-match reactive)
+    (slot match-false
+          (type SYMBOL)
+          (visibility public)
+          (storage local)
+          (allowed-symbols FALSE
+                           TRUE))
+    (slot term
+          (type NUMBER
+                LEXEME
+                INSTANCE)
+          (allowed-classes term-invocation)
+          (visibility public)
+          (storage local)
+          (default ?NONE))
+    (message-handler codegen primary))
+(defmessage-handler single-rule-constraint codegen primary
+                    ()
+                    (str-cat (if (dynamic-get match-false) then
+                               "~"
+                               else
+                               "")
+                             (send (dynamic-get term)
+                                   codegen)))
+
+(defclass binary-connected-rule-constraint
+  (is-a connected-rule-constraint)
+  (slot connectivity-symbol
+        (type LEXEME)
+        (storage shared)
+        (visibility public)
+        (default OVERRIDE))
+  (slot single-constraint
+        (type INSTANCE)
+        (allowed-classes single-rule-constraint)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot connected-constraint
+        (type INSTANCE)
+        (allowed-classes connected-rule-constraint)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
+(defmessage-handler binary-connected-rule-constraint codegen primary 
+                    ()
+                    (str-cat (send (dynamic-get single-constraint)
+                                   codegen)
+                             (dynamic-get connectivity-symbol)
+                             (send (dynamic-get connected-constraint)
+                                   codegen)))
+
+(defclass and-connected-rule-constraint 
+    (is-a binary-connected-rule-constraint)
+          (role concrete)
+          (pattern-match reactive)
+    (slot connectivity-symbol
+          (source composite)
+          (default "&")))
+(defclass or-connected-rule-constraint 
+    (is-a binary-connected-rule-constraint)
+          (role concrete)
+          (pattern-match reactive)
+    (slot connectivity-symbol
+          (source composite)
+          (default "|")))
+ 
+
 (defclass conditional-element
           (is-a USER))
 (defclass non-pattern-ce
