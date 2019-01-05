@@ -36,6 +36,9 @@
                                     (send ?element
                                           codegen))))
              ?str)
+(deffunction quote
+             ($?str)
+             (str-cat "\"" (expand$ ?str) "\""))
 
 (defmessage-handler USER build primary 
                     "anything that is not buildable should still respond to the build message"
@@ -53,17 +56,17 @@
                     (build (send ?self
                                  codegen)))
 (defclass expression
-          (is-a USER)
-          (message-handler codegen primary))
+  (is-a USER)
+  (message-handler codegen primary))
 (defclass constant
-          (is-a expression)
-          (slot value
-                (type LEXEME 
-                      NUMBER)
-                (visibility public)
-                (storage local)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a expression)
+  (slot value
+        (type LEXEME 
+              NUMBER)
+        (visibility public)
+        (storage local)
+        (default ?NONE))
+  (message-handler codegen primary))
 (defmessage-handler constant codegen primary
                     ()
                     (send (dynamic-get value)
@@ -95,12 +98,28 @@
         (default ?NONE)))
 (defclass has-module-declaration
   (is-a USER)
+  (slot module-separator
+        (type LEXEME)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default "::"))
   (slot module-declaration
         (type SYMBOL)
         (visibility public)
         (storage local)
         (allowed-symbols FALSE)
-        (default-dynamic FALSE)))
+        (default-dynamic FALSE))
+  (message-handler construct-title primary))
+(defmessage-handler has-module-declaration construct-title primary
+                    (?title)
+                    (if (dynamic-get module-declaration) then
+                      (str-cat (dynamic-get module-declaration)
+                               (dynamic-get module-separator)
+                               ?title)
+                      else
+                      ?title))
+
 (defclass simple-declaration
   (is-a has-title
         has-module-declaration
@@ -111,25 +130,19 @@
         (visibility public)
         (access read-only)
         (default PLEASE-OVERRIDE-IN-CHILD-CLASS))
-  (slot module-separator
-        (type LEXEME)
-        (storage shared)
-        (visibility public)
-        (access read-only)
-        (default "::"))
+  (message-handler generate-header primary)
   (message-handler codegen primary))
-
-(defmessage-handler simple-declaration codegen primary
+(defmessage-handler simple-declaration generate-header primary
                     ()
                     (str-cat (dynamic-get decl-title) 
                              " "
-                             (if (bind ?m
-                                       (dynamic-get module-declaration)) then
-                               (str-cat ?m 
-                                        (dynamic-get module-separator))
-                               else
-                               "")
-                             (dynamic-get title)))
+                             (send ?self
+                                   construct-title
+                                   (dynamic-get title))))
+(defmessage-handler simple-declaration codegen primary
+                    ()
+                    (send ?self
+                          generate-header))
 (defclass has-doc-string
   (is-a USER)
   (slot documentation
@@ -138,24 +151,25 @@
         (visibility public)
         (storage local)
         (allowed-symbols FALSE)
-        (default-dynamic FALSE)))
+        (default-dynamic FALSE))
+  (message-handler generate-doc-string primary))
+(defmessage-handler has-doc-string generate-doc-string primary
+                    ()
+                    (quote (if (dynamic-get documentation) then
+                             (dynamic-get documentation)
+                             else
+                             "")))
 
 (defclass declaration
   (is-a simple-declaration
         has-doc-string)
-  (message-handler codegen primary))
-
-(defmessage-handler declaration codegen primary
+  (message-handler generate-header primary))
+(defmessage-handler declaration generate-header primary
                     ()
                     (str-cat (call-next-handler) 
                              " "
-                             " \""
-                             (if (bind ?k 
-                                       (dynamic-get documentation)) then
-                               ?k
-                               else
-                               "")
-                             "\""))
+                             (send ?self
+                                   generate-doc-string)))
 (defclass defgeneric
   (is-a declaration)
   (slot decl-title
@@ -171,7 +185,7 @@
 
 (defclass variable 
   (is-a expression
-   has-title)
+        has-title)
   (slot title-prefix
         (type LEXEME)
         (storage shared)
@@ -183,10 +197,8 @@
 
 (defmessage-handler variable codegen primary
                     ()
-                    (format nil
-                            "%s%s"
-                            (dynamic-get title-prefix)
-                            (dynamic-get title)))
+                    (send ?self
+                          reference-variable))
 (defmessage-handler variable reference-variable primary
                     ()
                     (format nil
@@ -249,13 +261,22 @@
   (multislot arguments
              (type INSTANCE)
              (visibility public)
-             (storage local)))
+             (storage local))
+  (message-handler build-argument-list primary))
+
+(defmessage-handler has-arguments build-argument-list primary
+                    ()
+                    (space-concat (dynamic-get arguments)))
 
 (defclass has-body
   (is-a USER)
   (multislot body
              (visibility public)
-             (storage local)))
+             (storage local))
+  (message-handler build-body primary))
+(defmessage-handler has-body build-body primary
+                    ()
+                    (space-concat (dynamic-get body)))
 
 (defclass subroutine
   (is-a declaration
@@ -267,9 +288,11 @@
                     ()
                     (paren-wrap (call-next-handler)
                                 " "
-                                (paren-wrap (space-concat (dynamic-get arguments)))
+                                (paren-wrap (send ?self 
+                                                  build-argument-list))
                                 " "
-                                (space-concat (dynamic-get body))))
+                                (send ?self
+                                      build-body)))
 
 (defclass defmethod
   (is-a subroutine)
@@ -286,9 +309,29 @@
   (slot decl-title
         (source composite)
         (default deffunction))
-  (multislot arguments
+  (multislot arguments 
              (source composite)
-             (allowed-classes deffunction-argument)))
+             (allowed-classes deffunction-singlefield-argument))
+  (slot wildcard-parameter
+        (type INSTANCE
+              SYMBOL)
+        (storage local)
+        (visibility public)
+        (allowed-classes deffunction-multifield-argument)
+        (allowed-symbols FALSE)
+        (default-dynamic FALSE))
+  (message-handler build-argument-list primary))
+
+(defmessage-handler deffunction codegen around
+                    ()
+                    (space-concat (dynamic-get arguments)
+                                  (if (dynamic-get wildcard-parameter) then
+                                      (dynamic-get wildcard-parameter)
+                                      else
+                                      (create$))))
+                                  
+
+
 (defclass defglobal-entry
   (is-a has-title)
   (slot value
@@ -326,71 +369,71 @@
 ; TODO define constraint classes
 
 (defclass rule-constraint
-          (is-a USER)
-          (role abstract)
-          (pattern-match non-reactive)
-          (message-handler codegen primary))
+  (is-a USER)
+  (role abstract)
+  (pattern-match non-reactive)
+  (message-handler codegen primary))
 (defclass unnamed-constraint 
-          (is-a rule-constraint)
-          (slot symbol
-                (type LEXEME)
-                (storage shared)
-                (visibility public)
-                (access read-only)
-                (default OVERRIDE))
-          (message-handler codegen primary))
+  (is-a rule-constraint)
+  (slot symbol
+        (type LEXEME)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default OVERRIDE))
+  (message-handler codegen primary))
 (defmessage-handler unnamed-constraint codegen primary
                     ()
                     (dynamic-get symbol))
 (defclass unnamed-singlefield-constraint
-          (is-a unnamed-constraint)
-          (role concrete)
-          (pattern-match reactive)
-          (slot symbol
-                (source composite)
-                (default "?")))
+  (is-a unnamed-constraint)
+  (role concrete)
+  (pattern-match reactive)
+  (slot symbol
+        (source composite)
+        (default "?")))
 (defclass unnamed-multifield-constraint
-          (is-a unnamed-constraint)
-          (role concrete)
-          (pattern-match reactive)
-          (slot symbol
-                (source composite)
-                (default "$?")))
-                    
+  (is-a unnamed-constraint)
+  (role concrete)
+  (pattern-match reactive)
+  (slot symbol
+        (source composite)
+        (default "$?")))
+
 (defclass term-invocation
-          (is-a USER)
-          (slot invocation-symbol
-                (type LEXEME)
-                (storage shared)
-                (visibility public)
-                (access read-only)
-                (default OVERRIDE))
-          (slot function-call
-                (type INSTANCE)
-                (allowed-classes function-call)
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a USER)
+  (slot invocation-symbol
+        (type LEXEME)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default OVERRIDE))
+  (slot function-call
+        (type INSTANCE)
+        (allowed-classes function-call)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
 (defmessage-handler term-invocation codegen primary
-                ()
-                (str-cat (dynamic-get invocation-symbol)
-                         (send (dynamic-get function-call)
-                               codegen)))
+                    ()
+                    (str-cat (dynamic-get invocation-symbol)
+                             (send (dynamic-get function-call)
+                                   codegen)))
 (defclass boolean-term-invocation
-        (is-a term-invocation)
-        (slot invocation-symbol
-              (source composite)
-              (default ":")))
+  (is-a term-invocation)
+  (slot invocation-symbol
+        (source composite)
+        (default ":")))
 (defclass equality-term-invocation
-        (is-a term-invocation)
-        (slot invocation-symbol
-              (source composite)
-              (default "=")))
+  (is-a term-invocation)
+  (slot invocation-symbol
+        (source composite)
+        (default "=")))
 
 
 (defclass connected-rule-constraint
-    (is-a rule-constraint))
+  (is-a rule-constraint))
 
 (defclass defrule-argument
   (is-a argument))
@@ -401,25 +444,25 @@
   (is-a defrule-argument
         multifield-variable))
 (defclass single-rule-constraint 
-    (is-a connected-rule-constraint)
-          (role concrete)
-          (pattern-match reactive)
-    (slot match-false
-          (type SYMBOL)
-          (visibility public)
-          (storage local)
-          (allowed-symbols FALSE
-                           TRUE))
-    (slot term
-          (type NUMBER
-                LEXEME
-                INSTANCE)
-          (allowed-classes defrule-argument 
-                           singlefield-variable)
-          (visibility public)
-          (storage local)
-          (default ?NONE))
-    (message-handler codegen primary))
+  (is-a connected-rule-constraint)
+  (role concrete)
+  (pattern-match reactive)
+  (slot match-false
+        (type SYMBOL)
+        (visibility public)
+        (storage local)
+        (allowed-symbols FALSE
+                         TRUE))
+  (slot term
+        (type NUMBER
+              LEXEME
+              INSTANCE)
+        (allowed-classes defrule-argument 
+                         singlefield-variable)
+        (visibility public)
+        (storage local)
+        (default ?NONE))
+  (message-handler codegen primary))
 (defmessage-handler single-rule-constraint codegen primary
                     ()
                     (str-cat (if (dynamic-get match-false) then
@@ -458,41 +501,41 @@
                                    codegen)))
 
 (defclass and-connected-rule-constraint 
-    (is-a binary-connected-rule-constraint)
-          (role concrete)
-          (pattern-match reactive)
-    (slot connectivity-symbol
-          (source composite)
-          (default "&")))
+  (is-a binary-connected-rule-constraint)
+  (role concrete)
+  (pattern-match reactive)
+  (slot connectivity-symbol
+        (source composite)
+        (default "&")))
 (defclass or-connected-rule-constraint 
-    (is-a binary-connected-rule-constraint)
-          (role concrete)
-          (pattern-match reactive)
-    (slot connectivity-symbol
-          (source composite)
-          (default "|")))
- 
+  (is-a binary-connected-rule-constraint)
+  (role concrete)
+  (pattern-match reactive)
+  (slot connectivity-symbol
+        (source composite)
+        (default "|")))
+
 
 (defclass conditional-element
-          (is-a USER))
+  (is-a USER))
 (defclass non-pattern-ce
-          (is-a conditional-element)
-          (slot action-kind
-                (storage shared)
-                (visibility public)
-                (access read-only)
-                (default OVERRIDE))
-          (message-handler codegen primary))
+  (is-a conditional-element)
+  (slot action-kind
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default OVERRIDE))
+  (message-handler codegen primary))
 (defmessage-handler non-pattern-ce codegen primary 
                     ()
                     (dynamic-get action-kind))
 (defclass non-pattern-singlefield-ce
-          (is-a non-pattern-ce)
-          (slot conditional-element
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a non-pattern-ce)
+  (slot conditional-element
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
 (defmessage-handler non-pattern-singlefield-ce codegen primary
                     ()
                     (paren-wrap (call-next-handler)
@@ -511,12 +554,12 @@
         (source composite)
         (default test)))
 (defclass non-pattern-multifield-ce
- (is-a non-pattern-ce)
- (multislot conditional-elements
-            (storage local)
-            (visibility public)
-            (default ?NONE))
- (message-handler codegen primary))
+  (is-a non-pattern-ce)
+  (multislot conditional-elements
+             (storage local)
+             (visibility public)
+             (default ?NONE))
+  (message-handler codegen primary))
 (defmessage-handler non-pattern-multifield-ce codegen primary
                     ()
                     (paren-wrap (call-next-handler)
@@ -547,16 +590,16 @@
   (slot action-kind
         (source composite)
         (default forall)))
-   
-          
+
+
 (defclass assignable-pattern-conditional-element
-          (is-a conditional-element)
-          (slot bind-name
-                (type SYMBOL)
-                (storage local)
-                (visibility public)
-                (default-dynamic FALSE))
-          (message-handler codegen around))
+  (is-a conditional-element)
+  (slot bind-name
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default-dynamic FALSE))
+  (message-handler codegen around))
 (defmessage-handler assignable-pattern-conditional-element codegen around
                     ()
                     (bind ?ce
@@ -570,29 +613,29 @@
                       ?ce))
 
 (defclass ordered-pattern-ce
-          (is-a assignable-pattern-conditional-element)
-          (slot symbol
-                (type SYMBOL)
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (multislot constraints
-                (storage local)
-                (visibility public))
-          (message-handler codegen primary))
+  (is-a assignable-pattern-conditional-element)
+  (slot symbol
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot constraints
+             (storage local)
+             (visibility public))
+  (message-handler codegen primary))
 (defmessage-handler ordered-pattern-ce codegen primary 
                     ()
                     (paren-wrap (dynamic-get symbol)
                                 " "
                                 (space-concat (dynamic-get constraints))))
 (defclass lhs-slot
-          (is-a USER)
-          (slot slot-name
-                (type SYMBOL)
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a USER)
+  (slot slot-name
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
 (defclass singlefield-lhs-slot
   (is-a lhs-slot)
   (slot constraint
@@ -609,8 +652,8 @@
 (defclass multifield-lhs-slot
   (is-a lhs-slot)
   (multislot constraints
-        (storage local)
-        (visibility public))
+             (storage local)
+             (visibility public))
   (message-handler codegen primary))
 (defmessage-handler multifield-lhs-slot codegen primary
                     ()
@@ -637,13 +680,13 @@
                                 (space-concat (dynamic-get lhs-slots))))
 
 (defclass basic-attribute-constraint
-          (is-a USER)
-          (slot slot-name
-                (type SYMBOL)
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a USER)
+  (slot slot-name
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
 
 (defclass generic-attribute-constraint
   (is-a basic-attribute-constraint)
@@ -660,18 +703,18 @@
 
 
 (defclass fixed-attribute-constraint
-          (is-a basic-attribute-constraint)
-          (slot slot-name
-                (source composite)
-                (storage shared)
-                (access read-only)
-                (create-accessor read)
-                (default OVERRIDE))
-          (slot constraint
-                (storage local)
-                (visibility public)
-                (default ?NONE))
-          (message-handler codegen primary))
+  (is-a basic-attribute-constraint)
+  (slot slot-name
+        (source composite)
+        (storage shared)
+        (access read-only)
+        (create-accessor read)
+        (default OVERRIDE))
+  (slot constraint
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
 
 (defmessage-handler fixed-attribute-constraint codegen primary 
                     ()
@@ -681,16 +724,16 @@
                                       codegen)))
 
 (defclass isa-attribute-constraint
-          (is-a fixed-attribute-constraint)
-          (slot slot-name
-                (source composite)
-                (default is-a)))
+  (is-a fixed-attribute-constraint)
+  (slot slot-name
+        (source composite)
+        (default is-a)))
 
 (defclass name-attribute-constraint
-          (is-a fixed-attribute-constraint)
-          (slot slot-name
-                (source composite)
-                (default name)))
+  (is-a fixed-attribute-constraint)
+  (slot slot-name
+        (source composite)
+        (default name)))
 
 (defclass object-pattern-ce 
   (is-a assignable-pattern-conditional-element)
@@ -732,7 +775,7 @@
         (source composite)
         (type INTEGER)
         (default ?NONE)))
-        
+
 (defclass auto-focus-property
   (is-a rule-property)
   (slot slot-name
@@ -746,20 +789,20 @@
         (default-dynamic FALSE)))
 
 (defclass defrule
-          (is-a declaration
-                has-body)
-          (multislot declarations
-                     (allowed-classes rule-property)
-                     (storage local)
-                     (visibility public))
-          (multislot conditional-elements
-                     (allowed-classes conditional-element)
-                     (storage local)
-                     (visibility public))
-          (slot decl-title 
-                (source composite)
-                (default defrule))
-          (message-handler codegen primary))
+  (is-a declaration
+        has-body)
+  (multislot declarations
+             (allowed-classes rule-property)
+             (storage local)
+             (visibility public))
+  (multislot conditional-elements
+             (allowed-classes conditional-element)
+             (storage local)
+             (visibility public))
+  (slot decl-title 
+        (source composite)
+        (default defrule))
+  (message-handler codegen primary))
 
 (defmessage-handler defrule codegen primary
                     ()

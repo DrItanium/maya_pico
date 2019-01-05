@@ -61,7 +61,7 @@
                                              (function-name generic-list-all)
                                              (expression (send ?arg0 
                                                                 reference-variable)
-                                                          (str-cat "\"List of " ?plural ": \"")
+                                                          (quote "List of " ?plural ": ")
                                                           ?target)))))
                                                         
                (make-instance of defmethod
