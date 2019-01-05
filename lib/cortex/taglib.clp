@@ -56,15 +56,23 @@
                                                (make-instance of defmethod-singlefield-argument 
                                                               (title router)
                                                               (conditional-elements SYMBOL))))
-                              (body (str-cat "(generic-list-all ?router "
-                                             "\"List of " ?plural ": \"" 
-                                             ?target
-                                             ")")))
+                              (body (bind ?call0
+                                          (make-instance of function-call 
+                                             (function-name generic-list-all)
+                                             (expression "?router"
+                                                          (str-cat "\"List of " ?plural ": \"")
+                                                          ?target)))))
+                                                        
                (make-instance of defmethod
                               (title ?title)
                               (arguments)
-                              (body (str-cat "(" ?title " t)")))
-               ?arg0)
+                              (body (bind ?call1
+                                          (make-instance of function-call
+                                                        (function-name ?title)
+                                                        (expression t)))))
+               ?arg0
+               ?call0
+               ?call1)
          (progn$ (?object ?objects)
                  (send ?object build)
                  (unmake-instance ?object)))
