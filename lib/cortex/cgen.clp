@@ -511,10 +511,54 @@
                     ()
                     (paren-wrap "object "
                                 (space-concat (dynamic-get attribute-constraints))))
-                
+(defclass rule-property 
+  (is-a USER)
+  (slot slot-name 
+        (type SYMBOL)
+        (storage shared)
+        (visibility public)
+        (access read-only)
+        (default OVERRIDE))
+  (slot value
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (message-handler codegen primary))
+(defmessage-handler rule-property codegen primary
+                    ()
+                    (paren-wrap (dynamic-get slot-name)
+                                " "
+                                (dynamic-get value)))
+
+(defclass salience-property
+  (is-a rule-property)
+  (slot slot-name
+        (source composite)
+        (default salience))
+  (slot value
+        (source composite)
+        (type INTEGER)
+        (default ?NONE)))
+        
+(defclass auto-focus-property
+  (is-a rule-property)
+  (slot slot-name
+        (source composite)
+        (default auto-focus))
+  (slot value
+        (source composite)
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (default-dynamic FALSE)))
+
 (defclass defrule
           (is-a declaration
                 has-body)
+          (multislot declarations
+                     (allowed-classes rule-property)
+                     (storage local)
+                     (visibility public))
           (multislot conditional-elements
                      (allowed-classes conditional-element)
                      (storage local)
@@ -527,6 +571,9 @@
 (defmessage-handler defrule codegen primary
                     ()
                     (paren-wrap (call-next-handler)
+                                " "
+                                (paren-wrap "declare "
+                                            (space-concat (dynamic-get declarations)))
                                 " "
                                 (space-concat (dynamic-get conditional-elements))
                                 " => "
