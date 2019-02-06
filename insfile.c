@@ -1650,7 +1650,7 @@ static void CreateSlotValue(
       returnValue->range = valueCount;
       for (i = 0 ; i < valueCount ; i++)
         {
-         returnValue->multifieldValue->contents[i].value = GetBinaryAtomValue(theEnv,&bsaValues[i]);
+         returnValue->multifieldValue->contents[i].value = GetBinaryAtomValue(theEnv,&bsaValues[i-1]);
         }
      }
   }
