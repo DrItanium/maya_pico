@@ -25,14 +25,14 @@ extern "C" {
 }
 #include "mayasetup.h"
 #include "taglib_interface.h"
-#include <taglib/fileref.h>
-#include <taglib/tag.h>
-#include <taglib/tpropertymap.h>
 #include <string>
 
 #if !TAGLIB_EXTENSIONS
 extern "C" void InstallTagLibMethods(Environment* env) { }
 #else
+#include <taglib/fileref.h>
+#include <taglib/tag.h>
+#include <taglib/tpropertymap.h>
 void GetBasicTagInformation(Environment*, UDFContext*, UDFValue*);
 void ShowTagProperties(Environment*, UDFContext*, UDFValue*);
 void GetTagProperties(Environment*, UDFContext*, UDFValue*);
