@@ -379,7 +379,7 @@
 /********************************************************************/
 
 #ifndef CONSTRUCT_COMPILER
-#define  CONSTRUCT_COMPILER 1
+#define  CONSTRUCT_COMPILER 0
 #endif
 
 #if CONSTRUCT_COMPILER
