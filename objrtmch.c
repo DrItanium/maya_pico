@@ -1030,7 +1030,11 @@ static void ProcessPatternNode(
       objectSlotLength = ObjectReteData(theEnv)->CurrentObjectSlotLength;
       objectSlot = ObjectReteData(theEnv)->CurrentPatternObjectSlot;
       newMark->range = 0;
-      repeatCount = objectSlotLength + 2 - newMark->startPosition - patternNode->leaveFields;
+      if ((objectSlotLength + 2) < (newMark->startPosition - patternNode->leaveFields)) {
+          repeatCount = 0;
+      } else {
+          repeatCount = objectSlotLength + 2 - newMark->startPosition - patternNode->leaveFields;
+      }
       while (repeatCount > 0)
         {
          if (patternNode->selector)
