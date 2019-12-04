@@ -934,7 +934,7 @@ void PPDrive(
       /* Determine the hash value of the partial match. */
       /*================================================*/
 
-      if (listOfJoins->enterDirection == LHS)
+      if (listOfJoins->enterDirection == CLIPS_LHS)
         {
          if (listOfJoins->join->leftHash != NULL)
            { hashValue = BetaMemoryHashValue(theEnv,listOfJoins->join->leftHash,linker,NULL,listOfJoins->join); }
@@ -955,7 +955,7 @@ void PPDrive(
 
       UpdateBetaPMLinks(theEnv,linker,lhsBinds,rhsBinds,listOfJoins->join,hashValue,listOfJoins->enterDirection);
 
-      if (listOfJoins->enterDirection == LHS)
+      if (listOfJoins->enterDirection == CLIPS_LHS)
         { NetworkAssertLeft(theEnv,linker,listOfJoins->join,operation); }
       else
         { NetworkAssertRight(theEnv,linker,listOfJoins->join,operation); }
@@ -989,7 +989,7 @@ void EPMDrive(
 
       UpdateBetaPMLinks(theEnv,linker,parent,NULL,listOfJoins->join,0,listOfJoins->enterDirection);
 
-      if (listOfJoins->enterDirection == LHS)
+      if (listOfJoins->enterDirection == CLIPS_LHS)
         { NetworkAssertLeft(theEnv,linker,listOfJoins->join,operation); }
       else
         { NetworkAssertRight(theEnv,linker,listOfJoins->join,operation); }
@@ -1139,7 +1139,7 @@ static void EmptyDrive(
       /* Determine the hash value of the partial match. */
       /*================================================*/
 
-      if (listOfJoins->enterDirection == LHS)
+      if (listOfJoins->enterDirection == CLIPS_LHS)
         {
          if (listOfJoins->join->leftHash != NULL)
            { hashValue = BetaMemoryHashValue(theEnv,listOfJoins->join->leftHash,linker,NULL,listOfJoins->join); }
@@ -1163,7 +1163,7 @@ static void EmptyDrive(
       else
         { UpdateBetaPMLinks(theEnv,linker,NULL,rhsBinds,listOfJoins->join,hashValue,listOfJoins->enterDirection); }
 
-      if (listOfJoins->enterDirection == LHS)
+      if (listOfJoins->enterDirection == CLIPS_LHS)
         { NetworkAssertLeft(theEnv,linker,listOfJoins->join,operation); }
       else
         { NetworkAssertRight(theEnv,linker,listOfJoins->join,operation); }

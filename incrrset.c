@@ -367,7 +367,7 @@ static void PrimeJoinFromLeftMemory(
 
    if (tempLink == NULL) return;
 
-   if (tempLink->enterDirection == LHS)
+   if (tempLink->enterDirection == CLIPS_LHS)
      { theMemory = tempLink->join->leftMemory; }
    else
      { theMemory = tempLink->join->rightMemory; }
@@ -390,7 +390,7 @@ static void PrimeJoinFromLeftMemory(
          else
            { hashValue = 0; }
 
-         UpdateBetaPMLinks(theEnv,linker,theList->leftParent,theList->rightParent,joinPtr,hashValue,LHS);
+         UpdateBetaPMLinks(theEnv,linker,theList->leftParent,theList->rightParent,joinPtr,hashValue,CLIPS_LHS);
 
          NetworkAssertLeft(theEnv,linker,joinPtr,NETWORK_ASSERT);
         }
@@ -458,7 +458,7 @@ static void PrimeJoinFromRightMemory(
       return;
      }
 
-   if (tempLink->enterDirection == LHS)
+   if (tempLink->enterDirection == CLIPS_LHS)
      { theMemory = tempLink->join->leftMemory; }
    else
      { theMemory = tempLink->join->rightMemory; }
@@ -481,7 +481,7 @@ static void PrimeJoinFromRightMemory(
          else
            { hashValue = 0; }
 
-         UpdateBetaPMLinks(theEnv,linker,theList->leftParent,theList->rightParent,joinPtr,hashValue,RHS);
+         UpdateBetaPMLinks(theEnv,linker,theList->leftParent,theList->rightParent,joinPtr,hashValue,CLIPS_RHS);
          NetworkAssert(theEnv,linker,joinPtr);
         }
      }

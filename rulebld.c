@@ -1232,7 +1232,7 @@ static struct joinNode *CreateNewJoin(
 
       theLink = get_struct(theEnv,joinLink);
       theLink->join = newJoin;
-      theLink->enterDirection = LHS;
+      theLink->enterDirection = CLIPS_LHS;
 
       /*==============================================================*/
       /* If this is a join from the right, then there should already  */
@@ -1273,7 +1273,7 @@ static struct joinNode *CreateNewJoin(
         {
          theLink = get_struct(theEnv,joinLink);
          theLink->join = newJoin;
-         theLink->enterDirection = RHS;
+         theLink->enterDirection = CLIPS_RHS;
          theLink->next = DefruleData(theEnv)->RightPrimeJoins;
          DefruleData(theEnv)->RightPrimeJoins = theLink;
         }
@@ -1295,7 +1295,7 @@ static struct joinNode *CreateNewJoin(
      {
       theLink = get_struct(theEnv,joinLink);
       theLink->join = newJoin;
-      theLink->enterDirection = LHS;
+      theLink->enterDirection = CLIPS_LHS;
       theLink->next = DefruleData(theEnv)->LeftPrimeJoins;
       DefruleData(theEnv)->LeftPrimeJoins = theLink;
      }
@@ -1304,7 +1304,7 @@ static struct joinNode *CreateNewJoin(
      {
       theLink = get_struct(theEnv,joinLink);
       theLink->join = newJoin;
-      theLink->enterDirection = RHS;
+      theLink->enterDirection = CLIPS_RHS;
       theLink->next = ((struct joinNode *) rhsEntryStruct)->nextLinks;
       ((struct joinNode *) rhsEntryStruct)->nextLinks = theLink;
       newJoin->rightMatchNode = NULL;

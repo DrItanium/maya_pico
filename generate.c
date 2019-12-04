@@ -287,7 +287,7 @@ void FieldConversion(
 
          if (theField->referringNode->patternType->genGetJNValueFunction)
            {
-            tempExpression = (*theField->referringNode->patternType->genGetJNValueFunction)(theEnv,theField->referringNode,LHS);
+            tempExpression = (*theField->referringNode->patternType->genGetJNValueFunction)(theEnv,theField->referringNode,CLIPS_LHS);
             thePattern->leftHash = AppendExpressions(tempExpression,thePattern->leftHash);
            }
         }
@@ -527,7 +527,7 @@ static struct expr *GenJNConstant(
       if (isNand)
         { return (*theField->patternType->genJNConstantFunction)(theEnv,theField,NESTED_RHS); }
       else
-        { return (*theField->patternType->genJNConstantFunction)(theEnv,theField,RHS); }
+        { return (*theField->patternType->genJNConstantFunction)(theEnv,theField,CLIPS_RHS); }
      }
 
    /*===================================================*/
@@ -544,7 +544,7 @@ static struct expr *GenJNConstant(
    if (isNand)
       { top->argList = (*theField->patternType->genGetJNValueFunction)(theEnv,theField,NESTED_RHS); }
    else
-      { top->argList = (*theField->patternType->genGetJNValueFunction)(theEnv,theField,RHS); }
+      { top->argList = (*theField->patternType->genGetJNValueFunction)(theEnv,theField,CLIPS_RHS); }
 
    top->argList->nextArg = GenConstant(theEnv,NodeTypeToType(theField),theField->value);
 
@@ -666,7 +666,7 @@ static struct expr *GenJNEq(
    if (isNand)
      { top->argList = (*theField->patternType->genGetJNValueFunction)(theEnv,theField,NESTED_RHS); }
    else
-     { top->argList = (*theField->patternType->genGetJNValueFunction)(theEnv,theField,RHS); }
+     { top->argList = (*theField->patternType->genGetJNValueFunction)(theEnv,theField,CLIPS_RHS); }
 
    top->argList->nextArg = conversion;
 
@@ -755,10 +755,10 @@ void AddNandUnification(
 
          theFrame->nandCE->externalNetworkTest = CombineExpressions(theEnv,theFrame->nandCE->externalNetworkTest,tempExpression);
 
-         tempExpression = (*nodeList->referringNode->patternType->genGetJNValueFunction)(theEnv,nodeList->referringNode,LHS);
+         tempExpression = (*nodeList->referringNode->patternType->genGetJNValueFunction)(theEnv,nodeList->referringNode,CLIPS_LHS);
          theFrame->nandCE->externalRightHash = AppendExpressions(theFrame->nandCE->externalRightHash,tempExpression);
 
-         tempExpression = (*nodeList->referringNode->patternType->genGetJNValueFunction)(theEnv,nodeList->referringNode,LHS);
+         tempExpression = (*nodeList->referringNode->patternType->genGetJNValueFunction)(theEnv,nodeList->referringNode,CLIPS_LHS);
          theFrame->nandCE->externalLeftHash = AppendExpressions(theFrame->nandCE->externalLeftHash,tempExpression);
         }
      }
@@ -818,7 +818,7 @@ struct expr *GetvarReplace(
          if (nodeList->beginNandDepth > nodeList->referringNode->beginNandDepth)
            {
             (*nodeList->referringNode->patternType->replaceGetJNValueFunction)
-               (theEnv,newList,nodeList->referringNode,LHS);
+               (theEnv,newList,nodeList->referringNode,CLIPS_LHS);
            }
          else
            {
@@ -831,12 +831,12 @@ struct expr *GetvarReplace(
          if (nodeList->joinDepth != nodeList->referringNode->joinDepth)
            {
             (*nodeList->referringNode->patternType->replaceGetJNValueFunction)
-               (theEnv,newList,nodeList->referringNode,LHS);
+               (theEnv,newList,nodeList->referringNode,CLIPS_LHS);
            }
          else
            {
             (*nodeList->referringNode->patternType->replaceGetJNValueFunction)
-               (theEnv,newList,nodeList->referringNode,RHS);
+               (theEnv,newList,nodeList->referringNode,CLIPS_RHS);
            }
         }
      }
@@ -950,8 +950,8 @@ static struct expr *GenJNVariableComparison(
    if (selfNode->negated) top = GenConstant(theEnv,FCALL,ExpressionData(theEnv)->PTR_NEQ);
    else top = GenConstant(theEnv,FCALL,ExpressionData(theEnv)->PTR_EQ);
 
-   top->argList = (*selfNode->patternType->genGetJNValueFunction)(theEnv,selfNode,RHS);
-   top->argList->nextArg = (*referringNode->patternType->genGetJNValueFunction)(theEnv,referringNode,LHS);
+   top->argList = (*selfNode->patternType->genGetJNValueFunction)(theEnv,selfNode,CLIPS_RHS);
+   top->argList->nextArg = (*referringNode->patternType->genGetJNValueFunction)(theEnv,referringNode,CLIPS_LHS);
 
    return(top);
   }

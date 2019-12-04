@@ -54,8 +54,8 @@
 
 #define UNBOUNDED    USHRT_MAX
 
-#define LHS           0
-#define RHS           1
+#define CLIPS_LHS     0
+#define CLIPS_RHS     1
 #define NESTED_RHS    2
 #define NEGATIVE      0
 #define POSITIVE      1

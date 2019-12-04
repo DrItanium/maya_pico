@@ -625,7 +625,7 @@ static int ReplaceRHSVariable(
    /*================================================*/
 
    if (theVariable->patternType != NULL)
-     { (*theVariable->patternType->replaceGetJNValueFunction)(theEnv,list,theVariable,LHS); }
+     { (*theVariable->patternType->replaceGetJNValueFunction)(theEnv,list,theVariable,CLIPS_LHS); }
    else
      { return 0; }
 

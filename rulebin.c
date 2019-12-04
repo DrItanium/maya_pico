@@ -125,8 +125,8 @@ static void DeallocateDefruleBloadData(
 
    for (i = 0; i < DefruleBinaryData(theEnv)->NumberOfJoins; i++)
      {
-      DestroyBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],LHS);
-      DestroyBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],RHS);
+      DestroyBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],CLIPS_LHS);
+      DestroyBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],CLIPS_RHS);
       ReturnLeftMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i]);
       ReturnRightMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i]);
      }
@@ -1083,9 +1083,9 @@ static void ClearBload(
 
    for (i = 0; i < DefruleBinaryData(theEnv)->NumberOfJoins; i++)
      {
-      FlushBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],LHS);
+      FlushBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],CLIPS_LHS);
       ReturnLeftMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i]);
-      FlushBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],RHS);
+      FlushBetaMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i],CLIPS_RHS);
       ReturnRightMemory(theEnv,&DefruleBinaryData(theEnv)->JoinArray[i]);
      }
 

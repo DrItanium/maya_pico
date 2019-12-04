@@ -340,13 +340,13 @@ static void DetachJoins(
 
       if (destroy)
         {
-         DestroyBetaMemory(theEnv,join,LHS);
-         DestroyBetaMemory(theEnv,join,RHS);
+         DestroyBetaMemory(theEnv,join,CLIPS_LHS);
+         DestroyBetaMemory(theEnv,join,CLIPS_RHS);
         }
       else
         {
-         FlushBetaMemory(theEnv,join,LHS);
-         FlushBetaMemory(theEnv,join,RHS);
+         FlushBetaMemory(theEnv,join,CLIPS_LHS);
+         FlushBetaMemory(theEnv,join,CLIPS_RHS);
         }
 
       ReturnLeftMemory(theEnv,join);

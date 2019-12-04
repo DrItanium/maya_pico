@@ -623,12 +623,12 @@ static void *FactGetVarJN1(
    /* from which the fact will be retrieved.  */
    /*=========================================*/
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       hack.lhs = 1;
       hack.whichPattern = theNode->joinDepth;
      }
-   else if (side == RHS)
+   else if (side == CLIPS_RHS)
      {
       hack.rhs = 1;
       hack.whichPattern = 0;
@@ -719,12 +719,12 @@ static void *FactGetVarJN2(
 
    hack.whichSlot = theNode->slotNumber - 1;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       hack.lhs = 1;
       hack.whichPattern = theNode->joinDepth;
      }
-   else if (side == RHS)
+   else if (side == CLIPS_RHS)
      {
       hack.rhs = 1;
       hack.whichPattern = 0;
@@ -777,12 +777,12 @@ static void *FactGetVarJN3(
 
    hack.whichSlot = theNode->slotNumber - 1;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       hack.lhs = 1;
       hack.whichPattern = theNode->joinDepth;
      }
-   else if (side == RHS)
+   else if (side == CLIPS_RHS)
      {
       hack.rhs = 1;
       hack.whichPattern = 0;
@@ -1262,9 +1262,9 @@ struct expr *FactJNVariableComparison(
       if (nandJoin)
         { top->argList = FactGenGetvar(theEnv,selfNode,NESTED_RHS); }
       else
-        { top->argList = FactGenGetvar(theEnv,selfNode,RHS); }
+        { top->argList = FactGenGetvar(theEnv,selfNode,CLIPS_RHS); }
 
-      top->argList->nextArg = FactGenGetvar(theEnv,referringNode,LHS);
+      top->argList->nextArg = FactGenGetvar(theEnv,referringNode,CLIPS_LHS);
      }
 
    /*======================================*/

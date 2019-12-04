@@ -213,7 +213,7 @@ void UpdateBetaPMLinks(
    unsigned long betaLocation;
    struct betaMemory *theMemory;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       theMemory = join->leftMemory;
       thePM->rhsMemory = false;
@@ -232,7 +232,7 @@ void UpdateBetaPMLinks(
 
    betaLocation = hashValue % theMemory->size;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       thePM->nextInMemory = theMemory->beta[betaLocation];
       if (theMemory->beta[betaLocation] != NULL)
@@ -253,7 +253,7 @@ void UpdateBetaPMLinks(
      }
 
    theMemory->count++;
-   if (side == LHS)
+   if (side == CLIPS_LHS)
     { join->memoryLeftAdds++; }
    else
     { join->memoryRightAdds++; }
@@ -352,7 +352,7 @@ void UnlinkBetaPMFromNodeAndLineage(
    unsigned long betaLocation;
    struct betaMemory *theMemory;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      { theMemory = join->leftMemory; }
    else
      { theMemory = join->rightMemory; }
@@ -363,14 +363,14 @@ void UnlinkBetaPMFromNodeAndLineage(
 
    theMemory->count--;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
     { join->memoryLeftDeletes++; }
    else
     { join->memoryRightDeletes++; }
 
    betaLocation = thePM->hashValue % theMemory->size;
 
-   if ((side == RHS) &&
+   if ((side == CLIPS_RHS) &&
        (theMemory->last[betaLocation] == thePM))
      { theMemory->last[betaLocation] = thePM->prevInMemory; }
 
@@ -410,7 +410,7 @@ void UnlinkNonLeftLineage(
    struct betaMemory *theMemory;
    struct partialMatch *tempPM;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      { theMemory = join->leftMemory; }
    else
      { theMemory = join->rightMemory; }
@@ -421,14 +421,14 @@ void UnlinkNonLeftLineage(
 
    theMemory->count--;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
     { join->memoryLeftDeletes++; }
    else
     { join->memoryRightDeletes++; }
 
    betaLocation = thePM->hashValue % theMemory->size;
 
-   if ((side == RHS) &&
+   if ((side == CLIPS_RHS) &&
        (theMemory->last[betaLocation] == thePM))
      { theMemory->last[betaLocation] = thePM->prevInMemory; }
 
@@ -946,7 +946,7 @@ static void TraceErrorToRuleDriver(
         {
          TraceErrorToRuleDriver(theEnv,theLinks->join,indentSpaces,
                                 priorRightJoinPatterns+priorPatternCount,
-                                (theLinks->enterDirection == RHS));
+                                (theLinks->enterDirection == CLIPS_RHS));
          theLinks = theLinks->next;
         }
      }
@@ -1138,7 +1138,7 @@ void DestroyBetaMemory(
   {
    unsigned long i;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       if (theJoin->leftMemory == NULL) return;
 
@@ -1168,7 +1168,7 @@ void FlushBetaMemory(
   {
    unsigned long i;
 
-   if (side == LHS)
+   if (side == CLIPS_LHS)
      {
       if (theJoin->leftMemory == NULL) return;
 

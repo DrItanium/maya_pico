@@ -303,14 +303,14 @@ static void GenObjectGetVar(
 
    if (joinReference)
      {
-      if (side == LHS)
+      if (side == CLIPS_LHS)
         {
          hack1.lhs = 1;
          hack2.lhs = 1;
          hack1.whichPattern = theNode->joinDepth;
          hack2.whichPattern = theNode->joinDepth;
         }
-      else if (side == RHS)
+      else if (side == CLIPS_RHS)
         {
          hack1.rhs = 1;
          hack2.rhs = 1;
@@ -674,11 +674,11 @@ static Expression *GenerateSlotComparisonTest(
       if (isNand)
         { GenObjectGetVar(theEnv,joinTest,theExp->argList,selfNode,NESTED_RHS); }
       else
-        { GenObjectGetVar(theEnv,joinTest,theExp->argList,selfNode,RHS); }
+        { GenObjectGetVar(theEnv,joinTest,theExp->argList,selfNode,CLIPS_RHS); }
 
       theExp->argList->nextArg = GenConstant(theEnv,0,NULL);
 
-      GenObjectGetVar(theEnv,joinTest,theExp->argList->nextArg,referringNode,LHS);
+      GenObjectGetVar(theEnv,joinTest,theExp->argList->nextArg,referringNode,CLIPS_LHS);
      }
    return(theExp);
   }

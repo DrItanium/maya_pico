@@ -151,9 +151,9 @@ void PosEntryRetractAlpha(
 	  tempMatch = betaMatch->nextRightChild;
 
 	  if (betaMatch->rhsMemory)
-		{ UnlinkBetaPMFromNodeAndLineage(theEnv,joinPtr,betaMatch,RHS); }
+		{ UnlinkBetaPMFromNodeAndLineage(theEnv,joinPtr,betaMatch,CLIPS_RHS); }
 	  else
-		{ UnlinkBetaPMFromNodeAndLineage(theEnv,joinPtr,betaMatch,LHS); }
+		{ UnlinkBetaPMFromNodeAndLineage(theEnv,joinPtr,betaMatch,CLIPS_LHS); }
 
       DeletePartialMatches(theEnv,betaMatch);
 
@@ -286,9 +286,9 @@ void PosEntryRetractBeta(
         { RemoveActivation(theEnv,(struct activation *) betaMatch->marker,true,true); }
 
       if (betaMatch->rhsMemory)
-        { UnlinkNonLeftLineage(theEnv,(struct joinNode *) betaMatch->owner,betaMatch,RHS); }
+        { UnlinkNonLeftLineage(theEnv,(struct joinNode *) betaMatch->owner,betaMatch,CLIPS_RHS); }
       else
-        { UnlinkNonLeftLineage(theEnv,(struct joinNode *) betaMatch->owner,betaMatch,LHS); }
+        { UnlinkNonLeftLineage(theEnv,(struct joinNode *) betaMatch->owner,betaMatch,CLIPS_LHS); }
 
       if (betaMatch->dependents != NULL) RemoveLogicalSupport(theEnv,betaMatch);
       ReturnPartialMatch(theEnv,betaMatch);
