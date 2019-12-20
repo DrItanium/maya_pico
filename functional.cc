@@ -34,6 +34,11 @@ void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
 void ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
 void NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
 void FunctionError(Environment*, int, FunctionCallBuilderError, const std::string&) noexcept;
+void LeftShift(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
+void RightShift(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
+void BitwiseOr(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
+void BitwiseAnd(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
+void BitwiseNot(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
 #endif
 
 
@@ -44,10 +49,70 @@ extern "C" void InstallFunctionalExtensions(Environment* theEnv) {
 	AddUDF(theEnv, "filter$", "m", 1, UNBOUNDED, "*;y;*", FilterFunction, "FilterFunction", nullptr);
 	AddUDF(theEnv, "exists$", "b", 1, UNBOUNDED, "*;y;*", ExistsFunction, "ExistsFunction", nullptr);
 	AddUDF(theEnv, "not-exists$", "b", 1, UNBOUNDED, "*;y;*", NotExistsFunction, "NotExistsFunction", nullptr);
+    AddUDF(theEnv, "left-shift", "l", 2, 2, "l;l;l", LeftShift, "LeftShift", nullptr);
+    AddUDF(theEnv, "right-shift", "l", 2, 2, "l;l;l", RightShift, "RightShift", nullptr);
+    AddUDF(theEnv, "bitwise-or", "l", 2, 2, "l;l;l", BitwiseOr, "BitwiseOr", nullptr);
+    AddUDF(theEnv, "bitwise-and", "l", 2, 2, "l;l;l", BitwiseAnd, "BitwiseAnd", nullptr);
+    AddUDF(theEnv, "bitwise-not", "l", 1, 1, "l;l", BitwiseNot, "BitwiseNot", nullptr);
 #endif
 }
 
 #if FUNCTIONAL_EXTENSIONS
+void
+BitwiseNot(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
+    UDFValue invert;
+    if (!UDFFirstArgument(context, INTEGER_BIT, &invert)) {
+        ret->lexemeValue = FalseSymbol(theEnv);
+    } else {
+        ret->integerValue = CreateInteger(theEnv, ~(CVCoerceToInteger(&invert)));
+    }
+}
+void
+LeftShift(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
+	UDFValue shift, by;
+	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else {
+        ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) << std::abs(CVCoerceToInteger(&by)));
+    }
+}
+
+void
+BitwiseAnd(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
+	UDFValue shift, by;
+	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else {
+        ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) & std::abs(CVCoerceToInteger(&by)));
+    }
+}
+
+void
+BitwiseOr(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
+	UDFValue shift, by;
+	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else {
+        ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) | std::abs(CVCoerceToInteger(&by)));
+    }
+}
+void
+RightShift(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
+	UDFValue shift, by;
+	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
+		ret->lexemeValue = FalseSymbol(theEnv);
+    } else {
+        ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) >> std::abs(CVCoerceToInteger(&by)));
+    }
+}
 void
 FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, const std::string& func) noexcept {
 	PrintErrorID(theEnv, "FUNCTIONAL", code, false);
