@@ -255,7 +255,7 @@ struct patternEntityRecord
    void (*decrementBasisCount)(Environment *,void *);
    void (*incrementBasisCount)(Environment *,void *);
    void (*matchFunction)(Environment *,void *);
-   bool (*synchronized)(Environment *,void *);
+   bool (*_synchronized)(Environment *,void *);
    bool (*isDeleted)(Environment *,void *);
   };
 
