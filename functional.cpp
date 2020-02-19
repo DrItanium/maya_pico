@@ -135,11 +135,7 @@ FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, Strin
 			break;
 		case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
 			WriteString(theEnv, STDERR, "Function '");
-#ifndef PLATFORM_ARDUINO
 			WriteString(theEnv, STDERR, func.c_str());
-#else
-			WriteString(theEnv, STDERR, func);
-#endif
 			WriteString(theEnv, STDERR, "' has a custom parser and cannot be used with map$!\n");
 			break;
 		case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
