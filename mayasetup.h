@@ -35,7 +35,7 @@
 #define TAGLIB_EXTENSIONS 0
 #endif
 
-#ifndef PLATFORM_ARDUINO
+#ifdef PLATFORM_ARDUINO
 #define BOOST_EXTENSIONS 0
 #define TAGLIB_EXTENSIONS 0
 #endif

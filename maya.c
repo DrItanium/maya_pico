@@ -52,7 +52,7 @@ void InstallMayaExtensions(Environment* environment) {
 	AddUDF(environment, "quit", "v", 0, 1, "l", ExitCommand, "ExitCommand", NULL);
 	AddUDF(environment, "bye", "v", 0, 1, "l", ExitCommand, "ExitCommand", NULL);
 	AddUDF(environment, "last$", "m", 1, 1, "m", LastFunction, "LastFunction", NULL);
-#if  BOOST_EXTENSIONS
+#if BOOST_EXTENSIONS
 	InstallBoostExtensions(environment);
 #endif
 #if FUNCTIONAL_EXTENSIONS
