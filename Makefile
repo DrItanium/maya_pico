@@ -6,7 +6,8 @@ OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
 CFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='$(COMMAND_PROMPT)'
 CXXFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='${COMMAND_PROMPT}'
 ifeq ($(CXXEXTENSIONS), TRUE)
-CXX_OBJECTS = $(patsubst %.cc,%.o, $(wildcard *.cc))
+CXX_OBJECTS = $(patsubst %.cc,%.o, $(wildcard *.cc)) \
+			  $(patsubst %.cpp,%.o, $(wildcard *.cpp))
 endif
 ifeq ($(CXXEXTENSIONS), TRUE)
 	OBJS = ${OBJECTS} ${CXX_OBJECTS}
@@ -40,6 +41,10 @@ clean:
 	@${CC} ${CFLAGS} -c $< -o $@
 
 .cc.o :
+	@echo CXX $<
+	@${CXX} ${CXXFLAGS} -c $< -o $@
+
+.cpp.o :
 	@echo CXX $<
 	@${CXX} ${CXXFLAGS} -c $< -o $@
 
@@ -1103,7 +1108,7 @@ boost.o: boost.cc clips.h setup.h os_shim.h platform.h envrnmnt.h \
  genrccom.h genrcfun.h classcom.h object.h multifld.h objrtmch.h \
  classexm.h classfun.h classinf.h classini.h classpsr.h defins.h inscom.h \
  insfun.h insfile.h insmngr.h msgcom.h msgpass.h mayasetup.h boost.h
-functional.o: functional.cc clips.h setup.h os_shim.h platform.h \
+functional.o: functional.cpp clips.h setup.h os_shim.h platform.h \
  envrnmnt.h entities.h usrsetup.h argacces.h expressn.h exprnops.h \
  constrct.h userdata.h moduldef.h utility.h evaluatn.h constant.h \
  memalloc.h cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h \
