@@ -272,8 +272,13 @@ namespace maya {
 		FCBDispose(_builder);
 		_builder = nullptr;
 	}
-	FunctionCallBuilder::ErrorKind FunctionCallBuilder::call(const std::string& functionName, CLIPSValue* ret) noexcept {
-		return FCBCall(_builder, functionName.c_str(), ret);
+	FunctionCallBuilder::ErrorKind FunctionCallBuilder::call(FunctionCallBuilder::String functionName, CLIPSValue* ret) noexcept {
+		return FCBCall(_builder, 
+                functionName
+#ifndef PLATFORM_ARDUINO
+                .c_str()
+#endif
+                , ret);
 	}
 	void FunctionCallBuilder::append(UDFValue* value) noexcept { FCBAppendUDFValue(_builder, value); }
 	void FunctionCallBuilder::append(CLIPSValue* value) noexcept { FCBAppend(_builder, value); }
@@ -286,9 +291,33 @@ namespace maya {
 	void FunctionCallBuilder::append(Fact* value) noexcept { FCBAppendFact(_builder, value); }
 	void FunctionCallBuilder::append(Instance* value) noexcept { FCBAppendInstance(_builder, value); }
 	void FunctionCallBuilder::append(Multifield* value) noexcept { FCBAppendMultifield(_builder, value); }
-	void FunctionCallBuilder::appendSymbol(const std::string& sym) noexcept { FCBAppendSymbol(_builder, sym.c_str()); }
-	void FunctionCallBuilder::appendString(const std::string& sym) noexcept { FCBAppendString(_builder, sym.c_str()); }
-	void FunctionCallBuilder::appendInstanceName(const std::string& sym) noexcept { FCBAppendInstanceName(_builder, sym.c_str()); }
+	void FunctionCallBuilder::appendSymbol(FunctionCallBuilder::String sym) noexcept { 
+        FCBAppendSymbol(_builder, 
+#ifndef PLATFORM_ARDUINO
+                sym.c_str()
+#else
+                sym
+#endif
+                ); 
+    }
+	void FunctionCallBuilder::appendString(FunctionCallBuilder::String sym) noexcept { 
+        FCBAppendString(_builder, 
+#ifndef PLATFORM_ARDUINO
+                sym.c_str()
+#else
+                sym
+#endif
+                );
+    }
+	void FunctionCallBuilder::appendInstanceName(FunctionCallBuilder::String sym) noexcept { 
+        FCBAppendInstanceName(_builder, 
+#ifndef PLATFORM_ARDUINO
+                sym.c_str()
+#else
+                sym
+#endif
+                ); 
+    }
 	MultifieldBuilder::MultifieldBuilder(Environment* theEnv, size_t size) : _builder(CreateMultifieldBuilder(theEnv, size)) { }
 	MultifieldBuilder::~MultifieldBuilder() { MBDispose(_builder); }
 	void MultifieldBuilder::append(UDFValue* value) noexcept { MBAppendUDFValue(_builder, value); }
@@ -302,9 +331,33 @@ namespace maya {
 	void MultifieldBuilder::append(Multifield* value) noexcept { MBAppendMultifield(_builder, value); }
 	void MultifieldBuilder::append(int64_t value) noexcept { MBAppendInteger(_builder, value); }
 	void MultifieldBuilder::append(double value) noexcept { MBAppendFloat(_builder, value); }
-	void MultifieldBuilder::appendSymbol(const std::string& value) noexcept { MBAppendSymbol(_builder, value.c_str()); }
-	void MultifieldBuilder::appendString(const std::string& value) noexcept { MBAppendString(_builder, value.c_str()); }
-	void MultifieldBuilder::appendInstanceName(const std::string& value) noexcept { MBAppendInstanceName(_builder, value.c_str()); }
+	void MultifieldBuilder::appendSymbol(MultifieldBuilder::String value) noexcept { 
+        MBAppendSymbol(_builder, 
+#ifndef PLATFORM_ARDUINO
+                value.c_str()
+#else
+                value
+#endif
+                ); 
+    }
+	void MultifieldBuilder::appendString(MultifieldBuilder::String value) noexcept { 
+        MBAppendString(_builder, 
+#ifndef PLATFORM_ARDUINO
+                value.c_str()
+#else
+                value
+#endif
+                ); 
+    }
+	void MultifieldBuilder::appendInstanceName(MultifieldBuilder::String value) noexcept { 
+        MBAppendInstanceName(_builder, 
+#ifndef PLATFORM_ARDUINO
+                value.c_str()
+#else
+                value
+#endif
+                ); 
+    }
 } // end namespace maya
 #endif
 

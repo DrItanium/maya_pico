@@ -23,7 +23,9 @@
 #ifndef __MAYA_FUNCTIONAL_H__
 #define __MAYA_FUNCTIONAL_H__
 #ifdef __cplusplus
+#ifndef PLATFORM_ARDUINO
 #include <string>
+#endif
 #include <cstdint>
 
 extern "C" {
@@ -39,10 +41,15 @@ class FunctionCallBuilder {
 	public:
 		using FCB = ::FunctionCallBuilder;
 		using ErrorKind = ::FunctionCallBuilderError;
+#ifndef PLATFORM_ARDUINO
+        using String = const std::string&;
+#else
+        using String = const char*;
+#endif
 	public:
 		FunctionCallBuilder(Environment* theEnv, size_t size = 0);
 		~FunctionCallBuilder();
-		ErrorKind call(const std::string& functionName, CLIPSValue* ret) noexcept;
+		ErrorKind call(String functionName, CLIPSValue* ret) noexcept;
 		void reset() noexcept { FCBReset(_builder); }
 		void append(UDFValue* value) noexcept;
 		void append(CLIPSValue* value) noexcept;
@@ -51,9 +58,9 @@ class FunctionCallBuilder {
 		void append(CLIPSFloat* value) noexcept;
 		void append(double value) noexcept;
 		void append(CLIPSLexeme* value) noexcept;
-		void appendSymbol(const std::string& sym) noexcept;
-		void appendString(const std::string& sym) noexcept;
-		void appendInstanceName(const std::string& sym) noexcept;
+		void appendSymbol(String sym) noexcept;
+		void appendString(String sym) noexcept;
+		void appendInstanceName(String sym) noexcept;
 		void append(CLIPSExternalAddress* value) noexcept;
 		void append(Fact* value) noexcept;
 		void append(Instance* value) noexcept;
@@ -64,6 +71,11 @@ class FunctionCallBuilder {
 class MultifieldBuilder {
 	public:
 		using MB = ::MultifieldBuilder;
+#ifndef PLATFORM_ARDUINO
+        using String = const std::string&;
+#else
+        using String = const char*;
+#endif
 	public:
 		MultifieldBuilder(Environment* theEnv, size_t size = 0); 
 		~MultifieldBuilder(); 
@@ -80,12 +92,12 @@ class MultifieldBuilder {
 		void append(Fact*) noexcept;
 		void append(Instance*) noexcept;
 		void append(Multifield*) noexcept;
-		void appendSymbol(const std::string&) noexcept;
-		void appendString(const std::string&) noexcept;
-		void appendInstanceName(const std::string&) noexcept;
+		void appendSymbol(String)noexcept;
+		void appendString(String) noexcept;
+		void appendInstanceName(String) noexcept;
 	private:
 		MB* _builder;
 };
 }
-#endif 
-#endif
+#endif // end __cplusplus
+#endif // end __MAYA_FUNCTIONAL_H__

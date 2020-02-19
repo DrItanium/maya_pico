@@ -33,7 +33,10 @@
 	#define UNIX_V 1
 #elif defined(PLATFORM_NT)
 	#define WIN_MVC 1
+#elif defined(PLATFORM_ARDUINO)
+    #define GENERIC 1
 #else
+
 #endif
 
 #endif // end __OS_SHIM_H__

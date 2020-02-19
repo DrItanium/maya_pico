@@ -49,6 +49,8 @@
 	#define PLATFORM_DRAGONFLYBSD
 #elif defined(_WIN32) || defined(_WIN64)
 	#define PLATFORM_NT
+#elif defined(ARDUINO)
+    #define PLATFORM_ARDUINO
 #else
 	#warning "Couldn't identify target platform, enabling generic"
 	#define PLATFORM_GENERIC

@@ -35,6 +35,11 @@
 #define TAGLIB_EXTENSIONS 0
 #endif
 
+#ifndef PLATFORM_ARDUINO
+#define BOOST_EXTENSIONS 0
+#define TAGLIB_EXTENSIONS 0
+#endif
+
 // should we enable the boost library extensions (header only!)
 #ifndef BOOST_EXTENSIONS
 #define BOOST_EXTENSIONS 1
