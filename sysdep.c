@@ -220,7 +220,11 @@ int gensystem(
   Environment *theEnv,
   const char *commandBuffer)
   {
+#ifdef PLATFORM_ARDUINO
+      return 0;
+#else
    return system(commandBuffer);
+#endif
   }
 
 /*******************************************/
@@ -277,10 +281,13 @@ void genexit(
   Environment *theEnv,
   int num)
   {
+#ifndef PLATFORM_ARDUINO
+
    if (SystemDependentData(theEnv)->jmpBuffer != NULL)
      { longjmp(*SystemDependentData(theEnv)->jmpBuffer,1); }
 
    exit(num);
+#endif
   }
 
 /**************************************/
@@ -290,7 +297,9 @@ void SetJmpBuffer(
   Environment *theEnv,
   jmp_buf *theJmpBuffer)
   {
+#ifndef PLATFORM_ARDUINO
    SystemDependentData(theEnv)->jmpBuffer = theJmpBuffer;
+#endif
   }
 
 /******************************************/
@@ -382,6 +391,8 @@ char *gengetcwd(
   {
 #if MAC_XCD
    return(getcwd(buffer,buflength));
+#elif defined(PLATFORM_ARDUINO)
+   return "";
 #else
    if (buffer != NULL)
      { buffer[0] = 0; }
@@ -399,7 +410,7 @@ int genchdir(
   const char *directory)
   {
    int rv = -1;
-   
+#ifndef PLATFORM_ARDUINO
    /*==========================================================*/
    /* If the directory argument is NULL, then the return value */
    /* indicates whether the chdir functionality is supported.  */
@@ -436,6 +447,7 @@ int genchdir(
    genfree(theEnv,wdirectory,wlength * sizeof(wchar_t));
 #endif
 
+#endif
    return rv;
   }
 
@@ -446,6 +458,7 @@ bool genremove(
   Environment *theEnv,
   const char *fileName)
   {
+#ifndef PLATFORM_ARDUINO
 #if WIN_MVC
    wchar_t *wfileName;
    int wfnlength;
@@ -468,8 +481,11 @@ bool genremove(
 #else
    if (remove(fileName)) return false;
 #endif
-
    return true;
+#else
+   return false;
+#endif 
+
   }
 
 /****************************************************/
@@ -480,6 +496,7 @@ bool genrename(
   const char *oldFileName,
   const char *newFileName)
   {
+#ifndef PLATFORM_ARDUINO
 #if WIN_MVC
    wchar_t *woldFileName, *wnewFileName;
    int wofnlength, wnfnlength;
@@ -509,6 +526,9 @@ bool genrename(
 #endif
 
    return true;
+#else
+   return false;
+#endif
   }
 
 /***********************************/
