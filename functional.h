@@ -23,9 +23,7 @@
 #ifndef __MAYA_FUNCTIONAL_H__
 #define __MAYA_FUNCTIONAL_H__
 #ifdef __cplusplus
-#ifndef PLATFORM_ARDUINO
 #include <string>
-#endif
 #include <cstdint>
 
 extern "C" {
@@ -41,11 +39,7 @@ class FunctionCallBuilder {
 	public:
 		using FCB = ::FunctionCallBuilder;
 		using ErrorKind = ::FunctionCallBuilderError;
-#ifndef PLATFORM_ARDUINO
         using String = const std::string&;
-#else
-        using String = const char*;
-#endif
 	public:
 		FunctionCallBuilder(Environment* theEnv, size_t size = 0);
 		~FunctionCallBuilder();
@@ -71,11 +65,7 @@ class FunctionCallBuilder {
 class MultifieldBuilder {
 	public:
 		using MB = ::MultifieldBuilder;
-#ifndef PLATFORM_ARDUINO
         using String = const std::string&;
-#else
-        using String = const char*;
-#endif
 	public:
 		MultifieldBuilder(Environment* theEnv, size_t size = 0); 
 		~MultifieldBuilder(); 

@@ -28,12 +28,14 @@ extern "C" {
 #include <functional>
 #include <string>
 
+using String = const std::string&;
+
 #if FUNCTIONAL_EXTENSIONS
 void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
 void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
 void ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
 void NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
-void FunctionError(Environment*, int, FunctionCallBuilderError, const std::string&) noexcept;
+void FunctionError(Environment*, int, FunctionCallBuilderError, String) noexcept;
 void LeftShift(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
 void RightShift(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
 void BitwiseOr(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
@@ -114,7 +116,7 @@ RightShift(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
     }
 }
 void
-FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, const std::string& func) noexcept {
+FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, String func) noexcept {
 	PrintErrorID(theEnv, "FUNCTIONAL", code, false);
 	switch(err) {
 		case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
@@ -133,7 +135,11 @@ FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, const
 			break;
 		case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
 			WriteString(theEnv, STDERR, "Function '");
+#ifndef PLATFORM_ARDUINO
 			WriteString(theEnv, STDERR, func.c_str());
+#else
+			WriteString(theEnv, STDERR, func);
+#endif
 			WriteString(theEnv, STDERR, "' has a custom parser and cannot be used with map$!\n");
 			break;
 		case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
@@ -273,12 +279,7 @@ namespace maya {
 		_builder = nullptr;
 	}
 	FunctionCallBuilder::ErrorKind FunctionCallBuilder::call(FunctionCallBuilder::String functionName, CLIPSValue* ret) noexcept {
-		return FCBCall(_builder, 
-                functionName
-#ifndef PLATFORM_ARDUINO
-                .c_str()
-#endif
-                , ret);
+		return FCBCall(_builder, functionName.c_str() , ret);
 	}
 	void FunctionCallBuilder::append(UDFValue* value) noexcept { FCBAppendUDFValue(_builder, value); }
 	void FunctionCallBuilder::append(CLIPSValue* value) noexcept { FCBAppend(_builder, value); }
@@ -292,31 +293,13 @@ namespace maya {
 	void FunctionCallBuilder::append(Instance* value) noexcept { FCBAppendInstance(_builder, value); }
 	void FunctionCallBuilder::append(Multifield* value) noexcept { FCBAppendMultifield(_builder, value); }
 	void FunctionCallBuilder::appendSymbol(FunctionCallBuilder::String sym) noexcept { 
-        FCBAppendSymbol(_builder, 
-#ifndef PLATFORM_ARDUINO
-                sym.c_str()
-#else
-                sym
-#endif
-                ); 
+        FCBAppendSymbol(_builder, sym.c_str()); 
     }
 	void FunctionCallBuilder::appendString(FunctionCallBuilder::String sym) noexcept { 
-        FCBAppendString(_builder, 
-#ifndef PLATFORM_ARDUINO
-                sym.c_str()
-#else
-                sym
-#endif
-                );
+        FCBAppendString(_builder, sym.c_str());
     }
 	void FunctionCallBuilder::appendInstanceName(FunctionCallBuilder::String sym) noexcept { 
-        FCBAppendInstanceName(_builder, 
-#ifndef PLATFORM_ARDUINO
-                sym.c_str()
-#else
-                sym
-#endif
-                ); 
+        FCBAppendInstanceName(_builder, sym.c_str()); 
     }
 	MultifieldBuilder::MultifieldBuilder(Environment* theEnv, size_t size) : _builder(CreateMultifieldBuilder(theEnv, size)) { }
 	MultifieldBuilder::~MultifieldBuilder() { MBDispose(_builder); }
@@ -332,31 +315,13 @@ namespace maya {
 	void MultifieldBuilder::append(int64_t value) noexcept { MBAppendInteger(_builder, value); }
 	void MultifieldBuilder::append(double value) noexcept { MBAppendFloat(_builder, value); }
 	void MultifieldBuilder::appendSymbol(MultifieldBuilder::String value) noexcept { 
-        MBAppendSymbol(_builder, 
-#ifndef PLATFORM_ARDUINO
-                value.c_str()
-#else
-                value
-#endif
-                ); 
+        MBAppendSymbol(_builder, value.c_str()); 
     }
 	void MultifieldBuilder::appendString(MultifieldBuilder::String value) noexcept { 
-        MBAppendString(_builder, 
-#ifndef PLATFORM_ARDUINO
-                value.c_str()
-#else
-                value
-#endif
-                ); 
+        MBAppendString(_builder, value.c_str()); 
     }
 	void MultifieldBuilder::appendInstanceName(MultifieldBuilder::String value) noexcept { 
-        MBAppendInstanceName(_builder, 
-#ifndef PLATFORM_ARDUINO
-                value.c_str()
-#else
-                value
-#endif
-                ); 
+        MBAppendInstanceName(_builder, value.c_str()); 
     }
 } // end namespace maya
 #endif
