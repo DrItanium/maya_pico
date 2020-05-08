@@ -2,12 +2,38 @@
 include config.mk
 CFLAGS += -I.
 CXXFLAGS += -I.
-OBJECTS = $(patsubst %.c,%.o, $(wildcard *.c))
+
+OBJECTS = agenda.o analysis.o argacces.o bload.o bmathfun.o bsave.o classcom.o \
+		  classexm.o classfun.o classinf.o classini.o classpsr.o clsltpsr.o \
+		  commline.o conscomp.o constrct.o constrnt.o crstrtgy.o cstrcbin.o cstrccom.o cstrcpsr.o \
+		  cstrnbin.o cstrnchk.o cstrncmp.o cstrnops.o cstrnpsr.o cstrnutl.o \
+		  default.o defins.o developr.o dffctbin.o dffctbsc.o dffctcmp.o dffctdef.o dffctpsr.o \
+		  dffnxbin.o dffnxcmp.o dffnxexe.o dffnxfun.o dffnxpsr.o dfinsbin.o dfinscmp.o \
+		  drive.o emathfun.o engine.o envrnbld.o envrnmnt.o evaluatn.o expressn.o \
+		  exprnbin.o exprnops.o exprnpsr.o extnfunc.o factbin.o factbld.o factcmp.o \
+		  factcom.o factfun.o factgen.o facthsh.o factlhs.o factmch.o factmngr.o \
+		  factprt.o factqpsr.o factqury.o factrete.o factrhs.o filecom.o filertr.o \
+		  fileutil.o generate.o genrcbin.o genrccmp.o genrccom.o genrcexe.o genrcfun.o \
+		  genrcpsr.o globlbin.o globlbsc.o globlcmp.o globlcom.o globldef.o globlpsr.o \
+		  immthpsr.o incrrset.o inherpsr.o inscom.o insfile.o insfun.o insmngr.o \
+		  insmoddp.o insmult.o inspsr.o insquery.o insqypsr.o iofun.o lgcldpnd.o \
+		  maya.o memalloc.o miscfun.o modulbin.o modulbsc.o modulcmp.o moduldef.o modulpsr.o \
+		  modulutl.o msgcom.o msgfun.o msgpass.o msgpsr.o multifld.o \
+		  multifun.o objbin.o objcmp.o objrtbin.o objrtbld.o objrtcmp.o objrtfnx.o objrtgen.o \
+		  objrtmch.o parsefun.o pattern.o pprint.o prccode.o prcdrfun.o prcdrpsr.o \
+		  prdctfun.o prntutil.o proflfun.o reorder.o reteutil.o retract.o \
+		  router.o rulebin.o rulebld.o rulebsc.o rulecmp.o rulecom.o rulecstr.o \
+		  ruledef.o ruledlt.o rulelhs.o rulepsr.o scanner.o sortfun.o \
+		  strngfun.o strngrtr.o symblbin.o symblcmp.o symbol.o sysdep.o textpro.o \
+		  tmpltbin.o tmpltbsc.o tmpltcmp.o tmpltdef.o tmpltfun.o tmpltlhs.o tmpltpsr.o \
+		  tmpltrhs.o tmpltutl.o userdata.o userfunctions.o utility.o watch.o 
+REPL_OBJS = cmd/repl/main.o
 CFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='$(COMMAND_PROMPT)'
 CXXFLAGS += -DBANNER_STRING=${BANNER_STRING} -DCOMMAND_PROMPT='${COMMAND_PROMPT}'
 ifeq ($(CXXEXTENSIONS), TRUE)
-CXX_OBJECTS = $(patsubst %.cc,%.o, $(wildcard *.cc)) \
-			  $(patsubst %.cpp,%.o, $(wildcard *.cpp))
+CXX_OBJECTS = boost.o \
+			  taglib_interface.o \
+			  functional.o
 endif
 ifeq ($(CXXEXTENSIONS), TRUE)
 	OBJS = ${OBJECTS} ${CXX_OBJECTS}
@@ -19,9 +45,9 @@ endif
 
 all: repl
 
-repl: $(OBJS) cmd/repl/main.o
+repl: $(OBJS) $(REPL_OBJS)
 	@echo Building maya
-	@$(LD) $(LDFLAGS) -o maya cmd/repl/main.o $(OBJS) ${LIBRARIES}
+	@$(LD) $(LDFLAGS) -o maya $(OBJS) $(REPL_OBJS) ${LIBRARIES}
 
 install: repl
 	@echo Installing binaries to $(PREFIX)/bin
@@ -34,7 +60,7 @@ deinstall uninstall:
 
 clean:
 	@echo Cleaning
-	@rm -f $(OBJS) cmd/repl/main.o $(OUTPUT)
+	@rm -f $(OBJS) $(REPL_OBJS) $(OUTPUT)
 
 .c.o :
 	@echo CC $<
@@ -1140,7 +1166,7 @@ taglib_interface.o: taglib_interface.cc clips.h setup.h os_shim.h platform.h env
  insfun.h insfile.h insmngr.h msgcom.h msgpass.h mayasetup.h taglib_interface.h
 
 
-main.o: cmd/repl/main.c clips.h setup.h os_shim.h platform.h envrnmnt.h \
+cmd/repl/main.o: cmd/repl/main.c clips.h setup.h os_shim.h platform.h envrnmnt.h \
  entities.h usrsetup.h argacces.h expressn.h exprnops.h constrct.h \
  userdata.h moduldef.h utility.h evaluatn.h constant.h memalloc.h \
  cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h symbol.h \
