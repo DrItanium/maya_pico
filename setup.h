@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.40  08/23/17            */
+   /*             CLIPS Version 6.40  04/20/20            */
    /*                                                     */
    /*                  SETUP HEADER FILE                  */
    /*******************************************************/
@@ -88,6 +88,10 @@
 /*                                                           */
 /*            UDF redesign.                                  */
 /*                                                           */
+/*            WINDOW_INTERFACE flag no longer supported.     */
+/*                                                           */
+/*            Changed IBM flag to WINDOWS_OS.                */
+/*                                                           */
 /*************************************************************/
 
 #ifndef _H_setup
@@ -112,11 +116,11 @@
 #endif              /* Fedora 26, Mint 18, and CentOS 7.     */
 
 #ifndef DARWIN
-#define DARWIN  0   /* Darwin Mac OS 10.13 with Console */
+#define DARWIN  0   /* Darwin Mac OS 10.14 with Console */
 #endif
 
 #ifndef MAC_XCD
-#define MAC_XCD 0   /* MacOS 10.13 with Xcode 9.4 */
+#define MAC_XCD 0   /* MacOS 10.14 with Xcode 10.2 */
 #endif
 
 #ifndef WIN_MVC
@@ -150,9 +154,9 @@
 #endif
 
 #if WIN_MVC || WIN_GCC
-#define IBM 1
+#define WINDOWS_OS 1
 #else
-#define IBM 0
+#define WINDOWS_OS 0
 #endif
 
 /***********************************************/
@@ -379,7 +383,7 @@
 /********************************************************************/
 
 #ifndef CONSTRUCT_COMPILER
-#define  CONSTRUCT_COMPILER 0
+#define  CONSTRUCT_COMPILER 1
 #endif
 
 #if CONSTRUCT_COMPILER
@@ -431,18 +435,6 @@
 
 #ifndef PROFILING_FUNCTIONS
 #define PROFILING_FUNCTIONS 1
-#endif
-
-/*******************************************************************/
-/* WINDOW_INTERFACE : Set this flag if you are recompiling any of  */
-/*   the machine specific GUI interfaces. Currently, when enabled, */
-/*   this flag disables the more processing used by the help       */
-/*   system. This flag also prevents any input or output being     */
-/*   directly sent to stdin or stdout.                             */
-/*******************************************************************/
-
-#ifndef WINDOW_INTERFACE
-#define WINDOW_INTERFACE 0
 #endif
 
 /********************************************/
