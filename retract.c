@@ -459,8 +459,8 @@ static bool PartialMatchDefunct(
      {
       if (thePM->binds[i].gm.theMatch == NULL) continue;
       thePE = thePM->binds[i].gm.theMatch->matchingItem;
-      if (thePE && thePE->theInfo->_synchronized &&
-          !(*thePE->theInfo->_synchronized)(theEnv,thePE))
+      if (thePE && thePE->theInfo->synchronized &&
+          !(*thePE->theInfo->synchronized)(theEnv,thePE))
         return true;
      }
    return false;
