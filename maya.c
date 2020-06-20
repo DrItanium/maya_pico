@@ -84,7 +84,7 @@ void
 Functionp(Environment* env, UDFContext* context, UDFValue* ret) {
 	Expression theRef;
 	UDFValue theArg;
-	ret->lexemeValue = (UDFFirstArgument(context, LEXEME_BITS, &theArg) && GetFunctionReference(env, theArg.lexemeValue->contents, &theRef)) ? TrueSymbol(env) : FalseSymbol(env);
+	ret->lexemeValue = CreateBoolean(env, (UDFFirstArgument(context, LEXEME_BITS, &theArg) && GetFunctionReference(env, theArg.lexemeValue->contents, &theRef)));
 }
 void
 EmptyFunction(Environment* env, UDFContext* context, UDFValue* ret) {
@@ -92,7 +92,7 @@ EmptyFunction(Environment* env, UDFContext* context, UDFValue* ret) {
 	if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
 		return;
 	}
-	ret->lexemeValue = (theArg.range > 0) ? FalseSymbol(env) : TrueSymbol(env);
+	ret->lexemeValue = CreateBoolean(env, theArg.range > 0);
 }
 
 #endif // end MAYA_EXTENSIONS
