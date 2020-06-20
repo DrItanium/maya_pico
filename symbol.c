@@ -1778,7 +1778,7 @@ static size_t CommonPrefixLength(
    return(i);
   }
 
-#if BLOAD_AND_BSAVE || CONSTRUCT_COMPILER || BSAVE_INSTANCES
+#if BLOAD_AND_BSAVE || BSAVE_INSTANCES
 
 /****************************************************************/
 /* SetAtomicValueIndices: Sets the bucket values for hash table */
@@ -1941,4 +1941,4 @@ void RestoreAtomicValueBuckets(
      }
   }
 
-#endif /* BLOAD_AND_BSAVE || CONSTRUCT_COMPILER || BSAVE_INSTANCES */
+#endif /* BLOAD_AND_BSAVE || BSAVE_INSTANCES */

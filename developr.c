@@ -91,7 +91,6 @@
 void DeveloperCommands(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"primitives-info","v",0,0,NULL,PrimitiveTablesInfoCommand,"PrimitiveTablesInfoCommand",NULL);
    AddUDF(theEnv,"primitives-usage","v",0,0,NULL,PrimitiveTablesUsageCommand,"PrimitiveTablesUsageCommand",NULL);
 
@@ -110,7 +109,6 @@ void DeveloperCommands(
    AddUDF(theEnv,"instance-table-usage","v",0,0,NULL,InstanceTableUsageCommand,"InstanceTableUsageCommand",NULL);
 #endif
 
-#endif
   }
 
 /******************************************************/

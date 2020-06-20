@@ -42,7 +42,7 @@
 
 #include "setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! RUN_TIME) && (! BLOAD_ONLY)
+#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! BLOAD_ONLY)
 
 #include <stdio.h>
 
@@ -244,7 +244,7 @@ struct lhsParseNode *FactPatternParse(
    return(SequenceRestrictionParse(theEnv,readSource,theToken));
   }
 
-#endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! BLOAD_ONLY) */
 
 
 

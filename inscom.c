@@ -182,7 +182,6 @@ void SetupInstances(
    InitializeInstanceTable(theEnv);
    InstallPrimitive(theEnv,(struct entityRecord *) &InstanceData(theEnv)->InstanceInfo,INSTANCE_ADDRESS_TYPE);
 
-#if ! RUN_TIME
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
    AddUDF(theEnv,"initialize-instance","bn",0,UNBOUNDED,NULL,InactiveInitializeInstance,"InactiveInitializeInstance",NULL);
@@ -217,7 +216,6 @@ void SetupInstances(
    AddUDF(theEnv,"instance-existp","b",1,1,"niy",InstanceExistPCommand,"InstanceExistPCommand",NULL);
    AddUDF(theEnv,"class","*",1,1,NULL,ClassCommand,"ClassCommand",NULL);
 
-#endif
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
    AddFunctionParser(theEnv,"active-initialize-instance",ParseInitializeInstance);

@@ -118,7 +118,6 @@ void SetupQuery(
   {
    AllocateEnvironmentData(theEnv,INSTANCE_QUERY_DATA,sizeof(struct instanceQueryData),NULL);
 
-#if ! RUN_TIME
    InstanceQueryData(theEnv)->QUERY_DELIMITER_SYMBOL = CreateSymbol(theEnv,QUERY_DELIMITER_STRING);
    IncrementLexemeCount(InstanceQueryData(theEnv)->QUERY_DELIMITER_SYMBOL);
 
@@ -137,7 +136,6 @@ void SetupQuery(
    AddUDF(theEnv,"do-for-all-instances","*",0,UNBOUNDED,NULL,QueryDoForAllInstances,"QueryDoForAllInstances",NULL);
 
    AddUDF(theEnv,"delayed-do-for-all-instances","*",0,UNBOUNDED,NULL,DelayedQueryDoForAllInstances,"DelayedQueryDoForAllInstances",NULL);
-#endif
 
    AddFunctionParser(theEnv,"any-instancep",ParseQueryNoAction);
    AddFunctionParser(theEnv,"find-instance",ParseQueryNoAction);

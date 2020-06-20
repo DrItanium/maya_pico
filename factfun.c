@@ -122,7 +122,6 @@
 void FactFunctionDefinitions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"fact-existp","b",1,1,"lf",FactExistpFunction,"FactExistpFunction",NULL);
    AddUDF(theEnv,"fact-relation","y",1,1,"lf",FactRelationFunction,"FactRelationFunction",NULL);
    AddUDF(theEnv,"fact-slot-value","*",2,2,";lf;y",FactSlotValueFunction,"FactSlotValueFunction",NULL);
@@ -130,11 +129,6 @@ void FactFunctionDefinitions(
    AddUDF(theEnv,"get-fact-list","m",0,1,"y",GetFactListFunction,"GetFactListFunction",NULL);
    AddUDF(theEnv,"ppfact","vs",1,3,"*;lf;ldsyn",PPFactFunction,"PPFactFunction",NULL);
    AddUDF(theEnv,"fact-addressp","b",1,1,NULL,FactAddresspFunction,"FactAddresspFunction",NULL);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 /**********************************************/

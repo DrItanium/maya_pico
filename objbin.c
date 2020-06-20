@@ -261,7 +261,7 @@ static void DeallocateObjectBinaryData(
    size_t space;
    unsigned long i;
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
 
    space = (sizeof(DEFCLASS_MODULE) * ObjectBinaryData(theEnv)->ModuleCount);
    if (space != 0) genfree(theEnv,ObjectBinaryData(theEnv)->ModuleArray,space);

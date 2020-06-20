@@ -358,7 +358,7 @@ void GetToken(
    /* Put the new token in the pretty print buffer. */
    /*===============================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if (theToken->tknType == INSTANCE_NAME_TOKEN)
      {
       SavePPBuffer(theEnv,"[");

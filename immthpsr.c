@@ -53,7 +53,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME)
+#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY)
 
 #include <stdlib.h>
 
@@ -427,5 +427,5 @@ static Expression *GenTypeExpression(
    return(tmp);
   }
 
-#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) */
 

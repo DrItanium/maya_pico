@@ -200,9 +200,6 @@ struct objectReteData
    bool DelayObjectPatternMatching;
    unsigned long long CurrentObjectMatchTimeTag;
    unsigned long long UseEntityTimeTag;
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && CONSTRUCT_COMPILER
-   struct CodeGeneratorItem *ObjectPatternCodeItem;
-#endif
   };
 
 #define ObjectReteData(theEnv) ((struct objectReteData *) GetEnvironmentData(theEnv,OBJECT_RETE_DATA))

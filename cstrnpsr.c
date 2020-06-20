@@ -1387,5 +1387,5 @@ static void SetParseFlag(
      { parsedConstraints->allowedClasses = true; }
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 

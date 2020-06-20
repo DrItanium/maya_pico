@@ -170,7 +170,7 @@ void SetupGenericsBload(
 static void DeallocateDefgenericBinaryData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    size_t space;
 
    space = DefgenericBinaryData(theEnv)->GenericCount * sizeof(Defgeneric);

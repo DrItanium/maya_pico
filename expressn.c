@@ -435,7 +435,7 @@ Expression *AddHashedExpression(
 
 #endif /* (! BLOAD_ONLY) */
 
-#if (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER)
+#if (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD)
 
 /***************************************************
   NAME         : HashedExpressionIndex
@@ -459,7 +459,7 @@ unsigned long HashedExpressionIndex(
    return((exphash != NULL) ? exphash->bsaveID : ULONG_MAX);
   }
 
-#endif /* (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER) */
+#endif /* (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD) */
 
 /********************************************************/
 /* SetSequenceOperatorRecognition: C access routine     */

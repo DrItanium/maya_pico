@@ -137,7 +137,7 @@ static void DeallocateDeffunctionBloadData(
   {
    size_t space;
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    space = DeffunctionBinaryData(theEnv)->DeffunctionCount * sizeof(Deffunction);
    if (space != 0) genfree(theEnv,DeffunctionBinaryData(theEnv)->DeffunctionArray,space);
 

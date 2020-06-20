@@ -170,7 +170,7 @@ void SetupObjectPatternsBload(
 static void DeallocateObjectReteBinaryData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    size_t space;
    unsigned long i;
 

@@ -76,9 +76,7 @@ void SortFunctionDefinitions(
   Environment *theEnv)
   {
    AllocateEnvironmentData(theEnv,SORTFUN_DATA,sizeof(struct sortFunctionData),DeallocateSortFunctionData);
-#if ! RUN_TIME
    AddUDF(theEnv,"sort","bm",1,UNBOUNDED,"*;y",SortFunction,"SortFunction",NULL);
-#endif
   }
 
 /*******************************************************/

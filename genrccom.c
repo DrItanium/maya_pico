@@ -101,9 +101,6 @@
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
 #include "genrcbin.h"
 #endif
-#if CONSTRUCT_COMPILER
-#include "genrccmp.h"
-#endif
 #include "genrcexe.h"
 #if (! BLOAD_ONLY)
 #include "genrcpsr.h"

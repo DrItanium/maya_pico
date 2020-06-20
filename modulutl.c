@@ -760,7 +760,7 @@ long DoForAllModules(
    return(moduleCount);
   }
   
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /****************************************/
 /* RemoveConstructFromModule: Removes a */
@@ -1022,6 +1022,6 @@ CLIPSLexeme *GetConstructNameAndComment(
    return(name);
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 

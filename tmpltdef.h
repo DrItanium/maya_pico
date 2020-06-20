@@ -121,9 +121,6 @@ struct deftemplateData
 #if DEBUGGING_FUNCTIONS
    int DeletedTemplateDebugFlags;
 #endif
-#if CONSTRUCT_COMPILER
-   struct CodeGeneratorItem *DeftemplateCodeItem;
-#endif
 #if (! BLOAD_ONLY)
    bool DeftemplateError;
 #endif

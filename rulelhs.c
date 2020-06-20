@@ -36,7 +36,7 @@
 
 #include "setup.h"
 
-#if (! RUN_TIME) && (! BLOAD_ONLY) &&  DEFRULE_CONSTRUCT
+#if (! BLOAD_ONLY) &&  DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 #include <string.h>
@@ -1211,6 +1211,6 @@ void PropagatePatternType(
      }
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) &&  DEFRULE_CONSTRUCT */
+#endif /* (! BLOAD_ONLY) &&  DEFRULE_CONSTRUCT */
 
 

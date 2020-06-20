@@ -135,7 +135,7 @@ static void DeallocateDefinstancesBinaryData(
   {
    size_t space;
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    space = DefinstancesBinaryData(theEnv)->DefinstancesCount * sizeof(struct definstances);
    if (space != 0) genfree(theEnv,DefinstancesBinaryData(theEnv)->DefinstancesArray,space);
 

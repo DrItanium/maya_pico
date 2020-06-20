@@ -796,13 +796,6 @@ WriteString(theEnv,STDOUT,"Bload capability is ");
 #endif
 WriteString(theEnv,STDOUT,"\n");
 
-WriteString(theEnv,STDOUT,"Construct compiler is ");
-#if CONSTRUCT_COMPILER
-  WriteString(theEnv,STDOUT,"ON\n");
-#else
-  WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
 WriteString(theEnv,STDOUT,"I/O function package is ");
 #if IO_FUNCTIONS
   WriteString(theEnv,STDOUT,"ON\n");

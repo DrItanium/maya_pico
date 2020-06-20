@@ -70,18 +70,11 @@
 void DefglobalCommandDefinitions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"set-reset-globals","b",1,1,NULL,SetResetGlobalsCommand,"SetResetGlobalsCommand",NULL);
    AddUDF(theEnv,"get-reset-globals","b",0,0,NULL,GetResetGlobalsCommand,"GetResetGlobalsCommand",NULL);
 
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"show-defglobals","v",0,1,"y",ShowDefglobalsCommand,"ShowDefglobalsCommand",NULL);
-#endif
-
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
 #endif
   }
 

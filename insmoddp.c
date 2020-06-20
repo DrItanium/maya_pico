@@ -110,7 +110,6 @@
 void SetupInstanceModDupCommands(
   Environment *theEnv)
   {
-#if ! RUN_TIME
 
 #if DEFRULE_CONSTRUCT
    AddUDF(theEnv,"modify-instance","*",0,UNBOUNDED,NULL,InactiveModifyInstance,"InactiveModifyInstance",NULL);
@@ -138,7 +137,6 @@ void SetupInstanceModDupCommands(
    AddUDF(theEnv,"(direct-duplicate)","*",0,UNBOUNDED,NULL,DirectDuplicateMsgHandler,"DirectDuplicateMsgHandler",NULL);
    AddUDF(theEnv,"(message-duplicate)","*",0,UNBOUNDED,NULL,MsgDuplicateMsgHandler,"MsgDuplicateMsgHandler",NULL);
 
-#endif
 
 #if DEFRULE_CONSTRUCT
    AddFunctionParser(theEnv,"active-modify-instance",ParseInitializeInstance);
