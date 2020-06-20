@@ -201,7 +201,6 @@ static void InitializeDeftemplateModules(
 #else
                                     NULL,
 #endif
-                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDeftemplateInModule);
 
 #if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT

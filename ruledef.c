@@ -238,7 +238,6 @@ static void InitializeDefruleModules(
 #else
                                     NULL,
 #endif
-                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefruleInModule);
   }
 

@@ -197,7 +197,6 @@ void SetupGenericFunctions(
 #else
                                     NULL,
 #endif
-                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefgenericInModule);
 
    DefgenericData(theEnv)->DefgenericConstruct =  AddConstruct(theEnv,"defgeneric","defgenerics",

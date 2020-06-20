@@ -226,7 +226,6 @@ static void InitializeDefglobalModules(
 #else
                                     NULL,
 #endif
-                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefglobalInModule);
 
 #if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT

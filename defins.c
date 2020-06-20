@@ -163,7 +163,6 @@ void SetupDefinstances(
 #else
                                     NULL,
 #endif
-                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefinstancesInModule);
 
    DefinstancesData(theEnv)->DefinstancesConstruct =

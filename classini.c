@@ -424,7 +424,6 @@ static void SetupDefclasses(
 #else
                                     NULL,
 #endif
-                                    NULL, // construct compiler input
                                     (FindConstructFunction *) FindDefclassInModule);
 
    DefclassData(theEnv)->DefclassConstruct =  AddConstruct(theEnv,"defclass","defclasses",

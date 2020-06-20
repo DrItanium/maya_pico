@@ -177,7 +177,6 @@ static void InitializeDeffactsModules(
 #else
                          NULL,
 #endif
-                         NULL, // construct compiler ptr
                          (FindConstructFunction *) FindDeffactsInModule);
   }
 

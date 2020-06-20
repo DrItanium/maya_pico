@@ -190,8 +190,7 @@ struct moduleItem
    void *(*allocateFunction)(Environment *);
    void  (*freeFunction)(Environment *,void *);
    void *(*bloadModuleReference)(Environment *,unsigned long);
-   void  (*constructsToCModuleReference)(Environment *,FILE *,unsigned long,unsigned int,unsigned int);
-   FindConstructFunction *findFunction;
+    FindConstructFunction *findFunction;
    ModuleItem *next;
   };
 
@@ -239,12 +238,12 @@ struct defmoduleData
    Defmodule                     *GetNextDefmodule(Environment *,Defmodule *);
    void                           RemoveAllDefmodules(Environment *,void *);
    int                            AllocateModuleStorage(void);
-   unsigned                       RegisterModuleItem(Environment *,const char *,
-                                                     AllocateModuleFunction *,
-                                                     FreeModuleFunction *,
-                                                     void *(*)(Environment *,unsigned long),
-                                                     void (*)(Environment *,FILE *,unsigned long,unsigned int,unsigned int),
-                                                     FindConstructFunction *);
+   unsigned                       RegisterModuleItem(Environment *theEnv,
+                                                     const char *theItem,
+                                                     AllocateModuleFunction *allocateFunction,
+                                                     FreeModuleFunction *freeFunction,
+                                                     void *(*bloadModuleReference)(Environment *, unsigned long),
+                                                     FindConstructFunction *findFunction);
    void                          *GetModuleItem(Environment *,Defmodule *,unsigned);
    void                           SetModuleItem(Environment *,Defmodule *,unsigned,void *);
    Defmodule                     *GetCurrentModule(Environment *);

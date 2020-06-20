@@ -200,14 +200,13 @@ void InitializeDefmodules(
 /* RegisterModuleItem: Called to register a construct */
 /*   which can be placed within a module.             */
 /******************************************************/
-unsigned RegisterModuleItem(
-  Environment *theEnv,
-  const char *theItem,
-  AllocateModuleFunction *allocateFunction,
-  FreeModuleFunction *freeFunction,
-  void *(*bloadModuleReference)(Environment *,unsigned long),
-  void  (*constructsToCModuleReference)(Environment *,FILE *,unsigned long,unsigned int,unsigned int),
-  FindConstructFunction *findFunction)
+   unsigned
+   RegisterModuleItem(Environment *theEnv,
+           const char *theItem,
+           AllocateModuleFunction *allocateFunction,
+           FreeModuleFunction *freeFunction,
+           void *(*bloadModuleReference)(Environment *, unsigned long),
+           FindConstructFunction *findFunction)
   {
    struct moduleItem *newModuleItem;
 
@@ -216,7 +215,6 @@ unsigned RegisterModuleItem(
    newModuleItem->allocateFunction = allocateFunction;
    newModuleItem->freeFunction = freeFunction;
    newModuleItem->bloadModuleReference = bloadModuleReference;
-   newModuleItem->constructsToCModuleReference = constructsToCModuleReference;
    newModuleItem->findFunction = findFunction;
    newModuleItem->moduleIndex = DefmoduleData(theEnv)->NumberOfModuleItems++;
    newModuleItem->next = NULL;
