@@ -165,15 +165,6 @@
 
 #define STD_SIZE size_t
 
-/*******************************************/
-/* RUN_TIME:  Specifies whether a run-time */
-/*   module is being created.              */
-/*******************************************/
-
-#ifndef RUN_TIME
-#define RUN_TIME 0
-#endif
-
 /*************************************************/
 /* DEFRULE_CONSTRUCT: Determines whether defrule */
 /*   construct is included.                      */
@@ -364,30 +355,6 @@
 #endif
 #ifndef BLOAD_AND_BSAVE
 #define BLOAD_AND_BSAVE 1
-#endif
-
-#if RUN_TIME
-#undef BLOAD_ONLY
-#define BLOAD_ONLY      0
-#undef BLOAD
-#define BLOAD           0
-#undef BLOAD_AND_BSAVE
-#define BLOAD_AND_BSAVE 0
-#endif
-
-/********************************************************************/
-/* CONSTRUCT COMPILER: If this flag is turned on, you can generate  */
-/*   C code representing the constructs in the current environment. */
-/*   With the RUN_TIME flag set, this code can be compiled and      */
-/*   linked to create a stand-alone run-time executable.            */
-/********************************************************************/
-
-#ifndef CONSTRUCT_COMPILER
-#define  CONSTRUCT_COMPILER 1
-#endif
-
-#if CONSTRUCT_COMPILER
-#define API_HEADER "clips.h"
 #endif
 
 /************************************************/
