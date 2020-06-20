@@ -65,7 +65,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static bool                    ParseRangeCardinalityAttribute(Environment *,
                                                                  const char *,CONSTRAINT_RECORD *,
                                                                  CONSTRAINT_PARSE_RECORD *,
@@ -221,7 +221,7 @@ void AttributeConflictErrorMessage(
    WriteString(theEnv,STDERR,"' attribute.\n");
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /***************************************************************************/
 /* InitializeConstraintParseRecord: Initializes the values of a constraint */

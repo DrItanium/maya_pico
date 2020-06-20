@@ -67,9 +67,6 @@
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
 #include "globlbin.h"
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "globlcmp.h"
-#endif
 #include "globlcom.h"
 #include "globldef.h"
 #include "multifld.h"
@@ -83,7 +80,7 @@
 
    static void                    SaveDefglobals(Environment *,Defmodule *,const char *,void *);
    static void                    ResetDefglobalAction(Environment *,ConstructHeader *,void *);
-#if DEBUGGING_FUNCTIONS && (! RUN_TIME)
+#if DEBUGGING_FUNCTIONS
    static bool                    DefglobalWatchAccess(Environment *,int,bool,struct expr *);
    static bool                    DefglobalWatchPrint(Environment *,const char *,int,struct expr *);
 #endif
@@ -97,7 +94,6 @@ void DefglobalBasicCommands(
    AddSaveFunction(theEnv,"defglobal",SaveDefglobals,40,NULL);
    AddResetFunction(theEnv,"defglobal",ResetDefglobals,50,NULL);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"get-defglobal-list","m",0,1,"y",GetDefglobalListFunction,"GetDefglobalListFunction",NULL);
    AddUDF(theEnv,"undefglobal","v",1,1,"y",UndefglobalCommand,"UndefglobalCommand",NULL);
    AddUDF(theEnv,"defglobal-module","y",1,1,"y",DefglobalModuleFunction,"DefglobalModuleFunction",NULL);
@@ -112,11 +108,6 @@ void DefglobalBasicCommands(
    DefglobalBinarySetup(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   DefglobalCompilerSetup(theEnv);
-#endif
-
-#endif
   }
 
 /*************************************************************/
@@ -313,7 +304,6 @@ void DefglobalSetWatch(
    theGlobal->watch = newState;
   }
 
-#if ! RUN_TIME
 
 /********************************************************/
 /* DefglobalWatchAccess: Access routine for setting the */
@@ -351,8 +341,6 @@ static bool DefglobalWatchPrint(
                                     (ConstructGetWatchFunction *) DefglobalGetWatch,
                                     (ConstructSetWatchFunction *) DefglobalSetWatch));
   }
-
-#endif /* ! RUN_TIME */
 
 #endif /* DEBUGGING_FUNCTIONS */
 

@@ -96,7 +96,7 @@
    static int                         CountPriorPatterns(struct joinNode *);
    static void                        ResizeBetaMemory(Environment *,struct betaMemory *);
    static void                        ResetBetaMemory(Environment *,struct betaMemory *);
-#if (CONSTRUCT_COMPILER || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD_AND_BSAVE)
    static void                        TagNetworkTraverseJoins(Environment *,unsigned long *,unsigned long *,struct joinNode *);
 #endif
 
@@ -645,11 +645,7 @@ void InitializePatternHeader(
    theHeader->singlefieldNode = false;
    theHeader->multifieldNode = false;
    theHeader->stopNode = false;
-#if (! RUN_TIME)
    theHeader->initialize = true;
-#else
-   theHeader->initialize = false;
-#endif
    theHeader->marked = false;
    theHeader->beginSlot = false;
    theHeader->endSlot = false;
@@ -1612,7 +1608,7 @@ unsigned long PrintBetaMemory(
    return count;
   }
 
-#if (CONSTRUCT_COMPILER || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD_AND_BSAVE)
 
 /*************************************************************/
 /* TagRuleNetwork: Assigns each join in the join network and */
@@ -1722,7 +1718,7 @@ static void TagNetworkTraverseJoins(
      }
   }
 
-#endif /* (CONSTRUCT_COMPILER || BLOAD_AND_BSAVE) && (! RUN_TIME) */
+#endif /* (BLOAD_AND_BSAVE) */
 
 #endif /* DEFRULE_CONSTRUCT */
 

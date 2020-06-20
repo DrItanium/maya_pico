@@ -256,18 +256,10 @@ void InitializeFacts(
    /* with the bload/bsave commands.   */
    /*==================================*/
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    FactBinarySetup(theEnv);
 #endif
 
-   /*===================================*/
-   /* Initialize fact patterns for use  */
-   /* with the constructs-to-c command. */
-   /*===================================*/
-
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   FactPatternsCompilerSetup(theEnv);
-#endif
   }
 
 /***********************************/

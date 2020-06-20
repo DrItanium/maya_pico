@@ -279,9 +279,7 @@ static void DestroyObjectPatternNetwork(
 
       DestroyObjectPatternNetwork(theEnv,thePattern->nextLevel);
       DestroyObjectAlphaNodes(theEnv,thePattern->alphaNode);
-#if ! RUN_TIME
       rtn_struct(theEnv,objectPatternNode,thePattern);
-#endif
       thePattern = patternPtr;
      }
   }
@@ -304,9 +302,7 @@ static void DestroyObjectAlphaNodes(
 
       DestroyAlphaMemory(theEnv,&theNode->header,false);
 
-#if ! RUN_TIME
       rtn_struct(theEnv,objectAlphaNode,theNode);
-#endif
 
       theNode = nodePtr;
      }

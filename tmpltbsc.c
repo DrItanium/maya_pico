@@ -80,9 +80,6 @@
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
 #include "tmpltbin.h"
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "tmpltcmp.h"
-#endif
 #include "tmpltdef.h"
 #include "tmpltpsr.h"
 #include "tmpltutl.h"
@@ -103,7 +100,6 @@ void DeftemplateBasicCommands(
   {
    AddSaveFunction(theEnv,"deftemplate",SaveDeftemplates,10,NULL);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"get-deftemplate-list","m",0,1,"y",GetDeftemplateListFunction,"GetDeftemplateListFunction",NULL);
    AddUDF(theEnv,"undeftemplate","v",1,1,"y",UndeftemplateCommand,"UndeftemplateCommand",NULL);
    AddUDF(theEnv,"deftemplate-module","y",1,1,"y",DeftemplateModuleFunction,"DeftemplateModuleFunction",NULL);
@@ -117,11 +113,6 @@ void DeftemplateBasicCommands(
    DeftemplateBinarySetup(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   DeftemplateCompilerSetup(theEnv);
-#endif
-
-#endif
   }
 
 /**********************************************/

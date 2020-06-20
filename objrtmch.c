@@ -74,7 +74,7 @@
 #include "drive.h"
 #include "engine.h"
 #include "envrnmnt.h"
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 #include "incrrset.h"
 #endif
 #include "lgcldpnd.h"
@@ -681,7 +681,7 @@ static void MarkObjectPatternNetwork(
          If an incremental reset is in progress, make sure that the
          pattern has been marked for initialization before proceeding.
          ============================================================= */
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       if (EngineData(theEnv)->IncrementalResetInProgress &&
           (alphaPtr->header.initialize == false))
         {

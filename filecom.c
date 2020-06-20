@@ -108,7 +108,6 @@ void FileCommandDefinitions(
   {
    AllocateEnvironmentData(theEnv,FILECOM_DATA,sizeof(struct fileCommandData),DeallocateFileCommandData);
 
-#if ! RUN_TIME
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"batch","b",1,1,"sy",BatchCommand,"BatchCommand",NULL);
    AddUDF(theEnv,"batch*","b",1,1,"sy",BatchStarCommand,"BatchStarCommand",NULL);
@@ -125,7 +124,6 @@ void FileCommandDefinitions(
    InitializeBsaveData(theEnv);
    InitializeBloadData(theEnv);
    AddUDF(theEnv,"bload","b",1,1,"sy",BloadCommand,"BloadCommand",NULL);
-#endif
 #endif
   }
 
@@ -254,7 +252,7 @@ void LoadCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    const char *theFileName;
    LoadError rv;
 
@@ -294,7 +292,7 @@ void LoadStarCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    const char *theFileName;
    LoadError rv;
 
@@ -328,7 +326,7 @@ void SaveCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    const char *theFileName;
 
    if ((theFileName = GetFileName(context)) == NULL)

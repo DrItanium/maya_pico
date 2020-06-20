@@ -81,7 +81,6 @@ void DefmoduleBasicCommands(
 #if DEFMODULE_CONSTRUCT
    AddSaveFunction(theEnv,"defmodule",SaveDefmodules,1100,NULL);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"get-defmodule-list","m",0,0,NULL,GetDefmoduleListFunction,"GetDefmoduleListFunction",NULL);
 
 #if DEBUGGING_FUNCTIONS
@@ -89,15 +88,11 @@ void DefmoduleBasicCommands(
    AddUDF(theEnv,"ppdefmodule","v",1,2,";y;ldsyn",PPDefmoduleCommand,"PPDefmoduleCommand",NULL);
 #endif
 #endif
-#endif
 
 #if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    DefmoduleBinarySetup(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   DefmoduleCompilerSetup(theEnv);
-#endif
   }
 
 /*********************************************************/
@@ -108,19 +103,13 @@ static void ClearDefmodules(
   Environment *theEnv,
   void *context)
   {
-#if (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY) && (! RUN_TIME)
+#if (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY)
    if (Bloaded(theEnv) == true) return;
 #endif
-#if (! RUN_TIME)
    RemoveAllDefmodules(theEnv,NULL);
 
    CreateMainModule(theEnv,NULL);
    DefmoduleData(theEnv)->MainModuleRedefinable = true;
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 #if DEFMODULE_CONSTRUCT

@@ -98,7 +98,7 @@
 #define DIRECT               0
 #define INHERIT              1
 
-#if OBJECT_SYSTEM && (! BLOAD_ONLY) && (! RUN_TIME)
+#if OBJECT_SYSTEM && (! BLOAD_ONLY)
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

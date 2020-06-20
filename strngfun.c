@@ -127,7 +127,6 @@
 void StringFunctionDefinitions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"str-cat","sy",1,UNBOUNDED,"synld" ,StrCatFunction,"StrCatFunction",NULL);
    AddUDF(theEnv,"sym-cat","sy",1,UNBOUNDED,"synld" ,SymCatFunction,"SymCatFunction",NULL);
    AddUDF(theEnv,"str-length","l",1,1,"syn",StrLengthFunction,"StrLengthFunction",NULL);
@@ -140,11 +139,6 @@ void StringFunctionDefinitions(
    AddUDF(theEnv,"build","b",1,1,"sy",BuildFunction,"BuildFunction",NULL);
    AddUDF(theEnv,"string-to-field","*",1,1,"syn",StringToFieldFunction,"StringToFieldFunction",NULL);
    AddUDF(theEnv,"str-replace","syn",3,3,"syn",StrReplaceFunction,"StrReplaceFunction",NULL);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 /****************************************/
@@ -977,7 +971,7 @@ EvalError Eval(
    return EE_NO_ERROR;
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 /***************************************/
 /* BuildFunction: H/L access routine   */
 /*   for the build function.           */
@@ -1165,6 +1159,6 @@ BuildError Build(
    WriteString(theEnv,STDERR,"Function 'build' does not work in run time modules.\n");
    return BE_COULD_NOT_BUILD_ERROR;
   }
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* STRING_FUNCTIONS */

@@ -233,7 +233,6 @@ void SlotVisibilityViolationError(
    WriteString(theEnv,STDERR,"\n");
   }
 
-#if ! RUN_TIME
 
 /******************************************************************************
   NAME         : NewSystemHandler
@@ -355,9 +354,8 @@ DefmessageHandler *InsertHandlerHeader(
    return(&nhnd[cls->handlerCount-1]);
   }
 
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /*****************************************************
   NAME         : HandlersExecuting

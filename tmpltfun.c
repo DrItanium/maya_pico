@@ -137,7 +137,7 @@
    static CLIPSLexeme            *CheckDeftemplateAndSlotArguments(UDFContext *,Deftemplate **);
    static void                    FreeTemplateValueArray(Environment *,CLIPSValue *,Deftemplate *);
    static struct expr            *ModAndDupParse(Environment *,struct expr *,const char *,const char *);
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static CLIPSLexeme            *FindTemplateForFactAddress(CLIPSLexeme *,struct lhsParseNode *);
 #endif
 
@@ -147,7 +147,6 @@
 void DeftemplateFunctions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"modify","bf",0,UNBOUNDED,"*;lf",ModifyCommand,"ModifyCommand",NULL);
    AddUDF(theEnv,"duplicate","bf",0,UNBOUNDED,"*;lf",DuplicateCommand,"DuplicateCommand",NULL);
 
@@ -169,11 +168,6 @@ void DeftemplateFunctions(
 
    FuncSeqOvlFlags(theEnv,"modify",false,false);
    FuncSeqOvlFlags(theEnv,"duplicate",false,false);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
 
    AddFunctionParser(theEnv,"modify",ModifyParse);
    AddFunctionParser(theEnv,"duplicate",DuplicateParse);
@@ -2096,7 +2090,7 @@ static CLIPSLexeme *CheckDeftemplateAndSlotArguments(
    return theArg.lexemeValue;
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /***************************************************************/
 /* UpdateModifyDuplicate: Changes the modify/duplicate command */

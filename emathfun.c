@@ -111,7 +111,6 @@
 void ExtendedMathFunctionDefinitions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"cos","d",1,1,"ld",CosFunction,"CosFunction",NULL);
    AddUDF(theEnv,"sin","d",1,1,"ld",SinFunction,"SinFunction",NULL);
    AddUDF(theEnv,"tan","d",1,1,"ld",TanFunction,"TanFunction",NULL);
@@ -150,11 +149,6 @@ void ExtendedMathFunctionDefinitions(
    AddUDF(theEnv,"grad-deg","d",1,1,"ld",GradDegFunction,"GradDegFunction",NULL);
    AddUDF(theEnv,"**","d",2,2,"ld",PowFunction,"PowFunction",NULL);
    AddUDF(theEnv,"round","l", 1,1,"ld",RoundFunction,"RoundFunction",NULL);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 /************************************************************/

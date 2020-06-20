@@ -566,7 +566,7 @@ struct templateSlot *FindSlot(
    return NULL;
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /************************************************************/
 /* CreateImpliedDeftemplate: Creates an implied deftemplate */

@@ -103,7 +103,6 @@
 
 #include "exprnpsr.h"
 
-#if (! RUN_TIME)
 
 /***************************************************/
 /* Function0Parse: Parses a function. Assumes that */
@@ -135,7 +134,6 @@ struct expr *Function0Parse(
    return(top);
   }
 
-#endif
 
 /*******************************************************/
 /* Function1Parse: Parses a function. Assumes that the */
@@ -476,7 +474,6 @@ void PopRtnBrkContexts(
    rtn_struct(theEnv,savedContexts,svtmp);
   }
   
-#if (! RUN_TIME)
 
 /**********************/
 /* RestrictionExists: */
@@ -505,7 +502,6 @@ bool RestrictionExists(
     return false;
    }
 
-#endif
 
 /*****************************************************************/
 /* CheckExpressionAgainstRestrictions: Compares the arguments to */

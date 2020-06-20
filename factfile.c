@@ -108,13 +108,11 @@ struct bsaveSlotValueAtom
 void FactFileCommandDefinitions(
   Environment *theEnv)
   {
-#if (! RUN_TIME)
    AddUDF(theEnv,"save-facts","l",1,UNBOUNDED,"y;sy",SaveFactsCommand,"SaveFactsCommand",NULL);
    AddUDF(theEnv,"load-facts","l",1,1,"sy",LoadFactsCommand,"LoadFactsCommand",NULL);
    
    AddUDF(theEnv,"bsave-facts","l",1,UNBOUNDED,"y;sy",BinarySaveFactsCommand,"BinarySaveFactsCommand",NULL);
    AddUDF(theEnv,"bload-facts","l",1,1,"sy",BinaryLoadFactsCommand,"BinaryLoadFactsCommand",NULL);
-#endif
   }
 
 /******************************************/
@@ -1041,7 +1039,7 @@ static Deftemplate *BloadFactsCreateImpliedDeftemplate(
   Environment *theEnv,
   CLIPSLexeme *deftemplateName)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 #if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv))

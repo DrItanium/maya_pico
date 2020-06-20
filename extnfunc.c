@@ -79,11 +79,9 @@
    static void                    AddHashFunction(Environment *,struct functionDefinition *);
    static void                    InitializeFunctionHashTable(Environment *);
    static void                    DeallocateExternalFunctionData(Environment *);
-#if (! RUN_TIME)
    static bool                    RemoveHashFunction(Environment *,struct functionDefinition *);
    static AddUDFError             DefineFunction(Environment *,const char *,unsigned,void (*)(Environment *,UDFContext *,UDFValue *),
                                                  const char *,unsigned short,unsigned short,const char *,void *);
-#endif
    static void                    PrintType(Environment *,const char *,int,int *,const char *);
    static void                    AssignErrorValue(UDFContext *);
 
@@ -107,7 +105,6 @@ static void DeallocateExternalFunctionData(
    struct FunctionHash *fhPtr, *nextFHPtr;
    int i;
 
-#if ! RUN_TIME
    struct functionDefinition *tmpPtr, *nextPtr;
 
    tmpPtr = ExternalFunctionData(theEnv)->ListOfFunctions;
@@ -117,7 +114,6 @@ static void DeallocateExternalFunctionData(
       rtn_struct(theEnv,functionDefinition,tmpPtr);
       tmpPtr = nextPtr;
      }
-#endif
 
    if (ExternalFunctionData(theEnv)->FunctionHashtable == NULL)
      { return; }
@@ -137,7 +133,6 @@ static void DeallocateExternalFunctionData(
            sizeof (struct FunctionHash *) * SIZE_FUNCTION_HASH);
   }
 
-#if (! RUN_TIME)
 
 /****************************************************/
 /* AddUDF: Used to define a system or user external */
@@ -314,7 +309,6 @@ static bool RemoveHashFunction(
    return false;
   }
 
-#endif
 
 /***************************************************************************/
 /* AddFunctionParser: Associates a specialized expression parsing function */
@@ -345,7 +339,6 @@ bool AddFunctionParser(
    return true;
   }
 
-#if (! RUN_TIME)
 
 /*********************************************************************/
 /* RemoveFunctionParser: Removes a specialized expression parsing    */
@@ -394,7 +387,6 @@ bool FuncSeqOvlFlags(
    return true;
   }
 
-#endif
 
 /***********************************************/
 /* GetNthRestriction: Returns the restriction  */

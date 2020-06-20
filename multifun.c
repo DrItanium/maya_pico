@@ -97,7 +97,7 @@
 #include "prcdrfun.h"
 #include "prntutil.h"
 #include "router.h"
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 #include "scanner.h"
 #endif
 #include "utility.h"
@@ -125,7 +125,7 @@ typedef struct fieldVarStack
    static struct expr            *MultifieldPrognParser(Environment *,struct expr *,const char *);
    static struct expr            *ForeachParser(Environment *,struct expr *,const char *);
    static void                    ReplaceMvPrognFieldVars(Environment *,CLIPSLexeme *,struct expr *,int);
-#endif /* (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* (! BLOAD_ONLY) */
 #endif /* MULTIFIELD_FUNCTIONS */
    static void                    MVRangeErrorSizet(Environment *,size_t,size_t,size_t,const char *);
 #endif /* MULTIFIELD_FUNCTIONS || OBJECT_SYSTEM */
@@ -154,7 +154,6 @@ void MultifieldFunctionDefinitions(
   {
    AllocateEnvironmentData(theEnv,MULTIFUN_DATA,sizeof(struct multiFunctionData),NULL);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"first$","m",1,1,"m",FirstFunction,"FirstFunction",NULL);
    AddUDF(theEnv,"rest$","m",1,1,"m",RestFunction,"RestFunction",NULL);
    AddUDF(theEnv,"subseq$","m",3,3,"l;m",SubseqFunction,"SubseqFunction",NULL);
@@ -174,7 +173,6 @@ void MultifieldFunctionDefinitions(
    FuncSeqOvlFlags(theEnv,"foreach",false,false);
    AddUDF(theEnv,"(get-progn$-field)","*",0,0,NULL,GetMvPrognField,"GetMvPrognField",NULL);
    AddUDF(theEnv,"(get-progn$-index)","l",0,0,NULL,GetMvPrognIndex,"GetMvPrognIndex",NULL);
-#endif
 
 #if ! BLOAD_ONLY
    AddFunctionParser(theEnv,"progn$",MultifieldPrognParser);

@@ -83,10 +83,6 @@
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
 #include "dffctbin.h"
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "dffctcmp.h"
-#endif
-
 #include "dffctbsc.h"
 
 /***************************************/
@@ -106,7 +102,6 @@ void DeffactsBasicCommands(
    AddResetFunction(theEnv,"deffacts",ResetDeffacts,0,NULL);
    AddSaveFunction(theEnv,"deffacts",SaveDeffacts,10,NULL);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"get-deffacts-list","m",0,1,"y",GetDeffactsListFunction,"GetDeffactsListFunction",NULL);
    AddUDF(theEnv,"undeffacts","v",1,1,"y",UndeffactsCommand,"UndeffactsCommand",NULL);
    AddUDF(theEnv,"deffacts-module","y",1,1,"y",DeffactsModuleFunction,"DeffactsModuleFunction",NULL);
@@ -120,11 +115,6 @@ void DeffactsBasicCommands(
    DeffactsBinarySetup(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   DeffactsCompilerSetup(theEnv);
-#endif
-
-#endif
   }
 
 /**********************************************************/

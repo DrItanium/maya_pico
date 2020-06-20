@@ -78,7 +78,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static void                    MarkNetworkForIncrementalReset(Environment *,Defrule *,bool);
    static void                    MarkJoinsForIncrementalReset(Environment *,struct joinNode *,bool);
    static void                    CheckForPrimableJoins(Environment *,Defrule *,struct joinNode *);
@@ -95,7 +95,7 @@ void IncrementalReset(
   Environment *theEnv,
   Defrule *tempRule)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    Defrule *tempPtr;
    struct patternParser *theParser;
 
@@ -150,7 +150,7 @@ void IncrementalReset(
 #endif
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /**********************************************************************/
 /* MarkNetworkForIncrementalReset: Coordinates marking the initialize */

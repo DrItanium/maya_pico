@@ -65,7 +65,6 @@
 void PredicateFunctionDefinitions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"not","b",1,1,NULL,NotFunction,"NotFunction",NULL);
    AddUDF(theEnv,"and","b",2,UNBOUNDED ,NULL,AndFunction,"AndFunction",NULL);
    AddUDF(theEnv,"or","b",2,UNBOUNDED ,NULL,OrFunction,"OrFunction",NULL);
@@ -92,11 +91,6 @@ void PredicateFunctionDefinitions(
    AddUDF(theEnv,"multifieldp","b",1,1,NULL,MultifieldpFunction,"MultifieldpFunction",NULL);
    AddUDF(theEnv,"pointerp","b",1,1,NULL,ExternalAddresspFunction,"ExternalAddresspFunction",NULL);
    AddUDF(theEnv,"external-addressp","b",1,1,NULL,ExternalAddresspFunction,"ExternalAddresspFunction",NULL);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 /************************************/

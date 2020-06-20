@@ -1576,7 +1576,6 @@ FunctionCallBuilderError FCBCall(
    /*=========================================*/
 
 // TBD Support run time check of arguments
-#if ! RUN_TIME
    if (theReference.type == FCALL)
      {
       FunctionArgumentsError theError;
@@ -1593,7 +1592,6 @@ FunctionCallBuilderError FCBCall(
            }
         }
      }
-#endif
    /*========================================*/
    /* Set up the frame for tracking garbage. */
    /*========================================*/

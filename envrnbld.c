@@ -301,9 +301,6 @@ static void InitializeEnvironment(
    /*===================================================*/
 
    InitializeCommandLineData(theEnvironment);
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   InitializeConstructCompilerData(theEnvironment);
-#endif
    InitializeConstructData(theEnvironment);
    InitializeEvaluationData(theEnvironment);
    InitializeExternalFunctionData(theEnvironment);
@@ -362,9 +359,7 @@ static void InitializeEnvironment(
    /* Initialize the construct manager. */
    /*===================================*/
 
-#if ! RUN_TIME
    InitializeConstructs(theEnvironment);
-#endif
 
    /*=====================================*/
    /* Initialize the defmodule construct. */
@@ -499,10 +494,6 @@ static void SystemFunctionDefinitions(
 
 #if TEXTPRO_FUNCTIONS
    HelpFunctionDefinitions(theEnv);
-#endif
-
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   ConstructsToCCommandDefinition(theEnv);
 #endif
 
 #if PROFILING_FUNCTIONS

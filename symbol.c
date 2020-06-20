@@ -139,7 +139,6 @@ void InitializeAtomTables(
 
    AllocateEnvironmentData(theEnv,SYMBOL_DATA,sizeof(struct symbolData),DeallocateSymbolData);
 
-#if ! RUN_TIME
    /*=========================*/
    /* Create the hash tables. */
    /*=========================*/
@@ -183,20 +182,6 @@ void InitializeAtomTables(
    IncrementLexemeCount(SymbolData(theEnv)->NegativeInfinity);
    SymbolData(theEnv)->Zero = CreateInteger(theEnv,0LL);
    IncrementIntegerCount(SymbolData(theEnv)->Zero);
-#else
-   SetSymbolTable(theEnv,symbolTable);
-   SetFloatTable(theEnv,floatTable);
-   SetIntegerTable(theEnv,integerTable);
-   SetBitMapTable(theEnv,bitmapTable);
-
-   SymbolData(theEnv)->ExternalAddressTable = (CLIPSExternalAddress **)
-                gm2(theEnv,sizeof (CLIPSExternalAddress *) * EXTERNAL_ADDRESS_HASH_SIZE);
-
-   for (i = 0; i < EXTERNAL_ADDRESS_HASH_SIZE; i++) SymbolData(theEnv)->ExternalAddressTable[i] = NULL;
-   
-   theEnv->TrueSymbol = FindSymbolHN(theEnv,TRUE_STRING,SYMBOL_BIT);
-   theEnv->FalseSymbol = FindSymbolHN(theEnv,FALSE_STRING,SYMBOL_BIT);
-#endif
 
    theEnv->VoidConstant = get_struct(theEnv,clipsVoid);
    theEnv->VoidConstant->header.type = VOID_TYPE;
@@ -302,7 +287,6 @@ static void DeallocateSymbolData(
    /* Remove the symbol hash tables. */
    /*================================*/
 
- #if ! RUN_TIME
    rm(theEnv,SymbolData(theEnv)->SymbolTable,sizeof (CLIPSLexeme *) * SYMBOL_HASH_SIZE);
 
    genfree(theEnv,SymbolData(theEnv)->FloatTable,sizeof (CLIPSFloat *) * FLOAT_HASH_SIZE);
@@ -310,7 +294,6 @@ static void DeallocateSymbolData(
    genfree(theEnv,SymbolData(theEnv)->IntegerTable,sizeof (CLIPSInteger *) * INTEGER_HASH_SIZE);
 
    genfree(theEnv,SymbolData(theEnv)->BitMapTable,sizeof (CLIPSBitMap *) * BITMAP_HASH_SIZE);
-#endif
 
    genfree(theEnv,SymbolData(theEnv)->ExternalAddressTable,sizeof (CLIPSExternalAddress *) * EXTERNAL_ADDRESS_HASH_SIZE);
 

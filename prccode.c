@@ -116,7 +116,7 @@ typedef struct
    static void                    DeallocateProceduralPrimitiveData(Environment *);
    static void                    ReleaseProcParameters(Environment *);
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    static unsigned int            FindProcParameter(CLIPSLexeme *,Expression *,CLIPSLexeme *);
    static bool                    ReplaceProcBinds(Environment *,Expression *,
                                                    int (*)(Environment *,Expression *,void *),void *);
@@ -228,7 +228,7 @@ static void DeallocateProceduralPrimitiveData(
    ReleaseProcParameters(theEnv);
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 #if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
 
@@ -1299,7 +1299,7 @@ static bool RtnProcWild(
    return true;
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : FindProcParameter

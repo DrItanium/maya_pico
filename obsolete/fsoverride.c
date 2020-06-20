@@ -26,15 +26,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "clips.h"
 #include "libmaya.h"
 #if FILE_SYSTEM_ROOTING
-#if ! RUN_TIME
 static void deallocateFileSystemRootData(void* theEnv);
 static int GetFileSystemRootingIsEnabled(void* theEnv);
 static int SetFileSystemRootingIsEnabled(void* theEnv);
 static void GetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret);
 static void SetFileSystemRoot(void* theEnv, DATA_OBJECT_PTR ret);
-#endif
 void DefineFSOverrideFunctions(void* theEnv) {
-#if ! RUN_TIME
 	char* base;
 	char* tmp;
 	int size;
@@ -97,7 +94,6 @@ void DefineFSOverrideFunctions(void* theEnv) {
             PTIEF FS_RenameFunction, 
             "FS_RenameFunction", 
             "22k");
-#endif
 }
 
 FILE* GenOpen(void* theEnv, const char* fileName, const char* accessType) {

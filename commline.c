@@ -975,7 +975,7 @@ bool RouteCommand(
    /* Evaluate constructs. */
    /*======================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    {
     BuildError errorFlag;
 
@@ -1022,7 +1022,7 @@ bool RouteCommand(
 
    if (top == NULL)
      {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       SetWarningFileName(theEnv,NULL);
       SetErrorFileName(theEnv,NULL);
 #endif
@@ -1042,7 +1042,7 @@ bool RouteCommand(
    ReturnExpression(theEnv,top);
    ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
    
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    SetWarningFileName(theEnv,NULL);
    SetErrorFileName(theEnv,NULL);
 #endif

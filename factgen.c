@@ -93,7 +93,7 @@ struct factgenData
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static void                      *FactGetVarJN1(Environment *,struct lhsParseNode *,int);
    static void                      *FactGetVarJN2(Environment *,struct lhsParseNode *,int);
    static void                      *FactGetVarJN3(Environment *,struct lhsParseNode *,int);
@@ -224,7 +224,7 @@ void InitializeFactReteFunctions(
 #endif
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /******************************************************************/
 /* FactGenPNConstant: Generates an expression for use in the fact */
