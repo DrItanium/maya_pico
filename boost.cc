@@ -136,7 +136,7 @@ void FileExists(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		std::string p(path.lexemeValue->contents);
-		ret->lexemeValue = boost::filesystem::exists(p) ? TrueSymbol(env) : FalseSymbol(env);
+		ret->lexemeValue = CreateBoolean(env, boost::filesystem::exists(p));
 	}
 }
 
@@ -146,7 +146,7 @@ void IsDirectory(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		std::string p(path.lexemeValue->contents);
-		ret->lexemeValue = is_directory(p) ? TrueSymbol(env) : FalseSymbol(env);
+		ret->lexemeValue = CreateBoolean(env, is_directory(p));
 	}
 }
 
@@ -156,7 +156,7 @@ void IsRegularFile(Environment* env, UDFContext* context, UDFValue* ret) {
 		ret->lexemeValue = FalseSymbol(env);
 	} else {
 		std::string p(path.lexemeValue->contents);
-		ret->lexemeValue = is_regular_file(p) ? TrueSymbol(env) : FalseSymbol(env);
+		ret->lexemeValue = CreateBoolean(env, is_regular_file(p));
 	}
 }
 
@@ -197,7 +197,7 @@ void HasPrefix(Environment* env, UDFContext* context, UDFValue* ret) {
 	}
 	std::string dataStr(data.lexemeValue->contents);
 	std::string prefixStr(prefix.lexemeValue->contents);
-	ret->lexemeValue = starts_with(dataStr, prefixStr) ? TrueSymbol(env) : FalseSymbol(env);
+	ret->lexemeValue = CreateBoolean(env, starts_with(dataStr, prefixStr));
 }
 
 void HasSuffix(Environment* env, UDFContext* context, UDFValue* ret) {
@@ -211,7 +211,7 @@ void HasSuffix(Environment* env, UDFContext* context, UDFValue* ret) {
 	}
 	std::string dataStr(data.lexemeValue->contents);
 	std::string suffixStr(suffix.lexemeValue->contents);
-	ret->lexemeValue = ends_with(dataStr, suffixStr) ? TrueSymbol(env) : FalseSymbol(env);
+	ret->lexemeValue = CreateBoolean(env, ends_with(dataStr, suffixStr));
 }
 void TrimString(Environment* env, UDFContext* context, UDFValue* ret) {
 	UDFValue str;
