@@ -67,9 +67,6 @@ struct deffactsData
   {
    Construct *DeffactsConstruct;
    unsigned DeffactsModuleIndex;
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   struct CodeGeneratorItem *DeffactsCodeItem;
-#endif
   };
 
 struct deffacts
@@ -95,9 +92,6 @@ struct deffactsModule
    const char                    *DeffactsModule(Deffacts *);
    const char                    *DeffactsName(Deffacts *);
    const char                    *DeffactsPPForm(Deffacts *);
-#if RUN_TIME
-   void                           DeffactsRunTimeInitialize(Environment *);
-#endif
 
 #endif /* _H_dffctdef */
 

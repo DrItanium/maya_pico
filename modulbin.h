@@ -38,7 +38,6 @@
 #include "modulbin.h"
 #include "cstrcbin.h"
 
-#if (! RUN_TIME)
 
 struct bsaveDefmodule
   {
@@ -75,8 +74,6 @@ struct bsavePortItem
                                                  (struct bsaveDefmoduleItemHeader *,
                                                   struct defmoduleItemHeader *);
 #endif
-
-#endif /* RUN_TIME */
 
 #endif /* _H_modulbin */
 

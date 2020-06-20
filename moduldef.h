@@ -217,15 +217,12 @@ struct defmoduleData
    struct moduleItem *ListOfModuleItems;
    long ModuleChangeIndex;
    bool MainModuleRedefinable;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    struct portConstructItem *ListOfPortConstructItems;
    unsigned short NumberOfDefmodules;
    struct voidCallFunctionItem *AfterModuleDefinedFunctions;
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   struct CodeGeneratorItem *DefmoduleCodeItem;
-#endif
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    unsigned long BNumberOfDefmodules;
    unsigned long NumberOfPortItems;
    struct portItem *PortItemArray;

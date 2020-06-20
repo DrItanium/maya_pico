@@ -69,7 +69,7 @@ typedef enum
    LE_PARSING_ERROR,
   } LoadError;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    LoadError                      Load(Environment *,const char *);
    bool                           LoadConstructsFromLogicalName(Environment *,const char *);
    bool                           LoadFromString(Environment *,const char *,size_t);

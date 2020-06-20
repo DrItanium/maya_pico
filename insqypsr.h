@@ -55,7 +55,7 @@
    Expression                    *ParseQueryNoAction(Environment *,Expression *,const char *);
    Expression                    *ParseQueryAction(Environment *,Expression *,const char *);
 
-#endif /* INSTANCE_SET_QUERIES && (! RUN_TIME) */
+#endif /* INSTANCE_SET_QUERIES */
 
 #endif /* _H_insqypsr */
 

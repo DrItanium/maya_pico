@@ -202,11 +202,8 @@ struct factsData
    struct callFunctionItemWithArg *ListOfRetractFunctions;
    ModifyCallFunctionItem *ListOfModifyFunctions;
    struct patternEntityRecord  FactInfo;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    Deftemplate *CurrentDeftemplate;
-#endif
-#if DEFRULE_CONSTRUCT && (! RUN_TIME) && DEFTEMPLATE_CONSTRUCT && CONSTRUCT_COMPILER
-   struct CodeGeneratorItem *FactCodeItem;
 #endif
    struct factHashEntry **FactHashTable;
    unsigned long FactHashTableSize;

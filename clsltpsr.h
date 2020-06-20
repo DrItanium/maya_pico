@@ -45,7 +45,7 @@
 
 #define _H_clsltpsr
 
-#if OBJECT_SYSTEM && (! BLOAD_ONLY) && (! RUN_TIME)
+#if OBJECT_SYSTEM && (! BLOAD_ONLY)
 
 #define MATCH_RLN            "pattern-match"
 #define REACTIVE_RLN         "reactive"

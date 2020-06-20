@@ -45,7 +45,6 @@
 
 #define _H_rulebin
 
-#if (! RUN_TIME)
 
 #include "cstrcbin.h"
 #include "modulbin.h"
@@ -143,7 +142,6 @@ struct defruleBinaryData
                                                                         struct patternNodeHeader *);
    void                          *BloadDefruleModuleReference(Environment *,unsigned long);
 
-#endif /* (! RUN_TIME) */
 
 #endif /* _H_rulebin */
 

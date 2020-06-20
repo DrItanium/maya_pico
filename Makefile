@@ -173,7 +173,7 @@ conscomp.o: conscomp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  moduldef.h utility.h evaluatn.h constant.h cstrccom.h cstrncmp.h \
  constrnt.h exprnpsr.h extnfunc.h symbol.h scanner.h memalloc.h \
  modulcmp.h prntutil.h router.h sysdep.h network.h match.h ruledef.h \
- agenda.h crstrtgy.h conscomp.h symblcmp.h dffnxcmp.h dffnxfun.h \
+ agenda.h crstrtgy.h conscomp.h symblcmp.h dffnxfun.h \
  tmpltcmp.h tmpltdef.h factbld.h globlcmp.h globldef.h genrccmp.h \
  genrcfun.h object.h multifld.h objrtmch.h
 constrct.o: constrct.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
@@ -291,10 +291,6 @@ dffnxbin.o: dffnxbin.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  extnfunc.h expressn.h exprnops.h constrct.h symbol.h exprnbin.h sysdep.h \
  symblbin.h bsave.h cstrcbin.h cstrccom.h memalloc.h modulbin.h \
  dffnxbin.h dffnxfun.h
-dffnxcmp.o: dffnxcmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
- evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
- symblcmp.h dffnxcmp.h dffnxfun.h
 dffnxexe.o: dffnxexe.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h constrct.h userdata.h moduldef.h utility.h evaluatn.h \
  constant.h prcdrfun.h prccode.h expressn.h exprnops.h scanner.h symbol.h \
@@ -302,7 +298,7 @@ dffnxexe.o: dffnxexe.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
 dffnxfun.o: dffnxfun.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h bload.h utility.h evaluatn.h constant.h moduldef.h userdata.h \
  extnfunc.h expressn.h exprnops.h constrct.h symbol.h exprnbin.h sysdep.h \
- symblbin.h dffnxbin.h dffnxfun.h dffnxcmp.h cstrcpsr.h strngfun.h \
+ symblbin.h dffnxbin.h dffnxfun.h cstrcpsr.h strngfun.h \
  dffnxpsr.h modulpsr.h scanner.h dffnxexe.h watch.h argacces.h cstrccom.h \
  memalloc.h modulutl.h multifld.h prntutil.h router.h
 dffnxpsr.o: dffnxpsr.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
@@ -819,13 +815,7 @@ objrtbld.o: objrtbld.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  scanner.h cstrnutl.h cstrnchk.h cstrnops.h drive.h inscom.h insfun.h \
  insmngr.h memalloc.h pattern.h reorder.h prntutil.h reteutil.h rulecom.h \
  rulepsr.h exprnpsr.h objrtgen.h objrtfnx.h pprint.h router.h objrtbin.h \
- objrtcmp.h objrtbld.h
-objrtcmp.o: objrtcmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
- evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
- symblcmp.h classcom.h cstrccom.h object.h constrnt.h multifld.h match.h \
- network.h ruledef.h agenda.h crstrtgy.h objrtmch.h objrtfnx.h pattern.h \
- scanner.h reorder.h sysdep.h objrtcmp.h
+ objrtbld.h
 objrtfnx.o: objrtfnx.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h classcom.h cstrccom.h moduldef.h userdata.h utility.h \
  evaluatn.h constant.h constrct.h object.h constrnt.h expressn.h \

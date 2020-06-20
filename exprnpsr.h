@@ -86,10 +86,7 @@ typedef enum
    FunctionArgumentsError         CheckExpressionAgainstRestrictions(Environment *,struct expr *,
                                                                      struct functionDefinition *,const char *);
 
-#if (! RUN_TIME)
    bool                           RestrictionExists(const char *,int);
-
-#endif
 
 #endif /* _H_exprnpsr */
 

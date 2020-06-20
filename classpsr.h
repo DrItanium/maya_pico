@@ -56,7 +56,7 @@
 
 #if OBJECT_SYSTEM
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    bool                    ParseDefclass(Environment *,const char *);
 
 #endif

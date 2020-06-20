@@ -57,9 +57,7 @@ typedef void ConstructSetWatchFunction(void *,bool);
 
 typedef void ConstructActionFunction(Environment *,ConstructHeader *,void *);
 
-#if (! RUN_TIME)
    void                           AddConstructToModule(ConstructHeader *);
-#endif
    bool                           DeleteNamedConstruct(Environment *,const char *,Construct *);
    ConstructHeader               *FindNamedConstructInModule(Environment *,const char *,Construct *);
    ConstructHeader               *FindNamedConstructInModuleOrImports(Environment *,const char *,Construct *);

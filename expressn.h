@@ -136,11 +136,11 @@ struct expressionData
    void                           InitExpressionPointers(Environment *);
    bool                           SetSequenceOperatorRecognition(Environment *,bool);
    bool                           GetSequenceOperatorRecognition(Environment *);
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    Expression                    *AddHashedExpression(Environment *,Expression *);
 #endif
    void                           RemoveHashedExpression(Environment *,Expression *);
-#if BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER
+#if BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD
    unsigned long                  HashedExpressionIndex(Environment *,Expression *);
 #endif
 

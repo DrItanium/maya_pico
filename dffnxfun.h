@@ -129,7 +129,7 @@ struct deffunctionData
    void                           GetDeffunctionModuleCommand(Environment *,UDFContext *,UDFValue *);
    Deffunction                   *LookupDeffunctionByMdlOrScope(Environment *,const char *);
    Deffunction                   *LookupDeffunctionInScope(Environment *,const char *);
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    void                           RemoveDeffunction(Environment *,Deffunction *);
 #endif
    void                           SetupDeffunctions(Environment *);
@@ -142,9 +142,6 @@ struct deffunctionData
    void                           PPDeffunctionCommand(Environment *,UDFContext *,UDFValue *);
 #endif
 
-#if RUN_TIME
-   void                           DeffunctionRunTimeInitialize(Environment *);
-#endif
 
 #endif /* _H_dffnxfun */
 

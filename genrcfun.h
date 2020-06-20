@@ -130,11 +130,8 @@ struct defgenericData
    Defgeneric *CurrentGeneric;
    Defmethod *CurrentMethod;
    UDFValue *GenericCurrentArgument;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    unsigned OldGenericBusySave;
-#endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   struct CodeGeneratorItem *DefgenericCodeItem;
 #endif
   };
 
@@ -142,15 +139,11 @@ struct defgenericData
 #define SaveBusyCount(gfunc)    (DefgenericData(theEnv)->OldGenericBusySave = gfunc->busy)
 #define RestoreBusyCount(gfunc) (gfunc->busy = DefgenericData(theEnv)->OldGenericBusySave)
 
-#if ! RUN_TIME
    bool                           ClearDefgenericsReady(Environment *,void *);
    void                          *AllocateDefgenericModule(Environment *);
    void                           FreeDefgenericModule(Environment *,void *);
-#else
-   void                           DefgenericRunTimeInitialize(Environment *);
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
    bool                           ClearDefmethods(Environment *);
    bool                           RemoveAllExplicitMethods(Environment *,Defgeneric *);

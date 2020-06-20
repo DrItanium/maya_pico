@@ -69,7 +69,7 @@ typedef struct constraintParseRecord CONSTRAINT_PARSE_RECORD;
 
    bool                           CheckConstraintParseConflicts(Environment *,CONSTRAINT_RECORD *);
    void                           AttributeConflictErrorMessage(Environment *,const char *,const char *);
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    void                           InitializeConstraintParseRecord(CONSTRAINT_PARSE_RECORD *);
    bool                           StandardConstraint(const char *);
    bool                           ParseStandardConstraint(Environment *,const char *,const char *,
@@ -80,7 +80,7 @@ typedef struct constraintParseRecord CONSTRAINT_PARSE_RECORD;
                                                            CONSTRAINT_RECORD *,CONSTRAINT_RECORD *);
    void                           OverlayConstraintParseRecord(CONSTRAINT_PARSE_RECORD *,
                                                                       CONSTRAINT_PARSE_RECORD *);
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* _H_cstrnpsr */
 

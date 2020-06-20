@@ -34,8 +34,6 @@
 
 #define _H_dffctbin
 
-#if (! RUN_TIME)
-
 #include "constrct.h"
 #include "cstrcbin.h"
 #include "dffctdef.h"
@@ -67,7 +65,6 @@ struct deffactsBinaryData
    void                           DeffactsBinarySetup(Environment *);
    void                          *BloadDeffactsModuleReference(Environment *,unsigned long);
 
-#endif /* (! RUN_TIME) */
 
 #endif /* _H_dffctbin */
 

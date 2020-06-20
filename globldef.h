@@ -88,9 +88,6 @@ struct defglobalData
    struct entityRecord DefglobalPtrRecord;
    long LastModuleIndex;
    Defmodule *TheDefmodule;
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   struct CodeGeneratorItem *DefglobalCodeItem;
-#endif
   };
 
 struct defglobal
@@ -142,9 +139,6 @@ struct defglobalModule
    const char                    *DefglobalModule(Defglobal *);
    const char                    *DefglobalName(Defglobal *);
    const char                    *DefglobalPPForm(Defglobal *);
-#if RUN_TIME
-   void                           DefglobalRunTimeInitialize(Environment *);
-#endif
 
 #endif /* _H_globldef */
 

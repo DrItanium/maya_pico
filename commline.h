@@ -81,7 +81,6 @@ struct commandLineData
   {
    bool EvaluatingTopLevelCommand;
    bool HaltCommandLoopBatch;
-#if ! RUN_TIME
    struct expr *CurrentCommand;
    char *CommandString;
    size_t MaximumCharacters;
@@ -90,7 +89,6 @@ struct commandLineData
    EventFunction *EventCallback;
    AfterPromptFunction *AfterPromptCallback;
    BeforeCommandExecutionFunction *BeforeCommandExecutionCallback;
-#endif
   };
 
 #define CommandLineData(theEnv) ((struct commandLineData *) GetEnvironmentData(theEnv,COMMANDLINE_DATA))

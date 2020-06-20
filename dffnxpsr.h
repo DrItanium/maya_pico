@@ -44,11 +44,11 @@
 
 #define _H_dffnxpsr
 
-#if DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME)
+#if DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY)
 
    bool                           ParseDeffunction(Environment *,const char *);
 
-#endif /* DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) */
 
 #endif /* _H_dffnxpsr */
 

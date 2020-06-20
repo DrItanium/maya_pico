@@ -126,7 +126,7 @@ struct constructData
    bool ResetInProgress;
    short ClearReadyLocks;
    int DanglingConstructs;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    SaveCallFunctionItem *ListOfSaveFunctions;
    bool PrintWhileLoading;
    bool LoadInProgress;

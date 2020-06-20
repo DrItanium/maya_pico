@@ -79,13 +79,11 @@ typedef struct handlerSlotReference
    void             SlotAccessViolationError(Environment *,const char *,Instance *,Defclass *);
    void             SlotVisibilityViolationError(Environment *,SlotDescriptor *,Defclass *,bool);
 
-#if ! RUN_TIME
    void             NewSystemHandler(Environment *,const char *,const char *,const char *,unsigned short);
    DefmessageHandler
                    *InsertHandlerHeader(Environment *,Defclass *,CLIPSLexeme *,unsigned);
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    DefmessageHandler
                    *NewHandler(void);
    bool             HandlersExecuting(Defclass *);
