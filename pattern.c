@@ -63,7 +63,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static struct lhsParseNode            *ConjuctiveRestrictionParse(Environment *,const char *,struct token *,bool *);
    static struct lhsParseNode            *LiteralRestrictionParse(Environment *,const char *,struct token *,bool *);
    static bool                            CheckForVariableMixing(Environment *,struct lhsParseNode *);
@@ -501,44 +501,8 @@ struct patternParser *GetPatternParser(
    return(PatternData(theEnv)->PatternParserArray[rhsType-1]);
   }
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
 
-/*************************************************************/
-/* PatternNodeHeaderToCode: Writes the C code representation */
-/*   of a patternNodeHeader data structure.                  */
-/*************************************************************/
-void PatternNodeHeaderToCode(
-  Environment *theEnv,
-  FILE *fp,
-  struct patternNodeHeader *theHeader,
-  unsigned int imageID,
-  unsigned int maxIndices)
-  {
-   fprintf(fp,"{NULL,NULL,");
-
-   if (theHeader->entryJoin == NULL)
-     { fprintf(fp,"NULL,"); }
-   else
-     {
-      fprintf(fp,"&%s%u_%lu[%lu],",
-                 JoinPrefix(),imageID,
-                 (theHeader->entryJoin->bsaveID / maxIndices) + 1,
-                 theHeader->entryJoin->bsaveID % maxIndices);
-     }
-
-   PrintHashedExpressionReference(theEnv,fp,theHeader->rightHash,imageID,maxIndices);
-
-   fprintf(fp,",%d,%d,%d,0,0,%d,%d,%d}",theHeader->singlefieldNode,
-                                     theHeader->multifieldNode,
-                                     theHeader->stopNode,
-                                     theHeader->beginSlot,
-                                     theHeader->endSlot,
-                                     theHeader->selector);
-  }
-
-#endif /* CONSTRUCT_COMPILER && (! RUN_TIME) */
-
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /****************************************************************/
 /* PostPatternAnalysis: Calls the post analysis routines for    */
@@ -1256,7 +1220,7 @@ static struct lhsParseNode *LiteralRestrictionParse(
    return topNode;
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFRULE_CONSTRUCT */
 

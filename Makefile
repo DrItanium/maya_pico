@@ -172,7 +172,7 @@ conscomp.o: conscomp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h cstrccom.h cstrncmp.h \
  constrnt.h exprnpsr.h extnfunc.h symbol.h scanner.h memalloc.h \
- modulcmp.h prntutil.h router.h sysdep.h network.h match.h ruledef.h \
+ prntutil.h router.h sysdep.h network.h match.h ruledef.h \
  agenda.h crstrtgy.h conscomp.h symblcmp.h dffnxfun.h \
  tmpltcmp.h tmpltdef.h factbld.h globldef.h genrccmp.h \
  genrcfun.h object.h multifld.h objrtmch.h
@@ -724,17 +724,13 @@ modulbin.o: modulbin.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
 modulbsc.o: modulbsc.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h bload.h extnfunc.h symbol.h \
- exprnbin.h sysdep.h symblbin.h modulbin.h cstrcbin.h modulcmp.h \
+ exprnbin.h sysdep.h symblbin.h modulbin.h cstrcbin.h \
  multifld.h prntutil.h router.h modulbsc.h
-modulcmp.o: modulcmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
- evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
- symblcmp.h sysdep.h modulcmp.h
 moduldef.o: moduldef.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h bload.h extnfunc.h symbol.h \
  exprnbin.h sysdep.h symblbin.h modulbin.h cstrcbin.h memalloc.h \
- modulbsc.h modulcmp.h modulpsr.h scanner.h prntutil.h router.h
+ modulbsc.h modulpsr.h scanner.h prntutil.h router.h
 modulpsr.o: modulpsr.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h cstrcpsr.h strngfun.h \

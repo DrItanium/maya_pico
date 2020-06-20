@@ -55,7 +55,6 @@
 #include "envrnmnt.h"
 #include "extnfunc.h"
 #include "modulbin.h"
-#include "modulcmp.h"
 #include "multifld.h"
 #include "prntutil.h"
 #include "router.h"

@@ -68,7 +68,6 @@
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "modulbsc.h"
-#include "modulcmp.h"
 #include "modulpsr.h"
 #include "prntutil.h"
 #include "router.h"
