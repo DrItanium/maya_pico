@@ -69,7 +69,6 @@ typedef struct defgeneric Defgeneric;
 #include <stdio.h>
 
 #include "entities.h"
-#include "conscomp.h"
 #include "constrct.h"
 #include "expressn.h"
 #include "evaluatn.h"

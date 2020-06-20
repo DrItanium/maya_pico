@@ -86,7 +86,6 @@ typedef struct factBuilder FactBuilder;
 typedef struct factModifier FactModifier;
 
 #include "entities.h"
-#include "conscomp.h"
 #include "tmpltdef.h"
 
 typedef void ModifyCallFunction(Environment *,Fact *,Fact *,void *);

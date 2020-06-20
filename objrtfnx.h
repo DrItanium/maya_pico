@@ -53,7 +53,6 @@
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
-#include "conscomp.h"
 #include "evaluatn.h"
 #include "match.h"
 #include "object.h"

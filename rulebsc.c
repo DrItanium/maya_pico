@@ -81,9 +81,6 @@
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
 #include "rulebin.h"
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "rulecmp.h"
-#endif
 
 #include "rulebsc.h"
 
@@ -94,10 +91,8 @@
    static void                    ResetDefrules(Environment *,void *);
    static void                    ResetDefrulesPrime(Environment *,void *);
    static void                    SaveDefrules(Environment *,Defmodule *,const char *,void *);
-#if (! RUN_TIME)
    static bool                    ClearDefrulesReady(Environment *,void *);
    static void                    ClearDefrules(Environment *,void *);
-#endif
 
 /*************************************************************/
 /* DefruleBasicCommands: Initializes basic defrule commands. */
@@ -108,16 +103,13 @@ void DefruleBasicCommands(
    AddResetFunction(theEnv,"defrule",ResetDefrules,70,NULL);
    AddResetFunction(theEnv,"defrule",ResetDefrulesPrime,10,NULL);
    AddSaveFunction(theEnv,"defrule",SaveDefrules,0,NULL);
-#if (! RUN_TIME)
    AddClearReadyFunction(theEnv,"defrule",ClearDefrulesReady,0,NULL);
    AddClearFunction(theEnv,"defrule",ClearDefrules,0,NULL);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"rules",0,&DefruleData(theEnv)->WatchRules,70,DefruleWatchAccess,DefruleWatchPrint);
 #endif
 
-#if ! RUN_TIME
    AddUDF(theEnv,"get-defrule-list","m",0,1,"y",GetDefruleListFunction,"GetDefruleListFunction",NULL);
    AddUDF(theEnv,"undefrule","v",1,1,"y",UndefruleCommand,"UndefruleCommand",NULL);
    AddUDF(theEnv,"defrule-module","y",1,1,"y",DefruleModuleFunction,"DefruleModuleFunction",NULL);
@@ -132,11 +124,6 @@ void DefruleBasicCommands(
    DefruleBinarySetup(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   DefruleCompilerSetup(theEnv);
-#endif
-
-#endif
   }
 
 /*****************************************************/
@@ -229,7 +216,6 @@ static void ResetDefrulesPrime(
 
   }
 
-#if (! RUN_TIME)
 
 /******************************************************************/
 /* ClearDefrulesReady: Indicates whether defrules can be cleared. */
@@ -263,7 +249,6 @@ static void ClearDefrules(
    Focus(theModule);
   }
 
-#endif
 
 /**************************************/
 /* SaveDefrules: Defrule save routine */

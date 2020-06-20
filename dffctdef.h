@@ -54,7 +54,6 @@
 typedef struct deffacts Deffacts;
 
 #include "constrct.h"
-#include "conscomp.h"
 #include "cstrccom.h"
 #include "evaluatn.h"
 #include "expressn.h"

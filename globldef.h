@@ -65,7 +65,6 @@
 
 typedef struct defglobal Defglobal;
 
-#include "conscomp.h"
 #include "constrct.h"
 #include "cstrccom.h"
 #include "evaluatn.h"

@@ -104,7 +104,6 @@ struct defrule
   };
 
 #include "agenda.h"
-#include "conscomp.h"
 #include "constrnt.h"
 #include "cstrccom.h"
 #include "evaluatn.h"

@@ -72,7 +72,6 @@ struct deftemplateModule;
 #include "entities.h"
 
 #include "constrct.h"
-#include "conscomp.h"
 #include "evaluatn.h"
 #include "moduldef.h"
 
