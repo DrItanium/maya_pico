@@ -126,7 +126,6 @@
 #include "default.h"
 #include "engine.h"
 #include "factbin.h"
-#include "factcmp.h"
 #include "factcom.h"
 #include "factfile.h"
 #include "factfun.h"

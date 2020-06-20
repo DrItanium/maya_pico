@@ -62,6 +62,7 @@
 
 #include "entities.h"
 #include "object.h"
+#include "extnfunc.h"
 
 #if DEBUGGING_FUNCTIONS
 

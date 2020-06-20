@@ -45,7 +45,6 @@
 
 #include "argacces.h"
 #include "envrnmnt.h"
-#include "factcmp.h"
 #include "factgen.h"
 #include "factlhs.h"
 #include "factmch.h"

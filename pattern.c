@@ -55,7 +55,6 @@
 #include "prntutil.h"
 #include "reteutil.h"
 #include "router.h"
-#include "rulecmp.h"
 
 #include "pattern.h"
 
