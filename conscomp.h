@@ -75,7 +75,6 @@
 
 #include "constrct.h"
 #include "extnfunc.h"
-#include "symblcmp.h"
 #include "moduldef.h"
 
 #define CONSTRUCT_COMPILER_DATA 41

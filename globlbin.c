@@ -31,7 +31,7 @@
 
 #include "setup.h"
 
-#if DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY) && (! RUN_TIME)
+#if DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY)
 
 #include <stdio.h>
 
@@ -95,7 +95,7 @@ void DefglobalBinarySetup(
 static void DeallocateDefglobalBloadData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    size_t space;
    unsigned long i;
 
@@ -452,7 +452,7 @@ void *BloadDefglobalModuleReference(
    return (void *) &DefglobalBinaryData(theEnv)->ModuleArray[theIndex];
   }
 
-#endif /* DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY) */
 
 
 

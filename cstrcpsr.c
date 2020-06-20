@@ -68,7 +68,7 @@
 
 #include "setup.h"
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -830,6 +830,6 @@ void ImportExportConflictMessage(
      }
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 
