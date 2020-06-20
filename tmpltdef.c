@@ -147,17 +147,14 @@ void InitializeDeftemplates(
 static void DeallocateDeftemplateData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    struct deftemplateModule *theModuleItem;
    Defmodule *theModule;
-#endif
 #if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv)) return;
 #endif
 
    DoForAllConstructs(theEnv,DestroyDeftemplateAction,DeftemplateData(theEnv)->DeftemplateModuleIndex,false,NULL);
 
-#if ! RUN_TIME
    for (theModule = GetNextDefmodule(theEnv,NULL);
         theModule != NULL;
         theModule = GetNextDefmodule(theEnv,theModule))
@@ -167,7 +164,6 @@ static void DeallocateDeftemplateData(
                                     DeftemplateData(theEnv)->DeftemplateModuleIndex);
       rtn_struct(theEnv,deftemplateModule,theModuleItem);
      }
-#endif
   }
 
 /*****************************************************/
@@ -205,14 +201,10 @@ static void InitializeDeftemplateModules(
 #else
                                     NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                                    DeftemplateCModuleReference,
-#else
-                                    NULL,
-#endif
+                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDeftemplateInModule);
 
-#if (! BLOAD_ONLY) && (! RUN_TIME) && DEFMODULE_CONSTRUCT
+#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"deftemplate",SYMBOL_TOKEN);
 #endif
   }
@@ -310,7 +302,7 @@ static void ReturnDeftemplate(
   Environment *theEnv,
   Deftemplate *theDeftemplate)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    struct templateSlot *slotPtr;
 
    if (theDeftemplate == NULL) return;
@@ -361,12 +353,12 @@ static void DestroyDeftemplate(
   Environment *theEnv,
   Deftemplate *theDeftemplate)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    struct templateSlot *slotPtr, *nextSlot;
 #endif
    if (theDeftemplate == NULL) return;
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    slotPtr = theDeftemplate->slotList;
 
    while (slotPtr != NULL)
@@ -383,7 +375,7 @@ static void DestroyDeftemplate(
    /* Free storage used by the header. */
    /*==================================*/
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    DeinstallConstructHeader(theEnv,&theDeftemplate->header);
 
    rtn_struct(theEnv,deftemplate,theDeftemplate);
@@ -398,7 +390,7 @@ void ReturnSlots(
   Environment *theEnv,
   struct templateSlot *slotPtr)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    struct templateSlot *nextSlot;
 
    while (slotPtr != NULL)
@@ -456,7 +448,6 @@ Fact *GetNextFactInTemplate(
    return(factPtr->nextTemplateFact);
   }
 
-#if ! RUN_TIME
 
 /******************************/
 /* CreateDeftemplateScopeMap: */
@@ -498,57 +489,6 @@ void *CreateDeftemplateScopeMap(
    return(theBitMap);
   }
 
-#endif
-
-#if RUN_TIME
-
-/**************************************************/
-/* RuntimeDeftemplateAction: Action to be applied */
-/*   to each deftemplate construct when a runtime */
-/*   initialization occurs.                       */
-/**************************************************/
-static void RuntimeDeftemplateAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
-#if MAC_XCD
-#pragma unused(buffer)
-#endif
-   Deftemplate *theDeftemplate = (Deftemplate *) theConstruct;
-   
-   theDeftemplate->header.env = theEnv;
-   SearchForHashedPatternNodes(theEnv,theDeftemplate->patternNetwork);
-  }
-
-/********************************/
-/* SearchForHashedPatternNodes: */
-/********************************/
-static void SearchForHashedPatternNodes(
-   Environment *theEnv,
-   struct factPatternNode *theNode)
-   {
-    while (theNode != NULL)
-      {
-       if ((theNode->lastLevel != NULL) && (theNode->lastLevel->header.selector))
-        { AddHashedPatternNode(theEnv,theNode->lastLevel,theNode,theNode->networkTest->type,theNode->networkTest->value); }
-
-       SearchForHashedPatternNodes(theEnv,theNode->nextLevel);
-
-       theNode = theNode->rightNode;
-      }
-   }
-
-/*********************************/
-/* DeftemplateRunTimeInitialize: */
-/*********************************/
-void DeftemplateRunTimeInitialize(
-  Environment *theEnv)
-  {
-   DoForAllConstructs(theEnv,RuntimeDeftemplateAction,DeftemplateData(theEnv)->DeftemplateModuleIndex,true,NULL);
-  }
-
-#endif /* RUN_TIME */
 
 /*##################################*/
 /* Additional Environment Functions */

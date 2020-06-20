@@ -260,7 +260,7 @@ void PrintErrorID(
   int errorID,
   bool printCR)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    FlushParsingMessages(theEnv);
    SetErrorFileName(theEnv,GetParsingFileName(theEnv));
    ConstructData(theEnv)->ErrLineNumber = GetLineCount(theEnv);
@@ -276,7 +276,7 @@ void PrintErrorID(
    /* and there is no callback for errors/warnings.    */
    /*==================================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if ((ConstructData(theEnv)->ParserErrorCallback == NULL) &&
        (GetLoadInProgress(theEnv) == true))
      {
@@ -304,7 +304,7 @@ void PrintWarningID(
   int warningID,
   bool printCR)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    FlushParsingMessages(theEnv);
    SetWarningFileName(theEnv,GetParsingFileName(theEnv));
    ConstructData(theEnv)->WrnLineNumber = GetLineCount(theEnv);
@@ -320,7 +320,7 @@ void PrintWarningID(
    /* and there is no callback for errors/warnings.    */
    /*==================================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if ((ConstructData(theEnv)->ParserErrorCallback == NULL) &&
        (GetLoadInProgress(theEnv) == true))
      {

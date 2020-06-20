@@ -81,7 +81,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
    static void                       NoSuchTemplateError(Environment *,const char *);
 #endif
 
@@ -317,7 +317,7 @@ struct expr *GetRHSPattern(
    /*======================================================*/
 
    if (theDeftemplate == NULL)
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
      {
 #if BLOAD || BLOAD_AND_BSAVE
       if ((Bloaded(theEnv)) && (! ConstructData(theEnv)->CheckSyntaxMode))
@@ -358,7 +358,7 @@ struct expr *GetRHSPattern(
                                               error,endType,
                                               constantsOnly,theDeftemplate);
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       if (! ConstructData(theEnv)->ParsingConstruct)
         { ConstructData(theEnv)->DanglingConstructs++; }
 #endif
@@ -378,12 +378,12 @@ struct expr *GetRHSPattern(
 
    firstOne = GenConstant(theEnv,DEFTEMPLATE_PTR,theDeftemplate);
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if (! ConstructData(theEnv)->ParsingConstruct)
      { ConstructData(theEnv)->DanglingConstructs++; }
 #endif
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    SavePPBuffer(theEnv," ");
 #endif
 
@@ -393,7 +393,7 @@ struct expr *GetRHSPattern(
       if (argHead == NULL) argHead = nextOne;
       else lastOne->nextArg = nextOne;
       lastOne = nextOne;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       SavePPBuffer(theEnv," ");
 #endif
      }
@@ -415,7 +415,7 @@ struct expr *GetRHSPattern(
    /* of the RHS ordered fact.            */
    /*=====================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    PPBackup(theEnv);
    PPBackup(theEnv);
    SavePPBuffer(theEnv,tempToken->printForm);
@@ -454,11 +454,7 @@ struct expr *GetAssertArgument(
   bool constantsOnly,
   bool *printError)
   {
-#if ! RUN_TIME
    struct expr *nextField;
-#else
-   struct expr *nextField = NULL;
-#endif
 
    /*=================================================*/
    /* Read in the first token of the slot's value. If */
@@ -490,23 +486,19 @@ struct expr *GetAssertArgument(
          return NULL;
         }
 
-#if ! RUN_TIME
       if (theToken->tknType == LEFT_PARENTHESIS_TOKEN) nextField = Function1Parse(theEnv,logicalName);
       else nextField = Function0Parse(theEnv,logicalName);
       if (nextField == NULL)
-#endif
         {
          *printError = false;
          *error = true;
         }
-#if ! RUN_TIME
       else
         {
          theToken->tknType= RIGHT_PARENTHESIS_TOKEN;
          theToken->value = CreateString(theEnv,")");
          theToken->printForm = ")";
         }
-#endif
 
       return(nextField);
      }
@@ -642,11 +634,11 @@ Fact *StringToFact(
    return(factPtr);
   }
 
-#if RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
 
 /*********************************************************/
 /* NoSuchTemplateError: Prints out an error message      */
-/* in a BLOAD_ONLY, RUN_TIME or bload active environment */
+/* in a BLOAD_ONLY or bload active environment */
 /* when an implied deftemplate cannot be created for     */
 /* an assert                                             */
 /*********************************************************/
@@ -660,7 +652,7 @@ static void NoSuchTemplateError(
    WriteString(theEnv,STDERR,"' cannot be created with binary load in effect.\n");
   }
 
-#endif /* RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE */
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 

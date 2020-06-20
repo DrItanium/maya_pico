@@ -63,7 +63,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static struct factPatternNode    *FindPatternNode(struct factPatternNode *,struct lhsParseNode *,
                                                   struct factPatternNode **,bool,bool);
    static struct factPatternNode    *CreateNewPatternNode(Environment *,struct lhsParseNode *,struct factPatternNode *,
@@ -94,7 +94,7 @@ void InitializeFactPatterns(
    newPtr->priority = 0;
    newPtr->entityType = &FactData(theEnv)->FactInfo;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    newPtr->recognizeFunction = FactPatternParserFind;
    newPtr->parseFunction = FactPatternParse;
    newPtr->postAnalysisFunction = NULL;
@@ -131,12 +131,8 @@ void InitializeFactPatterns(
    newPtr->markIRPatternFunction = MarkFactPatternForIncrementalReset;
    newPtr->incrementalResetFunction = FactsIncrementalReset;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
-#if CONSTRUCT_COMPILER
-   newPtr->codeReferenceFunction = FactPatternNodeReference;
-#else
+#if (! BLOAD_ONLY)
    newPtr->codeReferenceFunction = NULL;
-#endif
 #else
    newPtr->codeReferenceFunction = NULL;
 #endif
@@ -145,7 +141,7 @@ void InitializeFactPatterns(
 #endif
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /******************************************************************************/
 /* PlaceFactPattern: Integrates a fact pattern into the fact pattern network. */
@@ -868,7 +864,7 @@ void DestroyFactPatternNetwork(
           (thePattern->lastLevel->header.selector))
         { RemoveHashedPatternNode(theEnv,thePattern->lastLevel,thePattern,thePattern->networkTest->type,thePattern->networkTest->value); }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
       rtn_struct(theEnv,factPatternNode,thePattern);
 #endif
 
@@ -876,7 +872,7 @@ void DestroyFactPatternNetwork(
      }
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /***********************************************************/
 /* FindAndSetDeftemplatePatternNetwork: When a deftemplate */
@@ -1027,7 +1023,7 @@ static void ClearPatternMatches(
     }
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT */
 

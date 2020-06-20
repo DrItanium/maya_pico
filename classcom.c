@@ -86,7 +86,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY) && (! RUN_TIME) && DEBUGGING_FUNCTIONS
+#if (! BLOAD_ONLY) && DEBUGGING_FUNCTIONS
    static void                    SaveDefclass(Environment *,ConstructHeader *,void *);
 #endif
    static const char             *GetClassDefaultsModeName(ClassDefaultsMode);
@@ -378,7 +378,7 @@ bool DefclassIsDeletable(
    if (theDefclass->system == 1)
      { return false; }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    return (IsClassBeingUsed(theDefclass) == false) ? true : false;
 #else
    return false;
@@ -414,7 +414,7 @@ bool Undefclass(
   Defclass *theDefclass,
   Environment *allEnv)
   {   
-#if RUN_TIME || BLOAD_ONLY
+#if BLOAD_ONLY
    return false;
 #else
    Environment *theEnv;
@@ -730,7 +730,7 @@ CLIPSLexeme *CheckClassAndSlot(
    return theArg.lexemeValue;
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : SaveDefclasses
@@ -766,7 +766,7 @@ void SaveDefclasses(
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY) && (! RUN_TIME) && DEBUGGING_FUNCTIONS
+#if (! BLOAD_ONLY) && DEBUGGING_FUNCTIONS
 
 /***************************************************
   NAME         : SaveDefclass

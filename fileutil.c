@@ -619,7 +619,7 @@ bool OpenBatch(
    if (FileCommandData(theEnv)->TopOfBatchList != NULL)
      { FileCommandData(theEnv)->TopOfBatchList->lineNumber = GetLineCount(theEnv); }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
    /*========================================================================*/
    /* If this is the first batch file, remember the prior parsing file name. */
@@ -758,7 +758,7 @@ bool RemoveBatch(
      {
       fileBatch = true;
       GenClose(theEnv,FileCommandData(theEnv)->TopOfBatchList->fileSource);
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       FlushParsingMessages(theEnv);
       DeleteErrorCaptureRouter(theEnv);
 #endif
@@ -800,7 +800,7 @@ bool RemoveBatch(
       FileCommandData(theEnv)->BatchMaximumPosition = 0;
       rv = false;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       if (fileBatch)
         {
          SetParsingFileName(theEnv,FileCommandData(theEnv)->batchPriorParsingFile);
@@ -821,7 +821,7 @@ bool RemoveBatch(
       FileCommandData(theEnv)->BatchLogicalSource = FileCommandData(theEnv)->TopOfBatchList->logicalSource;
       FileCommandData(theEnv)->BatchCurrentPosition = 0;
       rv = true;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       if (FileCommandData(theEnv)->TopOfBatchList->batchType == FILE_BATCH)
         { SetParsingFileName(theEnv,FileCommandData(theEnv)->TopOfBatchList->fileName); }
 
@@ -882,7 +882,6 @@ void CloseAllBatchSources(
      { /* Do Nothing */ }
   }
 
-#if ! RUN_TIME
 
 /*******************************************************/
 /* BatchStar: C access routine for the batch* command. */
@@ -897,7 +896,7 @@ bool BatchStar(
    char *theString = NULL;
    size_t position = 0;
    size_t maxChars = 0;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    char *oldParsingFileName;
    long oldLineCountValue;
 #endif
@@ -917,7 +916,7 @@ bool BatchStar(
    /* Setup for capturing errors/warnings. */
    /*======================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    oldParsingFileName = CopyString(theEnv,GetParsingFileName(theEnv));
    SetParsingFileName(theEnv,fileName);
 
@@ -962,7 +961,7 @@ bool BatchStar(
          theString = NULL;
          maxChars = 0;
          position = 0;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
          FlushParsingMessages(theEnv);
 #endif
         }
@@ -984,7 +983,7 @@ bool BatchStar(
    /* Cleanup for capturing errors/warnings. */
    /*========================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    FlushParsingMessages(theEnv);
    DeleteErrorCaptureRouter(theEnv);
 
@@ -997,19 +996,3 @@ bool BatchStar(
    return true;
   }
 
-#else
-
-/***********************************************/
-/* BatchStar: This is the non-functional stub  */
-/*   provided for use with a run-time version. */
-/***********************************************/
-bool BatchStar(
-  Environment *theEnv,
-  const char *fileName)
-  {
-   PrintErrorID(theEnv,"FILECOM",1,false);
-   WriteString(theEnv,STDERR,"Function batch* does not work in run time modules.\n");
-   return false;
-  }
-
-#endif

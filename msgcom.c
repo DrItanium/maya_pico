@@ -77,14 +77,12 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "classinf.h"
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 #include "constrct.h"
 #include "msgpsr.h"
 #endif
 #include "envrnmnt.h"
-#if ! RUN_TIME
 #include "extnfunc.h"
-#endif
 #include "insfun.h"
 #include "insmoddp.h"
 #include "msgfun.h"
@@ -103,11 +101,9 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if ! RUN_TIME
    static void                    CreateSystemHandlers(Environment *,void *);
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    static bool                    WildDeleteHandler(Environment *,Defclass *,CLIPSLexeme *,const char *);
 #endif
 
@@ -173,7 +169,6 @@ void SetupMessageHandlers(
    InstallPrimitive(theEnv,&MessageHandlerData(theEnv)->HandlerGetInfo,HANDLER_GET);
    InstallPrimitive(theEnv,&MessageHandlerData(theEnv)->HandlerPutInfo,HANDLER_PUT);
 
-#if ! RUN_TIME
    MessageHandlerData(theEnv)->INIT_SYMBOL = CreateSymbol(theEnv,INIT_STRING);
    IncrementLexemeCount(MessageHandlerData(theEnv)->INIT_SYMBOL);
 
@@ -215,7 +210,6 @@ void SetupMessageHandlers(
    AddUDF(theEnv,"dynamic-put","*",1,UNBOUNDED,"*;y",DynamicHandlerPutSlot,"DynamicHandlerPutSlot",NULL);
    AddUDF(theEnv,"get","*",1,1,"y",DynamicHandlerGetSlot,"DynamicHandlerGetSlot",NULL);
    AddUDF(theEnv,"put","*",1,UNBOUNDED,"*;y",DynamicHandlerPutSlot,"DynamicHandlerPutSlot",NULL);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"messages",0,&MessageHandlerData(theEnv)->WatchMessages,36,NULL,NULL);
@@ -432,7 +426,7 @@ bool DefmessageHandlerIsDeletable(
    if (theDefclass->handlers[theIndex-1].system == 1)
      { return false; }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    return (HandlersExecuting(theDefclass) == false) ? true : false;
 #else
    return false;
@@ -452,7 +446,7 @@ void UndefmessageHandlerCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if RUN_TIME || BLOAD_ONLY
+#if BLOAD_ONLY
    PrintErrorID(theEnv,"MSGCOM",3,false);
    WriteString(theEnv,STDERR,"Unable to delete message-handlers.\n");
 #else
@@ -509,7 +503,7 @@ bool UndefmessageHandler(
   Environment *allEnv)
   {
    Environment *theEnv;
-#if (! RUN_TIME) &&  (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    bool success;
    GCBlock gcb;
 #endif
@@ -519,7 +513,7 @@ bool UndefmessageHandler(
    else
      { theEnv = theDefclass->header.env; }
 
-#if RUN_TIME || BLOAD_ONLY
+#if BLOAD_ONLY
    PrintErrorID(theEnv,"MSGCOM",3,false);
    WriteString(theEnv,STDERR,"Unable to delete message-handlers.\n");
    return false;
@@ -859,7 +853,6 @@ unsigned long DisplayHandlersInLinks(
    =========================================
    ***************************************** */
 
-#if ! RUN_TIME
 
 /**********************************************************
   NAME         : CreateSystemHandlers
@@ -888,9 +881,8 @@ static void CreateSystemHandlers(
    NewSystemHandler(theEnv,USER_TYPE_NAME,MSG_DUPLICATE_STRING,"(message-duplicate)",2);
   }
 
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /************************************************************
   NAME         : WildDeleteHandler

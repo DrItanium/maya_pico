@@ -117,7 +117,7 @@ void BsaveCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! RUN_TIME) && BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
    const char *fileName;
 
    fileName = GetFileName(context);

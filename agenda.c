@@ -117,7 +117,6 @@ void InitializeAgenda(
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"activations",1,&AgendaData(theEnv)->WatchActivations,40,DefruleWatchAccess,DefruleWatchPrint);
 #endif
-#if ! RUN_TIME
    AddUDF(theEnv,"refresh","v",1,1,"y",RefreshCommand,"RefreshCommand",NULL);
    AddUDF(theEnv,"refresh-agenda","v",0,1,"y",RefreshAgendaCommand,"RefreshAgendaCommand",NULL);
    AddUDF(theEnv,"get-salience-evaluation","y",0,0,NULL,GetSalienceEvaluationCommand,"GetSalienceEvaluationCommand",NULL);
@@ -125,7 +124,6 @@ void InitializeAgenda(
 
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"agenda","v",0,1,"y",AgendaCommand,"AgendaCommand",NULL);
-#endif
 #endif
   }
 

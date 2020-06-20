@@ -862,7 +862,7 @@ void BloadCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! RUN_TIME) && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    const char *fileName;
 
    fileName = GetFileName(context);

@@ -90,9 +90,6 @@
 #include "rulebin.h"
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "rulecmp.h"
-#endif
 
 #include "ruledef.h"
 
@@ -105,9 +102,6 @@
    static void                    InitializeDefruleModules(Environment *);
    static void                    DeallocateDefruleData(Environment *);
    static void                    DestroyDefruleAction(Environment *,ConstructHeader *,void *);
-#if RUN_TIME
-   static void                    AddBetaMemoriesToRule(Environment *,struct joinNode *);
-#endif
 
 /**********************************************************/
 /* InitializeDefrules: Initializes the defrule construct. */
@@ -206,9 +200,7 @@ static void DeallocateDefruleData(
          theGroup = tmpGroup;
         }
 
-#if ! RUN_TIME
       rtn_struct(theEnv,defruleModule,theModuleItem);
-#endif
      }
 
    rm(theEnv,DefruleData(theEnv)->AlphaMemoryTable,sizeof (ALPHA_MEMORY_HASH *) * ALPHA_MEMORY_HASH_SIZE);
@@ -246,11 +238,7 @@ static void InitializeDefruleModules(
 #else
                                     NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                                    DefruleCModuleReference,
-#else
-                                    NULL,
-#endif
+                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefruleInModule);
   }
 
@@ -389,67 +377,8 @@ Defrule *GetNthDisjunct(
    return NULL;
   }
 
-#if RUN_TIME
 
-/******************************************/
-/* DefruleRunTimeInitialize:  Initializes */
-/*   defrule in a run-time module.        */
-/******************************************/
-void DefruleRunTimeInitialize(
-  Environment *theEnv,
-  struct joinLink *rightPrime,
-  struct joinLink *leftPrime)
-  {
-   Defmodule *theModule;
-   Defrule *theRule, *theDisjunct;
-
-   DefruleData(theEnv)->RightPrimeJoins = rightPrime;
-   DefruleData(theEnv)->LeftPrimeJoins = leftPrime;
-
-   SaveCurrentModule(theEnv);
-
-   for (theModule = GetNextDefmodule(theEnv,NULL);
-        theModule != NULL;
-        theModule = GetNextDefmodule(theEnv,theModule))
-     {
-      SetCurrentModule(theEnv,theModule);
-      for (theRule = GetNextDefrule(theEnv,NULL);
-           theRule != NULL;
-           theRule = GetNextDefrule(theEnv,theRule))
-        {
-         for (theDisjunct = theRule;
-              theDisjunct != NULL;
-              theDisjunct = theDisjunct->disjunct)
-           {
-            theDisjunct->header.env = theEnv;
-            AddBetaMemoriesToRule(theEnv,theDisjunct->lastJoin);
-           }
-        }
-     }
-
-   RestoreCurrentModule(theEnv);
-  }
-
-
-/**************************/
-/* AddBetaMemoriesToRule: */
-/**************************/
-static void AddBetaMemoriesToRule(
-  Environment *theEnv,
-  struct joinNode *theNode)
-  {
-   AddBetaMemoriesToJoin(theEnv,theNode);
-
-   if (theNode->lastLevel != NULL)
-     { AddBetaMemoriesToRule(theEnv,theNode->lastLevel); }
-
-   if (theNode->joinFromTheRight)
-     { AddBetaMemoriesToRule(theEnv,(struct joinNode *) theNode->rightSideEntryStructure); }
-  }
-
-#endif /* RUN_TIME */
-
-#if RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
 
 /**************************/
 /* AddBetaMemoriesToJoin: */
@@ -530,7 +459,7 @@ void AddBetaMemoriesToJoin(
      { theNode->rightMemory = NULL; }
   }
 
-#endif /* RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE */
 
 /*##################################*/
 /* Additional Environment Functions */
