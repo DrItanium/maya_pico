@@ -1,0 +1,2654 @@
+[
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "agenda.c",
+   "-o",
+   "agenda.o"
+  ],
+  "file": "agenda.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "analysis.c",
+   "-o",
+   "analysis.o"
+  ],
+  "file": "analysis.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "argacces.c",
+   "-o",
+   "argacces.o"
+  ],
+  "file": "argacces.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "bload.c",
+   "-o",
+   "bload.o"
+  ],
+  "file": "bload.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "bmathfun.c",
+   "-o",
+   "bmathfun.o"
+  ],
+  "file": "bmathfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "bsave.c",
+   "-o",
+   "bsave.o"
+  ],
+  "file": "bsave.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "classcom.c",
+   "-o",
+   "classcom.o"
+  ],
+  "file": "classcom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "classexm.c",
+   "-o",
+   "classexm.o"
+  ],
+  "file": "classexm.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "classfun.c",
+   "-o",
+   "classfun.o"
+  ],
+  "file": "classfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "classinf.c",
+   "-o",
+   "classinf.o"
+  ],
+  "file": "classinf.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "classini.c",
+   "-o",
+   "classini.o"
+  ],
+  "file": "classini.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "classpsr.c",
+   "-o",
+   "classpsr.o"
+  ],
+  "file": "classpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "clsltpsr.c",
+   "-o",
+   "clsltpsr.o"
+  ],
+  "file": "clsltpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "commline.c",
+   "-o",
+   "commline.o"
+  ],
+  "file": "commline.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "constrct.c",
+   "-o",
+   "constrct.o"
+  ],
+  "file": "constrct.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "constrnt.c",
+   "-o",
+   "constrnt.o"
+  ],
+  "file": "constrnt.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "crstrtgy.c",
+   "-o",
+   "crstrtgy.o"
+  ],
+  "file": "crstrtgy.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrcbin.c",
+   "-o",
+   "cstrcbin.o"
+  ],
+  "file": "cstrcbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrccom.c",
+   "-o",
+   "cstrccom.o"
+  ],
+  "file": "cstrccom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrcpsr.c",
+   "-o",
+   "cstrcpsr.o"
+  ],
+  "file": "cstrcpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrnbin.c",
+   "-o",
+   "cstrnbin.o"
+  ],
+  "file": "cstrnbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrnchk.c",
+   "-o",
+   "cstrnchk.o"
+  ],
+  "file": "cstrnchk.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrnops.c",
+   "-o",
+   "cstrnops.o"
+  ],
+  "file": "cstrnops.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrnpsr.c",
+   "-o",
+   "cstrnpsr.o"
+  ],
+  "file": "cstrnpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cstrnutl.c",
+   "-o",
+   "cstrnutl.o"
+  ],
+  "file": "cstrnutl.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "default.c",
+   "-o",
+   "default.o"
+  ],
+  "file": "default.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "defins.c",
+   "-o",
+   "defins.o"
+  ],
+  "file": "defins.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "developr.c",
+   "-o",
+   "developr.o"
+  ],
+  "file": "developr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffctbin.c",
+   "-o",
+   "dffctbin.o"
+  ],
+  "file": "dffctbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffctbsc.c",
+   "-o",
+   "dffctbsc.o"
+  ],
+  "file": "dffctbsc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffctdef.c",
+   "-o",
+   "dffctdef.o"
+  ],
+  "file": "dffctdef.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffctpsr.c",
+   "-o",
+   "dffctpsr.o"
+  ],
+  "file": "dffctpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffnxbin.c",
+   "-o",
+   "dffnxbin.o"
+  ],
+  "file": "dffnxbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffnxexe.c",
+   "-o",
+   "dffnxexe.o"
+  ],
+  "file": "dffnxexe.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffnxfun.c",
+   "-o",
+   "dffnxfun.o"
+  ],
+  "file": "dffnxfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dffnxpsr.c",
+   "-o",
+   "dffnxpsr.o"
+  ],
+  "file": "dffnxpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "dfinsbin.c",
+   "-o",
+   "dfinsbin.o"
+  ],
+  "file": "dfinsbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "drive.c",
+   "-o",
+   "drive.o"
+  ],
+  "file": "drive.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "emathfun.c",
+   "-o",
+   "emathfun.o"
+  ],
+  "file": "emathfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "engine.c",
+   "-o",
+   "engine.o"
+  ],
+  "file": "engine.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "envrnbld.c",
+   "-o",
+   "envrnbld.o"
+  ],
+  "file": "envrnbld.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "envrnmnt.c",
+   "-o",
+   "envrnmnt.o"
+  ],
+  "file": "envrnmnt.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "evaluatn.c",
+   "-o",
+   "evaluatn.o"
+  ],
+  "file": "evaluatn.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "expressn.c",
+   "-o",
+   "expressn.o"
+  ],
+  "file": "expressn.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "exprnbin.c",
+   "-o",
+   "exprnbin.o"
+  ],
+  "file": "exprnbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "exprnops.c",
+   "-o",
+   "exprnops.o"
+  ],
+  "file": "exprnops.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "exprnpsr.c",
+   "-o",
+   "exprnpsr.o"
+  ],
+  "file": "exprnpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "extnfunc.c",
+   "-o",
+   "extnfunc.o"
+  ],
+  "file": "extnfunc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factbin.c",
+   "-o",
+   "factbin.o"
+  ],
+  "file": "factbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factbld.c",
+   "-o",
+   "factbld.o"
+  ],
+  "file": "factbld.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factcom.c",
+   "-o",
+   "factcom.o"
+  ],
+  "file": "factcom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factfun.c",
+   "-o",
+   "factfun.o"
+  ],
+  "file": "factfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factgen.c",
+   "-o",
+   "factgen.o"
+  ],
+  "file": "factgen.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "facthsh.c",
+   "-o",
+   "facthsh.o"
+  ],
+  "file": "facthsh.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factlhs.c",
+   "-o",
+   "factlhs.o"
+  ],
+  "file": "factlhs.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factmch.c",
+   "-o",
+   "factmch.o"
+  ],
+  "file": "factmch.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factmngr.c",
+   "-o",
+   "factmngr.o"
+  ],
+  "file": "factmngr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factprt.c",
+   "-o",
+   "factprt.o"
+  ],
+  "file": "factprt.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factqpsr.c",
+   "-o",
+   "factqpsr.o"
+  ],
+  "file": "factqpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factqury.c",
+   "-o",
+   "factqury.o"
+  ],
+  "file": "factqury.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factrete.c",
+   "-o",
+   "factrete.o"
+  ],
+  "file": "factrete.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factrhs.c",
+   "-o",
+   "factrhs.o"
+  ],
+  "file": "factrhs.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "filecom.c",
+   "-o",
+   "filecom.o"
+  ],
+  "file": "filecom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "filertr.c",
+   "-o",
+   "filertr.o"
+  ],
+  "file": "filertr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "fileutil.c",
+   "-o",
+   "fileutil.o"
+  ],
+  "file": "fileutil.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "generate.c",
+   "-o",
+   "generate.o"
+  ],
+  "file": "generate.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "genrcbin.c",
+   "-o",
+   "genrcbin.o"
+  ],
+  "file": "genrcbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "genrccom.c",
+   "-o",
+   "genrccom.o"
+  ],
+  "file": "genrccom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "genrcexe.c",
+   "-o",
+   "genrcexe.o"
+  ],
+  "file": "genrcexe.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "genrcfun.c",
+   "-o",
+   "genrcfun.o"
+  ],
+  "file": "genrcfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "genrcpsr.c",
+   "-o",
+   "genrcpsr.o"
+  ],
+  "file": "genrcpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "globlbin.c",
+   "-o",
+   "globlbin.o"
+  ],
+  "file": "globlbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "globlbsc.c",
+   "-o",
+   "globlbsc.o"
+  ],
+  "file": "globlbsc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "globlcom.c",
+   "-o",
+   "globlcom.o"
+  ],
+  "file": "globlcom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "globldef.c",
+   "-o",
+   "globldef.o"
+  ],
+  "file": "globldef.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "globlpsr.c",
+   "-o",
+   "globlpsr.o"
+  ],
+  "file": "globlpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "immthpsr.c",
+   "-o",
+   "immthpsr.o"
+  ],
+  "file": "immthpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "incrrset.c",
+   "-o",
+   "incrrset.o"
+  ],
+  "file": "incrrset.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "inherpsr.c",
+   "-o",
+   "inherpsr.o"
+  ],
+  "file": "inherpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "inscom.c",
+   "-o",
+   "inscom.o"
+  ],
+  "file": "inscom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insfile.c",
+   "-o",
+   "insfile.o"
+  ],
+  "file": "insfile.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insfun.c",
+   "-o",
+   "insfun.o"
+  ],
+  "file": "insfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insmngr.c",
+   "-o",
+   "insmngr.o"
+  ],
+  "file": "insmngr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insmoddp.c",
+   "-o",
+   "insmoddp.o"
+  ],
+  "file": "insmoddp.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insmult.c",
+   "-o",
+   "insmult.o"
+  ],
+  "file": "insmult.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "inspsr.c",
+   "-o",
+   "inspsr.o"
+  ],
+  "file": "inspsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insquery.c",
+   "-o",
+   "insquery.o"
+  ],
+  "file": "insquery.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "insqypsr.c",
+   "-o",
+   "insqypsr.o"
+  ],
+  "file": "insqypsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "iofun.c",
+   "-o",
+   "iofun.o"
+  ],
+  "file": "iofun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "lgcldpnd.c",
+   "-o",
+   "lgcldpnd.o"
+  ],
+  "file": "lgcldpnd.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "maya.c",
+   "-o",
+   "maya.o"
+  ],
+  "file": "maya.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "memalloc.c",
+   "-o",
+   "memalloc.o"
+  ],
+  "file": "memalloc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "miscfun.c",
+   "-o",
+   "miscfun.o"
+  ],
+  "file": "miscfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "modulbin.c",
+   "-o",
+   "modulbin.o"
+  ],
+  "file": "modulbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "modulbsc.c",
+   "-o",
+   "modulbsc.o"
+  ],
+  "file": "modulbsc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "moduldef.c",
+   "-o",
+   "moduldef.o"
+  ],
+  "file": "moduldef.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "modulpsr.c",
+   "-o",
+   "modulpsr.o"
+  ],
+  "file": "modulpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "modulutl.c",
+   "-o",
+   "modulutl.o"
+  ],
+  "file": "modulutl.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "msgcom.c",
+   "-o",
+   "msgcom.o"
+  ],
+  "file": "msgcom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "msgfun.c",
+   "-o",
+   "msgfun.o"
+  ],
+  "file": "msgfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "msgpass.c",
+   "-o",
+   "msgpass.o"
+  ],
+  "file": "msgpass.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "msgpsr.c",
+   "-o",
+   "msgpsr.o"
+  ],
+  "file": "msgpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "multifld.c",
+   "-o",
+   "multifld.o"
+  ],
+  "file": "multifld.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "multifun.c",
+   "-o",
+   "multifun.o"
+  ],
+  "file": "multifun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "objbin.c",
+   "-o",
+   "objbin.o"
+  ],
+  "file": "objbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "objrtbin.c",
+   "-o",
+   "objrtbin.o"
+  ],
+  "file": "objrtbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "objrtbld.c",
+   "-o",
+   "objrtbld.o"
+  ],
+  "file": "objrtbld.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "objrtfnx.c",
+   "-o",
+   "objrtfnx.o"
+  ],
+  "file": "objrtfnx.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "objrtgen.c",
+   "-o",
+   "objrtgen.o"
+  ],
+  "file": "objrtgen.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "objrtmch.c",
+   "-o",
+   "objrtmch.o"
+  ],
+  "file": "objrtmch.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "parsefun.c",
+   "-o",
+   "parsefun.o"
+  ],
+  "file": "parsefun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "pattern.c",
+   "-o",
+   "pattern.o"
+  ],
+  "file": "pattern.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "pprint.c",
+   "-o",
+   "pprint.o"
+  ],
+  "file": "pprint.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "prccode.c",
+   "-o",
+   "prccode.o"
+  ],
+  "file": "prccode.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "prcdrfun.c",
+   "-o",
+   "prcdrfun.o"
+  ],
+  "file": "prcdrfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "prcdrpsr.c",
+   "-o",
+   "prcdrpsr.o"
+  ],
+  "file": "prcdrpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "prdctfun.c",
+   "-o",
+   "prdctfun.o"
+  ],
+  "file": "prdctfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "prntutil.c",
+   "-o",
+   "prntutil.o"
+  ],
+  "file": "prntutil.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "proflfun.c",
+   "-o",
+   "proflfun.o"
+  ],
+  "file": "proflfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "reorder.c",
+   "-o",
+   "reorder.o"
+  ],
+  "file": "reorder.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "reteutil.c",
+   "-o",
+   "reteutil.o"
+  ],
+  "file": "reteutil.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "retract.c",
+   "-o",
+   "retract.o"
+  ],
+  "file": "retract.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "router.c",
+   "-o",
+   "router.o"
+  ],
+  "file": "router.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulebin.c",
+   "-o",
+   "rulebin.o"
+  ],
+  "file": "rulebin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulebld.c",
+   "-o",
+   "rulebld.o"
+  ],
+  "file": "rulebld.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulebsc.c",
+   "-o",
+   "rulebsc.o"
+  ],
+  "file": "rulebsc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulecom.c",
+   "-o",
+   "rulecom.o"
+  ],
+  "file": "rulecom.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulecstr.c",
+   "-o",
+   "rulecstr.o"
+  ],
+  "file": "rulecstr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "ruledef.c",
+   "-o",
+   "ruledef.o"
+  ],
+  "file": "ruledef.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "ruledlt.c",
+   "-o",
+   "ruledlt.o"
+  ],
+  "file": "ruledlt.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulelhs.c",
+   "-o",
+   "rulelhs.o"
+  ],
+  "file": "rulelhs.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "rulepsr.c",
+   "-o",
+   "rulepsr.o"
+  ],
+  "file": "rulepsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "scanner.c",
+   "-o",
+   "scanner.o"
+  ],
+  "file": "scanner.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "sortfun.c",
+   "-o",
+   "sortfun.o"
+  ],
+  "file": "sortfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "strngfun.c",
+   "-o",
+   "strngfun.o"
+  ],
+  "file": "strngfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "strngrtr.c",
+   "-o",
+   "strngrtr.o"
+  ],
+  "file": "strngrtr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "symblbin.c",
+   "-o",
+   "symblbin.o"
+  ],
+  "file": "symblbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "symbol.c",
+   "-o",
+   "symbol.o"
+  ],
+  "file": "symbol.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "sysdep.c",
+   "-o",
+   "sysdep.o"
+  ],
+  "file": "sysdep.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "textpro.c",
+   "-o",
+   "textpro.o"
+  ],
+  "file": "textpro.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltbin.c",
+   "-o",
+   "tmpltbin.o"
+  ],
+  "file": "tmpltbin.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltbsc.c",
+   "-o",
+   "tmpltbsc.o"
+  ],
+  "file": "tmpltbsc.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltdef.c",
+   "-o",
+   "tmpltdef.o"
+  ],
+  "file": "tmpltdef.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltfun.c",
+   "-o",
+   "tmpltfun.o"
+  ],
+  "file": "tmpltfun.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltlhs.c",
+   "-o",
+   "tmpltlhs.o"
+  ],
+  "file": "tmpltlhs.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltpsr.c",
+   "-o",
+   "tmpltpsr.o"
+  ],
+  "file": "tmpltpsr.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltrhs.c",
+   "-o",
+   "tmpltrhs.o"
+  ],
+  "file": "tmpltrhs.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "tmpltutl.c",
+   "-o",
+   "tmpltutl.o"
+  ],
+  "file": "tmpltutl.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "userdata.c",
+   "-o",
+   "userdata.o"
+  ],
+  "file": "userdata.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "userfunctions.c",
+   "-o",
+   "userfunctions.o"
+  ],
+  "file": "userfunctions.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "utility.c",
+   "-o",
+   "utility.o"
+  ],
+  "file": "utility.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "watch.c",
+   "-o",
+   "watch.o"
+  ],
+  "file": "watch.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "factfile.c",
+   "-o",
+   "factfile.o"
+  ],
+  "file": "factfile.c"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "c++",
+   "-Os",
+   "-g3",
+   "-std=c++17",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "boost.cc",
+   "-o",
+   "boost.o"
+  ],
+  "file": "boost.cc"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "c++",
+   "-Os",
+   "-g3",
+   "-std=c++17",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "functional.cpp",
+   "-o",
+   "functional.o"
+  ],
+  "file": "functional.cpp"
+ },
+ {
+  "directory": "/home/jwscoggins/dev/maya",
+  "arguments": [
+   "cc",
+   "-Os",
+   "-g3",
+   "-std=c99",
+   "-I.",
+   "-DBANNER_STRING=\"     maya (based off of CLIPS \" VERSION_STRING \" \" CREATION_DATE_STRING \". Built on \" __DATE__ \" at \" __TIME__ \")n\"",
+   "-DCOMMAND_PROMPT=maya> ",
+   "-c",
+   "cmd/repl/main.c",
+   "-o",
+   "cmd/repl/main.o"
+  ],
+  "file": "cmd/repl/main.c"
+ }
+]
