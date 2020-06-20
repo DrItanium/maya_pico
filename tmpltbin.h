@@ -39,8 +39,6 @@
 
 #define _H_tmpltbin
 
-#if (! RUN_TIME)
-
 struct bsaveTemplateSlot
   {
    unsigned long slotName;
@@ -100,7 +98,6 @@ struct deftemplateBinaryData
    void                           DeftemplateBinarySetup(Environment *);
    void                          *BloadDeftemplateModuleReference(Environment *,unsigned long);
 
-#endif /* (! RUN_TIME) */
 
 #endif /* _H_tmpltbin */
 

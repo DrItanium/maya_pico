@@ -122,10 +122,10 @@ struct deftemplateData
 #if DEBUGGING_FUNCTIONS
    int DeletedTemplateDebugFlags;
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
+#if CONSTRUCT_COMPILER
    struct CodeGeneratorItem *DeftemplateCodeItem;
 #endif
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    bool DeftemplateError;
 #endif
   };
@@ -143,9 +143,6 @@ struct deftemplateData
    void                           IncrementDeftemplateBusyCount(Environment *,Deftemplate *);
    void                           DecrementDeftemplateBusyCount(Environment *,Deftemplate *);
    void                          *CreateDeftemplateScopeMap(Environment *,Deftemplate *);
-#if RUN_TIME
-   void                           DeftemplateRunTimeInitialize(Environment *);
-#endif
    const char                    *DeftemplateModule(Deftemplate *);
    const char                    *DeftemplateName(Deftemplate *);
    const char                    *DeftemplatePPForm(Deftemplate *);

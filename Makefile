@@ -146,7 +146,7 @@ classini.o: classini.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  classfun.h scanner.h classinf.h classpsr.h cstrcpsr.h strngfun.h \
  inscom.h insfun.h memalloc.h modulpsr.h modulutl.h msgcom.h msgpass.h \
  watch.h defins.h insquery.h bload.h exprnbin.h sysdep.h symblbin.h \
- objbin.h objcmp.h objrtbld.h objrtfnx.h classini.h
+ objbin.h objrtbld.h objrtfnx.h classini.h
 classpsr.o: classpsr.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h bload.h utility.h evaluatn.h constant.h moduldef.h userdata.h \
  extnfunc.h expressn.h exprnops.h constrct.h symbol.h exprnbin.h sysdep.h \
@@ -175,7 +175,7 @@ conscomp.o: conscomp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  modulcmp.h prntutil.h router.h sysdep.h network.h match.h ruledef.h \
  agenda.h crstrtgy.h conscomp.h symblcmp.h dffnxcmp.h dffnxfun.h \
  tmpltcmp.h tmpltdef.h factbld.h globlcmp.h globldef.h genrccmp.h \
- genrcfun.h objcmp.h object.h multifld.h objrtmch.h
+ genrcfun.h object.h multifld.h objrtmch.h
 constrct.o: constrct.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h commline.h cstrcpsr.h \
@@ -246,7 +246,7 @@ defins.o: defins.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  extnfunc.h expressn.h exprnops.h constrct.h symbol.h exprnbin.h sysdep.h \
  symblbin.h dfinsbin.h defins.h conscomp.h symblcmp.h cstrccom.h object.h \
  constrnt.h multifld.h match.h network.h ruledef.h agenda.h crstrtgy.h \
- objrtmch.h dfinscmp.h argacces.h classcom.h classfun.h scanner.h \
+ objrtmch.h argacces.h classcom.h classfun.h scanner.h \
  cstrcpsr.h strngfun.h insfun.h inspsr.h memalloc.h modulpsr.h modulutl.h \
  pprint.h prntutil.h router.h
 developr.o: developr.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
@@ -318,11 +318,6 @@ dfinsbin.o: dfinsbin.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  symblbin.h bsave.h cstrcbin.h defins.h conscomp.h symblcmp.h cstrccom.h \
  object.h constrnt.h multifld.h match.h network.h ruledef.h agenda.h \
  crstrtgy.h objrtmch.h memalloc.h modulbin.h dfinsbin.h
-dfinscmp.o: dfinscmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
- evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
- symblcmp.h defins.h cstrccom.h object.h constrnt.h multifld.h match.h \
- network.h ruledef.h agenda.h crstrtgy.h objrtmch.h dfinscmp.h
 drive.o: drive.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h agenda.h ruledef.h constrct.h userdata.h moduldef.h utility.h \
  evaluatn.h constant.h expressn.h exprnops.h network.h match.h symbol.h \
@@ -544,7 +539,7 @@ genrccmp.o: genrccmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
  evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
  symblcmp.h genrccom.h genrcfun.h network.h match.h ruledef.h agenda.h \
- crstrtgy.h constrnt.h cstrccom.h objcmp.h object.h multifld.h objrtmch.h \
+ crstrtgy.h constrnt.h cstrccom.h object.h multifld.h objrtmch.h \
  genrccmp.h
 genrccom.o: genrccom.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
@@ -809,12 +804,6 @@ objbin.o: objbin.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  objrtmch.h classfun.h scanner.h classini.h cstrcbin.h cstrnbin.h \
  insfun.h memalloc.h modulbin.h msgcom.h msgpass.h msgfun.h prntutil.h \
  router.h objrtbin.h objbin.h
-objcmp.o: objcmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
- evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
- symblcmp.h classcom.h cstrccom.h object.h constrnt.h multifld.h match.h \
- network.h ruledef.h agenda.h crstrtgy.h objrtmch.h classfun.h scanner.h \
- classini.h cstrncmp.h objrtfnx.h sysdep.h objrtcmp.h objcmp.h
 objrtbin.o: objrtbin.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h bload.h utility.h evaluatn.h constant.h moduldef.h userdata.h \
  extnfunc.h expressn.h exprnops.h constrct.h symbol.h exprnbin.h sysdep.h \
