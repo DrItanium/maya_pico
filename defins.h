@@ -85,9 +85,6 @@ struct definstancesData
   {
    Construct *DefinstancesConstruct;
    unsigned DefinstancesModuleIndex;
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   struct CodeGeneratorItem *DefinstancesCodeItem;
-#endif
   };
 
 #define DefinstancesData(theEnv) ((struct definstancesData *) GetEnvironmentData(theEnv,DEFINSTANCES_DATA))
@@ -112,10 +109,6 @@ struct definstancesData
    void                           PPDefinstancesCommand(Environment *,UDFContext *,UDFValue *);
    void                           ListDefinstancesCommand(Environment *,UDFContext *,UDFValue *);
    void                           ListDefinstances(Environment *,const char *,Defmodule *);
-#endif
-
-#if RUN_TIME
-   void                           DefinstancesRunTimeInitialize(Environment *);
 #endif
 
 #endif /* DEFINSTANCES_CONSTRUCT */

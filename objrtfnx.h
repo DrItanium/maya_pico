@@ -201,7 +201,7 @@ struct objectReteData
    bool DelayObjectPatternMatching;
    unsigned long long CurrentObjectMatchTimeTag;
    unsigned long long UseEntityTimeTag;
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && CONSTRUCT_COMPILER && (! RUN_TIME)
+#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && CONSTRUCT_COMPILER
    struct CodeGeneratorItem *ObjectPatternCodeItem;
 #endif
   };

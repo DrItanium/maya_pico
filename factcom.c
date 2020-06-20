@@ -124,7 +124,6 @@
 void FactCommandDefinitions(
   Environment *theEnv)
   {
-#if ! RUN_TIME
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"facts","v",0,4,"l;*",FactsCommand,"FactsCommand",NULL);
 #endif
@@ -140,11 +139,6 @@ void FactCommandDefinitions(
    AddUDF(theEnv,"fact-index","l",1,1,"f",FactIndexFunction,"FactIndexFunction",NULL);
 
    FuncSeqOvlFlags(theEnv,"assert",false,false);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
    AddFunctionParser(theEnv,"assert",AssertParse);
   }
 

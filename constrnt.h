@@ -106,7 +106,7 @@ struct constraintData
   {
    struct constraintRecord **ConstraintHashtable;
    bool DynamicConstraintChecking;
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    struct constraintRecord *ConstraintArray;
    unsigned long NumberOfConstraints;
 #endif
@@ -119,7 +119,7 @@ struct constraintData
    void                           SDCCommand(Environment *,UDFContext *,UDFValue *);
    bool                           SetDynamicConstraintChecking(Environment *,bool);
    bool                           GetDynamicConstraintChecking(Environment *);
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    unsigned long                  HashConstraint(struct constraintRecord *);
    struct constraintRecord       *AddConstraint(Environment *,struct constraintRecord *);
 #endif

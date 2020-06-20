@@ -59,7 +59,7 @@
 
 #define _H_genrcpsr
 
-#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME)
+#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY)
 
 #include "genrcfun.h"
 
@@ -72,7 +72,7 @@
    Defmethod                     *FindMethodByRestrictions(Defgeneric *,Expression *,int,
                                                            CLIPSLexeme *,int *);
 
-#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) */
 
 #endif /* _H_genrcpsr */
 

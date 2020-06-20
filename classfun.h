@@ -75,19 +75,16 @@
    void                           DecrementDefclassBusyCount(Environment *,Defclass *);
    bool                           InstancesPurge(Environment *,void *);
 
-#if ! RUN_TIME
    void                           InitializeClasses(Environment *);
-#endif
    SlotDescriptor                *FindClassSlot(Defclass *,CLIPSLexeme *);
    void                           ClassExistError(Environment *,const char *,const char *);
    void                           DeleteClassLinks(Environment *,CLASS_LINK *);
    void                           PrintClassName(Environment *,const char *,Defclass *,bool,bool);
 
-#if DEBUGGING_FUNCTIONS || ((! BLOAD_ONLY) && (! RUN_TIME))
+#if DEBUGGING_FUNCTIONS || (! BLOAD_ONLY)
    void                           PrintPackedClassLinks(Environment *,const char *,const char *,PACKED_CLASS_LINKS *);
 #endif
 
-#if ! RUN_TIME
    void                           PutClassInTable(Environment *,Defclass *);
    void                           RemoveClassFromTable(Environment *,Defclass *);
    void                           AddClassLink(Environment *,PACKED_CLASS_LINKS *,Defclass *,bool,unsigned int);
@@ -100,10 +97,9 @@
    void                           DeleteSlotName(Environment *,SLOT_NAME *);
    void                           RemoveDefclass(Environment *,Defclass *);
    void                           InstallClass(Environment *,Defclass *,bool);
-#endif
    void                           DestroyDefclass(Environment *,Defclass *);
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    bool                           IsClassBeingUsed(Defclass *);
    bool                           RemoveAllUserClasses(Environment *);
    bool                           DeleteClassUAG(Environment *,Defclass *);

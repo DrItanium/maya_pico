@@ -36,7 +36,7 @@
 
 #define _H_inherpsr
 
-#if OBJECT_SYSTEM && (! BLOAD_ONLY) && (! RUN_TIME)
+#if OBJECT_SYSTEM && (! BLOAD_ONLY)
 
 #include "object.h"
 
@@ -44,7 +44,7 @@
    PACKED_CLASS_LINKS            *FindPrecedenceList(Environment *,Defclass *,PACKED_CLASS_LINKS *);
    void                           PackClassLinks(Environment *,PACKED_CLASS_LINKS *,CLASS_LINK *);
 
-#endif /* OBJECT_SYSTEM && (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* OBJECT_SYSTEM && (! BLOAD_ONLY) */
 
 #endif /* _H_inherpsr */
 

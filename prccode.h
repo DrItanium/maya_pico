@@ -111,7 +111,7 @@ struct proceduralPrimitiveData
 
    void                           InstallProcedurePrimitives(Environment *);
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 #if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
    Expression                    *ParseProcParameters(Environment *,const char *,struct token *,Expression *,

@@ -137,11 +137,8 @@ struct defruleData
     bool WatchRules;
     int DeletedRuleDebugFlags;
 #endif
-#if DEVELOPER && (! RUN_TIME) && (! BLOAD_ONLY)
+#if DEVELOPER && (! BLOAD_ONLY)
     bool WatchRuleAnalysis;
-#endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   struct CodeGeneratorItem *DefruleCodeItem;
 #endif
   };
 
@@ -162,10 +159,7 @@ struct defruleData
    Defrule                       *GetNextDefrule(Environment *,Defrule *);
    struct defruleModule          *GetDefruleModuleItem(Environment *,Defmodule *);
    bool                           DefruleIsDeletable(Defrule *);
-#if RUN_TIME
-   void                           DefruleRunTimeInitialize(Environment *,struct joinLink *,struct joinLink *);
-#endif
-#if RUN_TIME || BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
    void                           AddBetaMemoriesToJoin(Environment *,struct joinNode *);
 #endif
    long                           GetDisjunctCount(Environment *,Defrule *);
