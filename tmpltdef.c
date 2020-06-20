@@ -83,9 +83,6 @@
 #include "tmpltbin.h"
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "tmpltcmp.h"
-#endif
 
 #include "tmpltdef.h"
 
@@ -100,10 +97,6 @@
    static void                    DeallocateDeftemplateData(Environment *);
    static void                    DestroyDeftemplateAction(Environment *,ConstructHeader *,void *);
    static void                    DestroyDeftemplate(Environment *,Deftemplate *);
-#if RUN_TIME
-   static void                    RuntimeDeftemplateAction(Environment *,ConstructHeader *,void *);
-   static void                    SearchForHashedPatternNodes(Environment *,struct factPatternNode *);
-#endif
 
 /******************************************************************/
 /* InitializeDeftemplates: Initializes the deftemplate construct. */

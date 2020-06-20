@@ -68,9 +68,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS  */
 /****************************************/
 
-#if (! RUN_TIME)
    static unsigned long           ListToPacked(struct expr *,struct expr *,unsigned long);
-#endif
    static EXPRESSION_HN          *FindHashedExpression(Environment *,Expression *,unsigned *,EXPRESSION_HN **);
    static unsigned                HashExpression(Expression *);
    static void                    DeallocateExpressionData(Environment *);
@@ -87,9 +85,7 @@ void InitExpressionData(
 
    AllocateEnvironmentData(theEnv,EXPRESSION_DATA,sizeof(struct expressionData),DeallocateExpressionData);
 
-#if ! RUN_TIME
    InitExpressionPointers(theEnv);
-#endif
 
    ExpressionData(theEnv)->ExpressionHashTable = (EXPRESSION_HN **)
      gm2(theEnv,sizeof(EXPRESSION_HN *) * EXPRESSION_HASH_SIZE);
@@ -193,7 +189,6 @@ void ExpressionDeinstall(
      }
   }
 
-#if (! RUN_TIME)
 
 /***********************************************************************/
 /* PackExpression: Copies an expression (created using multiple memory */
@@ -259,7 +254,6 @@ static unsigned long ListToPacked(
    return count;
   }
 
-#endif /* (! RUN_TIME) */
 
 /***************************************************************/
 /* ReturnPackedExpression: Returns a packed expression created */
@@ -398,7 +392,7 @@ void RemoveHashedExpression(
    rtn_struct(theEnv,exprHashNode,exphash);
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /*****************************************************
   NAME         : AddHashedExpression
@@ -439,9 +433,9 @@ Expression *AddHashedExpression(
    return(exphash->exp);
   }
 
-#endif /* (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* (! BLOAD_ONLY) */
 
-#if (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER) && (! RUN_TIME)
+#if (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER)
 
 /***************************************************
   NAME         : HashedExpressionIndex
@@ -465,7 +459,7 @@ unsigned long HashedExpressionIndex(
    return((exphash != NULL) ? exphash->bsaveID : ULONG_MAX);
   }
 
-#endif /* (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER) && (! RUN_TIME) */
+#endif /* (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD || CONSTRUCT_COMPILER) */
 
 /********************************************************/
 /* SetSequenceOperatorRecognition: C access routine     */

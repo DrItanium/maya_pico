@@ -174,7 +174,7 @@ conscomp.o: conscomp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  constrnt.h exprnpsr.h extnfunc.h symbol.h scanner.h memalloc.h \
  modulcmp.h prntutil.h router.h sysdep.h network.h match.h ruledef.h \
  agenda.h crstrtgy.h conscomp.h symblcmp.h dffnxfun.h \
- tmpltcmp.h tmpltdef.h factbld.h globlcmp.h globldef.h genrccmp.h \
+ tmpltcmp.h tmpltdef.h factbld.h globldef.h genrccmp.h \
  genrcfun.h object.h multifld.h objrtmch.h
 constrct.o: constrct.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
@@ -577,11 +577,7 @@ globlbsc.o: globlbsc.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h constrct.h userdata.h moduldef.h utility.h evaluatn.h \
  constant.h extnfunc.h expressn.h exprnops.h symbol.h globlbin.h \
  modulbin.h cstrcbin.h globldef.h conscomp.h symblcmp.h cstrccom.h \
- globlcmp.h globlcom.h multifld.h watch.h globlbsc.h
-globlcmp.o: globlcmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
- evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
- symblcmp.h globldef.h cstrccom.h globlcmp.h
+ globlcom.h multifld.h watch.h globlbsc.h
 globlcom.o: globlcom.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h extnfunc.h symbol.h \
@@ -591,7 +587,7 @@ globldef.o: globldef.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h bload.h utility.h evaluatn.h constant.h moduldef.h userdata.h \
  extnfunc.h expressn.h exprnops.h constrct.h symbol.h exprnbin.h sysdep.h \
  symblbin.h globlbin.h modulbin.h cstrcbin.h globldef.h conscomp.h \
- symblcmp.h cstrccom.h commline.h globlbsc.h globlcmp.h globlcom.h \
+ symblcmp.h cstrccom.h commline.h globlbsc.h globlcom.h \
  globlpsr.h memalloc.h modulpsr.h scanner.h modulutl.h multifld.h \
  prntutil.h router.h strngrtr.h
 globlpsr.o: globlpsr.c setup.h os_shim.h platform.h envrnmnt.h entities.h \

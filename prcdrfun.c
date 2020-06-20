@@ -91,7 +91,6 @@ void ProceduralFunctionDefinitions(
   {
    AllocateEnvironmentData(theEnv,PRCDRFUN_DATA,sizeof(struct procedureFunctionData),DeallocateProceduralFunctionData);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"if","*",0,UNBOUNDED,NULL,IfFunction,"IfFunction",NULL);
    AddUDF(theEnv,"while","*",0,UNBOUNDED,NULL,WhileFunction,"WhileFunction",NULL);
    AddUDF(theEnv,"loop-for-count","*",0,UNBOUNDED,NULL,LoopForCountFunction,"LoopForCountFunction",NULL);
@@ -101,18 +100,15 @@ void ProceduralFunctionDefinitions(
    AddUDF(theEnv,"return","*",0,UNBOUNDED,NULL,ReturnFunction,"ReturnFunction",NULL);
    AddUDF(theEnv,"break","v",0,0,NULL,BreakFunction,"BreakFunction",NULL);
    AddUDF(theEnv,"switch","*",0,UNBOUNDED,NULL,SwitchFunction,"SwitchFunction",NULL);
-#endif
 
    ProceduralFunctionParsers(theEnv);
 
-#if ! RUN_TIME
    FuncSeqOvlFlags(theEnv,"progn",false,false);
    FuncSeqOvlFlags(theEnv,"if",false,false);
    FuncSeqOvlFlags(theEnv,"while",false,false);
    FuncSeqOvlFlags(theEnv,"loop-for-count",false,false);
    FuncSeqOvlFlags(theEnv,"return",false,false);
    FuncSeqOvlFlags(theEnv,"switch",false,false);
-#endif
 
    AddResetFunction(theEnv,"bind",FlushBindList,0,NULL);
    AddClearFunction(theEnv,"bind",FlushBindList,0,NULL);

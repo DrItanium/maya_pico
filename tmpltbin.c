@@ -38,7 +38,7 @@
 
 #include "setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -604,6 +604,6 @@ void *BloadDeftemplateModuleReference(
    return ((void *) &DeftemplateBinaryData(theEnv)->ModuleArray[theIndex]);
   }
 
-#endif /* DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME) */
+#endif /* DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) */
 
 

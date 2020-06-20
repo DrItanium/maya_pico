@@ -132,7 +132,6 @@
 void DefruleCommands(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    AddUDF(theEnv,"run","v",0,1,"l",RunCommand,"RunCommand",NULL);
    AddUDF(theEnv,"halt","v",0,0,NULL,HaltCommand,"HaltCommand",NULL);
    AddUDF(theEnv,"focus","b",1,UNBOUNDED,"y",FocusCommand,"FocusCommand",NULL);
@@ -169,11 +168,6 @@ void DefruleCommands(
 #endif
 #endif /* DEVELOPER && (! BLOAD_ONLY) */
 
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif /* ! RUN_TIME */
   }
 
 /***********************************************/

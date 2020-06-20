@@ -83,9 +83,7 @@
                                                         const char *,const char *,const char *,const char **);
    static void                        OutputUserFunctionsInfo(Environment *);
    static void                        OutputConstructsCodeInfo(Environment *);
-#if (! RUN_TIME)
    static void                        ProfileClearFunction(Environment *,void *);
-#endif
 
 /******************************************************/
 /* ConstructProfilingFunctionDefinitions: Initializes */
@@ -104,7 +102,6 @@ void ConstructProfilingFunctionDefinitions(
    ProfileFunctionData(theEnv)->PercentThreshold = 0.0;
    ProfileFunctionData(theEnv)->OutputString = OUTPUT_STRING;
 
-#if ! RUN_TIME
    AddUDF(theEnv,"profile","v",1,1,"y",ProfileCommand,"ProfileCommand",NULL);
    AddUDF(theEnv,"profile-info","v",0,0,NULL, ProfileInfoCommand,"ProfileInfoCommand",NULL);
    AddUDF(theEnv,"profile-reset","v",0,0,NULL,ProfileResetCommand,"ProfileResetCommand",NULL);
@@ -115,7 +112,6 @@ void ConstructProfilingFunctionDefinitions(
    ProfileFunctionData(theEnv)->ProfileDataID = InstallUserDataRecord(theEnv,&ProfileFunctionData(theEnv)->ProfileDataInfo);
 
    AddClearFunction(theEnv,"profile",ProfileClearFunction,0,NULL);
-#endif
   }
 
 /**********************************/
@@ -789,7 +785,6 @@ const char *SetProfileOutputString(
    return(oldOutputString);
   }
 
-#if (! RUN_TIME)
 /******************************************************************/
 /* ProfileClearFunction: Profiling clear routine for use with the */
 /*   clear command. Removes user data attached to user functions. */
@@ -818,7 +813,6 @@ static void ProfileClearFunction(
         }
      }
   }
-#endif
 
 #endif /* PROFILING_FUNCTIONS */
 

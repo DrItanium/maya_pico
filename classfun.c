@@ -118,9 +118,7 @@
 
    static unsigned int            HashSlotName(CLIPSLexeme *);
 
-#if (! RUN_TIME)
    static void                    DeassignClassID(Environment *,unsigned short);
-#endif
 
 /* =========================================
    *****************************************
@@ -184,7 +182,6 @@ bool InstancesPurge(
    return((InstanceData(theEnv)->InstanceList != NULL) ? false : true);
   }
 
-#if ! RUN_TIME
 
 /***************************************************
   NAME         : InitializeClasses
@@ -212,7 +209,6 @@ void InitializeClasses(
      DefclassData(theEnv)->SlotNameTable[i] = NULL;
   }
 
-#endif
 
 /********************************************************
   NAME         : FindClassSlot
@@ -315,7 +311,7 @@ void PrintClassName(
      WriteString(theEnv,logicalName,"\n");
   }
 
-#if DEBUGGING_FUNCTIONS || ((! BLOAD_ONLY) && (! RUN_TIME))
+#if DEBUGGING_FUNCTIONS || (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : PrintPackedClassLinks
@@ -347,7 +343,6 @@ void PrintPackedClassLinks(
 
 #endif
 
-#if ! RUN_TIME
 
 /*******************************************************
   NAME         : PutClassInTable
@@ -842,8 +837,6 @@ void RemoveDefclass(
    rtn_struct(theEnv,defclass,cls);
   }
 
-#endif
-
 /*******************************************************************
   NAME         : DestroyDefclass
   DESCRIPTION  : Deallocates a class structure and
@@ -858,7 +851,6 @@ void DestroyDefclass(
   Defclass *cls)
   {
    long i;
-#if ! RUN_TIME
 #if DEFRULE_CONSTRUCT
    CLASS_ALPHA_LINK *currentAlphaLink;
    CLASS_ALPHA_LINK *nextAlphaLink;
@@ -868,12 +860,10 @@ void DestroyDefclass(
    DeletePackedClassLinks(theEnv,&cls->directSuperclasses,false);
    DeletePackedClassLinks(theEnv,&cls->allSuperclasses,false);
    DeletePackedClassLinks(theEnv,&cls->directSubclasses,false);
-#endif
    for (i = 0 ; i < cls->slotCount ; i++)
      {
       if (cls->slots[i].defaultValue != NULL)
         {
-#if ! RUN_TIME
          if (cls->slots[i].dynamicDefault)
            ReturnPackedExpression(theEnv,(Expression *) cls->slots[i].defaultValue);
          else
@@ -883,19 +873,9 @@ void DestroyDefclass(
               { ReturnMultifield(theEnv,theValue->multifieldValue); }
             rtn_struct(theEnv,udfValue,theValue);
            }
-#else
-         if (cls->slots[i].dynamicDefault == 0)
-           {
-            UDFValue *theValue = (UDFValue *) cls->slots[i].defaultValue;
-            if (theValue->header->type == MULTIFIELD_TYPE)
-              { ReturnMultifield(theEnv,theValue->multifieldValue); }
-            rtn_struct(theEnv,udfValue,theValue);
-           }
-#endif
         }
      }
 
-#if ! RUN_TIME
    if (cls->instanceSlotCount != 0)
      {
       rm(theEnv,cls->instanceTemplate,
@@ -940,14 +920,7 @@ void DestroyDefclass(
    DestroyConstructHeader(theEnv,&cls->header);
 
    rtn_struct(theEnv,defclass,cls);
-#else
-#if MAC_XCD
-#pragma unused(hnd)
-#endif
-#endif
   }
-
-#if ! RUN_TIME
 
 /***************************************************
   NAME         : InstallClass
@@ -1019,9 +992,8 @@ void InstallClass(
      }
   }
 
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : IsClassBeingUsed
@@ -1334,7 +1306,6 @@ static unsigned int HashSlotName(
    return tally % SLOT_NAME_TABLE_HASH_SIZE;
   }
 
-#if (! RUN_TIME)
 
 /***************************************************
   NAME         : DeassignClassID
@@ -1386,7 +1357,5 @@ static void DeassignClassID(
       DefclassData(theEnv)->AvailClassID = newChunk;
      }
   }
-
-#endif
 
 #endif

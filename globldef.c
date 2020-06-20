@@ -77,9 +77,6 @@
 #include "commline.h"
 #include "envrnmnt.h"
 #include "globlbsc.h"
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "globlcmp.h"
-#endif
 #include "globlcom.h"
 #include "globlpsr.h"
 #include "memalloc.h"
@@ -108,9 +105,6 @@
    static void                    DestroyDefglobalAction(Environment *,ConstructHeader *,void *);
 #if (! BLOAD_ONLY)
    static void                    DestroyDefglobal(Environment *,Defglobal *);
-#endif
-#if RUN_TIME
-   static void                    RuntimeDefglobalAction(Environment *,ConstructHeader *,void *);
 #endif
 
 /**************************************************************/
@@ -171,7 +165,6 @@ void InitializeDefglobals(
 static void DeallocateDefglobalData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    struct defglobalModule *theModuleItem;
    Defmodule *theModule;
 
@@ -191,9 +184,6 @@ static void DeallocateDefglobalData(
                                     DefglobalData(theEnv)->DefglobalModuleIndex);
       rtn_struct(theEnv,defglobalModule,theModuleItem);
      }
-#else
-   DoForAllConstructs(theEnv,DestroyDefglobalAction,DefglobalData(theEnv)->DefglobalModuleIndex,false,NULL);
-#endif
   }
 
 /***************************************************/
@@ -236,14 +226,10 @@ static void InitializeDefglobalModules(
 #else
                                     NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                                    DefglobalCModuleReference,
-#else
-                                    NULL,
-#endif
+                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefglobalInModule);
 
-#if (! BLOAD_ONLY) && (! RUN_TIME) && DEFMODULE_CONSTRUCT
+#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"defglobal",SYMBOL_TOKEN);
 #endif
   }
@@ -340,7 +326,7 @@ static void ReturnDefglobal(
   Environment *theEnv,
   Defglobal *theDefglobal)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    if (theDefglobal == NULL) return;
 
    /*====================================*/
@@ -408,7 +394,6 @@ static void DestroyDefglobal(
         { AddToMultifieldList(theEnv,theDefglobal->current.multifieldValue); }
      }
 
-#if (! RUN_TIME)
 
    /*===============================*/
    /* Release items stored in the   */
@@ -422,7 +407,6 @@ static void DestroyDefglobal(
    /*======================================*/
 
    rtn_struct(theEnv,defglobal,theDefglobal);
-#endif
   }
 #endif
 
@@ -1018,38 +1002,6 @@ Defglobal *GetNextDefglobalInScope(
 
    return NULL;
   }
-
-#if RUN_TIME
-
-/************************************************/
-/* RuntimeDefglobalAction: Action to be applied */
-/*   to each defglobal construct when a runtime */
-/*   initialization occurs.                     */
-/************************************************/
-static void RuntimeDefglobalAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
-#if MAC_XCD
-#pragma unused(buffer)
-#endif
-   Defglobal *theDefglobal = (Defglobal *) theConstruct;
-   
-   theDefglobal->header.env = theEnv;
-   theDefglobal->current.value = VoidConstant(theEnv);
-  }
-
-/*******************************/
-/* DefglobalRunTimeInitialize: */
-/*******************************/
-void DefglobalRunTimeInitialize(
-  Environment *theEnv)
-  {
-   DoForAllConstructs(theEnv,RuntimeDefglobalAction,DefglobalData(theEnv)->DefglobalModuleIndex,true,NULL);
-  }
-
-#endif
 
 /*##################################*/
 /* Additional Environment Functions */

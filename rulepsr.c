@@ -99,7 +99,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static struct expr            *ParseRuleRHS(Environment *,const char *);
    static int                     ReplaceRHSVariable(Environment *,struct expr *,void *);
    static Defrule                *ProcessRuleLHS(Environment *,struct lhsParseNode *,struct expr *,CLIPSLexeme *,bool *);
@@ -120,7 +120,7 @@ bool ParseDefrule(
   Environment *theEnv,
   const char *readSource)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    CLIPSLexeme *ruleName;
    struct lhsParseNode *theLHS;
    struct expr *actions;
@@ -285,7 +285,7 @@ bool ParseDefrule(
    return false;
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /**************************************************************/
 /* ProcessRuleLHS: Processes each of the disjuncts of a rule. */
@@ -1064,7 +1064,7 @@ void DumpRuleAnalysis(
   }
 #endif
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFRULE_CONSTRUCT */
 

@@ -87,7 +87,7 @@ struct parseFunctionData
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static bool                    QueryErrorCaptureCallback(Environment *,const char *,void *);
    static void                    WriteErrorCaptureCallback(Environment *,const char *,const char *,void *);
    static void                    DeactivateErrorCapture(Environment *);
@@ -103,12 +103,10 @@ void ParseFunctionDefinitions(
   {
    AllocateEnvironmentData(theEnv,PARSEFUN_DATA,sizeof(struct parseFunctionData),NULL);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"check-syntax","ym",1,1,"s",CheckSyntaxFunction,"CheckSyntaxFunction",NULL);
-#endif
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 /*******************************************/
 /* CheckSyntaxFunction: H/L access routine */
 /*   for the check-syntax function.        */
@@ -410,6 +408,6 @@ bool CheckSyntax(
    return true;
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 

@@ -166,7 +166,6 @@ void MiscFunctionDefinitions(
    MiscFunctionData(theEnv)->errorCode.lexemeValue = FalseSymbol(theEnv);
    Retain(theEnv,MiscFunctionData(theEnv)->errorCode.header);
 
-#if ! RUN_TIME
    AddUDF(theEnv,"exit","v",0,1,"l",ExitCommand,"ExitCommand",NULL);
 
    AddUDF(theEnv,"gensym","y",0,0,NULL,GensymFunction,"GensymFunction",NULL);
@@ -211,7 +210,6 @@ void MiscFunctionDefinitions(
    AddUDF(theEnv,"set-error","v",1,1,NULL,SetErrorFunction,"SetErrorFunction",NULL);
 
    AddUDF(theEnv,"void","v",0,0,NULL,VoidFunction,"VoidFunction",NULL);
-#endif
   }
 
 /*****************************************************/
@@ -839,13 +837,6 @@ WriteString(theEnv,STDOUT,"Developer flag is ");
 #else
    WriteString(theEnv,STDOUT,"OFF\n");
 #endif
-
-WriteString(theEnv,STDOUT,"Run time module is ");
-#if RUN_TIME
-  WriteString(theEnv,STDOUT,"ON\n");
-#else
-  WriteString(theEnv,STDOUT,"OFF\n");
-#endif
   }
 
 /***********************************************/
@@ -1095,7 +1086,7 @@ void SetSORCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    UDFValue theArg;
 
    if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
@@ -1347,7 +1338,6 @@ void FuncallFunction(
    /*=========================================*/
 
 // TBD Support run time check of arguments
-#if ! RUN_TIME
    if (theReference.type == FCALL)
      {
       if (CheckExpressionAgainstRestrictions(theEnv,&theReference,theFunction,name))
@@ -1357,7 +1347,6 @@ void FuncallFunction(
          return;
         }
      }
-#endif
 
    /*======================*/
    /* Call the expression. */

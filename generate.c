@@ -47,7 +47,7 @@
 
 #include "setup.h"
 
-#if (! RUN_TIME) && (! BLOAD_ONLY) && DEFRULE_CONSTRUCT
+#if (! BLOAD_ONLY) && DEFRULE_CONSTRUCT
 
 #include "argacces.h"
 #include "constant.h"
@@ -1074,6 +1074,6 @@ static bool AllVariablesInExpression(
    return true;
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) && DEFRULE_CONSTRUCT */
+#endif /* (! BLOAD_ONLY) && DEFRULE_CONSTRUCT */
 
 

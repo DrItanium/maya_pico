@@ -60,7 +60,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME)
+#if DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY)
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
@@ -508,5 +508,5 @@ static Deffunction *AddDeffunction(
    return dfuncPtr;
   }
 
-#endif /* DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) */
 

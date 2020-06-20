@@ -64,9 +64,6 @@
 #include "dffctbin.h"
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "dffctcmp.h"
-#endif
 
 #include "dffctdef.h"
 
@@ -79,11 +76,7 @@
    static void                    ReturnDeffacts(Environment *,Deffacts *);
    static void                    InitializeDeffactsModules(Environment *);
    static void                    DeallocateDeffactsData(Environment *);
-#if ! RUN_TIME
    static void                    DestroyDeffactsAction(Environment *,ConstructHeader *,void *);
-#else
-   static void                    RuntimeDeffactsAction(Environment *,ConstructHeader *,void *);
-#endif
 
 /***********************************************************/
 /* InitializeDeffacts: Initializes the deffacts construct. */
@@ -116,7 +109,6 @@ void InitializeDeffacts(
 static void DeallocateDeffactsData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    struct deffactsModule *theModuleItem;
    Defmodule *theModule;
 
@@ -138,14 +130,8 @@ static void DeallocateDeffactsData(
                                     DeffactsData(theEnv)->DeffactsModuleIndex);
       rtn_struct(theEnv,deffactsModule,theModuleItem);
      }
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
-#if ! RUN_TIME
 /*********************************************************/
 /* DestroyDeffactsAction: Action used to remove deffacts */
 /*   as a result of DestroyEnvironment.                  */
@@ -158,7 +144,7 @@ static void DestroyDeffactsAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    Deffacts *theDeffacts = (Deffacts *) theConstruct;
 
    if (theDeffacts == NULL) return;
@@ -174,38 +160,6 @@ static void DestroyDeffactsAction(
 #endif
 #endif
   }
-#endif
-
-#if RUN_TIME
-
-/***********************************************/
-/* RuntimeDeffactsAction: Action to be applied */
-/*   to each deffacts construct when a runtime */
-/*   initialization occurs.                    */
-/***********************************************/
-static void RuntimeDeffactsAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
-#if MAC_XCD
-#pragma unused(buffer)
-#endif
-   Deffacts *theDeffacts = (Deffacts *) theConstruct;
-   
-   theDeffacts->header.env = theEnv;
-  }
-
-/******************************/
-/* DeffactsRunTimeInitialize: */
-/******************************/
-void DeffactsRunTimeInitialize(
-  Environment *theEnv)
-  {
-   DoForAllConstructs(theEnv,RuntimeDeffactsAction,DeffactsData(theEnv)->DeffactsModuleIndex,true,NULL);
-  }
-
-#endif
 
 /*******************************************************/
 /* InitializeDeffactsModules: Initializes the deffacts */
@@ -223,11 +177,7 @@ static void InitializeDeffactsModules(
 #else
                          NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                         DeffactsCModuleReference,
-#else
-                         NULL,
-#endif
+                         NULL, // construct compiler ptr
                          (FindConstructFunction *) FindDeffactsInModule);
   }
 
@@ -324,7 +274,7 @@ static void ReturnDeffacts(
   Environment *theEnv,
   Deffacts *theDeffacts)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    if (theDeffacts == NULL) return;
 
    ExpressionDeinstall(theEnv,theDeffacts->assertList);

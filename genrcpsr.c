@@ -63,7 +63,7 @@
 
 #include "setup.h"
 
-#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME)
+#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY)
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
@@ -1606,7 +1606,7 @@ static Defgeneric *NewGeneric(
    return(ngen);
   }
 
-#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) && (! RUN_TIME) */
+#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) */
 
 /***************************************************
   NAME         :

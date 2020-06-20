@@ -105,7 +105,7 @@
 #include "genrccmp.h"
 #endif
 #include "genrcexe.h"
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 #include "genrcpsr.h"
 #endif
 #include "memalloc.h"
@@ -133,11 +133,9 @@
    static void                    IncrementGenericBusyCount(Environment *,Defgeneric *);
    static void                    DeallocateDefgenericData(Environment *);
 
-#if ! RUN_TIME
    static void                    DestroyDefgenericAction(Environment *,ConstructHeader *,void *);
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
    static void                    SaveDefgenerics(Environment *,Defmodule *,const char *,void *);
    static void                    SaveDefmethods(Environment *,Defmodule *,const char *,void *);
@@ -195,26 +193,18 @@ void SetupGenericFunctions(
 
    DefgenericData(theEnv)->DefgenericModuleIndex =
                 RegisterModuleItem(theEnv,"defgeneric",
-#if (! RUN_TIME)
                                     AllocateDefgenericModule,
                                     FreeDefgenericModule,
-#else
-                                    NULL,NULL,
-#endif
 #if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
                                     BloadDefgenericModuleReference,
 #else
                                     NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                                    DefgenericCModuleReference,
-#else
-                                    NULL,
-#endif
+                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefgenericInModule);
 
    DefgenericData(theEnv)->DefgenericConstruct =  AddConstruct(theEnv,"defgeneric","defgenerics",
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
                                        ParseDefgeneric,
 #else
                                        NULL,
@@ -226,7 +216,7 @@ void SetupGenericFunctions(
                                        SetNextConstruct,
                                        (IsConstructDeletableFunction *) DefgenericIsDeletable,
                                        (DeleteConstructFunction *) Undefgeneric,
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
                                        (FreeConstructFunction *) RemoveDefgeneric
 #else
                                        NULL
@@ -234,16 +224,12 @@ void SetupGenericFunctions(
                                        );
 
 
-#if ! RUN_TIME
    AddClearReadyFunction(theEnv,"defgeneric",ClearDefgenericsReady,0,NULL);
 
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
    SetupGenericsBload(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER
-   SetupGenericsCompiler(theEnv);
-#endif
 
 #if ! BLOAD_ONLY
 #if DEFMODULE_CONSTRUCT
@@ -295,7 +281,6 @@ void SetupGenericFunctions(
    AddUDF(theEnv,"type","*",1,1,"*",TypeCommand,"TypeCommand",NULL);
 #endif
 
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"generic-functions",0,&DefgenericData(theEnv)->WatchGenerics,34,
@@ -312,7 +297,6 @@ void SetupGenericFunctions(
 static void DeallocateDefgenericData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    struct defgenericModule *theModuleItem;
    Defmodule *theModule;
 
@@ -334,14 +318,8 @@ static void DeallocateDefgenericData(
 
       rtn_struct(theEnv,defgenericModule,theModuleItem);
      }
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
-#if ! RUN_TIME
 /****************************************************/
 /* DestroyDefgenericAction: Action used to remove   */
 /*   defgenerics as a result of DestroyEnvironment. */
@@ -354,7 +332,7 @@ static void DestroyDefgenericAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    Defgeneric *theDefgeneric = (Defgeneric *) theConstruct;
    long i;
 
@@ -375,7 +353,6 @@ static void DestroyDefgenericAction(
 #endif
 #endif
   }
-#endif
 
 /***************************************************
   NAME         : FindDefgeneric
@@ -560,7 +537,7 @@ bool DefmethodIsDeletable(
    if (theDefgeneric->methods[mi].system)
      return false;
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    return (MethodsExecuting(theDefgeneric) == false) ? true : false;
 #else
    return false;
@@ -672,7 +649,7 @@ bool Undefgeneric(
   Defgeneric *theDefgeneric,
   Environment *allEnv)
   {
-#if RUN_TIME || BLOAD_ONLY
+#if BLOAD_ONLY
    return false;
 #else
    Environment *theEnv;
@@ -728,7 +705,7 @@ bool Undefmethod(
   Environment *allEnv)
   {
    Environment *theEnv;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    GCBlock gcb;
 #endif
  
@@ -737,7 +714,7 @@ bool Undefmethod(
    else
      { theEnv = theDefgeneric->header.env; }
    
-#if RUN_TIME || BLOAD_ONLY
+#if BLOAD_ONLY
    PrintErrorID(theEnv,"PRNTUTIL",4,false);
    WriteString(theEnv,STDERR,"Unable to delete method ");
    if (theDefgeneric != NULL)
@@ -1505,7 +1482,7 @@ static void IncrementGenericBusyCount(
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if (! ConstructData(theEnv)->ParsingConstruct)
      { ConstructData(theEnv)->DanglingConstructs++; }
 #endif
@@ -1513,7 +1490,7 @@ static void IncrementGenericBusyCount(
    theDefgeneric->busy++;
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /**********************************************************************
   NAME         : SaveDefgenerics

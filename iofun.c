@@ -182,7 +182,6 @@ void IOFunctionDefinitions(
    IncrementLexemeCount(IOFunctionData(theEnv)->locale);
 #endif
 
-#if ! RUN_TIME
 #if IO_FUNCTIONS
    AddUDF(theEnv,"printout","v",1,UNBOUNDED,"*;ldsyn",PrintoutFunction,"PrintoutFunction",NULL);
    AddUDF(theEnv,"print","v",0,UNBOUNDED,NULL,PrintFunction,"PrintFunction",NULL);
@@ -204,11 +203,6 @@ void IOFunctionDefinitions(
    AddUDF(theEnv,"set-locale","sy",0,1,";s",SetLocaleFunction,"SetLocaleFunction",NULL);
    AddUDF(theEnv,"read-number","syld",0,1,";ldsyn",ReadNumberFunction,"ReadNumberFunction",NULL);
    AddUDF(theEnv,"chdir","b",0,1,"sy",ChdirFunction,"ChdirFunction",NULL);
-#endif
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
 #endif
   }
 

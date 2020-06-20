@@ -116,11 +116,7 @@ void SetupFactQuery(
   {
    AllocateEnvironmentData(theEnv,FACT_QUERY_DATA,sizeof(struct factQueryData),NULL);
 
-#if RUN_TIME
-   FactQueryData(theEnv)->QUERY_DELIMITER_SYMBOL = FindSymbolHN(theEnv,QUERY_DELIMITER_STRING,SYMBOL_BIT);
-#endif
 
-#if ! RUN_TIME
    FactQueryData(theEnv)->QUERY_DELIMITER_SYMBOL = CreateSymbol(theEnv,QUERY_DELIMITER_STRING);
    IncrementLexemeCount(FactQueryData(theEnv)->QUERY_DELIMITER_SYMBOL);
 
@@ -139,7 +135,6 @@ void SetupFactQuery(
    AddUDF(theEnv,"do-for-all-facts","*",0,UNBOUNDED,NULL,QueryDoForAllFacts,"QueryDoForAllFacts",NULL);
 
    AddUDF(theEnv,"delayed-do-for-all-facts","*",0,UNBOUNDED,NULL,DelayedQueryDoForAllFacts,"DelayedQueryDoForAllFacts",NULL);
-#endif
 
    AddFunctionParser(theEnv,"any-factp",FactParseQueryNoAction);
    AddFunctionParser(theEnv,"find-fact",FactParseQueryNoAction);
