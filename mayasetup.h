@@ -32,12 +32,10 @@
 #if !MAYA_EXTENSIONS
 #define BOOST_EXTENSIONS 0
 #define FUNCTIONAL_EXTENSIONS 0
-#define TAGLIB_EXTENSIONS 0
 #endif
 
 #ifdef PLATFORM_ARDUINO
 #define BOOST_EXTENSIONS 0
-#define TAGLIB_EXTENSIONS 0
 #endif
 
 // should we enable the boost library extensions (header only!)
@@ -50,10 +48,6 @@
 #define FUNCTIONAL_EXTENSIONS 1
 #endif
 
-// Should we enable the interface with taglib?
-#ifndef TAGLIB_EXTENSIONS
-#define TAGLIB_EXTENSIONS 1
-#endif // end TAGLIB_EXTENSIONS
 
 
 #endif // end __MAYA_SETUP_H__
