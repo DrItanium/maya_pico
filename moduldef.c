@@ -79,9 +79,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME)
    static void                       ReturnDefmodule(Environment *,Defmodule *,bool);
-#endif
    static void                       DeallocateDefmoduleData(Environment *);
 
 /************************************************/
@@ -106,16 +104,16 @@ static void DeallocateDefmoduleData(
   {
    struct moduleStackItem *tmpMSPtr, *nextMSPtr;
    struct moduleItem *tmpMIPtr, *nextMIPtr;
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    Defmodule *tmpDMPtr, *nextDMPtr;
    struct portConstructItem *tmpPCPtr, *nextPCPtr;
 #endif
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    unsigned int i;
    size_t space;
 #endif
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    for (i = 0; i < DefmoduleData(theEnv)->BNumberOfDefmodules; i++)
      {
       if (DefmoduleData(theEnv)->DefmoduleArray[i].itemsArray != NULL)
@@ -136,7 +134,7 @@ static void DeallocateDefmoduleData(
    if (space != 0) genfree(theEnv,DefmoduleData(theEnv)->PortItemArray,space);
 #endif
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    tmpDMPtr = DefmoduleData(theEnv)->ListOfDefmodules;
    while (tmpDMPtr != NULL)
      {
@@ -170,7 +168,7 @@ static void DeallocateDefmoduleData(
       tmpMIPtr = nextMIPtr;
      }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    DeallocateVoidCallList(theEnv,DefmoduleData(theEnv)->AfterModuleDefinedFunctions);
 #endif
    DeallocateVoidCallList(theEnv,DefmoduleData(theEnv)->AfterModuleChangeFunctions);
@@ -184,16 +182,14 @@ void InitializeDefmodules(
   {
    DefmoduleBasicCommands(theEnv);
 
-#if (! RUN_TIME)
    CreateMainModule(theEnv,NULL);
-#endif
 
-#if DEFMODULE_CONSTRUCT && (! RUN_TIME) && (! BLOAD_ONLY)
+#if DEFMODULE_CONSTRUCT && (! BLOAD_ONLY)
    AddConstruct(theEnv,"defmodule","defmodules",ParseDefmodule,NULL,NULL,NULL,NULL,
                                                         NULL,NULL,NULL,NULL,NULL);
 #endif
 
-#if (! RUN_TIME) && DEFMODULE_CONSTRUCT
+#if DEFMODULE_CONSTRUCT
    AddUDF(theEnv,"get-current-module","y",0,0,NULL,GetCurrentModuleCommand,"GetCurrentModuleCommand",NULL);
 
    AddUDF(theEnv,"set-current-module","y",1,1,"y",SetCurrentModuleCommand,"SetCurrentModuleCommand",NULL);
@@ -473,7 +469,7 @@ void CreateMainModule(
    /* and make it the current module.       */
    /*=======================================*/
 
-#if (! BLOAD_ONLY) && (! RUN_TIME) && DEFMODULE_CONSTRUCT
+#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
    SetNumberOfDefmodules(theEnv,1);
 #endif
 
@@ -539,7 +535,6 @@ const char *DefmodulePPForm(
    return defmodulePtr->header.ppForm;
   }
 
-#if (! RUN_TIME)
 
 /***********************************************/
 /* RemoveAllDefmodules: Removes all defmodules */
@@ -671,7 +666,6 @@ static void ReturnDefmodule(
    rtn_struct(theEnv,defmodule,theDefmodule);
   }
 
-#endif /* (! RUN_TIME) */
 
 /************************************************/
 /* FindDefmodule: Searches for a defmodule in   */
@@ -807,7 +801,7 @@ void IllegalModuleSpecifierMessage(
 unsigned short GetNumberOfDefmodules(
   Environment *theEnv)
   {
-#if DEFMODULE_CONSTRUCT && (! RUN_TIME) && (! BLOAD_ONLY)
+#if DEFMODULE_CONSTRUCT && (! BLOAD_ONLY)
    return DefmoduleData(theEnv)->NumberOfDefmodules;
 #else
    return 1;

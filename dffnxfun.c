@@ -82,11 +82,7 @@
 #include "dffnxbin.h"
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "dffnxcmp.h"
-#endif
-
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "dffnxpsr.h"
@@ -95,9 +91,7 @@
 
 #include "envrnmnt.h"
 
-#if (! RUN_TIME)
 #include "extnfunc.h"
-#endif
 
 #include "dffnxexe.h"
 
@@ -127,16 +121,12 @@
    static void                    IncrementDeffunctionBusyCount(Environment *,Deffunction *);
    static void                    DeallocateDeffunctionData(Environment *);
 
-#if ! RUN_TIME
    static void                    DestroyDeffunctionAction(Environment *,ConstructHeader *,void *);
    static void                   *AllocateModule(Environment *);
    static void                    ReturnModule(Environment *,void *);
    static bool                    ClearDeffunctionsReady(Environment *,void *);
-#else
-   static void                    RuntimeDeffunctionAction(Environment *,ConstructHeader *,void *);
-#endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    static bool                    RemoveAllDeffunctions(Environment *);
    static void                    DeffunctionDeleteError(Environment *,const char *);
    static void                    SaveDeffunctionHeaders(Environment *,Defmodule *,const char *,void *);
@@ -185,25 +175,17 @@ void SetupDeffunctions(
 
    DeffunctionData(theEnv)->DeffunctionModuleIndex =
                 RegisterModuleItem(theEnv,"deffunction",
-#if (! RUN_TIME)
                                     AllocateModule,
                                     ReturnModule,
-#else
-                                    NULL,NULL,
-#endif
 #if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
                                     BloadDeffunctionModuleReference,
 #else
                                     NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                                    DeffunctionCModuleReference,
-#else
-                                    NULL,
-#endif
+                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDeffunctionInModule);
    DeffunctionData(theEnv)->DeffunctionConstruct = AddConstruct(theEnv,"deffunction","deffunctions",
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
                                        ParseDeffunction,
 #else
                                        NULL,
@@ -215,14 +197,13 @@ void SetupDeffunctions(
                                        SetNextConstruct,
                                        (IsConstructDeletableFunction *) DeffunctionIsDeletable,
                                        (DeleteConstructFunction *) Undeffunction,
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
                                        (FreeConstructFunction *) RemoveDeffunction
 #else
                                        NULL
 #endif
                                        );
 
-#if ! RUN_TIME
    AddClearReadyFunction(theEnv,"deffunction",ClearDeffunctionsReady,0,NULL);
 
 #if ! BLOAD_ONLY
@@ -246,11 +227,7 @@ void SetupDeffunctions(
    SetupDeffunctionsBload(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER
-   SetupDeffunctionCompiler(theEnv);
-#endif
 
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"deffunctions",0,&DeffunctionData(theEnv)->WatchDeffunctions,32,
@@ -266,7 +243,6 @@ void SetupDeffunctions(
 static void DeallocateDeffunctionData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    DeffunctionModuleData *theModuleItem;
    Defmodule *theModule;
 
@@ -287,14 +263,8 @@ static void DeallocateDeffunctionData(
                                     DeffunctionData(theEnv)->DeffunctionModuleIndex);
       rtn_struct(theEnv,deffunctionModuleData,theModuleItem);
      }
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
-#if ! RUN_TIME
 /*****************************************************/
 /* DestroyDeffunctionAction: Action used to remove   */
 /*   deffunctions as a result of DestroyEnvironment. */
@@ -307,7 +277,7 @@ static void DestroyDeffunctionAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    Deffunction *theDeffunction = (Deffunction *) theConstruct;
 
    if (theDeffunction == NULL) return;
@@ -323,7 +293,6 @@ static void DestroyDeffunctionAction(
 #endif
 #endif
   }
-#endif
 
 /***************************************************
   NAME         : FindDeffunction
@@ -409,7 +378,7 @@ bool Undeffunction(
   Deffunction *theDeffunction,
   Environment *allEnv)
   {   
-#if BLOAD_ONLY || RUN_TIME
+#if BLOAD_ONLY
    return false;
 #else
    Environment *theEnv;
@@ -488,7 +457,7 @@ bool DeffunctionIsDeletable(
    return(((theDeffunction->busy == 0) && (theDeffunction->executing == 0)) ? true : false);
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : RemoveDeffunction
@@ -785,7 +754,7 @@ static void IncrementDeffunctionBusyCount(
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if (! ConstructData(theEnv)->ParsingConstruct)
      { ConstructData(theEnv)->DanglingConstructs++; }
 #endif
@@ -793,7 +762,6 @@ static void IncrementDeffunctionBusyCount(
    theDeffunction->busy++;
   }
 
-#if ! RUN_TIME
 
 /*****************************************************
   NAME         : AllocateModule
@@ -850,40 +818,8 @@ static bool ClearDeffunctionsReady(
    return((DeffunctionData(theEnv)->ExecutingDeffunction != NULL) ? false : true);
   }
 
-#endif
 
-#if RUN_TIME
-
-/**************************************************/
-/* RuntimeDeffunctionAction: Action to be applied */
-/*   to each deffunction construct when a runtime */
-/*   initialization occurs.                       */
-/**************************************************/
-static void RuntimeDeffunctionAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
-#if MAC_XCD
-#pragma unused(buffer)
-#endif
-   Deffunction *theDeffunction = (Deffunction *) theConstruct;
-   
-   theDeffunction->header.env = theEnv;
-  }
-
-/*********************************/
-/* DeffunctionRunTimeInitialize: */
-/*********************************/
-void DeffunctionRunTimeInitialize(
-  Environment *theEnv)
-  {
-   DoForAllConstructs(theEnv,RuntimeDeffunctionAction,DeffunctionData(theEnv)->DeffunctionModuleIndex,true,NULL);
-  }
-
-#endif
-
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : RemoveAllDeffunctions

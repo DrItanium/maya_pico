@@ -170,7 +170,7 @@ commline.o: commline.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  strngrtr.h sysdep.h commline.h
 conscomp.o: conscomp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
- moduldef.h utility.h evaluatn.h constant.h cstrccom.h cstrncmp.h \
+ moduldef.h utility.h evaluatn.h constant.h cstrccom.h \
  constrnt.h exprnpsr.h extnfunc.h symbol.h scanner.h memalloc.h \
  prntutil.h router.h sysdep.h network.h match.h ruledef.h \
  agenda.h crstrtgy.h conscomp.h  dffnxfun.h \
@@ -218,10 +218,6 @@ cstrnchk.o: cstrnchk.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  symbol.h multifld.h prntutil.h router.h classcom.h cstrccom.h object.h \
  match.h network.h ruledef.h agenda.h crstrtgy.h conscomp.h  \
  objrtmch.h classexm.h inscom.h insfun.h cstrnchk.h
-cstrncmp.o: cstrncmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
- usrsetup.h constant.h conscomp.h constrct.h userdata.h moduldef.h \
- utility.h evaluatn.h extnfunc.h expressn.h exprnops.h symbol.h \
-  memalloc.h prntutil.h router.h sysdep.h cstrncmp.h constrnt.h
 cstrnops.o: cstrnops.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h constant.h constrnt.h evaluatn.h cstrnchk.h cstrnutl.h \
  extnfunc.h expressn.h exprnops.h constrct.h userdata.h moduldef.h \
@@ -1022,7 +1018,7 @@ tmpltbsc.o: tmpltbsc.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
 tmpltcmp.o: tmpltcmp.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
  usrsetup.h conscomp.h constrct.h userdata.h moduldef.h utility.h \
  evaluatn.h constant.h extnfunc.h expressn.h exprnops.h symbol.h \
-  cstrncmp.h constrnt.h factcmp.h network.h match.h ruledef.h \
+  constrnt.h factcmp.h network.h match.h ruledef.h \
  agenda.h crstrtgy.h cstrccom.h pattern.h scanner.h reorder.h tmpltdef.h \
  factbld.h tmpltcmp.h
 tmpltdef.o: tmpltdef.c setup.h os_shim.h platform.h envrnmnt.h entities.h \
