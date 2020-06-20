@@ -79,9 +79,6 @@
 #include "dfinsbin.h"
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "dfinscmp.h"
-#endif
 
 #include "argacces.h"
 #include "classcom.h"
@@ -120,22 +117,18 @@
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    static bool                    ParseDefinstances(Environment *,const char *);
    static CLIPSLexeme            *ParseDefinstancesName(Environment *,const char *,bool *);
    static void                    RemoveDefinstances(Environment *,Definstances *);
    static void                    SaveDefinstances(Environment *,Defmodule *,const char *,void *);
 #endif
 
-#if ! RUN_TIME
    static void                   *AllocateModule(Environment *);
    static void                    ReturnModule(Environment *,void *);
    static bool                    ClearDefinstancesReady(Environment *,void *);
    static void                    CheckDefinstancesBusy(Environment *,ConstructHeader *,void *);
    static void                    DestroyDefinstancesAction(Environment *,ConstructHeader *,void *);
-#else
-   static void                    RuntimeDefinstancesAction(Environment *,ConstructHeader *,void *);
-#endif
 
    static void                    ResetDefinstances(Environment *,void *);
    static void                    ResetDefinstancesAction(Environment *,ConstructHeader *,void *);
@@ -163,27 +156,19 @@ void SetupDefinstances(
 
    DefinstancesData(theEnv)->DefinstancesModuleIndex =
                 RegisterModuleItem(theEnv,"definstances",
-#if (! RUN_TIME)
                                     AllocateModule,
                                     ReturnModule,
-#else
-                                    NULL,NULL,
-#endif
 #if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
                                     BloadDefinstancesModuleRef,
 #else
                                     NULL,
 #endif
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-                                    DefinstancesCModuleReference,
-#else
-                                    NULL,
-#endif
+                                    NULL, // construct compiler ptr
                                     (FindConstructFunction *) FindDefinstancesInModule);
 
    DefinstancesData(theEnv)->DefinstancesConstruct =
       AddConstruct(theEnv,"definstances","definstances",
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
                    ParseDefinstances,
 #else
                    NULL,
@@ -195,14 +180,13 @@ void SetupDefinstances(
                    SetNextConstruct,
                    (IsConstructDeletableFunction *) DefinstancesIsDeletable,
                    (DeleteConstructFunction *) Undefinstances,
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
                    (FreeConstructFunction *) RemoveDefinstances
 #else
                    NULL
 #endif
                    );
 
-#if ! RUN_TIME
    AddClearReadyFunction(theEnv,"definstances",ClearDefinstancesReady,0,NULL);
 
 #if ! BLOAD_ONLY
@@ -218,16 +202,12 @@ void SetupDefinstances(
    AddUDF(theEnv,"get-definstances-list","m",0,1,"y",GetDefinstancesListFunction,"GetDefinstancesListFunction",NULL);
    AddUDF(theEnv,"definstances-module","y",1,1,"y",GetDefinstancesModuleCommand,"GetDefinstancesModuleCommand",NULL);
 
-#endif
    AddResetFunction(theEnv,"definstances",ResetDefinstances,0,NULL);
 
 #if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
    SetupDefinstancesBload(theEnv);
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   SetupDefinstancesCompiler(theEnv);
-#endif
   }
 
 /*******************************************************/
@@ -237,7 +217,6 @@ void SetupDefinstances(
 static void DeallocateDefinstancesData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    struct definstancesModule *theModuleItem;
    Defmodule *theModule;
 
@@ -256,14 +235,8 @@ static void DeallocateDefinstancesData(
                                     DefinstancesData(theEnv)->DefinstancesModuleIndex);
       rtn_struct(theEnv,definstancesModule,theModuleItem);
      }
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
-#if ! RUN_TIME
 /*****************************************************/
 /* DestroyDefinstancesAction: Action used to remove  */
 /*   definstances as a result of DestroyEnvironment. */
@@ -276,7 +249,7 @@ static void DestroyDefinstancesAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    struct definstances *theDefinstances = (struct definstances *) theConstruct;
 
    if (theDefinstances == NULL) return;
@@ -292,38 +265,8 @@ static void DestroyDefinstancesAction(
 #endif
 #endif
   }
-#endif
 
-#if RUN_TIME
 
-/***************************************************/
-/* RuntimeDefinstancesAction: Action to be applied */
-/*   to each definstances construct when a runtime */
-/*   initialization occurs.                        */
-/***************************************************/
-static void RuntimeDefinstancesAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
-#if MAC_XCD
-#pragma unused(buffer)
-#endif
-   Definstances *theDefinstances = (Definstances *) theConstruct;
-   
-   theDefinstances->header.env = theEnv;
-  }
-
-/**********************************/
-/* DefinstancesRunTimeInitialize: */
-/**********************************/
-void DefinstancesRunTimeInitialize(
-  Environment *theEnv)
-  {
-   DoForAllConstructs(theEnv,RuntimeDefinstancesAction,DefinstancesData(theEnv)->DefinstancesModuleIndex,true,NULL);
-  }
-
-#endif
 
 /***********************************************************
   NAME         : GetNextDefinstances
@@ -556,7 +499,7 @@ void GetDefinstancesList(
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /*********************************************************************
   NAME         : ParseDefinstances
@@ -771,7 +714,6 @@ static void SaveDefinstances(
 
 #endif
 
-#if ! RUN_TIME
 
 /*****************************************************
   NAME         : AllocateModule
@@ -857,7 +799,6 @@ static void CheckDefinstancesBusy(
      { *((bool *) userBuffer) = false; }
   }
 
-#endif
 
 /***************************************************
   NAME         : ResetDefinstances

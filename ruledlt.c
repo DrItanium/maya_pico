@@ -66,7 +66,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static void                    RemoveIntranetworkLink(Environment *,struct joinNode *);
 #endif
    static void                    DetachJoins(Environment *,struct joinNode *,bool);
@@ -83,7 +83,7 @@ void ReturnDefrule(
   Environment *theEnv,
   Defrule *theDefrule)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    bool first = true;
    Defrule *nextPtr, *tmpPtr;
 
@@ -209,7 +209,7 @@ void DestroyDefrule(
 
       if (first)
         {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
          if (theDefrule->dynamicSalience != NULL)
            { ReturnPackedExpression(theEnv,theDefrule->dynamicSalience); }
 
@@ -235,14 +235,14 @@ void DestroyDefrule(
       if (theDefrule->header.usrData != NULL)
         { ClearUserDataList(theEnv,theDefrule->header.usrData); }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
       if (theDefrule->actions != NULL)
         { ReturnPackedExpression(theEnv,theDefrule->actions); }
 #endif
 
       nextDisjunct = theDefrule->disjunct;
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
       rtn_struct(theEnv,defrule,theDefrule);
 #endif
 
@@ -325,7 +325,7 @@ static void DetachJoins(
       /* are no longer needed.                           */
       /*=================================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       if (! destroy)
         {
          if ((join->rightSideEntryStructure != NULL) && (join->joinFromTheRight == false))
@@ -357,7 +357,7 @@ static void DetachJoins(
       /* with the join.                    */
       /*===================================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       if (! destroy)
         {
          RemoveHashedExpression(theEnv,join->networkTest);
@@ -385,7 +385,7 @@ static void DetachJoins(
                else
                  { lastLink->next = theLink->next; }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
                rtn_struct(theEnv,joinLink,theLink);
 #endif
 
@@ -416,7 +416,7 @@ static void DetachJoins(
                else
                  { lastLink->next = theLink->next; }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
                rtn_struct(theEnv,joinLink,theLink);
 #endif
 
@@ -447,7 +447,7 @@ static void DetachJoins(
                else
                  { lastLink->next = theLink->next; }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
                rtn_struct(theEnv,joinLink,theLink);
 #endif
 
@@ -478,7 +478,7 @@ static void DetachJoins(
                else
                  { lastLink->next = theLink->next; }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
                rtn_struct(theEnv,joinLink,theLink);
 #endif
                theLink = NULL;
@@ -509,7 +509,7 @@ static void DetachJoins(
       /* Delete the join. */
       /*==================*/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
       rtn_struct(theEnv,joinNode,join);
 #endif
 
@@ -533,7 +533,7 @@ static void DetachJoins(
      }
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /***********************************************************************/
 /* RemoveIntranetworkLink: Removes the link between a join node in the */
@@ -591,7 +591,7 @@ static void RemoveIntranetworkLink(
      { DetachPattern(theEnv,join->rhsType,patternPtr); }
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFRULE_CONSTRUCT */
 

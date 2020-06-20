@@ -86,7 +86,7 @@
 #include "bload.h"
 #endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 #include "cstrcpsr.h"
 #endif
 
@@ -106,7 +106,6 @@
                                                         ConstructSetWatchFunction *);
 #endif
 
-#if (! RUN_TIME)
 
 /************************************/
 /* AddConstructToModule: Adds a     */
@@ -124,7 +123,6 @@ void AddConstructToModule(
    theConstruct->next = NULL;
   }
 
-#endif /* (! RUN_TIME) */
 
 /****************************************************/
 /* DeleteNamedConstruct: Generic driver routine for */
@@ -338,7 +336,7 @@ void UndefconstructCommand(
    constructName = GetConstructName(context,command,buffer);
    if (constructName == NULL) return;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
    /*=============================================*/
    /* Check to see if the named construct exists. */
@@ -602,7 +600,7 @@ bool UndefconstructAll(
   Environment *theEnv,
   Construct *constructClass)
   {
-#if BLOAD_ONLY || RUN_TIME
+#if BLOAD_ONLY
 #if MAC_XCD
 #pragma unused(constructClass)
 #pragma unused(theEnv)
@@ -673,7 +671,7 @@ bool Undefconstruct(
   ConstructHeader *theConstruct,
   Construct *constructClass)
   {
-#if BLOAD_ONLY || RUN_TIME
+#if BLOAD_ONLY
 #if MAC_XCD
 #pragma unused(theConstruct)
 #pragma unused(constructClass)
@@ -1758,13 +1756,13 @@ ConstructHeader *LookupConstruct(
 bool ConstructsDeletable(
   Environment *theEnv)
   {
-#if BLOAD_ONLY || RUN_TIME || ((! BLOAD) && (! BLOAD_AND_BSAVE))
+#if BLOAD_ONLY || ((! BLOAD) && (! BLOAD_AND_BSAVE))
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
 #endif
 
-#if BLOAD_ONLY || RUN_TIME
+#if BLOAD_ONLY
    return false;
 #elif BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv))

@@ -71,7 +71,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static void                     InstallConstraintRecord(Environment *,CONSTRAINT_RECORD *);
    static bool                     ConstraintCompare(struct constraintRecord *,struct constraintRecord *);
 #endif
@@ -87,13 +87,13 @@
 void InitializeConstraints(
   Environment *theEnv)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    int i;
 #endif
 
    AllocateEnvironmentData(theEnv,CONSTRAINT_DATA,sizeof(struct constraintData),DeallocateConstraintData);
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
     ConstraintData(theEnv)->ConstraintHashtable = (struct constraintRecord **)
                           gm2(theEnv,sizeof (struct constraintRecord *) *
@@ -104,10 +104,8 @@ void InitializeConstraints(
     for (i = 0; i < SIZE_CONSTRAINT_HASH; i++) ConstraintData(theEnv)->ConstraintHashtable[i] = NULL;
 #endif
 
-#if (! RUN_TIME)
    AddUDF(theEnv,"get-dynamic-constraint-checking","b",0,0,NULL,GDCCommand,"GDCCommand",NULL);
    AddUDF(theEnv,"set-dynamic-constraint-checking","b",1,1,NULL,SDCCommand,"SDCCommand",NULL);
-#endif
   }
 
 /*****************************************************/
@@ -117,7 +115,6 @@ void InitializeConstraints(
 static void DeallocateConstraintData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    struct constraintRecord *tmpPtr, *nextPtr;
    int i;
 
@@ -134,13 +131,8 @@ static void DeallocateConstraintData(
 
    rm(theEnv,ConstraintData(theEnv)->ConstraintHashtable,
       sizeof(struct constraintRecord *) * SIZE_CONSTRAINT_HASH);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) && (! RUN_TIME)
+#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
    if (ConstraintData(theEnv)->NumberOfConstraints != 0)
      {
       genfree(theEnv,ConstraintData(theEnv)->ConstraintArray,
@@ -261,7 +253,7 @@ void RemoveConstraint(
    return;
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /***********************************/
 /* HashConstraint: Returns a hash  */
@@ -495,7 +487,7 @@ static void InstallConstraintRecord(
      { InstallConstraintRecord(theEnv,constraints->multifield); }
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 /**********************************************/
 /* SDCCommand: H/L access routine for the     */

@@ -101,17 +101,12 @@
    static void                    DisplayGenericCore(Environment *,Defgeneric *);
 #endif
 
-#if RUN_TIME
-   static void                    RuntimeDefgenericAction(Environment *,ConstructHeader *,void *);
-#endif
-
 /* =========================================
    *****************************************
           EXTERNALLY VISIBLE FUNCTIONS
    =========================================
    ***************************************** */
 
-#if ! RUN_TIME
 
 /***************************************************
   NAME         : ClearDefgenericsReady
@@ -168,44 +163,8 @@ void FreeDefgenericModule(
    rtn_struct(theEnv,defgenericModule,theItem);
   }
 
-#endif
 
-#if RUN_TIME
-
-/*************************************************/
-/* RuntimeDefgenericAction: Action to be applied */
-/*   to each deffacts construct when a runtime   */
-/*   initialization occurs.                      */
-/*************************************************/
-static void RuntimeDefgenericAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
-#if MAC_XCD
-#pragma unused(buffer)
-#endif
-   Defgeneric *theDefgeneric = (Defgeneric *) theConstruct;
-   long gi;
-   
-   theDefgeneric->header.env = theEnv;
-
-   for (gi = 0 ; gi < theDefgeneric->mcnt ; gi++)
-     { theDefgeneric->methods[gi].header.env = theEnv; }
-  }
-
-/********************************/
-/* DefgenericRunTimeInitialize: */
-/********************************/
-void DefgenericRunTimeInitialize(
-  Environment *theEnv)
-  {
-   DoForAllConstructs(theEnv,RuntimeDefgenericAction,DefgenericData(theEnv)->DefgenericModuleIndex,true,NULL);
-  }
-
-#endif
-
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /************************************************************
   NAME         : ClearDefmethods

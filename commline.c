@@ -130,12 +130,10 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if ! RUN_TIME
    static int                     DoString(const char *,int,bool *);
    static int                     DoComment(const char *,int);
    static int                     DoWhiteSpace(const char *,int);
    static void                    DefaultGetNextEvent(Environment *);
-#endif
    static void                    DeallocateCommandLineData(Environment *);
 
 /****************************************************/
@@ -147,10 +145,8 @@ void InitializeCommandLineData(
   {
    AllocateEnvironmentData(theEnv,COMMANDLINE_DATA,sizeof(struct commandLineData),DeallocateCommandLineData);
 
-#if ! RUN_TIME
    CommandLineData(theEnv)->BannerString = BANNER_STRING;
    CommandLineData(theEnv)->EventCallback = DefaultGetNextEvent;
-#endif
   }
 
 /*******************************************************/
@@ -160,17 +156,11 @@ void InitializeCommandLineData(
 static void DeallocateCommandLineData(
   Environment *theEnv)
   {
-#if ! RUN_TIME
    if (CommandLineData(theEnv)->CommandString != NULL)
      { rm(theEnv,CommandLineData(theEnv)->CommandString,CommandLineData(theEnv)->MaximumCharacters); }
 
    if (CommandLineData(theEnv)->CurrentCommand != NULL)
      { ReturnExpression(theEnv,CommandLineData(theEnv)->CurrentCommand); }
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 /*************************************************/
@@ -207,10 +197,8 @@ void RerouteStdin(
    for (i = 1 ; i < argc ; i++)
      {
       if (strcmp(argv[i],"-f") == 0) theSwitch = BATCH_SWITCH;
-#if ! RUN_TIME
       else if (strcmp(argv[i],"-f2") == 0) theSwitch = BATCH_STAR_SWITCH;
       else if (strcmp(argv[i],"-l") == 0) theSwitch = LOAD_SWITCH;
-#endif
       else if (theSwitch == NO_SWITCH)
         {
          PrintErrorID(theEnv,"SYSDEP",2,false);
@@ -248,7 +236,7 @@ void RerouteStdin(
             OpenBatch(theEnv,argv[++i],true);
             break;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
          case BATCH_STAR_SWITCH:
             BatchStar(theEnv,argv[++i]);
             break;
@@ -261,7 +249,6 @@ void RerouteStdin(
      }
   }
 
-#if ! RUN_TIME
 
 /***************************************************/
 /* ExpandCommandString: Appends a character to the */
@@ -1212,6 +1199,4 @@ bool GetHaltCommandLoopBatch(
   {
    return(CommandLineData(theEnv)->HaltCommandLoopBatch);
   }
-
-#endif
 

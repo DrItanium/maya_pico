@@ -133,14 +133,14 @@ static void DeallocateConstructData(
   {
    Construct *tmpPtr, *nextPtr;
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    DeallocateSaveCallList(theEnv,ConstructData(theEnv)->ListOfSaveFunctions);
 #endif
    DeallocateVoidCallList(theEnv,ConstructData(theEnv)->ListOfResetFunctions);
    DeallocateVoidCallList(theEnv,ConstructData(theEnv)->ListOfClearFunctions);
    DeallocateBoolCallList(theEnv,ConstructData(theEnv)->ListOfClearReadyFunctions);
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    if (ConstructData(theEnv)->ErrorString != NULL)
      { genfree(theEnv,ConstructData(theEnv)->ErrorString,sizeof(ConstructData(theEnv)->ErrorString) + 1); }
 
@@ -164,7 +164,7 @@ static void DeallocateConstructData(
      }
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /***********************************************/
 /* SetParserErrorCallback: Allows the function */
@@ -442,17 +442,11 @@ bool GetLoadInProgress(
 void InitializeConstructs(
   Environment *theEnv)
   {
-#if (! RUN_TIME)
    AddUDF(theEnv,"clear","v",0,0,NULL,ClearCommand,"ClearCommand",NULL);
    AddUDF(theEnv,"reset","v",0,0,NULL,ResetCommand,"ResetCommand",NULL);
 
 #if DEBUGGING_FUNCTIONS && (! BLOAD_ONLY)
    AddWatchItem(theEnv,"compilations",0,&ConstructData(theEnv)->WatchCompilations,30,NULL,NULL);
-#endif
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
 #endif
   }
 
@@ -958,7 +952,7 @@ bool AddSaveFunction(
   int priority,
   void *context)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    ConstructData(theEnv)->ListOfSaveFunctions =
      AddSaveFunctionToCallList(theEnv,name,priority,
                            functionPtr,

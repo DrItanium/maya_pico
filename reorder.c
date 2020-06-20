@@ -59,7 +59,7 @@
 
 #include "setup.h"
 
-#if (! RUN_TIME) && (! BLOAD_ONLY) && DEFRULE_CONSTRUCT
+#if (! BLOAD_ONLY) && DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 

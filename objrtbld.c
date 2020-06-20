@@ -67,7 +67,7 @@
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 #include <string.h>
 #include <stdlib.h>
@@ -110,9 +110,6 @@
 #include "objrtbin.h"
 #endif
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-#include "objrtcmp.h"
-#endif
 
 #include "objrtbld.h"
 
@@ -122,7 +119,7 @@
 #include "extnfunc.h"
 #endif
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /* =========================================
    *****************************************
@@ -198,7 +195,7 @@
 void SetupObjectPatternStuff(
   Environment *theEnv)
   {
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
    struct patternParser *newPtr;
 
    if (ReservedPatternSymbol(theEnv,"object",NULL) == true)
@@ -238,28 +235,19 @@ void SetupObjectPatternStuff(
    newPtr->markIRPatternFunction = MarkObjectPtnIncrementalReset;
    newPtr->incrementalResetFunction = ObjectIncrementalReset;
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   newPtr->codeReferenceFunction = ObjectPatternNodeReference;
-#else
    newPtr->codeReferenceFunction = NULL;
-#endif
 
    AddPatternParser(theEnv,newPtr);
 
 #endif
 
-#if (! RUN_TIME)
    AddUDF(theEnv,"object-pattern-match-delay","*",0,UNBOUNDED,NULL,ObjectMatchDelay,"ObjectMatchDelay",NULL);
    FuncSeqOvlFlags(theEnv,"object-pattern-match-delay",false,false);
-#endif
 
    AddFunctionParser(theEnv,"object-pattern-match-delay",ObjectMatchDelayParse);
 
    InstallObjectPrimitives(theEnv);
 
-#if CONSTRUCT_COMPILER && (! RUN_TIME)
-   ObjectPatternsCompilerSetup(theEnv);
-#endif
 
 #if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
    SetupObjectPatternsBload(theEnv);
@@ -272,7 +260,7 @@ void SetupObjectPatternStuff(
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /*****************************************************
   NAME         : PatternParserFind
@@ -2334,7 +2322,7 @@ static Expression *ObjectMatchDelayParse(
    return(top);
   }
 
-#if (! BLOAD_ONLY) && (! RUN_TIME)
+#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : MarkObjectPtnIncrementalReset

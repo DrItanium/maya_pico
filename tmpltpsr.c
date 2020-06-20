@@ -83,7 +83,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    static struct templateSlot    *SlotDeclarations(Environment *,const char *,struct token *);
    static struct templateSlot    *ParseSlot(Environment *,const char *,struct token *,struct templateSlot *);
    static struct templateSlot    *DefinedSlots(Environment *,const char *,CLIPSLexeme *,bool,struct token *);
@@ -97,7 +97,7 @@ bool ParseDeftemplate(
   Environment *theEnv,
   const char *readSource)
   {
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
    CLIPSLexeme *deftemplateName;
    Deftemplate *newDeftemplate;
    struct templateSlot *slots;
@@ -231,7 +231,7 @@ bool ParseDeftemplate(
    return false;
   }
 
-#if (! RUN_TIME) && (! BLOAD_ONLY)
+#if (! BLOAD_ONLY)
 
 /**************************************************************/
 /* InstallDeftemplate: Increments all occurrences in the hash */
@@ -812,7 +812,7 @@ static bool ParseFacetAttribute(
    return true;
   }
 
-#endif /* (! RUN_TIME) && (! BLOAD_ONLY) */
+#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 
