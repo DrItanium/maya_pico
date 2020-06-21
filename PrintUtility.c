@@ -83,7 +83,7 @@
 #include "InstanceCommand.h"
 #include "InstanceManager.h"
 #include "MemoryAllocation.h"
-#include "MultifieldFunctions.h"
+#include "Multifield.h"
 #include "Router.h"
 #include "Scanner.h"
 #include "StringRouter.h"

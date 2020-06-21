@@ -88,7 +88,6 @@
 #include "Expression.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"
-#include "MultifieldFunctions.h"
 #if OBJECT_SYSTEM
 #include "Object.h"
 #endif

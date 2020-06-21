@@ -34,7 +34,7 @@
 #include "IOFunctions.h"
 #include "MemoryAllocation.h"
 #include "MiscFunctions.h"
-#include "MultifieldFunctions.h"
+#include "Multifield.h"
 #include "ParsingFunctions.h"
 #include "PrettyPrint.h"
 #include "ProceduralCodeSupportRoutines.h"

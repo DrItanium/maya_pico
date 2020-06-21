@@ -65,7 +65,7 @@
 #define _H_multifld
 
 #include "Entities.h"
-
+#include "Evaluation.h"
 typedef struct multifieldBuilder MultifieldBuilder;
 
 struct multifieldBuilder {
@@ -121,6 +121,39 @@ void MBAppendFact(MultifieldBuilder *, Fact *);
 void MBAppendInstance(MultifieldBuilder *, Instance *);
 void MBAppendMultifield(MultifieldBuilder *, Multifield *);
 void MBAppendUDFValue(MultifieldBuilder *theMB, UDFValue *);
+
+#include "Evaluation.h"
+
+#define VALUE_NOT_FOUND SIZE_MAX
+
+void MultifieldFunctionDefinitions(Environment *);
+#if MULTIFIELD_FUNCTIONS
+void DeleteFunction(Environment *, UDFContext *, UDFValue *);
+void ReplaceFunction(Environment *, UDFContext *, UDFValue *);
+void DeleteMemberFunction(Environment *, UDFContext *, UDFValue *);
+void ReplaceMemberFunction(Environment *, UDFContext *, UDFValue *);
+void InsertFunction(Environment *, UDFContext *, UDFValue *);
+void ExplodeFunction(Environment *, UDFContext *, UDFValue *);
+void ImplodeFunction(Environment *, UDFContext *, UDFValue *);
+void SubseqFunction(Environment *, UDFContext *, UDFValue *);
+void FirstFunction(Environment *, UDFContext *, UDFValue *);
+void RestFunction(Environment *, UDFContext *, UDFValue *);
+void NthFunction(Environment *, UDFContext *, UDFValue *);
+void SubsetpFunction(Environment *, UDFContext *, UDFValue *);
+void MemberFunction(Environment *, UDFContext *, UDFValue *);
+void MultifieldPrognFunction(Environment *, UDFContext *, UDFValue *);
+void ForeachFunction(Environment *, UDFContext *, UDFValue *);
+void GetMvPrognField(Environment *, UDFContext *, UDFValue *);
+void GetMvPrognIndex(Environment *, UDFContext *, UDFValue *);
+bool FindDOsInSegment(UDFValue *, unsigned int, UDFValue *,
+                      size_t *, size_t *, size_t *, unsigned int);
+#endif
+bool ReplaceMultiValueFieldSizet(Environment *, UDFValue *, UDFValue *,
+                                 size_t, size_t, UDFValue *, const char *);
+bool InsertMultiValueField(Environment *, UDFValue *, UDFValue *,
+                           size_t, UDFValue *, const char *);
+void MVRangeError(Environment *, long long, long long, size_t, const char *);
+size_t FindValueInMultifield(UDFValue *, UDFValue *);
 
 #endif /* _H_multifld */
 

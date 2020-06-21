@@ -60,7 +60,7 @@
 #include "InstanceFunctions.h"
 #include "DefmessageHandlerFunctions.h"
 #include "DefmessageHandlerDispatch.h"
-#include "MultifieldFunctions.h"
+#include "Multifield.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
