@@ -51,7 +51,7 @@
 #include "ExternalFunctions.h"
 #include "Fact.h"
 #include "incrrset.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "ReteUtility.h"
 #include "Router.h"

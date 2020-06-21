@@ -70,7 +70,7 @@
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "inherpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "msgpsr.h"

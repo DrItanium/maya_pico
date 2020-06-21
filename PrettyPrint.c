@@ -50,7 +50,7 @@
 
 #include "Constants.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 

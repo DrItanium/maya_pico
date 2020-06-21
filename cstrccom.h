@@ -53,7 +53,7 @@ typedef bool ConstructGetWatchFunction(void *);
 typedef void ConstructSetWatchFunction(void *,bool);
 
 #include "moduldef.h"
-#include "constrct.h"
+#include "Construct.h"
 
 typedef void ConstructActionFunction(Environment *,ConstructHeader *,void *);
 

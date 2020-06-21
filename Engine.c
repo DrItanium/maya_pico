@@ -94,14 +94,14 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "ArgumentAccess.h"
 #include "CommandLine.h"
 #include "Constants.h"
 #include "Environment.h"
 #include "Fact.h"
 #include "inscom.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "prccode.h"
 #include "prcdrfun.h"

@@ -21,7 +21,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "clips.h"
-#include "miscfun.h"
+#include "MiscFunctions.h"
 #include "ExternalFunctions.h"
 #include "maya.h"
 #include "mayasetup.h"

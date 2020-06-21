@@ -63,10 +63,10 @@
 #include "modulbin.h"
 #endif
 #include "Constants.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulbsc.h"
 #include "modulpsr.h"
 #include "PrintUtility.h"

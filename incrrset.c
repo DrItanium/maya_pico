@@ -61,7 +61,7 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "ArgumentAccess.h"
 #include "Constants.h"
 #include "drive.h"

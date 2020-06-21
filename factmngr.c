@@ -124,10 +124,10 @@
 
 #include "Fact.h"
 #include "CommandLine.h"
-#include "default.h"
+#include "DefaultAttribute.h"
 #include "Engine.h"
-#include "lgcldpnd.h"
-#include "memalloc.h"
+#include "LogicalDependencies.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "Retract.h"
 #include "PrintUtility.h"

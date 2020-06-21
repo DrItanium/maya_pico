@@ -99,7 +99,7 @@
 #include "Environment.h"
 #include "inscom.h"
 #include "insmngr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "msgcom.h"
 #include "msgfun.h"

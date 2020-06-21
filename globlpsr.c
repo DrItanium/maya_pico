@@ -56,14 +56,14 @@
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Expression.h"
 #include "globlbsc.h"
 #include "globldef.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "multifld.h"

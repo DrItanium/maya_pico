@@ -84,14 +84,14 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "inscom.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "msgcom.h"
 #include "Watch.h"
 
 #if DEFINSTANCES_CONSTRUCT
-#include "defins.h"
+#include "Definstances.h"
 #endif
 
 #if INSTANCE_SET_QUERIES

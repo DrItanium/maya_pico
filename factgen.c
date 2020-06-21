@@ -46,11 +46,11 @@
 #include <stdio.h>
 
 #include "Constants.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Network.h"
 #include "Pattern.h"
 #include "prcdrpsr.h"

@@ -4,8 +4,8 @@ project(maya VERSION 6.40)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_library(clips
-	agenda.c
-	analysis.c
+		Agenda.c
+		Analysis.c
 		ArgumentAccess.c
 		BinaryLoad.c
 		BasicMathFunctions.c
@@ -18,9 +18,9 @@ add_library(clips
 	classpsr.c
 	clsltpsr.c
         CommandLine.c
-	constrct.c
-	constrnt.c
-	crstrtgy.c
+		Construct.c
+		Constraint.c
+		ConflictResolutionStrategy.c
 	cstrcbin.c
 	cstrccom.c
 	cstrcpsr.c
@@ -29,8 +29,8 @@ add_library(clips
 	cstrnops.c
 	cstrnpsr.c
 	cstrnutl.c
-	default.c
-	defins.c
+		DefaultAttribute.c
+		Definstances.c
 		Developer.c
 	dffctbin.c
 	dffctbsc.c
@@ -94,9 +94,9 @@ add_library(clips
 	insquery.c
 	insqypsr.c
 	iofun.c
-	lgcldpnd.c
-	memalloc.c
-	miscfun.c
+		LogicalDependencies.c
+		MemoryAllocation.c
+		MiscFunctions.c
 	modulbin.c
 	modulbsc.c
 	moduldef.c
@@ -114,7 +114,7 @@ add_library(clips
 	objrtfnx.c
 	objrtgen.c
 	objrtmch.c
-	parsefun.c
+		ParsingFunctions.c
 		Pattern.c
 		PrettyPrint.c
 	prccode.c
@@ -137,7 +137,7 @@ add_library(clips
 	rulelhs.c
 	rulepsr.c
 		Scanner.c
-	sortfun.c
+		SortingFunctions.c
 		StringFunctions.c
 		StringRouter.c
 		SymbolBinarySave.c

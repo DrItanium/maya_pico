@@ -45,7 +45,7 @@
 
 #include "Environment.h"
 #include "cstrcpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

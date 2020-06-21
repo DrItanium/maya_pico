@@ -81,7 +81,7 @@
 #include "classini.h"
 #include "Environment.h"
 #include "insfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "msgcom.h"
 #include "msgfun.h"
 #include "PrintUtility.h"

@@ -71,7 +71,7 @@
 #include "Network.h"
 #include "drive.h"
 #include "objrtmch.h"
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 #endif
 
 #include "classcom.h"
@@ -81,8 +81,8 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "insfun.h"
-#include "memalloc.h"
-#include "miscfun.h"
+#include "MemoryAllocation.h"
+#include "MiscFunctions.h"
 #include "modulutl.h"
 #include "msgcom.h"
 #include "msgfun.h"

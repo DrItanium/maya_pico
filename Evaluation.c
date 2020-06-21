@@ -81,7 +81,7 @@
 #include "Constants.h"
 #include "Environment.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Router.h"
 #include "prcdrfun.h"

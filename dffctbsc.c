@@ -66,7 +66,7 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "dffctdef.h"
@@ -74,7 +74,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "Router.h"
 #include "Scanner.h"

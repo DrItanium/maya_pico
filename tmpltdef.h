@@ -71,7 +71,7 @@ struct deftemplateModule;
 
 #include "Entities.h"
 
-#include "constrct.h"
+#include "Construct.h"
 #include "Evaluation.h"
 #include "moduldef.h"
 
@@ -80,7 +80,7 @@ struct deftemplateModule
    struct defmoduleItemHeader header;
   };
 
-#include "constrnt.h"
+#include "Constraint.h"
 #include "Fact.h"
 
 struct deftemplate

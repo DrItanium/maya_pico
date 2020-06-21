@@ -40,7 +40,7 @@
 
 #include <stdio.h>
 
-#include "analysis.h"
+#include "Analysis.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "cstrnutl.h"

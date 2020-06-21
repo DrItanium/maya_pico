@@ -63,7 +63,7 @@
 #endif
 
 #include "ArgumentAccess.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "genrccom.h"
 #include "prcdrfun.h"

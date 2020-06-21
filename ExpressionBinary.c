@@ -35,11 +35,11 @@
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "dffctdef.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 
 #if DEFRULE_CONSTRUCT

@@ -53,7 +53,7 @@
 
 typedef struct deffacts Deffacts;
 
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "Evaluation.h"
 #include "Expression.h"

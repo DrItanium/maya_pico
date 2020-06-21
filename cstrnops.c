@@ -37,12 +37,12 @@
 #include <stdlib.h>
 
 #include "Constants.h"
-#include "constrnt.h"
+#include "Constraint.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "Router.h"
 #include "Scanner.h"

@@ -43,9 +43,9 @@
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #include "cstrcbin.h"
-#include "defins.h"
+#include "Definstances.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulbin.h"
 
 #include "dfinsbin.h"

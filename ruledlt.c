@@ -47,15 +47,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "agenda.h"
+#include "Agenda.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
-#include "constrct.h"
+#include "Construct.h"
 #include "drive.h"
 #include "Engine.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
 #include "Retract.h"

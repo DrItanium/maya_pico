@@ -44,13 +44,13 @@
 #if DEFRULE_CONSTRUCT
 
 #include "Constants.h"
-#include "constrnt.h"
+#include "Constraint.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "Match.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"

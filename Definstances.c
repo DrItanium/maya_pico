@@ -86,13 +86,13 @@
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "Constants.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"
 #include "insfun.h"
 #include "inspsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
@@ -102,7 +102,7 @@
 #include "Symbol.h"
 #include "Utility.h"
 
-#include "defins.h"
+#include "Definstances.h"
 
 /* =========================================
    *****************************************

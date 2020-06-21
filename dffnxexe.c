@@ -51,7 +51,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "constrct.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "prcdrfun.h"
 #include "prccode.h"

@@ -41,15 +41,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "ArgumentAccess.h"
 #include "Constants.h"
-#include "constrct.h"
-#include "constrnt.h"
+#include "Construct.h"
+#include "Constraint.h"
 #include "cstrnchk.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

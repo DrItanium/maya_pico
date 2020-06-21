@@ -58,7 +58,7 @@
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "PrettyPrint.h"
 #include "prcdrpsr.h"
@@ -67,7 +67,7 @@
 #include "StringRouter.h"
 #include "Utility.h"
 
-#include "parsefun.h"
+#include "ParsingFunctions.h"
 
 #define PARSEFUN_DATA 11
 

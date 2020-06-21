@@ -72,7 +72,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Constants.h"
 #include "Environment.h"
 #if DEFGLOBAL_CONSTRUCT

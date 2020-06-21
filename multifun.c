@@ -86,7 +86,7 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "multifun.h"
 #if OBJECT_SYSTEM

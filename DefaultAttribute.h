@@ -45,7 +45,7 @@
 
 #define _H_default
 
-#include "constrnt.h"
+#include "Constraint.h"
 #include "Evaluation.h"
 
    void                           DeriveDefaultFromConstraints(Environment *,CONSTRAINT_RECORD *,UDFValue *,bool,bool);

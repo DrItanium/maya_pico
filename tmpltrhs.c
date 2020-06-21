@@ -43,10 +43,10 @@
 
 #include <stdio.h>
 
-#include "default.h"
+#include "DefaultAttribute.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

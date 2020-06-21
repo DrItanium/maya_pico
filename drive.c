@@ -56,13 +56,13 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "Constants.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "incrrset.h"
-#include "lgcldpnd.h"
-#include "memalloc.h"
+#include "LogicalDependencies.h"
+#include "MemoryAllocation.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"
 #include "Retract.h"

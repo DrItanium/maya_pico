@@ -72,11 +72,11 @@
 
 #include <stdio.h>
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "drive.h"
 #include "Engine.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "Retract.h"
 #include "ReteUtility.h"

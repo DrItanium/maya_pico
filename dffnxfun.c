@@ -82,7 +82,7 @@
 #include "dffnxbin.h"
 #endif
 
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrcpsr.h"
 #include "dffnxpsr.h"
 #include "modulpsr.h"
@@ -99,7 +99,7 @@
 
 #include "ArgumentAccess.h"
 #include "cstrccom.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "multifld.h"
 #include "PrintUtility.h"

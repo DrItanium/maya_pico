@@ -91,8 +91,8 @@
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
-#include "miscfun.h"
+#include "MemoryAllocation.h"
+#include "MiscFunctions.h"
 #include "moduldef.h"
 #include "modulutl.h"
 #include "multifld.h"
@@ -106,7 +106,7 @@
 #include "Utility.h"
 #include "Watch.h"
 
-#include "constrct.h"
+#include "Construct.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

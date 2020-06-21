@@ -64,7 +64,7 @@
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "insfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulbin.h"
 #include "msgcom.h"
 #include "msgfun.h"

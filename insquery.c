@@ -79,7 +79,7 @@
 #include "insfun.h"
 #include "insmngr.h"
 #include "insqypsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "prcdrfun.h"
 #include "PrintUtility.h"
 #include "Router.h"

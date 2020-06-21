@@ -72,7 +72,7 @@
 
 #include "ArgumentAccess.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Expression.h"
 #include "modulutl.h"
 #include "tmpltutl.h"

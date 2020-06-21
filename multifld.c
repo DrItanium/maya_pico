@@ -69,7 +69,7 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #if OBJECT_SYSTEM
 #include "object.h"
 #endif

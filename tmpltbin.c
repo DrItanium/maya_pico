@@ -47,7 +47,7 @@
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "tmpltdef.h"
 #include "tmpltpsr.h"
 #include "tmpltutl.h"

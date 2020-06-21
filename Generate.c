@@ -58,7 +58,7 @@
 #include "globlpsr.h"
 #endif
 
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "Router.h"

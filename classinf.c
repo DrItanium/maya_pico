@@ -73,7 +73,7 @@
 #include "classfun.h"
 #include "classini.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "insfun.h"
 #include "msgcom.h"
 #include "msgfun.h"

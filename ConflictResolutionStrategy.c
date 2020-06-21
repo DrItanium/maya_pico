@@ -59,15 +59,15 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "ArgumentAccess.h"
 #include "Constants.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
 
-#include "crstrtgy.h"
+#include "ConflictResolutionStrategy.h"
 
 #define GetMatchingItem(x,i) ((x->basis->binds[i].gm.theMatch != NULL) ? \
                               (x->basis->binds[i].gm.theMatch->matchingItem) : NULL)

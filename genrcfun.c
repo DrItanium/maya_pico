@@ -75,14 +75,14 @@
 #endif
 
 #include "ArgumentAccess.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "genrccom.h"
 #include "genrcexe.h"
 #include "genrcfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "prccode.h"
 #include "PrintUtility.h"

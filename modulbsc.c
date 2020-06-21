@@ -51,7 +51,7 @@
 
 #include "ArgumentAccess.h"
 #include "BinaryLoad.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "modulbin.h"

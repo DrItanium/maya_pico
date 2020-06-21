@@ -118,7 +118,7 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "PrintUtility.h"
 #include "Router.h"
@@ -134,7 +134,7 @@
 #include "tmpltutl.h"
 #endif
 
-#include "miscfun.h"
+#include "MiscFunctions.h"
 
 #define MISCFUN_DATA 9
 

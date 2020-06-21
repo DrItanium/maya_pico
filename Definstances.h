@@ -61,7 +61,7 @@
 
 struct definstances;
 
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "moduldef.h"
 #include "object.h"

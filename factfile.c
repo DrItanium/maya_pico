@@ -46,7 +46,7 @@
 #include "cstrcpsr.h"
 #include "Fact.h"
 #include "insmngr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "PrintUtility.h"

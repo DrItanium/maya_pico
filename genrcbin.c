@@ -48,7 +48,7 @@
 #include "cstrccom.h"
 #include "Environment.h"
 #include "genrccom.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulbin.h"
 #if OBJECT_SYSTEM
 #include "objbin.h"

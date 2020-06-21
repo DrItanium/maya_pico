@@ -57,7 +57,7 @@
 #include "dffctbsc.h"
 #include "dffctpsr.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"

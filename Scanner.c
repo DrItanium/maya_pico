@@ -49,7 +49,7 @@
 
 #include "Constants.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

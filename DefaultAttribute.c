@@ -48,7 +48,7 @@
 #include <string.h>
 
 #include "Constants.h"
-#include "constrnt.h"
+#include "Constraint.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "Environment.h"
@@ -61,7 +61,7 @@
 #include "Router.h"
 #include "Scanner.h"
 
-#include "default.h"
+#include "DefaultAttribute.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

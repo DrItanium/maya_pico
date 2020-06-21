@@ -41,7 +41,7 @@
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "Pattern.h"
 #include "ReteUtility.h"

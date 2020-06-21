@@ -86,7 +86,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "fileutil.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "Utility.h"

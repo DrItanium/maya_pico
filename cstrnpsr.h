@@ -47,7 +47,7 @@
 
 #define _H_cstrnpsr
 
-#include "constrnt.h"
+#include "Constraint.h"
 
 struct constraintParseRecord
   {

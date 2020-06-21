@@ -55,10 +55,10 @@
 
 #include "Constants.h"
 #include "Environment.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "drive.h"
 #include "incrrset.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"

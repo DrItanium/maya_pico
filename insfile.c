@@ -95,7 +95,7 @@
 #include "ArgumentAccess.h"
 #include "classcom.h"
 #include "classfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT

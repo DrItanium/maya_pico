@@ -55,7 +55,7 @@
 #include "BinarySave.h"
 #include "classfun.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "insfun.h"
 #include "objrtmch.h"
 #include "Pattern.h"

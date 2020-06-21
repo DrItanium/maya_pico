@@ -74,7 +74,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "cstrnutl.h"
-#include "constrnt.h"
+#include "Constraint.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "drive.h"
@@ -82,7 +82,7 @@
 #include "inscom.h"
 #include "insfun.h"
 #include "insmngr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Network.h"
 #include "object.h"
 #include "Pattern.h"
@@ -95,7 +95,7 @@
 #include "Utility.h"
 
 
-#include "constrct.h"
+#include "Construct.h"
 #include "Expression.h"
 #include "objrtmch.h"
 #include "objrtgen.h"

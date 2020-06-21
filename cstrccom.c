@@ -71,7 +71,7 @@
 #include "Constants.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "ArgumentAccess.h"
 #include "multifld.h"

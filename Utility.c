@@ -85,7 +85,7 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "PrintUtility.h"
 #include "Router.h"

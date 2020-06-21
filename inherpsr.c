@@ -42,7 +42,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

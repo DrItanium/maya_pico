@@ -43,11 +43,11 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "SystemDependency.h"
 
-#include "sortfun.h"
+#include "SortingFunctions.h"
 
 #define SORTFUN_DATA 7
 

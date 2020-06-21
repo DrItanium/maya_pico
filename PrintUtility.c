@@ -82,7 +82,7 @@
 #include "Fact.h"
 #include "inscom.h"
 #include "insmngr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifun.h"
 #include "Router.h"
 #include "Scanner.h"

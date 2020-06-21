@@ -65,11 +65,11 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrnchk.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "multifld.h"
 #include "PrintUtility.h"

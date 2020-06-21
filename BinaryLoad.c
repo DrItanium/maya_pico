@@ -55,11 +55,11 @@
 
 #include "ArgumentAccess.h"
 #include "BinarySave.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"

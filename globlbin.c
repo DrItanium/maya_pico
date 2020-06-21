@@ -40,7 +40,7 @@
 #include "Environment.h"
 #include "globlbsc.h"
 #include "globldef.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "multifld.h"
 

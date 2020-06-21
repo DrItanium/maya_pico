@@ -43,7 +43,7 @@
 
 #define _H_generate
 
-#include "analysis.h"
+#include "Analysis.h"
 #include "Expression.h"
 #include "Reorder.h"
 

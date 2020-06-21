@@ -54,7 +54,7 @@
 
 #define _H_tmpltutl
 
-#include "constrnt.h"
+#include "Constraint.h"
 #include "Evaluation.h"
 #include "Expression.h"
 #include "Fact.h"

@@ -61,7 +61,7 @@
 #include "ExternalFunctions.h"
 #include "inscom.h"
 #include "insfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "msgcom.h"
 #include "prccode.h"
 #include "PrintUtility.h"

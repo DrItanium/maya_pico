@@ -39,7 +39,7 @@
 #include <stdio.h>
 
 #include "Evaluation.h"
-#include "constrnt.h"
+#include "Constraint.h"
 
 #define ConstraintIndex(theConstraint) (((! GetDynamicConstraintChecking(theEnv)) || (theConstraint == NULL)) ? ULONG_MAX : (theConstraint->bsaveID))
 #define ConstraintPointer(i) (((i) == ULONG_MAX) ? NULL : (CONSTRAINT_RECORD *) &ConstraintData(theEnv)->ConstraintArray[i])

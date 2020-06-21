@@ -53,7 +53,7 @@
 
 #define _H_prcdrpsr
 
-#include "constrnt.h"
+#include "Constraint.h"
 
 struct BindInfo
   {

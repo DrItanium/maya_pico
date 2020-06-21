@@ -60,7 +60,7 @@
 #include "Expression.h"
 #include "Match.h"
 #include "Reorder.h"
-#include "constrnt.h"
+#include "Constraint.h"
 
 #define MAXIMUM_NUMBER_OF_PATTERNS 128
 

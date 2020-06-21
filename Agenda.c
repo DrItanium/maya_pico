@@ -67,11 +67,11 @@
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
-#include "crstrtgy.h"
+#include "ConflictResolutionStrategy.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "modulutl.h"
 #include "multifld.h"
@@ -85,7 +85,7 @@
 #include "SystemDependency.h"
 #include "Watch.h"
 
-#include "agenda.h"
+#include "Agenda.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

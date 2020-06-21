@@ -52,7 +52,7 @@
 
 #define _H_classini
 
-#include "constrct.h"
+#include "Construct.h"
 #include "object.h"
 
 #if OBJECT_SYSTEM

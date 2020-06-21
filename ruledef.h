@@ -79,7 +79,7 @@
 typedef struct defrule Defrule;
 struct defruleModule;
 
-#include "constrct.h"
+#include "Construct.h"
 #include "Expression.h"
 #include "Network.h"
 #include "ruledef.h"
@@ -103,8 +103,8 @@ struct defrule
    Defrule *disjunct;
   };
 
-#include "agenda.h"
-#include "constrnt.h"
+#include "Agenda.h"
+#include "Constraint.h"
 #include "cstrccom.h"
 #include "Evaluation.h"
 #include "moduldef.h"

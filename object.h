@@ -61,8 +61,8 @@ typedef struct instanceModifier InstanceModifier;
 #define VALUE_NOT_REQUIRED 2
 
 #include "Entities.h"
-#include "constrct.h"
-#include "constrnt.h"
+#include "Construct.h"
+#include "Constraint.h"
 #include "moduldef.h"
 #include "Evaluation.h"
 #include "Expression.h"

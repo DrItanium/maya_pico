@@ -37,7 +37,7 @@
 #include "BinarySave.h"
 #include "dffctdef.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 
 #include "dffctbin.h"

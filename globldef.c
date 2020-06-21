@@ -79,7 +79,7 @@
 #include "globlbsc.h"
 #include "globlcom.h"
 #include "globlpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "multifld.h"

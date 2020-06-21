@@ -150,7 +150,7 @@
 #endif
 
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "SystemDependency.h"
 
 /********************/

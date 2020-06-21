@@ -58,14 +58,14 @@
 #include "Constants.h"
 #include "Environment.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 
 #if DEFRULE_CONSTRUCT
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 #endif
 
 

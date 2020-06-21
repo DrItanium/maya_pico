@@ -63,7 +63,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Router.h"
 
 #if OBJECT_SYSTEM

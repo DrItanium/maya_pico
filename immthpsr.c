@@ -66,7 +66,7 @@
 #include "Expression.h"
 #include "ExternalFunctions.h"
 #include "genrcpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "prccode.h"
 
 #include "immthpsr.h"

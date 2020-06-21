@@ -60,7 +60,7 @@
 #include "ExternalFunctions.h"
 #include "genrccom.h"
 #include "genrcfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "msgcom.h"
 #include "Router.h"
 #include "SystemDependency.h"

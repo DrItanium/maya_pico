@@ -52,7 +52,7 @@
 #include "cstrnutl.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

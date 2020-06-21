@@ -102,7 +102,7 @@ struct salienceGroup
    struct salienceGroup *prev;
   };
 
-#include "crstrtgy.h"
+#include "ConflictResolutionStrategy.h"
 
 #define AGENDA_DATA 17
 

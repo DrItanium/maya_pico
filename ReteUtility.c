@@ -72,7 +72,7 @@
 #include "Environment.h"
 #include "incrrset.h"
 #include "Match.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "Pattern.h"
 #include "PrintUtility.h"

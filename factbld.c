@@ -46,7 +46,7 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Reorder.h"
 #include "ReteUtility.h"

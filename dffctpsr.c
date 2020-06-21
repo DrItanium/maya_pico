@@ -52,7 +52,7 @@
 #include "dffctdef.h"
 #include "Environment.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

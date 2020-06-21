@@ -49,7 +49,7 @@
 #include "cstrnops.h"
 #include "Expression.h"
 #include "Generate.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
@@ -61,7 +61,7 @@
 #include "Symbol.h"
 #include "Watch.h"
 
-#include "analysis.h"
+#include "Analysis.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

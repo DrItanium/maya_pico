@@ -42,7 +42,7 @@
 #include "ArgumentAccess.h"
 #include "CommandLine.h"
 #include "cstrcpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "prcdrfun.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

@@ -82,7 +82,7 @@
 
 typedef struct focalModule FocalModule;
 
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 #include "ruledef.h"
 #include "Network.h"
 #include "moduldef.h"

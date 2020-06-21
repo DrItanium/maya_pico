@@ -70,12 +70,12 @@
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
 #include "classfun.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "drive.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "incrrset.h"
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 #include "multifld.h"
 #include "objrtfnx.h"
 #include "objrtmch.h"

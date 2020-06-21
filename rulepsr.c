@@ -55,9 +55,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "analysis.h"
+#include "Analysis.h"
 #include "Constants.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrcpsr.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
@@ -65,7 +65,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "incrrset.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Pattern.h"
 #include "prccode.h"
@@ -83,7 +83,7 @@
 #include "Symbol.h"
 #include "Watch.h"
 
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 
 #if DEFTEMPLATE_CONSTRUCT
 #include "tmpltfun.h"

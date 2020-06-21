@@ -45,7 +45,7 @@
 #include "cstrcbin.h"
 #include "cstrccom.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulbin.h"
 
 #include "dffnxbin.h"

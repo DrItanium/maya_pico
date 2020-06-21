@@ -47,11 +47,11 @@
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

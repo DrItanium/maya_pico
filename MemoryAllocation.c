@@ -57,7 +57,7 @@
 
 #include "Constants.h"
 #include "Environment.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"

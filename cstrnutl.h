@@ -37,7 +37,7 @@
 
 #define _H_cstrnutl
 
-#include "constrnt.h"
+#include "Constraint.h"
 
    struct constraintRecord       *GetConstraintRecord(Environment *);
    int                            CompareNumbers(Environment *,int,void *,int,void *);

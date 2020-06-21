@@ -58,7 +58,7 @@
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "PrintUtility.h"
 #include "Router.h"

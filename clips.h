@@ -37,7 +37,7 @@
 #include "setup.h"
 #include "ArgumentAccess.h"
 #include "Constants.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "cstrcpsr.h"
 #include "fileutil.h"
 #include "StringFunctions.h"
@@ -57,8 +57,8 @@
 #include "Expression.h"
 #include "Expression.h"
 #include "Evaluation.h"
-#include "miscfun.h"
-#include "constrct.h"
+#include "MiscFunctions.h"
+#include "Construct.h"
 #include "Utility.h"
 #include "Watch.h"
 #include "modulbsc.h"
@@ -78,7 +78,7 @@
 #include "drive.h"
 #include "incrrset.h"
 #include "rulecom.h"
-#include "crstrtgy.h"
+#include "ConflictResolutionStrategy.h"
 #endif
 
 #if DEFFACTS_CONSTRUCT
@@ -115,7 +115,7 @@
 #include "classinf.h"
 #include "classini.h"
 #include "classpsr.h"
-#include "defins.h"
+#include "Definstances.h"
 #include "inscom.h"
 #include "insfile.h"
 #include "insfun.h"

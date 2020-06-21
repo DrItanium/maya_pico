@@ -84,7 +84,7 @@
 #include "Expression.h"
 #include "genrccom.h"
 #include "immthpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
 #include "prcdrpsr.h"

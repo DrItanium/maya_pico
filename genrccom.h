@@ -61,7 +61,7 @@
 #define _H_genrccom
 
 #include "Entities.h"
-#include "constrct.h"
+#include "Construct.h"
 #include "genrcfun.h"
 
    void                           SetupGenericFunctions(Environment *);

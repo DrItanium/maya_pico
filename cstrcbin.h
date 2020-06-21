@@ -40,7 +40,7 @@ struct bsaveConstructHeader
    unsigned long next;
   };
 
-#include "constrct.h"
+#include "Construct.h"
 
 #if BLOAD_AND_BSAVE
 void MarkConstructHeaderNeededItems(ConstructHeader *,unsigned long);

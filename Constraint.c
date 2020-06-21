@@ -60,12 +60,12 @@
 #include "Constants.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "multifld.h"
 #include "Router.h"
 #include "Scanner.h"
 
-#include "constrnt.h"
+#include "Constraint.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

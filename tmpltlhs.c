@@ -40,12 +40,12 @@
 #include <string.h>
 
 #include "Constants.h"
-#include "constrct.h"
-#include "constrnt.h"
+#include "Construct.h"
+#include "Constraint.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Pattern.h"
 #include "PrettyPrint.h"

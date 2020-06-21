@@ -51,15 +51,15 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "ArgumentAccess.h"
 #include "Constants.h"
 #include "drive.h"
 #include "Engine.h"
 #include "Environment.h"
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 #include "Match.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Network.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"

@@ -51,12 +51,12 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Fact.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
 #include "Router.h"
 
-#include "lgcldpnd.h"
+#include "LogicalDependencies.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

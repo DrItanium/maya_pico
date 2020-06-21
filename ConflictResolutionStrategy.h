@@ -69,7 +69,7 @@ typedef enum
    RANDOM_STRATEGY
   } StrategyType;
 
-#include "agenda.h"
+#include "Agenda.h"
 #include "Entities.h"
 
 #define DEFAULT_STRATEGY DEPTH_STRATEGY

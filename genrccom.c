@@ -92,7 +92,7 @@
 #include "classcom.h"
 #include "inscom.h"
 #endif
-#include "constrct.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
@@ -103,7 +103,7 @@
 #endif
 #include "genrcexe.h"
 #include "genrcpsr.h"
-#include "memalloc.h"
+#include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "multifld.h"
