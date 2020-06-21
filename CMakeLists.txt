@@ -52,21 +52,21 @@ add_library(clips
         ExpressionOperations.c
         ExpressionParser.c
         ExternalFunctions.c
-        factbin.c
-        factbld.c
-        factcom.c
-        factfile.c
-        factfun.c
-        factgen.c
-        facthsh.c
-        factlhs.c
-        factmch.c
-        factmngr.c
-        factprt.c
-        factqpsr.c
-        factqury.c
-        factrete.c
-        factrhs.c
+		FactBinarySaveLoad.c
+		FactBuild.c
+		FactCommands.c
+		FactLoadSaveRoutines.c
+		FactFunctions.c
+		FactReteFunctionGeneration.c
+		FactHashing.c
+		FactLHSPatternParsing.c
+		FactMatch.c
+		FactManager.c
+		FactRetePrintFunctions.c
+		FactSetQueriesParser.c
+		FactQuery.c
+		FactReteAccessFunctions.c
+		FactRHSPatternParser.c
         FileCommands.c
         FileRouter.c
         FileUtilities.c
