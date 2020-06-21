@@ -63,7 +63,7 @@
 #include "Expression.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

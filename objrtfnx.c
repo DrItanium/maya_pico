@@ -66,11 +66,11 @@
 #include "BinaryLoad.h"
 #endif
 #include "Constants.h"
-#include "drive.h"
+#include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "objrtmch.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"

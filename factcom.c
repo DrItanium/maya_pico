@@ -93,7 +93,7 @@
 #include "ArgumentAccess.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

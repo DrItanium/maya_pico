@@ -54,7 +54,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
-#include "drive.h"
+#include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

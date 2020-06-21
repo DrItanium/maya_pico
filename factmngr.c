@@ -128,7 +128,7 @@
 #include "Engine.h"
 #include "LogicalDependencies.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "Retract.h"
 #include "PrintUtility.h"
 #include "Router.h"

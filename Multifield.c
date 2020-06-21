@@ -80,7 +80,7 @@
 #include "Symbol.h"
 #include "Utility.h"
 
-#include "multifld.h"
+#include "Multifield.h"
 
 /******************************/
 /* CreateUnmanagedMultifield: */

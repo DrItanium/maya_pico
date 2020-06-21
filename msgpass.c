@@ -84,7 +84,7 @@
 #include "MemoryAllocation.h"
 #include "msgcom.h"
 #include "msgfun.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "prccode.h"
 #include "prcdrfun.h"
 #include "PrintUtility.h"

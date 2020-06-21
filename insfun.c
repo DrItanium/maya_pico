@@ -92,7 +92,7 @@
 #include "classfun.h"
 #include "cstrnchk.h"
 #if DEFRULE_CONSTRUCT
-#include "drive.h"
+#include "Drive.h"
 #include "objrtmch.h"
 #endif
 #include "Engine.h"

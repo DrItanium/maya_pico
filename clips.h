@@ -39,7 +39,7 @@
 #include "Constants.h"
 #include "MemoryAllocation.h"
 #include "cstrcpsr.h"
-#include "fileutil.h"
+#include "FileUtilities.h"
 #include "StringFunctions.h"
 #include "Environment.h"
 #include "CommandLine.h"
@@ -47,10 +47,10 @@
 
 #include "PrintUtility.h"
 #include "Router.h"
-#include "filertr.h"
+#include "FileRouter.h"
 #include "StringRouter.h"
 
-#include "iofun.h"
+#include "IOFunctions.h"
 
 #include "SystemDependency.h"
 #include "BasicMathFunctions.h"
@@ -75,7 +75,7 @@
 #include "ruledef.h"
 #include "rulebsc.h"
 #include "Engine.h"
-#include "drive.h"
+#include "Drive.h"
 #include "incrrset.h"
 #include "rulecom.h"
 #include "ConflictResolutionStrategy.h"

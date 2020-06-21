@@ -85,13 +85,13 @@
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "fileutil.h"
+#include "FileUtilities.h"
 #include "MemoryAllocation.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "filecom.h"
+#include "FileCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

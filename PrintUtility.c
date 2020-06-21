@@ -83,7 +83,7 @@
 #include "inscom.h"
 #include "insmngr.h"
 #include "MemoryAllocation.h"
-#include "multifun.h"
+#include "MultifieldFunctions.h"
 #include "Router.h"
 #include "Scanner.h"
 #include "StringRouter.h"

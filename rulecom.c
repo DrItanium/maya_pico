@@ -89,7 +89,7 @@
 #include "incrrset.h"
 #include "LogicalDependencies.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"

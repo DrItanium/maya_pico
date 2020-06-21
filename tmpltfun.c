@@ -112,7 +112,7 @@
 #include "Fact.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrettyPrint.h"
 #include "prcdrpsr.h"
 #include "PrintUtility.h"

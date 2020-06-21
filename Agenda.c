@@ -74,7 +74,7 @@
 #include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "modulutl.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"
 #include "Retract.h"

@@ -74,7 +74,7 @@
 #include "ExternalFunctions.h"
 #include "Fact.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "Router.h"
 #include "Scanner.h"
 #if BLOAD || BLOAD_AND_BSAVE

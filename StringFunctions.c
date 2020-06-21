@@ -98,7 +98,7 @@
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"
 #include "MiscFunctions.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "prcdrpsr.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
@@ -109,7 +109,7 @@
 #include "Utility.h"
 
 #if DEFRULE_CONSTRUCT
-#include "drive.h"
+#include "Drive.h"
 #endif
 
 #include "StringFunctions.h"

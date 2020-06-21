@@ -79,7 +79,7 @@
 #include "globlpsr.h"
 #endif
 #include "Expression.h"
-#include "multifld.h"
+#include "Multifield.h"
 #if OBJECT_SYSTEM
 #include "object.h"
 #endif

@@ -41,8 +41,8 @@ add_library(clips
 	dffnxfun.c
 	dffnxpsr.c
 	dfinsbin.c
-	drive.c
-	emathfun.c
+		Drive.c
+		ExtendedMathFunctions.c
 		Engine.c
 		Environment.c
 		EnvironmentBuild.c
@@ -67,9 +67,9 @@ add_library(clips
 	factqury.c
 	factrete.c
 	factrhs.c
-	filecom.c
-	filertr.c
-	fileutil.c
+		FileCommands.c
+		FileRouter.c
+		FileUtilities.c
 		Generate.c
 	genrcbin.c
 	genrccom.c
@@ -93,7 +93,7 @@ add_library(clips
 	inspsr.c
 	insquery.c
 	insqypsr.c
-	iofun.c
+		IOFunctions.c
 		LogicalDependencies.c
 		MemoryAllocation.c
 		MiscFunctions.c
@@ -106,8 +106,8 @@ add_library(clips
 	msgfun.c
 	msgpass.c
 	msgpsr.c
-	multifld.c
-	multifun.c
+		Multifield.c
+		MultifieldFunctions.c
 	objbin.c
 	objrtbin.c
 	objrtbld.c

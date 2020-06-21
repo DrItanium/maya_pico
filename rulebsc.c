@@ -68,11 +68,11 @@
 
 #include "ArgumentAccess.h"
 #include "Construct.h"
-#include "drive.h"
+#include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "ReteUtility.h"
 #include "Router.h"
 #include "ruledef.h"

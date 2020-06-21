@@ -120,7 +120,7 @@
 #include "Constants.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "filertr.h"
+#include "FileRouter.h"
 #include "MemoryAllocation.h"
 #include "MiscFunctions.h"
 #include "PrintUtility.h"
@@ -130,7 +130,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "iofun.h"
+#include "IOFunctions.h"
 
 /***************/
 /* DEFINITIONS */

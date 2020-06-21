@@ -60,7 +60,7 @@
 #include "insfun.h"
 #include "msgfun.h"
 #include "msgpass.h"
-#include "multifun.h"
+#include "MultifieldFunctions.h"
 #include "PrintUtility.h"
 #include "Router.h"
 

@@ -45,14 +45,14 @@
 
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
-#include "drive.h"
+#include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
 #include "incrrset.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "ReteUtility.h"
 #include "Router.h"
 

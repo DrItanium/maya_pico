@@ -67,7 +67,7 @@
 #include "Router.h"
 #include "SystemDependency.h"
 
-#include "filertr.h"
+#include "FileRouter.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

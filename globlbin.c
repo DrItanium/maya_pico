@@ -42,7 +42,7 @@
 #include "globldef.h"
 #include "MemoryAllocation.h"
 #include "moduldef.h"
-#include "multifld.h"
+#include "Multifield.h"
 
 #include "globlbin.h"
 

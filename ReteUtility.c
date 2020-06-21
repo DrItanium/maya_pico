@@ -67,7 +67,7 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "drive.h"
+#include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "incrrset.h"

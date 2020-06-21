@@ -87,8 +87,8 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
-#include "multifun.h"
+#include "Multifield.h"
+#include "MultifieldFunctions.h"
 #if OBJECT_SYSTEM
 #include "object.h"
 #endif

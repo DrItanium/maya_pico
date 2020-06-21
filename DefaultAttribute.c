@@ -55,7 +55,7 @@
 #include "Expression.h"
 #include "Fact.h"
 #include "inscom.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

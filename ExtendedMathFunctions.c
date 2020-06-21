@@ -67,7 +67,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "emathfun.h"
+#include "ExtendedMathFunctions.h"
 
 #if EXTENDED_MATH_FUNCTIONS
 

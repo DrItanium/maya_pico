@@ -69,7 +69,7 @@
 #endif
 #include "globlcom.h"
 #include "globldef.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "Watch.h"
 
 #include "globlbsc.h"

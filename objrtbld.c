@@ -77,7 +77,7 @@
 #include "Constraint.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
-#include "drive.h"
+#include "Drive.h"
 #include "Environment.h"
 #include "inscom.h"
 #include "insfun.h"

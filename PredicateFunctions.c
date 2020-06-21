@@ -53,7 +53,7 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "Router.h"
 
 #include "PredicateFunctions.h"

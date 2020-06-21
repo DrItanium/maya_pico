@@ -44,7 +44,7 @@
 #include "Evaluation.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "SystemDependency.h"
 
 #include "SortingFunctions.h"

@@ -64,7 +64,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "prcdrpsr.h"
 #include "Router.h"
 #include "Scanner.h"

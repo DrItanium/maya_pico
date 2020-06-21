@@ -77,7 +77,7 @@
 #include "insfun.h"
 #include "msgcom.h"
 #include "msgfun.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrintUtility.h"
 
 #include "classinf.h"

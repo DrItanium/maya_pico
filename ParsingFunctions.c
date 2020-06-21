@@ -59,7 +59,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#include "multifld.h"
+#include "Multifield.h"
 #include "PrettyPrint.h"
 #include "prcdrpsr.h"
 #include "PrintUtility.h"
