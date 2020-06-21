@@ -98,17 +98,21 @@ struct saveCallFunctionItem {
     SaveCallFunctionItem *next;
     void *context;
 };
-
+typedef bool ConstructParseFunction(Environment*, const char*);
+typedef CLIPSLexeme* ConstructGetConstructNameFunction(ConstructHeader*);
+typedef const char* ConstructGetPPFormFunction(ConstructHeader*);
+typedef struct defmoduleItemHeader* ConstructGetModuleItemFunction(ConstructHeader*);
+typedef void ConstructSetNextItemFunction(ConstructHeader*, ConstructHeader*);
 struct construct {
     const char *constructName;
     const char *pluralName;
-    bool (*parseFunction)(Environment *, const char *);
+    ConstructParseFunction* parseFunction;
     FindConstructFunction *findFunction;
-    CLIPSLexeme *(*getConstructNameFunction)(ConstructHeader *);
-    const char *(*getPPFormFunction)(ConstructHeader *);
-    struct defmoduleItemHeader *(*getModuleItemFunction)(ConstructHeader *);
+    ConstructGetConstructNameFunction* getConstructNameFunction;
+    ConstructGetPPFormFunction* getPPFormFunction;
+    ConstructGetModuleItemFunction* getModuleItemFunction;
     GetNextConstructFunction *getNextItemFunction;
-    void (*setNextItemFunction)(ConstructHeader *, ConstructHeader *);
+    ConstructSetNextItemFunction* setNextItemFunction;
     IsConstructDeletableFunction *isConstructDeletableFunction;
     DeleteConstructFunction *deleteFunction;
     FreeConstructFunction *freeFunction;
@@ -168,13 +172,13 @@ bool RemoveClearFunction(Environment *, const char *);
 void IncrementClearReadyLocks(Environment *);
 void DecrementClearReadyLocks(Environment *);
 Construct *AddConstruct(Environment *, const char *, const char *,
-                        bool (*)(Environment *, const char *),
+                        ConstructParseFunction*,
                         FindConstructFunction *,
-                        CLIPSLexeme *(*)(ConstructHeader *),
-                        const char *(*)(ConstructHeader *),
-                        struct defmoduleItemHeader *(*)(ConstructHeader *),
+                        ConstructGetConstructNameFunction*,
+                        ConstructGetPPFormFunction*,
+                        ConstructGetModuleItemFunction*,
                         GetNextConstructFunction *,
-                        void (*)(ConstructHeader *, ConstructHeader *),
+                        ConstructSetNextItemFunction*,
                         IsConstructDeletableFunction *,
                         DeleteConstructFunction *,
                         FreeConstructFunction *);
