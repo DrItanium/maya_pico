@@ -47,7 +47,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (! BLOAD_ONLY)
+#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
 #include <stdio.h>
 

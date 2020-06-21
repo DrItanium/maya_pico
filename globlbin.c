@@ -31,7 +31,7 @@
 
 #include "setup.h"
 
-#if DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY)
+#if DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 

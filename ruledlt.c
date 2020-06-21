@@ -81,7 +81,6 @@ void ReturnDefrule(
   Environment *theEnv,
   Defrule *theDefrule)
   {
-#if (! BLOAD_ONLY)
    bool first = true;
    Defrule *nextPtr, *tmpPtr;
 
@@ -185,7 +184,6 @@ void ReturnDefrule(
    /*==========================*/
 
    if (EngineData(theEnv)->ExecutingRule == NULL) FlushGarbagePartialMatches(theEnv);
-#endif
   }
 
 /********************************************************/

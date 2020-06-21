@@ -358,7 +358,6 @@ void GetToken(
    /* Put the new token in the pretty print buffer. */
    /*===============================================*/
 
-#if (! BLOAD_ONLY)
    if (theToken->tknType == INSTANCE_NAME_TOKEN)
      {
       SavePPBuffer(theEnv,"[");
@@ -367,7 +366,6 @@ void GetToken(
      }
    else
      { SavePPBuffer(theEnv,theToken->printForm); }
-#endif
 
    /*=========================================================*/
    /* Return the temporary memory used in scanning the token. */

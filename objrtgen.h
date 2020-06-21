@@ -39,7 +39,7 @@
 
 #define _H_objrtgen
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (! BLOAD_ONLY)
+#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
 #include "expressn.h"
 #include "reorder.h"
@@ -54,7 +54,7 @@
    void             GenObjectLengthTest(Environment *,struct lhsParseNode *);
    void             GenObjectZeroLengthTest(Environment *,struct lhsParseNode *);
 
-#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (! BLOAD_ONLY) */
+#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 
 #endif /* _H_objrtgen */
 

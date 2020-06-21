@@ -347,9 +347,6 @@
 /* BLOAD_AND_BSAVE: Enables bload, and bsave commands.                   */
 /*************************************************************************/
 
-#ifndef BLOAD_ONLY
-#define BLOAD_ONLY 0
-#endif
 #ifndef BLOAD
 #define BLOAD 0
 #endif

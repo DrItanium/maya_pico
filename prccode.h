@@ -111,7 +111,6 @@ struct proceduralPrimitiveData
 
    void                           InstallProcedurePrimitives(Environment *);
 
-#if (! BLOAD_ONLY)
 
 #if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
    Expression                    *ParseProcParameters(Environment *,const char *,struct token *,Expression *,
@@ -126,7 +125,6 @@ struct proceduralPrimitiveData
                                                          int (*)(Environment *,Expression *,void *),void *);
 #if DEFGENERIC_CONSTRUCT
    Expression                    *GenProcWildcardReference(Environment *,int);
-#endif
 #endif
 
    void                           PushProcParameters(Environment *,Expression *,unsigned int,const char *,const char *,void (*)(Environment *,const char *));

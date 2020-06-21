@@ -971,7 +971,6 @@ EvalError Eval(
    return EE_NO_ERROR;
   }
 
-#if (! BLOAD_ONLY)
 /***************************************/
 /* BuildFunction: H/L access routine   */
 /*   for the build function.           */
@@ -1132,33 +1131,5 @@ BuildError Build(
 
    return errorFlag;
   }
-#else
-/**************************************************/
-/* BuildFunction: This is the non-functional stub */
-/*   provided for use with a run-time version.    */
-/**************************************************/
-void BuildFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   PrintErrorID(theEnv,"STRNGFUN",1,false);
-   WriteString(theEnv,STDERR,"Function 'build' does not work in run time modules.\n");
-   returnValue->lexemeValue = FalseSymbol(theEnv);
-  }
-
-/***************************************************/
-/* Build: This is the non-functional stub provided */
-/*   for use with a run-time version.              */
-/***************************************************/
-BuildError Build(
-  Environment *theEnv,
-  const char *theString)
-  {
-   PrintErrorID(theEnv,"STRNGFUN",1,false);
-   WriteString(theEnv,STDERR,"Function 'build' does not work in run time modules.\n");
-   return BE_COULD_NOT_BUILD_ERROR;
-  }
-#endif /* (! BLOAD_ONLY) */
 
 #endif /* STRING_FUNCTIONS */

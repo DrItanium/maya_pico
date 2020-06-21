@@ -34,7 +34,7 @@
 
 #include "setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 #include <string.h>

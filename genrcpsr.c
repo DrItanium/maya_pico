@@ -63,7 +63,7 @@
 
 #include "setup.h"
 
-#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFGENERIC_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"

@@ -36,7 +36,7 @@
 
 #include "setup.h"
 
-#if (! BLOAD_ONLY) && DEFRULE_CONSTRUCT
+#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 

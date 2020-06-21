@@ -129,9 +129,7 @@ struct defgenericData
    Defgeneric *CurrentGeneric;
    Defmethod *CurrentMethod;
    UDFValue *GenericCurrentArgument;
-#if (! BLOAD_ONLY)
    unsigned OldGenericBusySave;
-#endif
   };
 
 #define DefgenericData(theEnv) ((struct defgenericData *) GetEnvironmentData(theEnv,DEFGENERIC_DATA))
@@ -142,7 +140,6 @@ struct defgenericData
    void                          *AllocateDefgenericModule(Environment *);
    void                           FreeDefgenericModule(Environment *,void *);
 
-#if (! BLOAD_ONLY)
 
    bool                           ClearDefmethods(Environment *);
    bool                           RemoveAllExplicitMethods(Environment *,Defgeneric *);
@@ -152,7 +149,6 @@ struct defgenericData
    void                           DeleteMethodInfo(Environment *,Defgeneric *,Defmethod *);
    void                           DestroyMethodInfo(Environment *,Defgeneric *,Defmethod *);
    bool                           MethodsExecuting(Defgeneric *);
-#endif
 #if ! OBJECT_SYSTEM
    bool                           SubsumeType(long long,long long);
 #endif

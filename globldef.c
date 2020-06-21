@@ -103,9 +103,7 @@
    static void                    DecrementDefglobalBusyCount(Environment *,Defglobal *);
    static void                    DeallocateDefglobalData(Environment *);
    static void                    DestroyDefglobalAction(Environment *,ConstructHeader *,void *);
-#if (! BLOAD_ONLY)
    static void                    DestroyDefglobal(Environment *,Defglobal *);
-#endif
 
 /**************************************************************/
 /* InitializeDefglobals: Initializes the defglobal construct. */
@@ -198,17 +196,11 @@ static void DestroyDefglobalAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY)
    Defglobal *theDefglobal = (Defglobal *) theConstruct;
 
    if (theDefglobal == NULL) return;
 
    DestroyDefglobal(theEnv,theDefglobal);
-#else
-#if MAC_XCD
-#pragma unused(theEnv,theConstruct)
-#endif
-#endif
   }
 
 /*********************************************************/
@@ -228,7 +220,7 @@ static void InitializeDefglobalModules(
 #endif
                                     (FindConstructFunction *) FindDefglobalInModule);
 
-#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
+#if DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"defglobal",SYMBOL_TOKEN);
 #endif
   }
@@ -325,7 +317,6 @@ static void ReturnDefglobal(
   Environment *theEnv,
   Defglobal *theDefglobal)
   {
-#if (! BLOAD_ONLY)
    if (theDefglobal == NULL) return;
 
    /*====================================*/
@@ -367,14 +358,12 @@ static void ReturnDefglobal(
    /*===========================================*/
 
    DefglobalData(theEnv)->ChangeToGlobals = true;
-#endif
   }
 
 /************************************************************/
 /* DestroyDefglobal: Returns the data structures associated  */
 /*   with a defglobal construct to the pool of free memory. */
 /************************************************************/
-#if (! BLOAD_ONLY)
 static void DestroyDefglobal(
   Environment *theEnv,
   Defglobal *theDefglobal)
@@ -407,7 +396,6 @@ static void DestroyDefglobal(
 
    rtn_struct(theEnv,defglobal,theDefglobal);
   }
-#endif
 
 /************************************************/
 /* QSetDefglobalValue: Lowest level routine for */

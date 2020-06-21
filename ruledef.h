@@ -158,7 +158,7 @@ struct defruleData
    Defrule                       *GetNextDefrule(Environment *,Defrule *);
    struct defruleModule          *GetDefruleModuleItem(Environment *,Defmodule *);
    bool                           DefruleIsDeletable(Defrule *);
-#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    void                           AddBetaMemoriesToJoin(Environment *,struct joinNode *);
 #endif
    long                           GetDisjunctCount(Environment *,Defrule *);

@@ -121,9 +121,7 @@ struct deftemplateData
 #if DEBUGGING_FUNCTIONS
    int DeletedTemplateDebugFlags;
 #endif
-#if (! BLOAD_ONLY)
    bool DeftemplateError;
-#endif
   };
 
 #define DeftemplateData(theEnv) ((struct deftemplateData *) GetEnvironmentData(theEnv,DEFTEMPLATE_DATA))
