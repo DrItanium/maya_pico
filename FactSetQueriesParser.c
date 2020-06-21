@@ -65,7 +65,7 @@
 #include "ExternalFunctions.h"
 #include "Fact.h"
 #include "DefmoduleUtility.h"
-#include "prcdrpsr.h"
+#include "ProceduralFunctionsParser.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

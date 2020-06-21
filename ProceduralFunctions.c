@@ -65,12 +65,12 @@
 #include "Expression.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"
-#include "prcdrpsr.h"
+#include "ProceduralFunctionsParser.h"
 #include "Router.h"
 #include "Scanner.h"
 #include "Utility.h"
 
-#include "prcdrfun.h"
+#include "ProceduralFunctions.h"
 
 #if DEFGLOBAL_CONSTRUCT
 #include "Defglobal.h"

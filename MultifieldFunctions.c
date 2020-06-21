@@ -93,8 +93,8 @@
 #include "Object.h"
 #endif
 #include "PrettyPrint.h"
-#include "prcdrpsr.h"
-#include "prcdrfun.h"
+#include "ProceduralFunctionsParser.h"
+#include "ProceduralFunctions.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "Scanner.h"

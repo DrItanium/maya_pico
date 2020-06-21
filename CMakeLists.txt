@@ -117,9 +117,9 @@ add_library(clips
         ParsingFunctions.c
         Pattern.c
         PrettyPrint.c
-        prccode.c
-        prcdrfun.c
-        prcdrpsr.c
+		ProceduralCodeSupportRoutines.c
+		ProceduralFunctions.c
+		ProceduralFunctionsParser.c
         PredicateFunctions.c
         PrintUtility.c
         ConstructProfilingFunctions.c
