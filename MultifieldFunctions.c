@@ -76,7 +76,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if MULTIFIELD_FUNCTIONS || OBJECT_SYSTEM
 

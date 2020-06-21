@@ -60,7 +60,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #include <stdio.h>
 #include <string.h>

@@ -66,7 +66,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #if FACT_SET_QUERIES
 

@@ -38,7 +38,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFMODULE_CONSTRUCT
 

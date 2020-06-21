@@ -46,7 +46,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFRULE_CONSTRUCT
 

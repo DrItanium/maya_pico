@@ -53,7 +53,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #include <ctype.h>
 #include <stdlib.h>

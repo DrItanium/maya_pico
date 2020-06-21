@@ -118,7 +118,7 @@
 
 #include <stdio.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 

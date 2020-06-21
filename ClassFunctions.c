@@ -70,7 +70,7 @@
 
 #include <stdlib.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #if OBJECT_SYSTEM
 

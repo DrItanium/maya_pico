@@ -66,7 +66,7 @@
 
 #include <string.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "Constants.h"
 #include "Environment.h"

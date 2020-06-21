@@ -70,7 +70,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFINSTANCES_CONSTRUCT
 

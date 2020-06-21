@@ -58,7 +58,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFFUNCTION_CONSTRUCT
 

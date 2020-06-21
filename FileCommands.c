@@ -74,7 +74,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "ArgumentAccess.h"
 #if BLOAD || BLOAD_AND_BSAVE

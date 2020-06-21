@@ -37,7 +37,7 @@
    =========================================
    ***************************************** */
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFGENERIC_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 

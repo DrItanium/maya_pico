@@ -68,7 +68,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #include <stdio.h>
 #include <stdlib.h>

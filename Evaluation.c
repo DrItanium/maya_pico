@@ -74,7 +74,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "ArgumentAccess.h"
 #include "CommandLine.h"

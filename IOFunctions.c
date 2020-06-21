@@ -104,7 +104,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if IO_FUNCTIONS
 #include <locale.h>

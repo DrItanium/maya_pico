@@ -50,7 +50,7 @@
 
 #include <stdio.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "ArgumentAccess.h"
 #include "Environment.h"

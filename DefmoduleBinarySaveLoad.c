@@ -29,7 +29,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if (BLOAD || BLOAD_AND_BSAVE)
 

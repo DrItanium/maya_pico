@@ -65,7 +65,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #include <stdio.h>
 

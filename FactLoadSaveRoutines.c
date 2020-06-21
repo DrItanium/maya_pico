@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFTEMPLATE_CONSTRUCT
 

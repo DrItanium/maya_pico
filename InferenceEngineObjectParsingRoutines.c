@@ -45,7 +45,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 

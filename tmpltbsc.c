@@ -59,7 +59,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFTEMPLATE_CONSTRUCT
 

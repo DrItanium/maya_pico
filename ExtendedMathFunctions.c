@@ -59,7 +59,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

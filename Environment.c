@@ -64,7 +64,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "BasicMathFunctions.h"
 #include "CommandLine.h"

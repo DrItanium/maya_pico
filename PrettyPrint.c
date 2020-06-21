@@ -46,7 +46,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "Constants.h"
 #include "Environment.h"

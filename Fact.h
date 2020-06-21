@@ -10,7 +10,7 @@ typedef struct factModifier FactModifier;
 typedef struct factHashEntry FactHashEntry;
 struct factPatternNode;
 
-#include "setup.h"
+#include "Setup.h"
 #include "Network.h"
 #include "Entities.h"
 #include "tmpltdef.h"

@@ -24,7 +24,7 @@
 
 #include <stdlib.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "Environment.h"
 

@@ -51,7 +51,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #if OBJECT_SYSTEM
 

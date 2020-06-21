@@ -54,7 +54,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEBUGGING_FUNCTIONS
 

@@ -51,7 +51,7 @@
 
 #include <stdlib.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #if OBJECT_SYSTEM && (BLOAD || BLOAD_AND_BSAVE)
 

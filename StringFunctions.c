@@ -80,7 +80,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if STRING_FUNCTIONS
 

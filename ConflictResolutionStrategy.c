@@ -55,7 +55,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFRULE_CONSTRUCT
 

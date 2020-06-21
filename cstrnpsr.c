@@ -45,7 +45,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "Constants.h"
 #include "cstrnchk.h"

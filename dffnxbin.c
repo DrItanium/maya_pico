@@ -36,7 +36,7 @@
                EXTERNAL DEFINITIONS
    =========================================
    ***************************************** */
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 

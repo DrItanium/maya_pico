@@ -39,7 +39,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFFACTS_CONSTRUCT
 

@@ -36,7 +36,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 

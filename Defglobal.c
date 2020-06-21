@@ -64,7 +64,7 @@
 /*                                                           */
 /*************************************************************/
 
-#include "setup.h"
+#include "Setup.h"
 
 #if DEFGLOBAL_CONSTRUCT
 

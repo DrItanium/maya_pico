@@ -38,7 +38,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "setup.h"
+#include "Setup.h"
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
