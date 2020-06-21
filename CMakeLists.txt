@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 project(maya VERSION 6.40)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-add_executable(maya agenda.c
+add_library(clips
+	agenda.c
 	analysis.c
 	argacces.c
 	bload.c
@@ -156,7 +157,12 @@ add_executable(maya agenda.c
 	userfunctions.c
 	utility.c
 	watch.c
-	cmd/repl/main.c
 	boost.cc
 	functional.cpp)
+# TODO functional, maya, and boost extensions should eventually be split off
+# from the main design
+
+# TODO express the configurable dependencies in setup.h using CMAKE instead
+add_executable(maya cmd/repl/main.c)
+target_link_libraries(maya PUBLIC boost_system boost_filesystem clips)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
