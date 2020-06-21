@@ -71,12 +71,12 @@
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"
 #include "Router.h"
 
-#include "objrtfnx.h"
+#include "InferenceEngineObjectAccessRotuines.h"
 
 /* =========================================
    *****************************************

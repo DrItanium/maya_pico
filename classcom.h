@@ -61,7 +61,7 @@ typedef enum {
 
 #include "Construct.h"
 #include "moduldef.h"
-#include "object.h"
+#include "Object.h"
 #include "Symbol.h"
 
 const char *DefclassName(Defclass *);

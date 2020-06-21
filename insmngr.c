@@ -70,7 +70,7 @@
 #if DEFRULE_CONSTRUCT
 #include "Network.h"
 #include "Drive.h"
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #include "LogicalDependencies.h"
 #endif
 

@@ -51,7 +51,7 @@
 #define REACTIVE_RLN         "reactive"
 #define NONREACTIVE_RLN      "non-reactive"
 
-#include "object.h"
+#include "Object.h"
 
 typedef struct tempSlotLink {
     SlotDescriptor *desc;

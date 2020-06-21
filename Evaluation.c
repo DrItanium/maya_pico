@@ -101,7 +101,7 @@
 #endif
 
 #if OBJECT_SYSTEM
-#include "object.h"
+#include "Object.h"
 #include "inscom.h"
 #endif
 

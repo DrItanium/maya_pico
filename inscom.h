@@ -98,7 +98,7 @@ typedef enum {
 } InstanceModifierError;
 
 #include "insfun.h"
-#include "object.h"
+#include "Object.h"
 
 #define INSTANCE_DATA 29
 

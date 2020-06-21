@@ -55,8 +55,8 @@
 
 #include "Evaluation.h"
 #include "Match.h"
-#include "object.h"
-#include "objrtmch.h"
+#include "Object.h"
+#include "ObjectReteMatch.h"
 
 struct ObjectMatchVar1 {
     unsigned short whichSlot;

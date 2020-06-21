@@ -38,7 +38,7 @@
 
 #if OBJECT_SYSTEM
 
-#include "object.h"
+#include "Object.h"
 
 PACKED_CLASS_LINKS *ParseSuperclasses(Environment *, const char *, CLIPSLexeme *);
 PACKED_CLASS_LINKS *FindPrecedenceList(Environment *, Defclass *, PACKED_CLASS_LINKS *);

@@ -122,7 +122,7 @@
 #include "insmngr.h"
 #include "msgcom.h"
 #include "msgpass.h"
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #endif
 
 #endif /* _H_CLIPS_API */

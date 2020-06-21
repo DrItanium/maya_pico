@@ -93,7 +93,7 @@
 #include "cstrnchk.h"
 #if DEFRULE_CONSTRUCT
 #include "Drive.h"
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #endif
 #include "Engine.h"
 #include "Environment.h"

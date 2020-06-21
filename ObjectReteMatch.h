@@ -76,7 +76,7 @@ typedef struct classAlphaLink CLASS_ALPHA_LINK;
 #include "Expression.h"
 #include "Match.h"
 #include "Network.h"
-#include "object.h"
+#include "Object.h"
 #include "Symbol.h"
 
 typedef struct classBitMap {

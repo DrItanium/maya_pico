@@ -74,7 +74,7 @@
 #include "msgpass.h"
 #if DEFRULE_CONSTRUCT
 #include "Network.h"
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #endif
 #include "prccode.h"
 #include "PrintUtility.h"

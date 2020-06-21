@@ -62,7 +62,7 @@
 #define _H_msgcom
 
 #include "msgpass.h"
-#include "object.h"
+#include "Object.h"
 
 #define MESSAGE_HANDLER_DATA 32
 

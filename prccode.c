@@ -81,7 +81,7 @@
 #include "Expression.h"
 #include "Multifield.h"
 #if OBJECT_SYSTEM
-#include "object.h"
+#include "Object.h"
 #endif
 #include "PrettyPrint.h"
 #include "prcdrpsr.h"

@@ -50,7 +50,7 @@
 
 #define _H_insmngr
 
-#include "object.h"
+#include "Object.h"
 #include "inscom.h"
 
 void InitializeInstanceCommand(Environment *, UDFContext *, UDFValue *);

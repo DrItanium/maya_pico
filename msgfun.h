@@ -55,7 +55,7 @@ typedef struct handlerSlotReference {
 } HANDLER_SLOT_REFERENCE;
 
 #include "msgpass.h"
-#include "object.h"
+#include "Object.h"
 
 #define BEGIN_TRACE ">>"
 #define END_TRACE   "<<"

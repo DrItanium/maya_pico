@@ -61,7 +61,7 @@
 #define _H_classexm
 
 #include "Entities.h"
-#include "object.h"
+#include "Object.h"
 #include "ExternalFunctions.h"
 
 #if DEBUGGING_FUNCTIONS

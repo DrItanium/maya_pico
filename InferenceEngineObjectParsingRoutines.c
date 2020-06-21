@@ -53,9 +53,9 @@
 
 #include "classfun.h"
 #include "Environment.h"
-#include "objrtfnx.h"
+#include "InferenceEngineObjectAccessRotuines.h"
 
-#include "objrtgen.h"
+#include "InferenceEngineObjectParsingRoutines.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

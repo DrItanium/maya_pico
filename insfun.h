@@ -79,7 +79,7 @@
 #define _H_insfun
 
 #include "Entities.h"
-#include "object.h"
+#include "Object.h"
 
 typedef struct igarbage {
     Instance *ins;

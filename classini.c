@@ -100,13 +100,13 @@
 
 #if BLOAD_AND_BSAVE || BLOAD
 #include "BinaryLoad.h"
-#include "objbin.h"
+#include "ObjectBinaryLoadSave.h"
 #endif
 
 #if DEFRULE_CONSTRUCT
-#include "objrtbld.h"
-#include "objrtfnx.h"
-#include "objrtmch.h"
+#include "ObjectPatternMatcher.h"
+#include "InferenceEngineObjectAccessRotuines.h"
+#include "ObjectReteMatch.h"
 #endif
 
 #include "classini.h"

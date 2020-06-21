@@ -1,7 +1,7 @@
 /*******************************************************/
 /*      "C" Language Integrated Production System      */
 /*                                                     */
-/*             CLIPS Version 6.40  07/30/16            */
+/*             CLIPS Version 6.40  02/03/18            */
 /*                                                     */
 /*                                                     */
 /*******************************************************/
@@ -16,14 +16,21 @@
 /*                                                           */
 /* Revision History:                                         */
 /*                                                           */
-/*      6.24: Removed IMPERATIVE_MESSAGE_HANDLERS and        */
-/*            AUXILIARY_MESSAGE_HANDLERS compilation flags.  */
+/*      6.24: Converted INSTANCE_PATTERN_MATCHING to         */
+/*            DEFRULE_CONSTRUCT.                             */
+/*                                                           */
+/*            ResetObjectMatchTimeTags did not pass in the   */
+/*            environment argument when BLOAD_ONLY was set.  */
 /*                                                           */
 /*      6.30: Changed integer type/precision.                */
 /*                                                           */
-/*            Removed conditional code for unsupported       */
-/*            compilers/operating systems (IBM_MCW,          */
-/*            MAC_MCW, and IBM_TBC).                         */
+/*            Added support for hashed comparisons to        */
+/*            constants.                                     */
+/*                                                           */
+/*            Added support for hashed alpha memories.       */
+/*                                                           */
+/*      6.31: Optimization for marking relevant alpha nodes  */
+/*            in the object pattern network.                 */
 /*                                                           */
 /*      6.40: Removed LOCALE definition.                     */
 /*                                                           */
@@ -34,45 +41,36 @@
 /*                                                           */
 /*************************************************************/
 
-#ifndef _H_objbin
+#ifndef _H_objrtbin
 
 #pragma once
 
-#define _H_objbin
+#define _H_objrtbin
 
-#include "object.h"
+#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
-#define OBJECTBIN_DATA 33
+#define OBJECTRETEBIN_DATA 34
 
-struct objectBinaryData {
-    Defclass *DefclassArray;
-    unsigned long ModuleCount;
-    unsigned long ClassCount;
-    unsigned long LinkCount;
-    unsigned long SlotCount;
-    unsigned long SlotNameCount;
-    unsigned long TemplateSlotCount;
-    unsigned long SlotNameMapCount;
-    unsigned long HandlerCount;
-    DEFCLASS_MODULE *ModuleArray;
-    Defclass **LinkArray;
-    SlotDescriptor *SlotArray;
-    SlotDescriptor **TmpslotArray;
-    SLOT_NAME *SlotNameArray;
-    unsigned *MapslotArray;
-    DefmessageHandler *HandlerArray;
-    unsigned *MaphandlerArray;
+#include "ObjectReteMatch.h"
+
+struct objectReteBinaryData {
+    unsigned long AlphaNodeCount;
+    unsigned long PatternNodeCount;
+    unsigned long AlphaLinkCount;
+    OBJECT_ALPHA_NODE *AlphaArray;
+    OBJECT_PATTERN_NODE *PatternArray;
+    CLASS_ALPHA_LINK *AlphaLinkArray;
 };
 
-#define ObjectBinaryData(theEnv) ((struct objectBinaryData *) GetEnvironmentData(theEnv,OBJECTBIN_DATA))
+#define ObjectReteBinaryData(theEnv) ((struct objectReteBinaryData *) GetEnvironmentData(theEnv,OBJECTRETEBIN_DATA))
 
-#define DefclassPointer(i) (((i) == ULONG_MAX) ? NULL : &ObjectBinaryData(theEnv)->DefclassArray[i])
-#define DefclassIndex(cls) (((cls) == NULL) ? ULONG_MAX : ((ConstructHeader *) cls)->bsaveID)
+#define ClassAlphaPointer(i)   ((i == ULONG_MAX) ? NULL : (CLASS_ALPHA_LINK *) &ObjectReteBinaryData(theEnv)->AlphaLinkArray[i])
 
-void SetupObjectsBload(Environment *);
-void *BloadDefclassModuleReference(Environment *, unsigned long);
+void SetupObjectPatternsBload(Environment *);
 
-#endif /* _H_objbin */
+#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
+
+#endif /* _H_objrtbin */
 
 
 

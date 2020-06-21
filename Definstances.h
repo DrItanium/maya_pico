@@ -64,7 +64,7 @@ struct definstances;
 #include "Construct.h"
 #include "Construct.h"
 #include "moduldef.h"
-#include "object.h"
+#include "Object.h"
 
 typedef struct definstancesModule {
     struct defmoduleItemHeader header;

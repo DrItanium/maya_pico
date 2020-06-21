@@ -60,7 +60,7 @@
 
 #define GetActiveInstance(theEnv) (GetNthMessageArgument(theEnv,0)->instanceValue)
 
-#include "object.h"
+#include "Object.h"
 
 typedef struct messageHandlerLink {
     DefmessageHandler *hnd;

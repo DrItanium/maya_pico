@@ -51,7 +51,7 @@
 #include "MemoryAllocation.h"
 #include "modulbin.h"
 #if OBJECT_SYSTEM
-#include "objbin.h"
+#include "ObjectBinaryLoadSave.h"
 #else
 #include "prntutil.h"
 #endif

@@ -58,7 +58,7 @@
 
 #define SELF_STRING     "self"
 
-#include "object.h"
+#include "Object.h"
 
 bool ParseDefmessageHandler(Environment *, const char *);
 void CreateGetAndPutHandlers(Environment *, SlotDescriptor *);

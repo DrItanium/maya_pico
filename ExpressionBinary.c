@@ -64,7 +64,7 @@
 #endif
 
 #if OBJECT_SYSTEM
-#include "objbin.h"
+#include "ObjectBinaryLoadSave.h"
 #include "insfun.h"
 #include "inscom.h"
 #endif

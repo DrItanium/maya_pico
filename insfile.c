@@ -105,7 +105,7 @@
 #include "insfun.h"
 #include "insmngr.h"
 #include "inspsr.h"
-#include "object.h"
+#include "Object.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "StringRouter.h"

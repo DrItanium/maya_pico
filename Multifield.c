@@ -71,7 +71,7 @@
 #include "Expression.h"
 #include "MemoryAllocation.h"
 #if OBJECT_SYSTEM
-#include "object.h"
+#include "Object.h"
 #endif
 #include "Scanner.h"
 #include "PrintUtility.h"

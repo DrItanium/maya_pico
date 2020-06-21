@@ -83,7 +83,7 @@
 #include "insmngr.h"
 #include "MemoryAllocation.h"
 #include "Network.h"
-#include "object.h"
+#include "Object.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"
@@ -95,18 +95,18 @@
 
 #include "Construct.h"
 #include "Expression.h"
-#include "objrtmch.h"
-#include "objrtgen.h"
-#include "objrtfnx.h"
+#include "ObjectReteMatch.h"
+#include "InferenceEngineObjectParsingRoutines.h"
+#include "InferenceEngineObjectAccessRotuines.h"
 #include "PrettyPrint.h"
 #include "Reorder.h"
 #include "Router.h"
 
 #if BLOAD_AND_BSAVE || BLOAD
-#include "objrtbin.h"
+#include "ObjectReteBinarySaveLoad.h"
 #endif
 
-#include "objrtbld.h"
+#include "ObjectPatternMatcher.h"
 
 #if !DEFINSTANCES_CONSTRUCT
 #include "classfun.h"

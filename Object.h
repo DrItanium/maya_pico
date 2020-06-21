@@ -71,7 +71,7 @@ typedef struct instanceModifier InstanceModifier;
 #include "Match.h"
 
 #if DEFRULE_CONSTRUCT
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #endif
 
 struct packedClassLinks {

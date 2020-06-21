@@ -51,7 +51,7 @@
 
 #if INSTANCE_SET_QUERIES
 
-#include "object.h"
+#include "Object.h"
 
 typedef struct query_class {
     Defclass *cls;

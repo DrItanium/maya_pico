@@ -108,12 +108,12 @@ add_library(clips
         msgpsr.c
         Multifield.c
         MultifieldFunctions.c
-        objbin.c
-        objrtbin.c
-        objrtbld.c
-        objrtfnx.c
-        objrtgen.c
-        objrtmch.c
+		ObjectBinaryLoadSave.c
+		ObjectReteBinarySaveLoad.c
+		ObjectPatternMatcher.c
+		InferenceEngineObjectAccessRotuines.c
+		InferenceEngineObjectParsingRoutines.c
+		ObjectReteMatch.c
         ParsingFunctions.c
         Pattern.c
         PrettyPrint.c

@@ -57,12 +57,12 @@
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "insfun.h"
-#include "objrtmch.h"
+#include "ObjectReteMatch.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
 #include "rulebin.h"
 
-#include "objrtbin.h"
+#include "ObjectReteBinarySaveLoad.h"
 
 /* =========================================
    *****************************************
