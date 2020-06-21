@@ -68,7 +68,7 @@
 #include "modulbin.h"
 #include "msgcom.h"
 #include "msgfun.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #if DEFRULE_CONSTRUCT

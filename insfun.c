@@ -104,7 +104,7 @@
 #include "msgcom.h"
 #include "msgfun.h"
 #include "prccode.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 

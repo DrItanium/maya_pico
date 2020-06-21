@@ -47,8 +47,8 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "prcdrpsr.h"
-#include "prntutil.h"
-#include "reorder.h"
+#include "PrintUtility.h"
+#include "Reorder.h"
 #include "Router.h"
 #include "rulepsr.h"
 

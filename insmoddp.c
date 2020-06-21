@@ -77,7 +77,7 @@
 #include "objrtmch.h"
 #endif
 #include "prccode.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "insmoddp.h"

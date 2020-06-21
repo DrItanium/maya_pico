@@ -44,7 +44,7 @@
 
 #include "Environment.h"
 #include "Fact.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Symbol.h"
 

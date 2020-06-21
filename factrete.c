@@ -53,7 +53,7 @@
 #include "incrrset.h"
 #include "memalloc.h"
 #include "multifld.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 #include "Router.h"
 
 

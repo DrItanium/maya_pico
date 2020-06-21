@@ -61,12 +61,12 @@
 #include "Match.h"
 #include "memalloc.h"
 #include "Network.h"
-#include "prntutil.h"
-#include "reteutil.h"
+#include "PrintUtility.h"
+#include "ReteUtility.h"
 #include "Router.h"
 #include "Symbol.h"
 
-#include "retract.h"
+#include "Retract.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

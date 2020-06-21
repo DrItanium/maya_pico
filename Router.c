@@ -74,7 +74,7 @@
 #include "ExternalFunctions.h"
 #include "filertr.h"
 #include "memalloc.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "scanner.h"
 #include "strngrtr.h"
 #include "SystemDependency.h"

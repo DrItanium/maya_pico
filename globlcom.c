@@ -51,7 +51,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "globldef.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "globlcom.h"

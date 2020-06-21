@@ -55,7 +55,7 @@
 #include "memalloc.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "dffctpsr.h"

@@ -54,7 +54,7 @@
 #include "Network.h"
 #include "Pattern.h"
 #include "prcdrpsr.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "SystemDependency.h"

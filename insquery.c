@@ -81,7 +81,7 @@
 #include "insqypsr.h"
 #include "memalloc.h"
 #include "prcdrfun.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 

@@ -60,7 +60,7 @@
 #include "Expression.h"
 #include "memalloc.h"
 #include "moduldef.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "symblbin.h"
 

@@ -109,7 +109,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "multifld.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "tmpltutl.h"

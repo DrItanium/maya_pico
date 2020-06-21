@@ -41,7 +41,7 @@
 #define _H_analysis
 
 #include "Expression.h"
-#include "reorder.h"
+#include "Reorder.h"
 
 /*****************************************************/
 /* nandFrame structure: Stores information about the */

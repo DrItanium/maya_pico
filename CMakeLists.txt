@@ -121,11 +121,11 @@ add_library(clips
 	prcdrfun.c
 	prcdrpsr.c
 	prdctfun.c
-	prntutil.c
-	proflfun.c
-	reorder.c
-	reteutil.c
-	retract.c
+		PrintUtility.c
+		ConstructProfilingFunctions.c
+		Reorder.c
+		ReteUtility.c
+		Retract.c
 		Router.c
 	rulebin.c
 	rulebld.c

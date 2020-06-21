@@ -106,7 +106,7 @@
 #include "insmngr.h"
 #include "inspsr.h"
 #include "object.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "strngrtr.h"
 #include "symblbin.h"

@@ -51,7 +51,7 @@
 #define _H_rulebld
 
 #include "Network.h"
-#include "reorder.h"
+#include "Reorder.h"
 
    struct joinNode               *ConstructJoins(Environment *,int,struct lhsParseNode *,int,struct joinNode *,bool,bool);
    void                           AttachTestCEsToPatternCEs(Environment *,struct lhsParseNode *);

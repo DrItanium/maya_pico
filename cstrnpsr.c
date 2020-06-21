@@ -54,7 +54,7 @@
 #include "Expression.h"
 #include "memalloc.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "SystemDependency.h"

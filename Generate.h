@@ -45,7 +45,7 @@
 
 #include "analysis.h"
 #include "Expression.h"
-#include "reorder.h"
+#include "Reorder.h"
 
    void                           FieldConversion(Environment *,struct lhsParseNode *,struct lhsParseNode *,struct nandFrame *);
    struct expr                   *GetvarReplace(Environment *,struct lhsParseNode *,bool,struct nandFrame *);

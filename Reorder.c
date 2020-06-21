@@ -68,7 +68,7 @@
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "Pattern.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "rulelhs.h"
 
@@ -77,7 +77,7 @@
 #include "rulepsr.h"
 #endif
 
-#include "reorder.h"
+#include "Reorder.h"
 
 struct variableReference
    {

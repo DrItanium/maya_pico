@@ -18,7 +18,7 @@ struct factPatternNode;
 #include "Evaluation.h"
 #include "scanner.h"
 #include "Symbol.h"
-#include "reorder.h"
+#include "Reorder.h"
 
 typedef void ModifyCallFunction(Environment *, Fact *, Fact *, void *);
 typedef struct modifyCallFunctionItem ModifyCallFunctionItem;

@@ -72,8 +72,8 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "objrtmch.h"
-#include "prntutil.h"
-#include "reteutil.h"
+#include "PrintUtility.h"
+#include "ReteUtility.h"
 #include "Router.h"
 
 #include "objrtfnx.h"

@@ -91,7 +91,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "prntutil.h"
+#include "PrintUtility.h"
 
 /*****************************************************/
 /* InitializePrintUtilityData: Allocates environment */

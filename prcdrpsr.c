@@ -65,7 +65,7 @@
 #include "modulutl.h"
 #include "multifld.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "Utility.h"

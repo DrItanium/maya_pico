@@ -45,7 +45,7 @@
 #include "CommandLine.h"
 #include "Symbol.h"
 
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "filertr.h"
 #include "strngrtr.h"

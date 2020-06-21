@@ -70,7 +70,7 @@
 #include "Evaluation.h"
 #include "Pattern.h"
 #include "Router.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 
 #include "incrrset.h"
 

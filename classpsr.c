@@ -75,7 +75,7 @@
 #include "modulutl.h"
 #include "msgpsr.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 

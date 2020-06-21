@@ -48,8 +48,8 @@
 #include "Fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
-#include "reorder.h"
-#include "reteutil.h"
+#include "Reorder.h"
+#include "ReteUtility.h"
 #include "Router.h"
 #include "tmpltdef.h"
 

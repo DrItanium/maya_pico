@@ -86,7 +86,7 @@ typedef struct focalModule FocalModule;
 #include "ruledef.h"
 #include "Network.h"
 #include "moduldef.h"
-#include "retract.h"
+#include "Retract.h"
 
 struct focalModule
   {

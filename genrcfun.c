@@ -85,7 +85,7 @@
 #include "memalloc.h"
 #include "modulutl.h"
 #include "prccode.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
 

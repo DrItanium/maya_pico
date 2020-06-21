@@ -81,7 +81,7 @@
 #include "Environment.h"
 #include "memalloc.h"
 #include "multifld.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "Utility.h"

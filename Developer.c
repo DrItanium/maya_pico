@@ -57,7 +57,7 @@
 #include "ExternalFunctions.h"
 #include "inscom.h"
 #include "modulutl.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 #include "Fact.h"

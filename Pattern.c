@@ -52,8 +52,8 @@
 #include "Match.h"
 #include "memalloc.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
-#include "reteutil.h"
+#include "PrintUtility.h"
+#include "ReteUtility.h"
 #include "Router.h"
 
 #include "Pattern.h"

@@ -57,8 +57,8 @@
 #include "Environment.h"
 #include "memalloc.h"
 #include "Pattern.h"
-#include "reteutil.h"
-#include "retract.h"
+#include "ReteUtility.h"
+#include "Retract.h"
 
 #include "ruledlt.h"
 

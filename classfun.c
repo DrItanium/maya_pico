@@ -92,7 +92,7 @@
 #include "memalloc.h"
 #include "modulutl.h"
 #include "msgfun.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "SystemDependency.h"

@@ -76,7 +76,7 @@
 #include "ArgumentAccess.h"
 #include "multifld.h"
 #include "modulutl.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 #include "CommandLine.h"

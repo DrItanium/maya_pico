@@ -87,7 +87,7 @@
 #include "msgpass.h"
 #include "memalloc.h"
 #include "prccode.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #if DEBUGGING_FUNCTIONS
 #include "Watch.h"

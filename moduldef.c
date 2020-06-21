@@ -69,7 +69,7 @@
 #include "memalloc.h"
 #include "modulbsc.h"
 #include "modulpsr.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 

@@ -59,7 +59,7 @@
 #include "insfun.h"
 #include "objrtmch.h"
 #include "Pattern.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 #include "rulebin.h"
 
 #include "objrtbin.h"

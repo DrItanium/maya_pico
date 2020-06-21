@@ -71,7 +71,7 @@
 #include "prccode.h"
 #include "prcdrpsr.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "rulebld.h"
 #include "rulebsc.h"

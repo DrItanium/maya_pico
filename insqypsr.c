@@ -66,7 +66,7 @@
 #include "insquery.h"
 #include "prcdrpsr.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "strngrtr.h"

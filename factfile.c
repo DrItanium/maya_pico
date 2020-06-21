@@ -49,7 +49,7 @@
 #include "memalloc.h"
 #include "modulpsr.h"
 #include "modulutl.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "strngrtr.h"

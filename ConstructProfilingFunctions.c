@@ -65,7 +65,7 @@
 #include "Router.h"
 #include "SystemDependency.h"
 
-#include "proflfun.h"
+#include "ConstructProfilingFunctions.h"
 
 #include <string.h>
 

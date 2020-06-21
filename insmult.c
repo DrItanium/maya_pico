@@ -61,7 +61,7 @@
 #include "msgfun.h"
 #include "msgpass.h"
 #include "multifun.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "insmult.h"

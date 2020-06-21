@@ -112,7 +112,7 @@
 #if DEBUGGING_FUNCTIONS
 #include "Watch.h"
 #endif
-#include "prntutil.h"
+#include "PrintUtility.h"
 
 #include "genrccom.h"
 

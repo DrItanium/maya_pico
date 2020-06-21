@@ -64,7 +64,7 @@
 #include "memalloc.h"
 #include "msgcom.h"
 #include "prccode.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "msgfun.h"

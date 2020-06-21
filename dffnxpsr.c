@@ -86,7 +86,7 @@
 #include "modulutl.h"
 #include "PrettyPrint.h"
 #include "prccode.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "Symbol.h"

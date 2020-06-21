@@ -63,9 +63,9 @@
 #include "incrrset.h"
 #include "lgcldpnd.h"
 #include "memalloc.h"
-#include "prntutil.h"
-#include "reteutil.h"
-#include "retract.h"
+#include "PrintUtility.h"
+#include "ReteUtility.h"
+#include "Retract.h"
 #include "Router.h"
 
 #include "drive.h"

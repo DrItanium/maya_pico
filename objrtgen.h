@@ -42,7 +42,7 @@
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
 #include "Expression.h"
-#include "reorder.h"
+#include "Reorder.h"
 
    void             ReplaceGetJNObjectValue(Environment *,Expression *,struct lhsParseNode *,int);
    Expression      *GenGetJNObjectValue(Environment *,struct lhsParseNode *,int);

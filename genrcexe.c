@@ -68,8 +68,8 @@
 #include "genrccom.h"
 #include "prcdrfun.h"
 #include "prccode.h"
-#include "prntutil.h"
-#include "proflfun.h"
+#include "PrintUtility.h"
+#include "ConstructProfilingFunctions.h"
 #include "Router.h"
 #include "Utility.h"
 

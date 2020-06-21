@@ -72,7 +72,7 @@
 #include "Expression.h"
 #include "moduldef.h"
 #include "PrettyPrint.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "inspsr.h"

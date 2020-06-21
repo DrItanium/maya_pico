@@ -86,10 +86,10 @@
 #include "Router.h"
 #include "prcdrfun.h"
 #include "multifld.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Expression.h"
 #include "Utility.h"
-#include "proflfun.h"
+#include "ConstructProfilingFunctions.h"
 #include "SystemDependency.h"
 
 #if DEFFUNCTION_CONSTRUCT

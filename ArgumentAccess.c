@@ -73,7 +73,7 @@
 #include "Fact.h"
 #include "inscom.h"
 #include "insfun.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
 

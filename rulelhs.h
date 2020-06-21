@@ -39,7 +39,7 @@
 
 #include "Expression.h"
 #include "Pattern.h"
-#include "reorder.h"
+#include "Reorder.h"
 #include "scanner.h"
 
 struct lhsParseNode           *ParseRuleLHS(Environment *,const char *,struct token *,const char *,bool *);

@@ -44,7 +44,7 @@
 #include "memalloc.h"
 #include "moduldef.h"
 #include "Pattern.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 #include "rulebin.h"
 #include "tmpltdef.h"
 

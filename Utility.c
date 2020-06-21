@@ -87,7 +87,7 @@
 #include "Fact.h"
 #include "memalloc.h"
 #include "multifld.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "Symbol.h"
 #include "SystemDependency.h"

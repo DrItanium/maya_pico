@@ -55,8 +55,8 @@
 #include "memalloc.h"
 #include "moduldef.h"
 #include "Pattern.h"
-#include "reteutil.h"
-#include "retract.h"
+#include "ReteUtility.h"
+#include "Retract.h"
 #include "rulebsc.h"
 
 #include "rulebin.h"

@@ -53,7 +53,7 @@
 #include "Fact.h"
 #include "memalloc.h"
 #include "Pattern.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 #include "Router.h"
 
 #include "lgcldpnd.h"

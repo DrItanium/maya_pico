@@ -77,7 +77,7 @@
 #include "Environment.h"
 #include "modulutl.h"
 #include "msgcom.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #include "classcom.h"

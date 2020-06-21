@@ -123,7 +123,7 @@
 #include "filertr.h"
 #include "memalloc.h"
 #include "miscfun.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 #include "scanner.h"
 #include "strngrtr.h"

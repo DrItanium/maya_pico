@@ -73,7 +73,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "multifld.h"
-#include "reteutil.h"
+#include "ReteUtility.h"
 #include "Router.h"
 #include "ruledef.h"
 #include "Watch.h"

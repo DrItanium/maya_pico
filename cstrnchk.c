@@ -61,7 +61,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "multifld.h"
-#include "prntutil.h"
+#include "PrintUtility.h"
 #include "Router.h"
 
 #if OBJECT_SYSTEM

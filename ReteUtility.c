@@ -75,12 +75,12 @@
 #include "memalloc.h"
 #include "moduldef.h"
 #include "Pattern.h"
-#include "prntutil.h"
-#include "retract.h"
+#include "PrintUtility.h"
+#include "Retract.h"
 #include "Router.h"
 #include "rulecom.h"
 
-#include "reteutil.h"
+#include "ReteUtility.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

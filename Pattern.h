@@ -55,24 +55,12 @@
 #include "Entities.h"
 
 
-#ifndef _H_symbol
-#include "symbol.h"
-#endif
-#ifndef _H_scanner
+#include "Symbol.h"
 #include "scanner.h"
-#endif
-#ifndef _H_expressn
-#include "expressn.h"
-#endif
-#ifndef _H_match
+#include "Expression.h"
 #include "Match.h"
-#endif
-#ifndef _H_reorder
-#include "reorder.h"
-#endif
-#ifndef _H_constrnt
+#include "Reorder.h"
 #include "constrnt.h"
-#endif
 
 #define MAXIMUM_NUMBER_OF_PATTERNS 128
 
