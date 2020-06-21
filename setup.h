@@ -100,7 +100,7 @@
 
 #define _H_setup
 
-#include "os_shim.h"
+#include "OperatingSystemShim.h"
 
 /****************************************************************/
 /* -------------------- COMPILER FLAGS ------------------------ */
