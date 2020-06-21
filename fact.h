@@ -7,13 +7,19 @@
 
 typedef struct factBuilder FactBuilder;
 typedef struct factModifier FactModifier;
+typedef struct factHashEntry FactHashEntry;
+struct factPatternNode;
 
+#include "setup.h"
+#include "network.h"
 #include "entities.h"
 #include "tmpltdef.h"
 #include "expressn.h"
 #include "evaluatn.h"
 #include "scanner.h"
 #include "symbol.h"
+#include "reorder.h"
+
 typedef void ModifyCallFunction(Environment *, Fact *, Fact *, void *);
 typedef struct modifyCallFunctionItem ModifyCallFunctionItem;
 
@@ -121,7 +127,7 @@ struct factsData {
     unsigned long FactHashTableSize;
     bool FactDuplication;
 #if DEFRULE_CONSTRUCT
-    Fact                    *CurrentPatternFact;
+    Fact *CurrentPatternFact;
     struct multifieldMarker *CurrentPatternMarks;
 #endif
     long LastModuleIndex;
@@ -228,59 +234,54 @@ void DeallocateModifyCallList(Environment *, ModifyCallFunctionItem *);
 // factmanager end
 #if FACT_SET_QUERIES
 
-typedef struct query_template
-  {
-   Deftemplate *templatePtr;
-   struct query_template *chain, *nxt;
-  } QUERY_TEMPLATE;
+typedef struct query_template {
+    Deftemplate *templatePtr;
+    struct query_template *chain, *nxt;
+} QUERY_TEMPLATE;
 
-typedef struct query_soln
-  {
-   Fact **soln;
-   struct query_soln *nxt;
-  } QUERY_SOLN;
+typedef struct query_soln {
+    Fact **soln;
+    struct query_soln *nxt;
+} QUERY_SOLN;
 
-typedef struct query_core
-  {
-   Fact **solns;
-   Expression *query,*action;
-   QUERY_SOLN *soln_set,*soln_bottom;
-   unsigned soln_size,soln_cnt;
-   UDFValue *result;
-  } QUERY_CORE;
+typedef struct query_core {
+    Fact **solns;
+    Expression *query, *action;
+    QUERY_SOLN *soln_set, *soln_bottom;
+    unsigned soln_size, soln_cnt;
+    UDFValue *result;
+} QUERY_CORE;
 
-typedef struct query_stack
-  {
-   QUERY_CORE *core;
-   struct query_stack *nxt;
-  } QUERY_STACK;
+typedef struct query_stack {
+    QUERY_CORE *core;
+    struct query_stack *nxt;
+} QUERY_STACK;
 
 #define FACT_QUERY_DATA 63
 
-struct factQueryData
-  {
-   CLIPSLexeme *QUERY_DELIMITER_SYMBOL;
-   QUERY_CORE *QueryCore;
-   QUERY_STACK *QueryCoreStack;
-   bool AbortQuery;
-  };
+struct factQueryData {
+    CLIPSLexeme *QUERY_DELIMITER_SYMBOL;
+    QUERY_CORE *QueryCore;
+    QUERY_STACK *QueryCoreStack;
+    bool AbortQuery;
+};
 
 #define FactQueryData(theEnv) ((struct factQueryData *) GetEnvironmentData(theEnv,FACT_QUERY_DATA))
 
 #define QUERY_DELIMITER_STRING     "(QDS)"
 
-   void                           SetupFactQuery(Environment *);
-   void                           GetQueryFact(Environment *,UDFContext *,UDFValue *);
-   void                           GetQueryFactSlot(Environment *,UDFContext *,UDFValue *);
-   void                           AnyFacts(Environment *,UDFContext *,UDFValue *);
-   void                           QueryFindFact(Environment *,UDFContext *,UDFValue *);
-   void                           QueryFindAllFacts(Environment *,UDFContext *,UDFValue *);
-   void                           QueryDoForFact(Environment *,UDFContext *,UDFValue *);
-   void                           QueryDoForAllFacts(Environment *,UDFContext *,UDFValue *);
-   void                           DelayedQueryDoForAllFacts(Environment *,UDFContext *,UDFValue *);
+void SetupFactQuery(Environment *);
+void GetQueryFact(Environment *, UDFContext *, UDFValue *);
+void GetQueryFactSlot(Environment *, UDFContext *, UDFValue *);
+void AnyFacts(Environment *, UDFContext *, UDFValue *);
+void QueryFindFact(Environment *, UDFContext *, UDFValue *);
+void QueryFindAllFacts(Environment *, UDFContext *, UDFValue *);
+void QueryDoForFact(Environment *, UDFContext *, UDFValue *);
+void QueryDoForAllFacts(Environment *, UDFContext *, UDFValue *);
+void DelayedQueryDoForAllFacts(Environment *, UDFContext *, UDFValue *);
 
-   Expression                    *FactParseQueryNoAction(Environment *,Expression *,const char *);
-   Expression                    *FactParseQueryAction(Environment *,Expression *,const char *);
+Expression *FactParseQueryNoAction(Environment *, Expression *, const char *);
+Expression *FactParseQueryAction(Environment *, Expression *, const char *);
 #endif /* FACT_SET_QUERIES */
 
 bool FactPNGetVar1(Environment *, void *, UDFValue *);
@@ -323,5 +324,273 @@ void FactPatternMatch(Environment *, Fact *,
                       struct multifieldMarker *);
 void MarkFactPatternForIncrementalReset(Environment *, struct patternNodeHeader *, bool);
 void FactsIncrementalReset(Environment *);
+
+#define FACTBIN_DATA 62
+
+struct factBinaryData {
+    struct factPatternNode *FactPatternArray;
+    unsigned long NumberOfPatterns;
+};
+
+#define FactBinaryData(theEnv) ((struct factBinaryData *) GetEnvironmentData(theEnv,FACTBIN_DATA))
+
+void FactBinarySetup(Environment *);
+
+#define BsaveFactPatternIndex(patPtr) ((patPtr == NULL) ? ULONG_MAX : ((struct factPatternNode *) patPtr)->bsaveID)
+#define BloadFactPatternPointer(i) ((struct factPatternNode *) ((i == ULONG_MAX) ? NULL : &FactBinaryData(theEnv)->FactPatternArray[i]))
+
+struct factPatternNode {
+    struct patternNodeHeader header;
+    unsigned long bsaveID;
+    unsigned short whichField; // TBD seems to be 1 based rather than 0 based
+    unsigned short whichSlot;
+    unsigned short leaveFields;
+    struct expr *networkTest;
+    struct factPatternNode *nextLevel;
+    struct factPatternNode *lastLevel;
+    struct factPatternNode *leftNode;
+    struct factPatternNode *rightNode;
+};
+
+void InitializeFactPatterns(Environment *);
+void DestroyFactPatternNetwork(Environment *, struct factPatternNode *);
+#if DEFTEMPLATE_CONSTRUCT
+
+void FactCommandDefinitions(Environment *);
+void AssertCommand(Environment *, UDFContext *, UDFValue *);
+void RetractCommand(Environment *, UDFContext *, UDFValue *);
+void AssertStringFunction(Environment *, UDFContext *, UDFValue *);
+void FactsCommand(Environment *, UDFContext *, UDFValue *);
+void Facts(Environment *, const char *, Defmodule *, long long, long long, long long);
+void SetFactDuplicationCommand(Environment *, UDFContext *, UDFValue *);
+void GetFactDuplicationCommand(Environment *, UDFContext *, UDFValue *);
+void FactIndexFunction(Environment *, UDFContext *, UDFValue *);
+
+#endif /* DEFTEMPLATE_CONSTRUCT */
+
+void FactFileCommandDefinitions(Environment *);
+void SaveFactsCommand(Environment *, UDFContext *, UDFValue *);
+void LoadFactsCommand(Environment *, UDFContext *, UDFValue *);
+long SaveFacts(Environment *, const char *, SaveScope);
+long SaveFactsDriver(Environment *, const char *, SaveScope, struct expr *);
+long LoadFacts(Environment *, const char *);
+long LoadFactsFromString(Environment *, const char *, size_t);
+void BinarySaveFactsCommand(Environment *, UDFContext *, UDFValue *);
+void BinaryLoadFactsCommand(Environment *, UDFContext *, UDFValue *);
+long BinarySaveFacts(Environment *, const char *, SaveScope);
+long BinarySaveFactsDriver(Environment *, const char *, SaveScope, Expression *);
+long BinaryLoadFacts(Environment *, const char *);
+
+void FactFunctionDefinitio/**********************************************************/
+/* factGetVarPN1Call: This structure is used to store the */
+/*   arguments to the most general extraction routine for */
+/*   retrieving a variable from the fact pattern network. */
+/**********************************************************/
+struct factGetVarPN1Call {
+    unsigned int factAddress: 1;
+    unsigned int allFields: 1;
+    unsigned short whichField;
+    unsigned short whichSlot;
+};
+
+/***********************************************************/
+/* factGetVarPN2Call: This structure is used to store the  */
+/*   arguments to the most specific extraction routine for */
+/*   retrieving a variable from the fact pattern network.  */
+/*   It is used for retrieving the single value stored in  */
+/*   a single field slot (the slot index can be used to    */
+/*   directly to retrieve the value from the fact array).  */
+/***********************************************************/
+struct factGetVarPN2Call {
+    unsigned short whichSlot;
+};
+
+/**********************************************************/
+/* factGetVarPN3Call:  */
+/**********************************************************/
+struct factGetVarPN3Call {
+    unsigned int fromBeginning: 1;
+    unsigned int fromEnd: 1;
+    unsigned short beginOffset;
+    unsigned short endOffset;
+    unsigned short whichSlot;
+};
+
+/**************************************************************/
+/* factConstantPN1Call: Used for testing for a constant value */
+/*   in the fact pattern network. Compare the value of a      */
+/*   single field slot to a constant.                         */
+/**************************************************************/
+struct factConstantPN1Call {
+    unsigned int testForEquality: 1;
+    unsigned short whichSlot;
+};
+
+/******************************************************************/
+/* factConstantPN2Call: Used for testing for a constant value in  */
+/*   the fact pattern network. Compare the value of a multifield  */
+/*   slot to a constant (where the value retrieved for comparison */
+/*   from the slot contains no multifields before or only one     */
+/*   multifield before and none after).                           */
+/******************************************************************/
+struct factConstantPN2Call {
+    unsigned int testForEquality: 1;
+    unsigned int fromBeginning: 1;
+    unsigned short offset;
+    unsigned short whichSlot;
+};
+
+/**********************************************************/
+/* factGetVarJN1Call: This structure is used to store the */
+/*   arguments to the most general extraction routine for */
+/*   retrieving a fact variable from the join network.    */
+/**********************************************************/
+struct factGetVarJN1Call {
+    unsigned int factAddress: 1;
+    unsigned int allFields: 1;
+    unsigned int lhs: 1;
+    unsigned int rhs: 1;
+    unsigned short whichPattern;
+    unsigned short whichSlot;
+    unsigned short whichField;
+};
+
+/**********************************************************/
+/* factGetVarJN2Call:  */
+/**********************************************************/
+struct factGetVarJN2Call {
+    unsigned int lhs: 1;
+    unsigned int rhs: 1;
+    unsigned short whichPattern;
+    unsigned short whichSlot;
+};
+
+/**********************************************************/
+/* factGetVarJN3Call:  */
+/**********************************************************/
+struct factGetVarJN3Call {
+    unsigned int fromBeginning: 1;
+    unsigned int fromEnd: 1;
+    unsigned int lhs: 1;
+    unsigned int rhs: 1;
+    unsigned short beginOffset;
+    unsigned short endOffset;
+    unsigned short whichPattern;
+    unsigned short whichSlot;
+};
+
+/**********************************************************/
+/* factCompVarsPN1Call:  */
+/**********************************************************/
+struct factCompVarsPN1Call {
+    unsigned int pass: 1;
+    unsigned int fail: 1;
+    unsigned short field1;
+    unsigned short field2;
+};
+
+/**********************************************************/
+/* factCompVarsJN1Call:  */
+/**********************************************************/
+struct factCompVarsJN1Call {
+    unsigned int pass: 1;
+    unsigned int fail: 1;
+    unsigned int p1lhs: 1;
+    unsigned int p1rhs: 1;
+    unsigned int p2lhs: 1;
+    unsigned int p2rhs: 1;
+    unsigned short pattern1;
+    unsigned short pattern2;
+    unsigned short slot1;
+    unsigned short slot2;
+};
+
+/**********************************************************/
+/* factCompVarsJN2Call:  */
+/**********************************************************/
+struct factCompVarsJN2Call {
+    unsigned int pass: 1;
+    unsigned int fail: 1;
+    unsigned int p1lhs: 1;
+    unsigned int p1rhs: 1;
+    unsigned int p2lhs: 1;
+    unsigned int p2rhs: 1;
+    unsigned int fromBeginning1: 1;
+    unsigned int fromBeginning2: 1;
+    unsigned short offset1;
+    unsigned short offset2;
+    unsigned short pattern1;
+    unsigned short pattern2;
+    unsigned short slot1;
+    unsigned short slot2;
+};
+
+/**********************************************************/
+/* factCheckLengthPNCall: This structure is used to store */
+/*   the  arguments to the routine for determining if the */
+/*   length of a multifield slot is equal or greater than */
+/*   a specified value.                                   */
+/**********************************************************/
+
+struct factCheckLengthPNCall {
+    unsigned int exactly: 1;
+    unsigned short minLength;
+    unsigned short whichSlot;
+};
+
+/****************************************/
+/* GLOBAL EXTERNAL FUNCTION DEFINITIONS */
+/****************************************/
+
+void InitializeFactReteFunctions(Environment *);
+struct expr *FactPNVariableComparison(Environment *, struct lhsParseNode *,
+                                      struct lhsParseNode *);
+struct expr *FactJNVariableComparison(Environment *, struct lhsParseNode *,
+                                      struct lhsParseNode *, bool);
+void FactReplaceGetvar(Environment *, struct expr *, struct lhsParseNode *, int);
+void FactReplaceGetfield(Environment *, struct expr *, struct lhsParseNode *);
+struct expr *FactGenPNConstant(Environment *, struct lhsParseNode *);
+struct expr *FactGenGetfield(Environment *, struct lhsParseNode *);
+struct expr *FactGenGetvar(Environment *, struct lhsParseNode *, int);
+struct expr *FactGenCheckLength(Environment *, struct lhsParseNode *);
+struct expr *FactGenCheckZeroLength(Environment *, unsigned short);
+ns(Environment
+*);
+void FactRelationFunction(Environment *, UDFContext *, UDFValue *);
+CLIPSLexeme *FactRelation(Fact *);
+Deftemplate *FactDeftemplate(Fact *);
+void FactExistpFunction(Environment *, UDFContext *, UDFValue *);
+bool FactExistp(Fact *);
+void FactSlotValueFunction(Environment *, UDFContext *, UDFValue *);
+void FactSlotValue(Environment *, Fact *, const char *, CLIPSValue *);
+void FactSlotNamesFunction(Environment *, UDFContext *, UDFValue *);
+void FactSlotNames(Fact *, CLIPSValue *);
+void GetFactListFunction(Environment *, UDFContext *, UDFValue *);
+void GetFactList(Environment *, CLIPSValue *, Defmodule *);
+void PPFactFunction(Environment *, UDFContext *, UDFValue *);
+void PPFact(Fact *, const char *, bool);
+Fact *GetFactAddressOrIndexArgument(UDFContext *, bool);
+void FactAddresspFunction(Environment *, UDFContext *, UDFValue *);
+
+struct factHashEntry {
+    Fact *theFact;
+    FactHashEntry *next;
+};
+
+#define SIZE_FACT_HASH 16231
+
+void AddHashedFact(Environment *, Fact *, size_t);
+bool RemoveHashedFact(Environment *, Fact *);
+size_t HandleFactDuplication(Environment *, Fact *, Fact **, long long);
+bool GetFactDuplication(Environment *);
+bool SetFactDuplication(Environment *, bool);
+void InitializeFactHashTable(Environment *);
+void ShowFactHashTableCommand(Environment *, UDFContext *, UDFValue *);
+size_t HashFact(Fact *);
+bool FactWillBeAsserted(Environment *, Fact *);
+
+bool FactPatternParserFind(CLIPSLexeme *);
+struct lhsParseNode *FactPatternParse(Environment *, const char *, struct token *);
+struct lhsParseNode *SequenceRestrictionParse(Environment *, const char *, struct token *);
 
 #endif //MAYA_FACT_H
