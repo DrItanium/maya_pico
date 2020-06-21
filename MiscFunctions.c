@@ -737,13 +737,6 @@ void OptionsCommand(
     WriteString(theEnv,STDOUT,"OFF\n");
 #endif
 
-    WriteString(theEnv, STDOUT, "Text processing function package is ");
-#if TEXTPRO_FUNCTIONS
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
     WriteString(theEnv, STDOUT, "Bload capability is ");
 #if BLOAD_AND_BSAVE
     WriteString(theEnv, STDOUT, "BLOAD AND BSAVE");

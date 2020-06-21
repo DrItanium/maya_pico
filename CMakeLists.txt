@@ -143,7 +143,6 @@ add_library(clips
         SymbolBinarySave.c
         Symbol.c
         SystemDependency.c
-        TextProcessing.c
         DeftemplateBinarySaveLoad.c
         DeftemplateBasicCommands.c
         Deftemplate.c

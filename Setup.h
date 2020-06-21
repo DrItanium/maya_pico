@@ -332,15 +332,6 @@
 #define EXTENDED_MATH_FUNCTIONS 1
 #endif
 
-/****************************************************************/
-/* TEXT PROCESSING : Turn on this flag for support of the       */
-/* hierarchical lookup system.                                  */
-/****************************************************************/
-
-#ifndef TEXTPRO_FUNCTIONS
-#define TEXTPRO_FUNCTIONS 1
-#endif
-
 /*************************************************************************/
 /* BLOAD_AND_BSAVE: Enables bload, and bsave commands.                   */
 /*************************************************************************/

@@ -46,7 +46,6 @@
 #include "SortingFunctions.h"
 #include "StringFunctions.h"
 #include "SystemDependency.h"
-#include "TextProcessing.h"
 #include "Utility.h"
 #include "Watch.h"
 
