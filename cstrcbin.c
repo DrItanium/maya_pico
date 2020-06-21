@@ -28,7 +28,7 @@
 
 #include "setup.h"
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 
 #include "bload.h"
 #include "envrnmnt.h"

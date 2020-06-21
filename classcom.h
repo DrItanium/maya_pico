@@ -108,8 +108,6 @@ typedef enum
 
    CLIPSLexeme            *CheckClassAndSlot(UDFContext *,const char *,Defclass **);
 
-#if (! BLOAD_ONLY)
    void                    SaveDefclasses(Environment *,Defmodule *,const char *,void *);
-#endif
 
 #endif /* _H_classcom */

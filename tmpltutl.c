@@ -566,7 +566,6 @@ struct templateSlot *FindSlot(
    return NULL;
   }
 
-#if (! BLOAD_ONLY)
 
 /************************************************************/
 /* CreateImpliedDeftemplate: Creates an implied deftemplate */
@@ -610,7 +609,6 @@ Deftemplate *CreateImpliedDeftemplate(
    return(newDeftemplate);
   }
 
-#endif
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 

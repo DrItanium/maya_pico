@@ -69,7 +69,6 @@ typedef enum
    LE_PARSING_ERROR,
   } LoadError;
 
-#if (! BLOAD_ONLY)
    LoadError                      Load(Environment *,const char *);
    bool                           LoadConstructsFromLogicalName(Environment *,const char *);
    bool                           LoadFromString(Environment *,const char *,size_t);
@@ -85,7 +84,6 @@ typedef enum
    void                           SetWarningFileName(Environment *,const char *);
    void                           CreateErrorCaptureRouter(Environment *);
    void                           DeleteErrorCaptureRouter(Environment *);
-#endif
 
 #endif
 

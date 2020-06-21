@@ -619,7 +619,6 @@ bool OpenBatch(
    if (FileCommandData(theEnv)->TopOfBatchList != NULL)
      { FileCommandData(theEnv)->TopOfBatchList->lineNumber = GetLineCount(theEnv); }
 
-#if (! BLOAD_ONLY)
 
    /*========================================================================*/
    /* If this is the first batch file, remember the prior parsing file name. */
@@ -636,7 +635,6 @@ bool OpenBatch(
    SetLineCount(theEnv,0);
 
    CreateErrorCaptureRouter(theEnv);
-#endif
 
    /*====================================*/
    /* Add the newly opened batch file to */
@@ -758,10 +756,8 @@ bool RemoveBatch(
      {
       fileBatch = true;
       GenClose(theEnv,FileCommandData(theEnv)->TopOfBatchList->fileSource);
-#if (! BLOAD_ONLY)
       FlushParsingMessages(theEnv);
       DeleteErrorCaptureRouter(theEnv);
-#endif
      }
    else
      {
@@ -896,10 +892,8 @@ bool BatchStar(
    char *theString = NULL;
    size_t position = 0;
    size_t maxChars = 0;
-#if (! BLOAD_ONLY)
    char *oldParsingFileName;
    long oldLineCountValue;
-#endif
    /*======================*/
    /* Open the batch file. */
    /*======================*/
@@ -916,14 +910,12 @@ bool BatchStar(
    /* Setup for capturing errors/warnings. */
    /*======================================*/
 
-#if (! BLOAD_ONLY)
    oldParsingFileName = CopyString(theEnv,GetParsingFileName(theEnv));
    SetParsingFileName(theEnv,fileName);
 
    CreateErrorCaptureRouter(theEnv);
 
    oldLineCountValue = SetLineCount(theEnv,1);
-#endif
 
    /*=====================================*/
    /* If embedded, clear the error flags. */
@@ -961,9 +953,7 @@ bool BatchStar(
          theString = NULL;
          maxChars = 0;
          position = 0;
-#if (! BLOAD_ONLY)
          FlushParsingMessages(theEnv);
-#endif
         }
 
       if (inchar == '\n')
@@ -983,7 +973,6 @@ bool BatchStar(
    /* Cleanup for capturing errors/warnings. */
    /*========================================*/
 
-#if (! BLOAD_ONLY)
    FlushParsingMessages(theEnv);
    DeleteErrorCaptureRouter(theEnv);
 
@@ -991,7 +980,6 @@ bool BatchStar(
 
    SetParsingFileName(theEnv,oldParsingFileName);
    DeleteString(theEnv,oldParsingFileName);
-#endif
 
    return true;
   }

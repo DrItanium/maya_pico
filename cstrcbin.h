@@ -31,7 +31,7 @@
 
 #define _H_cstrcbin
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 
 struct bsaveConstructHeader
   {

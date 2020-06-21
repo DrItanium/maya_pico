@@ -58,7 +58,7 @@
 #include <string.h>
 
 #include "argacces.h"
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #include "modulbin.h"
 #endif
@@ -104,16 +104,14 @@ static void DeallocateDefmoduleData(
   {
    struct moduleStackItem *tmpMSPtr, *nextMSPtr;
    struct moduleItem *tmpMIPtr, *nextMIPtr;
-#if (! BLOAD_ONLY)
    Defmodule *tmpDMPtr, *nextDMPtr;
    struct portConstructItem *tmpPCPtr, *nextPCPtr;
-#endif
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    unsigned int i;
    size_t space;
 #endif
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    for (i = 0; i < DefmoduleData(theEnv)->BNumberOfDefmodules; i++)
      {
       if (DefmoduleData(theEnv)->DefmoduleArray[i].itemsArray != NULL)
@@ -134,7 +132,6 @@ static void DeallocateDefmoduleData(
    if (space != 0) genfree(theEnv,DefmoduleData(theEnv)->PortItemArray,space);
 #endif
 
-#if (! BLOAD_ONLY)
    tmpDMPtr = DefmoduleData(theEnv)->ListOfDefmodules;
    while (tmpDMPtr != NULL)
      {
@@ -150,7 +147,6 @@ static void DeallocateDefmoduleData(
       rtn_struct(theEnv,portConstructItem,tmpPCPtr);
       tmpPCPtr = nextPCPtr;
      }
-#endif
 
    tmpMSPtr = DefmoduleData(theEnv)->ModuleStack;
    while (tmpMSPtr != NULL)
@@ -168,9 +164,7 @@ static void DeallocateDefmoduleData(
       tmpMIPtr = nextMIPtr;
      }
 
-#if (! BLOAD_ONLY)
    DeallocateVoidCallList(theEnv,DefmoduleData(theEnv)->AfterModuleDefinedFunctions);
-#endif
    DeallocateVoidCallList(theEnv,DefmoduleData(theEnv)->AfterModuleChangeFunctions);
   }
 
@@ -184,7 +178,7 @@ void InitializeDefmodules(
 
    CreateMainModule(theEnv,NULL);
 
-#if DEFMODULE_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFMODULE_CONSTRUCT
    AddConstruct(theEnv,"defmodule","defmodules",ParseDefmodule,NULL,NULL,NULL,NULL,
                                                         NULL,NULL,NULL,NULL,NULL);
 #endif
@@ -467,7 +461,7 @@ void CreateMainModule(
    /* and make it the current module.       */
    /*=======================================*/
 
-#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
+#if DEFMODULE_CONSTRUCT
    SetNumberOfDefmodules(theEnv,1);
 #endif
 
@@ -799,7 +793,7 @@ void IllegalModuleSpecifierMessage(
 unsigned short GetNumberOfDefmodules(
   Environment *theEnv)
   {
-#if DEFMODULE_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFMODULE_CONSTRUCT
    return DefmoduleData(theEnv)->NumberOfDefmodules;
 #else
    return 1;

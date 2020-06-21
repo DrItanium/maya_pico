@@ -74,7 +74,7 @@
 
 #if OBJECT_SYSTEM
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
 
@@ -311,7 +311,7 @@ void PrintClassName(
      WriteString(theEnv,logicalName,"\n");
   }
 
-#if DEBUGGING_FUNCTIONS || (! BLOAD_ONLY)
+#if DEBUGGING_FUNCTIONS
 
 /***************************************************
   NAME         : PrintPackedClassLinks
@@ -993,7 +993,6 @@ void InstallClass(
   }
 
 
-#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : IsClassBeingUsed
@@ -1126,7 +1125,6 @@ void MarkBitMapSubclasses(
      MarkBitMapSubclasses(map,cls->directSubclasses.classArray[i],set);
   }
 
-#endif
 
 /***************************************************
   NAME         : FindSlotNameID

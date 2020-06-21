@@ -545,7 +545,7 @@ static void WriteBinaryFooter(
 
 #endif /* BLOAD_AND_BSAVE */
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 
 /**********************************************************/
 /* AddBinaryItem: Informs the bload/bsave commands of the */
@@ -627,7 +627,7 @@ bool AddBinaryItem(
    return true;
   }
 
-#endif /* BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE */
+#endif /* BLOAD || BLOAD_AND_BSAVE */
 
 
 

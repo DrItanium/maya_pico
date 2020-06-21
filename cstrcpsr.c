@@ -68,7 +68,6 @@
 
 #include "setup.h"
 
-#if (! BLOAD_ONLY)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -830,6 +829,5 @@ void ImportExportConflictMessage(
      }
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 

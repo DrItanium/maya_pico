@@ -126,7 +126,6 @@ struct constructData
    bool ResetInProgress;
    short ClearReadyLocks;
    int DanglingConstructs;
-#if (! BLOAD_ONLY)
    SaveCallFunctionItem *ListOfSaveFunctions;
    bool PrintWhileLoading;
    bool LoadInProgress;
@@ -147,7 +146,6 @@ struct constructData
    size_t CurWrnPos;
    ParserErrorFunction *ParserErrorCallback;
    void *ParserErrorContext;
-#endif
    Construct *ListOfConstructs;
    struct voidCallFunctionItem *ListOfResetFunctions;
    struct voidCallFunctionItem *ListOfClearFunctions;

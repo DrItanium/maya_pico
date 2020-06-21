@@ -67,7 +67,6 @@
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
-#if (! BLOAD_ONLY)
 
 #include <string.h>
 #include <stdlib.h>
@@ -95,7 +94,6 @@
 #include "symbol.h"
 #include "utility.h"
 
-#endif
 
 #include "constrct.h"
 #include "exprnpsr.h"
@@ -106,7 +104,7 @@
 #include "reorder.h"
 #include "router.h"
 
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
 #include "objrtbin.h"
 #endif
 
@@ -119,7 +117,6 @@
 #include "extnfunc.h"
 #endif
 
-#if (! BLOAD_ONLY)
 
 /* =========================================
    *****************************************
@@ -171,7 +168,6 @@
    static void                    MarkObjectPtnIncrementalReset(Environment *,struct patternNodeHeader *,bool);
    static void                    ObjectIncrementalReset(Environment *);
 
-#endif
 
    static Expression             *ObjectMatchDelayParse(Environment *,Expression *,const char *);
 
@@ -195,7 +191,6 @@
 void SetupObjectPatternStuff(
   Environment *theEnv)
   {
-#if (! BLOAD_ONLY)
    struct patternParser *newPtr;
 
    if (ReservedPatternSymbol(theEnv,"object",NULL) == true)
@@ -239,7 +234,6 @@ void SetupObjectPatternStuff(
 
    AddPatternParser(theEnv,newPtr);
 
-#endif
 
    AddUDF(theEnv,"object-pattern-match-delay","*",0,UNBOUNDED,NULL,ObjectMatchDelay,"ObjectMatchDelay",NULL);
    FuncSeqOvlFlags(theEnv,"object-pattern-match-delay",false,false);
@@ -249,7 +243,7 @@ void SetupObjectPatternStuff(
    InstallObjectPrimitives(theEnv);
 
 
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
    SetupObjectPatternsBload(theEnv);
 #endif
   }
@@ -260,7 +254,6 @@ void SetupObjectPatternStuff(
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY)
 
 /*****************************************************
   NAME         : PatternParserFind
@@ -2322,7 +2315,6 @@ static Expression *ObjectMatchDelayParse(
    return(top);
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : MarkObjectPtnIncrementalReset
@@ -2372,9 +2364,5 @@ static void ObjectIncrementalReset(
    for (ins = InstanceData(theEnv)->InstanceList ; ins != NULL ; ins = ins->nxtList)
      ObjectNetworkAction(theEnv,OBJECT_ASSERT,ins,-1);
   }
-
-#endif
-
-#endif
 
 

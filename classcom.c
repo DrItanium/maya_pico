@@ -67,7 +67,7 @@
 
 #if OBJECT_SYSTEM
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
 
@@ -86,7 +86,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY) && DEBUGGING_FUNCTIONS
+#if DEBUGGING_FUNCTIONS
    static void                    SaveDefclass(Environment *,ConstructHeader *,void *);
 #endif
    static const char             *GetClassDefaultsModeName(ClassDefaultsMode);
@@ -378,11 +378,7 @@ bool DefclassIsDeletable(
    if (theDefclass->system == 1)
      { return false; }
 
-#if (! BLOAD_ONLY)
    return (IsClassBeingUsed(theDefclass) == false) ? true : false;
-#else
-   return false;
-#endif
   }
 
 /*************************************************************
@@ -414,9 +410,6 @@ bool Undefclass(
   Defclass *theDefclass,
   Environment *allEnv)
   {   
-#if BLOAD_ONLY
-   return false;
-#else
    Environment *theEnv;
    bool success;
    GCBlock gcb;
@@ -442,7 +435,6 @@ bool Undefclass(
    success = DeleteClassUAG(theEnv,theDefclass);
    GCBlockEnd(theEnv,&gcb);
    return success;
-#endif
   }
 
 
@@ -730,7 +722,6 @@ CLIPSLexeme *CheckClassAndSlot(
    return theArg.lexemeValue;
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : SaveDefclasses
@@ -758,7 +749,6 @@ void SaveDefclasses(
 #endif
   }
 
-#endif
 
 /* =========================================
    *****************************************
@@ -766,7 +756,7 @@ void SaveDefclasses(
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY) && DEBUGGING_FUNCTIONS
+#if DEBUGGING_FUNCTIONS
 
 /***************************************************
   NAME         : SaveDefclass

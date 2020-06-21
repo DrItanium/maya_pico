@@ -33,7 +33,7 @@
 
 #include "setup.h"
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
 
 #include "constant.h"
 #include "envrnmnt.h"
@@ -274,7 +274,7 @@ void ClearBloadedConstraints(
      }
   }
 
-#endif /* (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)  */
+#endif /* (BLOAD || BLOAD_AND_BSAVE)  */
 
 
 

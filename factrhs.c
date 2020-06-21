@@ -56,7 +56,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT
 
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
 #include "bload.h"
 #endif
 
@@ -81,7 +81,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    static void                       NoSuchTemplateError(Environment *,const char *);
 #endif
 
@@ -317,7 +317,6 @@ struct expr *GetRHSPattern(
    /*======================================================*/
 
    if (theDeftemplate == NULL)
-#if (! BLOAD_ONLY)
      {
 #if BLOAD || BLOAD_AND_BSAVE
       if ((Bloaded(theEnv)) && (! ConstructData(theEnv)->CheckSyntaxMode))
@@ -338,13 +337,6 @@ struct expr *GetRHSPattern(
       if (! ConstructData(theEnv)->CheckSyntaxMode)
         { theDeftemplate = CreateImpliedDeftemplate(theEnv,templateName,true); }
      }
-#else
-    {
-     NoSuchTemplateError(theEnv,templateName->contents);
-     *error = true;
-     return NULL;
-    }
-#endif
 
    /*=========================================*/
    /* If an explicit deftemplate exists, then */
@@ -358,10 +350,8 @@ struct expr *GetRHSPattern(
                                               error,endType,
                                               constantsOnly,theDeftemplate);
 
-#if (! BLOAD_ONLY)
       if (! ConstructData(theEnv)->ParsingConstruct)
         { ConstructData(theEnv)->DanglingConstructs++; }
-#endif
 
       if (*error)
         {
@@ -378,14 +368,10 @@ struct expr *GetRHSPattern(
 
    firstOne = GenConstant(theEnv,DEFTEMPLATE_PTR,theDeftemplate);
 
-#if (! BLOAD_ONLY)
    if (! ConstructData(theEnv)->ParsingConstruct)
      { ConstructData(theEnv)->DanglingConstructs++; }
-#endif
 
-#if (! BLOAD_ONLY)
    SavePPBuffer(theEnv," ");
-#endif
 
    while ((nextOne = GetAssertArgument(theEnv,readSource,tempToken,
                                         error,endType,constantsOnly,&printError)) != NULL)
@@ -393,9 +379,7 @@ struct expr *GetRHSPattern(
       if (argHead == NULL) argHead = nextOne;
       else lastOne->nextArg = nextOne;
       lastOne = nextOne;
-#if (! BLOAD_ONLY)
       SavePPBuffer(theEnv," ");
-#endif
      }
 
    /*===========================================================*/
@@ -415,11 +399,9 @@ struct expr *GetRHSPattern(
    /* of the RHS ordered fact.            */
    /*=====================================*/
 
-#if (! BLOAD_ONLY)
    PPBackup(theEnv);
    PPBackup(theEnv);
    SavePPBuffer(theEnv,tempToken->printForm);
-#endif
 
    /*==========================================================*/
    /* Ordered fact assertions are processed by stuffing all of */
@@ -634,11 +616,11 @@ Fact *StringToFact(
    return(factPtr);
   }
 
-#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 
 /*********************************************************/
 /* NoSuchTemplateError: Prints out an error message      */
-/* in a BLOAD_ONLY or bload active environment */
+/* in a bload active environment */
 /* when an implied deftemplate cannot be created for     */
 /* an assert                                             */
 /*********************************************************/
@@ -652,7 +634,7 @@ static void NoSuchTemplateError(
    WriteString(theEnv,STDERR,"' cannot be created with binary load in effect.\n");
   }
 
-#endif /* BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD || BLOAD_AND_BSAVE */
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 

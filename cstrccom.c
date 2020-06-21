@@ -326,7 +326,6 @@ void UndefconstructCommand(
    constructName = GetConstructName(context,command,buffer);
    if (constructName == NULL) return;
 
-#if (! BLOAD_ONLY)
 
    /*=============================================*/
    /* Check to see if the named construct exists. */
@@ -350,15 +349,6 @@ void UndefconstructCommand(
      }
 
    return;
-#else
-   /*=====================================*/
-   /* Constructs can't be deleted in a    */
-   /* run-time or bload only environment. */
-   /*=====================================*/
-
-   CantDeleteItemErrorMessage(theEnv,constructClass->constructName,constructName);
-   return;
-#endif
   }
 
 /******************************************/

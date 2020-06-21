@@ -39,7 +39,7 @@
 
 #include "setup.h"
 
-#if (! BLOAD_ONLY) && DEFRULE_CONSTRUCT
+#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 
@@ -1137,6 +1137,6 @@ static void VariableMixingErrorMessage(
    WriteString(theEnv,STDERR," is used as both a single and multifield variable in the LHS.\n");
   }
 
-#endif /* (! BLOAD_ONLY) && DEFRULE_CONSTRUCT */
+#endif /* DEFRULE_CONSTRUCT */
 
 

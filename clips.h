@@ -64,7 +64,7 @@
 #include "watch.h"
 #include "modulbsc.h"
 
-#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
 

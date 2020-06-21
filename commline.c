@@ -236,7 +236,6 @@ void RerouteStdin(
             OpenBatch(theEnv,argv[++i],true);
             break;
 
-#if (! BLOAD_ONLY)
          case BATCH_STAR_SWITCH:
             BatchStar(theEnv,argv[++i]);
             break;
@@ -244,7 +243,6 @@ void RerouteStdin(
          case LOAD_SWITCH:
             Load(theEnv,argv[++i]);
             break;
-#endif
         }
      }
   }
@@ -805,9 +803,7 @@ bool ExecuteIfCommandComplete(
    RouterData(theEnv)->AwaitingInput = false;
    RouteCommand(theEnv,CommandLineData(theEnv)->CommandString,true);
    FlushPPBuffer(theEnv);
-#if (! BLOAD_ONLY)
    FlushParsingMessages(theEnv);
-#endif
    SetHaltExecution(theEnv,false);
    SetEvaluationError(theEnv,false);
    FlushCommandString(theEnv);
@@ -975,7 +971,6 @@ bool RouteCommand(
    /* Evaluate constructs. */
    /*======================*/
 
-#if (! BLOAD_ONLY)
    {
     BuildError errorFlag;
 
@@ -998,7 +993,6 @@ bool RouteCommand(
        else return false;
       }
    }
-#endif
 
    /*========================*/
    /* Parse a function call. */
@@ -1022,10 +1016,8 @@ bool RouteCommand(
 
    if (top == NULL)
      {
-#if (! BLOAD_ONLY)
       SetWarningFileName(theEnv,NULL);
       SetErrorFileName(theEnv,NULL);
-#endif
       ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
       return false;
      }
@@ -1042,10 +1034,8 @@ bool RouteCommand(
    ReturnExpression(theEnv,top);
    ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
    
-#if (! BLOAD_ONLY)
    SetWarningFileName(theEnv,NULL);
    SetErrorFileName(theEnv,NULL);
-#endif
 
    /*=================================================*/
    /* Print the return value of the function/command. */

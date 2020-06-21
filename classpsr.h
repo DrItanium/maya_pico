@@ -56,10 +56,8 @@
 
 #if OBJECT_SYSTEM
 
-#if (! BLOAD_ONLY)
    bool                    ParseDefclass(Environment *,const char *);
 
-#endif
 
 #if DEFMODULE_CONSTRUCT
    void                   *CreateClassScopeMap(Environment *,Defclass *);

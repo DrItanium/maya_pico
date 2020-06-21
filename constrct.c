@@ -133,14 +133,11 @@ static void DeallocateConstructData(
   {
    Construct *tmpPtr, *nextPtr;
 
-#if (! BLOAD_ONLY)
    DeallocateSaveCallList(theEnv,ConstructData(theEnv)->ListOfSaveFunctions);
-#endif
    DeallocateVoidCallList(theEnv,ConstructData(theEnv)->ListOfResetFunctions);
    DeallocateVoidCallList(theEnv,ConstructData(theEnv)->ListOfClearFunctions);
    DeallocateBoolCallList(theEnv,ConstructData(theEnv)->ListOfClearReadyFunctions);
 
-#if (! BLOAD_ONLY)
    if (ConstructData(theEnv)->ErrorString != NULL)
      { genfree(theEnv,ConstructData(theEnv)->ErrorString,sizeof(ConstructData(theEnv)->ErrorString) + 1); }
 
@@ -153,7 +150,6 @@ static void DeallocateConstructData(
    SetParsingFileName(theEnv,NULL);
    SetWarningFileName(theEnv,NULL);
    SetErrorFileName(theEnv,NULL);
-#endif
 
    tmpPtr = ConstructData(theEnv)->ListOfConstructs;
    while (tmpPtr != NULL)
@@ -164,7 +160,6 @@ static void DeallocateConstructData(
      }
   }
 
-#if (! BLOAD_ONLY)
 
 /***********************************************/
 /* SetParserErrorCallback: Allows the function */
@@ -433,7 +428,6 @@ bool GetLoadInProgress(
    return(ConstructData(theEnv)->LoadInProgress);
   }
 
-#endif
 
 /*************************************/
 /* InitializeConstructs: Initializes */
@@ -445,7 +439,7 @@ void InitializeConstructs(
    AddUDF(theEnv,"clear","v",0,0,NULL,ClearCommand,"ClearCommand",NULL);
    AddUDF(theEnv,"reset","v",0,0,NULL,ResetCommand,"ResetCommand",NULL);
 
-#if DEBUGGING_FUNCTIONS && (! BLOAD_ONLY)
+#if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"compilations",0,&ConstructData(theEnv)->WatchCompilations,30,NULL,NULL);
 #endif
   }
@@ -952,16 +946,10 @@ bool AddSaveFunction(
   int priority,
   void *context)
   {
-#if (! BLOAD_ONLY)
    ConstructData(theEnv)->ListOfSaveFunctions =
      AddSaveFunctionToCallList(theEnv,name,priority,
                            functionPtr,
                            ConstructData(theEnv)->ListOfSaveFunctions,context);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
 
    return true;
   }
