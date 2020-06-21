@@ -95,7 +95,6 @@ add_library(clips
 	insqypsr.c
 	iofun.c
 	lgcldpnd.c
-	maya.c
 	memalloc.c
 	miscfun.c
 	modulbin.c
@@ -156,13 +155,16 @@ add_library(clips
 	userdata.c
 	userfunctions.c
 	utility.c
-	watch.c
-	boost.cc
-	functional.cpp)
-# TODO functional, maya, and boost extensions should eventually be split off
-# from the main design
+	watch.c)
+add_library(maya_extensions boost.cc
+							functional.cpp
+							maya.c)
 
 # TODO express the configurable dependencies in setup.h using CMAKE instead
 add_executable(maya cmd/repl/main.c)
-target_link_libraries(maya PUBLIC boost_system boost_filesystem clips)
+target_link_libraries(maya PUBLIC 
+	boost_system 
+	boost_filesystem 
+	clips 
+	maya_extensions)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
