@@ -71,7 +71,7 @@ typedef struct environmentData Environment;
 typedef void EnvironmentCleanupFunction(Environment *);
 
 #include "entities.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 
 #define USER_ENVIRONMENT_DATA 70
 #define MAXIMUM_ENVIRONMENT_POSITIONS 100

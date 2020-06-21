@@ -85,7 +85,7 @@
 #include "engine.h"
 #include "environment.h"
 #include "evaluation.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "incrrset.h"
 #include "lgcldpnd.h"
 #include "memalloc.h"

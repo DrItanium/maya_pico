@@ -69,7 +69,7 @@
 
 #include "cstrnchk.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "fact.h"
 #include "inscom.h"
 #include "insfun.h"

@@ -50,7 +50,7 @@
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"

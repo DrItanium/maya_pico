@@ -82,7 +82,7 @@
 #include "argacces.h"
 #include "commline.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"

@@ -58,7 +58,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "inscom.h"
 #include "insfun.h"
 #include "memalloc.h"

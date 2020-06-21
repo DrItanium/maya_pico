@@ -70,7 +70,7 @@
 #include "inscom.h"
 #endif
 
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

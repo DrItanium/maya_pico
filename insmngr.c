@@ -79,7 +79,7 @@
 #include "cstrnchk.h"
 #include "engine.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "insfun.h"
 #include "memalloc.h"
 #include "miscfun.h"

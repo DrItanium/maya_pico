@@ -97,7 +97,7 @@
 #include "cstrcpsr.h"
 #include "environment.h"
 #include "evaluation.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "genrcbin.h"
 #endif

@@ -91,7 +91,7 @@
 #if DEFTEMPLATE_CONSTRUCT
 
 #include "argacces.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "fact.h"
 #include "multifld.h"
 #include "pprint.h"

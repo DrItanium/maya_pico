@@ -22,7 +22,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "clips.h"
 #include "miscfun.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "maya.h"
 #include "mayasetup.h"
 

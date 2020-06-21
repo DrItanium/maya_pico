@@ -64,7 +64,7 @@
 #include "cstrnutl.h"
 #include "environment.h"
 #include "expression.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "genrcpsr.h"
 #include "memalloc.h"
 #include "prccode.h"

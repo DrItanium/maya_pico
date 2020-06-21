@@ -44,7 +44,7 @@
 #include <stdio.h>
 
 #include "default.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"

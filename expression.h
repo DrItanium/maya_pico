@@ -53,7 +53,7 @@ typedef struct savedContexts SavedContexts;
 #include <stdio.h>
 #include "entities.h"
 #include "constrct.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "scanner.h"
 
 /******************************/

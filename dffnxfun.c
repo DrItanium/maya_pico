@@ -89,7 +89,7 @@
 
 #include "environment.h"
 
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 
 #include "dffnxexe.h"
 

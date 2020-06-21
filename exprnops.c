@@ -52,7 +52,7 @@
 #include "cstrnops.h"
 #include "cstrnutl.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"

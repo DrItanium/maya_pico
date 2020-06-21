@@ -72,7 +72,7 @@
 #include "dffctdef.h"
 #include "dffctpsr.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "multifld.h"

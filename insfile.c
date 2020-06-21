@@ -97,7 +97,7 @@
 #include "classfun.h"
 #include "memalloc.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 #include "fact.h"
 #endif

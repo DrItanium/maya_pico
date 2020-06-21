@@ -107,7 +107,7 @@
 
 #include "argacces.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "multifld.h"
 #include "prntutil.h"
 #include "router.h"

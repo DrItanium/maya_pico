@@ -65,7 +65,7 @@
 
 #include "cstrnutl.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "pattern.h"
 #include "prntutil.h"

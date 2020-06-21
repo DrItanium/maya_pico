@@ -52,7 +52,7 @@
 #include "bload.h"
 #include "environment.h"
 #include "evaluation.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"

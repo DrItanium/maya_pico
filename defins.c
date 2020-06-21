@@ -89,7 +89,7 @@
 #include "constrct.h"
 #include "environment.h"
 #include "evaluation.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "insfun.h"
 #include "inspsr.h"
 #include "memalloc.h"

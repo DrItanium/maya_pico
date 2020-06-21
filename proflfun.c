@@ -57,7 +57,7 @@
 #include "classcom.h"
 #include "dffnxfun.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "genrccom.h"
 #include "genrcfun.h"
 #include "memalloc.h"

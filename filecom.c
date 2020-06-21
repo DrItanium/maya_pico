@@ -84,7 +84,7 @@
 #include "commline.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "fileutil.h"
 #include "memalloc.h"
 #include "router.h"

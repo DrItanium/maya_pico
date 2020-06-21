@@ -54,7 +54,7 @@
 #define _H_bload
 
 #include "utility.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "expression.h"
 #include "symbol.h"
 #include "sysdep.h"

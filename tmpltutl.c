@@ -68,7 +68,7 @@
 #include "constrct.h"
 #include "cstrnchk.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "multifld.h"

@@ -71,7 +71,7 @@
 #include "drive.h"
 #include "engine.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "multifld.h"
 #include "reteutil.h"
 #include "router.h"

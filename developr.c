@@ -54,7 +54,7 @@
 
 #include "argacces.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "inscom.h"
 #include "modulutl.h"
 #include "prntutil.h"

@@ -38,7 +38,7 @@
 #include "constrct.h"
 #include "dffctdef.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "moduldef.h"
 

@@ -70,7 +70,7 @@
 #include "crstrtgy.h"
 #include "engine.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "moduldef.h"
 #include "modulutl.h"

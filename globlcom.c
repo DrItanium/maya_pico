@@ -49,7 +49,7 @@
 
 #include "argacces.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "globldef.h"
 #include "prntutil.h"
 #include "router.h"

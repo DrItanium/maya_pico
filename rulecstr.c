@@ -45,7 +45,7 @@
 #include "cstrnops.h"
 #include "cstrnutl.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "prcdrpsr.h"
 #include "prntutil.h"
 #include "reorder.h"

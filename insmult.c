@@ -56,7 +56,7 @@
 
 #include "argacces.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "insfun.h"
 #include "msgfun.h"
 #include "msgpass.h"

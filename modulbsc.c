@@ -53,7 +53,7 @@
 #include "bload.h"
 #include "constrct.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "modulbin.h"
 #include "multifld.h"
 #include "prntutil.h"

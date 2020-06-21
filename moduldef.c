@@ -65,7 +65,7 @@
 #include "constant.h"
 #include "constrct.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "modulbsc.h"
 #include "modulpsr.h"

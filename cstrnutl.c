@@ -43,7 +43,7 @@
 #include "argacces.h"
 #include "constant.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "router.h"

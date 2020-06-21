@@ -80,7 +80,7 @@
 #include "constrct.h"
 #include "msgpsr.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #include "insfun.h"
 #include "insmoddp.h"
 #include "msgfun.h"

@@ -114,7 +114,7 @@
 #if ! DEFINSTANCES_CONSTRUCT
 #include "classfun.h"
 #include "classcom.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #endif
 
 

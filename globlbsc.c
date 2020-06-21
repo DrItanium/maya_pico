@@ -63,7 +63,7 @@
 
 #include "constrct.h"
 #include "environment.h"
-#include "extnfunc.h"
+#include "ExternalFunctions.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "globlbin.h"
 #endif
