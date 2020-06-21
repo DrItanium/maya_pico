@@ -156,7 +156,7 @@ void SetupGenericsBload(
                              BloadStorageGenerics,BloadGenerics,
                              ClearBloadGenerics);
 #endif
-#if BLOAD || BLOAD_ONLY
+#if BLOAD
    AddBinaryItem(theEnv,"generic functions",0,NULL,NULL,NULL,NULL,
                              BloadStorageGenerics,BloadGenerics,
                              ClearBloadGenerics);

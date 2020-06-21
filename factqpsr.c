@@ -449,10 +449,8 @@ static bool ReplaceTemplateNameWithReference(
       theExp->type = DEFTEMPLATE_PTR;
       theExp->value = theDeftemplate;
 
-#if (! BLOAD_ONLY)
       if (! ConstructData(theEnv)->ParsingConstruct)
         { ConstructData(theEnv)->DanglingConstructs++; }
-#endif
      }
 
    return true;

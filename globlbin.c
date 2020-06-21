@@ -81,7 +81,7 @@ void DefglobalBinarySetup(
                              ClearBload);
 #endif
 
-#if (BLOAD || BLOAD_ONLY)
+#if (BLOAD)
    AddBinaryItem(theEnv,"defglobal",0,NULL,NULL,NULL,NULL,
                              BloadStorageDefglobals,BloadBinaryItem,
                              ClearBload);

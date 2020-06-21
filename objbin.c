@@ -243,7 +243,7 @@ void SetupObjectsBload(
                              BloadStorageObjects,BloadObjects,
                              ClearBloadObjects);
 #endif
-#if BLOAD || BLOAD_ONLY
+#if BLOAD
    AddBinaryItem(theEnv,"defclass",0,NULL,NULL,NULL,NULL,
                              BloadStorageObjects,BloadObjects,
                              ClearBloadObjects);

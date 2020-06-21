@@ -78,7 +78,7 @@ void DefmoduleBinarySetup(
 
    AddAbortBloadFunction(theEnv,"defmodule",CreateMainModule,0,NULL);
 
-#if (BLOAD || BLOAD_ONLY)
+#if (BLOAD)
    AddBinaryItem(theEnv,"defmodule",0,NULL,NULL,NULL,NULL,
                              BloadStorage,BloadBinaryItem,
                              ClearBload);
