@@ -66,12 +66,13 @@
 #include "UserData.h"
 
 typedef void UserDefinedFunction(Environment *, UDFContext *, UDFValue *);
+typedef struct expr* UserDefinedFunctionParser(Environment*, struct expr*, const char*);
 
 struct functionDefinition {
     CLIPSLexeme *callFunctionName;
     unsigned unknownReturnValueType;
-    void (*functionPointer)(Environment *, UDFContext *, UDFValue *);
-    struct expr *(*parser)(Environment *, struct expr *, const char *);
+    UserDefinedFunction* functionPointer;
+    UserDefinedFunctionParser* parser;
     CLIPSLexeme *restrictions;
     unsigned short minArgs;
     unsigned short maxArgs;
@@ -87,7 +88,6 @@ struct functionDefinition {
 #define UnknownFunctionType(target) (((struct functionDefinition *) target)->unknownReturnValueType)
 #define ExpressionFunctionPointer(target) ((target)->functionValue->functionPointer)
 #define ExpressionFunctionCallName(target) ((target)->functionValue->callFunctionName)
-#define ExpressionFunctionRealName(target) ((target)->functionValue->actualFunctionName)
 #define ExpressionUnknownFunctionType(target) ((target)->functionValue->unknownReturnValueType)
 
 /*==================*/

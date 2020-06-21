@@ -81,7 +81,6 @@
 #include "developr.h"
 #endif
 
-#include "Environment.h"
 
 /****************************************/
 /* GLOBAL EXTERNAL FUNCTION DEFINITIONS */

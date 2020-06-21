@@ -181,8 +181,8 @@ struct portItem {
 struct moduleItem {
     const char *name;
     unsigned moduleIndex;
-    void *(*allocateFunction)(Environment *);
-    void (*freeFunction)(Environment *, void *);
+    AllocateModuleFunction* allocateFunction;
+    FreeModuleFunction* freeFunction;
     void *(*bloadModuleReference)(Environment *, unsigned long);
     FindConstructFunction *findFunction;
     ModuleItem *next;
