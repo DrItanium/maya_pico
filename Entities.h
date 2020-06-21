@@ -238,16 +238,21 @@ struct entityRecord {
     struct userData *usrData;
 };
 
+typedef void PatternEntityRecordDecrementBasisCountFunction(Environment*, void*);
+typedef void PatternEntityRecordIncrementBasisCountFunction(Environment*, void*);
+typedef void PatternEntityRecordMatchFunction(Environment*, void*);
+typedef bool PatternEntityRecordSynchronizedFunction(Environment*, void*);
+typedef bool PatternEntityRecordIsDeletedFunction(Environment*, void*);
 /***********************/
 /* patternEntityRecord */
 /***********************/
 struct patternEntityRecord {
     struct entityRecord base;
-    void (*decrementBasisCount)(Environment *, void *);
-    void (*incrementBasisCount)(Environment *, void *);
-    void (*matchFunction)(Environment *, void *);
-    bool (*synchronized)(Environment *, void *);
-    bool (*isDeleted)(Environment *, void *);
+    PatternEntityRecordDecrementBasisCountFunction* decrementBasisCount;
+    PatternEntityRecordIncrementBasisCountFunction* incrementBasisCount;
+    PatternEntityRecordMatchFunction* matchFunction;
+    PatternEntityRecordSynchronizedFunction* synchronized;
+    PatternEntityRecordIsDeletedFunction* isDeleted;
 };
 
 /*****************/
