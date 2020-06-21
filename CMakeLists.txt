@@ -120,7 +120,7 @@ add_library(clips
 	prccode.c
 	prcdrfun.c
 	prcdrpsr.c
-	prdctfun.c
+		PredicateFunctions.c
 		PrintUtility.c
 		ConstructProfilingFunctions.c
 		Reorder.c
@@ -136,11 +136,11 @@ add_library(clips
 	ruledlt.c
 	rulelhs.c
 	rulepsr.c
-	scanner.c
+		Scanner.c
 	sortfun.c
-	strngfun.c
-	strngrtr.c
-	symblbin.c
+		StringFunctions.c
+		StringRouter.c
+		SymbolBinarySave.c
 		Symbol.c
 		SystemDependency.c
 	textpro.c

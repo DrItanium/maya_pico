@@ -54,7 +54,7 @@ typedef struct savedContexts SavedContexts;
 #include "Entities.h"
 #include "constrct.h"
 #include "ExternalFunctions.h"
-#include "scanner.h"
+#include "Scanner.h"
 
 /******************************/
 /* Expression Data Structures */

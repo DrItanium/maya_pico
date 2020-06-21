@@ -45,7 +45,7 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 
 #include "cstrnops.h"
 

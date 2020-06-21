@@ -118,7 +118,7 @@
 #include "PrintUtility.h"
 #include "Reorder.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 #include "SystemDependency.h"
 #include "tmpltdef.h"

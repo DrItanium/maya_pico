@@ -77,7 +77,7 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "tmpltdef.h"
 
 #if BLOAD || BLOAD_AND_BSAVE

@@ -88,7 +88,7 @@
 #include "prccode.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 
 #include "dffnxpsr.h"

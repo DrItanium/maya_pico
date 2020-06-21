@@ -91,7 +91,7 @@
 #include "prccode.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "SystemDependency.h"
 
 #include "genrcpsr.h"

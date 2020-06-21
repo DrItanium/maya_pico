@@ -85,7 +85,7 @@
 #include "multifld.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #include "Utility.h"
 
 #include "globldef.h"

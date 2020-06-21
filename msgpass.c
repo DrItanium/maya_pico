@@ -90,7 +90,7 @@
 #include "PrintUtility.h"
 #include "ConstructProfilingFunctions.h"
 #include "Router.h"
-#include "strngfun.h"
+#include "StringFunctions.h"
 #include "Utility.h"
 
 #include "msgpass.h"

@@ -103,8 +103,8 @@
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "strngrtr.h"
-#include "scanner.h"
+#include "StringRouter.h"
+#include "Scanner.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 
@@ -112,7 +112,7 @@
 #include "drive.h"
 #endif
 
-#include "strngfun.h"
+#include "StringFunctions.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

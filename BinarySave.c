@@ -62,7 +62,7 @@
 #include "moduldef.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "symblbin.h"
+#include "Symbol.h"
 
 #include "BinarySave.h"
 

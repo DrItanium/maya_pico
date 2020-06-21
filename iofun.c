@@ -125,8 +125,8 @@
 #include "miscfun.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "scanner.h"
-#include "strngrtr.h"
+#include "Scanner.h"
+#include "StringRouter.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 

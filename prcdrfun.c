@@ -67,7 +67,7 @@
 #include "multifld.h"
 #include "prcdrpsr.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Utility.h"
 
 #include "prcdrfun.h"

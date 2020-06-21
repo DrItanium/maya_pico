@@ -73,10 +73,10 @@
 #if OBJECT_SYSTEM
 #include "object.h"
 #endif
-#include "scanner.h"
+#include "Scanner.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #include "Symbol.h"
 #include "Utility.h"
 

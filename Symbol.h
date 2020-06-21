@@ -83,6 +83,7 @@
 #define _H_symbol
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "Entities.h"
 
@@ -237,6 +238,22 @@ struct symbolData
    CLIPSLexeme                   *CreateBoolean(Environment *,bool);
    bool                           BitStringHasBitsSet(void *,unsigned);
 
+#define BitMapPointer(i) ((CLIPSBitMap *) (SymbolData(theEnv)->BitMapArray[i]))
+#define SymbolPointer(i) ((CLIPSLexeme *) (SymbolData(theEnv)->SymbolArray[i]))
+#define FloatPointer(i) ((CLIPSFloat *) (SymbolData(theEnv)->FloatArray[i]))
+#define IntegerPointer(i) ((CLIPSInteger *) (SymbolData(theEnv)->IntegerArray[i]))
+
+   void                    MarkNeededAtomicValues(Environment);
+   void                    WriteNeededAtomicValues(Environment *,FILE *);
+   void                    ReadNeededAtomicValues(Environment *);
+   void                    InitAtomicValueNeededFlags(Environment *);
+   void                    FreeAtomicValueStorage(Environment *);
+   void                    WriteNeededSymbols(Environment *,FILE *);
+   void                    WriteNeededFloats(Environment *,FILE *);
+   void                    WriteNeededIntegers(Environment *,FILE *);
+   void                    ReadNeededSymbols(Environment *);
+   void                    ReadNeededFloats(Environment *);
+   void                    ReadNeededIntegers(Environment *);
 #endif /* _H_symbol */
 
 

@@ -45,7 +45,7 @@
 #include "moduldef.h"
 #include "Router.h"
 
-#include "symblbin.h"
+#include "Symbol.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

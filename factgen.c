@@ -56,7 +56,7 @@
 #include "prcdrpsr.h"
 #include "ReteUtility.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "SystemDependency.h"
 #include "tmpltdef.h"
 #include "tmpltfun.h"

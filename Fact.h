@@ -16,7 +16,7 @@ struct factPatternNode;
 #include "tmpltdef.h"
 #include "Expression.h"
 #include "Evaluation.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 #include "Reorder.h"
 

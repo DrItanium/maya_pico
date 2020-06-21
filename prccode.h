@@ -62,7 +62,7 @@
 #include "Expression.h"
 #include "Evaluation.h"
 #include "moduldef.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 
 typedef struct ProcParamStack

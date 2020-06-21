@@ -81,7 +81,7 @@
 #include "Router.h"
 #include "rulebsc.h"
 #include "ruledef.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #include "SystemDependency.h"
 #include "Watch.h"
 

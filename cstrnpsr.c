@@ -56,7 +56,7 @@
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "SystemDependency.h"
 
 #include "cstrnpsr.h"

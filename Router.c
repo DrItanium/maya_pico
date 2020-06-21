@@ -75,8 +75,8 @@
 #include "filertr.h"
 #include "memalloc.h"
 #include "PrintUtility.h"
-#include "scanner.h"
-#include "strngrtr.h"
+#include "Scanner.h"
+#include "StringRouter.h"
 #include "SystemDependency.h"
 
 #include "Router.h"

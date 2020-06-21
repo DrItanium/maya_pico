@@ -101,7 +101,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 #include "ruledef.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 #include "Watch.h"

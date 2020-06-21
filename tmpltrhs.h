@@ -43,7 +43,7 @@
 #define _H_tmpltrhs
 
 #include "Expression.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "tmpltdef.h"
 
    struct expr                   *ParseAssertTemplate(Environment *,const char *,struct token *,bool *,

@@ -40,7 +40,7 @@
 #include "memalloc.h"
 #include "cstrcpsr.h"
 #include "fileutil.h"
-#include "strngfun.h"
+#include "StringFunctions.h"
 #include "Environment.h"
 #include "CommandLine.h"
 #include "Symbol.h"
@@ -48,7 +48,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 #include "filertr.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 
 #include "iofun.h"
 

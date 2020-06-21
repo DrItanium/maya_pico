@@ -79,7 +79,7 @@
 #include "ruledef.h"
 #include "ruledlt.h"
 #include "rulelhs.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 #include "Watch.h"
 

@@ -57,7 +57,7 @@
 #define _H_classfun
 
 #include "object.h"
-#include "scanner.h"
+#include "Scanner.h"
 
 #define TestTraversalID(traversalRecord,id) TestBitMap(traversalRecord,id)
 #define SetTraversalID(traversalRecord,id) SetBitMap(traversalRecord,id)

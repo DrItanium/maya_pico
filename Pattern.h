@@ -56,7 +56,7 @@
 
 
 #include "Symbol.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Expression.h"
 #include "Match.h"
 #include "Reorder.h"

@@ -90,7 +90,7 @@
 #include "ReteUtility.h"
 #include "ruledef.h"
 #include "rulepsr.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 #include "Utility.h"
 

@@ -60,7 +60,7 @@
 
 #define _H_cstrcpsr
 
-#include "strngfun.h"
+#include "StringFunctions.h"
 
 typedef enum
   {

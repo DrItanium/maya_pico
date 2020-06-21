@@ -51,9 +51,7 @@
 
 #define OBJECTRETEBIN_DATA 34
 
-#ifndef _H_objrtmch
 #include "objrtmch.h"
-#endif
 
 struct objectReteBinaryData
   {

@@ -86,8 +86,8 @@
 #include "prcdrfun.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "scanner.h"
-#include "strngrtr.h"
+#include "Scanner.h"
+#include "StringRouter.h"
 
 #if DEFRULE_CONSTRUCT
 #include "Network.h"

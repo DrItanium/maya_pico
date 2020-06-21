@@ -101,7 +101,7 @@
 #include "msgfun.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 

@@ -70,7 +70,7 @@
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #include "tmpltpsr.h"
 #include "tmpltrhs.h"
 #include "tmpltutl.h"

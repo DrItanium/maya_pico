@@ -84,7 +84,7 @@
 #include "modulpsr.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 

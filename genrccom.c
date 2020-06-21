@@ -108,7 +108,7 @@
 #include "modulutl.h"
 #include "multifld.h"
 #include "Router.h"
-#include "strngrtr.h"
+#include "StringRouter.h"
 #if DEBUGGING_FUNCTIONS
 #include "Watch.h"
 #endif

@@ -97,7 +97,7 @@
 #include "prcdrfun.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Utility.h"
 
 /**************/

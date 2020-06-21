@@ -46,7 +46,7 @@ typedef void PrintItemFunction(Environment *,const char *,void *);
 
 #include "moduldef.h"
 #include "Symbol.h"
-#include "scanner.h"
+#include "Scanner.h"
 
    unsigned                       FindModuleSeparator(const char *);
    CLIPSLexeme                   *ExtractModuleName(Environment *,unsigned,const char *);

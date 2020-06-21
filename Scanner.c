@@ -57,7 +57,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "scanner.h"
+#include "Scanner.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -50,7 +50,7 @@
 #include "Router.h"
 #include "SystemDependency.h"
 
-#include "strngrtr.h"
+#include "StringRouter.h"
 
 #define READ_STRING 0
 #define WRITE_STRING 1

@@ -40,7 +40,7 @@
 #include "Expression.h"
 #include "Pattern.h"
 #include "Reorder.h"
-#include "scanner.h"
+#include "Scanner.h"
 
 struct lhsParseNode           *ParseRuleLHS(Environment *,const char *,struct token *,const char *,bool *);
 void                           PropagatePatternType(struct lhsParseNode *,struct patternParser *);

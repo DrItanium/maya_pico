@@ -56,7 +56,7 @@
 #include "Reorder.h"
 #include "Router.h"
 #include "ruledef.h"
-#include "scanner.h"
+#include "Scanner.h"
 #include "Symbol.h"
 
 #include "rulelhs.h"
