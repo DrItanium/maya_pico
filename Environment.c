@@ -85,7 +85,7 @@
 #include "sortfun.h"
 #include "StringFunctions.h"
 #include "SystemDependency.h"
-#include "textpro.h"
+#include "TextProcessing.h"
 #include "Utility.h"
 #include "Watch.h"
 

@@ -89,7 +89,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "textpro.h"
+#include "TextProcessing.h"
 
 #if TEXTPRO_FUNCTIONS
 

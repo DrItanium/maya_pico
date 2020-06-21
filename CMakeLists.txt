@@ -143,7 +143,7 @@ add_library(clips
 		SymbolBinarySave.c
 		Symbol.c
 		SystemDependency.c
-	textpro.c
+		TextProcessing.c
 	tmpltbin.c
 	tmpltbsc.c
 	tmpltdef.c
