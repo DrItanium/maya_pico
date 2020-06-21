@@ -126,6 +126,44 @@ void SaveCommand(Environment *, UDFContext *, UDFValue *);
 void DribbleOnCommand(Environment *, UDFContext *, UDFValue *);
 void DribbleOffCommand(Environment *, UDFContext *, UDFValue *);
 
+#define FILE_ROUTER_DATA 47
+
+struct fileRouter {
+    const char *logicalName;
+    FILE *stream;
+    struct fileRouter *next;
+};
+
+struct fileRouterData {
+    struct fileRouter *ListOfFileRouters;
+};
+
+#define FileRouterData(theEnv) ((struct fileRouterData *) GetEnvironmentData(theEnv,FILE_ROUTER_DATA))
+
+void InitializeFileRouter(Environment *);
+FILE *FindFptr(Environment *, const char *);
+bool OpenAFile(Environment *, const char *, const char *, const char *);
+bool CloseAllFiles(Environment *);
+bool CloseFile(Environment *, const char *);
+bool FindFile(Environment *, const char *, void *);
+bool FlushAllFiles(Environment *);
+bool FlushFile(Environment *, const char *);
+bool RewindFile(Environment *, const char *);
+long long TellFile(Environment *, const char *);
+bool SeekFile(Environment *, const char *, long, int);
+
+bool DribbleOn(Environment *, const char *);
+bool DribbleActive(Environment *);
+bool DribbleOff(Environment *);
+void AppendDribble(Environment *, const char *);
+int LLGetcBatch(Environment *, const char *, bool);
+bool Batch(Environment *, const char *);
+bool OpenBatch(Environment *, const char *, bool);
+bool OpenStringBatch(Environment *, const char *, const char *, bool);
+bool RemoveBatch(Environment *);
+bool BatchActive(Environment *);
+void CloseAllBatchSources(Environment *);
+bool BatchStar(Environment *, const char *);
 #endif /* _H_filecom */
 
 

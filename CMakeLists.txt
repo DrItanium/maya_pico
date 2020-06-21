@@ -67,7 +67,7 @@ add_library(clips
         FactQuery.c
         FactReteAccessFunctions.c
         FactRHSPatternParser.c
-        FileCommands.c
+        File.c
         FileRouter.c
         FileUtilities.c
         Generate.c

@@ -85,13 +85,13 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "FileUtilities.h"
+#include "File.h"
 #include "MemoryAllocation.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "FileCommands.h"
+#include "File.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

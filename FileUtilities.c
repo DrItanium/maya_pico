@@ -50,10 +50,10 @@
 #include "Scanner.h"
 #include "StringRouter.h"
 #include "SystemDependency.h"
-#include "FileCommands.h"
+#include "File.h"
 #include "Utility.h"
 
-#include "FileUtilities.h"
+#include "File.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

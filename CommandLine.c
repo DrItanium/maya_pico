@@ -100,7 +100,7 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "FileUtilities.h"
+#include "File.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"
 #include "PrettyPrint.h"
