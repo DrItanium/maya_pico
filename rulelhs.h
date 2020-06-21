@@ -38,7 +38,7 @@
 #define _H_rulelhs
 
 #include "Expression.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "reorder.h"
 #include "scanner.h"
 

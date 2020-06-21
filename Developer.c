@@ -58,7 +58,7 @@
 #include "inscom.h"
 #include "modulutl.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "utility.h"
 #include "Fact.h"
 

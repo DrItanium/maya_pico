@@ -78,7 +78,7 @@
 #include "prntutil.h"
 #include "reteutil.h"
 #include "retract.h"
-#include "router.h"
+#include "Router.h"
 #include "rulebsc.h"
 #include "ruledef.h"
 #include "strngrtr.h"

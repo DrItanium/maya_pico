@@ -79,7 +79,7 @@
 #include "strngrtr.h"
 #include "sysdep.h"
 
-#include "router.h"
+#include "Router.h"
 
 /**********************/
 /* STRING DEFINITIONS */

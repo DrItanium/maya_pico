@@ -43,7 +43,7 @@
 #include "moduldef.h"
 
 #if DEFRULE_CONSTRUCT
-#include "network.h"
+#include "Network.h"
 #endif
 
 #if DEFGENERIC_CONSTRUCT

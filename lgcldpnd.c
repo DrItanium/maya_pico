@@ -52,9 +52,9 @@
 #include "Evaluation.h"
 #include "Fact.h"
 #include "memalloc.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "lgcldpnd.h"
 

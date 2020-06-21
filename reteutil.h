@@ -60,8 +60,8 @@
 #define _H_reteutil
 
 #include "Evaluation.h"
-#include "match.h"
-#include "network.h"
+#include "Match.h"
+#include "Network.h"
 #include "rulecom.h"
 
 #define NETWORK_ASSERT  0

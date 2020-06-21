@@ -83,7 +83,7 @@
 #include "Fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
-#include "router.h"
+#include "Router.h"
 #include "prcdrfun.h"
 #include "multifld.h"
 #include "prntutil.h"

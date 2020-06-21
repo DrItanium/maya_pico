@@ -49,8 +49,8 @@
 
 #define _H_retract
 
-#include "match.h"
-#include "network.h"
+#include "Match.h"
+#include "Network.h"
 
 struct rdriveinfo
   {

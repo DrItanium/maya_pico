@@ -50,7 +50,7 @@
 
 #define _H_rulebld
 
-#include "network.h"
+#include "Network.h"
 #include "reorder.h"
 
    struct joinNode               *ConstructJoins(Environment *,int,struct lhsParseNode *,int,struct joinNode *,bool,bool);

@@ -67,9 +67,9 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "rulelhs.h"
 
 #if DEVELOPER && DEBUGGING_FUNCTIONS

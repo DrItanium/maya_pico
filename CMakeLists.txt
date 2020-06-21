@@ -70,7 +70,7 @@ add_library(clips
 	filecom.c
 	filertr.c
 	fileutil.c
-	generate.c
+		Generate.c
 	genrcbin.c
 	genrccom.c
 	genrcexe.c
@@ -115,8 +115,8 @@ add_library(clips
 	objrtgen.c
 	objrtmch.c
 	parsefun.c
-	pattern.c
-	pprint.c
+		Pattern.c
+		PrettyPrint.c
 	prccode.c
 	prcdrfun.c
 	prcdrpsr.c
@@ -126,7 +126,7 @@ add_library(clips
 	reorder.c
 	reteutil.c
 	retract.c
-	router.c
+		Router.c
 	rulebin.c
 	rulebld.c
 	rulebsc.c
@@ -141,7 +141,7 @@ add_library(clips
 	strngfun.c
 	strngrtr.c
 	symblbin.c
-	symbol.c
+		Symbol.c
 	sysdep.c
 	textpro.c
 	tmpltbin.c

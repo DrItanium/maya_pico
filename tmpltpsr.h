@@ -47,7 +47,7 @@
 
 #define _H_tmpltpsr
 
-#include "symbol.h"
+#include "Symbol.h"
 #include "tmpltdef.h"
 
    bool                           ParseDeftemplate(Environment *,const char *);

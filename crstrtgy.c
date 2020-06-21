@@ -64,7 +64,7 @@
 #include "constant.h"
 #include "Environment.h"
 #include "memalloc.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "reteutil.h"
 
 #include "crstrtgy.h"

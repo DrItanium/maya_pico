@@ -86,7 +86,7 @@
 #include "modulutl.h"
 #include "prccode.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 
 #include "genrcfun.h"

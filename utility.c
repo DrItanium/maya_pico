@@ -88,8 +88,8 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "prntutil.h"
-#include "router.h"
-#include "symbol.h"
+#include "Router.h"
+#include "Symbol.h"
 #include "sysdep.h"
 
 #include "utility.h"

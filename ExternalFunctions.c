@@ -64,7 +64,7 @@
 #include "Expression.h"
 #include "Fact.h"
 #include "memalloc.h"
-#include "router.h"
+#include "Router.h"
 
 #if OBJECT_SYSTEM
 #include "inscom.h"

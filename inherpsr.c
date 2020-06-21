@@ -44,9 +44,9 @@
 #include "Environment.h"
 #include "memalloc.h"
 #include "modulutl.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
 
 #include "inherpsr.h"

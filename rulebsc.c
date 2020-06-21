@@ -74,7 +74,7 @@
 #include "ExternalFunctions.h"
 #include "multifld.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 #include "ruledef.h"
 #include "watch.h"
 

@@ -11,13 +11,13 @@ typedef struct factHashEntry FactHashEntry;
 struct factPatternNode;
 
 #include "setup.h"
-#include "network.h"
+#include "Network.h"
 #include "Entities.h"
 #include "tmpltdef.h"
 #include "Expression.h"
 #include "Evaluation.h"
 #include "scanner.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "reorder.h"
 
 typedef void ModifyCallFunction(Environment *, Fact *, Fact *, void *);

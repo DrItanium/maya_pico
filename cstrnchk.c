@@ -62,7 +62,7 @@
 #include "ExternalFunctions.h"
 #include "multifld.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 
 #if OBJECT_SYSTEM
 #include "classcom.h"

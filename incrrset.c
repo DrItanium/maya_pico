@@ -68,8 +68,8 @@
 #include "Engine.h"
 #include "Environment.h"
 #include "Evaluation.h"
-#include "pattern.h"
-#include "router.h"
+#include "Pattern.h"
+#include "Router.h"
 #include "reteutil.h"
 
 #include "incrrset.h"

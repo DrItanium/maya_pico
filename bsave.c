@@ -61,7 +61,7 @@
 #include "memalloc.h"
 #include "moduldef.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "symblbin.h"
 
 #include "bsave.h"

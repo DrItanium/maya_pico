@@ -39,7 +39,7 @@
 #include "Environment.h"
 #include "memalloc.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "bload.h"
 
 #if BLOAD_AND_BSAVE

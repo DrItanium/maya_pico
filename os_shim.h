@@ -23,7 +23,7 @@
 //
 #ifndef __OS_SHIM_H__
 #define __OS_SHIM_H__
-#include "platform.h"
+#include "Platform.h"
 
 #if defined(PLATFORM_LINUX)
 	#define LINUX 1

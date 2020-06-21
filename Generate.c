@@ -59,13 +59,13 @@
 #endif
 
 #include "memalloc.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "ruledef.h"
-#include "symbol.h"
+#include "Symbol.h"
 
-#include "generate.h"
+#include "Generate.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

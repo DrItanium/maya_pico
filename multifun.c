@@ -92,11 +92,11 @@
 #if OBJECT_SYSTEM
 #include "object.h"
 #endif
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prcdrpsr.h"
 #include "prcdrfun.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
 #include "utility.h"
 

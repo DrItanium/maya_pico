@@ -63,7 +63,7 @@ typedef enum
 #include "cstrccom.h"
 #include "moduldef.h"
 #include "object.h"
-#include "symbol.h"
+#include "Symbol.h"
 
    const char             *DefclassName(Defclass *);
    const char             *DefclassPPForm(Defclass *);

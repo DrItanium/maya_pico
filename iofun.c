@@ -124,7 +124,7 @@
 #include "memalloc.h"
 #include "miscfun.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
 #include "strngrtr.h"
 #include "sysdep.h"

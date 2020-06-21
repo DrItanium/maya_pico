@@ -70,7 +70,7 @@
 #include "modulbsc.h"
 #include "modulpsr.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "utility.h"
 
 #include "moduldef.h"

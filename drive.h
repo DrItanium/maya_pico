@@ -45,8 +45,8 @@
 #define _H_drive
 
 #include "Expression.h"
-#include "match.h"
-#include "network.h"
+#include "Match.h"
+#include "Network.h"
 
    void                           NetworkAssert(Environment *,struct partialMatch *,struct joinNode *);
    bool                           EvaluateJoinExpression(Environment *,struct expr *,struct joinNode *);

@@ -109,7 +109,7 @@
 #include "proflfun.h"
 #include "reteutil.h"
 #include "retract.h"
-#include "router.h"
+#include "Router.h"
 #include "ruledlt.h"
 #include "sysdep.h"
 #include "utility.h"

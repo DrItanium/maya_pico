@@ -84,7 +84,7 @@ typedef struct focalModule FocalModule;
 
 #include "lgcldpnd.h"
 #include "ruledef.h"
-#include "network.h"
+#include "Network.h"
 #include "moduldef.h"
 #include "retract.h"
 

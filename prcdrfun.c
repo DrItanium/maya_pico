@@ -66,7 +66,7 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "prcdrpsr.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
 #include "utility.h"
 

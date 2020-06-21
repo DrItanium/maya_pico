@@ -84,7 +84,7 @@
 #include "ruledlt.h"
 #include "reorder.h"
 #include "retract.h"
-#include "router.h"
+#include "Router.h"
 
 #include "insmngr.h"
 

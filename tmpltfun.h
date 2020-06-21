@@ -80,7 +80,7 @@
 
 #include "Expression.h"
 #include "Fact.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "tmpltdef.h"
 
    bool                           UpdateModifyDuplicate(Environment *,struct expr *,const char *,void *);

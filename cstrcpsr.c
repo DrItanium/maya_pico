@@ -74,7 +74,7 @@
 #include <string.h>
 
 #include "Environment.h"
-#include "router.h"
+#include "Router.h"
 #include "watch.h"
 #include "constrct.h"
 #include "prcdrpsr.h"
@@ -82,7 +82,7 @@
 #include "memalloc.h"
 #include "modulutl.h"
 #include "modulpsr.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prntutil.h"
 #include "strngrtr.h"
 #include "sysdep.h"

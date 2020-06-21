@@ -43,10 +43,10 @@
 #include "strngfun.h"
 #include "Environment.h"
 #include "CommandLine.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "filertr.h"
 #include "strngrtr.h"
 

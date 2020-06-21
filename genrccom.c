@@ -107,7 +107,7 @@
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "multifld.h"
-#include "router.h"
+#include "Router.h"
 #include "strngrtr.h"
 #if DEBUGGING_FUNCTIONS
 #include "watch.h"

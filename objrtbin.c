@@ -58,7 +58,7 @@
 #include "memalloc.h"
 #include "insfun.h"
 #include "objrtmch.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "reteutil.h"
 #include "rulebin.h"
 

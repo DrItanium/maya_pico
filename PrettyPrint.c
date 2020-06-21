@@ -54,7 +54,7 @@
 #include "sysdep.h"
 #include "utility.h"
 
-#include "pprint.h"
+#include "PrettyPrint.h"
 
 #define PP_CR_FIXED_BUFFER_SIZE 120
 

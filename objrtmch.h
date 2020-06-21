@@ -74,10 +74,10 @@ typedef struct classAlphaLink CLASS_ALPHA_LINK;
 
 #include "Evaluation.h"
 #include "Expression.h"
-#include "match.h"
-#include "network.h"
+#include "Match.h"
+#include "Network.h"
 #include "object.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 typedef struct classBitMap
   {

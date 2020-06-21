@@ -67,8 +67,8 @@ typedef struct instanceModifier InstanceModifier;
 #include "Evaluation.h"
 #include "Expression.h"
 #include "multifld.h"
-#include "symbol.h"
-#include "match.h"
+#include "Symbol.h"
+#include "Match.h"
 
 #if DEFRULE_CONSTRUCT
 #include "objrtmch.h"

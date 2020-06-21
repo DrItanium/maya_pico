@@ -83,15 +83,15 @@
 #include "insfun.h"
 #include "insmngr.h"
 #include "memalloc.h"
-#include "network.h"
+#include "Network.h"
 #include "object.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "prntutil.h"
 #include "reteutil.h"
 #include "ruledef.h"
 #include "rulepsr.h"
 #include "scanner.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "utility.h"
 
 
@@ -100,9 +100,9 @@
 #include "objrtmch.h"
 #include "objrtgen.h"
 #include "objrtfnx.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "reorder.h"
-#include "router.h"
+#include "Router.h"
 
 #if BLOAD_AND_BSAVE || BLOAD
 #include "objrtbin.h"

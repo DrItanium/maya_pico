@@ -58,7 +58,7 @@
 struct lhsParseNode;
 
 #include "Expression.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "ruledef.h"
 
 typedef enum

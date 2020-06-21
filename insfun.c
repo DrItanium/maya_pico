@@ -105,7 +105,7 @@
 #include "msgfun.h"
 #include "prccode.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "utility.h"
 
 #include "insfun.h"

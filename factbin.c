@@ -43,7 +43,7 @@
 #include "Environment.h"
 #include "memalloc.h"
 #include "moduldef.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "reteutil.h"
 #include "rulebin.h"
 #include "tmpltdef.h"

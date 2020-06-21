@@ -73,12 +73,12 @@
 #include "msgfun.h"
 #include "msgpass.h"
 #if DEFRULE_CONSTRUCT
-#include "network.h"
+#include "Network.h"
 #include "objrtmch.h"
 #endif
 #include "prccode.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "insmoddp.h"
 

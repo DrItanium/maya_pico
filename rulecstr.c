@@ -49,7 +49,7 @@
 #include "prcdrpsr.h"
 #include "prntutil.h"
 #include "reorder.h"
-#include "router.h"
+#include "Router.h"
 #include "rulepsr.h"
 
 #include "rulecstr.h"

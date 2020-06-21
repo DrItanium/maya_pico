@@ -75,9 +75,9 @@
 #endif
 #include "scanner.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "strngrtr.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "utility.h"
 
 #include "multifld.h"

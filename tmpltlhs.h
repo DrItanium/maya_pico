@@ -38,7 +38,7 @@
 
 #define _H_tmpltlhs
 
-#include "symbol.h"
+#include "Symbol.h"
 #include "tmpltdef.h"
 
    struct lhsParseNode           *DeftemplateLHSParse(Environment *,const char *,Deftemplate *);

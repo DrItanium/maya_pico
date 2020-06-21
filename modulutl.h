@@ -45,7 +45,7 @@ typedef void *GetNextItemFunction(Environment *,void *);
 typedef void PrintItemFunction(Environment *,const char *,void *);
 
 #include "moduldef.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "scanner.h"
 
    unsigned                       FindModuleSeparator(const char *);

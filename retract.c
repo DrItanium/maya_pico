@@ -58,13 +58,13 @@
 #include "Engine.h"
 #include "Environment.h"
 #include "lgcldpnd.h"
-#include "match.h"
+#include "Match.h"
 #include "memalloc.h"
-#include "network.h"
+#include "Network.h"
 #include "prntutil.h"
 #include "reteutil.h"
-#include "router.h"
-#include "symbol.h"
+#include "Router.h"
+#include "Symbol.h"
 
 #include "retract.h"
 

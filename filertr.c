@@ -64,7 +64,7 @@
 #include "constant.h"
 #include "Environment.h"
 #include "memalloc.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 
 #include "filertr.h"

@@ -84,7 +84,7 @@
 #include "modulutl.h"
 #include "multifld.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "strngrtr.h"
 #include "utility.h"
 

@@ -56,7 +56,7 @@
 #include "utility.h"
 #include "ExternalFunctions.h"
 #include "Expression.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "sysdep.h"
 #include "symblbin.h"
 

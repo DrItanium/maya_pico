@@ -43,7 +43,7 @@
 #include "Expression.h"
 #include "memalloc.h"
 #include "moduldef.h"
-#include "router.h"
+#include "Router.h"
 
 #include "symblbin.h"
 

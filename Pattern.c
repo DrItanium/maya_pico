@@ -49,14 +49,14 @@
 #include "cstrnutl.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "match.h"
+#include "Match.h"
 #include "memalloc.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prntutil.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 
-#include "pattern.h"
+#include "Pattern.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

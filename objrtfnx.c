@@ -74,7 +74,7 @@
 #include "objrtmch.h"
 #include "prntutil.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "objrtfnx.h"
 

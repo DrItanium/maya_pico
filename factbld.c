@@ -50,7 +50,7 @@
 #include "modulutl.h"
 #include "reorder.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 #include "tmpltdef.h"
 
 

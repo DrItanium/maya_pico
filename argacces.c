@@ -74,7 +74,7 @@
 #include "inscom.h"
 #include "insfun.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 
 #include "argacces.h"

@@ -63,7 +63,7 @@
 #include "memalloc.h"
 #include "prntutil.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 #include "tmpltdef.h"
 

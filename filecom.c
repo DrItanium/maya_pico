@@ -87,7 +87,7 @@
 #include "ExternalFunctions.h"
 #include "fileutil.h"
 #include "memalloc.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 #include "utility.h"
 

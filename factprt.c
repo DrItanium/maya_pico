@@ -45,8 +45,8 @@
 #include "Environment.h"
 #include "Fact.h"
 #include "prntutil.h"
-#include "router.h"
-#include "symbol.h"
+#include "Router.h"
+#include "Symbol.h"
 
 /***************************************/
 /* PrintFactJNCompVars1: Print routine */

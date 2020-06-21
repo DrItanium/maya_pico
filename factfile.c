@@ -50,7 +50,7 @@
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
 #include "strngrtr.h"
 #include "symblbin.h"

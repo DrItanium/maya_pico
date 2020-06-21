@@ -44,7 +44,7 @@
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "multifld.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
 
 #include "cstrnops.h"

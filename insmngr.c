@@ -68,7 +68,7 @@
 #if OBJECT_SYSTEM
 
 #if DEFRULE_CONSTRUCT
-#include "network.h"
+#include "Network.h"
 #include "drive.h"
 #include "objrtmch.h"
 #include "lgcldpnd.h"
@@ -88,7 +88,7 @@
 #include "msgfun.h"
 #include "prccode.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 #include "utility.h"
 

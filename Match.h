@@ -44,7 +44,7 @@ typedef struct alphaMatch AlphaMatch;
 typedef struct multifieldMarker MultifieldMarker;
 
 #include "Entities.h"
-#include "network.h"
+#include "Network.h"
 
 /****************/
 /* patternMatch */

@@ -81,9 +81,9 @@ struct defruleModule;
 
 #include "constrct.h"
 #include "Expression.h"
-#include "network.h"
+#include "Network.h"
 #include "ruledef.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 struct defrule
   {

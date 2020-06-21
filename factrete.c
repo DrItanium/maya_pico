@@ -54,7 +54,7 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "reteutil.h"
-#include "router.h"
+#include "Router.h"
 
 
 /***************************************************************/

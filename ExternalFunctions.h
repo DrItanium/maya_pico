@@ -62,7 +62,7 @@
 
 #include "Evaluation.h"
 #include "Expression.h"
-#include "symbol.h"
+#include "Symbol.h"
 #include "userdata.h"
 
 typedef void UserDefinedFunction(Environment *,UDFContext *,UDFValue *);

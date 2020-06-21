@@ -88,7 +88,7 @@
 #include "memalloc.h"
 #include "prccode.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #if DEBUGGING_FUNCTIONS
 #include "watch.h"
 #endif

@@ -73,7 +73,7 @@ typedef struct defgeneric Defgeneric;
 #include "Expression.h"
 #include "Evaluation.h"
 #include "moduldef.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 #define METHOD_NOT_FOUND USHRT_MAX
 #define RESTRICTIONS_UNBOUNDED USHRT_MAX

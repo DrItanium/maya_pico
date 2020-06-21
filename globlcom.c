@@ -52,7 +52,7 @@
 #include "ExternalFunctions.h"
 #include "globldef.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "globlcom.h"
 

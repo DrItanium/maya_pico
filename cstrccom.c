@@ -77,7 +77,7 @@
 #include "multifld.h"
 #include "modulutl.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "utility.h"
 #include "CommandLine.h"
 #include "sysdep.h"

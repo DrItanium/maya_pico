@@ -65,7 +65,7 @@
 #include "ExternalFunctions.h"
 #include "miscfun.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "emathfun.h"
 

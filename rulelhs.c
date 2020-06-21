@@ -50,14 +50,14 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "memalloc.h"
-#include "pattern.h"
-#include "pprint.h"
+#include "Pattern.h"
+#include "PrettyPrint.h"
 #include "prntutil.h"
 #include "reorder.h"
-#include "router.h"
+#include "Router.h"
 #include "ruledef.h"
 #include "scanner.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 #include "rulelhs.h"
 

@@ -39,7 +39,7 @@
 
 #include <stdio.h>
 
-#include "symbol.h"
+#include "Symbol.h"
 
 #define BitMapPointer(i) ((CLIPSBitMap *) (SymbolData(theEnv)->BitMapArray[i]))
 #define SymbolPointer(i) ((CLIPSLexeme *) (SymbolData(theEnv)->SymbolArray[i]))

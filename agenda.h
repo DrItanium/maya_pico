@@ -65,8 +65,8 @@
 typedef struct activation Activation;
 
 #include "ruledef.h"
-#include "symbol.h"
-#include "match.h"
+#include "Symbol.h"
+#include "Match.h"
 
 typedef enum
   {

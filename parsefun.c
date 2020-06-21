@@ -60,10 +60,10 @@
 #include "Expression.h"
 #include "memalloc.h"
 #include "multifld.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prcdrpsr.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "strngrtr.h"
 #include "utility.h"
 

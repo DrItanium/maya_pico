@@ -62,7 +62,7 @@
 #include "genrcfun.h"
 #include "memalloc.h"
 #include "msgcom.h"
-#include "router.h"
+#include "Router.h"
 #include "sysdep.h"
 
 #include "proflfun.h"

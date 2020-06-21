@@ -67,7 +67,7 @@
 #endif
 
 #if DEFRULE_CONSTRUCT
-#include "network.h"
+#include "Network.h"
 #endif
 
 #if DEFGENERIC_CONSTRUCT
@@ -84,12 +84,12 @@
 #include "Expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prccode.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "scanner.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 #include "dffnxpsr.h"
 

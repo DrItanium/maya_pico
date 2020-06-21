@@ -55,7 +55,7 @@
 #else
 #include "prntutil.h"
 #endif
-#include "router.h"
+#include "Router.h"
 
 #include "genrcbin.h"
 

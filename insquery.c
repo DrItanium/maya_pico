@@ -82,7 +82,7 @@
 #include "memalloc.h"
 #include "prcdrfun.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 #include "utility.h"
 
 #include "insquery.h"

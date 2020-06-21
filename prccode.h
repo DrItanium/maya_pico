@@ -63,7 +63,7 @@
 #include "Evaluation.h"
 #include "moduldef.h"
 #include "scanner.h"
-#include "symbol.h"
+#include "Symbol.h"
 
 typedef struct ProcParamStack
   {

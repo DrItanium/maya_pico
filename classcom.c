@@ -78,7 +78,7 @@
 #include "modulutl.h"
 #include "msgcom.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "classcom.h"
 

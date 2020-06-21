@@ -48,7 +48,7 @@
 
 #include "cstrcbin.h"
 #include "modulbin.h"
-#include "network.h"
+#include "Network.h"
 
 struct bsaveDefrule
   {

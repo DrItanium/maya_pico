@@ -58,7 +58,7 @@
 #include "Evaluation.h"
 #include "Expression.h"
 #include "Fact.h"
-#include "symbol.h"
+#include "Symbol.h"
 
    void                           InvalidDeftemplateSlotMessage(Environment *,const char *,const char *,bool);
    void                           SingleFieldSlotCardinalityError(Environment *,const char *);

@@ -56,7 +56,7 @@ struct patternNodeHeader
    unsigned int selector : 1;
   };
 
-#include "match.h"
+#include "Match.h"
 
 struct patternNodeHashEntry
   {

@@ -77,7 +77,7 @@
 #include "Engine.h"
 #include "Environment.h"
 #include "memalloc.h"
-#include "pattern.h"
+#include "Pattern.h"
 #include "retract.h"
 #include "reteutil.h"
 #include "rulebsc.h"

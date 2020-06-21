@@ -52,7 +52,7 @@ struct dependency
   };
 
 #include "Entities.h"
-#include "match.h"
+#include "Match.h"
 
    bool                           AddLogicalDependencies(Environment *,PatternEntity *,bool);
    void                           RemoveEntityDependencies(Environment *,PatternEntity *);

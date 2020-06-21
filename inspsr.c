@@ -71,9 +71,9 @@
 #include "Evaluation.h"
 #include "Expression.h"
 #include "moduldef.h"
-#include "pprint.h"
+#include "PrettyPrint.h"
 #include "prntutil.h"
-#include "router.h"
+#include "Router.h"
 
 #include "inspsr.h"
 
