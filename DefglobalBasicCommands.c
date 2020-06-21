@@ -65,14 +65,14 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "globlbin.h"
+#include "DefglobalBinary.h"
 #endif
-#include "globlcom.h"
-#include "globldef.h"
+#include "DefglobalCommands.h"
+#include "Defglobal.h"
 #include "Multifield.h"
 #include "Watch.h"
 
-#include "globlbsc.h"
+#include "DefglobalBasicCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

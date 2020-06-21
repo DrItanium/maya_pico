@@ -61,8 +61,8 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Expression.h"
-#include "globlbsc.h"
-#include "globldef.h"
+#include "DefglobalBasicCommands.h"
+#include "Defglobal.h"
 #include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
@@ -73,7 +73,7 @@
 #include "Scanner.h"
 #include "Watch.h"
 
-#include "globlpsr.h"
+#include "DefglobalParser.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -72,7 +72,7 @@
 #include "cstrnchk.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "msgcom.h"

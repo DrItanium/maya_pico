@@ -63,7 +63,7 @@
 #include "Construct.h"
 #include "cstrnbin.h"
 #include "Environment.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
 #include "modulbin.h"
 #include "msgcom.h"

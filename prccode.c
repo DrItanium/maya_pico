@@ -76,7 +76,7 @@
 #include "Constants.h"
 #include "Environment.h"
 #if DEFGLOBAL_CONSTRUCT
-#include "globlpsr.h"
+#include "DefglobalParser.h"
 #endif
 #include "Expression.h"
 #include "Multifield.h"

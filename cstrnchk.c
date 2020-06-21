@@ -67,8 +67,8 @@
 #if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassExamination.h"
-#include "inscom.h"
-#include "insfun.h"
+#include "InstanceCommand.h"
+#include "InstanceFunctions.h"
 #endif
 
 #include "cstrnchk.h"

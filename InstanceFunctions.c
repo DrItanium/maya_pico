@@ -97,8 +97,8 @@
 #endif
 #include "Engine.h"
 #include "Environment.h"
-#include "inscom.h"
-#include "insmngr.h"
+#include "InstanceCommand.h"
+#include "InstanceManager.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "msgcom.h"
@@ -108,7 +108,7 @@
 #include "Router.h"
 #include "Utility.h"
 
-#include "insfun.h"
+#include "InstanceFunctions.h"
 
 /* =========================================
    *****************************************

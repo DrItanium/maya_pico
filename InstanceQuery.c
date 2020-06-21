@@ -76,16 +76,16 @@
 #include "ClassFunctions.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "insfun.h"
-#include "insmngr.h"
-#include "insqypsr.h"
+#include "InstanceFunctions.h"
+#include "InstanceManager.h"
+#include "InstanceSetQueryParser.h"
 #include "MemoryAllocation.h"
 #include "prcdrfun.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 
-#include "insquery.h"
+#include "InstanceQuery.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

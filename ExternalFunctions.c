@@ -67,7 +67,7 @@
 #include "Router.h"
 
 #if OBJECT_SYSTEM
-#include "inscom.h"
+#include "InstanceCommand.h"
 #endif
 
 #include "ExternalFunctions.h"

@@ -102,7 +102,7 @@
 
 #if OBJECT_SYSTEM
 #include "Object.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 #endif
 
 #include "Evaluation.h"

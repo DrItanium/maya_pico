@@ -80,7 +80,7 @@
 #include "ClassFunctions.h"
 #include "ClassInitialization.h"
 #include "Environment.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
 #include "msgcom.h"
 #include "msgfun.h"

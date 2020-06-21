@@ -86,7 +86,7 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "LogicalDependencies.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"

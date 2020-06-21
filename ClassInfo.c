@@ -74,7 +74,7 @@
 #include "ClassInitialization.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "msgcom.h"
 #include "msgfun.h"
 #include "Multifield.h"

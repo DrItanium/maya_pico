@@ -55,7 +55,7 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 #include "modulutl.h"
 #include "PrintUtility.h"
 #include "Router.h"
@@ -72,7 +72,7 @@
 #include "ObjectReteMatch.h"
 #endif
 #if OBJECT_SYSTEM
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #endif
 
 #include "Developer.h"

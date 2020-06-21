@@ -35,7 +35,7 @@
 
 #include "modulbin.h"
 #include "Construct.h"
-#include "globldef.h"
+#include "Defglobal.h"
 
 struct bsaveDefglobal {
     struct bsaveConstructHeader header;

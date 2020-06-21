@@ -63,10 +63,10 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "inscom.h"
-#include "insfun.h"
-#include "insmngr.h"
-#include "inspsr.h"
+#include "InstanceCommand.h"
+#include "InstanceFunctions.h"
+#include "InstanceManager.h"
+#include "InstanceParser.h"
 #include "MemoryAllocation.h"
 #include "MiscFunctions.h"
 #include "msgcom.h"
@@ -80,7 +80,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "insmoddp.h"
+#include "InstanceModifyAndDuplicate.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

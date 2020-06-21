@@ -100,7 +100,7 @@
 #include "Constants.h"
 #include "Environment.h"
 #include "Fact.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "prccode.h"

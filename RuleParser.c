@@ -64,7 +64,7 @@
 #include "Engine.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Pattern.h"

@@ -60,7 +60,7 @@
 #include "Constants.h"
 #include "Engine.h"
 #include "Environment.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "LogicalDependencies.h"
 #include "MemoryAllocation.h"
 #include "PrintUtility.h"

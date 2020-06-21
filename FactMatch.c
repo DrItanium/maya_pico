@@ -59,7 +59,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "MemoryAllocation.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"

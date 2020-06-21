@@ -69,7 +69,7 @@
 #include "clsltpsr.h"
 #include "Construct.h"
 #include "Environment.h"
-#include "inherpsr.h"
+#include "MultipleInheritanceParser.h"
 #include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"

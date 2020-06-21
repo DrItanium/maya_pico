@@ -57,14 +57,14 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "msgfun.h"
 #include "msgpass.h"
 #include "MultifieldFunctions.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "insmult.h"
+#include "InstanceMultifieldTypeSlot.h"
 
 /* =========================================
    *****************************************

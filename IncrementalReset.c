@@ -72,7 +72,7 @@
 #include "Router.h"
 #include "ReteUtility.h"
 
-#include "incrrset.h"
+#include "IncrementalReset.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

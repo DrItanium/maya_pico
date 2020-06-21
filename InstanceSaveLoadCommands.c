@@ -101,10 +101,10 @@
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 #include "Fact.h"
 #endif
-#include "inscom.h"
-#include "insfun.h"
-#include "insmngr.h"
-#include "inspsr.h"
+#include "InstanceCommand.h"
+#include "InstanceFunctions.h"
+#include "InstanceManager.h"
+#include "InstanceParser.h"
 #include "Object.h"
 #include "PrintUtility.h"
 #include "Router.h"
@@ -113,7 +113,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "insfile.h"
+#include "InstanceSaveLoadCommands.h"
 
 /* =========================================
    *****************************************

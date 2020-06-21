@@ -72,13 +72,13 @@
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
-#include "globlbin.h"
+#include "DefglobalBinary.h"
 #endif
 #include "CommandLine.h"
 #include "Environment.h"
-#include "globlbsc.h"
-#include "globlcom.h"
-#include "globlpsr.h"
+#include "DefglobalBasicCommands.h"
+#include "DefglobalCommands.h"
+#include "DefglobalParser.h"
 #include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
@@ -88,7 +88,7 @@
 #include "StringRouter.h"
 #include "Utility.h"
 
-#include "globldef.h"
+#include "Defglobal.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

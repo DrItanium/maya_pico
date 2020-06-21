@@ -63,7 +63,7 @@
 #include "ClassCommands.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "insquery.h"
+#include "InstanceQuery.h"
 #include "prcdrpsr.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
@@ -71,7 +71,7 @@
 #include "Scanner.h"
 #include "StringRouter.h"
 
-#include "insqypsr.h"
+#include "InstanceSetQueryParser.h"
 
 /* =========================================
    *****************************************

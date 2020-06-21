@@ -70,7 +70,7 @@
 #include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "Match.h"
 #include "MemoryAllocation.h"
 #include "moduldef.h"

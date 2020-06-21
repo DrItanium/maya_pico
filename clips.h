@@ -76,7 +76,7 @@
 #include "BasicRuleCommands.h"
 #include "Engine.h"
 #include "Drive.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "RuleCommands.h"
 #include "ConflictResolutionStrategy.h"
 #endif
@@ -94,9 +94,9 @@
 #endif
 
 #if DEFGLOBAL_CONSTRUCT
-#include "globldef.h"
-#include "globlbsc.h"
-#include "globlcom.h"
+#include "Defglobal.h"
+#include "DefglobalBasicCommands.h"
+#include "DefglobalCommands.h"
 #endif
 
 #if DEFFUNCTION_CONSTRUCT
@@ -116,10 +116,10 @@
 #include "ClassInitialization.h"
 #include "ClassParser.h"
 #include "Definstances.h"
-#include "inscom.h"
-#include "insfile.h"
-#include "insfun.h"
-#include "insmngr.h"
+#include "InstanceCommand.h"
+#include "InstanceSaveLoadCommands.h"
+#include "InstanceFunctions.h"
+#include "InstanceManager.h"
 #include "msgcom.h"
 #include "msgpass.h"
 #include "ObjectReteMatch.h"

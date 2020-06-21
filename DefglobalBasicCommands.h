@@ -60,7 +60,7 @@
 #define _H_globlbsc
 
 #include "Evaluation.h"
-#include "globldef.h"
+#include "Defglobal.h"
 
 void DefglobalBasicCommands(Environment *);
 void UndefglobalCommand(Environment *, UDFContext *, UDFValue *);

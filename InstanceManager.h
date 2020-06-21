@@ -51,7 +51,7 @@
 #define _H_insmngr
 
 #include "Object.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 
 void InitializeInstanceCommand(Environment *, UDFContext *, UDFValue *);
 void MakeInstanceCommand(Environment *, UDFContext *, UDFValue *);

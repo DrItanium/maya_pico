@@ -45,7 +45,7 @@
 #endif
 #include "Construct.h"
 #include "Fact.h"
-#include "insmngr.h"
+#include "InstanceManager.h"
 #include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"

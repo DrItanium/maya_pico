@@ -69,7 +69,7 @@
 #include "MemoryAllocation.h"
 #include "prccode.h"
 
-#include "immthpsr.h"
+#include "ImplicitSystemMethodsParsing.h"
 
 /* =========================================
    *****************************************

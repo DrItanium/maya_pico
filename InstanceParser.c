@@ -75,7 +75,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "inspsr.h"
+#include "InstanceParser.h"
 
 /* =========================================
    *****************************************

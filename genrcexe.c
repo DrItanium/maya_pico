@@ -59,7 +59,7 @@
 #if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #endif
 
 #include "ArgumentAccess.h"

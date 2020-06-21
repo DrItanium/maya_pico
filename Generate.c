@@ -55,7 +55,7 @@
 #include "Expression.h"
 
 #if DEFGLOBAL_CONSTRUCT
-#include "globlpsr.h"
+#include "DefglobalParser.h"
 #endif
 
 #include "MemoryAllocation.h"

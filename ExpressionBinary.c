@@ -60,13 +60,13 @@
 #endif
 
 #if DEFGLOBAL_CONSTRUCT
-#include "globlbin.h"
+#include "DefglobalBinary.h"
 #endif
 
 #if OBJECT_SYSTEM
 #include "ObjectBinaryLoadSave.h"
-#include "insfun.h"
-#include "inscom.h"
+#include "InstanceFunctions.h"
+#include "InstanceCommand.h"
 #endif
 
 #include "Expression.h"

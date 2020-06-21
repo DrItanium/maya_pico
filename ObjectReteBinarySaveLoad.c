@@ -56,7 +56,7 @@
 #include "ClassFunctions.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "ObjectReteMatch.h"
 #include "Pattern.h"
 #include "ReteUtility.h"

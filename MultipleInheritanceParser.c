@@ -49,7 +49,7 @@
 #include "Router.h"
 #include "Scanner.h"
 
-#include "inherpsr.h"
+#include "MultipleInheritanceParser.h"
 
 /* =========================================
    *****************************************

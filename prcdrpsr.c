@@ -73,8 +73,8 @@
 #include "prcdrpsr.h"
 
 #if DEFGLOBAL_CONSTRUCT
-#include "globldef.h"
-#include "globlpsr.h"
+#include "Defglobal.h"
+#include "DefglobalParser.h"
 #endif
 
 #define PRCDRPSR_DATA 12

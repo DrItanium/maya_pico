@@ -62,7 +62,7 @@
 #include "cstrnutl.h"
 #include "DefaultAttribute.h"
 #include "Environment.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

@@ -97,7 +97,7 @@ typedef enum {
     IME_RULE_NETWORK_ERROR
 } InstanceModifierError;
 
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "Object.h"
 
 #define INSTANCE_DATA 29

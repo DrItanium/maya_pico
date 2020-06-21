@@ -90,7 +90,7 @@
 #endif
 #if OBJECT_SYSTEM
 #include "ClassCommands.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 #endif
 #include "Construct.h"
 #include "Construct.h"

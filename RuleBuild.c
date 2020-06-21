@@ -57,7 +57,7 @@
 #include "Environment.h"
 #include "Construct.h"
 #include "Drive.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "MemoryAllocation.h"
 #include "Pattern.h"
 #include "PrintUtility.h"

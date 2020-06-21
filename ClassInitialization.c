@@ -83,7 +83,7 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 #include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "modulutl.h"
@@ -95,7 +95,7 @@
 #endif
 
 #if INSTANCE_SET_QUERIES
-#include "insquery.h"
+#include "InstanceQuery.h"
 #endif
 
 #if BLOAD_AND_BSAVE || BLOAD

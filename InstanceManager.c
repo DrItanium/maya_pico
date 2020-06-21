@@ -80,7 +80,7 @@
 #include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
 #include "MiscFunctions.h"
 #include "modulutl.h"
@@ -92,9 +92,9 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "insmngr.h"
+#include "InstanceManager.h"
 
-#include "inscom.h"
+#include "InstanceCommand.h"
 #include "Watch.h"
 
 /* =========================================

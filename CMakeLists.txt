@@ -76,23 +76,23 @@ add_library(clips
         genrcexe.c
         genrcfun.c
         genrcpsr.c
-        globlbin.c
-        globlbsc.c
-        globlcom.c
-        globldef.c
-        globlpsr.c
-        immthpsr.c
-        incrrset.c
-        inherpsr.c
-        inscom.c
-        insfile.c
-        insfun.c
-        insmngr.c
-        insmoddp.c
-        insmult.c
-        inspsr.c
-        insquery.c
-        insqypsr.c
+		DefglobalBinary.c
+		DefglobalBasicCommands.c
+		DefglobalCommands.c
+		Defglobal.c
+		DefglobalParser.c
+		ImplicitSystemMethodsParsing.c
+		IncrementalReset.c
+		MultipleInheritanceParser.c
+		InstanceCommand.c
+		InstanceSaveLoadCommands.c
+		InstanceFunctions.c
+		InstanceManager.c
+		InstanceModifyAndDuplicate.c
+		InstanceMultifieldTypeSlot.c
+		InstanceParser.c
+		InstanceQuery.c
+		InstanceSetQueryParser.c
         IOFunctions.c
         LogicalDependencies.c
         MemoryAllocation.c

@@ -67,7 +67,7 @@
 #endif
 
 #if DEFGLOBAL_CONSTRUCT
-#include "globldef.h"
+#include "Defglobal.h"
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT

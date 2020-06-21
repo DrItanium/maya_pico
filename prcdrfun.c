@@ -73,7 +73,7 @@
 #include "prcdrfun.h"
 
 #if DEFGLOBAL_CONSTRUCT
-#include "globldef.h"
+#include "Defglobal.h"
 #endif
 
 /***************************************/

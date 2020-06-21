@@ -50,7 +50,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"
 #include "ReteUtility.h"

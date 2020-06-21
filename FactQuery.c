@@ -76,7 +76,7 @@
 #include "Expression.h"
 #include "modulutl.h"
 #include "tmpltutl.h"
-#include "insfun.h"
+#include "InstanceFunctions.h"
 #include "Fact.h"
 #include "prcdrfun.h"
 #include "PrintUtility.h"

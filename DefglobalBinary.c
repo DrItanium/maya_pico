@@ -38,13 +38,13 @@
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #include "Environment.h"
-#include "globlbsc.h"
-#include "globldef.h"
+#include "DefglobalBasicCommands.h"
+#include "Defglobal.h"
 #include "MemoryAllocation.h"
 #include "moduldef.h"
 #include "Multifield.h"
 
-#include "globlbin.h"
+#include "DefglobalBinary.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

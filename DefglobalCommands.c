@@ -50,11 +50,11 @@
 #include "ArgumentAccess.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "globldef.h"
+#include "Defglobal.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "globlcom.h"
+#include "DefglobalCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

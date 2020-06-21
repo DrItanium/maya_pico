@@ -74,7 +74,7 @@
 #include "Drive.h"
 #include "Engine.h"
 #include "Environment.h"
-#include "incrrset.h"
+#include "IncrementalReset.h"
 #include "LogicalDependencies.h"
 #include "Multifield.h"
 #include "InferenceEngineObjectAccessRotuines.h"
@@ -86,7 +86,7 @@
 #include "Retract.h"
 #include "Router.h"
 
-#include "insmngr.h"
+#include "InstanceManager.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

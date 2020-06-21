@@ -54,7 +54,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "Fact.h"
-#include "inscom.h"
+#include "InstanceCommand.h"
 #include "Multifield.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

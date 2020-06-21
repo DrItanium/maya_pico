@@ -83,7 +83,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "genrccom.h"
-#include "immthpsr.h"
+#include "ImplicitSystemMethodsParsing.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "PrettyPrint.h"

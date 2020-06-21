@@ -89,12 +89,12 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "Evaluation.h"
-#include "insfile.h"
-#include "insfun.h"
-#include "insmngr.h"
-#include "insmoddp.h"
-#include "insmult.h"
-#include "inspsr.h"
+#include "InstanceSaveLoadCommands.h"
+#include "InstanceFunctions.h"
+#include "InstanceManager.h"
+#include "InstanceModifyAndDuplicate.h"
+#include "InstanceMultifieldTypeSlot.h"
+#include "InstanceParser.h"
 #include "LogicalDependencies.h"
 #include "MemoryAllocation.h"
 #include "msgcom.h"
@@ -105,7 +105,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "inscom.h"
+#include "InstanceCommand.h"
 
 /* =========================================
    *****************************************
