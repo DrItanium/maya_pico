@@ -60,7 +60,7 @@
 #include "cstrcpsr.h"
 #include "environment.h"
 #include "evaluatn.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "globlbsc.h"
 #include "globldef.h"
 #include "memalloc.h"

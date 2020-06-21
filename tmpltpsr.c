@@ -62,7 +62,7 @@
 #include "cstrnutl.h"
 #include "default.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"

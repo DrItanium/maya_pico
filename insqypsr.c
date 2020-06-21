@@ -62,7 +62,7 @@
 
 #include "classcom.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "insquery.h"
 #include "prcdrpsr.h"
 #include "pprint.h"

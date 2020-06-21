@@ -81,7 +81,7 @@
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "genrccom.h"
 #include "immthpsr.h"
 #include "memalloc.h"

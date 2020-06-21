@@ -75,7 +75,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "insfun.h"
 #include "insmngr.h"
 #include "insqypsr.h"

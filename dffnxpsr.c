@@ -81,7 +81,7 @@
 #include "dffnxfun.h"
 #include "environment.h"
 #include "expression.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"

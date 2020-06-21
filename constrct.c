@@ -90,7 +90,7 @@
 #include "constant.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "miscfun.h"
 #include "moduldef.h"

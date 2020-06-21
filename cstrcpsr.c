@@ -78,7 +78,7 @@
 #include "watch.h"
 #include "constrct.h"
 #include "prcdrpsr.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "modulpsr.h"

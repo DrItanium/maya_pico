@@ -55,7 +55,7 @@
 #include "sysdep.h"
 #include "bmathfun.h"
 #include "expression.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "evaluatn.h"
 #include "miscfun.h"
 #include "constrct.h"

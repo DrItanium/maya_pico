@@ -71,7 +71,7 @@
 #include "cstrcpsr.h"
 #include "cstrnchk.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "insfun.h"
 #include "memalloc.h"
 #include "modulutl.h"

@@ -63,7 +63,7 @@
 #endif
 #include "cstrnutl.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "extnfunc.h"
 #include "genrcpsr.h"
 #include "memalloc.h"

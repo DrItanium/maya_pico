@@ -78,7 +78,7 @@
 #include "commline.h"
 #include "constrct.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "inscom.h"
 #include "insfun.h"
 #include "memalloc.h"

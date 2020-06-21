@@ -47,7 +47,7 @@
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "cstrnops.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "generate.h"
 #include "memalloc.h"
 #include "modulutl.h"

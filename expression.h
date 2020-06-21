@@ -49,9 +49,12 @@
 
 struct exprHashNode;
 typedef struct savedContexts SavedContexts;
+
 #include <stdio.h>
 #include "entities.h"
 #include "constrct.h"
+#include "extnfunc.h"
+#include "scanner.h"
 
 /******************************/
 /* Expression Data Structures */
@@ -165,6 +168,35 @@ struct expressionData
    struct expr                   *CombineExpressions(Environment *,struct expr *,struct expr *);
    struct expr                   *AppendExpressions(struct expr *,struct expr *);
    struct expr                   *NegateExpression(Environment *,struct expr *);
+   typedef enum
+   {
+       FAE_NO_ERROR = 0,
+       FAE_COUNT_ERROR,
+       FAE_TYPE_ERROR
+   } FunctionArgumentsError;
+
+
+   struct expr                   *Function0Parse(Environment *,const char *);
+   struct expr                   *Function1Parse(Environment *,const char *);
+   struct expr                   *Function2Parse(Environment *,const char *,const char *);
+   void                           PushRtnBrkContexts(Environment *);
+   void                           PopRtnBrkContexts(Environment *);
+   bool                           ReplaceSequenceExpansionOps(Environment *,struct expr *,struct expr *,
+                                                              void *,void *);
+   struct expr                   *CollectArguments(Environment *,struct expr *,const char *);
+   struct expr                   *ArgumentParse(Environment *,const char *,bool *);
+   struct expr                   *ParseAtomOrExpression(Environment *,const char *,struct token *);
+   Expression                    *ParseConstantArguments(Environment *,const char *,bool *);
+   struct expr                   *GroupActions(Environment *,const char *,struct token *,
+                                               bool,const char *,bool);
+   struct expr                   *RemoveUnneededProgn(Environment *,struct expr *);
+   void                           PopulateRestriction(Environment *,unsigned *,unsigned,const char *,unsigned int);
+
+
+   FunctionArgumentsError         CheckExpressionAgainstRestrictions(Environment *,struct expr *,
+                                                                     struct functionDefinition *,const char *);
+
+   bool                           RestrictionExists(const char *,int);
 #endif
 
 

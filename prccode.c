@@ -78,7 +78,7 @@
 #if DEFGLOBAL_CONSTRUCT
 #include "globlpsr.h"
 #endif
-#include "exprnpsr.h"
+#include "expression.h"
 #include "multifld.h"
 #if OBJECT_SYSTEM
 #include "object.h"

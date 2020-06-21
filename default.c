@@ -52,7 +52,7 @@
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "fact.h"
 #include "inscom.h"
 #include "multifld.h"

@@ -52,7 +52,7 @@
 #include "argacces.h"
 #include "constant.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 
 #if DEFGLOBAL_CONSTRUCT
 #include "globlpsr.h"

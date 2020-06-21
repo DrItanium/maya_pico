@@ -40,7 +40,7 @@
 #include "bsave.h"
 #include "cstrnbin.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "moduldef.h"
 #include "router.h"

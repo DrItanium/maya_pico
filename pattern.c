@@ -48,7 +48,7 @@
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "match.h"
 #include "memalloc.h"
 #include "pprint.h"

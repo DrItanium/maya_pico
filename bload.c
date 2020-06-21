@@ -58,7 +58,7 @@
 #include "constrct.h"
 #include "cstrnbin.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"

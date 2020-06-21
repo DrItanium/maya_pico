@@ -60,7 +60,7 @@
 #include "cstrnops.h"
 #include "cstrnutl.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "multifld.h"

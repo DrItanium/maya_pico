@@ -61,7 +61,7 @@
 #include <string.h>
 
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "extnfunc.h"
 #include "fact.h"
 #include "modulutl.h"

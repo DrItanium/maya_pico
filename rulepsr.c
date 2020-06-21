@@ -63,7 +63,7 @@
 #include "cstrnops.h"
 #include "engine.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "incrrset.h"
 #include "memalloc.h"
 #include "modulutl.h"

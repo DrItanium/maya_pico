@@ -100,7 +100,7 @@
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "fileutil.h"
 #include "memalloc.h"
 #include "multifld.h"

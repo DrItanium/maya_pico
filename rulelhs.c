@@ -48,7 +48,7 @@
 #include "constrnt.h"
 #include "cstrnchk.h"
 #include "environment.h"
-#include "exprnpsr.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "pattern.h"
 #include "pprint.h"
