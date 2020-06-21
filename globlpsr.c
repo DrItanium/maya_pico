@@ -53,7 +53,7 @@
 
 #include <string.h>
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
 #include "constrct.h"
@@ -113,7 +113,7 @@ bool ParseDefglobal(
    /* while a binary load is in effect.               */
    /*=================================================*/
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    if ((Bloaded(theEnv) == true) && (! ConstructData(theEnv)->CheckSyntaxMode))
      {
       CannotLoadWithBloadMessage(theEnv,"defglobal");

@@ -78,7 +78,7 @@
 #include "ruledef.h"
 #include "watch.h"
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "rulebin.h"
 #endif
 

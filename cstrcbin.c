@@ -181,5 +181,5 @@ void UnmarkConstructHeader(
    ReleaseLexeme(theEnv,theConstruct->name);
   }
 
-#endif /* BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE */
+#endif /* BLOAD || BLOAD_AND_BSAVE */
 

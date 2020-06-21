@@ -64,7 +64,7 @@
 #include "constrct.h"
 #include "envrnmnt.h"
 #include "extnfunc.h"
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "globlbin.h"
 #endif
 #include "globlcom.h"

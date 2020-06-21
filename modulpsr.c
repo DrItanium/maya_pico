@@ -163,7 +163,7 @@ bool ParseDefmodule(
    /* a binary load is in effect.   */
    /*===============================*/
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    if ((Bloaded(theEnv) == true) && (! ConstructData(theEnv)->CheckSyntaxMode))
      {
       CannotLoadWithBloadMessage(theEnv,"defmodule");

@@ -80,7 +80,7 @@
 #include "scanner.h"
 #include "tmpltdef.h"
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "dffctbin.h"
 #endif
 #include "dffctbsc.h"
