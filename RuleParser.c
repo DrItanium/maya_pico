@@ -73,12 +73,12 @@
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "rulebld.h"
-#include "rulebsc.h"
-#include "rulecstr.h"
-#include "ruledef.h"
-#include "ruledlt.h"
-#include "rulelhs.h"
+#include "RuleBuild.h"
+#include "BasicRuleCommands.h"
+#include "RuleConstraints.h"
+#include "Defrule.h"
+#include "RuleDelete.h"
+#include "RuleLHSParsing.h"
 #include "Scanner.h"
 #include "Symbol.h"
 #include "Watch.h"
@@ -93,7 +93,7 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "rulepsr.h"
+#include "RuleParser.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

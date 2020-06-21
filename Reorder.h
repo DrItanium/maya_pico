@@ -59,7 +59,7 @@ struct lhsParseNode;
 
 #include "Expression.h"
 #include "Pattern.h"
-#include "ruledef.h"
+#include "Defrule.h"
 
 typedef enum {
     PATTERN_CE_NODE = 2049,

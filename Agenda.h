@@ -64,7 +64,7 @@
 
 typedef struct activation Activation;
 
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Symbol.h"
 #include "Match.h"
 

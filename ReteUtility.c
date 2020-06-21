@@ -78,7 +78,7 @@
 #include "PrintUtility.h"
 #include "Retract.h"
 #include "Router.h"
-#include "rulecom.h"
+#include "RuleCommands.h"
 
 #include "ReteUtility.h"
 

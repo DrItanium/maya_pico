@@ -63,8 +63,8 @@
 #include "PrintUtility.h"
 #include "ReteUtility.h"
 #include "Router.h"
-#include "rulebld.h"
-#include "rulepsr.h"
+#include "RuleBuild.h"
+#include "RuleParser.h"
 #include "Watch.h"
 
 /***************************************/

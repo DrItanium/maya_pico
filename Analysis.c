@@ -55,9 +55,9 @@
 #include "PrintUtility.h"
 #include "Reorder.h"
 #include "Router.h"
-#include "rulecstr.h"
-#include "ruledef.h"
-#include "rulepsr.h"
+#include "RuleConstraints.h"
+#include "Defrule.h"
+#include "RuleParser.h"
 #include "Symbol.h"
 #include "Watch.h"
 

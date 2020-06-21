@@ -57,7 +57,7 @@
 
 #define _H_incrrset
 
-#include "ruledef.h"
+#include "Defrule.h"
 
 void IncrementalReset(Environment *, Defrule *);
 

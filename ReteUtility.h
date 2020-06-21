@@ -62,7 +62,7 @@
 #include "Evaluation.h"
 #include "Match.h"
 #include "Network.h"
-#include "rulecom.h"
+#include "RuleCommands.h"
 
 #define NETWORK_ASSERT  0
 #define NETWORK_RETRACT 1

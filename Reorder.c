@@ -70,7 +70,7 @@
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "rulelhs.h"
+#include "RuleLHSParsing.h"
 
 #if DEVELOPER && DEBUGGING_FUNCTIONS
 #include "watch.h"

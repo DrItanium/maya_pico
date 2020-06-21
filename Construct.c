@@ -99,7 +99,7 @@
 #include "prcdrpsr.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Scanner.h"
 #include "SystemDependency.h"
 #include "Utility.h"

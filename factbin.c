@@ -45,7 +45,7 @@
 #include "moduldef.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
-#include "rulebin.h"
+#include "RuleBinarySaveLoad.h"
 #include "tmpltdef.h"
 
 

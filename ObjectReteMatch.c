@@ -81,7 +81,7 @@
 #include "ObjectReteMatch.h"
 #include "PrintUtility.h"
 #include "ReteUtility.h"
-#include "ruledlt.h"
+#include "RuleDelete.h"
 #include "Reorder.h"
 #include "Retract.h"
 #include "Router.h"

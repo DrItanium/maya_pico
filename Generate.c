@@ -62,7 +62,7 @@
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Symbol.h"
 
 #include "Generate.h"

@@ -55,7 +55,7 @@
 #endif
 
 #if DEFRULE_CONSTRUCT
-#include "ruledef.h"
+#include "Defrule.h"
 #endif
 
 #if DEFGENERIC_CONSTRUCT

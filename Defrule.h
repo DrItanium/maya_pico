@@ -82,7 +82,7 @@ struct defruleModule;
 #include "Construct.h"
 #include "Expression.h"
 #include "Network.h"
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Symbol.h"
 
 struct defrule {

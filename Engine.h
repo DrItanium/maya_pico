@@ -83,7 +83,7 @@
 typedef struct focalModule FocalModule;
 
 #include "LogicalDependencies.h"
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Network.h"
 #include "moduldef.h"
 #include "Retract.h"

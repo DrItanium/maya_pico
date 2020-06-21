@@ -50,9 +50,9 @@
 #include "PrintUtility.h"
 #include "Reorder.h"
 #include "Router.h"
-#include "rulepsr.h"
+#include "RuleParser.h"
 
-#include "rulecstr.h"
+#include "RuleConstraints.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

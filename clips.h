@@ -72,12 +72,12 @@
 #endif
 
 #if DEFRULE_CONSTRUCT
-#include "ruledef.h"
-#include "rulebsc.h"
+#include "Defrule.h"
+#include "BasicRuleCommands.h"
 #include "Engine.h"
 #include "Drive.h"
 #include "incrrset.h"
-#include "rulecom.h"
+#include "RuleCommands.h"
 #include "ConflictResolutionStrategy.h"
 #endif
 

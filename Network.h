@@ -80,9 +80,7 @@ struct alphaMemoryHash {
 
 typedef struct alphaMemoryHash ALPHA_MEMORY_HASH;
 
-#ifndef _H_ruledef
-#include "ruledef.h"
-#endif
+#include "Defrule.h"
 
 #define INITIAL_BETA_HASH_SIZE 17
 

@@ -94,16 +94,16 @@
 #include "PrintUtility.h"
 #include "ReteUtility.h"
 #include "Router.h"
-#include "ruledlt.h"
+#include "RuleDelete.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 #include "Watch.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "rulebin.h"
+#include "RuleBinarySaveLoad.h"
 #endif
 
-#include "rulecom.h"
+#include "RuleCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

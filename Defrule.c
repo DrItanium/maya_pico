@@ -80,17 +80,17 @@
 #include "Pattern.h"
 #include "Retract.h"
 #include "ReteUtility.h"
-#include "rulebsc.h"
-#include "rulecom.h"
-#include "rulepsr.h"
-#include "ruledlt.h"
+#include "BasicRuleCommands.h"
+#include "RuleCommands.h"
+#include "RuleParser.h"
+#include "RuleDelete.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
-#include "rulebin.h"
+#include "RuleBinarySaveLoad.h"
 #endif
 
-#include "ruledef.h"
+#include "Defrule.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

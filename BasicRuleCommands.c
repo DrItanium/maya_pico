@@ -75,14 +75,14 @@
 #include "Multifield.h"
 #include "ReteUtility.h"
 #include "Router.h"
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Watch.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "rulebin.h"
+#include "RuleBinarySaveLoad.h"
 #endif
 
-#include "rulebsc.h"
+#include "BasicRuleCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

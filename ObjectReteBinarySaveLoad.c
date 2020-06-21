@@ -60,7 +60,7 @@
 #include "ObjectReteMatch.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
-#include "rulebin.h"
+#include "RuleBinarySaveLoad.h"
 
 #include "ObjectReteBinarySaveLoad.h"
 

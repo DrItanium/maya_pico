@@ -55,11 +55,11 @@
 #include "PrintUtility.h"
 #include "Reorder.h"
 #include "Router.h"
-#include "ruledef.h"
+#include "Defrule.h"
 #include "Scanner.h"
 #include "Symbol.h"
 
-#include "rulelhs.h"
+#include "RuleLHSParsing.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

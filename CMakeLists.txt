@@ -127,15 +127,15 @@ add_library(clips
         ReteUtility.c
         Retract.c
         Router.c
-        rulebin.c
-        rulebld.c
-        rulebsc.c
-        rulecom.c
-        rulecstr.c
-        ruledef.c
-        ruledlt.c
-        rulelhs.c
-        rulepsr.c
+		RuleBinarySaveLoad.c
+		RuleBuild.c
+		BasicRuleCommands.c
+		RuleCommands.c
+		RuleConstraints.c
+		Defrule.c
+		RuleDelete.c
+		RuleLHSParsing.c
+		RuleParser.c
         Scanner.c
         SortingFunctions.c
         StringFunctions.c

@@ -60,7 +60,7 @@
 #include "ReteUtility.h"
 #include "Retract.h"
 
-#include "ruledlt.h"
+#include "RuleDelete.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

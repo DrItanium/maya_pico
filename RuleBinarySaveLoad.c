@@ -57,9 +57,9 @@
 #include "Pattern.h"
 #include "ReteUtility.h"
 #include "Retract.h"
-#include "rulebsc.h"
+#include "BasicRuleCommands.h"
 
-#include "rulebin.h"
+#include "RuleBinarySaveLoad.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

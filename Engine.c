@@ -110,7 +110,7 @@
 #include "ReteUtility.h"
 #include "Retract.h"
 #include "Router.h"
-#include "ruledlt.h"
+#include "RuleDelete.h"
 #include "SystemDependency.h"
 #include "Utility.h"
 #include "Watch.h"
