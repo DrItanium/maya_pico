@@ -27,7 +27,7 @@
 
 #include <stdbool.h>
 
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 
    Environment                   *CreateEnvironment(void);

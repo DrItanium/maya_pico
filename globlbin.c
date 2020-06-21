@@ -37,7 +37,7 @@
 
 #include "bload.h"
 #include "bsave.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "globlbsc.h"
 #include "globldef.h"
 #include "memalloc.h"

@@ -56,7 +56,7 @@
 
 #include "dffctbsc.h"
 #include "dffctpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 
 #if BLOAD || BLOAD_AND_BSAVE

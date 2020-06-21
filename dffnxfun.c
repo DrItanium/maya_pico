@@ -87,7 +87,7 @@
 #include "dffnxpsr.h"
 #include "modulpsr.h"
 
-#include "envrnmnt.h"
+#include "environment.h"
 
 #include "extnfunc.h"
 

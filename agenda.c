@@ -69,7 +69,7 @@
 #include "constant.h"
 #include "crstrtgy.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "moduldef.h"

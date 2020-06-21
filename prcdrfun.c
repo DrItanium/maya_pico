@@ -61,7 +61,7 @@
 #include "constrnt.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "multifld.h"

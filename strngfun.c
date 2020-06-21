@@ -93,7 +93,7 @@
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "extnfunc.h"
 #include "memalloc.h"

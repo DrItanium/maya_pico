@@ -74,7 +74,7 @@
 
 #include "memalloc.h"
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #if DEFGLOBAL_CONSTRUCT
 #include "globlpsr.h"
 #endif

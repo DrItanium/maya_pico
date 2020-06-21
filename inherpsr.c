@@ -41,7 +41,7 @@
 
 #include "classcom.h"
 #include "classfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"

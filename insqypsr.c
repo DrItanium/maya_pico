@@ -61,7 +61,7 @@
 #include <string.h>
 
 #include "classcom.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "insquery.h"
 #include "prcdrpsr.h"

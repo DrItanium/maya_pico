@@ -61,7 +61,7 @@
 #if OBJECT_SYSTEM
 
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "inscom.h"
 #include "insfun.h"

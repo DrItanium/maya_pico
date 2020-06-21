@@ -50,7 +50,7 @@
 #include <ctype.h>
 
 #include "bload.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "exprnops.h"
 #include "extnfunc.h"

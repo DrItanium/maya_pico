@@ -61,7 +61,7 @@
 
 #include "setup.h"
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "miscfun.h"
 #include "prntutil.h"

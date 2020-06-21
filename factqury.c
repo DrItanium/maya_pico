@@ -71,7 +71,7 @@
 #if FACT_SET_QUERIES
 
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "exprnpsr.h"
 #include "modulutl.h"

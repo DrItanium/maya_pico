@@ -79,7 +79,7 @@
 #include "cstrcpsr.h"
 #include "constrct.h"
 #include "dffnxfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "expressn.h"
 #include "exprnpsr.h"
 #include "memalloc.h"

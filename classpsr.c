@@ -68,7 +68,7 @@
 #include "classfun.h"
 #include "clsltpsr.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "inherpsr.h"
 #include "memalloc.h"
 #include "modulpsr.h"

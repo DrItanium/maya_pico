@@ -56,7 +56,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"

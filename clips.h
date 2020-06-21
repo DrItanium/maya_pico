@@ -41,7 +41,7 @@
 #include "cstrcpsr.h"
 #include "fileutil.h"
 #include "strngfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "envrnbld.h"
 #include "commline.h"
 #include "symbol.h"

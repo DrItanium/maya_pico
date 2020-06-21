@@ -78,7 +78,7 @@
 #include "classfun.h"
 #include "cstrnchk.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "insfun.h"
 #include "memalloc.h"

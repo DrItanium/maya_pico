@@ -87,7 +87,7 @@
 #include "cstrcpsr.h"
 #include "constant.h"
 #include "constrct.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "extnfunc.h"
 #include "insfun.h"

@@ -50,7 +50,7 @@
 #include "cstrcpsr.h"
 #include "dffctbsc.h"
 #include "dffctdef.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"

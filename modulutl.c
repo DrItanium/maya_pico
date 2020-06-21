@@ -43,7 +43,7 @@
 
 #include "setup.h"
 
-#include "envrnmnt.h"
+#include "environment.h"
 #include "cstrcpsr.h"
 #include "memalloc.h"
 #include "modulpsr.h"

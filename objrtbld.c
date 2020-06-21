@@ -78,7 +78,7 @@
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "drive.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "inscom.h"
 #include "insfun.h"
 #include "insmngr.h"

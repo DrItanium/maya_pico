@@ -59,7 +59,7 @@
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "cstrnutl.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "modulutl.h"

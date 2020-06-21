@@ -42,7 +42,7 @@
 #include "constant.h"
 #include "constrct.h"
 #include "constrnt.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "fact.h"
 #include "memalloc.h"

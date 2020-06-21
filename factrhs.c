@@ -62,7 +62,7 @@
 
 #include "constant.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "modulutl.h"
 #include "modulpsr.h"

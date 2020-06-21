@@ -67,7 +67,7 @@
 #include "classfun.h"
 #include "classinf.h"
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "exprnpsr.h"
 #include "moduldef.h"

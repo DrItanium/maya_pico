@@ -36,7 +36,7 @@
 #include "bload.h"
 #include "bsave.h"
 #include "dffctdef.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "moduldef.h"
 

@@ -86,7 +86,7 @@
 #include "classfun.h"
 #include "classinf.h"
 #include "commline.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "evaluatn.h"
 #include "insfile.h"

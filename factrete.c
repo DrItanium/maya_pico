@@ -47,7 +47,7 @@
 
 #include "drive.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "fact.h"
 #include "incrrset.h"

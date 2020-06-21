@@ -79,7 +79,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "classini.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "insfun.h"
 #include "memalloc.h"
 #include "msgcom.h"

@@ -60,7 +60,7 @@
 
 #include <string.h>
 
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "extnfunc.h"
 #include "fact.h"

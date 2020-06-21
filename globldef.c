@@ -75,7 +75,7 @@
 #include "globlbin.h"
 #endif
 #include "commline.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "globlbsc.h"
 #include "globlcom.h"
 #include "globlpsr.h"

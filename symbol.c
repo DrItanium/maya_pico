@@ -78,7 +78,7 @@
 
 #include "argacces.h"
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "prntutil.h"

@@ -26,7 +26,7 @@
 
 #include "setup.h"
 
-#include "envrnmnt.h"
+#include "environment.h"
 
 #include "userdata.h"
 

@@ -81,7 +81,7 @@
 #include "classpsr.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "inscom.h"
 #include "memalloc.h"

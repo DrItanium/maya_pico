@@ -71,7 +71,7 @@
 #include "cstrcpsr.h"
 #include "dffctdef.h"
 #include "dffctpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "fact.h"
 #include "memalloc.h"

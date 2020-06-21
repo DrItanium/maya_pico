@@ -62,7 +62,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "router.h"
 #include "sysdep.h"

@@ -60,7 +60,7 @@
 
 #include "argacces.h"
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "fact.h"
 #include "memalloc.h"

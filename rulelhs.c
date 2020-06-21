@@ -47,7 +47,7 @@
 #include "constrct.h"
 #include "constrnt.h"
 #include "cstrnchk.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "pattern.h"

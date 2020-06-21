@@ -44,7 +44,7 @@
 #include "bsave.h"
 #include "cstrcbin.h"
 #include "defins.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "modulbin.h"
 

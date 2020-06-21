@@ -40,7 +40,7 @@
 
 #include "argacces.h"
 #include "dffnxfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "extnfunc.h"
 #include "memalloc.h"

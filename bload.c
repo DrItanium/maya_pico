@@ -57,7 +57,7 @@
 #include "bsave.h"
 #include "constrct.h"
 #include "cstrnbin.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "prntutil.h"

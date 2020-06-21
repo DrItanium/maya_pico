@@ -57,7 +57,7 @@
 
 #include "classcom.h"
 #include "classfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "inscom.h"
 #include "insfun.h"

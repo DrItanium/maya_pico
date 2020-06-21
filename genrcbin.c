@@ -46,7 +46,7 @@
 #include "constant.h"
 #include "cstrcbin.h"
 #include "cstrccom.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "genrccom.h"
 #include "memalloc.h"
 #include "modulbin.h"

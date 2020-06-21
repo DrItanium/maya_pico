@@ -53,7 +53,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "inscom.h"
 #include "modulutl.h"

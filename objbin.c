@@ -62,7 +62,7 @@
 #include "classini.h"
 #include "cstrcbin.h"
 #include "cstrnbin.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "insfun.h"
 #include "memalloc.h"
 #include "modulbin.h"

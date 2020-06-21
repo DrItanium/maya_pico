@@ -81,7 +81,7 @@
 
 #include "argacces.h"
 #include "commline.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "prntutil.h"

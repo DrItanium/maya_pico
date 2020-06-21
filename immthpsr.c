@@ -62,7 +62,7 @@
 #include "classfun.h"
 #endif
 #include "cstrnutl.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "extnfunc.h"
 #include "genrcpsr.h"

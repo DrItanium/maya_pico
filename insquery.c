@@ -74,7 +74,7 @@
 #include "argacces.h"
 #include "classcom.h"
 #include "classfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "insfun.h"
 #include "insmngr.h"

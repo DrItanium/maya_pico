@@ -84,7 +84,7 @@
 #include "constrct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "inscom.h"
 #include "insfun.h"

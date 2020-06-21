@@ -83,7 +83,7 @@
 #endif
 #include "commline.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "fileutil.h"
 #include "memalloc.h"

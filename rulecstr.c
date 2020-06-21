@@ -44,7 +44,7 @@
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "cstrnutl.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "prcdrpsr.h"
 #include "prntutil.h"

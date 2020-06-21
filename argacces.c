@@ -68,7 +68,7 @@
 #include <stdlib.h>
 
 #include "cstrnchk.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "fact.h"
 #include "inscom.h"

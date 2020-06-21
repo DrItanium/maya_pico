@@ -82,7 +82,7 @@
 #include <string.h>
 
 #include "commline.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "fact.h"
 #include "memalloc.h"

@@ -95,7 +95,7 @@
 #include "constrct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "extnfunc.h"
 #if BLOAD || BLOAD_AND_BSAVE

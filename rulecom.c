@@ -83,7 +83,7 @@
 #include "constrct.h"
 #include "crstrtgy.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "extnfunc.h"
 #include "incrrset.h"

@@ -49,7 +49,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "sysdep.h"
 #include "utility.h"

@@ -77,7 +77,7 @@
 #include "argacces.h"
 #include "constant.h"
 #include "cstrcpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "fact.h"
 #include "inscom.h"

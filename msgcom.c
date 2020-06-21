@@ -79,7 +79,7 @@
 #include "classinf.h"
 #include "constrct.h"
 #include "msgpsr.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "insfun.h"
 #include "insmoddp.h"

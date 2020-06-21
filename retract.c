@@ -56,7 +56,7 @@
 #include "constant.h"
 #include "drive.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "lgcldpnd.h"
 #include "match.h"
 #include "memalloc.h"

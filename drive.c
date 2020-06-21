@@ -59,7 +59,7 @@
 #include "agenda.h"
 #include "constant.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "incrrset.h"
 #include "lgcldpnd.h"
 #include "memalloc.h"

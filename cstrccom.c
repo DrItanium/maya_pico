@@ -69,7 +69,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "moduldef.h"

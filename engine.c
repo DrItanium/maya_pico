@@ -98,7 +98,7 @@
 #include "argacces.h"
 #include "commline.h"
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "fact.h"
 #include "inscom.h"
 #include "memalloc.h"

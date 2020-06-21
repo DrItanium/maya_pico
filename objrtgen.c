@@ -52,7 +52,7 @@
 #include <stdio.h>
 
 #include "classfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "objrtfnx.h"
 
 #include "objrtgen.h"

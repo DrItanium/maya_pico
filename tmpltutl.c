@@ -67,7 +67,7 @@
 #include "argacces.h"
 #include "constrct.h"
 #include "cstrnchk.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "modulutl.h"

@@ -62,7 +62,7 @@
 #if DEFGLOBAL_CONSTRUCT
 
 #include "constrct.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "globlbin.h"

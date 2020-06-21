@@ -62,7 +62,7 @@
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "engine.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "incrrset.h"
 #include "memalloc.h"

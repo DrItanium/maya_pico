@@ -31,7 +31,7 @@
 #if BLOAD || BLOAD_AND_BSAVE
 
 #include "bload.h"
-#include "envrnmnt.h"
+#include "environment.h"
 
 #if BLOAD_AND_BSAVE
 #include "bsave.h"

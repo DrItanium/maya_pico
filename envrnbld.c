@@ -28,7 +28,7 @@
 #include "bmathfun.h"
 #include "commline.h"
 #include "emathfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "engine.h"
 #include "filecom.h"
 #include "iofun.h"

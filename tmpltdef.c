@@ -65,7 +65,7 @@
 
 #include "cstrccom.h"
 #include "cstrnchk.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnops.h"
 #include "memalloc.h"
 #include "modulpsr.h"

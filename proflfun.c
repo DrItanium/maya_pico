@@ -56,7 +56,7 @@
 #include "argacces.h"
 #include "classcom.h"
 #include "dffnxfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "genrccom.h"
 #include "genrcfun.h"

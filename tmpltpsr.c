@@ -61,7 +61,7 @@
 #include "cstrnpsr.h"
 #include "cstrnutl.h"
 #include "default.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "fact.h"
 #include "memalloc.h"

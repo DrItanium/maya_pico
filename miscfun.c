@@ -116,7 +116,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "multifld.h"

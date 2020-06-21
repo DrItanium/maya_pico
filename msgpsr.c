@@ -70,7 +70,7 @@
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "cstrnchk.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "insfun.h"
 #include "memalloc.h"

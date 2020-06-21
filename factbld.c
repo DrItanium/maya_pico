@@ -44,7 +44,7 @@
 #include <stdio.h>
 
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"

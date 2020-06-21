@@ -55,7 +55,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "prntutil.h"
 #include "router.h"

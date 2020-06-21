@@ -66,7 +66,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "evaluatn.h"
 #include "exprnops.h"
 #include "memalloc.h"

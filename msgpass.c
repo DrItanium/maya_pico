@@ -77,7 +77,7 @@
 #include "classfun.h"
 #include "commline.h"
 #include "constrct.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "inscom.h"
 #include "insfun.h"

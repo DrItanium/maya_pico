@@ -78,7 +78,7 @@
 #include "argacces.h"
 #include "constant.h"
 #include "cstrnchk.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "expressn.h"
 #include "memalloc.h"
 #include "modulutl.h"

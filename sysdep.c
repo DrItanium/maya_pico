@@ -149,7 +149,7 @@
 #include <unistd.h>
 #endif
 
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "sysdep.h"
 

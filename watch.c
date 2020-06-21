@@ -63,7 +63,7 @@
 
 #include "argacces.h"
 #include "constant.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "router.h"

@@ -54,7 +54,7 @@
 #include "bload.h"
 #include "bsave.h"
 #include "classfun.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "insfun.h"
 #include "objrtmch.h"

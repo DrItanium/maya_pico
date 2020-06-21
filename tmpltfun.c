@@ -107,7 +107,7 @@
 #include "constant.h"
 #include "cstrnchk.h"
 #include "default.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "fact.h"
 #include "memalloc.h"

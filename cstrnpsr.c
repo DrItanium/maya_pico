@@ -50,7 +50,7 @@
 #include "constant.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "expressn.h"
 #include "memalloc.h"
 #include "pprint.h"

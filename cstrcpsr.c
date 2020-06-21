@@ -73,7 +73,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "envrnmnt.h"
+#include "environment.h"
 #include "router.h"
 #include "watch.h"
 #include "constrct.h"

@@ -72,7 +72,7 @@
 #include "classexm.h"
 #include "classfun.h"
 #include "classini.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "memalloc.h"
 #include "insfun.h"
 #include "msgcom.h"

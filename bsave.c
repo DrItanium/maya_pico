@@ -56,7 +56,7 @@
 #include "argacces.h"
 #include "bload.h"
 #include "cstrnbin.h"
-#include "envrnmnt.h"
+#include "environment.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "moduldef.h"
