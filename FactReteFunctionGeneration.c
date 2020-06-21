@@ -58,10 +58,10 @@
 #include "Router.h"
 #include "Scanner.h"
 #include "SystemDependency.h"
-#include "tmpltdef.h"
-#include "tmpltfun.h"
-#include "tmpltlhs.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateFunctions.h"
+#include "DeftemplateLHS.h"
+#include "DeftemplateUtilities.h"
 
 #define FACTGEN_DATA 2
 

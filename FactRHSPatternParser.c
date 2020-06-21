@@ -71,9 +71,9 @@
 #include "PrintUtility.h"
 #include "Router.h"
 #include "StringRouter.h"
-#include "tmpltpsr.h"
-#include "tmpltrhs.h"
-#include "tmpltutl.h"
+#include "DeftemplateParser.h"
+#include "DeftemplateRHSParsing.h"
+#include "DeftemplateUtilities.h"
 
 #include "Fact.h"
 

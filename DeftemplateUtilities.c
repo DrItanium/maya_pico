@@ -75,13 +75,13 @@
 #include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
-#include "tmpltbsc.h"
-#include "tmpltdef.h"
-#include "tmpltfun.h"
-#include "tmpltpsr.h"
+#include "DeftemplateBasicCommands.h"
+#include "Deftemplate.h"
+#include "DeftemplateFunctions.h"
+#include "DeftemplateParser.h"
 #include "Watch.h"
 
-#include "tmpltutl.h"
+#include "DeftemplateUtilities.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

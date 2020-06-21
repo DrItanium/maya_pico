@@ -87,9 +87,9 @@
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT
-#include "tmpltdef.h"
-#include "tmpltbsc.h"
-#include "tmpltfun.h"
+#include "Deftemplate.h"
+#include "DeftemplateBasicCommands.h"
+#include "DeftemplateFunctions.h"
 #include "Fact.h"
 #endif
 

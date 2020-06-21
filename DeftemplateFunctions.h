@@ -81,7 +81,7 @@
 #include "Expression.h"
 #include "Fact.h"
 #include "Symbol.h"
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 bool UpdateModifyDuplicate(Environment *, struct expr *, const char *, void *);
 struct expr *ModifyParse(Environment *, struct expr *, const char *);

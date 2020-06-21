@@ -44,7 +44,7 @@
 
 #include "Expression.h"
 #include "Scanner.h"
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 struct expr *ParseAssertTemplate(Environment *, const char *, struct token *, bool *,
                                  TokenType, bool, Deftemplate *);

@@ -99,8 +99,8 @@
 #include "Router.h"
 #include "Scanner.h"
 #include "SystemDependency.h"
-#include "tmpltdef.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateUtilities.h"
 
 #define INVALID     -2L
 #define UNSPECIFIED -1L

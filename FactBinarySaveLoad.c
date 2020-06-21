@@ -46,7 +46,7 @@
 #include "Pattern.h"
 #include "ReteUtility.h"
 #include "RuleBinarySaveLoad.h"
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 
 /********************************************/

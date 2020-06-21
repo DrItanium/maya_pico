@@ -112,7 +112,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
-#include "tmpltutl.h"
+#include "DeftemplateUtilities.h"
 
 #include "Fact.h"
 

@@ -72,11 +72,11 @@
 #include "Router.h"
 #include "Scanner.h"
 #include "Symbol.h"
-#include "tmpltbsc.h"
-#include "tmpltdef.h"
+#include "DeftemplateBasicCommands.h"
+#include "Deftemplate.h"
 #include "Watch.h"
 
-#include "tmpltpsr.h"
+#include "DeftemplateParser.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

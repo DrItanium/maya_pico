@@ -86,7 +86,7 @@
 #include "LogicalDependencies.h"
 
 #if DEFTEMPLATE_CONSTRUCT
-#include "tmpltfun.h"
+#include "DeftemplateFunctions.h"
 #endif
 
 #if BLOAD || BLOAD_AND_BSAVE

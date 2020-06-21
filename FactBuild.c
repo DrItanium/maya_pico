@@ -51,7 +51,7 @@
 #include "Reorder.h"
 #include "ReteUtility.h"
 #include "Router.h"
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 
 /***************************************/

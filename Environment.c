@@ -110,7 +110,7 @@
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 #endif
 
 #if OBJECT_SYSTEM

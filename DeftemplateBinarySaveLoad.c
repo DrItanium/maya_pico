@@ -48,11 +48,11 @@
 #include "Environment.h"
 #include "Fact.h"
 #include "MemoryAllocation.h"
-#include "tmpltdef.h"
-#include "tmpltpsr.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateParser.h"
+#include "DeftemplateUtilities.h"
 
-#include "tmpltbin.h"
+#include "DeftemplateBinarySaveLoad.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

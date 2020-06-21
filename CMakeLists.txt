@@ -144,14 +144,14 @@ add_library(clips
         Symbol.c
         SystemDependency.c
         TextProcessing.c
-        tmpltbin.c
-        tmpltbsc.c
-        tmpltdef.c
-        tmpltfun.c
-        tmpltlhs.c
-        tmpltpsr.c
-        tmpltrhs.c
-        tmpltutl.c
+		DeftemplateBinarySaveLoad.c
+		DeftemplateBasicCommands.c
+		Deftemplate.c
+		DeftemplateFunctions.c
+		DeftemplateLHS.c
+		DeftemplateParser.c
+		DeftemplateRHSParsing.c
+		DeftemplateUtilities.c
         UserData.c
         UserFunctions.c
         Utility.c

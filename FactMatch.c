@@ -65,7 +65,7 @@
 #include "ReteUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 
 /***************************************/

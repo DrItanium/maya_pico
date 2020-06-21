@@ -56,7 +56,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT
 #include "Fact.h"
-#include "tmpltbin.h"
+#include "DeftemplateBinarySaveLoad.h"
 #endif
 
 #if DEFGLOBAL_CONSTRUCT

@@ -75,7 +75,7 @@
 #include "MemoryAllocation.h"
 #include "Expression.h"
 #include "DefmoduleUtility.h"
-#include "tmpltutl.h"
+#include "DeftemplateUtilities.h"
 #include "InstanceFunctions.h"
 #include "Fact.h"
 #include "ProceduralFunctions.h"

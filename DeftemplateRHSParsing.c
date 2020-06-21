@@ -51,12 +51,12 @@
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
-#include "tmpltdef.h"
-#include "tmpltfun.h"
-#include "tmpltlhs.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateFunctions.h"
+#include "DeftemplateLHS.h"
+#include "DeftemplateUtilities.h"
 
-#include "tmpltrhs.h"
+#include "DeftemplateRHSParsing.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

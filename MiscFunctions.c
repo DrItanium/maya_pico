@@ -131,7 +131,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT
 #include "Fact.h"
-#include "tmpltutl.h"
+#include "DeftemplateUtilities.h"
 #endif
 
 #include "MiscFunctions.h"

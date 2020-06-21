@@ -63,7 +63,7 @@
 #include "Fact.h"
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 #endif
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM

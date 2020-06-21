@@ -55,10 +55,10 @@
 #include "PrintUtility.h"
 #include "Reorder.h"
 #include "Router.h"
-#include "tmpltdef.h"
-#include "tmpltlhs.h"
-#include "tmpltpsr.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateLHS.h"
+#include "DeftemplateParser.h"
+#include "DeftemplateUtilities.h"
 
 #include "Fact.h"
 

@@ -78,7 +78,7 @@
 #include "Multifield.h"
 #include "Router.h"
 #include "Scanner.h"
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "DeffactsBinarySaveLoad.h"

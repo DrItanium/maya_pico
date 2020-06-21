@@ -73,17 +73,17 @@
 #include "Network.h"
 #include "Pattern.h"
 #include "Router.h"
-#include "tmpltbsc.h"
-#include "tmpltfun.h"
-#include "tmpltpsr.h"
-#include "tmpltutl.h"
+#include "DeftemplateBasicCommands.h"
+#include "DeftemplateFunctions.h"
+#include "DeftemplateParser.h"
+#include "DeftemplateUtilities.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
-#include "tmpltbin.h"
+#include "DeftemplateBinarySaveLoad.h"
 #endif
 
-#include "tmpltdef.h"
+#include "Deftemplate.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

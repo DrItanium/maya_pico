@@ -121,13 +121,13 @@
 #include "Scanner.h"
 #include "Symbol.h"
 #include "SystemDependency.h"
-#include "tmpltdef.h"
-#include "tmpltlhs.h"
-#include "tmpltrhs.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateLHS.h"
+#include "DeftemplateRHSParsing.h"
+#include "DeftemplateUtilities.h"
 #include "Utility.h"
 
-#include "tmpltfun.h"
+#include "DeftemplateFunctions.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

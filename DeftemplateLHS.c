@@ -54,10 +54,10 @@
 #include "Router.h"
 #include "Scanner.h"
 #include "Symbol.h"
-#include "tmpltdef.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateUtilities.h"
 
-#include "tmpltlhs.h"
+#include "DeftemplateLHS.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

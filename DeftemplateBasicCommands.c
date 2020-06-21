@@ -78,13 +78,13 @@
 #include "Router.h"
 #include "Scanner.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "tmpltbin.h"
+#include "DeftemplateBinarySaveLoad.h"
 #endif
-#include "tmpltdef.h"
-#include "tmpltpsr.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateParser.h"
+#include "DeftemplateUtilities.h"
 
-#include "tmpltbsc.h"
+#include "DeftemplateBasicCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

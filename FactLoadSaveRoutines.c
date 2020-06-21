@@ -55,8 +55,8 @@
 #include "StringRouter.h"
 #include "Symbol.h"
 #include "SystemDependency.h"
-#include "tmpltdef.h"
-#include "tmpltutl.h"
+#include "Deftemplate.h"
+#include "DeftemplateUtilities.h"
 
 struct bsaveSlotValue {
     unsigned long slotName;
