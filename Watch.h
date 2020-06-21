@@ -79,12 +79,14 @@ typedef enum {
     FOCUS
 } WatchItem;
 
+typedef bool WatchAccessFunction(Environment*, int, bool, struct expr*);
+typedef bool WatchPrintFunction(Environment*, const char*, int, struct expr*);
 struct watchItemRecord {
     const char *name;
     bool *flag;
     int code, priority;
-    bool (*accessFunc)(Environment *, int, bool, struct expr *);
-    bool (*printFunc)(Environment *, const char *, int, struct expr *);
+    WatchAccessFunction* accessFunc;
+    WatchPrintFunction* printFunc;
     WatchItemRecord *next;
 };
 
@@ -102,9 +104,13 @@ bool UnwatchString(Environment *, const char *);
 void InitializeWatchData(Environment *);
 bool SetWatchItem(Environment *, const char *, bool, struct expr *);
 int GetWatchItem(Environment *, const char *);
-bool AddWatchItem(Environment *, const char *, int, bool *, int,
-                  bool (*)(Environment *, int, bool, struct expr *),
-                  bool (*)(Environment *, const char *, int, struct expr *));
+bool AddWatchItem(Environment* theEnv,
+                  const char* name,
+                  int code,
+                  bool* flag,
+                  int priority,
+                  WatchAccessFunction accessFunc,
+                  WatchPrintFunction printFunc);
 const char *GetNthWatchName(Environment *, int);
 int GetNthWatchValue(Environment *, int);
 void WatchCommand(Environment *, UDFContext *, UDFValue *);

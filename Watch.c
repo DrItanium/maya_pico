@@ -58,6 +58,7 @@
 
 #if DEBUGGING_FUNCTIONS
 
+
 #include <stdio.h>
 #include <string.h>
 
@@ -114,8 +115,8 @@ bool AddWatchItem(
         int code,
         bool *flag,
         int priority,
-        bool (*accessFunc)(Environment *, int, bool, struct expr *),
-        bool (*printFunc)(Environment *, const char *, int, struct expr *)) {
+        WatchAccessFunction accessFunc,
+        WatchPrintFunction printFunc) {
     WatchItemRecord *newPtr, *currentPtr, *lastPtr;
 
     /*================================================================*/
