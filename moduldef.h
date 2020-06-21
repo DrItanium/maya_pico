@@ -216,11 +216,9 @@ struct defmoduleData
    struct moduleItem *ListOfModuleItems;
    long ModuleChangeIndex;
    bool MainModuleRedefinable;
-#if (! BLOAD_ONLY)
    struct portConstructItem *ListOfPortConstructItems;
    unsigned short NumberOfDefmodules;
    struct voidCallFunctionItem *AfterModuleDefinedFunctions;
-#endif
 #if (BLOAD || BLOAD_AND_BSAVE)
    unsigned long BNumberOfDefmodules;
    unsigned long NumberOfPortItems;

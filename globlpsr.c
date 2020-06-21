@@ -79,10 +79,8 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static bool                    GetVariableDefinition(Environment *,const char *,bool *,bool,struct token *);
    static void                    AddDefglobal(Environment *,CLIPSLexeme *,UDFValue *,struct expr *);
-#endif
 
 /*********************************************************************/
 /* ParseDefglobal: Coordinates all actions necessary for the parsing */
@@ -93,7 +91,6 @@ bool ParseDefglobal(
   const char *readSource)
   {
    bool defglobalError = false;
-#if (! BLOAD_ONLY)
 
    struct token theToken;
    bool tokenRead = true;
@@ -190,7 +187,6 @@ bool ParseDefglobal(
       SavePPBuffer(theEnv," ");
      }
 
-#endif
 
    /*==================================*/
    /* Return the parsing error status. */
@@ -199,7 +195,6 @@ bool ParseDefglobal(
    return(defglobalError);
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************************/
 /* GetVariableDefinition: Parses and evaluates a single global */
@@ -503,7 +498,6 @@ bool ReplaceGlobalVariable(
    return true;
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 /*****************************************************************/
 /* GlobalReferenceErrorMessage: Prints an error message when a   */

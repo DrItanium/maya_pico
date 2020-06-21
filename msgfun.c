@@ -355,7 +355,6 @@ DefmessageHandler *InsertHandlerHeader(
   }
 
 
-#if (! BLOAD_ONLY)
 
 /*****************************************************
   NAME         : HandlersExecuting
@@ -573,7 +572,6 @@ void DeallocateMarkedHandlers(
      }
   }
 
-#endif
 
 /*****************************************************
   NAME         : HandlerType

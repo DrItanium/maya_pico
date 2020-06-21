@@ -103,7 +103,7 @@ static void ClearDefmodules(
   Environment *theEnv,
   void *context)
   {
-#if (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY)
+#if (BLOAD || BLOAD_AND_BSAVE)
    if (Bloaded(theEnv) == true) return;
 #endif
    RemoveAllDefmodules(theEnv,NULL);

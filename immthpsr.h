@@ -40,13 +40,13 @@
 
 #define _H_immthpsr
 
-#if DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFGENERIC_CONSTRUCT
 
 #include "genrcfun.h"
 
    void                           AddImplicitMethods(Environment *,Defgeneric *);
 
-#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) */
+#endif /* DEFGENERIC_CONSTRUCT */
 
 #endif /* _H_immthpsr */
 

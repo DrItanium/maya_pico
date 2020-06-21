@@ -83,13 +83,11 @@ typedef struct handlerSlotReference
    DefmessageHandler
                    *InsertHandlerHeader(Environment *,Defclass *,CLIPSLexeme *,unsigned);
 
-#if (! BLOAD_ONLY)
    DefmessageHandler
                    *NewHandler(void);
    bool             HandlersExecuting(Defclass *);
    bool             DeleteHandler(Environment *,Defclass *,CLIPSLexeme *,int,bool);
    void             DeallocateMarkedHandlers(Environment *,Defclass *);
-#endif
    unsigned short   HandlerType(Environment *,const char *,bool,const char *);
    bool             CheckCurrentMessage(Environment *,const char *,bool);
    void             PrintHandler(Environment *,const char *,DefmessageHandler *,bool,bool);

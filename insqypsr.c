@@ -399,10 +399,8 @@ static bool ReplaceClassNameWithReference(
       theExp->type = DEFCLASS_PTR;
       theExp->value = theDefclass;
 
-#if (! BLOAD_ONLY)
       if (! ConstructData(theEnv)->ParsingConstruct)
         { ConstructData(theEnv)->DanglingConstructs++; }
-#endif
      }
    return true;
   }

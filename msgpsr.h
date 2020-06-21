@@ -54,7 +54,7 @@
 
 #define _H_msgpsr
 
-#if OBJECT_SYSTEM && (! BLOAD_ONLY)
+#if OBJECT_SYSTEM
 
 #define SELF_STRING     "self"
 
@@ -63,7 +63,7 @@
    bool             ParseDefmessageHandler(Environment *,const char *);
    void             CreateGetAndPutHandlers(Environment *,SlotDescriptor *);
 
-#endif /* OBJECT_SYSTEM && (! BLOAD_ONLY) */
+#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_msgpsr */
 

@@ -40,7 +40,7 @@
 
 #include "setup.h"
 
-#if DEFMODULE_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFMODULE_CONSTRUCT
 
 #include <stdio.h>
 #include <string.h>
@@ -1145,6 +1145,6 @@ bool FindImportExportConflict(
    return false;
   }
 
-#endif /* DEFMODULE_CONSTRUCT && (! BLOAD_ONLY) */
+#endif /* DEFMODULE_CONSTRUCT */
 
 
