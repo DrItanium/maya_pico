@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "constant.h"
+#include "Constants.h"
 #include "constrnt.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"

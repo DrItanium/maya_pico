@@ -94,9 +94,9 @@
 #include <ctype.h>
 
 #include "setup.h"
-#include "constant.h"
+#include "Constants.h"
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "Environment.h"

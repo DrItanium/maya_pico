@@ -78,8 +78,8 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "crstrtgy.h"
 #include "Engine.h"

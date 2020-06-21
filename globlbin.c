@@ -35,8 +35,8 @@
 
 #include <stdio.h>
 
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "Environment.h"
 #include "globlbsc.h"
 #include "globldef.h"

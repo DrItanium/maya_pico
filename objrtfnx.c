@@ -63,9 +63,9 @@
 #include "exprnops.h"
 #endif
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
-#include "constant.h"
+#include "Constants.h"
 #include "drive.h"
 #include "Engine.h"
 #include "Environment.h"

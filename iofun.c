@@ -115,9 +115,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "CommandLine.h"
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "filertr.h"

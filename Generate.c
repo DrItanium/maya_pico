@@ -49,8 +49,8 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "Expression.h"
 

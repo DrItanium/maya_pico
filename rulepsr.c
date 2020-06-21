@@ -56,7 +56,7 @@
 #include <string.h>
 
 #include "analysis.h"
-#include "constant.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "cstrnchk.h"
@@ -90,7 +90,7 @@
 #endif
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #include "rulepsr.h"

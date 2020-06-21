@@ -73,7 +73,7 @@
 #include <ctype.h>
 
 #include "memalloc.h"
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #if DEFGLOBAL_CONSTRUCT
 #include "globlpsr.h"

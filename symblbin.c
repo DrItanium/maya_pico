@@ -35,9 +35,9 @@
 
 #if BLOAD || BLOAD_AND_BSAVE || BLOAD_INSTANCES || BSAVE_INSTANCES
 
-#include "argacces.h"
-#include "bload.h"
-#include "bsave.h"
+#include "ArgumentAccess.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "Expression.h"

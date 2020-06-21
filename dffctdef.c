@@ -60,7 +60,7 @@
 #include "memalloc.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "dffctbin.h"
 #endif
 

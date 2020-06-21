@@ -68,10 +68,10 @@
 #if OBJECT_SYSTEM
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "classfun.h"
 #include "classini.h"
 #include "Environment.h"

@@ -60,8 +60,8 @@
 #if DEFRULE_CONSTRUCT
 
 #include "agenda.h"
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "Pattern.h"

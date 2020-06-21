@@ -6,10 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_library(clips
 	agenda.c
 	analysis.c
-	argacces.c
-	bload.c
-	bmathfun.c
-	bsave.c
+		ArgumentAccess.c
+		BinaryLoad.c
+		BasicMathFunctions.c
+		BinarySave.c
 	classcom.c
 	classexm.c
 	classfun.c

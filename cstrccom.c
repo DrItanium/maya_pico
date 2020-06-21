@@ -68,12 +68,12 @@
 
 #include "setup.h"
 
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "moduldef.h"
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "multifld.h"
 #include "modulutl.h"
 #include "prntutil.h"
@@ -83,7 +83,7 @@
 #include "SystemDependency.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #include "cstrcpsr.h"

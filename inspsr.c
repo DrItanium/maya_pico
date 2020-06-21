@@ -66,7 +66,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "classinf.h"
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Expression.h"

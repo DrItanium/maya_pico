@@ -74,8 +74,8 @@
 
 #include "setup.h"
 
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Evaluation.h"

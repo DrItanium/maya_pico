@@ -47,7 +47,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "constant.h"
+#include "Constants.h"
 #include "constrnt.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"

@@ -53,8 +53,8 @@
 
 #include "setup.h"
 
-#include "argacces.h"
-#include "bload.h"
+#include "ArgumentAccess.h"
+#include "BinaryLoad.h"
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "Expression.h"
@@ -64,7 +64,7 @@
 #include "Router.h"
 #include "symblbin.h"
 
-#include "bsave.h"
+#include "BinarySave.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

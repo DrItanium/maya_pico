@@ -85,9 +85,9 @@
 
 #include "setup.h"
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "CommandLine.h"
-#include "constant.h"
+#include "Constants.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Expression.h"

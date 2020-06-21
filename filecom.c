@@ -76,10 +76,10 @@
 
 #include "setup.h"
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #endif
 #include "CommandLine.h"
 #include "cstrcpsr.h"

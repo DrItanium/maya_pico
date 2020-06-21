@@ -40,8 +40,8 @@
 
 #if DEFINSTANCES_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "cstrcbin.h"
 #include "defins.h"
 #include "Environment.h"

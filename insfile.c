@@ -92,7 +92,7 @@
 
 #if OBJECT_SYSTEM
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "classcom.h"
 #include "classfun.h"
 #include "memalloc.h"

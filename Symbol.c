@@ -76,8 +76,8 @@
 
 #include "setup.h"
 
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "multifld.h"

@@ -57,10 +57,10 @@
 #if DEFTEMPLATE_CONSTRUCT
 
 #if BLOAD_AND_BSAVE || BLOAD
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
-#include "constant.h"
+#include "Constants.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Expression.h"

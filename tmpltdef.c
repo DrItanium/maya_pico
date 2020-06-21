@@ -79,7 +79,7 @@
 #include "tmpltutl.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "tmpltbin.h"
 #endif
 

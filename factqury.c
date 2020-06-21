@@ -70,7 +70,7 @@
 
 #if FACT_SET_QUERIES
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "Expression.h"

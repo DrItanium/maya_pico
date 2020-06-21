@@ -78,7 +78,7 @@
 #if DEFFUNCTION_CONSTRUCT
 
 #if (BLOAD || BLOAD_AND_BSAVE)
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "dffnxbin.h"
 #endif
 
@@ -97,7 +97,7 @@
 #include "Watch.h"
 #endif
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "cstrccom.h"
 #include "memalloc.h"
 #include "modulutl.h"

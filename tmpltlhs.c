@@ -39,7 +39,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "constant.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "constrnt.h"
 #include "Environment.h"

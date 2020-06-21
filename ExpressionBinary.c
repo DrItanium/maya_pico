@@ -33,8 +33,8 @@
 
 #include <stdio.h>
 
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "constrct.h"
 #include "dffctdef.h"
 #include "Environment.h"

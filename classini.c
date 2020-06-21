@@ -99,7 +99,7 @@
 #endif
 
 #if BLOAD_AND_BSAVE || BLOAD
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "objbin.h"
 #endif
 

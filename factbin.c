@@ -38,8 +38,8 @@
 #include <stdio.h>
 
 #include "Fact.h"
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "moduldef.h"

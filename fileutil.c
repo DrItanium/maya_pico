@@ -39,7 +39,7 @@
 
 #include "setup.h"
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "CommandLine.h"
 #include "cstrcpsr.h"
 #include "memalloc.h"

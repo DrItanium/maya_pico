@@ -66,7 +66,7 @@
 #if DEFGENERIC_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #if DEFFUNCTION_CONSTRUCT

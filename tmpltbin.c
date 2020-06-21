@@ -42,8 +42,8 @@
 
 #include <stdio.h>
 
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "Fact.h"

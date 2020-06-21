@@ -41,9 +41,9 @@
 
 #if DEFGENERIC_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
-#include "bload.h"
-#include "bsave.h"
-#include "constant.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
+#include "Constants.h"
 #include "cstrcbin.h"
 #include "cstrccom.h"
 #include "Environment.h"

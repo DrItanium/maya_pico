@@ -53,8 +53,8 @@
 
 #include "setup.h"
 
-#include "argacces.h"
-#include "bsave.h"
+#include "ArgumentAccess.h"
+#include "BinarySave.h"
 #include "constrct.h"
 #include "cstrnbin.h"
 #include "Environment.h"
@@ -64,7 +64,7 @@
 #include "Router.h"
 #include "Utility.h"
 
-#include "bload.h"
+#include "BinaryLoad.h"
 
 #if (BLOAD || BLOAD_AND_BSAVE)
 

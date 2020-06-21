@@ -45,8 +45,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "Environment.h"
@@ -59,7 +59,7 @@
 #include "Utility.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #include "modulpsr.h"

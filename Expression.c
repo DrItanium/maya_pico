@@ -49,7 +49,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"

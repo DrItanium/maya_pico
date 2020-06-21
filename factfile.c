@@ -39,9 +39,9 @@
 
 #if DEFTEMPLATE_CONSTRUCT
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 #include "cstrcpsr.h"
 #include "Fact.h"

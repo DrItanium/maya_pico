@@ -48,8 +48,8 @@
 #include <string.h>
 
 #include "agenda.h"
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "memalloc.h"

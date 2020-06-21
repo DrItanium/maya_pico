@@ -49,8 +49,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "argacces.h"
-#include "bload.h"
+#include "ArgumentAccess.h"
+#include "BinaryLoad.h"
 #include "constrct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

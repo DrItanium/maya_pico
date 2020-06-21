@@ -44,7 +44,7 @@
 #if DEFFACTS_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #include "cstrcpsr.h"

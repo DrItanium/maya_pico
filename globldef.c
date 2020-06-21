@@ -71,7 +71,7 @@
 #include <stdio.h>
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "globlbin.h"
 #endif
 #include "CommandLine.h"

@@ -51,8 +51,8 @@
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (BLOAD || BLOAD_AND_BSAVE)
 
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "classfun.h"
 #include "Environment.h"
 #include "memalloc.h"

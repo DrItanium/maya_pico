@@ -47,7 +47,7 @@
 
 #include "setup.h"
 
-#include "constant.h"
+#include "Constants.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "Environment.h"

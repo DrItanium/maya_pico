@@ -54,13 +54,13 @@
 
 #include "setup.h"
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "prntutil.h"
 #include "Router.h"
 
-#include "bmathfun.h"
+#include "BasicMathFunctions.h"
 
 /***************************************************************/
 /* BasicMathFunctionDefinitions: Defines basic math functions. */

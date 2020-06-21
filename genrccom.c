@@ -84,9 +84,9 @@
 
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 #if OBJECT_SYSTEM
 #include "classcom.h"

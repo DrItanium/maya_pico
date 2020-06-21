@@ -63,7 +63,7 @@
 #if DEFFUNCTION_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #if DEFRULE_CONSTRUCT
@@ -74,7 +74,7 @@
 #include "genrccom.h"
 #endif
 
-#include "constant.h"
+#include "Constants.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "constrct.h"

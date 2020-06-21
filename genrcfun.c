@@ -66,7 +66,7 @@
 #if DEFGENERIC_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #if OBJECT_SYSTEM
@@ -74,7 +74,7 @@
 #include "classfun.h"
 #endif
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "constrct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"

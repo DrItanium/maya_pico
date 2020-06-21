@@ -75,7 +75,7 @@
 
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "classcom.h"
 #include "classfun.h"
 #include "classini.h"

@@ -75,12 +75,12 @@
 #if OBJECT_SYSTEM
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #include "classcom.h"
 #include "classini.h"
-#include "constant.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"

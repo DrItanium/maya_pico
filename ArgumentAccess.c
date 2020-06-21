@@ -77,7 +77,7 @@
 #include "Router.h"
 #include "SystemDependency.h"
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 
 /*********************************************************************/
 /* GetLogicalName: Retrieves the nth argument passed to the function */

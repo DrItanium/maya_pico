@@ -43,7 +43,7 @@
 
 #include "setup.h"
 
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "prntutil.h"

@@ -35,8 +35,8 @@
 #include <stdio.h>
 
 #include "setup.h"
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "memalloc.h"
 #include "cstrcpsr.h"
 #include "fileutil.h"
@@ -53,7 +53,7 @@
 #include "iofun.h"
 
 #include "SystemDependency.h"
-#include "bmathfun.h"
+#include "BasicMathFunctions.h"
 #include "Expression.h"
 #include "Expression.h"
 #include "Evaluation.h"
@@ -64,11 +64,11 @@
 #include "modulbsc.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 
 #if BLOAD_AND_BSAVE
-#include "bsave.h"
+#include "BinarySave.h"
 #endif
 
 #if DEFRULE_CONSTRUCT

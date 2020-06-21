@@ -55,8 +55,8 @@
 
 #if OBJECT_SYSTEM && (BLOAD || BLOAD_AND_BSAVE)
 
-#include "bload.h"
-#include "bsave.h"
+#include "BinaryLoad.h"
+#include "BinarySave.h"
 #include "classcom.h"
 #include "classfun.h"
 #include "classini.h"

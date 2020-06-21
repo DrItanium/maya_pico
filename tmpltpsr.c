@@ -52,9 +52,9 @@
 #include <string.h>
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
-#include "constant.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "cstrnchk.h"

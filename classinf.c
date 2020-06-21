@@ -67,7 +67,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "classcom.h"
 #include "classexm.h"
 #include "classfun.h"

@@ -54,7 +54,7 @@
 #include <string.h>
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #endif
 #include "constrct.h"
 #include "cstrcpsr.h"

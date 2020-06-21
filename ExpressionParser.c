@@ -75,8 +75,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "cstrnchk.h"
 #include "Environment.h"
 #include "Expression.h"

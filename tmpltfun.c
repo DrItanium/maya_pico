@@ -102,9 +102,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "CommandLine.h"
-#include "constant.h"
+#include "Constants.h"
 #include "cstrnchk.h"
 #include "default.h"
 #include "Environment.h"

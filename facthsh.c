@@ -55,7 +55,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT
 
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "Fact.h"
 #include "memalloc.h"

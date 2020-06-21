@@ -42,8 +42,8 @@
 #include <string.h>
 
 #include "agenda.h"
-#include "argacces.h"
-#include "constant.h"
+#include "ArgumentAccess.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "constrnt.h"
 #include "cstrnchk.h"

@@ -79,7 +79,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "CommandLine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

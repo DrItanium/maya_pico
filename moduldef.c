@@ -57,12 +57,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "modulbin.h"
 #endif
-#include "constant.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

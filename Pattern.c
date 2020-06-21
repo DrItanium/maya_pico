@@ -43,7 +43,7 @@
 
 #if DEFRULE_CONSTRUCT
 
-#include "constant.h"
+#include "Constants.h"
 #include "constrnt.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"

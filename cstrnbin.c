@@ -35,15 +35,15 @@
 
 #if (BLOAD || BLOAD_AND_BSAVE)
 
-#include "constant.h"
+#include "Constants.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "bload.h"
+#include "BinaryLoad.h"
 
 #if BLOAD_AND_BSAVE
-#include "bsave.h"
+#include "BinarySave.h"
 #endif
 
 #include "cstrnbin.h"

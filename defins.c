@@ -75,17 +75,17 @@
 #if DEFINSTANCES_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "bload.h"
+#include "BinaryLoad.h"
 #include "dfinsbin.h"
 #endif
 
 
-#include "argacces.h"
+#include "ArgumentAccess.h"
 #include "classcom.h"
 #include "classfun.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
-#include "constant.h"
+#include "Constants.h"
 #include "constrct.h"
 #include "Environment.h"
 #include "Evaluation.h"
