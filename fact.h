@@ -381,7 +381,8 @@ long BinarySaveFacts(Environment *, const char *, SaveScope);
 long BinarySaveFactsDriver(Environment *, const char *, SaveScope, Expression *);
 long BinaryLoadFacts(Environment *, const char *);
 
-void FactFunctionDefinitio/**********************************************************/
+void FactFunctionDefinitions(Environment *);
+/**********************************************************/
 /* factGetVarPN1Call: This structure is used to store the */
 /*   arguments to the most general extraction routine for */
 /*   retrieving a variable from the fact pattern network. */
@@ -554,8 +555,6 @@ struct expr *FactGenGetfield(Environment *, struct lhsParseNode *);
 struct expr *FactGenGetvar(Environment *, struct lhsParseNode *, int);
 struct expr *FactGenCheckLength(Environment *, struct lhsParseNode *);
 struct expr *FactGenCheckZeroLength(Environment *, unsigned short);
-ns(Environment
-*);
 void FactRelationFunction(Environment *, UDFContext *, UDFValue *);
 CLIPSLexeme *FactRelation(Fact *);
 Deftemplate *FactDeftemplate(Fact *);

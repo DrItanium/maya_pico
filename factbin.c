@@ -37,10 +37,10 @@
 
 #include <stdio.h>
 
+#include "fact.h"
 #include "bload.h"
 #include "bsave.h"
 #include "envrnmnt.h"
-#include "factmngr.h"
 #include "memalloc.h"
 #include "moduldef.h"
 #include "pattern.h"
@@ -48,7 +48,6 @@
 #include "rulebin.h"
 #include "tmpltdef.h"
 
-#include "factbin.h"
 
 /********************************************/
 /* INTERNAL DATA STRUCTURES AND DEFINITIONS */
