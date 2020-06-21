@@ -53,7 +53,7 @@
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
-#include "classfun.h"
+#include "ClassFunctions.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "insfun.h"

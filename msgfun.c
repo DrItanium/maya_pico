@@ -55,8 +55,8 @@
 
 #if OBJECT_SYSTEM
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "inscom.h"

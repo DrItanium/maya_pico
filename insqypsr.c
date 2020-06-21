@@ -60,7 +60,7 @@
 
 #include <string.h>
 
-#include "classcom.h"
+#include "ClassCommands.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "insquery.h"

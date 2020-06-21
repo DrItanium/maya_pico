@@ -70,8 +70,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "cstrnutl.h"
 #include "Constraint.h"
 #include "cstrnchk.h"

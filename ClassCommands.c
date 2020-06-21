@@ -72,15 +72,15 @@
 #endif
 
 #include "ArgumentAccess.h"
-#include "classfun.h"
-#include "classini.h"
+#include "ClassFunctions.h"
+#include "ClassInitialization.h"
 #include "Environment.h"
 #include "modulutl.h"
 #include "msgcom.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "classcom.h"
+#include "ClassCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

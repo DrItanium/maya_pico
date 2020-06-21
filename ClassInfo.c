@@ -68,10 +68,10 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classexm.h"
-#include "classfun.h"
-#include "classini.h"
+#include "ClassCommands.h"
+#include "ClassExamination.h"
+#include "ClassFunctions.h"
+#include "ClassInitialization.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "insfun.h"
@@ -80,7 +80,7 @@
 #include "Multifield.h"
 #include "PrintUtility.h"
 
-#include "classinf.h"
+#include "ClassInfo.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

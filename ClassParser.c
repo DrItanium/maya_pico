@@ -64,8 +64,8 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "clsltpsr.h"
 #include "Construct.h"
 #include "Environment.h"
@@ -79,7 +79,7 @@
 #include "Router.h"
 #include "Scanner.h"
 
-#include "classpsr.h"
+#include "ClassParser.h"
 
 /* =========================================
    *****************************************

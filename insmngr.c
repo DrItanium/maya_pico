@@ -74,8 +74,8 @@
 #include "LogicalDependencies.h"
 #endif
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "cstrnchk.h"
 #include "Engine.h"
 #include "Environment.h"

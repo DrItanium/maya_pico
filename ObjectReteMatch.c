@@ -69,7 +69,7 @@
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
-#include "classfun.h"
+#include "ClassFunctions.h"
 #include "MemoryAllocation.h"
 #include "Drive.h"
 #include "Engine.h"

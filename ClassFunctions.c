@@ -78,8 +78,8 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "classcom.h"
-#include "classini.h"
+#include "ClassCommands.h"
+#include "ClassInitialization.h"
 #include "Constants.h"
 #include "Construct.h"
 #include "Construct.h"
@@ -97,7 +97,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "classfun.h"
+#include "ClassFunctions.h"
 
 /* =========================================
    *****************************************

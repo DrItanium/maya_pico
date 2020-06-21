@@ -74,11 +74,11 @@
 
 #include <stdio.h>
 
-#include "classcom.h"
-#include "classexm.h"
-#include "classfun.h"
-#include "classinf.h"
-#include "classpsr.h"
+#include "ClassCommands.h"
+#include "ClassExamination.h"
+#include "ClassFunctions.h"
+#include "ClassInfo.h"
+#include "ClassParser.h"
 #include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
@@ -109,7 +109,7 @@
 #include "ObjectReteMatch.h"
 #endif
 
-#include "classini.h"
+#include "ClassInitialization.h"
 
 /* =========================================
    *****************************************

@@ -72,8 +72,8 @@
 #if INSTANCE_SET_QUERIES
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "insfun.h"

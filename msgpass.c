@@ -73,8 +73,8 @@
 #include <stdlib.h>
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "CommandLine.h"
 #include "Construct.h"
 #include "Environment.h"

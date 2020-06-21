@@ -115,7 +115,7 @@ unsigned int HashClass(CLIPSLexeme *);
 
 #define PRIMITIVE_CLASSES 9
 
-#include "classcom.h"
+#include "ClassCommands.h"
 
 struct defclassData {
     Construct *DefclassConstruct;

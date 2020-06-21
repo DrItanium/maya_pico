@@ -93,8 +93,8 @@
 #if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "MemoryAllocation.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

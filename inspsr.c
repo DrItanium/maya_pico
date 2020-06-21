@@ -63,9 +63,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "classcom.h"
-#include "classfun.h"
-#include "classinf.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
+#include "ClassInfo.h"
 #include "Constants.h"
 #include "Environment.h"
 #include "Evaluation.h"

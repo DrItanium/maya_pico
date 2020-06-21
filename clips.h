@@ -109,12 +109,12 @@
 #endif
 
 #if OBJECT_SYSTEM
-#include "classcom.h"
-#include "classexm.h"
-#include "classfun.h"
-#include "classinf.h"
-#include "classini.h"
-#include "classpsr.h"
+#include "ClassCommands.h"
+#include "ClassExamination.h"
+#include "ClassFunctions.h"
+#include "ClassInfo.h"
+#include "ClassInitialization.h"
+#include "ClassParser.h"
 #include "Definstances.h"
 #include "inscom.h"
 #include "insfile.h"

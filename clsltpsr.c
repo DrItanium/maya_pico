@@ -55,8 +55,8 @@
 
 #include <string.h>
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "cstrnchk.h"
 #include "cstrnpsr.h"
 #include "cstrnutl.h"

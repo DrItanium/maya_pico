@@ -65,8 +65,8 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "Construct.h"
 #include "Construct.h"
 #include "cstrnchk.h"

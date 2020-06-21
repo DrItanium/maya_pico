@@ -80,8 +80,8 @@
 #endif
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "Construct.h"
 #include "Construct.h"
 #include "Constants.h"

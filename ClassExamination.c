@@ -76,9 +76,9 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
-#include "classini.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
+#include "ClassInitialization.h"
 #include "Environment.h"
 #include "insfun.h"
 #include "MemoryAllocation.h"
@@ -89,7 +89,7 @@
 #include "StringRouter.h"
 #include "SystemDependency.h"
 
-#include "classexm.h"
+#include "ClassExamination.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

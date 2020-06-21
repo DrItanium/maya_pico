@@ -89,7 +89,7 @@
 #include "BinaryLoad.h"
 #endif
 #if OBJECT_SYSTEM
-#include "classcom.h"
+#include "ClassCommands.h"
 #include "inscom.h"
 #endif
 #include "Construct.h"

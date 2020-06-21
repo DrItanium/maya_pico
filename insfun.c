@@ -88,8 +88,8 @@
 #if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "cstrnchk.h"
 #if DEFRULE_CONSTRUCT
 #include "Drive.h"

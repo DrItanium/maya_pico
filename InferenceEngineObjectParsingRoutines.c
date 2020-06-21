@@ -51,7 +51,7 @@
 
 #include <stdio.h>
 
-#include "classfun.h"
+#include "ClassFunctions.h"
 #include "Environment.h"
 #include "InferenceEngineObjectAccessRotuines.h"
 

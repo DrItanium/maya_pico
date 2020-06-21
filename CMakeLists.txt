@@ -10,12 +10,12 @@ add_library(clips
         BinaryLoad.c
         BasicMathFunctions.c
         BinarySave.c
-        classcom.c
-        classexm.c
-        classfun.c
-        classinf.c
-        classini.c
-        classpsr.c
+		ClassCommands.c
+		ClassExamination.c
+		ClassFunctions.c
+		ClassInfo.c
+		ClassInitialization.c
+		ClassParser.c
         clsltpsr.c
         CommandLine.c
         Construct.c

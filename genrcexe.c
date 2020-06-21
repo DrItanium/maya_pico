@@ -57,8 +57,8 @@
 #include <string.h>
 
 #if OBJECT_SYSTEM
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "insfun.h"
 #endif
 

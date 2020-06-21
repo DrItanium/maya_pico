@@ -57,9 +57,9 @@
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
-#include "classcom.h"
-#include "classfun.h"
-#include "classini.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
+#include "ClassInitialization.h"
 #include "Construct.h"
 #include "cstrnbin.h"
 #include "Environment.h"

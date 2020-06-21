@@ -75,7 +75,7 @@
 #endif
 
 #if OBJECT_SYSTEM
-#include "classini.h"
+#include "ClassInitialization.h"
 #endif
 
 #if DEVELOPER

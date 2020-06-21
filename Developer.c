@@ -67,8 +67,8 @@
 #endif
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #include "ObjectReteMatch.h"
 #endif
 #if OBJECT_SYSTEM

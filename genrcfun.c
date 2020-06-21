@@ -70,8 +70,8 @@
 #endif
 
 #if OBJECT_SYSTEM
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #endif
 
 #include "ArgumentAccess.h"

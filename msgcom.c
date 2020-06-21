@@ -74,9 +74,9 @@
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
-#include "classcom.h"
-#include "classfun.h"
-#include "classinf.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
+#include "ClassInfo.h"
 #include "Construct.h"
 #include "msgpsr.h"
 #include "Environment.h"

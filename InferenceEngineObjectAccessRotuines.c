@@ -56,8 +56,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 
 #if DEVELOPER
 #include "exprnops.h"

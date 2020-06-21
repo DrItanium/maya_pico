@@ -58,8 +58,8 @@
 #include <stdlib.h>
 
 #if OBJECT_SYSTEM
-#include "classcom.h"
-#include "classfun.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
 #endif
 #include "cstrnutl.h"
 #include "Environment.h"

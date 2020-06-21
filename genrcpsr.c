@@ -74,8 +74,8 @@
 #endif
 
 #if OBJECT_SYSTEM
-#include "classfun.h"
-#include "classcom.h"
+#include "ClassFunctions.h"
+#include "ClassCommands.h"
 #endif
 
 #include "Construct.h"

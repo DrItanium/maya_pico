@@ -82,9 +82,9 @@
 #if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
-#include "classcom.h"
-#include "classfun.h"
-#include "classinf.h"
+#include "ClassCommands.h"
+#include "ClassFunctions.h"
+#include "ClassInfo.h"
 #include "CommandLine.h"
 #include "Environment.h"
 #include "Expression.h"

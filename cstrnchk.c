@@ -65,8 +65,8 @@
 #include "Router.h"
 
 #if OBJECT_SYSTEM
-#include "classcom.h"
-#include "classexm.h"
+#include "ClassCommands.h"
+#include "ClassExamination.h"
 #include "inscom.h"
 #include "insfun.h"
 #endif
