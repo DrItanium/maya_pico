@@ -79,19 +79,19 @@
 
 #if (BLOAD || BLOAD_AND_BSAVE)
 #include "BinaryLoad.h"
-#include "dffnxbin.h"
+#include "DeffunctionBinaryLoadSave.h"
 #endif
 
 #include "Construct.h"
 #include "Construct.h"
-#include "dffnxpsr.h"
+#include "DeffunctionParser.h"
 #include "DefmoduleParser.h"
 
 #include "Environment.h"
 
 #include "ExternalFunctions.h"
 
-#include "dffnxexe.h"
+#include "DeffunctionExecution.h"
 
 #if DEBUGGING_FUNCTIONS
 #include "Watch.h"
@@ -105,7 +105,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "dffnxfun.h"
+#include "Deffunction.h"
 
 /* =========================================
    *****************************************

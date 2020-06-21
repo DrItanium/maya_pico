@@ -70,7 +70,7 @@
 #endif
 
 #if DEFFUNCTION_CONSTRUCT
-#include "dffnxfun.h"
+#include "Deffunction.h"
 #endif
 
 #if OBJECT_SYSTEM
@@ -82,7 +82,7 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "genrccom.h"
+#include "GenericFunctionCommands.h"
 #include "ImplicitSystemMethodsParsing.h"
 #include "MemoryAllocation.h"
 #include "DefmoduleUtility.h"
@@ -94,7 +94,7 @@
 #include "Scanner.h"
 #include "SystemDependency.h"
 
-#include "genrcpsr.h"
+#include "GenericFunctionParser.h"
 
 /* =========================================
    *****************************************

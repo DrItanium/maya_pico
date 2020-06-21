@@ -47,11 +47,11 @@
 #endif
 
 #if DEFGENERIC_CONSTRUCT
-#include "genrcbin.h"
+#include "GenericFunctionBinaryLoadSave.h"
 #endif
 
 #if DEFFUNCTION_CONSTRUCT
-#include "dffnxbin.h"
+#include "DeffunctionBinaryLoadSave.h"
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT

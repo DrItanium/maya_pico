@@ -99,10 +99,10 @@
 #include "Evaluation.h"
 #include "ExternalFunctions.h"
 #if BLOAD || BLOAD_AND_BSAVE
-#include "genrcbin.h"
+#include "GenericFunctionBinaryLoadSave.h"
 #endif
-#include "genrcexe.h"
-#include "genrcpsr.h"
+#include "GenericFunctionExecution.h"
+#include "GenericFunctionParser.h"
 #include "MemoryAllocation.h"
 #include "DefmoduleParser.h"
 #include "DefmoduleUtility.h"
@@ -114,7 +114,7 @@
 #endif
 #include "PrintUtility.h"
 
-#include "genrccom.h"
+#include "GenericFunctionCommands.h"
 
 /* =========================================
    *****************************************

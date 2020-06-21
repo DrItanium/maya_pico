@@ -36,10 +36,10 @@ add_library(clips
 		DeffactsBasicCommands.c
 		Deffacts.c
 		DeffactsParser.c
-        dffnxbin.c
-        dffnxexe.c
-        dffnxfun.c
-        dffnxpsr.c
+		DeffunctionBinaryLoadSave.c
+		DeffunctionExecution.c
+		Deffunction.c
+		DeffunctionParser.c
 		DefinstancesBinaryLoadSave.c
         Drive.c
         ExtendedMathFunctions.c
@@ -71,11 +71,11 @@ add_library(clips
         FileRouter.c
         FileUtilities.c
         Generate.c
-        genrcbin.c
-        genrccom.c
-        genrcexe.c
-        genrcfun.c
-        genrcpsr.c
+		GenericFunctionBinaryLoadSave.c
+		GenericFunctionCommands.c
+		GenericFunctionExecution.c
+		GenericFunction.c
+		GenericFunctionParser.c
 		DefglobalBinary.c
 		DefglobalBasicCommands.c
 		DefglobalCommands.c

@@ -62,7 +62,7 @@
 
 #include "Entities.h"
 #include "Construct.h"
-#include "genrcfun.h"
+#include "GenericFunction.h"
 
 void SetupGenericFunctions(Environment *);
 Defgeneric *FindDefgeneric(Environment *, const char *);

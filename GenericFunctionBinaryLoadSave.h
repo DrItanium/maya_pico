@@ -37,7 +37,7 @@
 
 #define _H_genrcbin
 
-#include "genrcfun.h"
+#include "GenericFunction.h"
 
 #define GENRCBIN_DATA 28
 

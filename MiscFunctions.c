@@ -126,7 +126,7 @@
 #include "Utility.h"
 
 #if DEFFUNCTION_CONSTRUCT
-#include "dffnxfun.h"
+#include "Deffunction.h"
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT

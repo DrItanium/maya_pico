@@ -65,7 +65,7 @@
 #include "ArgumentAccess.h"
 #include "Construct.h"
 #include "Environment.h"
-#include "genrccom.h"
+#include "GenericFunctionCommands.h"
 #include "prcdrfun.h"
 #include "prccode.h"
 #include "PrintUtility.h"
@@ -73,7 +73,7 @@
 #include "Router.h"
 #include "Utility.h"
 
-#include "genrcexe.h"
+#include "GenericFunctionExecution.h"
 
 /* =========================================
    *****************************************

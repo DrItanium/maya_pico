@@ -98,11 +98,11 @@
 #endif
 
 #if DEFGENERIC_CONSTRUCT
-#include "genrccom.h"
+#include "GenericFunctionCommands.h"
 #endif
 
 #if DEFFUNCTION_CONSTRUCT
-#include "dffnxfun.h"
+#include "Deffunction.h"
 #endif
 
 #if DEFGLOBAL_CONSTRUCT

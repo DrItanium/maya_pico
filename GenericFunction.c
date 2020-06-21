@@ -79,9 +79,9 @@
 #include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
-#include "genrccom.h"
-#include "genrcexe.h"
-#include "genrcfun.h"
+#include "GenericFunctionCommands.h"
+#include "GenericFunctionExecution.h"
+#include "GenericFunction.h"
 #include "MemoryAllocation.h"
 #include "DefmoduleUtility.h"
 #include "prccode.h"
@@ -89,7 +89,7 @@
 #include "Router.h"
 #include "SystemDependency.h"
 
-#include "genrcfun.h"
+#include "GenericFunction.h"
 
 /* =========================================
    *****************************************

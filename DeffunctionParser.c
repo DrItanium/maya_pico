@@ -71,14 +71,14 @@
 #endif
 
 #if DEFGENERIC_CONSTRUCT
-#include "genrccom.h"
+#include "GenericFunctionCommands.h"
 #endif
 
 #include "Constants.h"
 #include "Construct.h"
 #include "Construct.h"
 #include "Construct.h"
-#include "dffnxfun.h"
+#include "Deffunction.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "Expression.h"
@@ -91,7 +91,7 @@
 #include "Scanner.h"
 #include "Symbol.h"
 
-#include "dffnxpsr.h"
+#include "DeffunctionParser.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

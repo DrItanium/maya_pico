@@ -1,7 +1,7 @@
 /*******************************************************/
 /*      "C" Language Integrated Production System      */
 /*                                                     */
-/*             CLIPS Version 6.40  07/30/16            */
+/*             CLIPS Version 6.40  11/01/16            */
 /*                                                     */
 /*                                                     */
 /*******************************************************/
@@ -16,11 +16,14 @@
 /*                                                           */
 /* Revision History:                                         */
 /*                                                           */
-/*      6.30: Removed conditional code for unsupported       */
-/*            compilers/operating systems (IBM_MCW,          */
-/*            MAC_MCW, and IBM_TBC).                         */
+/*      6.23: Correction for FalseSymbol/TrueSymbol. DR0859  */
+/*                                                           */
+/*      6.30: Changed garbage collection algorithm.          */
 /*                                                           */
 /*            Changed integer type/precision.                */
+/*                                                           */
+/*            Added const qualifiers to remove C++           */
+/*            deprecation warnings.                          */
 /*                                                           */
 /*      6.40: Removed LOCALE definition.                     */
 /*                                                           */
@@ -29,37 +32,26 @@
 /*            Removed use of void pointers for specific      */
 /*            data structures.                               */
 /*                                                           */
+/*            UDF redesign.                                  */
+/*                                                           */
 /*************************************************************/
 
-#ifndef _H_dffnxbin
+#ifndef _H_dffnxexe
 
 #pragma once
 
-#define _H_dffnxbin
+#define _H_dffnxexe
 
-#if DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
+#if DEFFUNCTION_CONSTRUCT
 
-#include "dffnxfun.h"
+#include "Entities.h"
+#include "Deffunction.h"
 
-void SetupDeffunctionsBload(Environment *);
-void *BloadDeffunctionModuleReference(Environment *, unsigned long);
+void CallDeffunction(Environment *, Deffunction *, Expression *, UDFValue *);
 
-#define DFFNXBIN_DATA 24
+#endif /* DEFFUNCTION_CONSTRUCT */
 
-struct deffunctionBinaryData {
-    Deffunction *DeffunctionArray;
-    unsigned long DeffunctionCount;
-    unsigned long ModuleCount;
-    DeffunctionModuleData *ModuleArray;
-};
-
-#define DeffunctionBinaryData(theEnv) ((struct deffunctionBinaryData *) GetEnvironmentData(theEnv,DFFNXBIN_DATA))
-
-#define DeffunctionPointer(i) (((i) == ULONG_MAX) ? NULL : &DeffunctionBinaryData(theEnv)->DeffunctionArray[i])
-
-#endif /* DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
-
-#endif /* _H_dffnxbin */
+#endif /* _H_dffnxexe */
 
 
 

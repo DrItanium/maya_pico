@@ -42,7 +42,7 @@
 
 #if DEFGENERIC_CONSTRUCT
 
-#include "genrcfun.h"
+#include "GenericFunction.h"
 
 void AddImplicitMethods(Environment *, Defgeneric *);
 

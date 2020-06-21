@@ -47,7 +47,7 @@
 #include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
-#include "genrccom.h"
+#include "GenericFunctionCommands.h"
 #include "MemoryAllocation.h"
 #include "DefmoduleBinarySaveLoad.h"
 #if OBJECT_SYSTEM
@@ -57,7 +57,7 @@
 #endif
 #include "Router.h"
 
-#include "genrcbin.h"
+#include "GenericFunctionBinaryLoadSave.h"
 
 /* =========================================
    *****************************************

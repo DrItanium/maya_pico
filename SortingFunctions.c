@@ -39,7 +39,7 @@
 #include "Setup.h"
 
 #include "ArgumentAccess.h"
-#include "dffnxfun.h"
+#include "Deffunction.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"

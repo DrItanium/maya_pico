@@ -100,12 +100,12 @@
 #endif
 
 #if DEFFUNCTION_CONSTRUCT
-#include "dffnxfun.h"
+#include "Deffunction.h"
 #endif
 
 #if DEFGENERIC_CONSTRUCT
-#include "genrccom.h"
-#include "genrcfun.h"
+#include "GenericFunctionCommands.h"
+#include "GenericFunction.h"
 #endif
 
 #if OBJECT_SYSTEM

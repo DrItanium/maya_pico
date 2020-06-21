@@ -1,7 +1,7 @@
 /*******************************************************/
 /*      "C" Language Integrated Production System      */
 /*                                                     */
-/*             CLIPS Version 6.40  07/30/16            */
+/*             CLIPS Version 6.40  08/25/16            */
 /*                                                     */
 /*                                                     */
 /*******************************************************/
@@ -16,31 +16,16 @@
 /*                                                           */
 /* Revision History:                                         */
 /*                                                           */
-/*      6.24: Renamed BOOLEAN macro type to intBool.         */
+/*      6.24: Removed IMPERATIVE_METHODS compilation flag.   */
 /*                                                           */
-/*            If the last construct in a loaded file is a    */
-/*            deffunction or defmethod with no closing right */
-/*            parenthesis, an error should be issued, but is */
-/*            not. DR0872                                    */
-/*                                                           */
-/*      6.30: Changed integer type/precision.                */
-/*                                                           */
-/*            GetConstructNameAndComment API change.         */
+/*      6.30: Changed garbage collection algorithm.          */
 /*                                                           */
 /*            Support for long long integers.                */
 /*                                                           */
-/*            Used gensprintf instead of sprintf.            */
+/*            Changed integer type/precision.                */
 /*                                                           */
 /*            Added const qualifiers to remove C++           */
 /*            deprecation warnings.                          */
-/*                                                           */
-/*            Converted API macros to function calls.        */
-/*                                                           */
-/*            Fixed linkage issue when BLOAD_AND_SAVE        */
-/*            compiler flag is set to 0.                     */
-/*                                                           */
-/*            Fixed typing issue when OBJECT_SYSTEM          */
-/*            compiler flag is set to 0.                     */
 /*                                                           */
 /*      6.40: Removed LOCALE definition.                     */
 /*                                                           */
@@ -51,30 +36,38 @@
 /*            Removed use of void pointers for specific      */
 /*            data structures.                               */
 /*                                                           */
+/*            UDF redesign.                                  */
+/*                                                           */
 /*************************************************************/
 
-#ifndef _H_genrcpsr
+#ifndef _H_genrcexe
 
 #pragma once
 
-#define _H_genrcpsr
+#define _H_genrcexe
 
 #if DEFGENERIC_CONSTRUCT
 
-#include "genrcfun.h"
+#include "Evaluation.h"
+#include "Expression.h"
+#include "GenericFunction.h"
 
-bool ParseDefgeneric(Environment *, const char *);
-bool ParseDefmethod(Environment *, const char *);
-Defmethod *AddMethod(Environment *, Defgeneric *, Defmethod *, int, unsigned short, Expression *,
-                     unsigned short, unsigned short, CLIPSLexeme *, Expression *, char *, bool);
-void PackRestrictionTypes(Environment *, RESTRICTION *, Expression *);
-void DeleteTempRestricts(Environment *, Expression *);
-Defmethod *FindMethodByRestrictions(Defgeneric *, Expression *, int,
-                                    CLIPSLexeme *, int *);
+void GenericDispatch(Environment *, Defgeneric *, Defmethod *, Defmethod *, Expression *, UDFValue *);
+void UnboundMethodErr(Environment *, const char *);
+bool IsMethodApplicable(Environment *, Defmethod *);
+
+bool NextMethodP(Environment *);
+void NextMethodPCommand(Environment *, UDFContext *, UDFValue *);
+void CallNextMethod(Environment *, UDFContext *, UDFValue *);
+void CallSpecificMethod(Environment *, UDFContext *, UDFValue *);
+void OverrideNextMethod(Environment *, UDFContext *, UDFValue *);
+
+void GetGenericCurrentArgument(Environment *, UDFContext *, UDFValue *);
 
 #endif /* DEFGENERIC_CONSTRUCT */
 
-#endif /* _H_genrcpsr */
+#endif /* _H_genrcexe */
+
 
 
 
