@@ -84,6 +84,11 @@ struct defruleModule;
 #include "Network.h"
 #include "Defrule.h"
 #include "Symbol.h"
+#include "Agenda.h"
+#include "Constraint.h"
+#include "Construct.h"
+#include "Evaluation.h"
+#include "Defmodule.h"
 
 struct defrule {
     ConstructHeader header;
@@ -102,11 +107,6 @@ struct defrule {
     Defrule *disjunct;
 };
 
-#include "Agenda.h"
-#include "Constraint.h"
-#include "Construct.h"
-#include "Evaluation.h"
-#include "Defmodule.h"
 
 struct defruleModule {
     struct defmoduleItemHeader header;
