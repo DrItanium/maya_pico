@@ -30,3 +30,6 @@ Here is what is different (not exhaustive):
 
 My maya fork was originally known as the electron platform but I renamed it to maya because... well I can't remember 
 exactly why at this point in time.
+
+I will sync changes in from CLIPS itself but I never plan to merge these changes back because I do not think that CLIPS 
+is broken. I am only leveraging its functionality.
