@@ -87,7 +87,7 @@
 #include "prccode.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #include "genrcfun.h"
 

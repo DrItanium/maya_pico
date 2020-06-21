@@ -90,7 +90,7 @@
 #include "prntutil.h"
 #include "Router.h"
 #if DEBUGGING_FUNCTIONS
-#include "watch.h"
+#include "Watch.h"
 #endif
 
 #include "msgcom.h"

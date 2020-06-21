@@ -88,7 +88,7 @@
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "msgcom.h"
-#include "watch.h"
+#include "Watch.h"
 
 #if DEFINSTANCES_CONSTRUCT
 #include "defins.h"

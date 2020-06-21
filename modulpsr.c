@@ -56,7 +56,7 @@
 #include "PrettyPrint.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "utility.h"
+#include "Utility.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"

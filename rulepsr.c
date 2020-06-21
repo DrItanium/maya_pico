@@ -81,7 +81,7 @@
 #include "rulelhs.h"
 #include "scanner.h"
 #include "Symbol.h"
-#include "watch.h"
+#include "Watch.h"
 
 #include "lgcldpnd.h"
 

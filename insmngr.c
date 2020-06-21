@@ -89,13 +89,13 @@
 #include "prccode.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "insmngr.h"
 
 #include "inscom.h"
-#include "watch.h"
+#include "Watch.h"
 
 /* =========================================
    *****************************************

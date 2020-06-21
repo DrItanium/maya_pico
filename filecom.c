@@ -88,8 +88,8 @@
 #include "fileutil.h"
 #include "memalloc.h"
 #include "Router.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "filecom.h"
 

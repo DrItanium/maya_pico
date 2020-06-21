@@ -120,12 +120,12 @@
 #include "Router.h"
 #include "scanner.h"
 #include "Symbol.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltdef.h"
 #include "tmpltlhs.h"
 #include "tmpltrhs.h"
 #include "tmpltutl.h"
-#include "utility.h"
+#include "Utility.h"
 
 #include "tmpltfun.h"
 

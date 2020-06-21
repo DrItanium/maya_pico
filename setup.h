@@ -429,7 +429,7 @@
 /* an empty file in the baseline version.        */
 /*************************************************/
 
-#include "usrsetup.h"
+#include "UserSetup.h"
 
 #endif	/* _H_setup */
 

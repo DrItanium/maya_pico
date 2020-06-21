@@ -61,8 +61,8 @@
 #include "memalloc.h"
 #include "multifld.h"
 #include "Router.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #if DEFRULE_CONSTRUCT
 #include "lgcldpnd.h"

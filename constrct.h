@@ -78,9 +78,9 @@
 typedef struct construct Construct;
 
 #include "Entities.h"
-#include "userdata.h"
+#include "UserData.h"
 #include "moduldef.h"
-#include "utility.h"
+#include "Utility.h"
 
 typedef void SaveCallFunction(Environment *,Defmodule *,const char *,void *);
 typedef struct saveCallFunctionItem SaveCallFunctionItem;

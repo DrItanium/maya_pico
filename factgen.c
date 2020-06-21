@@ -57,7 +57,7 @@
 #include "reteutil.h"
 #include "Router.h"
 #include "scanner.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltdef.h"
 #include "tmpltfun.h"
 #include "tmpltlhs.h"

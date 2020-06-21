@@ -94,7 +94,7 @@
 #include "dffnxexe.h"
 
 #if DEBUGGING_FUNCTIONS
-#include "watch.h"
+#include "Watch.h"
 #endif
 
 #include "argacces.h"

@@ -59,7 +59,7 @@
 #include "ruledef.h"
 #include "rulepsr.h"
 #include "Symbol.h"
-#include "watch.h"
+#include "Watch.h"
 
 #include "analysis.h"
 

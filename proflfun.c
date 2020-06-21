@@ -63,7 +63,7 @@
 #include "memalloc.h"
 #include "msgcom.h"
 #include "Router.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #include "proflfun.h"
 

@@ -75,7 +75,7 @@
 
 #include "Environment.h"
 #include "Router.h"
-#include "watch.h"
+#include "Watch.h"
 #include "constrct.h"
 #include "prcdrpsr.h"
 #include "Expression.h"
@@ -85,8 +85,8 @@
 #include "PrettyPrint.h"
 #include "prntutil.h"
 #include "strngrtr.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "cstrcpsr.h"
 

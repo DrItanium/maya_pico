@@ -51,8 +51,8 @@
 #include "constant.h"
 #include "Environment.h"
 #include "memalloc.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "PrettyPrint.h"
 

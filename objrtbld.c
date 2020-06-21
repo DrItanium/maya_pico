@@ -92,7 +92,7 @@
 #include "rulepsr.h"
 #include "scanner.h"
 #include "Symbol.h"
-#include "utility.h"
+#include "Utility.h"
 
 
 #include "constrct.h"

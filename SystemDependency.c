@@ -151,7 +151,7 @@
 
 #include "Environment.h"
 #include "memalloc.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 /********************/
 /* ENVIRONMENT DATA */

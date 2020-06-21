@@ -110,7 +110,7 @@
 #include "Router.h"
 #include "strngrtr.h"
 #if DEBUGGING_FUNCTIONS
-#include "watch.h"
+#include "Watch.h"
 #endif
 #include "prntutil.h"
 

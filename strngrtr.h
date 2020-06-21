@@ -49,7 +49,7 @@ typedef struct stringRouter StringRouter;
 typedef struct stringBuilderRouter StringBuilderRouter;
 
 #include <stdio.h>
-#include "utility.h"
+#include "Utility.h"
 
 #define STRING_ROUTER_DATA 48
 

@@ -76,7 +76,7 @@
 #include "reteutil.h"
 #include "Router.h"
 #include "ruledef.h"
-#include "watch.h"
+#include "Watch.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "rulebin.h"

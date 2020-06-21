@@ -74,7 +74,7 @@
 #include "Symbol.h"
 #include "tmpltbsc.h"
 #include "tmpltdef.h"
-#include "watch.h"
+#include "Watch.h"
 
 #include "tmpltpsr.h"
 

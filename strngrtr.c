@@ -48,7 +48,7 @@
 #include "memalloc.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #include "strngrtr.h"
 

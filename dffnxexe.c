@@ -58,8 +58,8 @@
 #include "prntutil.h"
 #include "proflfun.h"
 #include "Router.h"
-#include "utility.h"
-#include "watch.h"
+#include "Utility.h"
+#include "Watch.h"
 
 #include "dffnxexe.h"
 

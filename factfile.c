@@ -54,7 +54,7 @@
 #include "scanner.h"
 #include "strngrtr.h"
 #include "symblbin.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltdef.h"
 #include "tmpltutl.h"
 

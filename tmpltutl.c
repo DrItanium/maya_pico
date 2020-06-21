@@ -74,12 +74,12 @@
 #include "multifld.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltbsc.h"
 #include "tmpltdef.h"
 #include "tmpltfun.h"
 #include "tmpltpsr.h"
-#include "watch.h"
+#include "Watch.h"
 
 #include "tmpltutl.h"
 

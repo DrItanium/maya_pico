@@ -71,7 +71,7 @@
 #include "modulpsr.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "utility.h"
+#include "Utility.h"
 
 #include "moduldef.h"
 

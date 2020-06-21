@@ -122,8 +122,8 @@
 #include "multifld.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #if DEFFUNCTION_CONSTRUCT
 #include "dffnxfun.h"

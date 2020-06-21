@@ -111,7 +111,7 @@
 #include "multifld.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltutl.h"
 
 #include "Fact.h"

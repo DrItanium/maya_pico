@@ -105,8 +105,8 @@
 #include "Router.h"
 #include "strngrtr.h"
 #include "scanner.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #if DEFRULE_CONSTRUCT
 #include "drive.h"

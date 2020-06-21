@@ -102,8 +102,8 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "strngrtr.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "inscom.h"
 

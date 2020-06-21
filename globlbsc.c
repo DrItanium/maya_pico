@@ -70,7 +70,7 @@
 #include "globlcom.h"
 #include "globldef.h"
 #include "multifld.h"
-#include "watch.h"
+#include "Watch.h"
 
 #include "globlbsc.h"
 

@@ -64,7 +64,7 @@
 #include "prntutil.h"
 #include "reteutil.h"
 #include "Router.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltdef.h"
 
 

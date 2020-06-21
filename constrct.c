@@ -102,9 +102,9 @@
 #include "Router.h"
 #include "ruledef.h"
 #include "scanner.h"
-#include "sysdep.h"
-#include "utility.h"
-#include "watch.h"
+#include "SystemDependency.h"
+#include "Utility.h"
+#include "Watch.h"
 
 #include "constrct.h"
 

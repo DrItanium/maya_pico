@@ -88,9 +88,9 @@
 #include "multifld.h"
 #include "prntutil.h"
 #include "Expression.h"
-#include "utility.h"
+#include "Utility.h"
 #include "proflfun.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #if DEFFUNCTION_CONSTRUCT
 #include "dffnxfun.h"

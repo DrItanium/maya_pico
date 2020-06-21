@@ -77,7 +77,7 @@
 #include "prntutil.h"
 #include "scanner.h"
 #include "strngrtr.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #include "Router.h"
 

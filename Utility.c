@@ -90,9 +90,9 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "Symbol.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
-#include "utility.h"
+#include "Utility.h"
 
 #define MAX_EPHEMERAL_COUNT 1000L
 #define MAX_EPHEMERAL_SIZE 10240L

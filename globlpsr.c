@@ -71,7 +71,7 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "scanner.h"
-#include "watch.h"
+#include "Watch.h"
 
 #include "globlpsr.h"
 

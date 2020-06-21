@@ -85,8 +85,8 @@ typedef enum
 
 #include <stdio.h>
 #include "Entities.h"
-#include "userdata.h"
-#include "utility.h"
+#include "UserData.h"
+#include "Utility.h"
 
 struct constructHeader
   {

@@ -133,12 +133,12 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "strngrtr.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "tmpltbsc.h"
 #include "tmpltfun.h"
 #include "tmpltutl.h"
-#include "utility.h"
-#include "watch.h"
+#include "Utility.h"
+#include "Watch.h"
 #include "cstrnchk.h"
 
 

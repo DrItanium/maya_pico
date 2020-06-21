@@ -45,7 +45,7 @@
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "multifld.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #include "sortfun.h"
 

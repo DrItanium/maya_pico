@@ -110,8 +110,8 @@
 #include "Router.h"
 #include "strngrtr.h"
 #include "symblbin.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "insfile.h"
 

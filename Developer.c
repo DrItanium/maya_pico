@@ -59,7 +59,7 @@
 #include "modulutl.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "utility.h"
+#include "Utility.h"
 #include "Fact.h"
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT

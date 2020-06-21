@@ -95,9 +95,9 @@
 #include "reteutil.h"
 #include "Router.h"
 #include "ruledlt.h"
-#include "sysdep.h"
-#include "utility.h"
-#include "watch.h"
+#include "SystemDependency.h"
+#include "Utility.h"
+#include "Watch.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "rulebin.h"

@@ -54,8 +54,8 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "Symbol.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "scanner.h"
 

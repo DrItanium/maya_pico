@@ -71,7 +71,7 @@
 #include "prntutil.h"
 #include "proflfun.h"
 #include "Router.h"
-#include "utility.h"
+#include "Utility.h"
 
 #include "genrcexe.h"
 

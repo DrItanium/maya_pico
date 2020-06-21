@@ -68,7 +68,7 @@
 #include "memalloc.h"
 #include "Router.h"
 
-#include "watch.h"
+#include "Watch.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

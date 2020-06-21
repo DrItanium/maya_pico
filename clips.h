@@ -52,15 +52,15 @@
 
 #include "iofun.h"
 
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "bmathfun.h"
 #include "Expression.h"
 #include "Expression.h"
 #include "Evaluation.h"
 #include "miscfun.h"
 #include "constrct.h"
-#include "utility.h"
-#include "watch.h"
+#include "Utility.h"
+#include "Watch.h"
 #include "modulbsc.h"
 
 #if BLOAD || BLOAD_AND_BSAVE

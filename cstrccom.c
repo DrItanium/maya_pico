@@ -78,9 +78,9 @@
 #include "modulutl.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "utility.h"
+#include "Utility.h"
 #include "CommandLine.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"

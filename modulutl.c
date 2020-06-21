@@ -50,8 +50,8 @@
 #include "PrettyPrint.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "sysdep.h"
-#include "watch.h"
+#include "SystemDependency.h"
+#include "Watch.h"
 
 #include "modulutl.h"
 

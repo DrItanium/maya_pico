@@ -112,8 +112,8 @@
 #include "scanner.h"
 #include "strngrtr.h"
 #include "Symbol.h"
-#include "sysdep.h"
-#include "utility.h"
+#include "SystemDependency.h"
+#include "Utility.h"
 
 #include "CommandLine.h"
 

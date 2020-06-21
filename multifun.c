@@ -98,7 +98,7 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "scanner.h"
-#include "utility.h"
+#include "Utility.h"
 
 /**************/
 /* STRUCTURES */

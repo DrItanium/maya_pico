@@ -142,7 +142,7 @@ add_library(clips
 	strngrtr.c
 	symblbin.c
 		Symbol.c
-	sysdep.c
+		SystemDependency.c
 	textpro.c
 	tmpltbin.c
 	tmpltbsc.c
@@ -152,10 +152,10 @@ add_library(clips
 	tmpltpsr.c
 	tmpltrhs.c
 	tmpltutl.c
-	userdata.c
-	userfunctions.c
-	utility.c
-	watch.c)
+		UserData.c
+		UserFunctions.c
+		Utility.c
+		Watch.c)
 add_library(maya_extensions boost.cc
 							functional.cpp
 							maya.c)

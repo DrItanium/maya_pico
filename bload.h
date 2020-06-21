@@ -53,11 +53,11 @@
 
 #define _H_bload
 
-#include "utility.h"
+#include "Utility.h"
 #include "ExternalFunctions.h"
 #include "Expression.h"
 #include "Symbol.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "symblbin.h"
 
 #define BLOAD_DATA 38

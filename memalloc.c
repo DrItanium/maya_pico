@@ -60,7 +60,7 @@
 #include "memalloc.h"
 #include "prntutil.h"
 #include "Router.h"
-#include "utility.h"
+#include "Utility.h"
 
 #include <stdlib.h>
 

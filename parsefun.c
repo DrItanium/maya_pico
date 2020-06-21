@@ -65,7 +65,7 @@
 #include "prntutil.h"
 #include "Router.h"
 #include "strngrtr.h"
-#include "utility.h"
+#include "Utility.h"
 
 #include "parsefun.h"
 

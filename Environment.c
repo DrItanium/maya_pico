@@ -84,10 +84,10 @@
 #include "Router.h"
 #include "sortfun.h"
 #include "strngfun.h"
-#include "sysdep.h"
+#include "SystemDependency.h"
 #include "textpro.h"
-#include "utility.h"
-#include "watch.h"
+#include "Utility.h"
+#include "Watch.h"
 
 #if DEFFACTS_CONSTRUCT
 #include "dffctdef.h"
