@@ -16,7 +16,7 @@ add_library(clips
 		ClassInfo.c
 		ClassInitialization.c
 		ClassParser.c
-        clsltpsr.c
+		ClassSlotParser.c
         CommandLine.c
         Construct.c
         Constraint.c

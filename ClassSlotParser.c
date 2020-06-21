@@ -69,7 +69,7 @@
 #include "Router.h"
 #include "Scanner.h"
 
-#include "clsltpsr.h"
+#include "ClassSlotParser.h"
 
 /* =========================================
    *****************************************

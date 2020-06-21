@@ -66,7 +66,7 @@
 
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#include "clsltpsr.h"
+#include "ClassSlotParser.h"
 #include "Construct.h"
 #include "Environment.h"
 #include "MultipleInheritanceParser.h"
