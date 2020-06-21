@@ -41,7 +41,7 @@
 #include "argacces.h"
 #include "dffnxfun.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "multifld.h"

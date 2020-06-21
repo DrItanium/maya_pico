@@ -83,7 +83,7 @@
 
 #include "commline.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "multifld.h"

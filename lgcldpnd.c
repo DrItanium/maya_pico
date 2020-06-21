@@ -49,7 +49,7 @@
 #include "argacces.h"
 #include "engine.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "pattern.h"

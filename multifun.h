@@ -59,7 +59,7 @@
 
 #define _H_multifun
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
 #define VALUE_NOT_FOUND SIZE_MAX
 

@@ -96,7 +96,7 @@
 #include "cstrccom.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "extnfunc.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "genrcbin.h"

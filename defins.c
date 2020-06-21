@@ -88,7 +88,7 @@
 #include "constant.h"
 #include "constrct.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "extnfunc.h"
 #include "insfun.h"
 #include "inspsr.h"

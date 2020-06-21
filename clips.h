@@ -56,7 +56,7 @@
 #include "bmathfun.h"
 #include "expression.h"
 #include "expression.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "miscfun.h"
 #include "constrct.h"
 #include "utility.h"

@@ -78,7 +78,7 @@
 #include "constant.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "fact.h"
 #include "inscom.h"
 #include "insmngr.h"

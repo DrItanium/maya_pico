@@ -45,7 +45,7 @@
 
 #define _H_bmathfun
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
    void                    BasicMathFunctionDefinitions(Environment *);
    void                    AdditionFunction(Environment *,UDFContext *,UDFValue *);

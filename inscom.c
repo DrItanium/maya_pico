@@ -88,7 +88,7 @@
 #include "commline.h"
 #include "environment.h"
 #include "expression.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "insfile.h"
 #include "insfun.h"
 #include "insmngr.h"

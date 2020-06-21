@@ -65,7 +65,7 @@
 
 #define _H_rulebsc
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
    void                           DefruleBasicCommands(Environment *);
    void                           UndefruleCommand(Environment *,UDFContext *,UDFValue *);

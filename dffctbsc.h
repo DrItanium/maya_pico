@@ -55,7 +55,7 @@
 #define _H_dffctbsc
 
 #include "dffctdef.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 
    void                           DeffactsBasicCommands(Environment *);
    void                           UndeffactsCommand(Environment *,UDFContext *,UDFValue *);

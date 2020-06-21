@@ -105,7 +105,7 @@
 #include "inscom.h"
 #endif
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

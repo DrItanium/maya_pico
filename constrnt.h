@@ -61,7 +61,7 @@
 struct constraintRecord;
 typedef struct constraintRecord CONSTRAINT_RECORD;
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
 struct constraintRecord
   {

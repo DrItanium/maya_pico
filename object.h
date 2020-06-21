@@ -64,7 +64,7 @@ typedef struct instanceModifier InstanceModifier;
 #include "constrct.h"
 #include "constrnt.h"
 #include "moduldef.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "expression.h"
 #include "multifld.h"
 #include "symbol.h"

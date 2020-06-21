@@ -59,7 +59,7 @@
 
 #define _H_reteutil
 
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "match.h"
 #include "network.h"
 #include "rulecom.h"

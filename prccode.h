@@ -60,7 +60,7 @@
 #define _H_prccode
 
 #include "expression.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "moduldef.h"
 #include "scanner.h"
 #include "symbol.h"

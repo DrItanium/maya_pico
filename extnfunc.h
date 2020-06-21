@@ -60,7 +60,7 @@
 
 #include "entities.h"
 
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "expression.h"
 #include "symbol.h"
 #include "userdata.h"

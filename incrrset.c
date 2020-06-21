@@ -67,7 +67,7 @@
 #include "drive.h"
 #include "engine.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "pattern.h"
 #include "router.h"
 #include "reteutil.h"

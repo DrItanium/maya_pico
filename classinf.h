@@ -51,7 +51,7 @@
 
 #define _H_classinf
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
    void                           ClassAbstractPCommand(Environment *,UDFContext *,UDFValue *);
 #if DEFRULE_CONSTRUCT

@@ -53,7 +53,7 @@
 
 #define _H_parsefun
 
-#include "evaluatn.h"
+#include "evaluation.h"
 
    void                           ParseFunctionDefinitions(Environment *);
    void                           CheckSyntaxFunction(Environment *,UDFContext *,UDFValue *);

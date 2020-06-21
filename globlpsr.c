@@ -59,7 +59,7 @@
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "expression.h"
 #include "globlbsc.h"
 #include "globldef.h"

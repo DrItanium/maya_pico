@@ -48,7 +48,7 @@
 
 #if DEFGENERIC_CONSTRUCT
 
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "expression.h"
 #include "genrcfun.h"
 

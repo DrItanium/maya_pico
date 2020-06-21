@@ -106,7 +106,7 @@ struct defrule
 #include "agenda.h"
 #include "constrnt.h"
 #include "cstrccom.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "moduldef.h"
 
 struct defruleModule

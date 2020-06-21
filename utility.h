@@ -84,7 +84,7 @@ typedef struct callFunctionItemWithArg CallFunctionItemWithArg;
 typedef struct boolCallFunctionItem BoolCallFunctionItem;
 typedef struct voidCallFunctionItem VoidCallFunctionItem;
 
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "moduldef.h"
 
 typedef struct gcBlock GCBlock;

@@ -84,7 +84,7 @@
 #include "crstrtgy.h"
 #include "engine.h"
 #include "environment.h"
-#include "evaluatn.h"
+#include "evaluation.h"
 #include "extnfunc.h"
 #include "incrrset.h"
 #include "lgcldpnd.h"
