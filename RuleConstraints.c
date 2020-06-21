@@ -41,9 +41,9 @@
 #include <stdio.h>
 
 #include "Analysis.h"
-#include "cstrnchk.h"
-#include "cstrnops.h"
-#include "cstrnutl.h"
+#include "ConstraintChecking.h"
+#include "ConstraintOperations.h"
+#include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "prcdrpsr.h"

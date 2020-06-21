@@ -63,7 +63,7 @@
 
 #include <stdio.h>
 
-#include "cstrnutl.h"
+#include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"

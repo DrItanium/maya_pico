@@ -90,7 +90,7 @@
 #include "ArgumentAccess.h"
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 #if DEFRULE_CONSTRUCT
 #include "Drive.h"
 #include "ObjectReteMatch.h"

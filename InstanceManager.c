@@ -76,7 +76,7 @@
 
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 #include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

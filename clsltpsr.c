@@ -57,9 +57,9 @@
 
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#include "cstrnchk.h"
-#include "cstrnpsr.h"
-#include "cstrnutl.h"
+#include "ConstraintChecking.h"
+#include "ConstraintParser.h"
+#include "ConstraintUtilities.h"
 #include "DefaultAttribute.h"
 #include "Environment.h"
 #include "InstanceFunctions.h"

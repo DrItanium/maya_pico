@@ -139,7 +139,7 @@
 #include "tmpltutl.h"
 #include "Utility.h"
 #include "Watch.h"
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 
 
 /***************************************/

@@ -48,9 +48,9 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "cstrnchk.h"
-#include "cstrnops.h"
-#include "cstrnutl.h"
+#include "ConstraintChecking.h"
+#include "ConstraintOperations.h"
+#include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"

@@ -57,7 +57,7 @@
 
 #include "Setup.h"
 
-#include "cstrnutl.h"
+#include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Multifield.h"
@@ -71,7 +71,7 @@
 #include "InstanceFunctions.h"
 #endif
 
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

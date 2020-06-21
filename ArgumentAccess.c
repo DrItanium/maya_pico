@@ -67,7 +67,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"

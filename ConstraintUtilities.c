@@ -49,7 +49,7 @@
 #include "Router.h"
 #include "Scanner.h"
 
-#include "cstrnutl.h"
+#include "ConstraintUtilities.h"
 
 /************************************************/
 /* GetConstraintRecord: Creates and initializes */

@@ -77,7 +77,7 @@
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"

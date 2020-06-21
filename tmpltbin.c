@@ -44,7 +44,7 @@
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
-#include "cstrnbin.h"
+#include "ConstraintBinaryLoadSave.h"
 #include "Environment.h"
 #include "Fact.h"
 #include "MemoryAllocation.h"

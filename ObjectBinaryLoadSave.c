@@ -61,7 +61,7 @@
 #include "ClassFunctions.h"
 #include "ClassInitialization.h"
 #include "Construct.h"
-#include "cstrnbin.h"
+#include "ConstraintBinaryLoadSave.h"
 #include "Environment.h"
 #include "InstanceFunctions.h"
 #include "MemoryAllocation.h"

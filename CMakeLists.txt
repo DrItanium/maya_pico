@@ -24,11 +24,11 @@ add_library(clips
 		ConstructBinaryLoadSave.c
 		ConstructCommand.c
 		ConstructParser.c
-        cstrnbin.c
-        cstrnchk.c
-        cstrnops.c
-        cstrnpsr.c
-        cstrnutl.c
+		ConstraintBinaryLoadSave.c
+		ConstraintChecking.c
+		ConstraintOperations.c
+		ConstraintParser.c
+		ConstraintUtilities.c
         DefaultAttribute.c
         Definstances.c
         Developer.c

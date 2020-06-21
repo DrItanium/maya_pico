@@ -72,10 +72,10 @@
 
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#include "cstrnutl.h"
+#include "ConstraintUtilities.h"
 #include "Constraint.h"
-#include "cstrnchk.h"
-#include "cstrnops.h"
+#include "ConstraintChecking.h"
+#include "ConstraintOperations.h"
 #include "Drive.h"
 #include "Environment.h"
 #include "InstanceCommand.h"

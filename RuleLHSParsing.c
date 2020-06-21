@@ -46,7 +46,7 @@
 #include "Constants.h"
 #include "Construct.h"
 #include "Constraint.h"
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"

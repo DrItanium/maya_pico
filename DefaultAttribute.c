@@ -49,8 +49,8 @@
 
 #include "Constants.h"
 #include "Constraint.h"
-#include "cstrnchk.h"
-#include "cstrnutl.h"
+#include "ConstraintChecking.h"
+#include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "Fact.h"

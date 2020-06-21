@@ -46,7 +46,7 @@
 #include "BinarySave.h"
 #endif
 
-#include "cstrnbin.h"
+#include "ConstraintBinaryLoadSave.h"
 
 /*******************/
 /* DATA STRUCTURES */

@@ -69,7 +69,7 @@
 #include "ClassFunctions.h"
 #include "Construct.h"
 #include "Construct.h"
-#include "cstrnchk.h"
+#include "ConstraintChecking.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "InstanceFunctions.h"

@@ -55,7 +55,7 @@
 
 #include "ArgumentAccess.h"
 #include "BinaryLoad.h"
-#include "cstrnbin.h"
+#include "ConstraintBinaryLoadSave.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"

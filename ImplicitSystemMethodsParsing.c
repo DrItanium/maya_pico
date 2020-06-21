@@ -61,7 +61,7 @@
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
 #endif
-#include "cstrnutl.h"
+#include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "ExternalFunctions.h"

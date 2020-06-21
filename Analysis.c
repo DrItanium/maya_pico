@@ -44,9 +44,9 @@
 #include <stdio.h>
 
 #include "Constants.h"
-#include "cstrnchk.h"
-#include "cstrnutl.h"
-#include "cstrnops.h"
+#include "ConstraintChecking.h"
+#include "ConstraintUtilities.h"
+#include "ConstraintOperations.h"
 #include "Expression.h"
 #include "Generate.h"
 #include "MemoryAllocation.h"
