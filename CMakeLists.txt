@@ -21,7 +21,7 @@ add_library(clips
         Construct.c
         Constraint.c
         ConflictResolutionStrategy.c
-        cstrcbin.c
+		ConstructBinaryLoadSave.c
         cstrccom.c
         cstrcpsr.c
         cstrnbin.c

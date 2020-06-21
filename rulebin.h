@@ -45,7 +45,7 @@
 
 #define _H_rulebin
 
-#include "cstrcbin.h"
+#include "Construct.h"
 #include "modulbin.h"
 #include "Network.h"
 

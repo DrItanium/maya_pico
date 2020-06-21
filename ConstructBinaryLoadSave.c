@@ -39,7 +39,7 @@
 
 #include "moduldef.h"
 
-#include "cstrcbin.h"
+#include "Construct.h"
 
 #if BLOAD_AND_BSAVE
 

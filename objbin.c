@@ -60,7 +60,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "classini.h"
-#include "cstrcbin.h"
+#include "Construct.h"
 #include "cstrnbin.h"
 #include "Environment.h"
 #include "insfun.h"

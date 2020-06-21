@@ -38,7 +38,6 @@
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #include "Construct.h"
-#include "cstrcbin.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "moduldef.h"

@@ -54,7 +54,7 @@ struct bsaveTemplateSlot {
 struct bsaveDeftemplate;
 struct bsaveDeftemplateModule;
 
-#include "cstrcbin.h"
+#include "Construct.h"
 
 struct bsaveDeftemplate {
     struct bsaveConstructHeader header;

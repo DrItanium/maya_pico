@@ -34,7 +34,7 @@
 #define _H_globlbin
 
 #include "modulbin.h"
-#include "cstrcbin.h"
+#include "Construct.h"
 #include "globldef.h"
 
 struct bsaveDefglobal {

@@ -36,7 +36,7 @@
 
 #include "moduldef.h"
 #include "modulbin.h"
-#include "cstrcbin.h"
+#include "Construct.h"
 
 struct bsaveDefmodule {
     struct bsaveConstructHeader header;

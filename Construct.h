@@ -204,6 +204,25 @@ SaveCallFunctionItem *RemoveSaveFunctionFromCallList(Environment *, const char *
                                                      SaveCallFunctionItem *, bool *);
 void DeallocateSaveCallList(Environment *, SaveCallFunctionItem *);
 
+#if BLOAD || BLOAD_AND_BSAVE
+
+struct bsaveConstructHeader {
+    unsigned long name;
+    unsigned long whichModule;
+    unsigned long next;
+};
+
+#if BLOAD_AND_BSAVE
+void MarkConstructHeaderNeededItems(ConstructHeader *, unsigned long);
+void AssignBsaveConstructHeaderVals(struct bsaveConstructHeader *,
+                                    ConstructHeader *);
+#endif
+
+void UpdateConstructHeader(Environment *, struct bsaveConstructHeader *,
+                           ConstructHeader *, ConstructType, size_t, void *, size_t, void *);
+void UnmarkConstructHeader(Environment *, ConstructHeader *);
+
+#endif
 #endif /* _H_constrct */
 
 

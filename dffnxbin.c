@@ -42,7 +42,7 @@
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
-#include "cstrcbin.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"

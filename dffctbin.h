@@ -35,7 +35,6 @@
 #define _H_dffctbin
 
 #include "Construct.h"
-#include "cstrcbin.h"
 #include "dffctdef.h"
 #include "modulbin.h"
 

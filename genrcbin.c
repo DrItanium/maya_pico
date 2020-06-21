@@ -44,7 +44,7 @@
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #include "Constants.h"
-#include "cstrcbin.h"
+#include "Construct.h"
 #include "cstrccom.h"
 #include "Environment.h"
 #include "genrccom.h"
