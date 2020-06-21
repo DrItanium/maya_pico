@@ -98,7 +98,7 @@
 #define DIRECT               0
 #define INHERIT              1
 
-#if OBJECT_SYSTEM && (! BLOAD_ONLY)
+#if OBJECT_SYSTEM
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
@@ -188,7 +188,7 @@ bool ParseDefclass(
    SetIndentDepth(theEnv,3);
    SavePPBuffer(theEnv,"(defclass ");
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    if ((Bloaded(theEnv)) && (! ConstructData(theEnv)->CheckSyntaxMode))
      {
       CannotLoadWithBloadMessage(theEnv,"defclass");

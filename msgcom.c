@@ -77,10 +77,8 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "classinf.h"
-#if (! BLOAD_ONLY)
 #include "constrct.h"
 #include "msgpsr.h"
-#endif
 #include "envrnmnt.h"
 #include "extnfunc.h"
 #include "insfun.h"
@@ -103,9 +101,7 @@
 
    static void                    CreateSystemHandlers(Environment *,void *);
 
-#if (! BLOAD_ONLY)
    static bool                    WildDeleteHandler(Environment *,Defclass *,CLIPSLexeme *,const char *);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    static bool                    DefmessageHandlerWatchAccess(Environment *,int,bool,Expression *);
@@ -180,7 +176,6 @@ void SetupMessageHandlers(
 
    AddClearFunction(theEnv,"defclass",CreateSystemHandlers,-100,NULL);
 
-#if ! BLOAD_ONLY
    MessageHandlerData(theEnv)->SELF_SYMBOL = CreateSymbol(theEnv,SELF_STRING);
    IncrementLexemeCount(MessageHandlerData(theEnv)->SELF_SYMBOL);
 
@@ -188,7 +183,6 @@ void SetupMessageHandlers(
                 ParseDefmessageHandler,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
    AddUDF(theEnv,"undefmessage-handler","v",2,3,"y",UndefmessageHandlerCommand,"UndefmessageHandlerCommand",NULL);
 
-#endif
 
    AddUDF(theEnv,"send","*",2,UNBOUNDED,"*;*;y",SendCommand,"SendCommand",NULL);
 
@@ -426,11 +420,7 @@ bool DefmessageHandlerIsDeletable(
    if (theDefclass->handlers[theIndex-1].system == 1)
      { return false; }
 
-#if (! BLOAD_ONLY)
    return (HandlersExecuting(theDefclass) == false) ? true : false;
-#else
-   return false;
-#endif
   }
 
 /******************************************************************************
@@ -446,10 +436,6 @@ void UndefmessageHandlerCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if BLOAD_ONLY
-   PrintErrorID(theEnv,"MSGCOM",3,false);
-   WriteString(theEnv,STDERR,"Unable to delete message-handlers.\n");
-#else
    CLIPSLexeme *mname;
    const char *tname;
    UDFValue theArg;
@@ -485,7 +471,6 @@ void UndefmessageHandlerCommand(
    else
      tname = MessageHandlerData(theEnv)->hndquals[MPRIMARY];
    WildDeleteHandler(theEnv,cls,mname,tname);
-#endif
   }
 
 /***********************************************************
@@ -503,22 +488,15 @@ bool UndefmessageHandler(
   Environment *allEnv)
   {
    Environment *theEnv;
-#if (! BLOAD_ONLY)
    bool success;
    GCBlock gcb;
-#endif
 
    if (theDefclass == NULL)
      { theEnv = allEnv; }
    else
      { theEnv = theDefclass->header.env; }
 
-#if BLOAD_ONLY
-   PrintErrorID(theEnv,"MSGCOM",3,false);
-   WriteString(theEnv,STDERR,"Unable to delete message-handlers.\n");
-   return false;
-#else
-     
+
 #if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv))
      {
@@ -560,7 +538,6 @@ bool UndefmessageHandler(
    DeallocateMarkedHandlers(theEnv,theDefclass);
    GCBlockEnd(theEnv,&gcb);
    return true;
-#endif
   }
 
 #if DEBUGGING_FUNCTIONS
@@ -882,7 +859,6 @@ static void CreateSystemHandlers(
   }
 
 
-#if (! BLOAD_ONLY)
 
 /************************************************************
   NAME         : WildDeleteHandler
@@ -926,7 +902,6 @@ static bool WildDeleteHandler(
    return(DeleteHandler(theEnv,cls,msym,mtype,true));
   }
 
-#endif
 
 #if DEBUGGING_FUNCTIONS
 

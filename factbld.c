@@ -62,7 +62,6 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static struct factPatternNode    *FindPatternNode(struct factPatternNode *,struct lhsParseNode *,
                                                   struct factPatternNode **,bool,bool);
    static struct factPatternNode    *CreateNewPatternNode(Environment *,struct lhsParseNode *,struct factPatternNode *,
@@ -72,7 +71,6 @@
    static struct patternNodeHeader  *PlaceFactPattern(Environment *,struct lhsParseNode *);
    static struct lhsParseNode       *RemoveUnneededSlots(Environment *,struct lhsParseNode *);
    static void                       FindAndSetDeftemplatePatternNetwork(Environment *,struct factPatternNode *,struct factPatternNode *);
-#endif
 
 /*********************************************************/
 /* InitializeFactPatterns: Adds fact patterns to the set */
@@ -140,7 +138,6 @@ void InitializeFactPatterns(
 #endif
   }
 
-#if (! BLOAD_ONLY)
 
 /******************************************************************************/
 /* PlaceFactPattern: Integrates a fact pattern into the fact pattern network. */
@@ -837,7 +834,6 @@ static void DetachFactPattern(
      }
   }
 
-#endif
 
 /**************************************************************/
 /* DestroyFactPatternNetwork: Deallocates the data structures */
@@ -863,15 +859,12 @@ void DestroyFactPatternNetwork(
           (thePattern->lastLevel->header.selector))
         { RemoveHashedPatternNode(theEnv,thePattern->lastLevel,thePattern,thePattern->networkTest->type,thePattern->networkTest->value); }
 
-#if (! BLOAD_ONLY)
       rtn_struct(theEnv,factPatternNode,thePattern);
-#endif
 
       thePattern = patternPtr;
      }
   }
 
-#if (! BLOAD_ONLY)
 
 /***********************************************************/
 /* FindAndSetDeftemplatePatternNetwork: When a deftemplate */
@@ -1022,7 +1015,6 @@ static void ClearPatternMatches(
     }
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT */
 

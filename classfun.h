@@ -81,7 +81,7 @@
    void                           DeleteClassLinks(Environment *,CLASS_LINK *);
    void                           PrintClassName(Environment *,const char *,Defclass *,bool,bool);
 
-#if DEBUGGING_FUNCTIONS || (! BLOAD_ONLY)
+#if DEBUGGING_FUNCTIONS
    void                           PrintPackedClassLinks(Environment *,const char *,const char *,PACKED_CLASS_LINKS *);
 #endif
 
@@ -99,12 +99,10 @@
    void                           InstallClass(Environment *,Defclass *,bool);
    void                           DestroyDefclass(Environment *,Defclass *);
 
-#if (! BLOAD_ONLY)
    bool                           IsClassBeingUsed(Defclass *);
    bool                           RemoveAllUserClasses(Environment *);
    bool                           DeleteClassUAG(Environment *,Defclass *);
    void                           MarkBitMapSubclasses(char *,Defclass *,int);
-#endif
 
    unsigned short                 FindSlotNameID(Environment *,CLIPSLexeme *);
    CLIPSLexeme                   *FindIDSlotName(Environment *,unsigned short);

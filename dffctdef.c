@@ -59,7 +59,7 @@
 #include "envrnmnt.h"
 #include "memalloc.h"
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #include "dffctbin.h"
 #endif
@@ -144,7 +144,6 @@ static void DestroyDeffactsAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY)
    Deffacts *theDeffacts = (Deffacts *) theConstruct;
 
    if (theDeffacts == NULL) return;
@@ -154,11 +153,6 @@ static void DestroyDeffactsAction(
    DestroyConstructHeader(theEnv,&theDeffacts->header);
 
    rtn_struct(theEnv,deffacts,theDeffacts);
-#else
-#if MAC_XCD
-#pragma unused(theEnv,theConstruct)
-#endif
-#endif
   }
 
 /*******************************************************/
@@ -172,7 +166,7 @@ static void InitializeDeffactsModules(
       RegisterModuleItem(theEnv,"deffacts",
                          AllocateModule,
                          ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
                          BloadDeffactsModuleReference,
 #else
                          NULL,
@@ -273,7 +267,6 @@ static void ReturnDeffacts(
   Environment *theEnv,
   Deffacts *theDeffacts)
   {
-#if (! BLOAD_ONLY)
    if (theDeffacts == NULL) return;
 
    ExpressionDeinstall(theEnv,theDeffacts->assertList);
@@ -282,7 +275,6 @@ static void ReturnDeffacts(
    DeinstallConstructHeader(theEnv,&theDeffacts->header);
 
    rtn_struct(theEnv,deffacts,theDeffacts);
-#endif
   }
 
 /*##################################*/

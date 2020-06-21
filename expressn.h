@@ -110,7 +110,7 @@ struct expressionData
    FunctionDefinition *PTR_NEQ;
    FunctionDefinition *PTR_NOT;
    EXPRESSION_HN **ExpressionHashTable;
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    unsigned long NumberOfExpressions;
    Expression *ExpressionArray;
    unsigned long ExpressionCount;
@@ -136,11 +136,9 @@ struct expressionData
    void                           InitExpressionPointers(Environment *);
    bool                           SetSequenceOperatorRecognition(Environment *,bool);
    bool                           GetSequenceOperatorRecognition(Environment *);
-#if (! BLOAD_ONLY)
    Expression                    *AddHashedExpression(Environment *,Expression *);
-#endif
    void                           RemoveHashedExpression(Environment *,Expression *);
-#if BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD
+#if BLOAD_AND_BSAVE || BLOAD
    unsigned long                  HashedExpressionIndex(Environment *,Expression *);
 #endif
 

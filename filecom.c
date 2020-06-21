@@ -77,7 +77,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #include "bsave.h"
 #endif
@@ -120,7 +120,7 @@ void FileCommandDefinitions(
 #if BLOAD_AND_BSAVE
    AddUDF(theEnv,"bsave","b",1,1,"sy",BsaveCommand,"BsaveCommand",NULL);
 #endif
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    InitializeBsaveData(theEnv);
    InitializeBloadData(theEnv);
    AddUDF(theEnv,"bload","b",1,1,"sy",BloadCommand,"BloadCommand",NULL);
@@ -252,7 +252,6 @@ void LoadCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY)
    const char *theFileName;
    LoadError rv;
 
@@ -278,10 +277,6 @@ void LoadCommand(
 
    if (rv == LE_PARSING_ERROR) returnValue->lexemeValue = FalseSymbol(theEnv);
    else returnValue->lexemeValue = TrueSymbol(theEnv);
-#else
-   WriteString(theEnv,STDOUT,"Load is not available in this environment\n");
-   returnValue->lexemeValue = FalseSymbol(theEnv);
-#endif
   }
 
 /****************************************************************/
@@ -292,7 +287,6 @@ void LoadStarCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY)
    const char *theFileName;
    LoadError rv;
 
@@ -311,10 +305,6 @@ void LoadStarCommand(
 
    if (rv == LE_PARSING_ERROR) returnValue->lexemeValue = FalseSymbol(theEnv);
    else returnValue->lexemeValue = TrueSymbol(theEnv);
-#else
-   WriteString(theEnv,STDOUT,"Load* is not available in this environment\n");
-   returnValue->lexemeValue = FalseSymbol(theEnv);
-#endif
   }
 
 #if DEBUGGING_FUNCTIONS
@@ -326,7 +316,6 @@ void SaveCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY)
    const char *theFileName;
 
    if ((theFileName = GetFileName(context)) == NULL)
@@ -343,9 +332,5 @@ void SaveCommand(
      }
 
    returnValue->lexemeValue = TrueSymbol(theEnv);
-#else
-   WriteString(theEnv,STDOUT,"Save is not available in this environment\n");
-   returnValue->lexemeValue = FalseSymbol(theEnv);
-#endif
   }
 #endif

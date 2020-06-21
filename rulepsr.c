@@ -89,7 +89,7 @@
 #include "tmpltfun.h"
 #endif
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
 
@@ -99,7 +99,6 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static struct expr            *ParseRuleRHS(Environment *,const char *);
    static int                     ReplaceRHSVariable(Environment *,struct expr *,void *);
    static Defrule                *ProcessRuleLHS(Environment *,struct lhsParseNode *,struct expr *,CLIPSLexeme *,bool *);
@@ -109,7 +108,6 @@
    static unsigned short          ExpressionComplexity(Environment *,struct expr *);
    static int                     LogicalAnalysis(Environment *,struct lhsParseNode *);
    static void                    AddToDefruleList(Defrule *);
-#endif
 
 /****************************************************/
 /* ParseDefrule: Coordinates all actions necessary  */
@@ -120,7 +118,6 @@ bool ParseDefrule(
   Environment *theEnv,
   const char *readSource)
   {
-#if (! BLOAD_ONLY)
    CLIPSLexeme *ruleName;
    struct lhsParseNode *theLHS;
    struct expr *actions;
@@ -143,7 +140,7 @@ bool ParseDefrule(
    /* Rules cannot be loaded when a binary load is in effect. */
    /*=========================================================*/
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    if ((Bloaded(theEnv) == true) && (! ConstructData(theEnv)->CheckSyntaxMode))
      {
       CannotLoadWithBloadMessage(theEnv,"defrule");
@@ -281,11 +278,9 @@ bool ParseDefrule(
    /* Return false to indicate no errors occured. */
    /*=============================================*/
 
-#endif
    return false;
   }
 
-#if (! BLOAD_ONLY)
 
 /**************************************************************/
 /* ProcessRuleLHS: Processes each of the disjuncts of a rule. */
@@ -1064,7 +1059,6 @@ void DumpRuleAnalysis(
   }
 #endif
 
-#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFRULE_CONSTRUCT */
 

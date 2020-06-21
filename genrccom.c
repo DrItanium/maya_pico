@@ -673,32 +673,13 @@ bool Undefmethod(
   Environment *allEnv)
   {
    Environment *theEnv;
-#if (! BLOAD_ONLY)
    GCBlock gcb;
-#endif
- 
+
    if (theDefgeneric == NULL)
      { theEnv = allEnv; }
    else
      { theEnv = theDefgeneric->header.env; }
    
-#if BLOAD_ONLY
-   PrintErrorID(theEnv,"PRNTUTIL",4,false);
-   WriteString(theEnv,STDERR,"Unable to delete method ");
-   if (theDefgeneric != NULL)
-     {
-      WriteString(theEnv,STDERR,"'");
-      PrintGenericName(theEnv,STDERR,theDefgeneric);
-      WriteString(theEnv,STDERR,"'");
-      WriteString(theEnv,STDERR," #");
-      PrintUnsignedInteger(theEnv,STDERR,mi);
-     }
-   else
-     WriteString(theEnv,STDERR,"*");
-   WriteString(theEnv,STDERR,".\n");
-   return false;
-#else
-
 #if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv) == true)
      {
@@ -759,7 +740,6 @@ bool Undefmethod(
      
    GCBlockEnd(theEnv,&gcb);
    return true;
-#endif
   }
 
 #if DEBUGGING_FUNCTIONS || PROFILING_FUNCTIONS

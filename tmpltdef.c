@@ -78,7 +78,7 @@
 #include "tmpltpsr.h"
 #include "tmpltutl.h"
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #include "tmpltbin.h"
 #endif
@@ -196,14 +196,14 @@ static void InitializeDeftemplateModules(
    DeftemplateData(theEnv)->DeftemplateModuleIndex = RegisterModuleItem(theEnv,"deftemplate",
                                     AllocateModule,
                                     ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
                                     BloadDeftemplateModuleReference,
 #else
                                     NULL,
 #endif
                                     (FindConstructFunction *) FindDeftemplateInModule);
 
-#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
+#if DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"deftemplate",SYMBOL_TOKEN);
 #endif
   }
@@ -301,7 +301,6 @@ static void ReturnDeftemplate(
   Environment *theEnv,
   Deftemplate *theDeftemplate)
   {
-#if (! BLOAD_ONLY)
    struct templateSlot *slotPtr;
 
    if (theDeftemplate == NULL) return;
@@ -341,7 +340,6 @@ static void ReturnDeftemplate(
    DeinstallConstructHeader(theEnv,&theDeftemplate->header);
 
    rtn_struct(theEnv,deftemplate,theDeftemplate);
-#endif
   }
 
 /**************************************************************/
@@ -352,12 +350,9 @@ static void DestroyDeftemplate(
   Environment *theEnv,
   Deftemplate *theDeftemplate)
   {
-#if (! BLOAD_ONLY)
    struct templateSlot *slotPtr, *nextSlot;
-#endif
    if (theDeftemplate == NULL) return;
 
-#if (! BLOAD_ONLY)
    slotPtr = theDeftemplate->slotList;
 
    while (slotPtr != NULL)
@@ -366,7 +361,6 @@ static void DestroyDeftemplate(
       rtn_struct(theEnv,templateSlot,slotPtr);
       slotPtr = nextSlot;
      }
-#endif
 
    DestroyFactPatternNetwork(theEnv,theDeftemplate->patternNetwork);
 
@@ -374,11 +368,9 @@ static void DestroyDeftemplate(
    /* Free storage used by the header. */
    /*==================================*/
 
-#if (! BLOAD_ONLY)
    DeinstallConstructHeader(theEnv,&theDeftemplate->header);
 
    rtn_struct(theEnv,deftemplate,theDeftemplate);
-#endif
   }
 
 /***********************************************/
@@ -389,7 +381,6 @@ void ReturnSlots(
   Environment *theEnv,
   struct templateSlot *slotPtr)
   {
-#if (! BLOAD_ONLY)
    struct templateSlot *nextSlot;
 
    while (slotPtr != NULL)
@@ -401,7 +392,6 @@ void ReturnSlots(
       rtn_struct(theEnv,templateSlot,slotPtr);
       slotPtr = nextSlot;
      }
-#endif
   }
 
 /*************************************************/

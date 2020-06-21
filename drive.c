@@ -91,9 +91,7 @@ void NetworkAssert(
    /* is not part of the network to be reset, then return.    */
    /*=========================================================*/
 
-#if (! BLOAD_ONLY)
    if (EngineData(theEnv)->IncrementalResetInProgress && (join->initialize == false)) return;
-#endif
 
    /*==================================================*/
    /* Use a special routine if this is the first join. */
@@ -136,9 +134,7 @@ void NetworkAssertRight(
    /* is not part of the network to be reset, then return.    */
    /*=========================================================*/
 
-#if (! BLOAD_ONLY)
    if (EngineData(theEnv)->IncrementalResetInProgress && (join->initialize == false)) return;
-#endif
 
    if (join->firstJoin)
      {
@@ -339,9 +335,7 @@ void NetworkAssertLeft(
    /* is not part of the network to be reset, then return.    */
    /*=========================================================*/
 
-#if (! BLOAD_ONLY)
    if (EngineData(theEnv)->IncrementalResetInProgress && (join->initialize == false)) return;
-#endif
 
    /*===================================*/
    /* The only action for the last join */
