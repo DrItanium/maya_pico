@@ -82,14 +82,11 @@
 #include "commline.h"
 #include "sysdep.h"
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #endif
 
-#if (! BLOAD_ONLY)
 #include "cstrcpsr.h"
-#endif
-
 #include "cstrccom.h"
 
 /***************************************/
@@ -133,7 +130,6 @@ bool DeleteNamedConstruct(
   const char *constructName,
   Construct *constructClass)
   {
-#if (! BLOAD_ONLY)
    ConstructHeader *constructPtr;
 
    /*=============================*/
@@ -141,7 +137,7 @@ bool DeleteNamedConstruct(
    /* while a bload is in effect. */
    /*=============================*/
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv) == true) return false;
 #endif
 
@@ -176,12 +172,6 @@ bool DeleteNamedConstruct(
    /*===============================*/
 
    return false;
-#else
-#if MAC_XCD
-#pragma unused(theEnv,constructName,constructClass)
-#endif
-   return false;
-#endif
   }
 
 /********************************************************/
@@ -600,13 +590,6 @@ bool UndefconstructAll(
   Environment *theEnv,
   Construct *constructClass)
   {
-#if BLOAD_ONLY
-#if MAC_XCD
-#pragma unused(constructClass)
-#pragma unused(theEnv)
-#endif
-   return false;
-#else
    ConstructHeader *currentConstruct, *nextConstruct;
    bool success = true;
    GCBlock gcb;
@@ -658,8 +641,6 @@ bool UndefconstructAll(
    /*============================================*/
 
    return success;
-
-#endif
   }
 
 /*************************************/
@@ -671,14 +652,6 @@ bool Undefconstruct(
   ConstructHeader *theConstruct,
   Construct *constructClass)
   {
-#if BLOAD_ONLY
-#if MAC_XCD
-#pragma unused(theConstruct)
-#pragma unused(constructClass)
-#pragma unused(theEnv)
-#endif
-   return false;
-#else
    GCBlock gcb;
 
    /*================================================*/
@@ -727,7 +700,6 @@ bool Undefconstruct(
    /*=============================*/
 
    return true;
-#endif
   }
 
 /***********************************/
@@ -1756,15 +1728,13 @@ ConstructHeader *LookupConstruct(
 bool ConstructsDeletable(
   Environment *theEnv)
   {
-#if BLOAD_ONLY || ((! BLOAD) && (! BLOAD_AND_BSAVE))
+#if ((! BLOAD) && (! BLOAD_AND_BSAVE))
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
 #endif
 
-#if BLOAD_ONLY
-   return false;
-#elif BLOAD || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv))
      return false;
    return true;

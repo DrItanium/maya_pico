@@ -77,17 +77,15 @@
 
 #if DEFFUNCTION_CONSTRUCT
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
 #include "bload.h"
 #include "dffnxbin.h"
 #endif
 
-#if (! BLOAD_ONLY)
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "dffnxpsr.h"
 #include "modulpsr.h"
-#endif
 
 #include "envrnmnt.h"
 
@@ -126,13 +124,11 @@
    static void                    ReturnModule(Environment *,void *);
    static bool                    ClearDeffunctionsReady(Environment *,void *);
 
-#if (! BLOAD_ONLY)
    static bool                    RemoveAllDeffunctions(Environment *);
    static void                    DeffunctionDeleteError(Environment *,const char *);
    static void                    SaveDeffunctionHeaders(Environment *,Defmodule *,const char *,void *);
    static void                    SaveDeffunctionHeader(Environment *,ConstructHeader *,void *);
    static void                    SaveDeffunctions(Environment *,Defmodule *,const char *,void *);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    static bool                    DeffunctionWatchAccess(Environment *,int,bool,Expression *);
@@ -177,18 +173,14 @@ void SetupDeffunctions(
                 RegisterModuleItem(theEnv,"deffunction",
                                     AllocateModule,
                                     ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
                                     BloadDeffunctionModuleReference,
 #else
                                     NULL,
 #endif
                                     (FindConstructFunction *) FindDeffunctionInModule);
    DeffunctionData(theEnv)->DeffunctionConstruct = AddConstruct(theEnv,"deffunction","deffunctions",
-#if (! BLOAD_ONLY)
                                        ParseDeffunction,
-#else
-                                       NULL,
-#endif
                                        (FindConstructFunction *) FindDeffunction,
                                        GetConstructNamePointer,GetConstructPPForm,
                                        GetConstructModuleItem,
@@ -196,23 +188,17 @@ void SetupDeffunctions(
                                        SetNextConstruct,
                                        (IsConstructDeletableFunction *) DeffunctionIsDeletable,
                                        (DeleteConstructFunction *) Undeffunction,
-#if (! BLOAD_ONLY)
                                        (FreeConstructFunction *) RemoveDeffunction
-#else
-                                       NULL
-#endif
                                        );
 
    AddClearReadyFunction(theEnv,"deffunction",ClearDeffunctionsReady,0,NULL);
 
-#if ! BLOAD_ONLY
 #if DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"deffunction",SYMBOL_TOKEN);
 #endif
    AddSaveFunction(theEnv,"deffunction-headers",SaveDeffunctionHeaders,1000,NULL);
    AddSaveFunction(theEnv,"deffunctions",SaveDeffunctions,0,NULL);
    AddUDF(theEnv,"undeffunction","v",1,1,"y",UndeffunctionCommand,"UndeffunctionCommand",NULL);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"list-deffunctions","v",0,1,"y",ListDeffunctionsCommand,"ListDeffunctionsCommand",NULL);
@@ -222,7 +208,7 @@ void SetupDeffunctions(
    AddUDF(theEnv,"get-deffunction-list","m",0,1,"y",GetDeffunctionListFunction,"GetDeffunctionListFunction",NULL);
    AddUDF(theEnv,"deffunction-module","y",1,1,"y",GetDeffunctionModuleCommand,"GetDeffunctionModuleCommand",NULL);
 
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
    SetupDeffunctionsBload(theEnv);
 #endif
 
@@ -276,7 +262,6 @@ static void DestroyDeffunctionAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY)
    Deffunction *theDeffunction = (Deffunction *) theConstruct;
 
    if (theDeffunction == NULL) return;
@@ -286,11 +271,6 @@ static void DestroyDeffunctionAction(
    DestroyConstructHeader(theEnv,&theDeffunction->header);
 
    rtn_struct(theEnv,deffunction,theDeffunction);
-#else
-#if MAC_XCD
-#pragma unused(theConstruct,theEnv)
-#endif
-#endif
   }
 
 /***************************************************
@@ -456,7 +436,6 @@ bool DeffunctionIsDeletable(
    return(((theDeffunction->busy == 0) && (theDeffunction->executing == 0)) ? true : false);
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : RemoveDeffunction
@@ -480,7 +459,6 @@ void RemoveDeffunction(
    rtn_struct(theEnv,deffunction,theDeffunction);
   }
 
-#endif
 
 /********************************************************
   NAME         : UndeffunctionCommand
@@ -753,10 +731,8 @@ static void IncrementDeffunctionBusyCount(
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
-#if (! BLOAD_ONLY)
    if (! ConstructData(theEnv)->ParsingConstruct)
      { ConstructData(theEnv)->DanglingConstructs++; }
-#endif
 
    theDeffunction->busy++;
   }
@@ -790,9 +766,7 @@ static void ReturnModule(
   Environment *theEnv,
   void *theItem)
   {
-#if (! BLOAD_ONLY)
    FreeConstructHeaderModule(theEnv,(struct defmoduleItemHeader *) theItem,DeffunctionData(theEnv)->DeffunctionConstruct);
-#endif
    rtn_struct(theEnv,deffunctionModuleData,theItem);
   }
 
@@ -817,8 +791,6 @@ static bool ClearDeffunctionsReady(
    return((DeffunctionData(theEnv)->ExecutingDeffunction != NULL) ? false : true);
   }
 
-
-#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : RemoveAllDeffunctions
@@ -989,7 +961,6 @@ static void SaveDeffunctions(
    SaveConstruct(theEnv,theModule,logicalName,DeffunctionData(theEnv)->DeffunctionConstruct);
   }
 
-#endif
 
 #if DEBUGGING_FUNCTIONS
 

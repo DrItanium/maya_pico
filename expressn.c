@@ -103,7 +103,7 @@ static void DeallocateExpressionData(
    int i;
    EXPRESSION_HN *tmpPtr, *nextPtr;
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    if (! Bloaded(theEnv))
 #endif
      {
@@ -123,7 +123,7 @@ static void DeallocateExpressionData(
    rm(theEnv,ExpressionData(theEnv)->ExpressionHashTable,
       sizeof(EXPRESSION_HN *) * EXPRESSION_HASH_SIZE);
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    if ((ExpressionData(theEnv)->NumberOfExpressions != 0) && Bloaded(theEnv))
      {
       genfree(theEnv,ExpressionData(theEnv)->ExpressionArray,
@@ -392,7 +392,6 @@ void RemoveHashedExpression(
    rtn_struct(theEnv,exprHashNode,exphash);
   }
 
-#if (! BLOAD_ONLY)
 
 /*****************************************************
   NAME         : AddHashedExpression
@@ -433,9 +432,8 @@ Expression *AddHashedExpression(
    return(exphash->exp);
   }
 
-#endif /* (! BLOAD_ONLY) */
 
-#if (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD)
+#if (BLOAD_AND_BSAVE || BLOAD)
 
 /***************************************************
   NAME         : HashedExpressionIndex

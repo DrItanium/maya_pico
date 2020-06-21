@@ -98,7 +98,7 @@
 #include "insquery.h"
 #endif
 
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
 #include "bload.h"
 #include "objbin.h"
 #endif
@@ -133,7 +133,7 @@
    static void                   *AllocateModule(Environment *);
    static void                    ReturnModule(Environment *,void *);
 
-#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
+#if DEFMODULE_CONSTRUCT
    static void                    UpdateDefclassesScope(Environment *,void *);
 #endif
 
@@ -186,7 +186,7 @@ void SetupObjectSystem(
    SetupQuery(theEnv);
 #endif
 
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
    SetupObjectsBload(theEnv);
 #endif
 
@@ -290,13 +290,7 @@ static void DestroyDefclassAction(
 
    if (theDefclass == NULL) return;
 
-#if (! BLOAD_ONLY)
    DestroyDefclass(theEnv,theDefclass);
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
   }
 
 
@@ -419,7 +413,7 @@ static void SetupDefclasses(
                 RegisterModuleItem(theEnv,"defclass",
                                     AllocateModule,
                                     ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
                                     BloadDefclassModuleReference,
 #else
                                     NULL,
@@ -427,11 +421,7 @@ static void SetupDefclasses(
                                     (FindConstructFunction *) FindDefclassInModule);
 
    DefclassData(theEnv)->DefclassConstruct =  AddConstruct(theEnv,"defclass","defclasses",
-#if (! BLOAD_ONLY)
                                      ParseDefclass,
-#else
-                                     NULL,
-#endif
                                      (FindConstructFunction *) FindDefclass,
                                      GetConstructNamePointer,GetConstructPPForm,
                                      GetConstructModuleItem,
@@ -447,7 +437,6 @@ static void SetupDefclasses(
    AddClearFunction(theEnv,"defclass",CreateSystemClasses,0,NULL);
    InitializeClasses(theEnv);
 
-#if ! BLOAD_ONLY
 #if DEFMODULE_CONSTRUCT
    AddPortConstructItem(theEnv,"defclass",SYMBOL_TOKEN);
    AddAfterModuleDefinedFunction(theEnv,"defclass",UpdateDefclassesScope,0,NULL);
@@ -455,7 +444,6 @@ static void SetupDefclasses(
    AddUDF(theEnv,"undefclass","v",1,1,"y",UndefclassCommand,"UndefclassCommand",NULL);
 
    AddSaveFunction(theEnv,"defclass",SaveDefclasses,10,NULL);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"list-defclasses","v",0,1,"y",ListDefclassesCommand,"ListDefclassesCommand",NULL);
@@ -597,7 +585,7 @@ static void ReturnModule(
    rtn_struct(theEnv,defclassModule,theItem);
   }
 
-#if (! BLOAD_ONLY) && DEFMODULE_CONSTRUCT
+#if DEFMODULE_CONSTRUCT
 
 /***************************************************
   NAME         : UpdateDefclassesScope

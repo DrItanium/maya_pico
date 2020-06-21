@@ -74,7 +74,7 @@
 
 #if DEFINSTANCES_CONSTRUCT
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #include "dfinsbin.h"
 #endif
@@ -117,12 +117,10 @@
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY)
    static bool                    ParseDefinstances(Environment *,const char *);
    static CLIPSLexeme            *ParseDefinstancesName(Environment *,const char *,bool *);
    static void                    RemoveDefinstances(Environment *,Definstances *);
    static void                    SaveDefinstances(Environment *,Defmodule *,const char *,void *);
-#endif
 
    static void                   *AllocateModule(Environment *);
    static void                    ReturnModule(Environment *,void *);
@@ -158,7 +156,7 @@ void SetupDefinstances(
                 RegisterModuleItem(theEnv,"definstances",
                                     AllocateModule,
                                     ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
                                     BloadDefinstancesModuleRef,
 #else
                                     NULL,
@@ -167,11 +165,7 @@ void SetupDefinstances(
 
    DefinstancesData(theEnv)->DefinstancesConstruct =
       AddConstruct(theEnv,"definstances","definstances",
-#if (! BLOAD_ONLY)
                    ParseDefinstances,
-#else
-                   NULL,
-#endif
                    (FindConstructFunction *) FindDefinstances,
                    GetConstructNamePointer,GetConstructPPForm,
                    GetConstructModuleItem,
@@ -179,19 +173,13 @@ void SetupDefinstances(
                    SetNextConstruct,
                    (IsConstructDeletableFunction *) DefinstancesIsDeletable,
                    (DeleteConstructFunction *) Undefinstances,
-#if (! BLOAD_ONLY)
                    (FreeConstructFunction *) RemoveDefinstances
-#else
-                   NULL
-#endif
                    );
 
    AddClearReadyFunction(theEnv,"definstances",ClearDefinstancesReady,0,NULL);
 
-#if ! BLOAD_ONLY
    AddUDF(theEnv,"undefinstances","v",1,1,"y",UndefinstancesCommand,"UndefinstancesCommand",NULL);
    AddSaveFunction(theEnv,"definstances",SaveDefinstances,0,NULL);
-#endif
 
 #if DEBUGGING_FUNCTIONS
    AddUDF(theEnv,"ppdefinstances","vs",1,2,";y;ldsyn",PPDefinstancesCommand,"PPDefinstancesCommand",NULL);
@@ -203,7 +191,7 @@ void SetupDefinstances(
 
    AddResetFunction(theEnv,"definstances",ResetDefinstances,0,NULL);
 
-#if BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
    SetupDefinstancesBload(theEnv);
 #endif
 
@@ -248,7 +236,6 @@ static void DestroyDefinstancesAction(
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-#if (! BLOAD_ONLY)
    struct definstances *theDefinstances = (struct definstances *) theConstruct;
 
    if (theDefinstances == NULL) return;
@@ -258,11 +245,6 @@ static void DestroyDefinstancesAction(
    DestroyConstructHeader(theEnv,&theDefinstances->header);
 
    rtn_struct(theEnv,definstances,theDefinstances);
-#else
-#if MAC_XCD
-#pragma unused(theConstruct,theEnv)
-#endif
-#endif
   }
 
 
@@ -498,8 +480,6 @@ void GetDefinstancesList(
    =========================================
    ***************************************** */
 
-#if (! BLOAD_ONLY)
-
 /*********************************************************************
   NAME         : ParseDefinstances
   DESCRIPTION  : Parses and allocates a definstances construct
@@ -711,7 +691,6 @@ static void SaveDefinstances(
    SaveConstruct(theEnv,theModule,logName,DefinstancesData(theEnv)->DefinstancesConstruct);
   }
 
-#endif
 
 
 /*****************************************************
@@ -742,9 +721,7 @@ static void ReturnModule(
   Environment *theEnv,
   void *theItem)
   {
-#if (! BLOAD_ONLY)
    FreeConstructHeaderModule(theEnv,(struct defmoduleItemHeader *) theItem,DefinstancesData(theEnv)->DefinstancesConstruct);
-#endif
    rtn_struct(theEnv,definstancesModule,theItem);
   }
 
