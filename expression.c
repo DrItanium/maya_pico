@@ -52,7 +52,6 @@
 #include "bload.h"
 #include "environment.h"
 #include "evaluatn.h"
-#include "exprnops.h"
 #include "extnfunc.h"
 #include "memalloc.h"
 #include "prntutil.h"

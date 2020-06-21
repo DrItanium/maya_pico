@@ -66,7 +66,7 @@
 #include "cstrccom.h"
 #include "cstrnchk.h"
 #include "environment.h"
-#include "exprnops.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "modulpsr.h"
 #include "modulutl.h"

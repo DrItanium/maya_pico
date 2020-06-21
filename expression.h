@@ -51,7 +51,6 @@ struct exprHashNode;
 typedef struct savedContexts SavedContexts;
 #include <stdio.h>
 #include "entities.h"
-#include "exprnops.h"
 #include "constrct.h"
 
 /******************************/
@@ -151,6 +150,21 @@ struct expressionData
    void                        BsaveHashedExpressions(Environment *,FILE *);
    void                        BsaveConstructExpressions(Environment *,FILE *);
    void                        BsaveExpression(Environment *,struct expr *,FILE *);
+
+
+   bool                           ConstantExpression(struct expr *);
+   void                           PrintExpression(Environment *,const char *,struct expr *);
+   unsigned long                  ExpressionSize(struct expr *);
+   unsigned short                 CountArguments(struct expr *);
+   struct expr                   *CopyExpression(Environment *,struct expr *);
+   bool                           ExpressionContainsVariables(struct expr *,bool);
+   bool                           IdenticalExpression(struct expr *,struct expr *);
+   struct expr                   *GenConstant(Environment *,unsigned short,void *);
+   bool                           CheckArgumentAgainstRestriction(Environment *,struct expr *,unsigned);
+   bool                           ConstantType(int);
+   struct expr                   *CombineExpressions(Environment *,struct expr *,struct expr *);
+   struct expr                   *AppendExpressions(struct expr *,struct expr *);
+   struct expr                   *NegateExpression(Environment *,struct expr *);
 #endif
 
 

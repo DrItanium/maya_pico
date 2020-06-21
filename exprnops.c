@@ -57,7 +57,7 @@
 #include "prntutil.h"
 #include "router.h"
 
-#include "exprnops.h"
+#include "expression.h"
 
 /************************************/
 /* CheckArgumentAgainstRestriction: */

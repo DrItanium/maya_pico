@@ -68,7 +68,7 @@
 #include "constant.h"
 #include "environment.h"
 #include "evaluatn.h"
-#include "exprnops.h"
+#include "expression.h"
 #include "memalloc.h"
 #if OBJECT_SYSTEM
 #include "object.h"
