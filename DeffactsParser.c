@@ -48,8 +48,8 @@
 #endif
 
 #include "Construct.h"
-#include "dffctbsc.h"
-#include "dffctdef.h"
+#include "DeffactsBasicCommands.h"
+#include "Deffacts.h"
 #include "Environment.h"
 #include "Fact.h"
 #include "MemoryAllocation.h"
@@ -58,7 +58,7 @@
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "dffctpsr.h"
+#include "DeffactsParser.h"
 
 /************************************************************/
 /* ParseDeffacts: Coordinates all actions necessary for the */

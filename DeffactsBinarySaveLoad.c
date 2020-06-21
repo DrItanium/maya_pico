@@ -35,12 +35,12 @@
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
-#include "dffctdef.h"
+#include "Deffacts.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "moduldef.h"
 
-#include "dffctbin.h"
+#include "DeffactsBinarySaveLoad.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

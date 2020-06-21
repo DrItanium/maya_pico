@@ -82,8 +82,8 @@
 #endif
 
 #if DEFFACTS_CONSTRUCT
-#include "dffctdef.h"
-#include "dffctbsc.h"
+#include "Deffacts.h"
+#include "DeffactsBasicCommands.h"
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT

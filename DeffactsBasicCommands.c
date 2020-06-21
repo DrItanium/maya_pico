@@ -69,8 +69,8 @@
 #include "Construct.h"
 #include "Construct.h"
 #include "Construct.h"
-#include "dffctdef.h"
-#include "dffctpsr.h"
+#include "Deffacts.h"
+#include "DeffactsParser.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
@@ -81,9 +81,9 @@
 #include "tmpltdef.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
-#include "dffctbin.h"
+#include "DeffactsBinarySaveLoad.h"
 #endif
-#include "dffctbsc.h"
+#include "DeffactsBasicCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

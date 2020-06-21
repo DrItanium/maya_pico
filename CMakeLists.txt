@@ -32,15 +32,15 @@ add_library(clips
         DefaultAttribute.c
         Definstances.c
         Developer.c
-        dffctbin.c
-        dffctbsc.c
-        dffctdef.c
-        dffctpsr.c
+		DeffactsBinarySaveLoad.c
+		DeffactsBasicCommands.c
+		Deffacts.c
+		DeffactsParser.c
         dffnxbin.c
         dffnxexe.c
         dffnxfun.c
         dffnxpsr.c
-        dfinsbin.c
+		DefinstancesBinaryLoadSave.c
         Drive.c
         ExtendedMathFunctions.c
         Engine.c

@@ -36,7 +36,7 @@
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #include "Construct.h"
-#include "dffctdef.h"
+#include "Deffacts.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"

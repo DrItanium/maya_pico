@@ -54,7 +54,7 @@
 
 #define _H_dffctbsc
 
-#include "dffctdef.h"
+#include "Deffacts.h"
 #include "Evaluation.h"
 
 void DeffactsBasicCommands(Environment *);

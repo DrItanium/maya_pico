@@ -51,7 +51,7 @@
 #include "Watch.h"
 
 #if DEFFACTS_CONSTRUCT
-#include "dffctdef.h"
+#include "Deffacts.h"
 #endif
 
 #if DEFRULE_CONSTRUCT

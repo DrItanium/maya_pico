@@ -35,7 +35,7 @@
 #define _H_dffctbin
 
 #include "Construct.h"
-#include "dffctdef.h"
+#include "Deffacts.h"
 #include "modulbin.h"
 
 struct bsaveDeffacts {

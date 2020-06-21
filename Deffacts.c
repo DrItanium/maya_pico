@@ -54,17 +54,17 @@
 
 #include <stdio.h>
 
-#include "dffctbsc.h"
-#include "dffctpsr.h"
+#include "DeffactsBasicCommands.h"
+#include "DeffactsParser.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
-#include "dffctbin.h"
+#include "DeffactsBinarySaveLoad.h"
 #endif
 
-#include "dffctdef.h"
+#include "Deffacts.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
