@@ -112,6 +112,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include "Setup.h"
 
@@ -583,7 +584,12 @@ void AproposCommand(
         WriteString(theEnv, STDOUT, "\n");
     }
 }
-
+#define emitOnOrOff(theEnv, value) \
+    if (value) {  \
+        WriteString(theEnv, STDOUT, "ON\n"); \
+    } else { \
+       WriteString(theEnv, STDOUT, "OFF\n"); \
+    }
 /****************************************/
 /* OptionsCommand: H/L access routine   */
 /*   for the options command.           */
@@ -632,154 +638,60 @@ void OptionsCommand(
     WriteString(theEnv, STDOUT, "\n");
 
     WriteString(theEnv, STDOUT, "Defrule construct is ");
-#if DEFRULE_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, DEFRULE_CONSTRUCT);
     WriteString(theEnv, STDOUT, "Defmodule construct is ");
-#if DEFMODULE_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, DEFMODULE_CONSTRUCT);
     WriteString(theEnv, STDOUT, "Deftemplate construct is ");
+    emitOnOrOff(theEnv, DEFTEMPLATE_CONSTRUCT);
 #if DEFTEMPLATE_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
-    WriteString(theEnv, STDOUT, "  Fact-set queries are ");
-#if FACT_SET_QUERIES
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
-#if DEFTEMPLATE_CONSTRUCT
-
     WriteString(theEnv, STDOUT, "  Deffacts construct is ");
-#if DEFFACTS_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, DEFFACTS_CONSTRUCT);
 #endif
 
     WriteString(theEnv, STDOUT, "Defglobal construct is ");
-#if DEFGLOBAL_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, DEFGLOBAL_CONSTRUCT);
 
     WriteString(theEnv, STDOUT, "Deffunction construct is ");
-#if DEFFUNCTION_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, DEFFUNCTION_CONSTRUCT);
 
     WriteString(theEnv, STDOUT, "Defgeneric/Defmethod constructs are ");
-#if DEFGENERIC_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, DEFGENERIC_CONSTRUCT);
 
     WriteString(theEnv, STDOUT, "Object System is ");
+    emitOnOrOff(theEnv, OBJECT_SYSTEM);
 #if OBJECT_SYSTEM
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
-#if OBJECT_SYSTEM
-
     WriteString(theEnv, STDOUT, "  Definstances construct is ");
-#if DEFINSTANCES_CONSTRUCT
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, DEFINSTANCES_CONSTRUCT);
     WriteString(theEnv, STDOUT, "  Instance-set queries are ");
-#if INSTANCE_SET_QUERIES
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, INSTANCE_SET_QUERIES);
     WriteString(theEnv, STDOUT, "  Binary loading of instances is ");
-#if BLOAD_INSTANCES
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, BLOAD_INSTANCES);
     WriteString(theEnv, STDOUT, "  Binary saving of instances is ");
-#if BSAVE_INSTANCES
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
-
+    emitOnOrOff(theEnv, BSAVE_INSTANCES);
 #endif
 
     WriteString(theEnv, STDOUT, "Extended math function package is ");
-#if EXTENDED_MATH_FUNCTIONS
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, EXTENDED_MATH_FUNCTIONS);
 
-    WriteString(theEnv, STDOUT, "Bload capability is ");
-#if BLOAD_AND_BSAVE
-    WriteString(theEnv, STDOUT, "BLOAD AND BSAVE");
-#else
-    WriteString(theEnv, STDOUT, "OFF ");
-#endif
-    WriteString(theEnv, STDOUT, "\n");
+    WriteString(theEnv, STDOUT, "Binary Load and Save capability is ");
+    emitOnOrOff(theEnv, BLOAD_AND_BSAVE);
 
     WriteString(theEnv, STDOUT, "I/O function package is ");
-#if IO_FUNCTIONS
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, IO_FUNCTIONS);
 
     WriteString(theEnv, STDOUT, "String function package is ");
-#if STRING_FUNCTIONS
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, STRING_FUNCTIONS);
 
     WriteString(theEnv, STDOUT, "Multifield function package is ");
-#if MULTIFIELD_FUNCTIONS
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, MULTIFIELD_FUNCTIONS);
 
     WriteString(theEnv, STDOUT, "Debugging function package is ");
-#if DEBUGGING_FUNCTIONS
-    WriteString(theEnv, STDOUT, "ON\n");
-#else
-    WriteString(theEnv,STDOUT,"OFF\n");
-#endif
+    emitOnOrOff(theEnv, DEBUGGING_FUNCTIONS);
 
     WriteString(theEnv, STDOUT, "Developer flag is ");
-#if DEVELOPER
-    WriteString(theEnv,STDOUT,"ON\n");
-#else
-    WriteString(theEnv, STDOUT, "OFF\n");
-#endif
+    emitOnOrOff(theEnv, DEVELOPER);
 }
+#undef emitOnOrOff
 
 /***********************************************/
 /* OperatingSystemFunction: H/L access routine */
