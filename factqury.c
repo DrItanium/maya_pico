@@ -77,13 +77,11 @@
 #include "modulutl.h"
 #include "tmpltutl.h"
 #include "insfun.h"
-#include "factqpsr.h"
+#include "fact.h"
 #include "prcdrfun.h"
 #include "prntutil.h"
 #include "router.h"
 #include "utility.h"
-
-#include "factqury.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

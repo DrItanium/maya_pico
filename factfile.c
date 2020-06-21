@@ -44,8 +44,7 @@
 #include "bload.h"
 #endif
 #include "cstrcpsr.h"
-#include "factmngr.h"
-#include "factrhs.h"
+#include "fact.h"
 #include "insmngr.h"
 #include "memalloc.h"
 #include "modulpsr.h"
@@ -59,7 +58,6 @@
 #include "tmpltdef.h"
 #include "tmpltutl.h"
 
-#include "factfile.h"
 
 struct bsaveSlotValue
   {

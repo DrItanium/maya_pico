@@ -91,11 +91,7 @@
 #include "tmpltdef.h"
 #include "tmpltbsc.h"
 #include "tmpltfun.h"
-#include "factcom.h"
-#include "factfile.h"
-#include "factfun.h"
-#include "factmngr.h"
-#include "facthsh.h"
+#include "fact.h"
 #endif
 
 #if DEFGLOBAL_CONSTRUCT

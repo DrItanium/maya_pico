@@ -99,7 +99,7 @@
 #include "envrnmnt.h"
 #include "extnfunc.h"
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
-#include "factmngr.h"
+#include "fact.h"
 #endif
 #include "inscom.h"
 #include "insfun.h"

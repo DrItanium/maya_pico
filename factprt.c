@@ -43,12 +43,10 @@
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
 #include "envrnmnt.h"
-#include "factgen.h"
+#include "fact.h"
 #include "prntutil.h"
 #include "router.h"
 #include "symbol.h"
-
-#include "factprt.h"
 
 /***************************************/
 /* PrintFactJNCompVars1: Print routine */

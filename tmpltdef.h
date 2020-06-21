@@ -81,7 +81,7 @@ struct deftemplateModule
   };
 
 #include "constrnt.h"
-#include "factbld.h"
+#include "fact.h"
 
 struct deftemplate
   {

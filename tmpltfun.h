@@ -79,7 +79,7 @@
 #define _H_tmpltfun
 
 #include "expressn.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "symbol.h"
 #include "tmpltdef.h"
 

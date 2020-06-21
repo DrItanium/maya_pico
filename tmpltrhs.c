@@ -45,7 +45,7 @@
 
 #include "default.h"
 #include "extnfunc.h"
-#include "factrhs.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"

@@ -60,7 +60,7 @@
 #include "tmpltpsr.h"
 #include "tmpltutl.h"
 
-#include "factlhs.h"
+#include "fact.h"
 
 /***********************************************/
 /* SequenceRestrictionParse: Parses an ordered */

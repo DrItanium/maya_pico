@@ -57,7 +57,7 @@
 
 #include "constant.h"
 #include "envrnmnt.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "router.h"
@@ -68,7 +68,6 @@
 #include "lgcldpnd.h"
 #endif
 
-#include "facthsh.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -63,7 +63,7 @@
 #include "envrnmnt.h"
 #include "exprnpsr.h"
 #include "extnfunc.h"
-#include "factqury.h"
+#include "fact.h"
 #include "modulutl.h"
 #include "prcdrpsr.h"
 #include "pprint.h"
@@ -71,8 +71,6 @@
 #include "router.h"
 #include "scanner.h"
 #include "strngrtr.h"
-
-#include "factqpsr.h"
 
 /* =========================================
    *****************************************

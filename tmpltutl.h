@@ -57,7 +57,7 @@
 #include "constrnt.h"
 #include "evaluatn.h"
 #include "expressn.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "symbol.h"
 
    void                           InvalidDeftemplateSlotMessage(Environment *,const char *,const char *,bool);

@@ -55,7 +55,7 @@
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT
-#include "factmngr.h"
+#include "fact.h"
 #include "tmpltbin.h"
 #endif
 

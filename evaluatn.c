@@ -80,7 +80,7 @@
 #include "commline.h"
 #include "constant.h"
 #include "envrnmnt.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "router.h"

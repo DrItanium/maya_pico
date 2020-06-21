@@ -55,17 +55,15 @@
 #include "argacces.h"
 #include "envrnmnt.h"
 #include "extnfunc.h"
-#include "factmngr.h"
 #include "inscom.h"
 #include "modulutl.h"
 #include "prntutil.h"
 #include "router.h"
 #include "utility.h"
+#include "fact.h"
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
 #include "tmpltdef.h"
-#include "factbld.h"
-#include "facthsh.h"
 #endif
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM

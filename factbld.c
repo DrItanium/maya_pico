@@ -45,10 +45,7 @@
 
 #include "argacces.h"
 #include "envrnmnt.h"
-#include "factgen.h"
-#include "factlhs.h"
-#include "factmch.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "reorder.h"
@@ -56,7 +53,6 @@
 #include "router.h"
 #include "tmpltdef.h"
 
-#include "factbld.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -75,7 +75,7 @@
 #include "tmpltrhs.h"
 #include "tmpltutl.h"
 
-#include "factrhs.h"
+#include "fact.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

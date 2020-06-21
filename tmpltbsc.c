@@ -72,7 +72,7 @@
 #include "cstrcpsr.h"
 #include "envrnmnt.h"
 #include "extnfunc.h"
-#include "factrhs.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "router.h"

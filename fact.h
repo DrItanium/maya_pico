@@ -103,8 +103,6 @@ struct factModifier {
     char *changeMap;
 };
 
-#include "facthsh.h"
-
 #define FACTS_DATA 3
 
 struct factsData {

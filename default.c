@@ -53,7 +53,7 @@
 #include "cstrnutl.h"
 #include "envrnmnt.h"
 #include "exprnpsr.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "inscom.h"
 #include "multifld.h"
 #include "pprint.h"

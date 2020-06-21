@@ -50,7 +50,7 @@
 #include "engine.h"
 #include "envrnmnt.h"
 #include "evaluatn.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "pattern.h"
 #include "reteutil.h"

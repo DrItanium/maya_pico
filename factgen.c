@@ -49,10 +49,7 @@
 #include "constrct.h"
 #include "envrnmnt.h"
 #include "exprnpsr.h"
-#include "factmch.h"
-#include "factmngr.h"
-#include "factprt.h"
-#include "factrete.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "network.h"
 #include "pattern.h"
@@ -66,7 +63,6 @@
 #include "tmpltlhs.h"
 #include "tmpltutl.h"
 
-#include "factgen.h"
 
 #define FACTGEN_DATA 2
 

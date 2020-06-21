@@ -92,8 +92,7 @@
 
 #include "argacces.h"
 #include "extnfunc.h"
-#include "factmngr.h"
-#include "factrhs.h"
+#include "fact.h"
 #include "multifld.h"
 #include "pprint.h"
 #include "prntutil.h"
@@ -102,8 +101,6 @@
 #include "sysdep.h"
 #include "tmpltdef.h"
 #include "tmpltutl.h"
-
-#include "factcom.h"
 
 #define INVALID     -2L
 #define UNSPECIFIED -1L

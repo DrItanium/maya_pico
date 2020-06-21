@@ -99,7 +99,7 @@
 #include "commline.h"
 #include "constant.h"
 #include "envrnmnt.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "inscom.h"
 #include "memalloc.h"
 #include "modulutl.h"

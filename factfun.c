@@ -114,7 +114,7 @@
 #include "sysdep.h"
 #include "tmpltutl.h"
 
-#include "factfun.h"
+#include "fact.h"
 
 /****************************************************/
 /* FactFunctionDefinitions: Defines fact functions. */

@@ -44,7 +44,7 @@
 #include "constrnt.h"
 #include "envrnmnt.h"
 #include "exprnpsr.h"
-#include "factrhs.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pattern.h"

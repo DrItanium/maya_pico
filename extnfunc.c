@@ -62,7 +62,7 @@
 #include "constant.h"
 #include "envrnmnt.h"
 #include "exprnpsr.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "router.h"
 

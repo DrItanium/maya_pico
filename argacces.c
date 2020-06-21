@@ -70,7 +70,7 @@
 #include "cstrnchk.h"
 #include "envrnmnt.h"
 #include "extnfunc.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "inscom.h"
 #include "insfun.h"
 #include "prntutil.h"

@@ -63,7 +63,7 @@
 #include "default.h"
 #include "envrnmnt.h"
 #include "exprnpsr.h"
-#include "factmngr.h"
+#include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pattern.h"

@@ -49,15 +49,13 @@
 #include "engine.h"
 #include "envrnmnt.h"
 #include "extnfunc.h"
-#include "factgen.h"
-#include "factmch.h"
+#include "fact.h"
 #include "incrrset.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "reteutil.h"
 #include "router.h"
 
-#include "factrete.h"
 
 /***************************************************************/
 /* FactPNGetVar1: Fact pattern network function for extracting */

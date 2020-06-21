@@ -122,16 +122,10 @@
 
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
+#include "fact.h"
 #include "commline.h"
 #include "default.h"
 #include "engine.h"
-#include "factbin.h"
-#include "factcom.h"
-#include "factfile.h"
-#include "factfun.h"
-#include "factmch.h"
-#include "factqury.h"
-#include "factrhs.h"
 #include "lgcldpnd.h"
 #include "memalloc.h"
 #include "multifld.h"
@@ -147,7 +141,6 @@
 #include "watch.h"
 #include "cstrnchk.h"
 
-#include "factmngr.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

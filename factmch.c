@@ -58,8 +58,7 @@
 #include "engine.h"
 #include "envrnmnt.h"
 #include "extnfunc.h"
-#include "factgen.h"
-#include "factrete.h"
+#include "fact.h"
 #include "incrrset.h"
 #include "memalloc.h"
 #include "prntutil.h"
@@ -68,7 +67,6 @@
 #include "sysdep.h"
 #include "tmpltdef.h"
 
-#include "factmch.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
