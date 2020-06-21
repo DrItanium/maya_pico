@@ -46,7 +46,7 @@
 struct portConstructItem;
 
 #include "Evaluation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Symbol.h"
 #include "Scanner.h"
 

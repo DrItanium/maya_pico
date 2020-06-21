@@ -74,9 +74,9 @@
 #include "Expression.h"
 #include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
-#include "msgcom.h"
-#include "msgfun.h"
+#include "DefmoduleUtility.h"
+#include "DefmessageHandlerCommands.h"
+#include "DefmessageHandlerFunctions.h"
 #include "PrettyPrint.h"
 #include "prccode.h"
 #include "PrintUtility.h"
@@ -85,7 +85,7 @@
 #include "StringRouter.h"
 #include "SystemDependency.h"
 
-#include "msgpsr.h"
+#include "DefmessageHandlerParser.h"
 
 /* =========================================
    *****************************************

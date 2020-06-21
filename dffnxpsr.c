@@ -83,7 +83,7 @@
 #include "Expression.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "PrettyPrint.h"
 #include "prccode.h"
 #include "PrintUtility.h"

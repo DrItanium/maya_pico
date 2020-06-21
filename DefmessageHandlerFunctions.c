@@ -62,12 +62,12 @@
 #include "InstanceCommand.h"
 #include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
-#include "msgcom.h"
+#include "DefmessageHandlerCommands.h"
 #include "prccode.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "msgfun.h"
+#include "DefmessageHandlerFunctions.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

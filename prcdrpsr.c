@@ -62,7 +62,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "Multifield.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

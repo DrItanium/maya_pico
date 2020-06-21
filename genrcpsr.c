@@ -85,7 +85,7 @@
 #include "genrccom.h"
 #include "ImplicitSystemMethodsParsing.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "PrettyPrint.h"
 #include "prcdrpsr.h"
 #include "prccode.h"

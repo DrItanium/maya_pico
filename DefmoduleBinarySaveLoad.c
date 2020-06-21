@@ -40,9 +40,9 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

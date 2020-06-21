@@ -61,7 +61,7 @@
 #include "Construct.h"
 #include "Utility.h"
 #include "Watch.h"
-#include "modulbsc.h"
+#include "DefModuleBasicCommands.h"
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
@@ -120,8 +120,8 @@
 #include "InstanceSaveLoadCommands.h"
 #include "InstanceFunctions.h"
 #include "InstanceManager.h"
-#include "msgcom.h"
-#include "msgpass.h"
+#include "DefmessageHandlerCommands.h"
+#include "DefmessageHandlerDispatch.h"
 #include "ObjectReteMatch.h"
 #endif
 

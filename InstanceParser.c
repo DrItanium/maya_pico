@@ -70,7 +70,7 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Expression.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"

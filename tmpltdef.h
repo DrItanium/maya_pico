@@ -73,7 +73,7 @@ struct deftemplateModule;
 
 #include "Construct.h"
 #include "Evaluation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 
 struct deftemplateModule {
     struct defmoduleItemHeader header;

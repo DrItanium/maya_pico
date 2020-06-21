@@ -42,7 +42,7 @@
 #include "BinarySave.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Pattern.h"
 #include "ReteUtility.h"
 #include "RuleBinarySaveLoad.h"

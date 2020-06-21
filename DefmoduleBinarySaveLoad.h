@@ -34,8 +34,8 @@
 
 #define _H_modulbin
 
-#include "moduldef.h"
-#include "modulbin.h"
+#include "Defmodule.h"
+#include "DefmoduleBinarySaveLoad.h"
 #include "Construct.h"
 
 struct bsaveDefmodule {

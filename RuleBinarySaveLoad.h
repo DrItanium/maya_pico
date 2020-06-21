@@ -46,7 +46,7 @@
 #define _H_rulebin
 
 #include "Construct.h"
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 #include "Network.h"
 
 struct bsaveDefrule {

@@ -38,7 +38,7 @@
 #include "Deffacts.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 
 #include "DeffactsBinarySaveLoad.h"
 

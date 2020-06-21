@@ -48,8 +48,8 @@
 
 #include "Construct.h"
 #include "Environment.h"
-#include "modulpsr.h"
-#include "modulutl.h"
+#include "DefmoduleParser.h"
+#include "DefmoduleUtility.h"
 #include "Pattern.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

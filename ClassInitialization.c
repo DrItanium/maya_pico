@@ -85,9 +85,9 @@
 #include "ExternalFunctions.h"
 #include "InstanceCommand.h"
 #include "MemoryAllocation.h"
-#include "modulpsr.h"
-#include "modulutl.h"
-#include "msgcom.h"
+#include "DefmoduleParser.h"
+#include "DefmoduleUtility.h"
+#include "DefmessageHandlerCommands.h"
 #include "Watch.h"
 
 #if DEFINSTANCES_CONSTRUCT

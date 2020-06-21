@@ -54,7 +54,7 @@ typedef struct handlerSlotReference {
     unsigned short slotID;
 } HANDLER_SLOT_REFERENCE;
 
-#include "msgpass.h"
+#include "DefmessageHandlerDispatch.h"
 #include "Object.h"
 
 #define BEGIN_TRACE ">>"

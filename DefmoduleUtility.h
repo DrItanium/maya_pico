@@ -44,7 +44,7 @@
 typedef void *GetNextItemFunction(Environment *, void *);
 typedef void PrintItemFunction(Environment *, const char *, void *);
 
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Symbol.h"
 #include "Scanner.h"
 

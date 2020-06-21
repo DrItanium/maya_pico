@@ -64,7 +64,7 @@ struct bsaveDeftemplate {
     unsigned long patternNetwork;
 };
 
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 
 struct bsaveDeftemplateModule {
     struct bsaveDefmoduleItemHeader header;

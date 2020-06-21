@@ -54,12 +54,12 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 #include "Multifield.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
-#include "modulbsc.h"
+#include "DefModuleBasicCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

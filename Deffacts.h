@@ -57,7 +57,7 @@ typedef struct deffacts Deffacts;
 #include "Construct.h"
 #include "Evaluation.h"
 #include "Expression.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Symbol.h"
 
 #define DEFFACTS_DATA 0

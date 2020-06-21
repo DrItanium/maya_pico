@@ -64,7 +64,7 @@
 #include "Expression.h"
 #include "ExternalFunctions.h"
 #include "Fact.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "prcdrpsr.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

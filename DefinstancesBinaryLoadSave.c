@@ -46,7 +46,7 @@
 #include "Definstances.h"
 #include "Environment.h"
 #include "MemoryAllocation.h"
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 
 #include "DefinstancesBinaryLoadSave.h"
 

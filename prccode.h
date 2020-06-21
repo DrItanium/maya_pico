@@ -61,7 +61,7 @@
 
 #include "Expression.h"
 #include "Evaluation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Scanner.h"
 #include "Symbol.h"
 

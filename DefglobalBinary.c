@@ -41,7 +41,7 @@
 #include "DefglobalBasicCommands.h"
 #include "Defglobal.h"
 #include "MemoryAllocation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Multifield.h"
 
 #include "DefglobalBinary.h"

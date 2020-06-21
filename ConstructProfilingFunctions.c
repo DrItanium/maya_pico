@@ -61,7 +61,7 @@
 #include "genrccom.h"
 #include "genrcfun.h"
 #include "MemoryAllocation.h"
-#include "msgcom.h"
+#include "DefmessageHandlerCommands.h"
 #include "Router.h"
 #include "SystemDependency.h"
 

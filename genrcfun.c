@@ -83,7 +83,7 @@
 #include "genrcexe.h"
 #include "genrcfun.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "prccode.h"
 #include "PrintUtility.h"
 #include "Router.h"

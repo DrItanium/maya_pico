@@ -37,7 +37,7 @@
 #include "BinarySave.h"
 #endif
 
-#include "moduldef.h"
+#include "Defmodule.h"
 
 #include "Construct.h"
 

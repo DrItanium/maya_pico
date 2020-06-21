@@ -97,15 +97,15 @@ add_library(clips
         LogicalDependencies.c
         MemoryAllocation.c
         MiscFunctions.c
-        modulbin.c
-        modulbsc.c
-        moduldef.c
-        modulpsr.c
-        modulutl.c
-        msgcom.c
-        msgfun.c
-        msgpass.c
-        msgpsr.c
+		DefmoduleBinarySaveLoad.c
+		DefModuleBasicCommands.c
+		Defmodule.c
+		DefmoduleParser.c
+		DefmoduleUtility.c
+		DefmessageHandlerCommands.c
+		DefmessageHandlerFunctions.c
+		DefmessageHandlerDispatch.c
+		DefmessageHandlerParser.c
         Multifield.c
         MultifieldFunctions.c
 		ObjectBinaryLoadSave.c

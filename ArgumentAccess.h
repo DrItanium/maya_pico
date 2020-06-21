@@ -53,7 +53,7 @@
 
 #include "Expression.h"
 #include "Evaluation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 
 const char *GetLogicalName(UDFContext *, const char *);
 const char *GetFileName(UDFContext *);

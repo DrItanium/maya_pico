@@ -52,7 +52,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
@@ -62,7 +62,7 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "modulpsr.h"
+#include "DefmoduleParser.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

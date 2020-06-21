@@ -40,7 +40,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 
 #if DEFRULE_CONSTRUCT
 #include "Network.h"

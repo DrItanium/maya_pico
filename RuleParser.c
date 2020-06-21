@@ -66,7 +66,7 @@
 #include "Expression.h"
 #include "IncrementalReset.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "Pattern.h"
 #include "prccode.h"
 #include "prcdrpsr.h"

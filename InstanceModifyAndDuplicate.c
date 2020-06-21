@@ -69,9 +69,9 @@
 #include "InstanceParser.h"
 #include "MemoryAllocation.h"
 #include "MiscFunctions.h"
-#include "msgcom.h"
-#include "msgfun.h"
-#include "msgpass.h"
+#include "DefmessageHandlerCommands.h"
+#include "DefmessageHandlerFunctions.h"
+#include "DefmessageHandlerDispatch.h"
 #if DEFRULE_CONSTRUCT
 #include "Network.h"
 #include "ObjectReteMatch.h"

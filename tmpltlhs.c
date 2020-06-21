@@ -46,7 +46,7 @@
 #include "Expression.h"
 #include "Fact.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "Pattern.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"

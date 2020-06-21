@@ -85,7 +85,7 @@
 #include "Construct.h"
 #include "Construct.h"
 #include "dffnxpsr.h"
-#include "modulpsr.h"
+#include "DefmoduleParser.h"
 
 #include "Environment.h"
 
@@ -100,7 +100,7 @@
 #include "ArgumentAccess.h"
 #include "Construct.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "Multifield.h"
 #include "PrintUtility.h"
 #include "Router.h"

@@ -69,7 +69,7 @@ typedef struct defglobal Defglobal;
 #include "Construct.h"
 #include "Evaluation.h"
 #include "Expression.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Symbol.h"
 
 #define DEFGLOBAL_DATA 1

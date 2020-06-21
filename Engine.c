@@ -102,7 +102,7 @@
 #include "Fact.h"
 #include "InstanceCommand.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "prccode.h"
 #include "prcdrfun.h"
 #include "PrintUtility.h"

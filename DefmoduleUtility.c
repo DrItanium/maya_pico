@@ -46,14 +46,14 @@
 #include "Environment.h"
 #include "Construct.h"
 #include "MemoryAllocation.h"
-#include "modulpsr.h"
+#include "DefmoduleParser.h"
 #include "PrettyPrint.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "SystemDependency.h"
 #include "Watch.h"
 
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -50,7 +50,7 @@
 #include "Expression.h"
 #include "Generate.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "Reorder.h"

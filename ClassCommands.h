@@ -60,7 +60,7 @@ typedef enum {
 } ClassDefaultsMode;
 
 #include "Construct.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Object.h"
 #include "Symbol.h"
 

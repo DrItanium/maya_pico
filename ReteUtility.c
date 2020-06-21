@@ -73,7 +73,7 @@
 #include "IncrementalReset.h"
 #include "Match.h"
 #include "MemoryAllocation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Pattern.h"
 #include "PrintUtility.h"
 #include "Retract.h"

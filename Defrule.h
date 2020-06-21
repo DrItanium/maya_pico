@@ -106,7 +106,7 @@ struct defrule {
 #include "Constraint.h"
 #include "Construct.h"
 #include "Evaluation.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 
 struct defruleModule {
     struct defmoduleItemHeader header;

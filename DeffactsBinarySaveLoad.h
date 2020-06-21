@@ -36,7 +36,7 @@
 
 #include "Construct.h"
 #include "Deffacts.h"
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 
 struct bsaveDeffacts {
     struct bsaveConstructHeader header;

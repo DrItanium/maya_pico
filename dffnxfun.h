@@ -73,7 +73,7 @@ typedef struct deffunction Deffunction;
 typedef struct deffunctionModuleData DeffunctionModuleData;
 
 #include "Entities.h"
-#include "moduldef.h"
+#include "Defmodule.h"
 #include "Construct.h"
 #include "Evaluation.h"
 

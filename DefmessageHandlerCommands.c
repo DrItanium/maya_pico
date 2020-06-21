@@ -78,13 +78,13 @@
 #include "ClassFunctions.h"
 #include "ClassInfo.h"
 #include "Construct.h"
-#include "msgpsr.h"
+#include "DefmessageHandlerParser.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "InstanceFunctions.h"
 #include "InstanceModifyAndDuplicate.h"
-#include "msgfun.h"
-#include "msgpass.h"
+#include "DefmessageHandlerFunctions.h"
+#include "DefmessageHandlerDispatch.h"
 #include "MemoryAllocation.h"
 #include "prccode.h"
 #include "PrintUtility.h"
@@ -93,7 +93,7 @@
 #include "Watch.h"
 #endif
 
-#include "msgcom.h"
+#include "DefmessageHandlerCommands.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -60,20 +60,20 @@
 #include "ArgumentAccess.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 #endif
 #include "Constants.h"
 #include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"
-#include "modulbsc.h"
-#include "modulpsr.h"
+#include "DefModuleBasicCommands.h"
+#include "DefmoduleParser.h"
 #include "PrintUtility.h"
 #include "Router.h"
 #include "Utility.h"
 
-#include "moduldef.h"
+#include "Defmodule.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

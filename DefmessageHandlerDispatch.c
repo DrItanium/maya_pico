@@ -82,8 +82,8 @@
 #include "InstanceCommand.h"
 #include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
-#include "msgcom.h"
-#include "msgfun.h"
+#include "DefmessageHandlerCommands.h"
+#include "DefmessageHandlerFunctions.h"
 #include "Multifield.h"
 #include "prccode.h"
 #include "prcdrfun.h"
@@ -93,7 +93,7 @@
 #include "StringFunctions.h"
 #include "Utility.h"
 
-#include "msgpass.h"
+#include "DefmessageHandlerDispatch.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

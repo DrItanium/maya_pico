@@ -65,9 +65,9 @@
 #include "Environment.h"
 #include "InstanceFunctions.h"
 #include "MemoryAllocation.h"
-#include "modulbin.h"
-#include "msgcom.h"
-#include "msgfun.h"
+#include "DefmoduleBinarySaveLoad.h"
+#include "DefmessageHandlerCommands.h"
+#include "DefmessageHandlerFunctions.h"
 #include "PrintUtility.h"
 #include "Router.h"
 

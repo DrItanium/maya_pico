@@ -75,8 +75,8 @@
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "InstanceFunctions.h"
-#include "msgcom.h"
-#include "msgfun.h"
+#include "DefmessageHandlerCommands.h"
+#include "DefmessageHandlerFunctions.h"
 #include "Multifield.h"
 #include "PrintUtility.h"
 

@@ -47,7 +47,7 @@
 #include "Environment.h"
 #include "Fact.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "Reorder.h"
 #include "ReteUtility.h"
 #include "Router.h"

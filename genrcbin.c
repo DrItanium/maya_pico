@@ -49,7 +49,7 @@
 #include "Environment.h"
 #include "genrccom.h"
 #include "MemoryAllocation.h"
-#include "modulbin.h"
+#include "DefmoduleBinarySaveLoad.h"
 #if OBJECT_SYSTEM
 #include "ObjectBinaryLoadSave.h"
 #else

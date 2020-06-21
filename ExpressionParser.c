@@ -81,7 +81,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "PrettyPrint.h"
 #include "prcdrfun.h"
 #include "PrintUtility.h"

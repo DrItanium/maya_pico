@@ -74,7 +74,7 @@
 #include "Environment.h"
 #include "MemoryAllocation.h"
 #include "Expression.h"
-#include "modulutl.h"
+#include "DefmoduleUtility.h"
 #include "tmpltutl.h"
 #include "InstanceFunctions.h"
 #include "Fact.h"

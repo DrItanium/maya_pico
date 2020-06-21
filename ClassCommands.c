@@ -75,8 +75,8 @@
 #include "ClassFunctions.h"
 #include "ClassInitialization.h"
 #include "Environment.h"
-#include "modulutl.h"
-#include "msgcom.h"
+#include "DefmoduleUtility.h"
+#include "DefmessageHandlerCommands.h"
 #include "PrintUtility.h"
 #include "Router.h"
 
