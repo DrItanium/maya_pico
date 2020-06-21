@@ -24,7 +24,7 @@
 #include "MiscFunctions.h"
 #include "ExternalFunctions.h"
 #include "MayaExtensions.h"
-#include "mayasetup.h"
+#include "MayaSetup.h"
 
 #if BOOST_EXTENSIONS
 #include "BoostExtensions.h"
