@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  05/16/18             */
-   /*                                                     */
-   /*              CLASS PARSER HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  05/16/18             */
+/*                                                     */
+/*              CLASS PARSER HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -53,14 +53,13 @@
 
 #include "object.h"
 
-typedef struct tempSlotLink
-  {
-   SlotDescriptor *desc;
-   struct tempSlotLink *nxt;
-  } TEMP_SLOT_LINK;
+typedef struct tempSlotLink {
+    SlotDescriptor *desc;
+    struct tempSlotLink *nxt;
+} TEMP_SLOT_LINK;
 
-   TEMP_SLOT_LINK                *ParseSlot(Environment *,const char *,const char *,TEMP_SLOT_LINK *,PACKED_CLASS_LINKS *,bool);
-   void                           DeleteSlots(Environment *,TEMP_SLOT_LINK *);
+TEMP_SLOT_LINK *ParseSlot(Environment *, const char *, const char *, TEMP_SLOT_LINK *, PACKED_CLASS_LINKS *, bool);
+void DeleteSlots(Environment *, TEMP_SLOT_LINK *);
 
 #endif
 

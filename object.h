@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.40  02/20/20          */
-   /*                                                     */
-   /*                OBJECT SYSTEM DEFINITIONS            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.40  02/20/20          */
+/*                                                     */
+/*                OBJECT SYSTEM DEFINITIONS            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -74,178 +74,165 @@ typedef struct instanceModifier InstanceModifier;
 #include "objrtmch.h"
 #endif
 
-struct packedClassLinks
-  {
-   unsigned long classCount;
-   Defclass **classArray;
-  };
+struct packedClassLinks {
+    unsigned long classCount;
+    Defclass **classArray;
+};
 
-struct defclassModule
-  {
-   struct defmoduleItemHeader header;
-  };
+struct defclassModule {
+    struct defmoduleItemHeader header;
+};
 
-struct defclass
-  {
-   ConstructHeader header;
-   unsigned installed      : 1;
-   unsigned system         : 1;
-   unsigned abstract       : 1;
-   unsigned reactive       : 1;
-   unsigned traceInstances : 1;
-   unsigned traceSlots     : 1;
-   unsigned short id;
-   unsigned busy;
-   unsigned hashTableIndex;
-   PACKED_CLASS_LINKS directSuperclasses;
-   PACKED_CLASS_LINKS directSubclasses;
-   PACKED_CLASS_LINKS allSuperclasses;
-   SlotDescriptor *slots;
-   SlotDescriptor **instanceTemplate;
-   unsigned *slotNameMap;
-   unsigned short slotCount;
-   unsigned short localInstanceSlotCount;
-   unsigned short instanceSlotCount;
-   unsigned short maxSlotNameID;
-   Instance *instanceList;
-   Instance *instanceListBottom;
-   DefmessageHandler *handlers;
-   unsigned *handlerOrderMap;
-   unsigned short handlerCount;
-   Defclass *nxtHash;
-   CLIPSBitMap *scopeMap;
+struct defclass {
+    ConstructHeader header;
+    unsigned installed: 1;
+    unsigned system: 1;
+    unsigned abstract: 1;
+    unsigned reactive: 1;
+    unsigned traceInstances: 1;
+    unsigned traceSlots: 1;
+    unsigned short id;
+    unsigned busy;
+    unsigned hashTableIndex;
+    PACKED_CLASS_LINKS directSuperclasses;
+    PACKED_CLASS_LINKS directSubclasses;
+    PACKED_CLASS_LINKS allSuperclasses;
+    SlotDescriptor *slots;
+    SlotDescriptor **instanceTemplate;
+    unsigned *slotNameMap;
+    unsigned short slotCount;
+    unsigned short localInstanceSlotCount;
+    unsigned short instanceSlotCount;
+    unsigned short maxSlotNameID;
+    Instance *instanceList;
+    Instance *instanceListBottom;
+    DefmessageHandler *handlers;
+    unsigned *handlerOrderMap;
+    unsigned short handlerCount;
+    Defclass *nxtHash;
+    CLIPSBitMap *scopeMap;
 
-   /*
-    * Links this defclass to each of the terminal alpha nodes which could be
-    * affected by a modification to an instance of it. This saves having to
-    * iterate through every single terminal alpha for every single modification
-    * to an instance of a defclass.
-    */
+    /*
+     * Links this defclass to each of the terminal alpha nodes which could be
+     * affected by a modification to an instance of it. This saves having to
+     * iterate through every single terminal alpha for every single modification
+     * to an instance of a defclass.
+     */
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
-   CLASS_ALPHA_LINK *relevant_terminal_alpha_nodes;
+    CLASS_ALPHA_LINK *relevant_terminal_alpha_nodes;
 #endif
 
-   char traversalRecord[TRAVERSAL_BYTES];
-  };
+    char traversalRecord[TRAVERSAL_BYTES];
+};
 
-struct classLink
-  {
-   Defclass *cls;
-   struct classLink *nxt;
-  };
+struct classLink {
+    Defclass *cls;
+    struct classLink *nxt;
+};
 
-struct slotName
-  {
-   unsigned hashTableIndex;
-   unsigned use;
-   unsigned short id;
-   CLIPSLexeme *name;
-   CLIPSLexeme *putHandlerName;
-   struct slotName *nxt;
-   unsigned long bsaveIndex;
-  };
+struct slotName {
+    unsigned hashTableIndex;
+    unsigned use;
+    unsigned short id;
+    CLIPSLexeme *name;
+    CLIPSLexeme *putHandlerName;
+    struct slotName *nxt;
+    unsigned long bsaveIndex;
+};
 
-struct instanceSlot
-  {
-   SlotDescriptor *desc;
-   unsigned valueRequired : 1;
-   unsigned override      : 1;
-   unsigned short type;
-   union
-     {
-      void *value;
-      TypeHeader *header;
-      CLIPSLexeme *lexemeValue;
-      CLIPSFloat *floatValue;
-      CLIPSInteger *integerValue;
-      CLIPSVoid *voidValue;
-      Fact *factValue;
-      Instance *instanceValue;
-      Multifield *multifieldValue;
-      CLIPSExternalAddress *externalAddressValue;
-     };
-  };
+struct instanceSlot {
+    SlotDescriptor *desc;
+    unsigned valueRequired: 1;
+    unsigned override: 1;
+    unsigned short type;
+    union {
+        void *value;
+        TypeHeader *header;
+        CLIPSLexeme *lexemeValue;
+        CLIPSFloat *floatValue;
+        CLIPSInteger *integerValue;
+        CLIPSVoid *voidValue;
+        Fact *factValue;
+        Instance *instanceValue;
+        Multifield *multifieldValue;
+        CLIPSExternalAddress *externalAddressValue;
+    };
+};
 
-struct slotDescriptor
-  {
-   unsigned shared                   : 1;
-   unsigned multiple                 : 1;
-   unsigned composite                : 1;
-   unsigned noInherit                : 1;
-   unsigned noWrite                  : 1;
-   unsigned initializeOnly           : 1;
-   unsigned dynamicDefault           : 1;
-   unsigned defaultSpecified         : 1;
-   unsigned noDefault                : 1;
-   unsigned reactive                 : 1;
-   unsigned publicVisibility         : 1;
-   unsigned createReadAccessor       : 1;
-   unsigned createWriteAccessor      : 1;
-   unsigned overrideMessageSpecified : 1;
-   Defclass *cls;
-   SLOT_NAME *slotName;
-   CLIPSLexeme *overrideMessage;
-   void *defaultValue;
-   CONSTRAINT_RECORD *constraint;
-   unsigned sharedCount;
-   unsigned long bsaveIndex;
-   InstanceSlot sharedValue;
-  };
+struct slotDescriptor {
+    unsigned shared: 1;
+    unsigned multiple: 1;
+    unsigned composite: 1;
+    unsigned noInherit: 1;
+    unsigned noWrite: 1;
+    unsigned initializeOnly: 1;
+    unsigned dynamicDefault: 1;
+    unsigned defaultSpecified: 1;
+    unsigned noDefault: 1;
+    unsigned reactive: 1;
+    unsigned publicVisibility: 1;
+    unsigned createReadAccessor: 1;
+    unsigned createWriteAccessor: 1;
+    unsigned overrideMessageSpecified: 1;
+    Defclass *cls;
+    SLOT_NAME *slotName;
+    CLIPSLexeme *overrideMessage;
+    void *defaultValue;
+    CONSTRAINT_RECORD *constraint;
+    unsigned sharedCount;
+    unsigned long bsaveIndex;
+    InstanceSlot sharedValue;
+};
 
-struct instance
-  {
-   union
-     {
-      struct patternEntity patternHeader;
-      TypeHeader header;
-     };
-   void *partialMatchList;
-   InstanceSlot *basisSlots;
-   unsigned installed            : 1;
-   unsigned garbage              : 1;
-   unsigned initSlotsCalled      : 1;
-   unsigned initializeInProgress : 1;
-   unsigned reteSynchronized     : 1;
-   CLIPSLexeme *name;
-   unsigned hashTableIndex;
-   unsigned busy;
-   Defclass *cls;
-   Instance *prvClass,*nxtClass,
-                 *prvHash,*nxtHash,
-                 *prvList,*nxtList;
-   InstanceSlot **slotAddresses,
-                 *slots;
-  };
+struct instance {
+    union {
+        struct patternEntity patternHeader;
+        TypeHeader header;
+    };
+    void *partialMatchList;
+    InstanceSlot *basisSlots;
+    unsigned installed: 1;
+    unsigned garbage: 1;
+    unsigned initSlotsCalled: 1;
+    unsigned initializeInProgress: 1;
+    unsigned reteSynchronized: 1;
+    CLIPSLexeme *name;
+    unsigned hashTableIndex;
+    unsigned busy;
+    Defclass *cls;
+    Instance *prvClass, *nxtClass,
+            *prvHash, *nxtHash,
+            *prvList, *nxtList;
+    InstanceSlot **slotAddresses,
+            *slots;
+};
 
-struct defmessageHandler
-  {
-   ConstructHeader header;
-   unsigned system         : 1;
-   unsigned type           : 2;
-   unsigned mark           : 1;
-   unsigned trace          : 1;
-   unsigned busy;
-   Defclass *cls;
-   unsigned short minParams;
-   unsigned short maxParams;
-   unsigned short localVarCount;
-   Expression *actions;
-  };
+struct defmessageHandler {
+    ConstructHeader header;
+    unsigned system: 1;
+    unsigned type: 2;
+    unsigned mark: 1;
+    unsigned trace: 1;
+    unsigned busy;
+    Defclass *cls;
+    unsigned short minParams;
+    unsigned short maxParams;
+    unsigned short localVarCount;
+    Expression *actions;
+};
 
-struct instanceBuilder
-  {
-   Environment *ibEnv;
-   Defclass *ibDefclass;
-   CLIPSValue *ibValueArray;
-  };
+struct instanceBuilder {
+    Environment *ibEnv;
+    Defclass *ibDefclass;
+    CLIPSValue *ibValueArray;
+};
 
-struct instanceModifier
-  {
-   Environment *imEnv;
-   Instance *imOldInstance;
-   CLIPSValue *imValueArray;
-   char *changeMap;
-  };
+struct instanceModifier {
+    Environment *imEnv;
+    Instance *imOldInstance;
+    CLIPSValue *imValueArray;
+    char *changeMap;
+};
 
 #endif /* _H_object */
 

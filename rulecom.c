@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  10/03/19             */
-   /*                                                     */
-   /*                RULE COMMANDS MODULE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  10/03/19             */
+/*                                                     */
+/*                RULE COMMANDS MODULE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides the matches command. Also provides the  */
@@ -110,165 +110,155 @@
 /***************************************/
 
 #if DEVELOPER
-   static void                    ShowJoins(Environment *,Defrule *);
+static void                    ShowJoins(Environment *,Defrule *);
 #endif
 #if DEBUGGING_FUNCTIONS
-   static long long               ListAlphaMatches(Environment *,struct joinInformation *,Verbosity);
-   static long long               ListBetaMatches(Environment *,struct joinInformation *,long,unsigned short,Verbosity);
-   static void                    ListBetaJoinActivity(Environment *,struct joinInformation *,long,long,int,UDFValue *);
-   static unsigned short          AlphaJoinCountDriver(Environment *,struct joinNode *);
-   static unsigned short          BetaJoinCountDriver(Environment *,struct joinNode *);
-   static void                    AlphaJoinsDriver(Environment *,struct joinNode *,unsigned short,struct joinInformation *);
-   static void                    BetaJoinsDriver(Environment *,struct joinNode *,unsigned short,struct joinInformation *,struct betaMemory *,struct joinNode *);
-   static int                     CountPatterns(Environment *,struct joinNode *,bool);
-   static const char             *BetaHeaderString(Environment *,struct joinInformation *,long,long);
-   static const char             *ActivityHeaderString(Environment *,struct joinInformation *,long,long);
-   static void                    JoinActivityReset(Environment *,ConstructHeader *,void *);
+static long long ListAlphaMatches(Environment *, struct joinInformation *, Verbosity);
+static long long ListBetaMatches(Environment *, struct joinInformation *, long, unsigned short, Verbosity);
+static void ListBetaJoinActivity(Environment *, struct joinInformation *, long, long, int, UDFValue *);
+static unsigned short AlphaJoinCountDriver(Environment *, struct joinNode *);
+static unsigned short BetaJoinCountDriver(Environment *, struct joinNode *);
+static void AlphaJoinsDriver(Environment *, struct joinNode *, unsigned short, struct joinInformation *);
+static void
+BetaJoinsDriver(Environment *, struct joinNode *, unsigned short, struct joinInformation *, struct betaMemory *, struct joinNode *);
+static int CountPatterns(Environment *, struct joinNode *, bool);
+static const char *BetaHeaderString(Environment *, struct joinInformation *, long, long);
+static const char *ActivityHeaderString(Environment *, struct joinInformation *, long, long);
+static void JoinActivityReset(Environment *, ConstructHeader *, void *);
 #endif
 
 /****************************************************************/
 /* DefruleCommands: Initializes defrule commands and functions. */
 /****************************************************************/
 void DefruleCommands(
-  Environment *theEnv)
-  {
-      AddUDF(theEnv, "run", "v", 0, 1, "l", RunCommand, NULL);
-      AddUDF(theEnv, "halt", "v", 0, 0, NULL, HaltCommand, NULL);
-      AddUDF(theEnv, "focus", "b", 1, UNBOUNDED, "y", FocusCommand, NULL);
-      AddUDF(theEnv, "clear-focus-stack", "v", 0, 0, NULL, ClearFocusStackCommand, NULL);
-      AddUDF(theEnv, "get-focus-stack", "m", 0, 0, NULL, GetFocusStackFunction, NULL);
-      AddUDF(theEnv, "pop-focus", "y", 0, 0, NULL, PopFocusFunction, NULL);
-      AddUDF(theEnv, "get-focus", "y", 0, 0, NULL, GetFocusFunction, NULL);
+        Environment *theEnv) {
+    AddUDF(theEnv, "run", "v", 0, 1, "l", RunCommand, NULL);
+    AddUDF(theEnv, "halt", "v", 0, 0, NULL, HaltCommand, NULL);
+    AddUDF(theEnv, "focus", "b", 1, UNBOUNDED, "y", FocusCommand, NULL);
+    AddUDF(theEnv, "clear-focus-stack", "v", 0, 0, NULL, ClearFocusStackCommand, NULL);
+    AddUDF(theEnv, "get-focus-stack", "m", 0, 0, NULL, GetFocusStackFunction, NULL);
+    AddUDF(theEnv, "pop-focus", "y", 0, 0, NULL, PopFocusFunction, NULL);
+    AddUDF(theEnv, "get-focus", "y", 0, 0, NULL, GetFocusFunction, NULL);
 #if DEBUGGING_FUNCTIONS
-       AddUDF(theEnv, "set-break", "v", 1, 1, "y", SetBreakCommand, NULL);
-       AddUDF(theEnv, "remove-break", "v", 0, 1, "y", RemoveBreakCommand, NULL);
-       AddUDF(theEnv, "show-breaks", "v", 0, 1, "y", ShowBreaksCommand, NULL);
-       AddUDF(theEnv, "matches", "bm", 1, 2, "y", MatchesCommand, NULL);
-       AddUDF(theEnv, "join-activity", "bm", 1, 2, "y", JoinActivityCommand, NULL);
-       AddUDF(theEnv, "join-activity-reset", "v", 0, 0, NULL, JoinActivityResetCommand, NULL);
-       AddUDF(theEnv, "list-focus-stack", "v", 0, 0, NULL, ListFocusStackCommand, NULL);
-       AddUDF(theEnv, "dependencies", "v", 1, 1, "infly", DependenciesCommand, NULL);
-       AddUDF(theEnv, "dependents", "v", 1, 1, "infly", DependentsCommand, NULL);
+    AddUDF(theEnv, "set-break", "v", 1, 1, "y", SetBreakCommand, NULL);
+    AddUDF(theEnv, "remove-break", "v", 0, 1, "y", RemoveBreakCommand, NULL);
+    AddUDF(theEnv, "show-breaks", "v", 0, 1, "y", ShowBreaksCommand, NULL);
+    AddUDF(theEnv, "matches", "bm", 1, 2, "y", MatchesCommand, NULL);
+    AddUDF(theEnv, "join-activity", "bm", 1, 2, "y", JoinActivityCommand, NULL);
+    AddUDF(theEnv, "join-activity-reset", "v", 0, 0, NULL, JoinActivityResetCommand, NULL);
+    AddUDF(theEnv, "list-focus-stack", "v", 0, 0, NULL, ListFocusStackCommand, NULL);
+    AddUDF(theEnv, "dependencies", "v", 1, 1, "infly", DependenciesCommand, NULL);
+    AddUDF(theEnv, "dependents", "v", 1, 1, "infly", DependentsCommand, NULL);
 
-       AddUDF(theEnv, "timetag", "l", 1, 1, "infly", TimetagFunction, NULL);
+    AddUDF(theEnv, "timetag", "l", 1, 1, "infly", TimetagFunction, NULL);
 #endif /* DEBUGGING_FUNCTIONS */
 
-       AddUDF(theEnv, "get-beta-memory-resizing", "b", 0, 0, NULL, GetBetaMemoryResizingCommand, NULL);
-       AddUDF(theEnv, "set-beta-memory-resizing", "b", 1, 1, NULL, SetBetaMemoryResizingCommand, NULL);
+    AddUDF(theEnv, "get-beta-memory-resizing", "b", 0, 0, NULL, GetBetaMemoryResizingCommand, NULL);
+    AddUDF(theEnv, "set-beta-memory-resizing", "b", 1, 1, NULL, SetBetaMemoryResizingCommand, NULL);
 
-       AddUDF(theEnv, "get-strategy", "y", 0, 0, NULL, GetStrategyCommand, NULL);
-       AddUDF(theEnv, "set-strategy", "y", 1, 1, "y", SetStrategyCommand, NULL);
+    AddUDF(theEnv, "get-strategy", "y", 0, 0, NULL, GetStrategyCommand, NULL);
+    AddUDF(theEnv, "set-strategy", "y", 1, 1, "y", SetStrategyCommand, NULL);
 
 #if DEVELOPER
-   AddUDF(theEnv,"rule-complexity","l",1,1,"y",RuleComplexityCommand,"RuleComplexityCommand",NULL);
-   AddUDF(theEnv,"show-joins","v",1,1,"y",ShowJoinsCommand,"ShowJoinsCommand",NULL);
-   AddUDF(theEnv,"show-aht","v",0,0,NULL,ShowAlphaHashTable,"ShowAlphaHashTable",NULL);
+    AddUDF(theEnv,"rule-complexity","l",1,1,"y",RuleComplexityCommand,"RuleComplexityCommand",NULL);
+    AddUDF(theEnv,"show-joins","v",1,1,"y",ShowJoinsCommand,"ShowJoinsCommand",NULL);
+    AddUDF(theEnv,"show-aht","v",0,0,NULL,ShowAlphaHashTable,"ShowAlphaHashTable",NULL);
 #if DEBUGGING_FUNCTIONS
-   AddWatchItem(theEnv,"rule-analysis",0,&DefruleData(theEnv)->WatchRuleAnalysis,0,NULL,NULL);
+    AddWatchItem(theEnv,"rule-analysis",0,&DefruleData(theEnv)->WatchRuleAnalysis,0,NULL,NULL);
 #endif
 #endif /* DEVELOPER */
 
-  }
+}
 
 /***********************************************/
 /* GetBetaMemoryResizing: C access routine     */
 /*   for the get-beta-memory-resizing command. */
 /***********************************************/
 bool GetBetaMemoryResizing(
-  Environment *theEnv)
-  {
-   return DefruleData(theEnv)->BetaMemoryResizingFlag;
-  }
+        Environment *theEnv) {
+    return DefruleData(theEnv)->BetaMemoryResizingFlag;
+}
 
 /***********************************************/
 /* SetBetaMemoryResizing: C access routine     */
 /*   for the set-beta-memory-resizing command. */
 /***********************************************/
 bool SetBetaMemoryResizing(
-  Environment *theEnv,
-  bool value)
-  {
-   bool ov;
+        Environment *theEnv,
+        bool value) {
+    bool ov;
 
-   ov = DefruleData(theEnv)->BetaMemoryResizingFlag;
+    ov = DefruleData(theEnv)->BetaMemoryResizingFlag;
 
-   DefruleData(theEnv)->BetaMemoryResizingFlag = value;
+    DefruleData(theEnv)->BetaMemoryResizingFlag = value;
 
-   return(ov);
-  }
+    return (ov);
+}
 
 /****************************************************/
 /* SetBetaMemoryResizingCommand: H/L access routine */
 /*   for the set-beta-memory-resizing command.      */
 /****************************************************/
 void SetBetaMemoryResizingCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue theArg;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UDFValue theArg;
 
-   returnValue->lexemeValue = CreateBoolean(theEnv,GetBetaMemoryResizing(theEnv));
+    returnValue->lexemeValue = CreateBoolean(theEnv, GetBetaMemoryResizing(theEnv));
 
-   /*=================================================*/
-   /* The symbol FALSE disables beta memory resizing. */
-   /* Any other value enables beta memory resizing.   */
-   /*=================================================*/
+    /*=================================================*/
+    /* The symbol FALSE disables beta memory resizing. */
+    /* Any other value enables beta memory resizing.   */
+    /*=================================================*/
 
-   if (! UDFFirstArgument(context,ANY_TYPE_BITS,&theArg))
-     { return; }
+    if (!UDFFirstArgument(context, ANY_TYPE_BITS, &theArg)) { return; }
 
-   if (theArg.value == FalseSymbol(theEnv))
-     { SetBetaMemoryResizing(theEnv,false); }
-   else
-     { SetBetaMemoryResizing(theEnv,true); }
-  }
+    if (theArg.value == FalseSymbol(theEnv)) { SetBetaMemoryResizing(theEnv, false); }
+    else { SetBetaMemoryResizing(theEnv, true); }
+}
 
 /****************************************************/
 /* GetBetaMemoryResizingCommand: H/L access routine */
 /*   for the get-beta-memory-resizing command.      */
 /****************************************************/
 void GetBetaMemoryResizingCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   returnValue->lexemeValue = CreateBoolean(theEnv,GetBetaMemoryResizing(theEnv));
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    returnValue->lexemeValue = CreateBoolean(theEnv, GetBetaMemoryResizing(theEnv));
+}
 
 /******************************************/
 /* GetFocusFunction: H/L access routine   */
 /*   for the get-focus function.          */
 /******************************************/
 void GetFocusFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Defmodule *rv;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Defmodule *rv;
 
-   rv = GetFocus(theEnv);
+    rv = GetFocus(theEnv);
 
-   if (rv == NULL)
-     {
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    if (rv == NULL) {
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   returnValue->value = rv->header.name;
-  }
+    returnValue->value = rv->header.name;
+}
 
 /*********************************/
 /* GetFocus: C access routine    */
 /*   for the get-focus function. */
 /*********************************/
 Defmodule *GetFocus(
-  Environment *theEnv)
-  {
-   if (EngineData(theEnv)->CurrentFocus == NULL) return NULL;
+        Environment *theEnv) {
+    if (EngineData(theEnv)->CurrentFocus == NULL) return NULL;
 
-   return EngineData(theEnv)->CurrentFocus->theModule;
-  }
+    return EngineData(theEnv)->CurrentFocus->theModule;
+}
 
 #if DEBUGGING_FUNCTIONS
 
@@ -277,184 +267,164 @@ Defmodule *GetFocus(
 /*   for the matches command.           */
 /****************************************/
 void MatchesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   const char *ruleName, *argument;
-   Defrule *rulePtr;
-   UDFValue theArg;
-   Verbosity output;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    const char *ruleName, *argument;
+    Defrule *rulePtr;
+    UDFValue theArg;
+    Verbosity output;
+    CLIPSValue result;
 
-   if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
-     { return; }
+    if (!UDFFirstArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-   ruleName = theArg.lexemeValue->contents;
+    ruleName = theArg.lexemeValue->contents;
 
-   rulePtr = FindDefrule(theEnv,ruleName);
-   if (rulePtr == NULL)
-     {
-      CantFindItemErrorMessage(theEnv,"defrule",ruleName,true);
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    rulePtr = FindDefrule(theEnv, ruleName);
+    if (rulePtr == NULL) {
+        CantFindItemErrorMessage(theEnv, "defrule", ruleName, true);
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   if (UDFHasNextArgument(context))
-     {
-      if (! UDFNextArgument(context,SYMBOL_BIT,&theArg))
-        { return; }
+    if (UDFHasNextArgument(context)) {
+        if (!UDFNextArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-      argument = theArg.lexemeValue->contents;
-      if (strcmp(argument,"verbose") == 0)
-        { output = VERBOSE; }
-      else if (strcmp(argument,"succinct") == 0)
-        { output = SUCCINCT; }
-      else if (strcmp(argument,"terse") == 0)
-        { output = TERSE; }
-      else
-        {
-         UDFInvalidArgumentMessage(context,"symbol with value verbose, succinct, or terse");
-         returnValue->lexemeValue = FalseSymbol(theEnv);
-         return;
+        argument = theArg.lexemeValue->contents;
+        if (strcmp(argument, "verbose") == 0) { output = VERBOSE; }
+        else if (strcmp(argument, "succinct") == 0) { output = SUCCINCT; }
+        else if (strcmp(argument, "terse") == 0) { output = TERSE; }
+        else {
+            UDFInvalidArgumentMessage(context, "symbol with value verbose, succinct, or terse");
+            returnValue->lexemeValue = FalseSymbol(theEnv);
+            return;
         }
-     }
-   else
-     { output = VERBOSE; }
+    } else { output = VERBOSE; }
 
-   Matches(rulePtr,output,&result);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    Matches(rulePtr, output, &result);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /******************************/
 /* Matches: C access routine  */
 /*   for the matches command. */
 /******************************/
 void Matches(
-  Defrule *theDefrule,
-  Verbosity output,
-  CLIPSValue *returnValue)
-  {
-   Defrule *rulePtr;
-   Defrule *topDisjunct = theDefrule;
-   long joinIndex;
-   unsigned short arraySize;
-   struct joinInformation *theInfo;
-   long long alphaMatchCount = 0;
-   long long betaMatchCount = 0;
-   long long activations = 0;
-   Activation *agendaPtr;
-   Environment *theEnv = theDefrule->header.env;
+        Defrule *theDefrule,
+        Verbosity output,
+        CLIPSValue *returnValue) {
+    Defrule *rulePtr;
+    Defrule *topDisjunct = theDefrule;
+    long joinIndex;
+    unsigned short arraySize;
+    struct joinInformation *theInfo;
+    long long alphaMatchCount = 0;
+    long long betaMatchCount = 0;
+    long long activations = 0;
+    Activation *agendaPtr;
+    Environment *theEnv = theDefrule->header.env;
 
-   /*==========================*/
-   /* Set up the return value. */
-   /*==========================*/
+    /*==========================*/
+    /* Set up the return value. */
+    /*==========================*/
 
-   returnValue->value = CreateMultifield(theEnv,3L);
+    returnValue->value = CreateMultifield(theEnv, 3L);
 
-   returnValue->multifieldValue->contents[0].integerValue = SymbolData(theEnv)->Zero;
-   returnValue->multifieldValue->contents[1].integerValue = SymbolData(theEnv)->Zero;
-   returnValue->multifieldValue->contents[2].integerValue = SymbolData(theEnv)->Zero;
+    returnValue->multifieldValue->contents[0].integerValue = SymbolData(theEnv)->Zero;
+    returnValue->multifieldValue->contents[1].integerValue = SymbolData(theEnv)->Zero;
+    returnValue->multifieldValue->contents[2].integerValue = SymbolData(theEnv)->Zero;
 
-   /*=================================================*/
-   /* Loop through each of the disjuncts for the rule */
-   /*=================================================*/
+    /*=================================================*/
+    /* Loop through each of the disjuncts for the rule */
+    /*=================================================*/
 
-   for (rulePtr = topDisjunct; rulePtr != NULL; rulePtr = rulePtr->disjunct)
-     {
-      /*===============================================*/
-      /* Create the array containing the list of alpha */
-      /* join nodes (those connected to a pattern CE). */
-      /*===============================================*/
+    for (rulePtr = topDisjunct; rulePtr != NULL; rulePtr = rulePtr->disjunct) {
+        /*===============================================*/
+        /* Create the array containing the list of alpha */
+        /* join nodes (those connected to a pattern CE). */
+        /*===============================================*/
 
-      arraySize = AlphaJoinCount(theEnv,rulePtr);
+        arraySize = AlphaJoinCount(theEnv, rulePtr);
 
-      theInfo = CreateJoinArray(theEnv,arraySize);
+        theInfo = CreateJoinArray(theEnv, arraySize);
 
-      AlphaJoins(theEnv,rulePtr,arraySize,theInfo);
+        AlphaJoins(theEnv, rulePtr, arraySize, theInfo);
 
-      /*=========================*/
-      /* List the alpha matches. */
-      /*=========================*/
+        /*=========================*/
+        /* List the alpha matches. */
+        /*=========================*/
 
-      for (joinIndex = 0; joinIndex < arraySize; joinIndex++)
-        {
-         alphaMatchCount += ListAlphaMatches(theEnv,&theInfo[joinIndex],output);
-         returnValue->multifieldValue->contents[0].integerValue = CreateInteger(theEnv,alphaMatchCount);
+        for (joinIndex = 0; joinIndex < arraySize; joinIndex++) {
+            alphaMatchCount += ListAlphaMatches(theEnv, &theInfo[joinIndex], output);
+            returnValue->multifieldValue->contents[0].integerValue = CreateInteger(theEnv, alphaMatchCount);
         }
 
-      /*================================*/
-      /* Free the array of alpha joins. */
-      /*================================*/
+        /*================================*/
+        /* Free the array of alpha joins. */
+        /*================================*/
 
-      FreeJoinArray(theEnv,theInfo,arraySize);
+        FreeJoinArray(theEnv, theInfo, arraySize);
 
-      /*==============================================*/
-      /* Create the array containing the list of beta */
-      /* join nodes (joins from the right plus joins  */
-      /* connected to a pattern CE).                  */
-      /*==============================================*/
+        /*==============================================*/
+        /* Create the array containing the list of beta */
+        /* join nodes (joins from the right plus joins  */
+        /* connected to a pattern CE).                  */
+        /*==============================================*/
 
-      arraySize = BetaJoinCount(theEnv,rulePtr);
+        arraySize = BetaJoinCount(theEnv, rulePtr);
 
-      theInfo = CreateJoinArray(theEnv,arraySize);
+        theInfo = CreateJoinArray(theEnv, arraySize);
 
-      BetaJoins(theEnv,rulePtr,arraySize,theInfo);
+        BetaJoins(theEnv, rulePtr, arraySize, theInfo);
 
-      /*======================================*/
-      /* List the beta matches (for all joins */
-      /* except the first pattern CE).        */
-      /*======================================*/
+        /*======================================*/
+        /* List the beta matches (for all joins */
+        /* except the first pattern CE).        */
+        /*======================================*/
 
-      for (joinIndex = 1; joinIndex < arraySize; joinIndex++)
-        {
-         betaMatchCount += ListBetaMatches(theEnv,theInfo,joinIndex,arraySize,output);
-         returnValue->multifieldValue->contents[1].integerValue = CreateInteger(theEnv,betaMatchCount);
+        for (joinIndex = 1; joinIndex < arraySize; joinIndex++) {
+            betaMatchCount += ListBetaMatches(theEnv, theInfo, joinIndex, arraySize, output);
+            returnValue->multifieldValue->contents[1].integerValue = CreateInteger(theEnv, betaMatchCount);
         }
 
-      /*================================*/
-      /* Free the array of alpha joins. */
-      /*================================*/
+        /*================================*/
+        /* Free the array of alpha joins. */
+        /*================================*/
 
-      FreeJoinArray(theEnv,theInfo,arraySize);
-     }
+        FreeJoinArray(theEnv, theInfo, arraySize);
+    }
 
-   /*===================*/
-   /* List activations. */
-   /*===================*/
+    /*===================*/
+    /* List activations. */
+    /*===================*/
 
-   if (output == VERBOSE)
-     { WriteString(theEnv,STDOUT,"Activations\n"); }
+    if (output == VERBOSE) { WriteString(theEnv, STDOUT, "Activations\n"); }
 
-   for (agendaPtr = ((struct defruleModule *) topDisjunct->header.whichModule)->agenda;
-        agendaPtr != NULL;
-        agendaPtr = (struct activation *) GetNextActivation(theEnv,agendaPtr))
-     {
-      if (GetHaltExecution(theEnv) == true) return;
+    for (agendaPtr = ((struct defruleModule *) topDisjunct->header.whichModule)->agenda;
+         agendaPtr != NULL;
+         agendaPtr = (struct activation *) GetNextActivation(theEnv, agendaPtr)) {
+        if (GetHaltExecution(theEnv) == true) return;
 
-      if (((struct activation *) agendaPtr)->theRule->header.name == topDisjunct->header.name)
-        {
-         activations++;
+        if (((struct activation *) agendaPtr)->theRule->header.name == topDisjunct->header.name) {
+            activations++;
 
-         if (output == VERBOSE)
-           {
-            PrintPartialMatch(theEnv,STDOUT,GetActivationBasis(theEnv,agendaPtr));
-            WriteString(theEnv,STDOUT,"\n");
-           }
+            if (output == VERBOSE) {
+                PrintPartialMatch(theEnv, STDOUT, GetActivationBasis(theEnv, agendaPtr));
+                WriteString(theEnv, STDOUT, "\n");
+            }
         }
-     }
+    }
 
-   if (output == SUCCINCT)
-     {
-      WriteString(theEnv,STDOUT,"Activations: ");
-      WriteInteger(theEnv,STDOUT,activations);
-      WriteString(theEnv,STDOUT,"\n");
-     }
+    if (output == SUCCINCT) {
+        WriteString(theEnv, STDOUT, "Activations: ");
+        WriteInteger(theEnv, STDOUT, activations);
+        WriteString(theEnv, STDOUT, "\n");
+    }
 
-   if ((activations == 0) && (output == VERBOSE)) WriteString(theEnv,STDOUT," None\n");
+    if ((activations == 0) && (output == VERBOSE)) WriteString(theEnv, STDOUT, " None\n");
 
-   returnValue->multifieldValue->contents[2].integerValue = CreateInteger(theEnv,activations);
-  }
+    returnValue->multifieldValue->contents[2].integerValue = CreateInteger(theEnv, activations);
+}
 
 /****************************************************/
 /* AlphaJoinCountDriver: Driver routine to iterate  */
@@ -462,74 +432,63 @@ void Matches(
 /*   alpha joins.                                   */
 /****************************************************/
 static unsigned short AlphaJoinCountDriver(
-  Environment *theEnv,
-  struct joinNode *theJoin)
-  {
-   unsigned short alphaCount = 0;
+        Environment *theEnv,
+        struct joinNode *theJoin) {
+    unsigned short alphaCount = 0;
 
-   if (theJoin == NULL)
-     { return alphaCount; }
+    if (theJoin == NULL) { return alphaCount; }
 
-   if (theJoin->joinFromTheRight)
-     { return AlphaJoinCountDriver(theEnv,(struct joinNode *) theJoin->rightSideEntryStructure); }
-   else if (theJoin->lastLevel != NULL)
-     { alphaCount += AlphaJoinCountDriver(theEnv,theJoin->lastLevel); }
+    if (theJoin->joinFromTheRight) { return AlphaJoinCountDriver(theEnv, (struct joinNode *) theJoin->rightSideEntryStructure); }
+    else if (theJoin->lastLevel != NULL) { alphaCount += AlphaJoinCountDriver(theEnv, theJoin->lastLevel); }
 
-   alphaCount++;
+    alphaCount++;
 
-   return alphaCount;
-  }
+    return alphaCount;
+}
 
 /***********************************************/
 /* AlphaJoinCount: Returns the number of alpha */
 /*   joins associated with the specified rule. */
 /***********************************************/
 unsigned short AlphaJoinCount(
-  Environment *theEnv,
-  Defrule *theDefrule)
-  {
-   return AlphaJoinCountDriver(theEnv,theDefrule->lastJoin->lastLevel);
-  }
+        Environment *theEnv,
+        Defrule *theDefrule) {
+    return AlphaJoinCountDriver(theEnv, theDefrule->lastJoin->lastLevel);
+}
 
 /***************************************/
 /* AlphaJoinsDriver: Driver routine to */
 /*   retrieve a rule's alpha joins.    */
 /***************************************/
 static void AlphaJoinsDriver(
-  Environment *theEnv,
-  struct joinNode *theJoin,
-  unsigned short alphaIndex,
-  struct joinInformation *theInfo)
-  {
-   if (theJoin == NULL)
-     { return; }
+        Environment *theEnv,
+        struct joinNode *theJoin,
+        unsigned short alphaIndex,
+        struct joinInformation *theInfo) {
+    if (theJoin == NULL) { return; }
 
-   if (theJoin->joinFromTheRight)
-     {
-      AlphaJoinsDriver(theEnv,(struct joinNode *) theJoin->rightSideEntryStructure,alphaIndex,theInfo);
-      return;
-     }
-   else if (theJoin->lastLevel != NULL)
-     { AlphaJoinsDriver(theEnv,theJoin->lastLevel,alphaIndex-1,theInfo); }
+    if (theJoin->joinFromTheRight) {
+        AlphaJoinsDriver(theEnv, (struct joinNode *) theJoin->rightSideEntryStructure, alphaIndex, theInfo);
+        return;
+    } else if (theJoin->lastLevel != NULL) { AlphaJoinsDriver(theEnv, theJoin->lastLevel, alphaIndex - 1, theInfo); }
 
-   theInfo[alphaIndex-1].whichCE = alphaIndex;
-   theInfo[alphaIndex-1].theJoin = theJoin;
+    theInfo[alphaIndex - 1].whichCE = alphaIndex;
+    theInfo[alphaIndex - 1].theJoin = theJoin;
 
-   return;
-  }
+    return;
+}
 
 /*****************************************/
 /* AlphaJoins: Retrieves the alpha joins */
 /*   associated with the specified rule. */
 /*****************************************/
 void AlphaJoins(
-  Environment *theEnv,
-  Defrule *theDefrule,
-  unsigned short alphaCount,
-  struct joinInformation *theInfo)
-  {
-   AlphaJoinsDriver(theEnv,theDefrule->lastJoin->lastLevel,alphaCount,theInfo);
-  }
+        Environment *theEnv,
+        Defrule *theDefrule,
+        unsigned short alphaCount,
+        struct joinInformation *theInfo) {
+    AlphaJoinsDriver(theEnv, theDefrule->lastJoin->lastLevel, alphaCount, theInfo);
+}
 
 /****************************************************/
 /* BetaJoinCountDriver: Driver routine to iterate  */
@@ -537,772 +496,679 @@ void AlphaJoins(
 /*   beta joins.                                   */
 /****************************************************/
 static unsigned short BetaJoinCountDriver(
-  Environment *theEnv,
-  struct joinNode *theJoin)
-  {
-   unsigned short betaCount = 0;
+        Environment *theEnv,
+        struct joinNode *theJoin) {
+    unsigned short betaCount = 0;
 
-   if (theJoin == NULL)
-     { return betaCount; }
+    if (theJoin == NULL) { return betaCount; }
 
-   betaCount++;
+    betaCount++;
 
-   if (theJoin->joinFromTheRight)
-     { betaCount += BetaJoinCountDriver(theEnv,(struct joinNode *) theJoin->rightSideEntryStructure); }
-   else if (theJoin->lastLevel != NULL)
-     { betaCount += BetaJoinCountDriver(theEnv,theJoin->lastLevel); }
+    if (theJoin->joinFromTheRight) { betaCount += BetaJoinCountDriver(theEnv, (struct joinNode *) theJoin->rightSideEntryStructure); }
+    else if (theJoin->lastLevel != NULL) { betaCount += BetaJoinCountDriver(theEnv, theJoin->lastLevel); }
 
-   return betaCount;
-  }
+    return betaCount;
+}
 
 /***********************************************/
 /* BetaJoinCount: Returns the number of beta   */
 /*   joins associated with the specified rule. */
 /***********************************************/
 unsigned short BetaJoinCount(
-  Environment *theEnv,
-  Defrule *theDefrule)
-  {
-   return BetaJoinCountDriver(theEnv,theDefrule->lastJoin->lastLevel);
-  }
+        Environment *theEnv,
+        Defrule *theDefrule) {
+    return BetaJoinCountDriver(theEnv, theDefrule->lastJoin->lastLevel);
+}
 
 /**************************************/
 /* BetaJoinsDriver: Driver routine to */
 /*   retrieve a rule's beta joins.    */
 /**************************************/
 static void BetaJoinsDriver(
-  Environment *theEnv,
-  struct joinNode *theJoin,
-  unsigned short betaIndex,
-  struct joinInformation *theJoinInfoArray,
-  struct betaMemory *lastMemory,
-  struct joinNode *nextJoin)
-  {
-   unsigned short theCE = 0;
-   int theCount;
-   struct joinNode *tmpPtr;
+        Environment *theEnv,
+        struct joinNode *theJoin,
+        unsigned short betaIndex,
+        struct joinInformation *theJoinInfoArray,
+        struct betaMemory *lastMemory,
+        struct joinNode *nextJoin) {
+    unsigned short theCE = 0;
+    int theCount;
+    struct joinNode *tmpPtr;
 
-   if (theJoin == NULL)
-     { return; }
+    if (theJoin == NULL) { return; }
 
-   theJoinInfoArray[betaIndex-1].theJoin = theJoin;
-   theJoinInfoArray[betaIndex-1].theMemory = lastMemory;
-   theJoinInfoArray[betaIndex-1].nextJoin = nextJoin;
+    theJoinInfoArray[betaIndex - 1].theJoin = theJoin;
+    theJoinInfoArray[betaIndex - 1].theMemory = lastMemory;
+    theJoinInfoArray[betaIndex - 1].nextJoin = nextJoin;
 
-   /*===================================*/
-   /* Determine the conditional element */
-   /* index for this join.              */
-   /*===================================*/
+    /*===================================*/
+    /* Determine the conditional element */
+    /* index for this join.              */
+    /*===================================*/
 
-   for (tmpPtr = theJoin; tmpPtr != NULL; tmpPtr = tmpPtr->lastLevel)
-      { theCE++; }
+    for (tmpPtr = theJoin; tmpPtr != NULL; tmpPtr = tmpPtr->lastLevel) { theCE++; }
 
-   theJoinInfoArray[betaIndex-1].whichCE = theCE;
+    theJoinInfoArray[betaIndex - 1].whichCE = theCE;
 
-   /*==============================================*/
-   /* The end pattern in the range of patterns for */
-   /* this join is always the number of patterns   */
-   /* remaining to be encountered.                 */
-   /*==============================================*/
+    /*==============================================*/
+    /* The end pattern in the range of patterns for */
+    /* this join is always the number of patterns   */
+    /* remaining to be encountered.                 */
+    /*==============================================*/
 
-   theCount = CountPatterns(theEnv,theJoin,true);
-   theJoinInfoArray[betaIndex-1].patternEnd = theCount;
+    theCount = CountPatterns(theEnv, theJoin, true);
+    theJoinInfoArray[betaIndex - 1].patternEnd = theCount;
 
-   /*========================================================*/
-   /* Determine where the block of patterns for a CE begins. */
-   /*========================================================*/
+    /*========================================================*/
+    /* Determine where the block of patterns for a CE begins. */
+    /*========================================================*/
 
 
-   theCount = CountPatterns(theEnv,theJoin,false);
-   theJoinInfoArray[betaIndex-1].patternBegin = theCount;
+    theCount = CountPatterns(theEnv, theJoin, false);
+    theJoinInfoArray[betaIndex - 1].patternBegin = theCount;
 
-   /*==========================*/
-   /* Find the next beta join. */
-   /*==========================*/
+    /*==========================*/
+    /* Find the next beta join. */
+    /*==========================*/
 
-   if (theJoin->joinFromTheRight)
-     { BetaJoinsDriver(theEnv,(struct joinNode *) theJoin->rightSideEntryStructure,betaIndex-1,theJoinInfoArray,theJoin->rightMemory,theJoin); }
-   else if (theJoin->lastLevel != NULL)
-     { BetaJoinsDriver(theEnv,theJoin->lastLevel,betaIndex-1,theJoinInfoArray,theJoin->leftMemory,theJoin); }
+    if (theJoin->joinFromTheRight) {
+        BetaJoinsDriver(theEnv, (struct joinNode *) theJoin->rightSideEntryStructure, betaIndex - 1, theJoinInfoArray, theJoin->rightMemory,
+                        theJoin);
+    }
+    else if (theJoin->lastLevel != NULL) {
+        BetaJoinsDriver(theEnv, theJoin->lastLevel, betaIndex - 1, theJoinInfoArray, theJoin->leftMemory, theJoin);
+    }
 
-   return;
-  }
+    return;
+}
 
 /*****************************************/
 /* BetaJoins: Retrieves the beta joins   */
 /*   associated with the specified rule. */
 /*****************************************/
 void BetaJoins(
-  Environment *theEnv,
-  Defrule *theDefrule,
-  unsigned short betaArraySize,
-  struct joinInformation *theInfo)
-  {
-   BetaJoinsDriver(theEnv,theDefrule->lastJoin->lastLevel,betaArraySize,theInfo,theDefrule->lastJoin->leftMemory,theDefrule->lastJoin);
-  }
+        Environment *theEnv,
+        Defrule *theDefrule,
+        unsigned short betaArraySize,
+        struct joinInformation *theInfo) {
+    BetaJoinsDriver(theEnv, theDefrule->lastJoin->lastLevel, betaArraySize, theInfo, theDefrule->lastJoin->leftMemory,
+                    theDefrule->lastJoin);
+}
 
 /***********************************************/
 /* CreateJoinArray: Creates a join information */
 /*    array of the specified size.             */
 /***********************************************/
 struct joinInformation *CreateJoinArray(
-   Environment *theEnv,
-   unsigned short size)
-   {
+        Environment *theEnv,
+        unsigned short size) {
     if (size == 0) return NULL;
 
-    return (struct joinInformation *) genalloc(theEnv,sizeof(struct joinInformation) * size);
-   }
+    return (struct joinInformation *) genalloc(theEnv, sizeof(struct joinInformation) * size);
+}
 
 /*******************************************/
 /* FreeJoinArray: Frees a join information */
 /*    array of the specified size.         */
 /*******************************************/
 void FreeJoinArray(
-   Environment *theEnv,
-   struct joinInformation *theArray,
-   unsigned short size)
-   {
+        Environment *theEnv,
+        struct joinInformation *theArray,
+        unsigned short size) {
     if (size == 0) return;
 
-    genfree(theEnv,theArray,sizeof(struct joinInformation) * size);
-   }
+    genfree(theEnv, theArray, sizeof(struct joinInformation) * size);
+}
 
 /*********************/
 /* ListAlphaMatches: */
 /*********************/
 static long long ListAlphaMatches(
-  Environment *theEnv,
-  struct joinInformation *theInfo,
-  Verbosity output)
-  {
-   struct alphaMemoryHash *listOfHashNodes;
-   struct partialMatch *listOfMatches;
-   long long count;
-   struct joinNode *theJoin;
-   long long alphaCount = 0;
+        Environment *theEnv,
+        struct joinInformation *theInfo,
+        Verbosity output) {
+    struct alphaMemoryHash *listOfHashNodes;
+    struct partialMatch *listOfMatches;
+    long long count;
+    struct joinNode *theJoin;
+    long long alphaCount = 0;
 
-   if (GetHaltExecution(theEnv) == true)
-     { return(alphaCount); }
+    if (GetHaltExecution(theEnv) == true) { return (alphaCount); }
 
-   theJoin = theInfo->theJoin;
+    theJoin = theInfo->theJoin;
 
-   if (output == VERBOSE)
-     {
-      WriteString(theEnv,STDOUT,"Matches for Pattern ");
-      WriteInteger(theEnv,STDOUT,theInfo->whichCE);
-      WriteString(theEnv,STDOUT,"\n");
-     }
+    if (output == VERBOSE) {
+        WriteString(theEnv, STDOUT, "Matches for Pattern ");
+        WriteInteger(theEnv, STDOUT, theInfo->whichCE);
+        WriteString(theEnv, STDOUT, "\n");
+    }
 
-   if (theJoin->rightSideEntryStructure == NULL)
-     {
-      if (theJoin->rightMemory->beta[0]->children != NULL)
-        { alphaCount += 1; }
+    if (theJoin->rightSideEntryStructure == NULL) {
+        if (theJoin->rightMemory->beta[0]->children != NULL) { alphaCount += 1; }
 
-      if (output == VERBOSE)
-        {
-         if (theJoin->rightMemory->beta[0]->children != NULL)
-           { WriteString(theEnv,STDOUT,"*\n"); }
-         else
-           { WriteString(theEnv,STDOUT," None\n"); }
-        }
-      else if (output == SUCCINCT)
-        {
-         WriteString(theEnv,STDOUT,"Pattern ");
-         WriteInteger(theEnv,STDOUT,theInfo->whichCE);
-         WriteString(theEnv,STDOUT,": ");
+        if (output == VERBOSE) {
+            if (theJoin->rightMemory->beta[0]->children != NULL) { WriteString(theEnv, STDOUT, "*\n"); }
+            else { WriteString(theEnv, STDOUT, " None\n"); }
+        } else if (output == SUCCINCT) {
+            WriteString(theEnv, STDOUT, "Pattern ");
+            WriteInteger(theEnv, STDOUT, theInfo->whichCE);
+            WriteString(theEnv, STDOUT, ": ");
 
-         if (theJoin->rightMemory->beta[0]->children != NULL)
-           { WriteString(theEnv,STDOUT,"1"); }
-         else
-           { WriteString(theEnv,STDOUT,"0"); }
-         WriteString(theEnv,STDOUT,"\n");
+            if (theJoin->rightMemory->beta[0]->children != NULL) { WriteString(theEnv, STDOUT, "1"); }
+            else { WriteString(theEnv, STDOUT, "0"); }
+            WriteString(theEnv, STDOUT, "\n");
         }
 
-      return(alphaCount);
-     }
+        return (alphaCount);
+    }
 
-   listOfHashNodes =  ((struct patternNodeHeader *) theJoin->rightSideEntryStructure)->firstHash;
+    listOfHashNodes = ((struct patternNodeHeader *) theJoin->rightSideEntryStructure)->firstHash;
 
-   for (count = 0;
-        listOfHashNodes != NULL;
-        listOfHashNodes = listOfHashNodes->nextHash)
-     {
-      listOfMatches = listOfHashNodes->alphaMemory;
+    for (count = 0;
+         listOfHashNodes != NULL;
+         listOfHashNodes = listOfHashNodes->nextHash) {
+        listOfMatches = listOfHashNodes->alphaMemory;
 
-      while (listOfMatches != NULL)
-        {
-         if (GetHaltExecution(theEnv) == true)
-           { return(alphaCount); }
+        while (listOfMatches != NULL) {
+            if (GetHaltExecution(theEnv) == true) { return (alphaCount); }
 
-         count++;
-         if (output == VERBOSE)
-           {
-            PrintPartialMatch(theEnv,STDOUT,listOfMatches);
-            WriteString(theEnv,STDOUT,"\n");
-           }
-         listOfMatches = listOfMatches->nextInMemory;
+            count++;
+            if (output == VERBOSE) {
+                PrintPartialMatch(theEnv, STDOUT, listOfMatches);
+                WriteString(theEnv, STDOUT, "\n");
+            }
+            listOfMatches = listOfMatches->nextInMemory;
         }
-     }
+    }
 
-   alphaCount += count;
+    alphaCount += count;
 
-   if ((count == 0) && (output == VERBOSE)) WriteString(theEnv,STDOUT," None\n");
+    if ((count == 0) && (output == VERBOSE)) WriteString(theEnv, STDOUT, " None\n");
 
-   if (output == SUCCINCT)
-     {
-      WriteString(theEnv,STDOUT,"Pattern ");
-      WriteInteger(theEnv,STDOUT,theInfo->whichCE);
-      WriteString(theEnv,STDOUT,": ");
-      WriteInteger(theEnv,STDOUT,count);
-      WriteString(theEnv,STDOUT,"\n");
-     }
+    if (output == SUCCINCT) {
+        WriteString(theEnv, STDOUT, "Pattern ");
+        WriteInteger(theEnv, STDOUT, theInfo->whichCE);
+        WriteString(theEnv, STDOUT, ": ");
+        WriteInteger(theEnv, STDOUT, count);
+        WriteString(theEnv, STDOUT, "\n");
+    }
 
-   return(alphaCount);
-  }
+    return (alphaCount);
+}
 
 /********************/
 /* BetaHeaderString */
 /********************/
 static const char *BetaHeaderString(
-  Environment *theEnv,
-  struct joinInformation *infoArray,
-  long joinIndex,
-  long arraySize)
-  {
-   struct joinNode *theJoin;
-   struct joinInformation *theInfo;
-   long i, j, startPosition, endPosition, positionsToPrint = 0;
-   bool nestedCEs = false;
-   const char *returnString = "";
-   long lastIndex;
-   char buffer[32];
+        Environment *theEnv,
+        struct joinInformation *infoArray,
+        long joinIndex,
+        long arraySize) {
+    struct joinNode *theJoin;
+    struct joinInformation *theInfo;
+    long i, j, startPosition, endPosition, positionsToPrint = 0;
+    bool nestedCEs = false;
+    const char *returnString = "";
+    long lastIndex;
+    char buffer[32];
 
-   /*=============================================*/
-   /* Determine which joins need to be traversed. */
-   /*=============================================*/
+    /*=============================================*/
+    /* Determine which joins need to be traversed. */
+    /*=============================================*/
 
-   for (i = 0; i < arraySize; i++)
-     { infoArray[i].marked = false; }
+    for (i = 0; i < arraySize; i++) { infoArray[i].marked = false; }
 
-   theInfo = &infoArray[joinIndex];
-   theJoin = theInfo->theJoin;
-   lastIndex = joinIndex;
+    theInfo = &infoArray[joinIndex];
+    theJoin = theInfo->theJoin;
+    lastIndex = joinIndex;
 
-   while (theJoin != NULL)
-     {
-      for (i = lastIndex; i >= 0; i--)
-        {
-         if (infoArray[i].theJoin == theJoin)
-           {
-            positionsToPrint++;
-            infoArray[i].marked = true;
-            if (infoArray[i].patternBegin != infoArray[i].patternEnd)
-              { nestedCEs = true; }
-            lastIndex = i - 1;
-            break;
-           }
+    while (theJoin != NULL) {
+        for (i = lastIndex; i >= 0; i--) {
+            if (infoArray[i].theJoin == theJoin) {
+                positionsToPrint++;
+                infoArray[i].marked = true;
+                if (infoArray[i].patternBegin != infoArray[i].patternEnd) { nestedCEs = true; }
+                lastIndex = i - 1;
+                break;
+            }
         }
-      theJoin = theJoin->lastLevel;
-     }
+        theJoin = theJoin->lastLevel;
+    }
 
-   for (i = 0; i <= joinIndex; i++)
-     {
-      if (infoArray[i].marked == false) continue;
+    for (i = 0; i <= joinIndex; i++) {
+        if (infoArray[i].marked == false) continue;
 
-      positionsToPrint--;
-      startPosition = i;
-      endPosition = i;
+        positionsToPrint--;
+        startPosition = i;
+        endPosition = i;
 
-      if (infoArray[i].patternBegin == infoArray[i].patternEnd)
-        {
-         for (j = i + 1; j <= joinIndex; j++)
-           {
-            if (infoArray[j].marked == false) continue;
+        if (infoArray[i].patternBegin == infoArray[i].patternEnd) {
+            for (j = i + 1; j <= joinIndex; j++) {
+                if (infoArray[j].marked == false) continue;
 
-            if (infoArray[j].patternBegin != infoArray[j].patternEnd) break;
+                if (infoArray[j].patternBegin != infoArray[j].patternEnd) break;
 
-            positionsToPrint--;
-            i = j;
-            endPosition = j;
-           }
+                positionsToPrint--;
+                i = j;
+                endPosition = j;
+            }
         }
 
-      theInfo = &infoArray[startPosition];
+        theInfo = &infoArray[startPosition];
 
-      gensprintf(buffer,"%d",theInfo->whichCE);
-      returnString = AppendStrings(theEnv,returnString,buffer);
+        gensprintf(buffer, "%d", theInfo->whichCE);
+        returnString = AppendStrings(theEnv, returnString, buffer);
 
-      if (nestedCEs)
-        {
-         if (theInfo->patternBegin == theInfo->patternEnd)
-           {
-            returnString = AppendStrings(theEnv,returnString," (P");
-            gensprintf(buffer,"%d",theInfo->patternBegin);
-            returnString = AppendStrings(theEnv,returnString,buffer);
-            returnString = AppendStrings(theEnv,returnString,")");
-           }
-         else
-           {
-            returnString = AppendStrings(theEnv,returnString," (P");
-            gensprintf(buffer,"%d",theInfo->patternBegin);
-            returnString = AppendStrings(theEnv,returnString,buffer);
-            returnString = AppendStrings(theEnv,returnString," - P");
-            gensprintf(buffer,"%d",theInfo->patternEnd);
-            returnString = AppendStrings(theEnv,returnString,buffer);
-            returnString = AppendStrings(theEnv,returnString,")");
-           }
+        if (nestedCEs) {
+            if (theInfo->patternBegin == theInfo->patternEnd) {
+                returnString = AppendStrings(theEnv, returnString, " (P");
+                gensprintf(buffer, "%d", theInfo->patternBegin);
+                returnString = AppendStrings(theEnv, returnString, buffer);
+                returnString = AppendStrings(theEnv, returnString, ")");
+            } else {
+                returnString = AppendStrings(theEnv, returnString, " (P");
+                gensprintf(buffer, "%d", theInfo->patternBegin);
+                returnString = AppendStrings(theEnv, returnString, buffer);
+                returnString = AppendStrings(theEnv, returnString, " - P");
+                gensprintf(buffer, "%d", theInfo->patternEnd);
+                returnString = AppendStrings(theEnv, returnString, buffer);
+                returnString = AppendStrings(theEnv, returnString, ")");
+            }
         }
 
-      if (startPosition != endPosition)
-        {
-         theInfo = &infoArray[endPosition];
+        if (startPosition != endPosition) {
+            theInfo = &infoArray[endPosition];
 
-         returnString = AppendStrings(theEnv,returnString," - ");
-         gensprintf(buffer,"%d",theInfo->whichCE);
-         returnString = AppendStrings(theEnv,returnString,buffer);
+            returnString = AppendStrings(theEnv, returnString, " - ");
+            gensprintf(buffer, "%d", theInfo->whichCE);
+            returnString = AppendStrings(theEnv, returnString, buffer);
 
-         if (nestedCEs)
-           {
-            if (theInfo->patternBegin == theInfo->patternEnd)
-              {
-               returnString = AppendStrings(theEnv,returnString," (P");
-               gensprintf(buffer,"%d",theInfo->patternBegin);
-               returnString = AppendStrings(theEnv,returnString,buffer);
-               returnString = AppendStrings(theEnv,returnString,")");
-              }
-            else
-              {
-               returnString = AppendStrings(theEnv,returnString," (P");
-               gensprintf(buffer,"%d",theInfo->patternBegin);
-               returnString = AppendStrings(theEnv,returnString,buffer);
-               returnString = AppendStrings(theEnv,returnString," - P");
-               gensprintf(buffer,"%d",theInfo->patternEnd);
-               returnString = AppendStrings(theEnv,returnString,buffer);
-               returnString = AppendStrings(theEnv,returnString,")");
-              }
-           }
+            if (nestedCEs) {
+                if (theInfo->patternBegin == theInfo->patternEnd) {
+                    returnString = AppendStrings(theEnv, returnString, " (P");
+                    gensprintf(buffer, "%d", theInfo->patternBegin);
+                    returnString = AppendStrings(theEnv, returnString, buffer);
+                    returnString = AppendStrings(theEnv, returnString, ")");
+                } else {
+                    returnString = AppendStrings(theEnv, returnString, " (P");
+                    gensprintf(buffer, "%d", theInfo->patternBegin);
+                    returnString = AppendStrings(theEnv, returnString, buffer);
+                    returnString = AppendStrings(theEnv, returnString, " - P");
+                    gensprintf(buffer, "%d", theInfo->patternEnd);
+                    returnString = AppendStrings(theEnv, returnString, buffer);
+                    returnString = AppendStrings(theEnv, returnString, ")");
+                }
+            }
         }
 
-      if (positionsToPrint > 0)
-        { returnString = AppendStrings(theEnv,returnString," , "); }
-     }
+        if (positionsToPrint > 0) { returnString = AppendStrings(theEnv, returnString, " , "); }
+    }
 
-   return returnString;
-  }
+    return returnString;
+}
 
 /********************/
 /* ListBetaMatches: */
 /********************/
 static long long ListBetaMatches(
-  Environment *theEnv,
-  struct joinInformation *infoArray,
-  long joinIndex,
-  unsigned short arraySize,
-  Verbosity output)
-  {
-   long betaCount = 0;
-   struct joinInformation *theInfo;
-   unsigned long count;
+        Environment *theEnv,
+        struct joinInformation *infoArray,
+        long joinIndex,
+        unsigned short arraySize,
+        Verbosity output) {
+    long betaCount = 0;
+    struct joinInformation *theInfo;
+    unsigned long count;
 
-   if (GetHaltExecution(theEnv) == true)
-     { return(betaCount); }
+    if (GetHaltExecution(theEnv) == true) { return (betaCount); }
 
-   theInfo = &infoArray[joinIndex];
+    theInfo = &infoArray[joinIndex];
 
-   if (output == VERBOSE)
-     {
-      WriteString(theEnv,STDOUT,"Partial matches for CEs ");
-      WriteString(theEnv,STDOUT,
-                     BetaHeaderString(theEnv,infoArray,joinIndex,arraySize));
-      WriteString(theEnv,STDOUT,"\n");
-     }
+    if (output == VERBOSE) {
+        WriteString(theEnv, STDOUT, "Partial matches for CEs ");
+        WriteString(theEnv, STDOUT,
+                    BetaHeaderString(theEnv, infoArray, joinIndex, arraySize));
+        WriteString(theEnv, STDOUT, "\n");
+    }
 
-   count = PrintBetaMemory(theEnv,STDOUT,theInfo->theMemory,true,"",output);
+    count = PrintBetaMemory(theEnv, STDOUT, theInfo->theMemory, true, "", output);
 
-   betaCount += count;
+    betaCount += count;
 
-   if ((output == VERBOSE) && (count == 0))
-     { WriteString(theEnv,STDOUT," None\n"); }
-   else if (output == SUCCINCT)
-     {
-      WriteString(theEnv,STDOUT,"CEs ");
-      WriteString(theEnv,STDOUT,
-                     BetaHeaderString(theEnv,infoArray,joinIndex,arraySize));
-      WriteString(theEnv,STDOUT,": ");
-      WriteInteger(theEnv,STDOUT,betaCount);
-      WriteString(theEnv,STDOUT,"\n");
-     }
+    if ((output == VERBOSE) && (count == 0)) { WriteString(theEnv, STDOUT, " None\n"); }
+    else if (output == SUCCINCT) {
+        WriteString(theEnv, STDOUT, "CEs ");
+        WriteString(theEnv, STDOUT,
+                    BetaHeaderString(theEnv, infoArray, joinIndex, arraySize));
+        WriteString(theEnv, STDOUT, ": ");
+        WriteInteger(theEnv, STDOUT, betaCount);
+        WriteString(theEnv, STDOUT, "\n");
+    }
 
-   return betaCount;
-  }
+    return betaCount;
+}
 
 /******************/
 /* CountPatterns: */
 /******************/
 static int CountPatterns(
-  Environment *theEnv,
-  struct joinNode *theJoin,
-  bool followRight)
-  {
-   int theCount = 0;
+        Environment *theEnv,
+        struct joinNode *theJoin,
+        bool followRight) {
+    int theCount = 0;
 
-   if (theJoin == NULL) return theCount;
+    if (theJoin == NULL) return theCount;
 
-   if (theJoin->joinFromTheRight && (followRight == false))
-     { theCount++; }
+    if (theJoin->joinFromTheRight && (followRight == false)) { theCount++; }
 
-   while (theJoin != NULL)
-     {
-      if (theJoin->joinFromTheRight)
-        {
-         if (followRight)
-           { theJoin = (struct joinNode *) theJoin->rightSideEntryStructure; }
-         else
-           { theJoin = theJoin->lastLevel; }
-        }
-      else
-        {
-         theCount++;
-         theJoin = theJoin->lastLevel;
+    while (theJoin != NULL) {
+        if (theJoin->joinFromTheRight) {
+            if (followRight) { theJoin = (struct joinNode *) theJoin->rightSideEntryStructure; }
+            else { theJoin = theJoin->lastLevel; }
+        } else {
+            theCount++;
+            theJoin = theJoin->lastLevel;
         }
 
-      followRight = true;
-     }
+        followRight = true;
+    }
 
-   return theCount;
-  }
+    return theCount;
+}
 
 /*******************************************/
 /* JoinActivityCommand: H/L access routine */
 /*   for the join-activity command.        */
 /*******************************************/
 void JoinActivityCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   const char *ruleName, *argument;
-   Defrule *rulePtr;
-   UDFValue theArg;
-   int output;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    const char *ruleName, *argument;
+    Defrule *rulePtr;
+    UDFValue theArg;
+    int output;
 
-   if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
-     { return; }
+    if (!UDFFirstArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-   ruleName = theArg.lexemeValue->contents;
+    ruleName = theArg.lexemeValue->contents;
 
-   rulePtr = FindDefrule(theEnv,ruleName);
-   if (rulePtr == NULL)
-     {
-      CantFindItemErrorMessage(theEnv,"defrule",ruleName,true);
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    rulePtr = FindDefrule(theEnv, ruleName);
+    if (rulePtr == NULL) {
+        CantFindItemErrorMessage(theEnv, "defrule", ruleName, true);
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   if (UDFHasNextArgument(context))
-     {
-      if (! UDFNextArgument(context,SYMBOL_BIT,&theArg))
-        { return; }
+    if (UDFHasNextArgument(context)) {
+        if (!UDFNextArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-      argument = theArg.lexemeValue->contents;
-      if (strcmp(argument,"verbose") == 0)
-        { output = VERBOSE; }
-      else if (strcmp(argument,"succinct") == 0)
-        { output = SUCCINCT; }
-      else if (strcmp(argument,"terse") == 0)
-        { output = TERSE; }
-      else
-        {
-         UDFInvalidArgumentMessage(context,"symbol with value verbose, succinct, or terse");
-         returnValue->lexemeValue = FalseSymbol(theEnv);
-         return;
+        argument = theArg.lexemeValue->contents;
+        if (strcmp(argument, "verbose") == 0) { output = VERBOSE; }
+        else if (strcmp(argument, "succinct") == 0) { output = SUCCINCT; }
+        else if (strcmp(argument, "terse") == 0) { output = TERSE; }
+        else {
+            UDFInvalidArgumentMessage(context, "symbol with value verbose, succinct, or terse");
+            returnValue->lexemeValue = FalseSymbol(theEnv);
+            return;
         }
-     }
-   else
-     { output = VERBOSE; }
+    } else { output = VERBOSE; }
 
-   JoinActivity(theEnv,rulePtr,output,returnValue);
-  }
+    JoinActivity(theEnv, rulePtr, output, returnValue);
+}
 
 /************************************/
 /* JoinActivity: C access routine   */
 /*   for the join-activity command. */
 /************************************/
 void JoinActivity(
-  Environment *theEnv,
-  Defrule *theRule,
-  int output,
-  UDFValue *returnValue)
-  {
-   Defrule *rulePtr;
-   long disjunctCount, disjunctIndex, joinIndex;
-   unsigned short arraySize;
-   struct joinInformation *theInfo;
+        Environment *theEnv,
+        Defrule *theRule,
+        int output,
+        UDFValue *returnValue) {
+    Defrule *rulePtr;
+    long disjunctCount, disjunctIndex, joinIndex;
+    unsigned short arraySize;
+    struct joinInformation *theInfo;
 
-   /*==========================*/
-   /* Set up the return value. */
-   /*==========================*/
+    /*==========================*/
+    /* Set up the return value. */
+    /*==========================*/
 
-   returnValue->begin = 0;
-   returnValue->range = 3;
-   returnValue->value = CreateMultifield(theEnv,3L);
+    returnValue->begin = 0;
+    returnValue->range = 3;
+    returnValue->value = CreateMultifield(theEnv, 3L);
 
-   returnValue->multifieldValue->contents[0].integerValue = SymbolData(theEnv)->Zero;
-   returnValue->multifieldValue->contents[1].integerValue = SymbolData(theEnv)->Zero;
-   returnValue->multifieldValue->contents[2].integerValue = SymbolData(theEnv)->Zero;
+    returnValue->multifieldValue->contents[0].integerValue = SymbolData(theEnv)->Zero;
+    returnValue->multifieldValue->contents[1].integerValue = SymbolData(theEnv)->Zero;
+    returnValue->multifieldValue->contents[2].integerValue = SymbolData(theEnv)->Zero;
 
-   /*=================================================*/
-   /* Loop through each of the disjuncts for the rule */
-   /*=================================================*/
+    /*=================================================*/
+    /* Loop through each of the disjuncts for the rule */
+    /*=================================================*/
 
-   disjunctCount = GetDisjunctCount(theEnv,theRule);
+    disjunctCount = GetDisjunctCount(theEnv, theRule);
 
-   for (disjunctIndex = 1; disjunctIndex <= disjunctCount; disjunctIndex++)
-     {
-      rulePtr = GetNthDisjunct(theEnv,theRule,disjunctIndex);
+    for (disjunctIndex = 1; disjunctIndex <= disjunctCount; disjunctIndex++) {
+        rulePtr = GetNthDisjunct(theEnv, theRule, disjunctIndex);
 
-      /*==============================================*/
-      /* Create the array containing the list of beta */
-      /* join nodes (joins from the right plus joins  */
-      /* connected to a pattern CE).                  */
-      /*==============================================*/
+        /*==============================================*/
+        /* Create the array containing the list of beta */
+        /* join nodes (joins from the right plus joins  */
+        /* connected to a pattern CE).                  */
+        /*==============================================*/
 
-      arraySize = BetaJoinCount(theEnv,rulePtr);
+        arraySize = BetaJoinCount(theEnv, rulePtr);
 
-      theInfo = CreateJoinArray(theEnv,arraySize);
+        theInfo = CreateJoinArray(theEnv, arraySize);
 
-      BetaJoins(theEnv,rulePtr,arraySize,theInfo);
+        BetaJoins(theEnv, rulePtr, arraySize, theInfo);
 
-      /*======================================*/
-      /* List the beta matches (for all joins */
-      /* except the first pattern CE).        */
-      /*======================================*/
+        /*======================================*/
+        /* List the beta matches (for all joins */
+        /* except the first pattern CE).        */
+        /*======================================*/
 
-      for (joinIndex = 0; joinIndex < arraySize; joinIndex++)
-        { ListBetaJoinActivity(theEnv,theInfo,joinIndex,arraySize,output,returnValue); }
+        for (joinIndex = 0; joinIndex < arraySize; joinIndex++) {
+            ListBetaJoinActivity(theEnv, theInfo, joinIndex, arraySize, output, returnValue);
+        }
 
-      /*================================*/
-      /* Free the array of alpha joins. */
-      /*================================*/
+        /*================================*/
+        /* Free the array of alpha joins. */
+        /*================================*/
 
-      FreeJoinArray(theEnv,theInfo,arraySize);
-     }
-  }
+        FreeJoinArray(theEnv, theInfo, arraySize);
+    }
+}
 
 /************************/
 /* ActivityHeaderString */
 /************************/
 static const char *ActivityHeaderString(
-  Environment *theEnv,
-  struct joinInformation *infoArray,
-  long joinIndex,
-  long arraySize)
-  {
-   struct joinNode *theJoin;
-   struct joinInformation *theInfo;
-   long i;
-   bool nestedCEs = false;
-   const char *returnString = "";
-   long lastIndex;
-   char buffer[32];
+        Environment *theEnv,
+        struct joinInformation *infoArray,
+        long joinIndex,
+        long arraySize) {
+    struct joinNode *theJoin;
+    struct joinInformation *theInfo;
+    long i;
+    bool nestedCEs = false;
+    const char *returnString = "";
+    long lastIndex;
+    char buffer[32];
 
-   /*=============================================*/
-   /* Determine which joins need to be traversed. */
-   /*=============================================*/
+    /*=============================================*/
+    /* Determine which joins need to be traversed. */
+    /*=============================================*/
 
-   for (i = 0; i < arraySize; i++)
-     { infoArray[i].marked = false; }
+    for (i = 0; i < arraySize; i++) { infoArray[i].marked = false; }
 
-   theInfo = &infoArray[joinIndex];
-   theJoin = theInfo->theJoin;
-   lastIndex = joinIndex;
+    theInfo = &infoArray[joinIndex];
+    theJoin = theInfo->theJoin;
+    lastIndex = joinIndex;
 
-   while (theJoin != NULL)
-     {
-      for (i = lastIndex; i >= 0; i--)
-        {
-         if (infoArray[i].theJoin == theJoin)
-           {
-            if (infoArray[i].patternBegin != infoArray[i].patternEnd)
-              { nestedCEs = true; }
-            lastIndex = i - 1;
-            break;
-           }
+    while (theJoin != NULL) {
+        for (i = lastIndex; i >= 0; i--) {
+            if (infoArray[i].theJoin == theJoin) {
+                if (infoArray[i].patternBegin != infoArray[i].patternEnd) { nestedCEs = true; }
+                lastIndex = i - 1;
+                break;
+            }
         }
-      theJoin = theJoin->lastLevel;
-     }
+        theJoin = theJoin->lastLevel;
+    }
 
-   gensprintf(buffer,"%d",theInfo->whichCE);
-   returnString = AppendStrings(theEnv,returnString,buffer);
-   if (nestedCEs == false)
-     { return returnString; }
+    gensprintf(buffer, "%d", theInfo->whichCE);
+    returnString = AppendStrings(theEnv, returnString, buffer);
+    if (nestedCEs == false) { return returnString; }
 
-   if (theInfo->patternBegin == theInfo->patternEnd)
-     {
-      returnString = AppendStrings(theEnv,returnString," (P");
-      gensprintf(buffer,"%d",theInfo->patternBegin);
-      returnString = AppendStrings(theEnv,returnString,buffer);
+    if (theInfo->patternBegin == theInfo->patternEnd) {
+        returnString = AppendStrings(theEnv, returnString, " (P");
+        gensprintf(buffer, "%d", theInfo->patternBegin);
+        returnString = AppendStrings(theEnv, returnString, buffer);
 
-      returnString = AppendStrings(theEnv,returnString,")");
-     }
-   else
-     {
-      returnString = AppendStrings(theEnv,returnString," (P");
+        returnString = AppendStrings(theEnv, returnString, ")");
+    } else {
+        returnString = AppendStrings(theEnv, returnString, " (P");
 
-      gensprintf(buffer,"%d",theInfo->patternBegin);
-      returnString = AppendStrings(theEnv,returnString,buffer);
+        gensprintf(buffer, "%d", theInfo->patternBegin);
+        returnString = AppendStrings(theEnv, returnString, buffer);
 
-      returnString = AppendStrings(theEnv,returnString," - P");
+        returnString = AppendStrings(theEnv, returnString, " - P");
 
-      gensprintf(buffer,"%d",theInfo->patternEnd);
-      returnString = AppendStrings(theEnv,returnString,buffer);
+        gensprintf(buffer, "%d", theInfo->patternEnd);
+        returnString = AppendStrings(theEnv, returnString, buffer);
 
-      returnString = AppendStrings(theEnv,returnString,")");
-     }
+        returnString = AppendStrings(theEnv, returnString, ")");
+    }
 
-   return returnString;
-  }
+    return returnString;
+}
 
 /*************************/
 /* ListBetaJoinActivity: */
 /*************************/
 static void ListBetaJoinActivity(
-  Environment *theEnv,
-  struct joinInformation *infoArray,
-  long joinIndex,
-  long arraySize,
-  int output,
-  UDFValue *returnValue)
-  {
-   long long activity = 0;
-   long long compares, adds, deletes;
-   struct joinNode *theJoin, *nextJoin;
-   struct joinInformation *theInfo;
+        Environment *theEnv,
+        struct joinInformation *infoArray,
+        long joinIndex,
+        long arraySize,
+        int output,
+        UDFValue *returnValue) {
+    long long activity = 0;
+    long long compares, adds, deletes;
+    struct joinNode *theJoin, *nextJoin;
+    struct joinInformation *theInfo;
 
-   if (GetHaltExecution(theEnv) == true)
-     { return; }
+    if (GetHaltExecution(theEnv) == true) { return; }
 
-   theInfo = &infoArray[joinIndex];
+    theInfo = &infoArray[joinIndex];
 
-   theJoin = theInfo->theJoin;
-   nextJoin = theInfo->nextJoin;
+    theJoin = theInfo->theJoin;
+    nextJoin = theInfo->nextJoin;
 
-   compares = theJoin->memoryCompares;
-   if (theInfo->nextJoin->joinFromTheRight)
-     {
-      adds = nextJoin->memoryRightAdds;
-      deletes = nextJoin->memoryRightDeletes;
-     }
-   else
-     {
-      adds = nextJoin->memoryLeftAdds;
-      deletes = nextJoin->memoryLeftDeletes;
-     }
+    compares = theJoin->memoryCompares;
+    if (theInfo->nextJoin->joinFromTheRight) {
+        adds = nextJoin->memoryRightAdds;
+        deletes = nextJoin->memoryRightDeletes;
+    } else {
+        adds = nextJoin->memoryLeftAdds;
+        deletes = nextJoin->memoryLeftDeletes;
+    }
 
-   activity = compares + adds + deletes;
+    activity = compares + adds + deletes;
 
-   if (output == VERBOSE)
-     {
-      char buffer[100];
+    if (output == VERBOSE) {
+        char buffer[100];
 
-      WriteString(theEnv,STDOUT,"Activity for CE ");
-      WriteString(theEnv,STDOUT,
-                     ActivityHeaderString(theEnv,infoArray,joinIndex,arraySize));
-      WriteString(theEnv,STDOUT,"\n");
+        WriteString(theEnv, STDOUT, "Activity for CE ");
+        WriteString(theEnv, STDOUT,
+                    ActivityHeaderString(theEnv, infoArray, joinIndex, arraySize));
+        WriteString(theEnv, STDOUT, "\n");
 
-      sprintf(buffer,"   Compares: %10lld\n",compares);
-      WriteString(theEnv,STDOUT,buffer);
-      sprintf(buffer,"   Adds:     %10lld\n",adds);
-      WriteString(theEnv,STDOUT,buffer);
-      sprintf(buffer,"   Deletes:  %10lld\n",deletes);
-      WriteString(theEnv,STDOUT,buffer);
-     }
-   else if (output == SUCCINCT)
-     {
-      WriteString(theEnv,STDOUT,"CE ");
-      WriteString(theEnv,STDOUT,
-                     ActivityHeaderString(theEnv,infoArray,joinIndex,arraySize));
-      WriteString(theEnv,STDOUT,": ");
-      WriteInteger(theEnv,STDOUT,activity);
-      WriteString(theEnv,STDOUT,"\n");
-     }
+        sprintf(buffer, "   Compares: %10lld\n", compares);
+        WriteString(theEnv, STDOUT, buffer);
+        sprintf(buffer, "   Adds:     %10lld\n", adds);
+        WriteString(theEnv, STDOUT, buffer);
+        sprintf(buffer, "   Deletes:  %10lld\n", deletes);
+        WriteString(theEnv, STDOUT, buffer);
+    } else if (output == SUCCINCT) {
+        WriteString(theEnv, STDOUT, "CE ");
+        WriteString(theEnv, STDOUT,
+                    ActivityHeaderString(theEnv, infoArray, joinIndex, arraySize));
+        WriteString(theEnv, STDOUT, ": ");
+        WriteInteger(theEnv, STDOUT, activity);
+        WriteString(theEnv, STDOUT, "\n");
+    }
 
-   compares += returnValue->multifieldValue->contents[0].integerValue->contents;
-   adds += returnValue->multifieldValue->contents[1].integerValue->contents;
-   deletes += returnValue->multifieldValue->contents[2].integerValue->contents;
+    compares += returnValue->multifieldValue->contents[0].integerValue->contents;
+    adds += returnValue->multifieldValue->contents[1].integerValue->contents;
+    deletes += returnValue->multifieldValue->contents[2].integerValue->contents;
 
-   returnValue->multifieldValue->contents[0].integerValue = CreateInteger(theEnv,compares);
-   returnValue->multifieldValue->contents[1].integerValue = CreateInteger(theEnv,adds);
-   returnValue->multifieldValue->contents[2].integerValue = CreateInteger(theEnv,deletes);
-  }
+    returnValue->multifieldValue->contents[0].integerValue = CreateInteger(theEnv, compares);
+    returnValue->multifieldValue->contents[1].integerValue = CreateInteger(theEnv, adds);
+    returnValue->multifieldValue->contents[2].integerValue = CreateInteger(theEnv, deletes);
+}
 
 /*********************************************/
 /* JoinActivityReset: Sets the join activity */
 /*   counts for each rule back to 0.         */
 /*********************************************/
 static void JoinActivityReset(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
+        Environment *theEnv,
+        ConstructHeader *theConstruct,
+        void *buffer) {
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-   Defrule *theDefrule = (Defrule *) theConstruct;
-   struct joinNode *theJoin = theDefrule->lastJoin;
+    Defrule *theDefrule = (Defrule *) theConstruct;
+    struct joinNode *theJoin = theDefrule->lastJoin;
 
-   while (theJoin != NULL)
-     {
-      theJoin->memoryCompares = 0;
-      theJoin->memoryLeftAdds = 0;
-      theJoin->memoryRightAdds = 0;
-      theJoin->memoryLeftDeletes = 0;
-      theJoin->memoryRightDeletes = 0;
+    while (theJoin != NULL) {
+        theJoin->memoryCompares = 0;
+        theJoin->memoryLeftAdds = 0;
+        theJoin->memoryRightAdds = 0;
+        theJoin->memoryLeftDeletes = 0;
+        theJoin->memoryRightDeletes = 0;
 
-      if (theJoin->joinFromTheRight)
-        { theJoin = (struct joinNode *) theJoin->rightSideEntryStructure; }
-      else
-        { theJoin = theJoin->lastLevel; }
-     }
-  }
+        if (theJoin->joinFromTheRight) { theJoin = (struct joinNode *) theJoin->rightSideEntryStructure; }
+        else { theJoin = theJoin->lastLevel; }
+    }
+}
 
 /************************************************/
 /* JoinActivityResetCommand: H/L access routine */
 /*   for the reset-join-activity command.       */
 /************************************************/
 void JoinActivityResetCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   DoForAllConstructs(theEnv,
-                      JoinActivityReset,
-                      DefruleData(theEnv)->DefruleModuleIndex,true,NULL);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    DoForAllConstructs(theEnv,
+                       JoinActivityReset,
+                       DefruleData(theEnv)->DefruleModuleIndex, true, NULL);
+}
 
 /***************************************/
 /* TimetagFunction: H/L access routine */
 /*   for the timetag function.         */
 /***************************************/
 void TimetagFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue theArg;
-   void *ptr;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UDFValue theArg;
+    void *ptr;
 
-   ptr = GetFactOrInstanceArgument(context,1,&theArg);
+    ptr = GetFactOrInstanceArgument(context, 1, &theArg);
 
-   if (ptr == NULL)
-     {
-      returnValue->integerValue = CreateInteger(theEnv,-1LL);
-      return;
-     }
+    if (ptr == NULL) {
+        returnValue->integerValue = CreateInteger(theEnv, -1LL);
+        return;
+    }
 
-   returnValue->integerValue = CreateInteger(theEnv,(long long) ((struct patternEntity *) ptr)->timeTag);
-  }
+    returnValue->integerValue = CreateInteger(theEnv, (long long) ((struct patternEntity *) ptr)->timeTag);
+}
 
 #endif /* DEBUGGING_FUNCTIONS */
 

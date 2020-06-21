@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                 BSAVE HEADER FILE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                 BSAVE HEADER FILE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -58,67 +58,62 @@ struct BinaryItem;
 
 #include "Expression.h"
 
-struct BinaryItem
-  {
-   const char *name;
-   void (*findFunction)(Environment *);
-   void (*bloadStorageFunction)(Environment *);
-   void (*bloadFunction)(Environment *);
-   void (*clearFunction)(Environment *);
-   void (*expressionFunction)(Environment *,FILE *);
-   void (*bsaveStorageFunction)(Environment *,FILE *);
-   void (*bsaveFunction)(Environment *,FILE *);
-   int priority;
-   struct BinaryItem *next;
-  };
+struct BinaryItem {
+    const char *name;
+    void (*findFunction)(Environment *);
+    void (*bloadStorageFunction)(Environment *);
+    void (*bloadFunction)(Environment *);
+    void (*clearFunction)(Environment *);
+    void (*expressionFunction)(Environment *, FILE *);
+    void (*bsaveStorageFunction)(Environment *, FILE *);
+    void (*bsaveFunction)(Environment *, FILE *);
+    int priority;
+    struct BinaryItem *next;
+};
 
 #if BLOAD_AND_BSAVE
-typedef struct bloadcntsv
-  {
-   unsigned long val;
-   struct bloadcntsv *nxt;
-  } BLOADCNTSV;
+typedef struct bloadcntsv {
+    unsigned long val;
+    struct bloadcntsv *nxt;
+} BLOADCNTSV;
 #endif
 
-typedef struct bsave_expr
-  {
-   unsigned short type;
-   unsigned long value;
-   unsigned long arg_list;
-   unsigned long next_arg;
-  } BSAVE_EXPRESSION;
+typedef struct bsave_expr {
+    unsigned short type;
+    unsigned long value;
+    unsigned long arg_list;
+    unsigned long next_arg;
+} BSAVE_EXPRESSION;
 
 #define CONSTRUCT_HEADER_SIZE 20
 
 #define BSAVE_DATA 39
 
-struct bsaveData
-  {
-   struct BinaryItem *ListOfBinaryItems;
+struct bsaveData {
+    struct BinaryItem *ListOfBinaryItems;
 #if BLOAD_AND_BSAVE
-   BLOADCNTSV *BloadCountSaveTop;
+    BLOADCNTSV *BloadCountSaveTop;
 #endif
-  };
+};
 
 #define BsaveData(theEnv) ((struct bsaveData *) GetEnvironmentData(theEnv,BSAVE_DATA))
 
-   void                    InitializeBsaveData(Environment *);
-   void                    BsaveCommand(Environment *,UDFContext *,UDFValue *);
+void InitializeBsaveData(Environment *);
+void BsaveCommand(Environment *, UDFContext *, UDFValue *);
 #if BLOAD_AND_BSAVE
-   bool                    Bsave(Environment *,const char *);
-   void                    MarkNeededItems(Environment *,struct expr *);
-   void                    SaveBloadCount(Environment *,unsigned long);
-   void                    RestoreBloadCount(Environment *,unsigned long *);
+bool Bsave(Environment *, const char *);
+void MarkNeededItems(Environment *, struct expr *);
+void SaveBloadCount(Environment *, unsigned long);
+void RestoreBloadCount(Environment *, unsigned long *);
 #endif
-   bool                    AddBinaryItem(Environment *,const char *,int,
-                                         void (*)(Environment *),
-                                         void (*)(Environment *,FILE *),
-                                         void (*)(Environment *,FILE *),
-                                         void (*)(Environment *,FILE *),
-                                         void (*)(Environment *),
-                                         void (*)(Environment *),
-                                         void (*)(Environment *));
-
+bool AddBinaryItem(Environment *, const char *, int,
+                   void (*)(Environment *),
+                   void (*)(Environment *, FILE *),
+                   void (*)(Environment *, FILE *),
+                   void (*)(Environment *, FILE *),
+                   void (*)(Environment *),
+                   void (*)(Environment *),
+                   void (*)(Environment *));
 
 #endif /* _H_bsave */
 

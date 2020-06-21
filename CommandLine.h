@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*              COMMAND LINE HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*              COMMAND LINE HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides a set of routines for processing        */
@@ -77,49 +77,48 @@ typedef void AfterPromptFunction(Environment *);
 typedef bool BeforeCommandExecutionFunction(Environment *);
 typedef void EventFunction(Environment *);
 
-struct commandLineData
-  {
-   bool EvaluatingTopLevelCommand;
-   bool HaltCommandLoopBatch;
-   struct expr *CurrentCommand;
-   char *CommandString;
-   size_t MaximumCharacters;
-   bool ParsingTopLevelCommand;
-   const char *BannerString;
-   EventFunction *EventCallback;
-   AfterPromptFunction *AfterPromptCallback;
-   BeforeCommandExecutionFunction *BeforeCommandExecutionCallback;
-  };
+struct commandLineData {
+    bool EvaluatingTopLevelCommand;
+    bool HaltCommandLoopBatch;
+    struct expr *CurrentCommand;
+    char *CommandString;
+    size_t MaximumCharacters;
+    bool ParsingTopLevelCommand;
+    const char *BannerString;
+    EventFunction *EventCallback;
+    AfterPromptFunction *AfterPromptCallback;
+    BeforeCommandExecutionFunction *BeforeCommandExecutionCallback;
+};
 
 #define CommandLineData(theEnv) ((struct commandLineData *) GetEnvironmentData(theEnv,COMMANDLINE_DATA))
 
-   void                           InitializeCommandLineData(Environment *);
-   bool                           ExpandCommandString(Environment *,int);
-   void                           FlushCommandString(Environment *);
-   void                           SetCommandString(Environment *,const char *);
-   void                           AppendCommandString(Environment *,const char *);
-   void                           InsertCommandString(Environment *,const char *,unsigned);
-   char                          *GetCommandString(Environment *);
-   int                            CompleteCommand(const char *);
-   void                           CommandLoop(Environment *);
-   void                           CommandLoopBatch(Environment *);
-   void                           CommandLoopBatchDriver(Environment *);
-   void                           PrintPrompt(Environment *);
-   void                           PrintBanner(Environment *);
-   void                           SetAfterPromptFunction(Environment *,AfterPromptFunction *);
-   void                           SetBeforeCommandExecutionFunction(Environment *,BeforeCommandExecutionFunction *);
-   bool                           RouteCommand(Environment *,const char *,bool);
-   EventFunction                 *SetEventFunction(Environment *,EventFunction *);
-   bool                           TopLevelCommand(Environment *);
-   void                           AppendNCommandString(Environment *,const char *,unsigned);
-   void                           SetNCommandString(Environment *,const char *,unsigned);
-   const char                    *GetCommandCompletionString(Environment *,const char *,size_t);
-   bool                           ExecuteIfCommandComplete(Environment *);
-   void                           CommandLoopOnceThenBatch(Environment *);
-   bool                           CommandCompleteAndNotEmpty(Environment *);
-   void                           SetHaltCommandLoopBatch(Environment *,bool);
-   bool                           GetHaltCommandLoopBatch(Environment *);
-   void                           RerouteStdin(Environment *,int,char *[]);
+void InitializeCommandLineData(Environment *);
+bool ExpandCommandString(Environment *, int);
+void FlushCommandString(Environment *);
+void SetCommandString(Environment *, const char *);
+void AppendCommandString(Environment *, const char *);
+void InsertCommandString(Environment *, const char *, unsigned);
+char *GetCommandString(Environment *);
+int CompleteCommand(const char *);
+void CommandLoop(Environment *);
+void CommandLoopBatch(Environment *);
+void CommandLoopBatchDriver(Environment *);
+void PrintPrompt(Environment *);
+void PrintBanner(Environment *);
+void SetAfterPromptFunction(Environment *, AfterPromptFunction *);
+void SetBeforeCommandExecutionFunction(Environment *, BeforeCommandExecutionFunction *);
+bool RouteCommand(Environment *, const char *, bool);
+EventFunction *SetEventFunction(Environment *, EventFunction *);
+bool TopLevelCommand(Environment *);
+void AppendNCommandString(Environment *, const char *, unsigned);
+void SetNCommandString(Environment *, const char *, unsigned);
+const char *GetCommandCompletionString(Environment *, const char *, size_t);
+bool ExecuteIfCommandComplete(Environment *);
+void CommandLoopOnceThenBatch(Environment *);
+bool CommandCompleteAndNotEmpty(Environment *);
+void SetHaltCommandLoopBatch(Environment *, bool);
+bool GetHaltCommandLoopBatch(Environment *);
+void RerouteStdin(Environment *, int, char *[]);
 
 #endif
 

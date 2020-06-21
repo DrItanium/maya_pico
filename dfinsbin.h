@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -45,18 +45,17 @@
 
 #define DFINSBIN_DATA 25
 
-struct definstancesBinaryData
-  {
-   Definstances *DefinstancesArray;
-   unsigned long DefinstancesCount;
-   unsigned long ModuleCount;
-   DEFINSTANCES_MODULE *ModuleArray;
-  };
+struct definstancesBinaryData {
+    Definstances *DefinstancesArray;
+    unsigned long DefinstancesCount;
+    unsigned long ModuleCount;
+    DEFINSTANCES_MODULE *ModuleArray;
+};
 
 #define DefinstancesBinaryData(theEnv) ((struct definstancesBinaryData *) GetEnvironmentData(theEnv,DFINSBIN_DATA))
 
-   void                           SetupDefinstancesBload(Environment *);
-   void                          *BloadDefinstancesModuleRef(Environment *,unsigned long);
+void SetupDefinstancesBload(Environment *);
+void *BloadDefinstancesModuleRef(Environment *, unsigned long);
 
 #endif /* DEFINSTANCES_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
 

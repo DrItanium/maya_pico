@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  05/03/19            */
-   /*                                                     */
-   /*               DEFTEMPLATE HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  05/03/19            */
+/*                                                     */
+/*               DEFTEMPLATE HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -75,71 +75,66 @@ struct deftemplateModule;
 #include "Evaluation.h"
 #include "moduldef.h"
 
-struct deftemplateModule
-  {
-   struct defmoduleItemHeader header;
-  };
+struct deftemplateModule {
+    struct defmoduleItemHeader header;
+};
 
 #include "Constraint.h"
 #include "Fact.h"
 
-struct deftemplate
-  {
-   ConstructHeader header;
-   struct templateSlot *slotList;
-   unsigned int implied       : 1;
-   unsigned int watch         : 1;
-   unsigned int inScope       : 1;
-   unsigned short numberOfSlots;
-   long busyCount;
-   struct factPatternNode *patternNetwork;
-   Fact *factList;
-   Fact *lastFact;
-  };
+struct deftemplate {
+    ConstructHeader header;
+    struct templateSlot *slotList;
+    unsigned int implied: 1;
+    unsigned int watch: 1;
+    unsigned int inScope: 1;
+    unsigned short numberOfSlots;
+    long busyCount;
+    struct factPatternNode *patternNetwork;
+    Fact *factList;
+    Fact *lastFact;
+};
 
-struct templateSlot
-  {
-   CLIPSLexeme *slotName;
-   unsigned int multislot : 1;
-   unsigned int noDefault : 1;
-   unsigned int defaultPresent : 1;
-   unsigned int defaultDynamic : 1;
-   CONSTRAINT_RECORD *constraints;
-   Expression *defaultList;
-   Expression *facetList;
-   struct templateSlot *next;
-  };
-
+struct templateSlot {
+    CLIPSLexeme *slotName;
+    unsigned int multislot: 1;
+    unsigned int noDefault: 1;
+    unsigned int defaultPresent: 1;
+    unsigned int defaultDynamic: 1;
+    CONSTRAINT_RECORD *constraints;
+    Expression *defaultList;
+    Expression *facetList;
+    struct templateSlot *next;
+};
 
 #define DEFTEMPLATE_DATA 5
 
-struct deftemplateData
-  {
-   Construct *DeftemplateConstruct;
-   unsigned int DeftemplateModuleIndex;
-   struct entityRecord DeftemplatePtrRecord;
+struct deftemplateData {
+    Construct *DeftemplateConstruct;
+    unsigned int DeftemplateModuleIndex;
+    struct entityRecord DeftemplatePtrRecord;
 #if DEBUGGING_FUNCTIONS
-   int DeletedTemplateDebugFlags;
+    int DeletedTemplateDebugFlags;
 #endif
-   bool DeftemplateError;
-  };
+    bool DeftemplateError;
+};
 
 #define DeftemplateData(theEnv) ((struct deftemplateData *) GetEnvironmentData(theEnv,DEFTEMPLATE_DATA))
 
-   void                           InitializeDeftemplates(Environment *);
-   Deftemplate                   *FindDeftemplate(Environment *,const char *);
-   Deftemplate                   *FindDeftemplateInModule(Environment *,const char *);
-   Deftemplate                   *GetNextDeftemplate(Environment *,Deftemplate *);
-   bool                           DeftemplateIsDeletable(Deftemplate *);
-   Fact                          *GetNextFactInTemplate(Deftemplate *,Fact *);
-   struct deftemplateModule      *GetDeftemplateModuleItem(Environment *,Defmodule *);
-   void                           ReturnSlots(Environment *,struct templateSlot *);
-   void                           IncrementDeftemplateBusyCount(Environment *,Deftemplate *);
-   void                           DecrementDeftemplateBusyCount(Environment *,Deftemplate *);
-   void                          *CreateDeftemplateScopeMap(Environment *,Deftemplate *);
-   const char                    *DeftemplateModule(Deftemplate *);
-   const char                    *DeftemplateName(Deftemplate *);
-   const char                    *DeftemplatePPForm(Deftemplate *);
+void InitializeDeftemplates(Environment *);
+Deftemplate *FindDeftemplate(Environment *, const char *);
+Deftemplate *FindDeftemplateInModule(Environment *, const char *);
+Deftemplate *GetNextDeftemplate(Environment *, Deftemplate *);
+bool DeftemplateIsDeletable(Deftemplate *);
+Fact *GetNextFactInTemplate(Deftemplate *, Fact *);
+struct deftemplateModule *GetDeftemplateModuleItem(Environment *, Defmodule *);
+void ReturnSlots(Environment *, struct templateSlot *);
+void IncrementDeftemplateBusyCount(Environment *, Deftemplate *);
+void DecrementDeftemplateBusyCount(Environment *, Deftemplate *);
+void *CreateDeftemplateScopeMap(Environment *, Deftemplate *);
+const char *DeftemplateModule(Deftemplate *);
+const char *DeftemplateName(Deftemplate *);
+const char *DeftemplatePPForm(Deftemplate *);
 
 #endif /* _H_tmpltdef */
 

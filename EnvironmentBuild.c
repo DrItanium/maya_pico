@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  04/20/20             */
-   /*                                                     */
-   /*             ENVIRONMENT BUILD MODULE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  04/20/20             */
+/*                                                     */
+/*             ENVIRONMENT BUILD MODULE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for supporting multiple environments.   */
@@ -88,418 +88,400 @@
 /* GLOBAL EXTERNAL FUNCTION DEFINITIONS */
 /****************************************/
 
-   extern void                    UserFunctions(Environment *);
+extern void UserFunctions(Environment *);
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                    RemoveEnvironmentCleanupFunctions(struct environmentData *);
-   static Environment            *CreateEnvironmentDriver(CLIPSLexeme **,CLIPSFloat **,
-                                                          CLIPSInteger **,CLIPSBitMap **,
-                                                          CLIPSExternalAddress **,
-                                                          struct functionDefinition *);
-   static void                    SystemFunctionDefinitions(Environment *);
-   static void                    InitializeEnvironment(Environment *,CLIPSLexeme **,CLIPSFloat **,
-					   								       CLIPSInteger **,CLIPSBitMap **,
-														   CLIPSExternalAddress **,
-                                                           struct functionDefinition *);
+static void RemoveEnvironmentCleanupFunctions(struct environmentData *);
+static Environment *CreateEnvironmentDriver(CLIPSLexeme **, CLIPSFloat **,
+                                            CLIPSInteger **, CLIPSBitMap **,
+                                            CLIPSExternalAddress **,
+                                            struct functionDefinition *);
+static void SystemFunctionDefinitions(Environment *);
+static void InitializeEnvironment(Environment *, CLIPSLexeme **, CLIPSFloat **,
+                                  CLIPSInteger **, CLIPSBitMap **,
+                                  CLIPSExternalAddress **,
+                                  struct functionDefinition *);
 
 /************************************************************/
 /* CreateEnvironment: Creates an environment data structure */
 /*   and initializes its content to zero/null.              */
 /************************************************************/
-Environment *CreateEnvironment()
-  {
-   return CreateEnvironmentDriver(NULL,NULL,NULL,NULL,NULL,NULL);
-  }
+Environment *CreateEnvironment() {
+    return CreateEnvironmentDriver(NULL, NULL, NULL, NULL, NULL, NULL);
+}
 
 /**********************************************************/
 /* CreateRuntimeEnvironment: Creates an environment data  */
 /*   structure and initializes its content to zero/null.  */
 /**********************************************************/
 Environment *CreateRuntimeEnvironment(
-  CLIPSLexeme **symbolTable,
-  CLIPSFloat **floatTable,
-  CLIPSInteger **integerTable,
-  CLIPSBitMap **bitmapTable,
-  struct functionDefinition *functions)
-  {
-   return CreateEnvironmentDriver(symbolTable,floatTable,integerTable,bitmapTable,NULL,functions);
-  }
+        CLIPSLexeme **symbolTable,
+        CLIPSFloat **floatTable,
+        CLIPSInteger **integerTable,
+        CLIPSBitMap **bitmapTable,
+        struct functionDefinition *functions) {
+    return CreateEnvironmentDriver(symbolTable, floatTable, integerTable, bitmapTable, NULL, functions);
+}
 
 /*********************************************************/
 /* CreateEnvironmentDriver: Creates an environment data  */
 /*   structure and initializes its content to zero/null. */
 /*********************************************************/
 Environment *CreateEnvironmentDriver(
-  CLIPSLexeme **symbolTable,
-  CLIPSFloat **floatTable,
-  CLIPSInteger **integerTable,
-  CLIPSBitMap **bitmapTable,
-  CLIPSExternalAddress **externalAddressTable,
-  struct functionDefinition *functions)
-  {
-   struct environmentData *theEnvironment;
-   void *theData;
+        CLIPSLexeme **symbolTable,
+        CLIPSFloat **floatTable,
+        CLIPSInteger **integerTable,
+        CLIPSBitMap **bitmapTable,
+        CLIPSExternalAddress **externalAddressTable,
+        struct functionDefinition *functions) {
+    struct environmentData *theEnvironment;
+    void *theData;
 
-   theEnvironment = (struct environmentData *) malloc(sizeof(struct environmentData));
+    theEnvironment = (struct environmentData *) malloc(sizeof(struct environmentData));
 
-   if (theEnvironment == NULL)
-     {
-      printf("\n[ENVRNMNT5] Unable to create new environment.\n");
-      return NULL;
-     }
+    if (theEnvironment == NULL) {
+        printf("\n[ENVRNMNT5] Unable to create new environment.\n");
+        return NULL;
+    }
 
-   theData = malloc(sizeof(void *) * MAXIMUM_ENVIRONMENT_POSITIONS);
+    theData = malloc(sizeof(void *) * MAXIMUM_ENVIRONMENT_POSITIONS);
 
-   if (theData == NULL)
-     {
-      free(theEnvironment);
-      printf("\n[ENVRNMNT6] Unable to create environment data.\n");
-      return NULL;
-     }
+    if (theData == NULL) {
+        free(theEnvironment);
+        printf("\n[ENVRNMNT6] Unable to create environment data.\n");
+        return NULL;
+    }
 
-   memset(theData,0,sizeof(void *) * MAXIMUM_ENVIRONMENT_POSITIONS);
+    memset(theData, 0, sizeof(void *) * MAXIMUM_ENVIRONMENT_POSITIONS);
 
-   theEnvironment->initialized = false;
-   theEnvironment->theData = (void **) theData;
-   theEnvironment->next = NULL;
-   theEnvironment->listOfCleanupEnvironmentFunctions = NULL;
-   theEnvironment->context = NULL;
+    theEnvironment->initialized = false;
+    theEnvironment->theData = (void **) theData;
+    theEnvironment->next = NULL;
+    theEnvironment->listOfCleanupEnvironmentFunctions = NULL;
+    theEnvironment->context = NULL;
 
-   /*=============================================*/
-   /* Allocate storage for the cleanup functions. */
-   /*=============================================*/
+    /*=============================================*/
+    /* Allocate storage for the cleanup functions. */
+    /*=============================================*/
 
-   theData = malloc(sizeof(void (*)(struct environmentData *)) * MAXIMUM_ENVIRONMENT_POSITIONS);
+    theData = malloc(sizeof(void (*)(struct environmentData *)) * MAXIMUM_ENVIRONMENT_POSITIONS);
 
-   if (theData == NULL)
-     {
-      free(theEnvironment->theData);
-      free(theEnvironment);
-      printf("\n[ENVRNMNT7] Unable to create environment data.\n");
-      return NULL;
-     }
+    if (theData == NULL) {
+        free(theEnvironment->theData);
+        free(theEnvironment);
+        printf("\n[ENVRNMNT7] Unable to create environment data.\n");
+        return NULL;
+    }
 
-   memset(theData,0,sizeof(void (*)(struct environmentData *)) * MAXIMUM_ENVIRONMENT_POSITIONS);
-   theEnvironment->cleanupFunctions = (void (**)(Environment *))theData;
+    memset(theData, 0, sizeof(void (*)(struct environmentData *)) * MAXIMUM_ENVIRONMENT_POSITIONS);
+    theEnvironment->cleanupFunctions = (void (**)(Environment *)) theData;
 
-   InitializeEnvironment(theEnvironment,symbolTable,floatTable,integerTable,
-                         bitmapTable,externalAddressTable,functions);
-      
-   CleanCurrentGarbageFrame(theEnvironment,NULL);
+    InitializeEnvironment(theEnvironment, symbolTable, floatTable, integerTable,
+                          bitmapTable, externalAddressTable, functions);
 
-   return theEnvironment;
-  }
+    CleanCurrentGarbageFrame(theEnvironment, NULL);
+
+    return theEnvironment;
+}
 
 /**********************************************/
 /* DestroyEnvironment: Destroys the specified */
 /*   environment returning all of its memory. */
 /**********************************************/
 bool DestroyEnvironment(
-  Environment *theEnvironment)
-  {
-   struct environmentCleanupFunction *cleanupPtr;
-   int i;
-   struct memoryData *theMemData;
-   bool rv = true;
+        Environment *theEnvironment) {
+    struct environmentCleanupFunction *cleanupPtr;
+    int i;
+    struct memoryData *theMemData;
+    bool rv = true;
 
-   theMemData = MemoryData(theEnvironment);
+    theMemData = MemoryData(theEnvironment);
 
-   ReleaseMem(theEnvironment,-1);
+    ReleaseMem(theEnvironment, -1);
 
-   for (i = 0; i < MAXIMUM_ENVIRONMENT_POSITIONS; i++)
-     {
-      if (theEnvironment->cleanupFunctions[i] != NULL)
-        { (*theEnvironment->cleanupFunctions[i])(theEnvironment); }
-     }
+    for (i = 0; i < MAXIMUM_ENVIRONMENT_POSITIONS; i++) {
+        if (theEnvironment->cleanupFunctions[i] != NULL) { (*theEnvironment->cleanupFunctions[i])(theEnvironment); }
+    }
 
-   free(theEnvironment->cleanupFunctions);
+    free(theEnvironment->cleanupFunctions);
 
-   for (cleanupPtr = theEnvironment->listOfCleanupEnvironmentFunctions;
-        cleanupPtr != NULL;
-        cleanupPtr = cleanupPtr->next)
-     { (*cleanupPtr->func)(theEnvironment); }
+    for (cleanupPtr = theEnvironment->listOfCleanupEnvironmentFunctions;
+         cleanupPtr != NULL;
+         cleanupPtr = cleanupPtr->next) { (*cleanupPtr->func)(theEnvironment); }
 
-   RemoveEnvironmentCleanupFunctions(theEnvironment);
+    RemoveEnvironmentCleanupFunctions(theEnvironment);
 
-   ReleaseMem(theEnvironment,-1);
+    ReleaseMem(theEnvironment, -1);
 
-   if ((theMemData->MemoryAmount != 0) || (theMemData->MemoryCalls != 0))
-     {
-      printf("\n[ENVRNMNT8] Environment data not fully deallocated.\n");
-      printf("\n[ENVRNMNT8] MemoryAmount = %lld.\n",theMemData->MemoryAmount);
-      printf("\n[ENVRNMNT8] MemoryCalls = %lld.\n",theMemData->MemoryCalls);
-      rv = false;
-     }
+    if ((theMemData->MemoryAmount != 0) || (theMemData->MemoryCalls != 0)) {
+        printf("\n[ENVRNMNT8] Environment data not fully deallocated.\n");
+        printf("\n[ENVRNMNT8] MemoryAmount = %lld.\n", theMemData->MemoryAmount);
+        printf("\n[ENVRNMNT8] MemoryCalls = %lld.\n", theMemData->MemoryCalls);
+        rv = false;
+    }
 
 #if (MEM_TABLE_SIZE > 0)
-   free(theMemData->MemoryTable);
+    free(theMemData->MemoryTable);
 #endif
 
-   for (i = 0; i < MAXIMUM_ENVIRONMENT_POSITIONS; i++)
-     {
-      if (theEnvironment->theData[i] != NULL)
-        {
-         free(theEnvironment->theData[i]);
-         theEnvironment->theData[i] = NULL;
+    for (i = 0; i < MAXIMUM_ENVIRONMENT_POSITIONS; i++) {
+        if (theEnvironment->theData[i] != NULL) {
+            free(theEnvironment->theData[i]);
+            theEnvironment->theData[i] = NULL;
         }
-     }
+    }
 
-   free(theEnvironment->theData);
+    free(theEnvironment->theData);
 
-   free(theEnvironment);
+    free(theEnvironment);
 
-   return rv;
-  }
+    return rv;
+}
 
 /**************************************************/
 /* RemoveEnvironmentCleanupFunctions: Removes the */
 /*   list of environment cleanup functions.       */
 /**************************************************/
 static void RemoveEnvironmentCleanupFunctions(
-  struct environmentData *theEnv)
-  {
-   struct environmentCleanupFunction *nextPtr;
+        struct environmentData *theEnv) {
+    struct environmentCleanupFunction *nextPtr;
 
-   while (theEnv->listOfCleanupEnvironmentFunctions != NULL)
-     {
-      nextPtr = theEnv->listOfCleanupEnvironmentFunctions->next;
-      free(theEnv->listOfCleanupEnvironmentFunctions);
-      theEnv->listOfCleanupEnvironmentFunctions = nextPtr;
-     }
-  }
+    while (theEnv->listOfCleanupEnvironmentFunctions != NULL) {
+        nextPtr = theEnv->listOfCleanupEnvironmentFunctions->next;
+        free(theEnv->listOfCleanupEnvironmentFunctions);
+        theEnv->listOfCleanupEnvironmentFunctions = nextPtr;
+    }
+}
 
 /**************************************************/
 /* InitializeEnvironment: Performs initialization */
 /*   of the KB environment.                       */
 /**************************************************/
 static void InitializeEnvironment(
-  Environment *theEnvironment,
-  CLIPSLexeme **symbolTable,
-  CLIPSFloat **floatTable,
-  CLIPSInteger **integerTable,
-  CLIPSBitMap **bitmapTable,
-  CLIPSExternalAddress **externalAddressTable,
-  struct functionDefinition *functions)
-  {
-   /*================================================*/
-   /* Don't allow the initialization to occur twice. */
-   /*================================================*/
+        Environment *theEnvironment,
+        CLIPSLexeme **symbolTable,
+        CLIPSFloat **floatTable,
+        CLIPSInteger **integerTable,
+        CLIPSBitMap **bitmapTable,
+        CLIPSExternalAddress **externalAddressTable,
+        struct functionDefinition *functions) {
+    /*================================================*/
+    /* Don't allow the initialization to occur twice. */
+    /*================================================*/
 
-   if (theEnvironment->initialized) return;
+    if (theEnvironment->initialized) return;
 
-   /*================================*/
-   /* Initialize the memory manager. */
-   /*================================*/
+    /*================================*/
+    /* Initialize the memory manager. */
+    /*================================*/
 
-   InitializeMemory(theEnvironment);
+    InitializeMemory(theEnvironment);
 
-   /*===================================================*/
-   /* Initialize environment data for various features. */
-   /*===================================================*/
+    /*===================================================*/
+    /* Initialize environment data for various features. */
+    /*===================================================*/
 
-   InitializeCommandLineData(theEnvironment);
-   InitializeConstructData(theEnvironment);
-   InitializeEvaluationData(theEnvironment);
-   InitializeExternalFunctionData(theEnvironment);
-   InitializePrettyPrintData(theEnvironment);
-   InitializePrintUtilityData(theEnvironment);
-   InitializeScannerData(theEnvironment);
-   InitializeSystemDependentData(theEnvironment);
-   InitializeUserDataData(theEnvironment);
-   InitializeUtilityData(theEnvironment);
+    InitializeCommandLineData(theEnvironment);
+    InitializeConstructData(theEnvironment);
+    InitializeEvaluationData(theEnvironment);
+    InitializeExternalFunctionData(theEnvironment);
+    InitializePrettyPrintData(theEnvironment);
+    InitializePrintUtilityData(theEnvironment);
+    InitializeScannerData(theEnvironment);
+    InitializeSystemDependentData(theEnvironment);
+    InitializeUserDataData(theEnvironment);
+    InitializeUtilityData(theEnvironment);
 #if DEBUGGING_FUNCTIONS
-   InitializeWatchData(theEnvironment);
+    InitializeWatchData(theEnvironment);
 #endif
 
-   /*===============================================*/
-   /* Initialize the hash tables for atomic values. */
-   /*===============================================*/
+    /*===============================================*/
+    /* Initialize the hash tables for atomic values. */
+    /*===============================================*/
 
-   InitializeAtomTables(theEnvironment,symbolTable,floatTable,integerTable,bitmapTable,externalAddressTable);
+    InitializeAtomTables(theEnvironment, symbolTable, floatTable, integerTable, bitmapTable, externalAddressTable);
 
-   /*=========================================*/
-   /* Initialize file and string I/O routers. */
-   /*=========================================*/
+    /*=========================================*/
+    /* Initialize file and string I/O routers. */
+    /*=========================================*/
 
-   InitializeDefaultRouters(theEnvironment);
+    InitializeDefaultRouters(theEnvironment);
 
-   /*=========================================================*/
-   /* Initialize some system dependent features such as time. */
-   /*=========================================================*/
+    /*=========================================================*/
+    /* Initialize some system dependent features such as time. */
+    /*=========================================================*/
 
-   InitializeNonportableFeatures(theEnvironment);
+    InitializeNonportableFeatures(theEnvironment);
 
-   /*=============================================*/
-   /* Register system and user defined functions. */
-   /*=============================================*/
+    /*=============================================*/
+    /* Register system and user defined functions. */
+    /*=============================================*/
 
-   if (functions != NULL)
-     { InstallFunctionList(theEnvironment,functions); }
+    if (functions != NULL) { InstallFunctionList(theEnvironment, functions); }
 
-   SystemFunctionDefinitions(theEnvironment);
-   UserFunctions(theEnvironment);
+    SystemFunctionDefinitions(theEnvironment);
+    UserFunctions(theEnvironment);
 
-   /*====================================*/
-   /* Initialize the constraint manager. */
-   /*====================================*/
+    /*====================================*/
+    /* Initialize the constraint manager. */
+    /*====================================*/
 
-   InitializeConstraints(theEnvironment);
+    InitializeConstraints(theEnvironment);
 
-   /*==========================================*/
-   /* Initialize the expression hash table and */
-   /* pointers to specific functions.          */
-   /*==========================================*/
+    /*==========================================*/
+    /* Initialize the expression hash table and */
+    /* pointers to specific functions.          */
+    /*==========================================*/
 
-   InitExpressionData(theEnvironment);
+    InitExpressionData(theEnvironment);
 
-   /*===================================*/
-   /* Initialize the construct manager. */
-   /*===================================*/
+    /*===================================*/
+    /* Initialize the construct manager. */
+    /*===================================*/
 
-   InitializeConstructs(theEnvironment);
+    InitializeConstructs(theEnvironment);
 
-   /*=====================================*/
-   /* Initialize the defmodule construct. */
-   /*=====================================*/
+    /*=====================================*/
+    /* Initialize the defmodule construct. */
+    /*=====================================*/
 
-   AllocateDefmoduleGlobals(theEnvironment);
+    AllocateDefmoduleGlobals(theEnvironment);
 
-   /*===================================*/
-   /* Initialize the defrule construct. */
-   /*===================================*/
+    /*===================================*/
+    /* Initialize the defrule construct. */
+    /*===================================*/
 
 #if DEFRULE_CONSTRUCT
-   InitializeDefrules(theEnvironment);
+    InitializeDefrules(theEnvironment);
 #endif
 
-   /*====================================*/
-   /* Initialize the deffacts construct. */
-   /*====================================*/
+    /*====================================*/
+    /* Initialize the deffacts construct. */
+    /*====================================*/
 
 #if DEFFACTS_CONSTRUCT
-   InitializeDeffacts(theEnvironment);
+    InitializeDeffacts(theEnvironment);
 #endif
 
-   /*=====================================================*/
-   /* Initialize the defgeneric and defmethod constructs. */
-   /*=====================================================*/
+    /*=====================================================*/
+    /* Initialize the defgeneric and defmethod constructs. */
+    /*=====================================================*/
 
 #if DEFGENERIC_CONSTRUCT
-   SetupGenericFunctions(theEnvironment);
+    SetupGenericFunctions(theEnvironment);
 #endif
 
-   /*=======================================*/
-   /* Initialize the deffunction construct. */
-   /*=======================================*/
+    /*=======================================*/
+    /* Initialize the deffunction construct. */
+    /*=======================================*/
 
 #if DEFFUNCTION_CONSTRUCT
-   SetupDeffunctions(theEnvironment);
+    SetupDeffunctions(theEnvironment);
 #endif
 
-   /*=====================================*/
-   /* Initialize the defglobal construct. */
-   /*=====================================*/
+    /*=====================================*/
+    /* Initialize the defglobal construct. */
+    /*=====================================*/
 
 #if DEFGLOBAL_CONSTRUCT
-   InitializeDefglobals(theEnvironment);
+    InitializeDefglobals(theEnvironment);
 #endif
 
-   /*=======================================*/
-   /* Initialize the deftemplate construct. */
-   /*=======================================*/
+    /*=======================================*/
+    /* Initialize the deftemplate construct. */
+    /*=======================================*/
 
 #if DEFTEMPLATE_CONSTRUCT
-   InitializeDeftemplates(theEnvironment);
+    InitializeDeftemplates(theEnvironment);
 #endif
 
-   /*=============================*/
-   /* Initialize COOL constructs. */
-   /*=============================*/
+    /*=============================*/
+    /* Initialize COOL constructs. */
+    /*=============================*/
 
 #if OBJECT_SYSTEM
-   SetupObjectSystem(theEnvironment);
+    SetupObjectSystem(theEnvironment);
 #endif
 
-   /*=====================================*/
-   /* Initialize the defmodule construct. */
-   /*=====================================*/
+    /*=====================================*/
+    /* Initialize the defmodule construct. */
+    /*=====================================*/
 
-   InitializeDefmodules(theEnvironment);
+    InitializeDefmodules(theEnvironment);
 
-   /*======================================================*/
-   /* Register commands and functions for development use. */
-   /*======================================================*/
+    /*======================================================*/
+    /* Register commands and functions for development use. */
+    /*======================================================*/
 
 #if DEVELOPER
-   DeveloperCommands(theEnvironment);
+    DeveloperCommands(theEnvironment);
 #endif
 
-   /*=========================================*/
-   /* Install the special function primitives */
-   /* used by procedural code in constructs.  */
-   /*=========================================*/
+    /*=========================================*/
+    /* Install the special function primitives */
+    /* used by procedural code in constructs.  */
+    /*=========================================*/
 
-   InstallProcedurePrimitives(theEnvironment);
+    InstallProcedurePrimitives(theEnvironment);
 
-   /*========================*/
-   /* Issue a clear command. */
-   /*========================*/
+    /*========================*/
+    /* Issue a clear command. */
+    /*========================*/
 
-   Clear(theEnvironment);
+    Clear(theEnvironment);
 
-   /*=============================*/
-   /* Initialization is complete. */
-   /*=============================*/
+    /*=============================*/
+    /* Initialization is complete. */
+    /*=============================*/
 
-   theEnvironment->initialized = true;
-  }
+    theEnvironment->initialized = true;
+}
 
 /**************************************************/
 /* SystemFunctionDefinitions: Sets up definitions */
 /*   of system defined functions.                 */
 /**************************************************/
 static void SystemFunctionDefinitions(
-  Environment *theEnv)
-  {
-   ProceduralFunctionDefinitions(theEnv);
-   MiscFunctionDefinitions(theEnv);
+        Environment *theEnv) {
+    ProceduralFunctionDefinitions(theEnv);
+    MiscFunctionDefinitions(theEnv);
 
 #if IO_FUNCTIONS
-   IOFunctionDefinitions(theEnv);
+    IOFunctionDefinitions(theEnv);
 #endif
 
-   PredicateFunctionDefinitions(theEnv);
-   BasicMathFunctionDefinitions(theEnv);
-   FileCommandDefinitions(theEnv);
-   SortFunctionDefinitions(theEnv);
+    PredicateFunctionDefinitions(theEnv);
+    BasicMathFunctionDefinitions(theEnv);
+    FileCommandDefinitions(theEnv);
+    SortFunctionDefinitions(theEnv);
 
 #if DEBUGGING_FUNCTIONS
-   WatchFunctionDefinitions(theEnv);
+    WatchFunctionDefinitions(theEnv);
 #endif
 
 #if MULTIFIELD_FUNCTIONS
-   MultifieldFunctionDefinitions(theEnv);
+    MultifieldFunctionDefinitions(theEnv);
 #endif
 
 #if STRING_FUNCTIONS
-   StringFunctionDefinitions(theEnv);
+    StringFunctionDefinitions(theEnv);
 #endif
 
 #if EXTENDED_MATH_FUNCTIONS
-   ExtendedMathFunctionDefinitions(theEnv);
+    ExtendedMathFunctionDefinitions(theEnv);
 #endif
 
 #if TEXTPRO_FUNCTIONS
-   HelpFunctionDefinitions(theEnv);
+    HelpFunctionDefinitions(theEnv);
 #endif
 
 #if PROFILING_FUNCTIONS
-   ConstructProfilingFunctionDefinitions(theEnv);
+    ConstructProfilingFunctionDefinitions(theEnv);
 #endif
 
-   ParseFunctionDefinitions(theEnv);
-  }
+    ParseFunctionDefinitions(theEnv);
+}
 

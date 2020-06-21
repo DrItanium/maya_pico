@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*           MULTIFIELD_TYPE FUNCTIONS HEADER FILE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*           MULTIFIELD_TYPE FUNCTIONS HEADER FILE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -63,34 +63,34 @@
 
 #define VALUE_NOT_FOUND SIZE_MAX
 
-   void                    MultifieldFunctionDefinitions(Environment *);
+void MultifieldFunctionDefinitions(Environment *);
 #if MULTIFIELD_FUNCTIONS
-   void                    DeleteFunction(Environment *,UDFContext *,UDFValue *);
-   void                    ReplaceFunction(Environment *,UDFContext *,UDFValue *);
-   void                    DeleteMemberFunction(Environment *,UDFContext *,UDFValue *);
-   void                    ReplaceMemberFunction(Environment *,UDFContext *,UDFValue *);
-   void                    InsertFunction(Environment *,UDFContext *,UDFValue *);
-   void                    ExplodeFunction(Environment *,UDFContext *,UDFValue *);
-   void                    ImplodeFunction(Environment *,UDFContext *,UDFValue *);
-   void                    SubseqFunction(Environment *,UDFContext *,UDFValue *);
-   void                    FirstFunction(Environment *,UDFContext *,UDFValue *);
-   void                    RestFunction(Environment *,UDFContext *,UDFValue *);
-   void                    NthFunction(Environment *,UDFContext *,UDFValue *);
-   void                    SubsetpFunction(Environment *,UDFContext *,UDFValue *);
-   void                    MemberFunction(Environment *,UDFContext *,UDFValue *);
-   void                    MultifieldPrognFunction(Environment *,UDFContext *,UDFValue *);
-   void                    ForeachFunction(Environment *,UDFContext *,UDFValue *);
-   void                    GetMvPrognField(Environment *,UDFContext *,UDFValue *);
-   void                    GetMvPrognIndex(Environment *,UDFContext *,UDFValue *);
-   bool                    FindDOsInSegment(UDFValue *,unsigned int,UDFValue *,
-                                            size_t *,size_t *,size_t *,unsigned int);
+void DeleteFunction(Environment *, UDFContext *, UDFValue *);
+void ReplaceFunction(Environment *, UDFContext *, UDFValue *);
+void DeleteMemberFunction(Environment *, UDFContext *, UDFValue *);
+void ReplaceMemberFunction(Environment *, UDFContext *, UDFValue *);
+void InsertFunction(Environment *, UDFContext *, UDFValue *);
+void ExplodeFunction(Environment *, UDFContext *, UDFValue *);
+void ImplodeFunction(Environment *, UDFContext *, UDFValue *);
+void SubseqFunction(Environment *, UDFContext *, UDFValue *);
+void FirstFunction(Environment *, UDFContext *, UDFValue *);
+void RestFunction(Environment *, UDFContext *, UDFValue *);
+void NthFunction(Environment *, UDFContext *, UDFValue *);
+void SubsetpFunction(Environment *, UDFContext *, UDFValue *);
+void MemberFunction(Environment *, UDFContext *, UDFValue *);
+void MultifieldPrognFunction(Environment *, UDFContext *, UDFValue *);
+void ForeachFunction(Environment *, UDFContext *, UDFValue *);
+void GetMvPrognField(Environment *, UDFContext *, UDFValue *);
+void GetMvPrognIndex(Environment *, UDFContext *, UDFValue *);
+bool FindDOsInSegment(UDFValue *, unsigned int, UDFValue *,
+                      size_t *, size_t *, size_t *, unsigned int);
 #endif
-   bool                    ReplaceMultiValueFieldSizet(Environment *,UDFValue *,UDFValue *,
-                                                  size_t,size_t,UDFValue *,const char *);
-   bool                    InsertMultiValueField(Environment *,UDFValue *,UDFValue *,
-                                                 size_t,UDFValue *,const char *);
-   void                    MVRangeError(Environment *,long long,long long,size_t,const char *);
-   size_t                  FindValueInMultifield(UDFValue *,UDFValue *);
+bool ReplaceMultiValueFieldSizet(Environment *, UDFValue *, UDFValue *,
+                                 size_t, size_t, UDFValue *, const char *);
+bool InsertMultiValueField(Environment *, UDFValue *, UDFValue *,
+                           size_t, UDFValue *, const char *);
+void MVRangeError(Environment *, long long, long long, size_t, const char *);
+size_t FindValueInMultifield(UDFValue *, UDFValue *);
 
 #endif /* _H_multifun */
 

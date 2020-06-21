@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*           DEFMODULE BSAVE/BLOAD HEADER FILE         */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*           DEFMODULE BSAVE/BLOAD HEADER FILE         */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -38,41 +38,37 @@
 #include "modulbin.h"
 #include "cstrcbin.h"
 
+struct bsaveDefmodule {
+    struct bsaveConstructHeader header;
+    unsigned long importList;
+    unsigned long exportList;
+    unsigned long bsaveID;
+};
 
-struct bsaveDefmodule
-  {
-   struct bsaveConstructHeader header;
-   unsigned long importList;
-   unsigned long exportList;
-   unsigned long bsaveID;
-  };
+struct bsaveDefmoduleItemHeader {
+    unsigned long theModule;
+    unsigned long firstItem;
+    unsigned long lastItem;
+};
 
-struct bsaveDefmoduleItemHeader
-  {
-   unsigned long theModule;
-   unsigned long firstItem;
-   unsigned long lastItem;
-  };
-
-struct bsavePortItem
-  {
-   unsigned long moduleName;
-   unsigned long constructType;
-   unsigned long constructName;
-   unsigned long next;
-  };
+struct bsavePortItem {
+    unsigned long moduleName;
+    unsigned long constructType;
+    unsigned long constructName;
+    unsigned long next;
+};
 
 #define ModulePointer(i) ((Defmodule *) (&DefmoduleData(theEnv)->DefmoduleArray[i]))
 
-   void                           DefmoduleBinarySetup(Environment *);
-   void                           UpdateDefmoduleItemHeader
-                                                 (Environment *,struct bsaveDefmoduleItemHeader *,
-                                                  struct defmoduleItemHeader *,size_t,void *);
+void DefmoduleBinarySetup(Environment *);
+void UpdateDefmoduleItemHeader
+        (Environment *, struct bsaveDefmoduleItemHeader *,
+         struct defmoduleItemHeader *, size_t, void *);
 
 #if BLOAD_AND_BSAVE
-   void                           AssignBsaveDefmdlItemHdrVals
-                                                 (struct bsaveDefmoduleItemHeader *,
-                                                  struct defmoduleItemHeader *);
+void AssignBsaveDefmdlItemHdrVals
+        (struct bsaveDefmoduleItemHeader *,
+         struct defmoduleItemHeader *);
 #endif
 
 #endif /* _H_modulbin */

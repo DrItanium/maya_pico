@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*             DEFGLOBAL PARSER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*             DEFGLOBAL PARSER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -49,9 +49,9 @@
 
 #include "Expression.h"
 
-   bool                    ParseDefglobal(Environment *,const char *);
-   bool                    ReplaceGlobalVariable(Environment *,struct expr *);
-   void                    GlobalReferenceErrorMessage(Environment *,const char *);
+bool ParseDefglobal(Environment *, const char *);
+bool ReplaceGlobalVariable(Environment *, struct expr *);
+void GlobalReferenceErrorMessage(Environment *, const char *);
 
 #endif /* _H_globlpsr */
 

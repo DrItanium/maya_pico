@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  01/21/18            */
-   /*                                                     */
-   /*             CLASS FUNCTIONS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  01/21/18            */
+/*                                                     */
+/*             CLASS FUNCTIONS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -59,9 +59,9 @@
 #include "object.h"
 #include "Scanner.h"
 
-#define TestTraversalID(traversalRecord,id) TestBitMap(traversalRecord,id)
-#define SetTraversalID(traversalRecord,id) SetBitMap(traversalRecord,id)
-#define ClearTraversalID(traversalRecord,id) ClearBitMap(traversalRecord,id)
+#define TestTraversalID(traversalRecord, id) TestBitMap(traversalRecord,id)
+#define SetTraversalID(traversalRecord, id) SetBitMap(traversalRecord,id)
+#define ClearTraversalID(traversalRecord, id) ClearBitMap(traversalRecord,id)
 
 #define CLASS_TABLE_HASH_SIZE     167 // TBD Larger?
 #define SLOT_NAME_TABLE_HASH_SIZE 167 // TBD Larger?
@@ -71,45 +71,45 @@
 
 #define SLOT_NAME_NOT_FOUND USHRT_MAX
 
-   void                           IncrementDefclassBusyCount(Environment *,Defclass *);
-   void                           DecrementDefclassBusyCount(Environment *,Defclass *);
-   bool                           InstancesPurge(Environment *,void *);
+void IncrementDefclassBusyCount(Environment *, Defclass *);
+void DecrementDefclassBusyCount(Environment *, Defclass *);
+bool InstancesPurge(Environment *, void *);
 
-   void                           InitializeClasses(Environment *);
-   SlotDescriptor                *FindClassSlot(Defclass *,CLIPSLexeme *);
-   void                           ClassExistError(Environment *,const char *,const char *);
-   void                           DeleteClassLinks(Environment *,CLASS_LINK *);
-   void                           PrintClassName(Environment *,const char *,Defclass *,bool,bool);
+void InitializeClasses(Environment *);
+SlotDescriptor *FindClassSlot(Defclass *, CLIPSLexeme *);
+void ClassExistError(Environment *, const char *, const char *);
+void DeleteClassLinks(Environment *, CLASS_LINK *);
+void PrintClassName(Environment *, const char *, Defclass *, bool, bool);
 
 #if DEBUGGING_FUNCTIONS
-   void                           PrintPackedClassLinks(Environment *,const char *,const char *,PACKED_CLASS_LINKS *);
+void PrintPackedClassLinks(Environment *, const char *, const char *, PACKED_CLASS_LINKS *);
 #endif
 
-   void                           PutClassInTable(Environment *,Defclass *);
-   void                           RemoveClassFromTable(Environment *,Defclass *);
-   void                           AddClassLink(Environment *,PACKED_CLASS_LINKS *,Defclass *,bool,unsigned int);
-   void                           DeleteSubclassLink(Environment *,Defclass *,Defclass *);
-   void                           DeleteSuperclassLink(Environment *,Defclass *,Defclass *);
-   Defclass                      *NewClass(Environment *,CLIPSLexeme *);
-   void                           DeletePackedClassLinks(Environment *,PACKED_CLASS_LINKS *,bool);
-   void                           AssignClassID(Environment *,Defclass *);
-   SLOT_NAME                     *AddSlotName(Environment *,CLIPSLexeme *,unsigned short,bool);
-   void                           DeleteSlotName(Environment *,SLOT_NAME *);
-   void                           RemoveDefclass(Environment *,Defclass *);
-   void                           InstallClass(Environment *,Defclass *,bool);
-   void                           DestroyDefclass(Environment *,Defclass *);
+void PutClassInTable(Environment *, Defclass *);
+void RemoveClassFromTable(Environment *, Defclass *);
+void AddClassLink(Environment *, PACKED_CLASS_LINKS *, Defclass *, bool, unsigned int);
+void DeleteSubclassLink(Environment *, Defclass *, Defclass *);
+void DeleteSuperclassLink(Environment *, Defclass *, Defclass *);
+Defclass *NewClass(Environment *, CLIPSLexeme *);
+void DeletePackedClassLinks(Environment *, PACKED_CLASS_LINKS *, bool);
+void AssignClassID(Environment *, Defclass *);
+SLOT_NAME *AddSlotName(Environment *, CLIPSLexeme *, unsigned short, bool);
+void DeleteSlotName(Environment *, SLOT_NAME *);
+void RemoveDefclass(Environment *, Defclass *);
+void InstallClass(Environment *, Defclass *, bool);
+void DestroyDefclass(Environment *, Defclass *);
 
-   bool                           IsClassBeingUsed(Defclass *);
-   bool                           RemoveAllUserClasses(Environment *);
-   bool                           DeleteClassUAG(Environment *,Defclass *);
-   void                           MarkBitMapSubclasses(char *,Defclass *,int);
+bool IsClassBeingUsed(Defclass *);
+bool RemoveAllUserClasses(Environment *);
+bool DeleteClassUAG(Environment *, Defclass *);
+void MarkBitMapSubclasses(char *, Defclass *, int);
 
-   unsigned short                 FindSlotNameID(Environment *,CLIPSLexeme *);
-   CLIPSLexeme                   *FindIDSlotName(Environment *,unsigned short);
-   SLOT_NAME                     *FindIDSlotNameHash(Environment *,unsigned short); 
-   int                            GetTraversalID(Environment *);
-   void                           ReleaseTraversalID(Environment *);
-   unsigned int                   HashClass(CLIPSLexeme *);
+unsigned short FindSlotNameID(Environment *, CLIPSLexeme *);
+CLIPSLexeme *FindIDSlotName(Environment *, unsigned short);
+SLOT_NAME *FindIDSlotNameHash(Environment *, unsigned short);
+int GetTraversalID(Environment *);
+void ReleaseTraversalID(Environment *);
+unsigned int HashClass(CLIPSLexeme *);
 
 #define DEFCLASS_DATA 21
 
@@ -117,28 +117,27 @@
 
 #include "classcom.h"
 
-struct defclassData
-  {
-   Construct *DefclassConstruct;
-   unsigned DefclassModuleIndex;
-   EntityRecord DefclassEntityRecord;
-   Defclass *PrimitiveClassMap[PRIMITIVE_CLASSES];
-   Defclass **ClassIDMap;
-   Defclass **ClassTable;
-   unsigned short MaxClassID;
-   unsigned short AvailClassID;
-   SLOT_NAME **SlotNameTable;
-   CLIPSLexeme *ISA_SYMBOL;
-   CLIPSLexeme *NAME_SYMBOL;
+struct defclassData {
+    Construct *DefclassConstruct;
+    unsigned DefclassModuleIndex;
+    EntityRecord DefclassEntityRecord;
+    Defclass *PrimitiveClassMap[PRIMITIVE_CLASSES];
+    Defclass **ClassIDMap;
+    Defclass **ClassTable;
+    unsigned short MaxClassID;
+    unsigned short AvailClassID;
+    SLOT_NAME **SlotNameTable;
+    CLIPSLexeme *ISA_SYMBOL;
+    CLIPSLexeme *NAME_SYMBOL;
 #if DEBUGGING_FUNCTIONS
-   bool WatchInstances;
-   bool WatchSlots;
+    bool WatchInstances;
+    bool WatchSlots;
 #endif
-   unsigned short CTID;
-   struct token ObjectParseToken;
-   ClassDefaultsMode ClassDefaultsModeValue;
-   int newSlotID;
-  };
+    unsigned short CTID;
+    struct token ObjectParseToken;
+    ClassDefaultsMode ClassDefaultsModeValue;
+    int newSlotID;
+};
 
 #define DefclassData(theEnv) ((struct defclassData *) GetEnvironmentData(theEnv,DEFCLASS_DATA))
 

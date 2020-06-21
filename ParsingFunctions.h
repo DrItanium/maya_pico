@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*            PARSING FUNCTIONS HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*            PARSING FUNCTIONS HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Contains the code for several parsing related    */
@@ -55,9 +55,9 @@
 
 #include "Evaluation.h"
 
-   void                           ParseFunctionDefinitions(Environment *);
-   void                           CheckSyntaxFunction(Environment *,UDFContext *,UDFValue *);
-   bool                           CheckSyntax(Environment *,const char *,UDFValue *);
+void ParseFunctionDefinitions(Environment *);
+void CheckSyntaxFunction(Environment *, UDFContext *, UDFValue *);
+bool CheckSyntax(Environment *, const char *, UDFValue *);
 
 #endif /* _H_parsefun */
 

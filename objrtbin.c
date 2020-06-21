@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  02/03/18             */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  02/03/18             */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Binary Load/Save Functions Defrule               */
@@ -71,37 +71,34 @@
    ***************************************** */
 typedef unsigned long UNLN;
 
-typedef struct bsaveObjectPatternNode
-  {
-   unsigned multifieldNode : 1;
-   unsigned endSlot        : 1;
-   unsigned selector       : 1;
-   unsigned whichField     : 8;
-   unsigned short leaveFields;
-   unsigned short slotNameID;
-   unsigned long networkTest,
-        nextLevel,
-        lastLevel,
-        leftNode,
-        rightNode,
-        alphaNode;
-  } BSAVE_OBJECT_PATTERN_NODE;
+typedef struct bsaveObjectPatternNode {
+    unsigned multifieldNode: 1;
+    unsigned endSlot: 1;
+    unsigned selector: 1;
+    unsigned whichField: 8;
+    unsigned short leaveFields;
+    unsigned short slotNameID;
+    unsigned long networkTest,
+            nextLevel,
+            lastLevel,
+            leftNode,
+            rightNode,
+            alphaNode;
+} BSAVE_OBJECT_PATTERN_NODE;
 
-typedef struct bsaveObjectAlphaNode
-  {
-   struct bsavePatternNodeHeader header;
-   unsigned long classbmp,
-        slotbmp,
-        patternNode,
-        nxtInGroup,
-        nxtTerminal;
-  } BSAVE_OBJECT_ALPHA_NODE;
+typedef struct bsaveObjectAlphaNode {
+    struct bsavePatternNodeHeader header;
+    unsigned long classbmp,
+            slotbmp,
+            patternNode,
+            nxtInGroup,
+            nxtTerminal;
+} BSAVE_OBJECT_ALPHA_NODE;
 
-typedef struct bsaveClassAlphaLink
-  {
-   unsigned long alphaNode;
-   unsigned long next;
-  } BSAVE_CLASS_ALPHA_LINK;
+typedef struct bsaveClassAlphaLink {
+    unsigned long alphaNode;
+    unsigned long next;
+} BSAVE_CLASS_ALPHA_LINK;
 
 #define BsaveObjectPatternIndex(op) ((op != NULL) ? op->bsaveID : ULONG_MAX)
 #define BsaveObjectAlphaIndex(ap)   ((ap != NULL) ? ap->bsaveID : ULONG_MAX)
@@ -115,19 +112,19 @@ typedef struct bsaveClassAlphaLink
 /***************************************/
 
 #if BLOAD_AND_BSAVE
-   static void                    BsaveObjectPatternsFind(Environment *);
-   static void                    MarkDefclassItems(Environment *,struct constructHeader *,void *);
-   static void                    BsaveStorageObjectPatterns(Environment *,FILE *);
-   static void                    BsaveObjectPatterns(Environment *,FILE *);
-   static void                    BsaveAlphaLinks(Environment *,struct constructHeader *,void *);
+static void BsaveObjectPatternsFind(Environment *);
+static void MarkDefclassItems(Environment *, struct constructHeader *, void *);
+static void BsaveStorageObjectPatterns(Environment *, FILE *);
+static void BsaveObjectPatterns(Environment *, FILE *);
+static void BsaveAlphaLinks(Environment *, struct constructHeader *, void *);
 #endif
-   static void                    BloadStorageObjectPatterns(Environment *);
-   static void                    BloadObjectPatterns(Environment *);
-   static void                    UpdateAlpha(Environment *,void *,unsigned long);
-   static void                    UpdatePattern(Environment *,void *,unsigned long);
-   static void                    UpdateLink(Environment *,void *,unsigned long);
-   static void                    ClearBloadObjectPatterns(Environment *);
-   static void                    DeallocateObjectReteBinaryData(Environment *);
+static void BloadStorageObjectPatterns(Environment *);
+static void BloadObjectPatterns(Environment *);
+static void UpdateAlpha(Environment *, void *, unsigned long);
+static void UpdatePattern(Environment *, void *, unsigned long);
+static void UpdateLink(Environment *, void *, unsigned long);
+static void ClearBloadObjectPatterns(Environment *);
+static void DeallocateObjectReteBinaryData(Environment *);
 
 /* =========================================
    *****************************************
@@ -146,47 +143,46 @@ typedef struct bsaveClassAlphaLink
   NOTES        : None
  ***********************************************************/
 void SetupObjectPatternsBload(
-  Environment *theEnv)
-  {
-   AllocateEnvironmentData(theEnv,OBJECTRETEBIN_DATA,sizeof(struct objectReteBinaryData),DeallocateObjectReteBinaryData);
+        Environment *theEnv) {
+    AllocateEnvironmentData(theEnv, OBJECTRETEBIN_DATA, sizeof(struct objectReteBinaryData), DeallocateObjectReteBinaryData);
 
 #if BLOAD_AND_BSAVE
-   AddBinaryItem(theEnv,"object patterns",0,BsaveObjectPatternsFind,NULL,
-                             BsaveStorageObjectPatterns,BsaveObjectPatterns,
-                             BloadStorageObjectPatterns,BloadObjectPatterns,
-                             ClearBloadObjectPatterns);
+    AddBinaryItem(theEnv, "object patterns", 0, BsaveObjectPatternsFind, NULL,
+                  BsaveStorageObjectPatterns, BsaveObjectPatterns,
+                  BloadStorageObjectPatterns, BloadObjectPatterns,
+                  ClearBloadObjectPatterns);
 #endif
 #if BLOAD
-   AddBinaryItem(theEnv,"object patterns",0,NULL,NULL,NULL,NULL,
-                             BloadStorageObjectPatterns,BloadObjectPatterns,
-                             ClearBloadObjectPatterns);
+    AddBinaryItem(theEnv,"object patterns",0,NULL,NULL,NULL,NULL,
+                              BloadStorageObjectPatterns,BloadObjectPatterns,
+                              ClearBloadObjectPatterns);
 #endif
-  }
+}
 
 /***********************************************************/
 /* DeallocateObjectReteBinaryData: Deallocates environment */
 /*    data for object rete binary functionality.           */
 /***********************************************************/
 static void DeallocateObjectReteBinaryData(
-  Environment *theEnv)
-  {
+        Environment *theEnv) {
 #if (BLOAD || BLOAD_AND_BSAVE)
-   size_t space;
-   unsigned long i;
+    size_t space;
+    unsigned long i;
 
-   for (i = 0; i < ObjectReteBinaryData(theEnv)->AlphaNodeCount; i++)
-     { DestroyAlphaMemory(theEnv,&ObjectReteBinaryData(theEnv)->AlphaArray[i].header,false); }
+    for (i = 0; i < ObjectReteBinaryData(theEnv)->AlphaNodeCount; i++) { DestroyAlphaMemory(theEnv, &ObjectReteBinaryData(
+                theEnv)->AlphaArray[i].header, false);
+    }
 
-   space = ObjectReteBinaryData(theEnv)->AlphaNodeCount * sizeof(struct objectAlphaNode);
-   if (space != 0) genfree(theEnv,ObjectReteBinaryData(theEnv)->AlphaArray,space);
+    space = ObjectReteBinaryData(theEnv)->AlphaNodeCount * sizeof(struct objectAlphaNode);
+    if (space != 0) genfree(theEnv, ObjectReteBinaryData(theEnv)->AlphaArray, space);
 
-   space = ObjectReteBinaryData(theEnv)->PatternNodeCount * sizeof(struct objectPatternNode);
-   if (space != 0) genfree(theEnv,ObjectReteBinaryData(theEnv)->PatternArray,space);
-   
-   space = ObjectReteBinaryData(theEnv)->AlphaLinkCount * sizeof(struct classAlphaLink);
-   if (space != 0) genfree(theEnv,ObjectReteBinaryData(theEnv)->AlphaLinkArray,space);
+    space = ObjectReteBinaryData(theEnv)->PatternNodeCount * sizeof(struct objectPatternNode);
+    if (space != 0) genfree(theEnv, ObjectReteBinaryData(theEnv)->PatternArray, space);
+
+    space = ObjectReteBinaryData(theEnv)->AlphaLinkCount * sizeof(struct classAlphaLink);
+    if (space != 0) genfree(theEnv, ObjectReteBinaryData(theEnv)->AlphaLinkArray, space);
 #endif
-  }
+}
 
 /* =========================================
    *****************************************
@@ -209,48 +205,42 @@ static void DeallocateObjectReteBinaryData(
   NOTES        : None
  ***************************************************/
 static void BsaveObjectPatternsFind(
-  Environment *theEnv)
-  {
-   OBJECT_ALPHA_NODE *alphaPtr;
-   OBJECT_PATTERN_NODE *patternPtr;
+        Environment *theEnv) {
+    OBJECT_ALPHA_NODE *alphaPtr;
+    OBJECT_PATTERN_NODE *patternPtr;
 
-   SaveBloadCount(theEnv,ObjectReteBinaryData(theEnv)->AlphaNodeCount);
-   SaveBloadCount(theEnv,ObjectReteBinaryData(theEnv)->PatternNodeCount);
-   SaveBloadCount(theEnv,ObjectReteBinaryData(theEnv)->AlphaLinkCount);
+    SaveBloadCount(theEnv, ObjectReteBinaryData(theEnv)->AlphaNodeCount);
+    SaveBloadCount(theEnv, ObjectReteBinaryData(theEnv)->PatternNodeCount);
+    SaveBloadCount(theEnv, ObjectReteBinaryData(theEnv)->AlphaLinkCount);
 
-   ObjectReteBinaryData(theEnv)->AlphaLinkCount = 0L;
-   DoForAllConstructs(theEnv,MarkDefclassItems,DefclassData(theEnv)->DefclassModuleIndex,false,NULL);
+    ObjectReteBinaryData(theEnv)->AlphaLinkCount = 0L;
+    DoForAllConstructs(theEnv, MarkDefclassItems, DefclassData(theEnv)->DefclassModuleIndex, false, NULL);
 
-   ObjectReteBinaryData(theEnv)->AlphaNodeCount = 0L;
-   alphaPtr = ObjectNetworkTerminalPointer(theEnv);
-   while (alphaPtr != NULL)
-     {
-      alphaPtr->classbmp->neededBitMap = true;
-      if (alphaPtr->slotbmp != NULL)
-        alphaPtr->slotbmp->neededBitMap = true;
-      alphaPtr->bsaveID = ObjectReteBinaryData(theEnv)->AlphaNodeCount++;
-      alphaPtr = alphaPtr->nxtTerminal;
-     }
+    ObjectReteBinaryData(theEnv)->AlphaNodeCount = 0L;
+    alphaPtr = ObjectNetworkTerminalPointer(theEnv);
+    while (alphaPtr != NULL) {
+        alphaPtr->classbmp->neededBitMap = true;
+        if (alphaPtr->slotbmp != NULL)
+            alphaPtr->slotbmp->neededBitMap = true;
+        alphaPtr->bsaveID = ObjectReteBinaryData(theEnv)->AlphaNodeCount++;
+        alphaPtr = alphaPtr->nxtTerminal;
+    }
 
-   ObjectReteBinaryData(theEnv)->PatternNodeCount = 0L;
-   patternPtr = ObjectNetworkPointer(theEnv);
-   while (patternPtr != NULL)
-     {
-      patternPtr->bsaveID = ObjectReteBinaryData(theEnv)->PatternNodeCount++;
-      if (patternPtr->nextLevel == NULL)
-        {
-         while (patternPtr->rightNode == NULL)
-           {
-            patternPtr = patternPtr->lastLevel;
-            if (patternPtr == NULL)
-              return;
-           }
-         patternPtr = patternPtr->rightNode;
-        }
-      else
-        patternPtr = patternPtr->nextLevel;
-     }
-  }
+    ObjectReteBinaryData(theEnv)->PatternNodeCount = 0L;
+    patternPtr = ObjectNetworkPointer(theEnv);
+    while (patternPtr != NULL) {
+        patternPtr->bsaveID = ObjectReteBinaryData(theEnv)->PatternNodeCount++;
+        if (patternPtr->nextLevel == NULL) {
+            while (patternPtr->rightNode == NULL) {
+                patternPtr = patternPtr->lastLevel;
+                if (patternPtr == NULL)
+                    return;
+            }
+            patternPtr = patternPtr->rightNode;
+        } else
+            patternPtr = patternPtr->nextLevel;
+    }
+}
 
 /***************************************************
   NAME         : MarkDefclassItems
@@ -263,21 +253,19 @@ static void BsaveObjectPatternsFind(
   NOTES        : None
  ***************************************************/
 static void MarkDefclassItems(
-  Environment *theEnv,
-  struct constructHeader *theDefclass,
-  void *buf)
-  {
+        Environment *theEnv,
+        struct constructHeader *theDefclass,
+        void *buf) {
 #if MAC_XCD
 #pragma unused(buf)
 #endif
-   Defclass *cls = (Defclass *) theDefclass;
-   CLASS_ALPHA_LINK *alphaLink;
+    Defclass *cls = (Defclass *) theDefclass;
+    CLASS_ALPHA_LINK *alphaLink;
 
-   for (alphaLink = cls->relevant_terminal_alpha_nodes;
-        alphaLink != NULL;
-        alphaLink = alphaLink->next)
-     { alphaLink->bsaveID = ObjectReteBinaryData(theEnv)->AlphaLinkCount++; }
-  }
+    for (alphaLink = cls->relevant_terminal_alpha_nodes;
+         alphaLink != NULL;
+         alphaLink = alphaLink->next) { alphaLink->bsaveID = ObjectReteBinaryData(theEnv)->AlphaLinkCount++; }
+}
 
 /****************************************************
   NAME         : BsaveStorageObjectPatterns
@@ -291,17 +279,16 @@ static void MarkDefclassItems(
   NOTES        : None
  ****************************************************/
 static void BsaveStorageObjectPatterns(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   size_t space;
+        Environment *theEnv,
+        FILE *fp) {
+    size_t space;
 
-   space = sizeof(long) * 3;
-   GenWrite(&space,sizeof(size_t),fp);
-   GenWrite(&ObjectReteBinaryData(theEnv)->AlphaNodeCount,sizeof(long),fp);
-   GenWrite(&ObjectReteBinaryData(theEnv)->PatternNodeCount,sizeof(long),fp);
-   GenWrite(&ObjectReteBinaryData(theEnv)->AlphaLinkCount,sizeof(long),fp);
-  }
+    space = sizeof(long) * 3;
+    GenWrite(&space, sizeof(size_t), fp);
+    GenWrite(&ObjectReteBinaryData(theEnv)->AlphaNodeCount, sizeof(long), fp);
+    GenWrite(&ObjectReteBinaryData(theEnv)->PatternNodeCount, sizeof(long), fp);
+    GenWrite(&ObjectReteBinaryData(theEnv)->AlphaLinkCount, sizeof(long), fp);
+}
 
 /***************************************************
   NAME         : BsaveObjectPatterns
@@ -315,84 +302,77 @@ static void BsaveStorageObjectPatterns(
                  alignment of structues on bload
  ***************************************************/
 static void BsaveObjectPatterns(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   size_t space;
-   OBJECT_ALPHA_NODE *alphaPtr;
-   OBJECT_PATTERN_NODE *patternPtr;
-   BSAVE_OBJECT_ALPHA_NODE dummyAlpha;
-   BSAVE_OBJECT_PATTERN_NODE dummyPattern;
+        Environment *theEnv,
+        FILE *fp) {
+    size_t space;
+    OBJECT_ALPHA_NODE *alphaPtr;
+    OBJECT_PATTERN_NODE *patternPtr;
+    BSAVE_OBJECT_ALPHA_NODE dummyAlpha;
+    BSAVE_OBJECT_PATTERN_NODE dummyPattern;
 
-   space = (sizeof(BSAVE_OBJECT_ALPHA_NODE) * ObjectReteBinaryData(theEnv)->AlphaNodeCount) +
-           (sizeof(BSAVE_OBJECT_PATTERN_NODE) * ObjectReteBinaryData(theEnv)->PatternNodeCount) +
-           (sizeof(BSAVE_CLASS_ALPHA_LINK) * ObjectReteBinaryData(theEnv)->AlphaLinkCount);
-   GenWrite(&space,sizeof(size_t),fp);
+    space = (sizeof(BSAVE_OBJECT_ALPHA_NODE) * ObjectReteBinaryData(theEnv)->AlphaNodeCount) +
+            (sizeof(BSAVE_OBJECT_PATTERN_NODE) * ObjectReteBinaryData(theEnv)->PatternNodeCount) +
+            (sizeof(BSAVE_CLASS_ALPHA_LINK) * ObjectReteBinaryData(theEnv)->AlphaLinkCount);
+    GenWrite(&space, sizeof(size_t), fp);
 
-   DoForAllConstructs(theEnv,BsaveAlphaLinks,DefclassData(theEnv)->DefclassModuleIndex,false,fp);
+    DoForAllConstructs(theEnv, BsaveAlphaLinks, DefclassData(theEnv)->DefclassModuleIndex, false, fp);
 
-   /* ==========================================
-      Write out the alpha terminal pattern nodes
-      ========================================== */
-   alphaPtr = ObjectNetworkTerminalPointer(theEnv);
-   while (alphaPtr != NULL)
-     {
-      AssignBsavePatternHeaderValues(theEnv,&dummyAlpha.header,&alphaPtr->header);
-      dummyAlpha.classbmp = alphaPtr->classbmp->bucket;
-      if (alphaPtr->slotbmp != NULL)
-        dummyAlpha.slotbmp = alphaPtr->slotbmp->bucket;
-      else
-        dummyAlpha.slotbmp = ULONG_MAX;
-      dummyAlpha.patternNode = BsaveObjectPatternIndex(alphaPtr->patternNode);
-      dummyAlpha.nxtInGroup = BsaveObjectAlphaIndex(alphaPtr->nxtInGroup);
-      dummyAlpha.nxtTerminal = BsaveObjectAlphaIndex(alphaPtr->nxtTerminal);
-      GenWrite(&dummyAlpha,sizeof(BSAVE_OBJECT_ALPHA_NODE),fp);
-      alphaPtr = alphaPtr->nxtTerminal;
-     }
+    /* ==========================================
+       Write out the alpha terminal pattern nodes
+       ========================================== */
+    alphaPtr = ObjectNetworkTerminalPointer(theEnv);
+    while (alphaPtr != NULL) {
+        AssignBsavePatternHeaderValues(theEnv, &dummyAlpha.header, &alphaPtr->header);
+        dummyAlpha.classbmp = alphaPtr->classbmp->bucket;
+        if (alphaPtr->slotbmp != NULL)
+            dummyAlpha.slotbmp = alphaPtr->slotbmp->bucket;
+        else
+            dummyAlpha.slotbmp = ULONG_MAX;
+        dummyAlpha.patternNode = BsaveObjectPatternIndex(alphaPtr->patternNode);
+        dummyAlpha.nxtInGroup = BsaveObjectAlphaIndex(alphaPtr->nxtInGroup);
+        dummyAlpha.nxtTerminal = BsaveObjectAlphaIndex(alphaPtr->nxtTerminal);
+        GenWrite(&dummyAlpha, sizeof(BSAVE_OBJECT_ALPHA_NODE), fp);
+        alphaPtr = alphaPtr->nxtTerminal;
+    }
 
-   /* ========================================
-      Write out the intermediate pattern nodes
-      ======================================== */
-   patternPtr = ObjectNetworkPointer(theEnv);
-   while (patternPtr != NULL)
-     {
-      dummyPattern.multifieldNode = patternPtr->multifieldNode;
-      dummyPattern.whichField = patternPtr->whichField;
-      dummyPattern.leaveFields = patternPtr->leaveFields;
-      dummyPattern.endSlot = patternPtr->endSlot;
-      dummyPattern.selector = patternPtr->selector;
-      dummyPattern.slotNameID = patternPtr->slotNameID;
-      dummyPattern.networkTest = HashedExpressionIndex(theEnv,patternPtr->networkTest);
-      dummyPattern.nextLevel = BsaveObjectPatternIndex(patternPtr->nextLevel);
-      dummyPattern.lastLevel = BsaveObjectPatternIndex(patternPtr->lastLevel);
-      dummyPattern.leftNode = BsaveObjectPatternIndex(patternPtr->leftNode);
-      dummyPattern.rightNode = BsaveObjectPatternIndex(patternPtr->rightNode);
-      dummyPattern.alphaNode = BsaveObjectAlphaIndex(patternPtr->alphaNode);
-      GenWrite(&dummyPattern,sizeof(BSAVE_OBJECT_PATTERN_NODE),fp);
+    /* ========================================
+       Write out the intermediate pattern nodes
+       ======================================== */
+    patternPtr = ObjectNetworkPointer(theEnv);
+    while (patternPtr != NULL) {
+        dummyPattern.multifieldNode = patternPtr->multifieldNode;
+        dummyPattern.whichField = patternPtr->whichField;
+        dummyPattern.leaveFields = patternPtr->leaveFields;
+        dummyPattern.endSlot = patternPtr->endSlot;
+        dummyPattern.selector = patternPtr->selector;
+        dummyPattern.slotNameID = patternPtr->slotNameID;
+        dummyPattern.networkTest = HashedExpressionIndex(theEnv, patternPtr->networkTest);
+        dummyPattern.nextLevel = BsaveObjectPatternIndex(patternPtr->nextLevel);
+        dummyPattern.lastLevel = BsaveObjectPatternIndex(patternPtr->lastLevel);
+        dummyPattern.leftNode = BsaveObjectPatternIndex(patternPtr->leftNode);
+        dummyPattern.rightNode = BsaveObjectPatternIndex(patternPtr->rightNode);
+        dummyPattern.alphaNode = BsaveObjectAlphaIndex(patternPtr->alphaNode);
+        GenWrite(&dummyPattern, sizeof(BSAVE_OBJECT_PATTERN_NODE), fp);
 
-      if (patternPtr->nextLevel == NULL)
-        {
-         while (patternPtr->rightNode == NULL)
-           {
-            patternPtr = patternPtr->lastLevel;
-            if (patternPtr == NULL)
-              {
-               RestoreBloadCount(theEnv,&ObjectReteBinaryData(theEnv)->AlphaNodeCount);
-               RestoreBloadCount(theEnv,&ObjectReteBinaryData(theEnv)->PatternNodeCount);
-               RestoreBloadCount(theEnv,&ObjectReteBinaryData(theEnv)->AlphaLinkCount);
-               return;
-              }
-           }
-         patternPtr = patternPtr->rightNode;
-        }
-      else
-        patternPtr = patternPtr->nextLevel;
-     }
+        if (patternPtr->nextLevel == NULL) {
+            while (patternPtr->rightNode == NULL) {
+                patternPtr = patternPtr->lastLevel;
+                if (patternPtr == NULL) {
+                    RestoreBloadCount(theEnv, &ObjectReteBinaryData(theEnv)->AlphaNodeCount);
+                    RestoreBloadCount(theEnv, &ObjectReteBinaryData(theEnv)->PatternNodeCount);
+                    RestoreBloadCount(theEnv, &ObjectReteBinaryData(theEnv)->AlphaLinkCount);
+                    return;
+                }
+            }
+            patternPtr = patternPtr->rightNode;
+        } else
+            patternPtr = patternPtr->nextLevel;
+    }
 
-   RestoreBloadCount(theEnv,&ObjectReteBinaryData(theEnv)->AlphaNodeCount);
-   RestoreBloadCount(theEnv,&ObjectReteBinaryData(theEnv)->PatternNodeCount);
-   RestoreBloadCount(theEnv,&ObjectReteBinaryData(theEnv)->AlphaLinkCount);
-  }
+    RestoreBloadCount(theEnv, &ObjectReteBinaryData(theEnv)->AlphaNodeCount);
+    RestoreBloadCount(theEnv, &ObjectReteBinaryData(theEnv)->PatternNodeCount);
+    RestoreBloadCount(theEnv, &ObjectReteBinaryData(theEnv)->AlphaLinkCount);
+}
 
 /***************************************************
   NAME         : BsaveAlphaLinks
@@ -404,28 +384,24 @@ static void BsaveObjectPatterns(
   NOTES        : None
  ***************************************************/
 static void BsaveAlphaLinks(
-  Environment *theEnv,
-  struct constructHeader *theDefclass,
-  void *buf)
-  {
-   Defclass *cls = (Defclass *) theDefclass;
-   BSAVE_CLASS_ALPHA_LINK dummy_alpha_link;
-   CLASS_ALPHA_LINK *alphaLink;
+        Environment *theEnv,
+        struct constructHeader *theDefclass,
+        void *buf) {
+    Defclass *cls = (Defclass *) theDefclass;
+    BSAVE_CLASS_ALPHA_LINK dummy_alpha_link;
+    CLASS_ALPHA_LINK *alphaLink;
 
-   for (alphaLink = cls->relevant_terminal_alpha_nodes;
-        alphaLink != NULL;
-        alphaLink = alphaLink->next)
-     {
-      dummy_alpha_link.alphaNode = alphaLink->alphaNode->bsaveID;
-      
-      if (alphaLink->next != NULL)
-       { dummy_alpha_link.next = alphaLink->next->bsaveID; }
-      else
-        { dummy_alpha_link.next = ULONG_MAX; }
+    for (alphaLink = cls->relevant_terminal_alpha_nodes;
+         alphaLink != NULL;
+         alphaLink = alphaLink->next) {
+        dummy_alpha_link.alphaNode = alphaLink->alphaNode->bsaveID;
 
-      GenWrite((void *) &dummy_alpha_link,sizeof(BSAVE_CLASS_ALPHA_LINK),(FILE *) buf);
-     }
-  }
+        if (alphaLink->next != NULL) { dummy_alpha_link.next = alphaLink->next->bsaveID; }
+        else { dummy_alpha_link.next = ULONG_MAX; }
+
+        GenWrite((void *) &dummy_alpha_link, sizeof(BSAVE_CLASS_ALPHA_LINK), (FILE *) buf);
+    }
+}
 
 #endif
 
@@ -440,41 +416,37 @@ static void BsaveAlphaLinks(
   NOTES        : None
  ***************************************************/
 static void BloadStorageObjectPatterns(
-  Environment *theEnv)
-  {
-   size_t space;
-   unsigned long counts[3];
+        Environment *theEnv) {
+    size_t space;
+    unsigned long counts[3];
 
-   GenReadBinary(theEnv,&space,sizeof(size_t));
-   GenReadBinary(theEnv,counts,space);
-   ObjectReteBinaryData(theEnv)->AlphaNodeCount = counts[0];
-   ObjectReteBinaryData(theEnv)->PatternNodeCount = counts[1];
-   ObjectReteBinaryData(theEnv)->AlphaLinkCount = counts[2];
+    GenReadBinary(theEnv, &space, sizeof(size_t));
+    GenReadBinary(theEnv, counts, space);
+    ObjectReteBinaryData(theEnv)->AlphaNodeCount = counts[0];
+    ObjectReteBinaryData(theEnv)->PatternNodeCount = counts[1];
+    ObjectReteBinaryData(theEnv)->AlphaLinkCount = counts[2];
 
-   if (ObjectReteBinaryData(theEnv)->AlphaNodeCount == 0L)
-     ObjectReteBinaryData(theEnv)->AlphaArray = NULL;
-   else
-     {
-      space = (ObjectReteBinaryData(theEnv)->AlphaNodeCount * sizeof(OBJECT_ALPHA_NODE));
-      ObjectReteBinaryData(theEnv)->AlphaArray = (OBJECT_ALPHA_NODE *) genalloc(theEnv,space);
-     }
-     
-   if (ObjectReteBinaryData(theEnv)->PatternNodeCount == 0L)
-     ObjectReteBinaryData(theEnv)->PatternArray = NULL;
-   else
-     {
-      space = (ObjectReteBinaryData(theEnv)->PatternNodeCount * sizeof(OBJECT_PATTERN_NODE));
-      ObjectReteBinaryData(theEnv)->PatternArray = (OBJECT_PATTERN_NODE *) genalloc(theEnv,space);
-     }
+    if (ObjectReteBinaryData(theEnv)->AlphaNodeCount == 0L)
+        ObjectReteBinaryData(theEnv)->AlphaArray = NULL;
+    else {
+        space = (ObjectReteBinaryData(theEnv)->AlphaNodeCount * sizeof(OBJECT_ALPHA_NODE));
+        ObjectReteBinaryData(theEnv)->AlphaArray = (OBJECT_ALPHA_NODE *) genalloc(theEnv, space);
+    }
 
-   if (ObjectReteBinaryData(theEnv)->AlphaLinkCount == 0L)
-     ObjectReteBinaryData(theEnv)->AlphaLinkArray = NULL;
-   else
-     {
-      space = (ObjectReteBinaryData(theEnv)->AlphaLinkCount * sizeof(CLASS_ALPHA_LINK));
-      ObjectReteBinaryData(theEnv)->AlphaLinkArray = (CLASS_ALPHA_LINK *) genalloc(theEnv,space);
-     }
-  }
+    if (ObjectReteBinaryData(theEnv)->PatternNodeCount == 0L)
+        ObjectReteBinaryData(theEnv)->PatternArray = NULL;
+    else {
+        space = (ObjectReteBinaryData(theEnv)->PatternNodeCount * sizeof(OBJECT_PATTERN_NODE));
+        ObjectReteBinaryData(theEnv)->PatternArray = (OBJECT_PATTERN_NODE *) genalloc(theEnv, space);
+    }
+
+    if (ObjectReteBinaryData(theEnv)->AlphaLinkCount == 0L)
+        ObjectReteBinaryData(theEnv)->AlphaLinkArray = NULL;
+    else {
+        space = (ObjectReteBinaryData(theEnv)->AlphaLinkCount * sizeof(CLASS_ALPHA_LINK));
+        ObjectReteBinaryData(theEnv)->AlphaLinkArray = (CLASS_ALPHA_LINK *) genalloc(theEnv, space);
+    }
+}
 
 /****************************************************
   NAME         : BloadObjectPatterns
@@ -487,41 +459,38 @@ static void BloadStorageObjectPatterns(
   NOTES        : Assumes storage allocated previously
  ****************************************************/
 static void BloadObjectPatterns(
-  Environment *theEnv)
-  {
-   size_t space;
-   unsigned long i;
+        Environment *theEnv) {
+    size_t space;
+    unsigned long i;
 
-   GenReadBinary(theEnv,&space,sizeof(size_t));
-   if (space == 0L)
-     return;
+    GenReadBinary(theEnv, &space, sizeof(size_t));
+    if (space == 0L)
+        return;
 
-   /* ================================================
-      Read in the alpha and intermediate pattern nodes
-      ================================================ */
+    /* ================================================
+       Read in the alpha and intermediate pattern nodes
+       ================================================ */
 
-   BloadandRefresh(theEnv,ObjectReteBinaryData(theEnv)->AlphaLinkCount,sizeof(BSAVE_CLASS_ALPHA_LINK),UpdateLink);
-   BloadandRefresh(theEnv,ObjectReteBinaryData(theEnv)->AlphaNodeCount,sizeof(BSAVE_OBJECT_ALPHA_NODE),UpdateAlpha);
-   BloadandRefresh(theEnv,ObjectReteBinaryData(theEnv)->PatternNodeCount,sizeof(BSAVE_OBJECT_PATTERN_NODE),UpdatePattern);
+    BloadandRefresh(theEnv, ObjectReteBinaryData(theEnv)->AlphaLinkCount, sizeof(BSAVE_CLASS_ALPHA_LINK), UpdateLink);
+    BloadandRefresh(theEnv, ObjectReteBinaryData(theEnv)->AlphaNodeCount, sizeof(BSAVE_OBJECT_ALPHA_NODE), UpdateAlpha);
+    BloadandRefresh(theEnv, ObjectReteBinaryData(theEnv)->PatternNodeCount, sizeof(BSAVE_OBJECT_PATTERN_NODE), UpdatePattern);
 
-   for (i = 0; i < ObjectReteBinaryData(theEnv)->PatternNodeCount; i++)
-     {
-      if ((ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel != NULL) &&
-          (ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel->selector))
-        {
-         AddHashedPatternNode(theEnv,ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel,
-                                     &ObjectReteBinaryData(theEnv)->PatternArray[i],
-                                     ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->type,
-                                     ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->value);
+    for (i = 0; i < ObjectReteBinaryData(theEnv)->PatternNodeCount; i++) {
+        if ((ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel != NULL) &&
+            (ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel->selector)) {
+            AddHashedPatternNode(theEnv, ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel,
+                                 &ObjectReteBinaryData(theEnv)->PatternArray[i],
+                                 ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->type,
+                                 ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->value);
         }
-     }
+    }
 
-   /* =======================
-      Set the global pointers
-      ======================= */
-   SetObjectNetworkTerminalPointer(theEnv,(OBJECT_ALPHA_NODE *) &ObjectReteBinaryData(theEnv)->AlphaArray[0]);
-   SetObjectNetworkPointer(theEnv,(OBJECT_PATTERN_NODE *) &ObjectReteBinaryData(theEnv)->PatternArray[0]);
-  }
+    /* =======================
+       Set the global pointers
+       ======================= */
+    SetObjectNetworkTerminalPointer(theEnv, (OBJECT_ALPHA_NODE *) &ObjectReteBinaryData(theEnv)->AlphaArray[0]);
+    SetObjectNetworkPointer(theEnv, (OBJECT_PATTERN_NODE *) &ObjectReteBinaryData(theEnv)->PatternArray[0]);
+}
 
 /***************************************************
   NAME         : UpdateAlpha
@@ -537,32 +506,29 @@ static void BloadObjectPatterns(
   NOTES        : None
  ***************************************************/
 static void UpdateAlpha(
-  Environment *theEnv,
-  void *buf,
-  unsigned long obji)
-  {
-   BSAVE_OBJECT_ALPHA_NODE *bap;
-   OBJECT_ALPHA_NODE *ap;
+        Environment *theEnv,
+        void *buf,
+        unsigned long obji) {
+    BSAVE_OBJECT_ALPHA_NODE *bap;
+    OBJECT_ALPHA_NODE *ap;
 
-   bap = (BSAVE_OBJECT_ALPHA_NODE *) buf;
-   ap = (OBJECT_ALPHA_NODE *) &ObjectReteBinaryData(theEnv)->AlphaArray[obji];
+    bap = (BSAVE_OBJECT_ALPHA_NODE *) buf;
+    ap = (OBJECT_ALPHA_NODE *) &ObjectReteBinaryData(theEnv)->AlphaArray[obji];
 
-   UpdatePatternNodeHeader(theEnv,&ap->header,&bap->header);
-   ap->matchTimeTag = 0L;
-   ap->classbmp = BitMapPointer(bap->classbmp);
-   if (bap->slotbmp != ULONG_MAX)
-     {
-      ap->slotbmp = BitMapPointer(bap->slotbmp);
-      IncrementBitMapCount(ap->slotbmp);
-     }
-   else
-     ap->slotbmp = NULL;
-   IncrementBitMapCount(ap->classbmp);
-   ap->patternNode = ObjectPatternPointer(bap->patternNode);
-   ap->nxtInGroup = ObjectAlphaPointer(bap->nxtInGroup);
-   ap->nxtTerminal = ObjectAlphaPointer(bap->nxtTerminal);
-   ap->bsaveID = 0L;
-  }
+    UpdatePatternNodeHeader(theEnv, &ap->header, &bap->header);
+    ap->matchTimeTag = 0L;
+    ap->classbmp = BitMapPointer(bap->classbmp);
+    if (bap->slotbmp != ULONG_MAX) {
+        ap->slotbmp = BitMapPointer(bap->slotbmp);
+        IncrementBitMapCount(ap->slotbmp);
+    } else
+        ap->slotbmp = NULL;
+    IncrementBitMapCount(ap->classbmp);
+    ap->patternNode = ObjectPatternPointer(bap->patternNode);
+    ap->nxtInGroup = ObjectAlphaPointer(bap->nxtInGroup);
+    ap->nxtTerminal = ObjectAlphaPointer(bap->nxtTerminal);
+    ap->bsaveID = 0L;
+}
 
 /***************************************************
   NAME         : UpdatePattern
@@ -578,32 +544,31 @@ static void UpdateAlpha(
   NOTES        : None
  ***************************************************/
 static void UpdatePattern(
-  Environment *theEnv,
-  void *buf,
-  unsigned long obji)
-  {
-   BSAVE_OBJECT_PATTERN_NODE *bop;
-   OBJECT_PATTERN_NODE *op;
+        Environment *theEnv,
+        void *buf,
+        unsigned long obji) {
+    BSAVE_OBJECT_PATTERN_NODE *bop;
+    OBJECT_PATTERN_NODE *op;
 
-   bop = (BSAVE_OBJECT_PATTERN_NODE *) buf;
-   op = (OBJECT_PATTERN_NODE *) &ObjectReteBinaryData(theEnv)->PatternArray[obji];
+    bop = (BSAVE_OBJECT_PATTERN_NODE *) buf;
+    op = (OBJECT_PATTERN_NODE *) &ObjectReteBinaryData(theEnv)->PatternArray[obji];
 
-   op->blocked = false;
-   op->multifieldNode = bop->multifieldNode;
-   op->whichField = bop->whichField;
-   op->leaveFields = bop->leaveFields;
-   op->endSlot = bop->endSlot;
-   op->selector = bop->selector;
-   op->matchTimeTag = 0L;
-   op->slotNameID = bop->slotNameID;
-   op->networkTest = HashedExpressionPointer(bop->networkTest);
-   op->nextLevel = ObjectPatternPointer(bop->nextLevel);
-   op->lastLevel = ObjectPatternPointer(bop->lastLevel);
-   op->leftNode = ObjectPatternPointer(bop->leftNode);
-   op->rightNode = ObjectPatternPointer(bop->rightNode);
-   op->alphaNode = ObjectAlphaPointer(bop->alphaNode);
-   op->bsaveID = 0L;
-  }
+    op->blocked = false;
+    op->multifieldNode = bop->multifieldNode;
+    op->whichField = bop->whichField;
+    op->leaveFields = bop->leaveFields;
+    op->endSlot = bop->endSlot;
+    op->selector = bop->selector;
+    op->matchTimeTag = 0L;
+    op->slotNameID = bop->slotNameID;
+    op->networkTest = HashedExpressionPointer(bop->networkTest);
+    op->nextLevel = ObjectPatternPointer(bop->nextLevel);
+    op->lastLevel = ObjectPatternPointer(bop->lastLevel);
+    op->leftNode = ObjectPatternPointer(bop->leftNode);
+    op->rightNode = ObjectPatternPointer(bop->rightNode);
+    op->alphaNode = ObjectAlphaPointer(bop->alphaNode);
+    op->bsaveID = 0L;
+}
 
 /***************************************************
   NAME         : UpdateLink
@@ -619,20 +584,19 @@ static void UpdatePattern(
   NOTES        : None
  ***************************************************/
 static void UpdateLink(
-  Environment *theEnv,
-  void *buf,
-  unsigned long obji)
-  {
-   BSAVE_CLASS_ALPHA_LINK *bal;
-   CLASS_ALPHA_LINK *al;
+        Environment *theEnv,
+        void *buf,
+        unsigned long obji) {
+    BSAVE_CLASS_ALPHA_LINK *bal;
+    CLASS_ALPHA_LINK *al;
 
-   bal = (BSAVE_CLASS_ALPHA_LINK *) buf;
-   al = (CLASS_ALPHA_LINK *) &ObjectReteBinaryData(theEnv)->AlphaLinkArray[obji];
+    bal = (BSAVE_CLASS_ALPHA_LINK *) buf;
+    al = (CLASS_ALPHA_LINK *) &ObjectReteBinaryData(theEnv)->AlphaLinkArray[obji];
 
-   al->alphaNode = ObjectAlphaPointer(bal->alphaNode);
-   al->next = ClassAlphaPointer(bal->next);
-   al->bsaveID = 0L;
-  }
+    al->alphaNode = ObjectAlphaPointer(bal->alphaNode);
+    al->next = ClassAlphaPointer(bal->next);
+    al->bsaveID = 0L;
+}
 
 /***************************************************
   NAME         : ClearBloadObjectPatterns
@@ -645,54 +609,49 @@ static void UpdateLink(
   NOTES        : None
  ***************************************************/
 static void ClearBloadObjectPatterns(
-  Environment *theEnv)
-  {
-   size_t space;
-   unsigned long i;
+        Environment *theEnv) {
+    size_t space;
+    unsigned long i;
 
-   for (i = 0; i < ObjectReteBinaryData(theEnv)->PatternNodeCount; i++)
-     {
-      if ((ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel != NULL) &&
-          (ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel->selector))
-        {
-         RemoveHashedPatternNode(theEnv,ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel,
-                                        &ObjectReteBinaryData(theEnv)->PatternArray[i],
-                                        ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->type,
-                                        ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->value);
+    for (i = 0; i < ObjectReteBinaryData(theEnv)->PatternNodeCount; i++) {
+        if ((ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel != NULL) &&
+            (ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel->selector)) {
+            RemoveHashedPatternNode(theEnv, ObjectReteBinaryData(theEnv)->PatternArray[i].lastLevel,
+                                    &ObjectReteBinaryData(theEnv)->PatternArray[i],
+                                    ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->type,
+                                    ObjectReteBinaryData(theEnv)->PatternArray[i].networkTest->value);
         }
-     }
+    }
 
-   /* ================================================
-      All instances have been deleted by this point
-      so we don't need to worry about clearing partial
-      matches
-      ================================================ */
-   for (i = 0L ; i < ObjectReteBinaryData(theEnv)->AlphaNodeCount ; i++)
-     {
-      DecrementBitMapReferenceCount(theEnv,ObjectReteBinaryData(theEnv)->AlphaArray[i].classbmp);
-      if (ObjectReteBinaryData(theEnv)->AlphaArray[i].slotbmp != NULL)
-        DecrementBitMapReferenceCount(theEnv,ObjectReteBinaryData(theEnv)->AlphaArray[i].slotbmp);
-     }
+    /* ================================================
+       All instances have been deleted by this point
+       so we don't need to worry about clearing partial
+       matches
+       ================================================ */
+    for (i = 0L; i < ObjectReteBinaryData(theEnv)->AlphaNodeCount; i++) {
+        DecrementBitMapReferenceCount(theEnv, ObjectReteBinaryData(theEnv)->AlphaArray[i].classbmp);
+        if (ObjectReteBinaryData(theEnv)->AlphaArray[i].slotbmp != NULL)
+            DecrementBitMapReferenceCount(theEnv, ObjectReteBinaryData(theEnv)->AlphaArray[i].slotbmp);
+    }
 
-   if (ObjectReteBinaryData(theEnv)->AlphaNodeCount != 0L)
-     {
-      space = (ObjectReteBinaryData(theEnv)->AlphaNodeCount * sizeof(OBJECT_ALPHA_NODE));
-      genfree(theEnv,ObjectReteBinaryData(theEnv)->AlphaArray,space);
-      ObjectReteBinaryData(theEnv)->AlphaArray = NULL;
-      ObjectReteBinaryData(theEnv)->AlphaNodeCount = 0;
-      space = (ObjectReteBinaryData(theEnv)->PatternNodeCount * sizeof(OBJECT_PATTERN_NODE));
-      genfree(theEnv,ObjectReteBinaryData(theEnv)->PatternArray,space);
-      ObjectReteBinaryData(theEnv)->PatternArray = NULL;
-      ObjectReteBinaryData(theEnv)->PatternNodeCount = 0;
-      space = (ObjectReteBinaryData(theEnv)->AlphaLinkCount * sizeof(CLASS_ALPHA_LINK));
-      genfree(theEnv,(void *) ObjectReteBinaryData(theEnv)->AlphaLinkArray,space);
-      ObjectReteBinaryData(theEnv)->AlphaLinkArray = NULL;
-      ObjectReteBinaryData(theEnv)->AlphaLinkCount = 0;
-     }
+    if (ObjectReteBinaryData(theEnv)->AlphaNodeCount != 0L) {
+        space = (ObjectReteBinaryData(theEnv)->AlphaNodeCount * sizeof(OBJECT_ALPHA_NODE));
+        genfree(theEnv, ObjectReteBinaryData(theEnv)->AlphaArray, space);
+        ObjectReteBinaryData(theEnv)->AlphaArray = NULL;
+        ObjectReteBinaryData(theEnv)->AlphaNodeCount = 0;
+        space = (ObjectReteBinaryData(theEnv)->PatternNodeCount * sizeof(OBJECT_PATTERN_NODE));
+        genfree(theEnv, ObjectReteBinaryData(theEnv)->PatternArray, space);
+        ObjectReteBinaryData(theEnv)->PatternArray = NULL;
+        ObjectReteBinaryData(theEnv)->PatternNodeCount = 0;
+        space = (ObjectReteBinaryData(theEnv)->AlphaLinkCount * sizeof(CLASS_ALPHA_LINK));
+        genfree(theEnv, (void *) ObjectReteBinaryData(theEnv)->AlphaLinkArray, space);
+        ObjectReteBinaryData(theEnv)->AlphaLinkArray = NULL;
+        ObjectReteBinaryData(theEnv)->AlphaLinkCount = 0;
+    }
 
-   SetObjectNetworkTerminalPointer(theEnv,NULL);
-   SetObjectNetworkPointer(theEnv,NULL);
-  }
+    SetObjectNetworkTerminalPointer(theEnv, NULL);
+    SetObjectNetworkPointer(theEnv, NULL);
+}
 
 #endif
 

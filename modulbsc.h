@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/02/18            */
-   /*                                                     */
-   /*         DEFMODULE BASIC COMMANDS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/02/18            */
+/*                                                     */
+/*         DEFMODULE BASIC COMMANDS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the deffacts        */
@@ -54,14 +54,14 @@
 
 #include "Evaluation.h"
 
-   void                           DefmoduleBasicCommands(Environment *);
-   void                           GetDefmoduleListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetDefmoduleList(Environment *,CLIPSValue *);
-   void                           PPDefmoduleCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           PPDefmodule(Environment *,const char *,const char *);
-   const char                    *PPDefmoduleNil(Environment *,const char *);
-   void                           ListDefmodulesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListDefmodules(Environment *,const char *);
+void DefmoduleBasicCommands(Environment *);
+void GetDefmoduleListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDefmoduleList(Environment *, CLIPSValue *);
+void PPDefmoduleCommand(Environment *, UDFContext *, UDFValue *);
+bool PPDefmodule(Environment *, const char *, const char *);
+const char *PPDefmoduleNil(Environment *, const char *);
+void ListDefmodulesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefmodules(Environment *, const char *);
 
 #endif /* _H_modulbsc */
 

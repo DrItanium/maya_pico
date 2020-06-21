@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*           INSTANCE MODIFY AND DUPLICATE MODULE      */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*           INSTANCE MODIFY AND DUPLICATE MODULE      */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -62,24 +62,24 @@
 #include "evaluatn.h"
 #endif
 
-   void                           SetupInstanceModDupCommands(Environment *);
+void SetupInstanceModDupCommands(Environment *);
 
-   void                           ModifyInstance(Environment *,UDFContext *,UDFValue *);
-   void                           MsgModifyInstance(Environment *,UDFContext *,UDFValue *);
-   void                           DuplicateInstance(Environment *,UDFContext *,UDFValue *);
-   void                           MsgDuplicateInstance(Environment *,UDFContext *,UDFValue *);
+void ModifyInstance(Environment *, UDFContext *, UDFValue *);
+void MsgModifyInstance(Environment *, UDFContext *, UDFValue *);
+void DuplicateInstance(Environment *, UDFContext *, UDFValue *);
+void MsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
-   void                           InactiveModifyInstance(Environment *,UDFContext *,UDFValue *);
-   void                           InactiveMsgModifyInstance(Environment *,UDFContext *,UDFValue *);
-   void                           InactiveDuplicateInstance(Environment *,UDFContext *,UDFValue *);
-   void                           InactiveMsgDuplicateInstance(Environment *,UDFContext *,UDFValue *);
+void InactiveModifyInstance(Environment *, UDFContext *, UDFValue *);
+void InactiveMsgModifyInstance(Environment *, UDFContext *, UDFValue *);
+void InactiveDuplicateInstance(Environment *, UDFContext *, UDFValue *);
+void InactiveMsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
 #endif
 
-   void                           DirectModifyMsgHandler(Environment *,UDFContext *,UDFValue *);
-   void                           MsgModifyMsgHandler(Environment *,UDFContext *,UDFValue *);
-   void                           DirectDuplicateMsgHandler(Environment *,UDFContext *,UDFValue *);
-   void                           MsgDuplicateMsgHandler(Environment *,UDFContext *,UDFValue *);
+void DirectModifyMsgHandler(Environment *, UDFContext *, UDFValue *);
+void MsgModifyMsgHandler(Environment *, UDFContext *, UDFValue *);
+void DirectDuplicateMsgHandler(Environment *, UDFContext *, UDFValue *);
+void MsgDuplicateMsgHandler(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_insmoddp */
 

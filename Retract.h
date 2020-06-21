@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                RETRACT HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                RETRACT HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:  Handles join network activity associated with   */
@@ -52,21 +52,20 @@
 #include "Match.h"
 #include "Network.h"
 
-struct rdriveinfo
-  {
-   struct partialMatch *link;
-   struct joinNode *jlist;
-   struct rdriveinfo *next;
-  };
+struct rdriveinfo {
+    struct partialMatch *link;
+    struct joinNode *jlist;
+    struct rdriveinfo *next;
+};
 
-void                           NetworkRetract(Environment *,struct patternMatch *);
-void                           ReturnPartialMatch(Environment *,struct partialMatch *);
-void                           DestroyPartialMatch(Environment *,struct partialMatch *);
-void                           FlushGarbagePartialMatches(Environment *);
-void                           DeletePartialMatches(Environment *,struct partialMatch *);
-void                           PosEntryRetractBeta(Environment *,struct partialMatch *,struct partialMatch *,int);
-void                           PosEntryRetractAlpha(Environment *,struct partialMatch *,int);
-bool                           PartialMatchWillBeDeleted(Environment *,struct partialMatch *);
+void NetworkRetract(Environment *, struct patternMatch *);
+void ReturnPartialMatch(Environment *, struct partialMatch *);
+void DestroyPartialMatch(Environment *, struct partialMatch *);
+void FlushGarbagePartialMatches(Environment *);
+void DeletePartialMatches(Environment *, struct partialMatch *);
+void PosEntryRetractBeta(Environment *, struct partialMatch *, struct partialMatch *, int);
+void PosEntryRetractAlpha(Environment *, struct partialMatch *, int);
+bool PartialMatchWillBeDeleted(Environment *, struct partialMatch *);
 
 #endif /* _H_retract */
 

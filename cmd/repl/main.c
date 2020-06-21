@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*               CLIPS Version 6.40  08/06/16          */
-   /*                                                     */
-   /*                     MAIN MODULE                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*               CLIPS Version 6.40  08/06/16          */
+/*                                                     */
+/*                     MAIN MODULE                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -57,56 +57,54 @@
 /***************************************/
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   static void                    CatchCtrlC(int);
+static void CatchCtrlC(int);
 #endif
 
 /***************************************/
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
 
-   static Environment            *mainEnv;
+static Environment *mainEnv;
 
 /****************************************/
 /* main: Starts execution of the expert */
 /*   system development environment.    */
 /****************************************/
 int main(
-  int argc,
-  char *argv[])
-  {
-   mainEnv = CreateEnvironment();
+        int argc,
+        char *argv[]) {
+    mainEnv = CreateEnvironment();
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
+    signal(SIGINT, CatchCtrlC);
 #endif
 
-   RerouteStdin(mainEnv,argc,argv);
-   CommandLoop(mainEnv);
+    RerouteStdin(mainEnv, argc, argv);
+    CommandLoop(mainEnv);
 
-   /*==================================================================*/
-   /* Control does not normally return from the CommandLoop function.  */
-   /* However if you are embedding CLIPS, have replaced CommandLoop    */
-   /* with your own embedded calls that will return to this point, and */
-   /* are running software that helps detect memory leaks, you need to */
-   /* add function calls here to deallocate memory still being used by */
-   /* CLIPS. If you have a multi-threaded application, no environments */
-   /* can be currently executing.                                      */
-   /*==================================================================*/
+    /*==================================================================*/
+    /* Control does not normally return from the CommandLoop function.  */
+    /* However if you are embedding CLIPS, have replaced CommandLoop    */
+    /* with your own embedded calls that will return to this point, and */
+    /* are running software that helps detect memory leaks, you need to */
+    /* add function calls here to deallocate memory still being used by */
+    /* CLIPS. If you have a multi-threaded application, no environments */
+    /* can be currently executing.                                      */
+    /*==================================================================*/
 
-   DestroyEnvironment(mainEnv);
+    DestroyEnvironment(mainEnv);
 
-   return -1;
-  }
+    return -1;
+}
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
 /***************/
 /* CatchCtrlC: */
 /***************/
 static void CatchCtrlC(
-  int sgnl)
-  {
-   SetHaltExecution(mainEnv,true);
-   CloseAllBatchSources(mainEnv);
-   signal(SIGINT,CatchCtrlC);
-  }
+        int sgnl) {
+    SetHaltExecution(mainEnv, true);
+    CloseAllBatchSources(mainEnv);
+    signal(SIGINT, CatchCtrlC);
+}
 #endif

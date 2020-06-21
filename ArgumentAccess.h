@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*             ARGUMENT ACCESS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*             ARGUMENT ACCESS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides access routines for accessing arguments */
@@ -55,18 +55,18 @@
 #include "Evaluation.h"
 #include "moduldef.h"
 
-   const char                    *GetLogicalName(UDFContext *,const char *);
-   const char                    *GetFileName(UDFContext *);
-   const char                    *GetConstructName(UDFContext *,const char *,const char *);
-   void                           ExpectedCountError(Environment *,const char *,int,unsigned int);
-   void                           OpenErrorMessage(Environment *,const char *,const char *);
-   bool                           CheckFunctionArgCount(Environment *,struct functionDefinition *,int);
-   void                           ExpectedTypeError0(Environment *,const char *,unsigned int);
-   void                           ExpectedTypeError1(Environment *,const char *,unsigned int,const char *);
-   void                           ExpectedTypeError2(Environment *,const char *,unsigned int);
-   Defmodule                     *GetModuleName(UDFContext *,unsigned int,bool *);
-   void                          *GetFactOrInstanceArgument(UDFContext *,unsigned int,UDFValue *);
-   void                           IllegalLogicalNameMessage(Environment *,const char *);
+const char *GetLogicalName(UDFContext *, const char *);
+const char *GetFileName(UDFContext *);
+const char *GetConstructName(UDFContext *, const char *, const char *);
+void ExpectedCountError(Environment *, const char *, int, unsigned int);
+void OpenErrorMessage(Environment *, const char *, const char *);
+bool CheckFunctionArgCount(Environment *, struct functionDefinition *, int);
+void ExpectedTypeError0(Environment *, const char *, unsigned int);
+void ExpectedTypeError1(Environment *, const char *, unsigned int, const char *);
+void ExpectedTypeError2(Environment *, const char *, unsigned int);
+Defmodule *GetModuleName(UDFContext *, unsigned int, bool *);
+void *GetFactOrInstanceArgument(UDFContext *, unsigned int, UDFValue *);
+void IllegalLogicalNameMessage(Environment *, const char *);
 
 #endif
 

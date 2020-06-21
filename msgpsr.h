@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -60,8 +60,8 @@
 
 #include "object.h"
 
-   bool             ParseDefmessageHandler(Environment *,const char *);
-   void             CreateGetAndPutHandlers(Environment *,SlotDescriptor *);
+bool ParseDefmessageHandler(Environment *, const char *);
+void CreateGetAndPutHandlers(Environment *, SlotDescriptor *);
 
 #endif /* OBJECT_SYSTEM */
 

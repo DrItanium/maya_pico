@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/17/18            */
-   /*                                                     */
-   /*          MISCELLANEOUS FUNCTIONS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/17/18            */
+/*                                                     */
+/*          MISCELLANEOUS FUNCTIONS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -84,44 +84,44 @@
 
 #define _H_miscfun
 
-   void                           MiscFunctionDefinitions(Environment *);
-   void                           ExitCommand(Environment *,UDFContext *,UDFValue *);
-   void                           CreateFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SetgenFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GensymFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GensymStarFunction(Environment *,UDFContext *,UDFValue *);
-   void                           RandomFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SeedFunction(Environment *,UDFContext *,UDFValue *);
-   void                           LengthFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ConserveMemCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ReleaseMemCommand(Environment *,UDFContext *,UDFValue *);
-   void                           MemUsedCommand(Environment *,UDFContext *,UDFValue *);
-   void                           MemRequestsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           OptionsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           OperatingSystemFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ExpandFuncCall(Environment *,UDFContext *,UDFValue *);
-   void                           DummyExpandFuncMultifield(Environment *,UDFContext *,UDFValue *);
-   void                           CauseEvaluationError(Environment *,UDFContext *,UDFValue *);
-   void                           SetSORCommand(Environment *,UDFContext *,UDFValue *);
-   void                           GetSORCommand(Environment *,UDFContext *,UDFValue *);
-   void                           GetFunctionRestrictions(Environment *,UDFContext *,UDFValue *);
-   void                           AproposCommand(Environment *,UDFContext *,UDFValue *);
-   void                           GensymStar(Environment *,UDFValue *);
-   void                           GetFunctionListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           FuncallFunction(Environment *,UDFContext *,UDFValue *);
-   void                           NewFunction(Environment *,UDFContext *,UDFValue *);
-   void                           CallFunction(Environment *,UDFContext *,UDFValue *);
-   void                           TimerFunction(Environment *,UDFContext *,UDFValue *);
-   void                           TimeFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SystemCommand(Environment *,UDFContext *,UDFValue *);
-   void                           LocalTimeFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GMTimeFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetErrorFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ClearErrorValue(Environment *);
-   void                           ClearErrorFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SetErrorFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SetErrorValue(Environment *,TypeHeader *);
-   void                           VoidFunction(Environment *,UDFContext *,UDFValue *);
+void MiscFunctionDefinitions(Environment *);
+void ExitCommand(Environment *, UDFContext *, UDFValue *);
+void CreateFunction(Environment *, UDFContext *, UDFValue *);
+void SetgenFunction(Environment *, UDFContext *, UDFValue *);
+void GensymFunction(Environment *, UDFContext *, UDFValue *);
+void GensymStarFunction(Environment *, UDFContext *, UDFValue *);
+void RandomFunction(Environment *, UDFContext *, UDFValue *);
+void SeedFunction(Environment *, UDFContext *, UDFValue *);
+void LengthFunction(Environment *, UDFContext *, UDFValue *);
+void ConserveMemCommand(Environment *, UDFContext *, UDFValue *);
+void ReleaseMemCommand(Environment *, UDFContext *, UDFValue *);
+void MemUsedCommand(Environment *, UDFContext *, UDFValue *);
+void MemRequestsCommand(Environment *, UDFContext *, UDFValue *);
+void OptionsCommand(Environment *, UDFContext *, UDFValue *);
+void OperatingSystemFunction(Environment *, UDFContext *, UDFValue *);
+void ExpandFuncCall(Environment *, UDFContext *, UDFValue *);
+void DummyExpandFuncMultifield(Environment *, UDFContext *, UDFValue *);
+void CauseEvaluationError(Environment *, UDFContext *, UDFValue *);
+void SetSORCommand(Environment *, UDFContext *, UDFValue *);
+void GetSORCommand(Environment *, UDFContext *, UDFValue *);
+void GetFunctionRestrictions(Environment *, UDFContext *, UDFValue *);
+void AproposCommand(Environment *, UDFContext *, UDFValue *);
+void GensymStar(Environment *, UDFValue *);
+void GetFunctionListFunction(Environment *, UDFContext *, UDFValue *);
+void FuncallFunction(Environment *, UDFContext *, UDFValue *);
+void NewFunction(Environment *, UDFContext *, UDFValue *);
+void CallFunction(Environment *, UDFContext *, UDFValue *);
+void TimerFunction(Environment *, UDFContext *, UDFValue *);
+void TimeFunction(Environment *, UDFContext *, UDFValue *);
+void SystemCommand(Environment *, UDFContext *, UDFValue *);
+void LocalTimeFunction(Environment *, UDFContext *, UDFValue *);
+void GMTimeFunction(Environment *, UDFContext *, UDFValue *);
+void GetErrorFunction(Environment *, UDFContext *, UDFValue *);
+void ClearErrorValue(Environment *);
+void ClearErrorFunction(Environment *, UDFContext *, UDFValue *);
+void SetErrorFunction(Environment *, UDFContext *, UDFValue *);
+void SetErrorValue(Environment *, TypeHeader *);
+void VoidFunction(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_miscfun */
 

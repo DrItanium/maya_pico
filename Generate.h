@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                GENERATE HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                GENERATE HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines for converting field           */
@@ -47,9 +47,9 @@
 #include "Expression.h"
 #include "Reorder.h"
 
-   void                           FieldConversion(Environment *,struct lhsParseNode *,struct lhsParseNode *,struct nandFrame *);
-   struct expr                   *GetvarReplace(Environment *,struct lhsParseNode *,bool,struct nandFrame *);
-   void                           AddNandUnification(Environment *,struct lhsParseNode *,struct nandFrame *);
+void FieldConversion(Environment *, struct lhsParseNode *, struct lhsParseNode *, struct nandFrame *);
+struct expr *GetvarReplace(Environment *, struct lhsParseNode *, bool, struct nandFrame *);
+void AddNandUnification(Environment *, struct lhsParseNode *, struct nandFrame *);
 
 #endif /* _H_generate */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*              DEFTEMPLATE LHS HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*              DEFTEMPLATE LHS HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -41,7 +41,7 @@
 #include "Symbol.h"
 #include "tmpltdef.h"
 
-   struct lhsParseNode           *DeftemplateLHSParse(Environment *,const char *,Deftemplate *);
+struct lhsParseNode *DeftemplateLHSParse(Environment *, const char *, Deftemplate *);
 
 #endif /* _H_tmpltlhs */
 

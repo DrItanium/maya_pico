@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/01/16            */
-   /*                                                     */
-   /*                 BLOAD HEADER FILE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/01/16            */
+/*                                                     */
+/*                 BLOAD HEADER FILE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -61,33 +61,32 @@
 
 #define BLOAD_DATA 38
 
-struct bloadData
-  {
-   const char *BinaryPrefixID;
-   const char *BinaryVersionID;
-   char *BinarySizes;
-   struct functionDefinition **FunctionArray;
-   bool BloadActive;
-   struct voidCallFunctionItem *BeforeBloadFunctions;
-   struct voidCallFunctionItem *AfterBloadFunctions;
-   struct boolCallFunctionItem *ClearBloadReadyFunctions;
-   struct voidCallFunctionItem *AbortBloadFunctions;
-  };
+struct bloadData {
+    const char *BinaryPrefixID;
+    const char *BinaryVersionID;
+    char *BinarySizes;
+    struct functionDefinition **FunctionArray;
+    bool BloadActive;
+    struct voidCallFunctionItem *BeforeBloadFunctions;
+    struct voidCallFunctionItem *AfterBloadFunctions;
+    struct boolCallFunctionItem *ClearBloadReadyFunctions;
+    struct voidCallFunctionItem *AbortBloadFunctions;
+};
 
 #define BloadData(theEnv) ((struct bloadData *) GetEnvironmentData(theEnv,BLOAD_DATA))
 
 #define FunctionPointer(i) ((((i) == ULONG_MAX) ? NULL : BloadData(theEnv)->FunctionArray[i]))
 
-   void                    InitializeBloadData(Environment *);
-   void                    BloadCommand(Environment *,UDFContext *,UDFValue *);
-   bool                    Bload(Environment *,const char *);
-   void                    BloadandRefresh(Environment *,unsigned long,size_t,void (*)(Environment *,void *,unsigned long));
-   bool                    Bloaded(Environment *);
-   void                    AddBeforeBloadFunction(Environment *,const char *,VoidCallFunction *,int,void *);
-   void                    AddAfterBloadFunction(Environment *,const char *,VoidCallFunction *,int,void *);
-   void                    AddClearBloadReadyFunction(Environment *,const char *,BoolCallFunction *,int,void *);
-   void                    AddAbortBloadFunction(Environment *,const char *,VoidCallFunction *,int,void *);
-   void                    CannotLoadWithBloadMessage(Environment *,const char *);
+void InitializeBloadData(Environment *);
+void BloadCommand(Environment *, UDFContext *, UDFValue *);
+bool Bload(Environment *, const char *);
+void BloadandRefresh(Environment *, unsigned long, size_t, void (*)(Environment *, void *, unsigned long));
+bool Bloaded(Environment *);
+void AddBeforeBloadFunction(Environment *, const char *, VoidCallFunction *, int, void *);
+void AddAfterBloadFunction(Environment *, const char *, VoidCallFunction *, int, void *);
+void AddClearBloadReadyFunction(Environment *, const char *, BoolCallFunction *, int, void *);
+void AddAbortBloadFunction(Environment *, const char *, VoidCallFunction *, int, void *);
+void CannotLoadWithBloadMessage(Environment *, const char *);
 
 #endif
 

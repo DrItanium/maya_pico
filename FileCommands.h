@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  04/04/19            */
-   /*                                                     */
-   /*              FILE COMMANDS HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  04/04/19            */
+/*                                                     */
+/*              FILE COMMANDS HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Contains the code for file commands including    */
@@ -75,16 +75,15 @@ typedef struct batchEntry BatchEntry;
 /* STRUCTURES  */
 /***************/
 
-struct batchEntry
-  {
-   int batchType;
-   FILE *fileSource;
-   const char *logicalSource;
-   const char *theString;
-   const char *fileName;
-   long lineNumber;
-   BatchEntry *next;
-  };
+struct batchEntry {
+    int batchType;
+    FILE *fileSource;
+    const char *logicalSource;
+    const char *theString;
+    const char *fileName;
+    long lineNumber;
+    BatchEntry *next;
+};
 
 /***************/
 /* DEFINITIONS */
@@ -97,36 +96,35 @@ struct batchEntry
 
 #define FILECOM_DATA 14
 
-struct fileCommandData
-  {
+struct fileCommandData {
 #if DEBUGGING_FUNCTIONS
-   FILE *DribbleFP;
-   char *DribbleBuffer;
-   size_t DribbleCurrentPosition;
-   size_t DribbleMaximumPosition;
-   int (*DribbleStatusFunction)(Environment *,bool);
+    FILE *DribbleFP;
+    char *DribbleBuffer;
+    size_t DribbleCurrentPosition;
+    size_t DribbleMaximumPosition;
+    int (*DribbleStatusFunction)(Environment *, bool);
 #endif
-   int BatchType;
-   FILE *BatchFileSource;
-   const char *BatchLogicalSource;
-   char *BatchBuffer;
-   size_t BatchCurrentPosition;
-   size_t BatchMaximumPosition;
-   BatchEntry *TopOfBatchList;
-   BatchEntry *BottomOfBatchList;
-   char *batchPriorParsingFile;
-  };
+    int BatchType;
+    FILE *BatchFileSource;
+    const char *BatchLogicalSource;
+    char *BatchBuffer;
+    size_t BatchCurrentPosition;
+    size_t BatchMaximumPosition;
+    BatchEntry *TopOfBatchList;
+    BatchEntry *BottomOfBatchList;
+    char *batchPriorParsingFile;
+};
 
 #define FileCommandData(theEnv) ((struct fileCommandData *) GetEnvironmentData(theEnv,FILECOM_DATA))
 
-   void                           FileCommandDefinitions(Environment *);
-   void                           BatchCommand(Environment *,UDFContext *,UDFValue *);
-   void                           BatchStarCommand(Environment *,UDFContext *,UDFValue *);
-   void                           LoadCommand(Environment *,UDFContext *,UDFValue *);
-   void                           LoadStarCommand(Environment *,UDFContext *,UDFValue *);
-   void                           SaveCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DribbleOnCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DribbleOffCommand(Environment *,UDFContext *,UDFValue *);
+void FileCommandDefinitions(Environment *);
+void BatchCommand(Environment *, UDFContext *, UDFValue *);
+void BatchStarCommand(Environment *, UDFContext *, UDFValue *);
+void LoadCommand(Environment *, UDFContext *, UDFValue *);
+void LoadStarCommand(Environment *, UDFContext *, UDFValue *);
+void SaveCommand(Environment *, UDFContext *, UDFValue *);
+void DribbleOnCommand(Environment *, UDFContext *, UDFValue *);
+void DribbleOffCommand(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_filecom */
 

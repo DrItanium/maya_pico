@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                  WATCH HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                  WATCH HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Support functions for the watch and unwatch      */
@@ -61,62 +61,59 @@
 
 typedef struct watchItemRecord WatchItemRecord;
 
-typedef enum
-  {
-   ALL,
-   FACTS,
-   INSTANCES,
-   SLOTS,
-   RULES,
-   ACTIVATIONS,
-   MESSAGES,
-   MESSAGE_HANDLERS,
-   GENERIC_FUNCTIONS,
-   METHODS,
-   DEFFUNCTIONS,
-   COMPILATIONS,
-   STATISTICS,
-   GLOBALS,
-   FOCUS
-  } WatchItem;
+typedef enum {
+    ALL,
+    FACTS,
+    INSTANCES,
+    SLOTS,
+    RULES,
+    ACTIVATIONS,
+    MESSAGES,
+    MESSAGE_HANDLERS,
+    GENERIC_FUNCTIONS,
+    METHODS,
+    DEFFUNCTIONS,
+    COMPILATIONS,
+    STATISTICS,
+    GLOBALS,
+    FOCUS
+} WatchItem;
 
-struct watchItemRecord
-  {
-   const char *name;
-   bool *flag;
-   int code,priority;
-   bool (*accessFunc)(Environment *,int,bool,struct expr *);
-   bool (*printFunc)(Environment *,const char *,int,struct expr *);
-   WatchItemRecord *next;
-  };
+struct watchItemRecord {
+    const char *name;
+    bool *flag;
+    int code, priority;
+    bool (*accessFunc)(Environment *, int, bool, struct expr *);
+    bool (*printFunc)(Environment *, const char *, int, struct expr *);
+    WatchItemRecord *next;
+};
 
-struct watchData
-  {
-   WatchItemRecord *ListOfWatchItems;
-  };
+struct watchData {
+    WatchItemRecord *ListOfWatchItems;
+};
 
 #define WatchData(theEnv) ((struct watchData *) GetEnvironmentData(theEnv,WATCH_DATA))
 
-   void                           Watch(Environment *,WatchItem);
-   void                           Unwatch(Environment *,WatchItem);
+void Watch(Environment *, WatchItem);
+void Unwatch(Environment *, WatchItem);
 
-   bool                           WatchString(Environment *,const char *);
-   bool                           UnwatchString(Environment *,const char *);
-   void                           InitializeWatchData(Environment *);
-   bool                           SetWatchItem(Environment *,const char *,bool,struct expr *);
-   int                            GetWatchItem(Environment *,const char *);
-   bool                           AddWatchItem(Environment *,const char *,int,bool *,int,
-                                                      bool (*)(Environment *,int,bool,struct expr *),
-                                                      bool (*)(Environment *,const char *,int,struct expr *));
-   const char                    *GetNthWatchName(Environment *,int);
-   int                            GetNthWatchValue(Environment *,int);
-   void                           WatchCommand(Environment *,UDFContext *,UDFValue *);
-   void                           UnwatchCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListWatchItemsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           WatchFunctionDefinitions(Environment *);
-   void                           GetWatchItemCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           GetWatchState(Environment *,WatchItem);
-   void                           SetWatchState(Environment *,WatchItem,bool);
+bool WatchString(Environment *, const char *);
+bool UnwatchString(Environment *, const char *);
+void InitializeWatchData(Environment *);
+bool SetWatchItem(Environment *, const char *, bool, struct expr *);
+int GetWatchItem(Environment *, const char *);
+bool AddWatchItem(Environment *, const char *, int, bool *, int,
+                  bool (*)(Environment *, int, bool, struct expr *),
+                  bool (*)(Environment *, const char *, int, struct expr *));
+const char *GetNthWatchName(Environment *, int);
+int GetNthWatchValue(Environment *, int);
+void WatchCommand(Environment *, UDFContext *, UDFValue *);
+void UnwatchCommand(Environment *, UDFContext *, UDFValue *);
+void ListWatchItemsCommand(Environment *, UDFContext *, UDFValue *);
+void WatchFunctionDefinitions(Environment *);
+void GetWatchItemCommand(Environment *, UDFContext *, UDFValue *);
+bool GetWatchState(Environment *, WatchItem);
+void SetWatchState(Environment *, WatchItem, bool);
 
 #endif /* _H_watch */
 

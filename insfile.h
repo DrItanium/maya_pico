@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  05/03/19            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  05/03/19            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -60,35 +60,34 @@
 #define INSTANCE_FILE_DATA 30
 
 #if BLOAD_INSTANCES || BSAVE_INSTANCES
-struct instanceFileData
-  {
-   const char *InstanceBinaryPrefixID;
-   const char *InstanceBinaryVersionID;
-  };
+struct instanceFileData {
+    const char *InstanceBinaryPrefixID;
+    const char *InstanceBinaryVersionID;
+};
 
 #define InstanceFileData(theEnv) ((struct instanceFileData *) GetEnvironmentData(theEnv,INSTANCE_FILE_DATA))
 
 #endif /* BLOAD_INSTANCES || BSAVE_INSTANCES */
 
-   void                           SetupInstanceFileCommands(Environment *);
-   void                           SaveInstancesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           LoadInstancesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           RestoreInstancesCommand(Environment *,UDFContext *,UDFValue *);
-   long                           SaveInstancesDriver(Environment *,const char *,SaveScope,Expression *,bool);
-   long                           SaveInstances(Environment *,const char *,SaveScope);
+void SetupInstanceFileCommands(Environment *);
+void SaveInstancesCommand(Environment *, UDFContext *, UDFValue *);
+void LoadInstancesCommand(Environment *, UDFContext *, UDFValue *);
+void RestoreInstancesCommand(Environment *, UDFContext *, UDFValue *);
+long SaveInstancesDriver(Environment *, const char *, SaveScope, Expression *, bool);
+long SaveInstances(Environment *, const char *, SaveScope);
 #if BSAVE_INSTANCES
-   void                           BinarySaveInstancesCommand(Environment *,UDFContext *,UDFValue *);
-   long                           BinarySaveInstancesDriver(Environment *,const char *,SaveScope,Expression *,bool);
-   long                           BinarySaveInstances(Environment *,const char *,SaveScope);
+void BinarySaveInstancesCommand(Environment *, UDFContext *, UDFValue *);
+long BinarySaveInstancesDriver(Environment *, const char *, SaveScope, Expression *, bool);
+long BinarySaveInstances(Environment *, const char *, SaveScope);
 #endif
 #if BLOAD_INSTANCES
-   void                           BinaryLoadInstancesCommand(Environment *,UDFContext *,UDFValue *);
-   long                           BinaryLoadInstances(Environment *,const char *);
+void BinaryLoadInstancesCommand(Environment *, UDFContext *, UDFValue *);
+long BinaryLoadInstances(Environment *, const char *);
 #endif
-   long                           LoadInstances(Environment *,const char *);
-   long                           LoadInstancesFromString(Environment *,const char *,size_t);
-   long                           RestoreInstances(Environment *,const char *);
-   long                           RestoreInstancesFromString(Environment *,const char *,size_t);
+long LoadInstances(Environment *, const char *);
+long LoadInstancesFromString(Environment *, const char *, size_t);
+long RestoreInstances(Environment *, const char *);
+long RestoreInstancesFromString(Environment *, const char *, size_t);
 
 #endif /* _H_insfile */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  12/02/19            */
-   /*                                                     */
-   /*    CONSTRAINT BLOAD/BSAVE/CONSTRUCTS-TO-C HEADER    */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  12/02/19            */
+/*                                                     */
+/*    CONSTRAINT BLOAD/BSAVE/CONSTRUCTS-TO-C HEADER    */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements the binary save/load feature for      */
@@ -45,10 +45,10 @@
 #define ConstraintPointer(i) (((i) == ULONG_MAX) ? NULL : (CONSTRAINT_RECORD *) &ConstraintData(theEnv)->ConstraintArray[i])
 
 #if BLOAD_AND_BSAVE
-   void                           WriteNeededConstraints(Environment *,FILE *);
+void WriteNeededConstraints(Environment *, FILE *);
 #endif
-   void                           ReadNeededConstraints(Environment *);
-   void                           ClearBloadedConstraints(Environment *);
+void ReadNeededConstraints(Environment *);
+void ClearBloadedConstraints(Environment *);
 
 #endif /* _H_cstrnbin */
 

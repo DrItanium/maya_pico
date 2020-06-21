@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -53,57 +53,52 @@
 
 #include "object.h"
 
-typedef struct query_class
-  {
-   Defclass *cls;
-   Defmodule *theModule;
-   struct query_class *chain,*nxt;
-  } QUERY_CLASS;
+typedef struct query_class {
+    Defclass *cls;
+    Defmodule *theModule;
+    struct query_class *chain, *nxt;
+} QUERY_CLASS;
 
-typedef struct query_soln
-  {
-   Instance **soln;
-   struct query_soln *nxt;
-  } QUERY_SOLN;
+typedef struct query_soln {
+    Instance **soln;
+    struct query_soln *nxt;
+} QUERY_SOLN;
 
-typedef struct query_core
-  {
-   Instance **solns;
-   Expression *query,*action;
-   QUERY_SOLN *soln_set,*soln_bottom;
-   unsigned soln_size,soln_cnt;
-   UDFValue *result;
-  } QUERY_CORE;
+typedef struct query_core {
+    Instance **solns;
+    Expression *query, *action;
+    QUERY_SOLN *soln_set, *soln_bottom;
+    unsigned soln_size, soln_cnt;
+    UDFValue *result;
+} QUERY_CORE;
 
-typedef struct query_stack
-  {
-   QUERY_CORE *core;
-   struct query_stack *nxt;
-  } QUERY_STACK;
+typedef struct query_stack {
+    QUERY_CORE *core;
+    struct query_stack *nxt;
+} QUERY_STACK;
 
 #define INSTANCE_QUERY_DATA 31
 
-struct instanceQueryData
-  {
-   CLIPSLexeme *QUERY_DELIMITER_SYMBOL;
-   QUERY_CORE *QueryCore;
-   QUERY_STACK *QueryCoreStack;
-   bool AbortQuery;
-  };
+struct instanceQueryData {
+    CLIPSLexeme *QUERY_DELIMITER_SYMBOL;
+    QUERY_CORE *QueryCore;
+    QUERY_STACK *QueryCoreStack;
+    bool AbortQuery;
+};
 
 #define InstanceQueryData(theEnv) ((struct instanceQueryData *) GetEnvironmentData(theEnv,INSTANCE_QUERY_DATA))
 
 #define QUERY_DELIMITER_STRING     "(QDS)"
 
-   void                           SetupQuery(Environment *);
-   void                           GetQueryInstance(Environment *,UDFContext *,UDFValue *);
-   void                           GetQueryInstanceSlot(Environment *,UDFContext *,UDFValue *);
-   void                           AnyInstances(Environment *,UDFContext *,UDFValue *);
-   void                           QueryFindInstance(Environment *,UDFContext *,UDFValue *);
-   void                           QueryFindAllInstances(Environment *,UDFContext *,UDFValue *);
-   void                           QueryDoForInstance(Environment *,UDFContext *,UDFValue *);
-   void                           QueryDoForAllInstances(Environment *,UDFContext *,UDFValue *);
-   void                           DelayedQueryDoForAllInstances(Environment *,UDFContext *,UDFValue *);
+void SetupQuery(Environment *);
+void GetQueryInstance(Environment *, UDFContext *, UDFValue *);
+void GetQueryInstanceSlot(Environment *, UDFContext *, UDFValue *);
+void AnyInstances(Environment *, UDFContext *, UDFValue *);
+void QueryFindInstance(Environment *, UDFContext *, UDFValue *);
+void QueryFindAllInstances(Environment *, UDFContext *, UDFValue *);
+void QueryDoForInstance(Environment *, UDFContext *, UDFValue *);
+void QueryDoForAllInstances(Environment *, UDFContext *, UDFValue *);
+void DelayedQueryDoForAllInstances(Environment *, UDFContext *, UDFValue *);
 
 #endif /* INSTANCE_SET_QUERIES */
 

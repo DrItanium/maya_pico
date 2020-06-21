@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -41,26 +41,25 @@
 
 #define GENRCBIN_DATA 28
 
-struct defgenericBinaryData
-  {
-   Defgeneric *DefgenericArray;
-   unsigned long ModuleCount;
-   unsigned long GenericCount;
-   unsigned long MethodCount;
-   unsigned long RestrictionCount;
-   unsigned long TypeCount;
-   DEFGENERIC_MODULE *ModuleArray;
-   Defmethod *MethodArray;
-   RESTRICTION *RestrictionArray;
-   void **TypeArray;
-  };
+struct defgenericBinaryData {
+    Defgeneric *DefgenericArray;
+    unsigned long ModuleCount;
+    unsigned long GenericCount;
+    unsigned long MethodCount;
+    unsigned long RestrictionCount;
+    unsigned long TypeCount;
+    DEFGENERIC_MODULE *ModuleArray;
+    Defmethod *MethodArray;
+    RESTRICTION *RestrictionArray;
+    void **TypeArray;
+};
 
 #define DefgenericBinaryData(theEnv) ((struct defgenericBinaryData *) GetEnvironmentData(theEnv,GENRCBIN_DATA))
 
 #define GenericPointer(i) (((i) == ULONG_MAX) ? NULL : &DefgenericBinaryData(theEnv)->DefgenericArray[i])
 
-   void                           SetupGenericsBload(Environment *);
-   void                          *BloadDefgenericModuleReference(Environment *,unsigned long);
+void SetupGenericsBload(Environment *);
+void *BloadDefgenericModuleReference(Environment *, unsigned long);
 
 #endif /* _H_genrcbin */
 

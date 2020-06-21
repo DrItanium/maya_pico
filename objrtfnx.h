@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -58,154 +58,143 @@
 #include "object.h"
 #include "objrtmch.h"
 
-struct ObjectMatchVar1
-  {
-   unsigned short whichSlot;
-   unsigned short whichPattern;
-   unsigned short whichField;
-   unsigned objectAddress : 1;
-   unsigned allFields     : 1;
-   unsigned lhs           : 1;
-   unsigned rhs           : 1;
-  };
+struct ObjectMatchVar1 {
+    unsigned short whichSlot;
+    unsigned short whichPattern;
+    unsigned short whichField;
+    unsigned objectAddress: 1;
+    unsigned allFields: 1;
+    unsigned lhs: 1;
+    unsigned rhs: 1;
+};
 
-struct ObjectMatchVar2
-  {
-   unsigned short whichSlot;
-   unsigned short whichPattern;
-   unsigned short beginningOffset;
-   unsigned short endOffset;
-   unsigned fromBeginning   : 1;
-   unsigned fromEnd         : 1;
-   unsigned lhs           : 1;
-   unsigned rhs           : 1;
-  };
+struct ObjectMatchVar2 {
+    unsigned short whichSlot;
+    unsigned short whichPattern;
+    unsigned short beginningOffset;
+    unsigned short endOffset;
+    unsigned fromBeginning: 1;
+    unsigned fromEnd: 1;
+    unsigned lhs: 1;
+    unsigned rhs: 1;
+};
 
-struct ObjectMatchLength
-  {
-   unsigned minLength : 15;
-   unsigned exactly   : 1;
-  };
+struct ObjectMatchLength {
+    unsigned minLength: 15;
+    unsigned exactly: 1;
+};
 
-struct ObjectCmpPNConstant
-  {
-   unsigned short offset;
-   unsigned pass          : 1;
-   unsigned fail          : 1;
-   unsigned general       : 1;
-   unsigned fromBeginning : 1;
-  };
+struct ObjectCmpPNConstant {
+    unsigned short offset;
+    unsigned pass: 1;
+    unsigned fail: 1;
+    unsigned general: 1;
+    unsigned fromBeginning: 1;
+};
 
-struct ObjectCmpPNSingleSlotVars1
-  {
-   unsigned short firstSlot;
-   unsigned short secondSlot;
-   unsigned pass       : 1;
-   unsigned fail       : 1;
-  };
+struct ObjectCmpPNSingleSlotVars1 {
+    unsigned short firstSlot;
+    unsigned short secondSlot;
+    unsigned pass: 1;
+    unsigned fail: 1;
+};
 
-struct ObjectCmpPNSingleSlotVars2
-  {
-   unsigned short firstSlot;
-   unsigned short secondSlot;
-   unsigned short offset;
-   unsigned pass          : 1;
-   unsigned fail          : 1;
-   unsigned fromBeginning : 1;
-  };
+struct ObjectCmpPNSingleSlotVars2 {
+    unsigned short firstSlot;
+    unsigned short secondSlot;
+    unsigned short offset;
+    unsigned pass: 1;
+    unsigned fail: 1;
+    unsigned fromBeginning: 1;
+};
 
-struct ObjectCmpPNSingleSlotVars3
-  {
-   unsigned short firstSlot;
-   unsigned short secondSlot;
-   unsigned short firstOffset;
-   unsigned short secondOffset;
-   unsigned pass                : 1;
-   unsigned fail                : 1;
-   unsigned firstFromBeginning  : 1;
-   unsigned secondFromBeginning : 1;
-  };
+struct ObjectCmpPNSingleSlotVars3 {
+    unsigned short firstSlot;
+    unsigned short secondSlot;
+    unsigned short firstOffset;
+    unsigned short secondOffset;
+    unsigned pass: 1;
+    unsigned fail: 1;
+    unsigned firstFromBeginning: 1;
+    unsigned secondFromBeginning: 1;
+};
 
-struct ObjectCmpJoinSingleSlotVars1
-  {
-   unsigned short firstSlot;
-   unsigned short secondSlot;
-   unsigned short firstPattern;
-   unsigned short secondPattern;
-   unsigned pass          : 1;
-   unsigned fail          : 1;
-   unsigned int firstPatternLHS : 1;
-   unsigned int firstPatternRHS : 1;
-   unsigned int secondPatternLHS : 1;
-   unsigned int secondPatternRHS : 1;
-  };
+struct ObjectCmpJoinSingleSlotVars1 {
+    unsigned short firstSlot;
+    unsigned short secondSlot;
+    unsigned short firstPattern;
+    unsigned short secondPattern;
+    unsigned pass: 1;
+    unsigned fail: 1;
+    unsigned int firstPatternLHS: 1;
+    unsigned int firstPatternRHS: 1;
+    unsigned int secondPatternLHS: 1;
+    unsigned int secondPatternRHS: 1;
+};
 
-struct ObjectCmpJoinSingleSlotVars2
-  {
-   unsigned short firstSlot;
-   unsigned short secondSlot;
-   unsigned short firstPattern;
-   unsigned short secondPattern;
-   unsigned short offset;
-   unsigned pass          : 1;
-   unsigned fromBeginning : 1;
-   unsigned fail          : 1;
-   unsigned int firstPatternLHS : 1;
-   unsigned int firstPatternRHS : 1;
-   unsigned int secondPatternLHS : 1;
-   unsigned int secondPatternRHS : 1;
-  };
+struct ObjectCmpJoinSingleSlotVars2 {
+    unsigned short firstSlot;
+    unsigned short secondSlot;
+    unsigned short firstPattern;
+    unsigned short secondPattern;
+    unsigned short offset;
+    unsigned pass: 1;
+    unsigned fromBeginning: 1;
+    unsigned fail: 1;
+    unsigned int firstPatternLHS: 1;
+    unsigned int firstPatternRHS: 1;
+    unsigned int secondPatternLHS: 1;
+    unsigned int secondPatternRHS: 1;
+};
 
-struct ObjectCmpJoinSingleSlotVars3
-  {
-   unsigned short firstSlot;
-   unsigned short secondSlot;
-   unsigned short firstPattern;
-   unsigned short secondPattern;
-   unsigned short firstOffset;
-   unsigned short secondOffset;
-   unsigned pass                : 1;
-   unsigned fail                : 1;
-   unsigned firstFromBeginning  : 1;
-   unsigned secondFromBeginning : 1;
-   unsigned int firstPatternLHS : 1;
-   unsigned int firstPatternRHS : 1;
-   unsigned int secondPatternLHS : 1;
-   unsigned int secondPatternRHS : 1;
-  };
+struct ObjectCmpJoinSingleSlotVars3 {
+    unsigned short firstSlot;
+    unsigned short secondSlot;
+    unsigned short firstPattern;
+    unsigned short secondPattern;
+    unsigned short firstOffset;
+    unsigned short secondOffset;
+    unsigned pass: 1;
+    unsigned fail: 1;
+    unsigned firstFromBeginning: 1;
+    unsigned secondFromBeginning: 1;
+    unsigned int firstPatternLHS: 1;
+    unsigned int firstPatternRHS: 1;
+    unsigned int secondPatternLHS: 1;
+    unsigned int secondPatternRHS: 1;
+};
 
 #define OBJECT_RETE_DATA 35
 
-struct objectReteData
-  {
-   Instance *CurrentPatternObject;
-   InstanceSlot *CurrentPatternObjectSlot;
-   size_t CurrentObjectSlotLength;
-   struct multifieldMarker *CurrentPatternObjectMarks;
-   struct entityRecord ObjectGVInfo1;
-   struct entityRecord ObjectGVInfo2;
-   struct entityRecord ObjectGVPNInfo1;
-   struct entityRecord ObjectGVPNInfo2;
-   struct entityRecord ObjectCmpConstantInfo;
-   struct entityRecord LengthTestInfo;
-   struct entityRecord PNSimpleCompareInfo1;
-   struct entityRecord PNSimpleCompareInfo2;
-   struct entityRecord PNSimpleCompareInfo3;
-   struct entityRecord JNSimpleCompareInfo1;
-   struct entityRecord JNSimpleCompareInfo2;
-   struct entityRecord JNSimpleCompareInfo3;
-   OBJECT_MATCH_ACTION *ObjectMatchActionQueue;
-   OBJECT_PATTERN_NODE *ObjectPatternNetworkPointer;
-   OBJECT_ALPHA_NODE *ObjectPatternNetworkTerminalPointer;
-   bool DelayObjectPatternMatching;
-   unsigned long long CurrentObjectMatchTimeTag;
-   unsigned long long UseEntityTimeTag;
-  };
+struct objectReteData {
+    Instance *CurrentPatternObject;
+    InstanceSlot *CurrentPatternObjectSlot;
+    size_t CurrentObjectSlotLength;
+    struct multifieldMarker *CurrentPatternObjectMarks;
+    struct entityRecord ObjectGVInfo1;
+    struct entityRecord ObjectGVInfo2;
+    struct entityRecord ObjectGVPNInfo1;
+    struct entityRecord ObjectGVPNInfo2;
+    struct entityRecord ObjectCmpConstantInfo;
+    struct entityRecord LengthTestInfo;
+    struct entityRecord PNSimpleCompareInfo1;
+    struct entityRecord PNSimpleCompareInfo2;
+    struct entityRecord PNSimpleCompareInfo3;
+    struct entityRecord JNSimpleCompareInfo1;
+    struct entityRecord JNSimpleCompareInfo2;
+    struct entityRecord JNSimpleCompareInfo3;
+    OBJECT_MATCH_ACTION *ObjectMatchActionQueue;
+    OBJECT_PATTERN_NODE *ObjectPatternNetworkPointer;
+    OBJECT_ALPHA_NODE *ObjectPatternNetworkTerminalPointer;
+    bool DelayObjectPatternMatching;
+    unsigned long long CurrentObjectMatchTimeTag;
+    unsigned long long UseEntityTimeTag;
+};
 
 #define ObjectReteData(theEnv) ((struct objectReteData *) GetEnvironmentData(theEnv,OBJECT_RETE_DATA))
 
-   void                    InstallObjectPrimitives(Environment *);
-   bool                    ObjectCmpConstantFunction(Environment *,void *,UDFValue *);
+void InstallObjectPrimitives(Environment *);
+bool ObjectCmpConstantFunction(Environment *, void *, UDFValue *);
 
 #endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 

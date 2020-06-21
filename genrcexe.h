@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -52,17 +52,17 @@
 #include "Expression.h"
 #include "genrcfun.h"
 
-   void                           GenericDispatch(Environment *,Defgeneric *,Defmethod *,Defmethod *,Expression *,UDFValue *);
-   void                           UnboundMethodErr(Environment *,const char *);
-   bool                           IsMethodApplicable(Environment *,Defmethod *);
+void GenericDispatch(Environment *, Defgeneric *, Defmethod *, Defmethod *, Expression *, UDFValue *);
+void UnboundMethodErr(Environment *, const char *);
+bool IsMethodApplicable(Environment *, Defmethod *);
 
-   bool                           NextMethodP(Environment *);
-   void                           NextMethodPCommand(Environment *,UDFContext *,UDFValue *);
-   void                           CallNextMethod(Environment *,UDFContext *,UDFValue *);
-   void                           CallSpecificMethod(Environment *,UDFContext *,UDFValue *);
-   void                           OverrideNextMethod(Environment *,UDFContext *,UDFValue *);
+bool NextMethodP(Environment *);
+void NextMethodPCommand(Environment *, UDFContext *, UDFValue *);
+void CallNextMethod(Environment *, UDFContext *, UDFValue *);
+void CallSpecificMethod(Environment *, UDFContext *, UDFValue *);
+void OverrideNextMethod(Environment *, UDFContext *, UDFValue *);
 
-   void                           GetGenericCurrentArgument(Environment *,UDFContext *,UDFValue *);
+void GetGenericCurrentArgument(Environment *, UDFContext *, UDFValue *);
 
 #endif /* DEFGENERIC_CONSTRUCT */
 

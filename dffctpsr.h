@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*             DEFFACTS PARSER HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*             DEFFACTS PARSER HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -43,7 +43,7 @@
 
 #define _H_dffctpsr
 
-   bool                           ParseDeffacts(Environment *,const char *);
+bool ParseDeffacts(Environment *, const char *);
 
 #endif /* _H_dffctpsr */
 

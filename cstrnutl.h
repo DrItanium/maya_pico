@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*            CONSTRAINT UTILITY HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*            CONSTRAINT UTILITY HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Utility routines for manipulating, initializing, */
@@ -39,15 +39,15 @@
 
 #include "Constraint.h"
 
-   struct constraintRecord       *GetConstraintRecord(Environment *);
-   int                            CompareNumbers(Environment *,int,void *,int,void *);
-   struct constraintRecord       *CopyConstraintRecord(Environment *,CONSTRAINT_RECORD *);
-   bool                           SetConstraintType(int,CONSTRAINT_RECORD *);
-   void                           SetAnyAllowedFlags(CONSTRAINT_RECORD *,bool);
-   void                           SetAnyRestrictionFlags(CONSTRAINT_RECORD *,bool);
-   CONSTRAINT_RECORD             *FunctionCallToConstraintRecord(Environment *,void *);
-   CONSTRAINT_RECORD             *ExpressionToConstraintRecord(Environment *,struct expr *);
-   CONSTRAINT_RECORD             *ArgumentTypeToConstraintRecord(Environment *,unsigned);
+struct constraintRecord *GetConstraintRecord(Environment *);
+int CompareNumbers(Environment *, int, void *, int, void *);
+struct constraintRecord *CopyConstraintRecord(Environment *, CONSTRAINT_RECORD *);
+bool SetConstraintType(int, CONSTRAINT_RECORD *);
+void SetAnyAllowedFlags(CONSTRAINT_RECORD *, bool);
+void SetAnyRestrictionFlags(CONSTRAINT_RECORD *, bool);
+CONSTRAINT_RECORD *FunctionCallToConstraintRecord(Environment *, void *);
+CONSTRAINT_RECORD *ExpressionToConstraintRecord(Environment *, struct expr *);
+CONSTRAINT_RECORD *ArgumentTypeToConstraintRecord(Environment *, unsigned);
 
 #endif /* _H_cstrnutl */
 

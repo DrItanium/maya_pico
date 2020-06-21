@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -48,13 +48,13 @@
 
 #include "Evaluation.h"
 
-   void                           SetupInstanceMultifieldCommands(Environment *);
-   void                           MVSlotReplaceCommand(Environment *,UDFContext *,UDFValue *);
-   void                           MVSlotInsertCommand(Environment *,UDFContext *,UDFValue *);
-   void                           MVSlotDeleteCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DirectMVReplaceCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DirectMVInsertCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DirectMVDeleteCommand(Environment *,UDFContext *,UDFValue *);
+void SetupInstanceMultifieldCommands(Environment *);
+void MVSlotReplaceCommand(Environment *, UDFContext *, UDFValue *);
+void MVSlotInsertCommand(Environment *, UDFContext *, UDFValue *);
+void MVSlotDeleteCommand(Environment *, UDFContext *, UDFValue *);
+void DirectMVReplaceCommand(Environment *, UDFContext *, UDFValue *);
+void DirectMVInsertCommand(Environment *, UDFContext *, UDFValue *);
+void DirectMVDeleteCommand(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_insmult */
 

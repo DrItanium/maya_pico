@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  05/03/19             */
-   /*                                                     */
-   /*                COMMAND LINE MODULE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  05/03/19             */
+/*                                                     */
+/*                COMMAND LINE MODULE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides a set of routines for processing        */
@@ -130,38 +130,36 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static int                     DoString(const char *,int,bool *);
-   static int                     DoComment(const char *,int);
-   static int                     DoWhiteSpace(const char *,int);
-   static void                    DefaultGetNextEvent(Environment *);
-   static void                    DeallocateCommandLineData(Environment *);
+static int DoString(const char *, int, bool *);
+static int DoComment(const char *, int);
+static int DoWhiteSpace(const char *, int);
+static void DefaultGetNextEvent(Environment *);
+static void DeallocateCommandLineData(Environment *);
 
 /****************************************************/
 /* InitializeCommandLineData: Allocates environment */
 /*    data for command line functionality.          */
 /****************************************************/
 void InitializeCommandLineData(
-  Environment *theEnv)
-  {
-   AllocateEnvironmentData(theEnv,COMMANDLINE_DATA,sizeof(struct commandLineData),DeallocateCommandLineData);
+        Environment *theEnv) {
+    AllocateEnvironmentData(theEnv, COMMANDLINE_DATA, sizeof(struct commandLineData), DeallocateCommandLineData);
 
-   CommandLineData(theEnv)->BannerString = BANNER_STRING;
-   CommandLineData(theEnv)->EventCallback = DefaultGetNextEvent;
-  }
+    CommandLineData(theEnv)->BannerString = BANNER_STRING;
+    CommandLineData(theEnv)->EventCallback = DefaultGetNextEvent;
+}
 
 /*******************************************************/
 /* DeallocateCommandLineData: Deallocates environment */
 /*    data for the command line functionality.        */
 /******************************************************/
 static void DeallocateCommandLineData(
-  Environment *theEnv)
-  {
-   if (CommandLineData(theEnv)->CommandString != NULL)
-     { rm(theEnv,CommandLineData(theEnv)->CommandString,CommandLineData(theEnv)->MaximumCharacters); }
+        Environment *theEnv) {
+    if (CommandLineData(theEnv)->CommandString != NULL) {
+        rm(theEnv, CommandLineData(theEnv)->CommandString, CommandLineData(theEnv)->MaximumCharacters);
+    }
 
-   if (CommandLineData(theEnv)->CurrentCommand != NULL)
-     { ReturnExpression(theEnv,CommandLineData(theEnv)->CurrentCommand); }
-  }
+    if (CommandLineData(theEnv)->CurrentCommand != NULL) { ReturnExpression(theEnv, CommandLineData(theEnv)->CurrentCommand); }
+}
 
 /*************************************************/
 /* RerouteStdin: Processes the -f, -f2, and -l   */
@@ -169,83 +167,76 @@ static void DeallocateCommandLineData(
 /*   argc and arv command line options.          */
 /*************************************************/
 void RerouteStdin(
-  Environment *theEnv,
-  int argc,
-  char *argv[])
-  {
-   int i;
-   int theSwitch = NO_SWITCH;
+        Environment *theEnv,
+        int argc,
+        char *argv[]) {
+    int i;
+    int theSwitch = NO_SWITCH;
 
-   /*======================================*/
-   /* If there aren't enough arguments for */
-   /* the -f argument, then return.        */
-   /*======================================*/
+    /*======================================*/
+    /* If there aren't enough arguments for */
+    /* the -f argument, then return.        */
+    /*======================================*/
 
-   if (argc < 3)
-     { return; }
+    if (argc < 3) { return; }
 
-   /*=====================================*/
-   /* If argv was not passed then return. */
-   /*=====================================*/
+    /*=====================================*/
+    /* If argv was not passed then return. */
+    /*=====================================*/
 
-   if (argv == NULL) return;
+    if (argv == NULL) return;
 
-   /*=============================================*/
-   /* Process each of the command line arguments. */
-   /*=============================================*/
+    /*=============================================*/
+    /* Process each of the command line arguments. */
+    /*=============================================*/
 
-   for (i = 1 ; i < argc ; i++)
-     {
-      if (strcmp(argv[i],"-f") == 0) theSwitch = BATCH_SWITCH;
-      else if (strcmp(argv[i],"-f2") == 0) theSwitch = BATCH_STAR_SWITCH;
-      else if (strcmp(argv[i],"-l") == 0) theSwitch = LOAD_SWITCH;
-      else if (theSwitch == NO_SWITCH)
-        {
-         PrintErrorID(theEnv,"SYSDEP",2,false);
-         WriteString(theEnv,STDERR,"Invalid option '");
-         WriteString(theEnv,STDERR,argv[i]);
-         WriteString(theEnv,STDERR,"'.\n");
+    for (i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-f") == 0) theSwitch = BATCH_SWITCH;
+        else if (strcmp(argv[i], "-f2") == 0) theSwitch = BATCH_STAR_SWITCH;
+        else if (strcmp(argv[i], "-l") == 0) theSwitch = LOAD_SWITCH;
+        else if (theSwitch == NO_SWITCH) {
+            PrintErrorID(theEnv, "SYSDEP", 2, false);
+            WriteString(theEnv, STDERR, "Invalid option '");
+            WriteString(theEnv, STDERR, argv[i]);
+            WriteString(theEnv, STDERR, "'.\n");
         }
 
-      if (i > (argc-1))
-        {
-         PrintErrorID(theEnv,"SYSDEP",1,false);
-         WriteString(theEnv,STDERR,"No file found for '");
+        if (i > (argc - 1)) {
+            PrintErrorID(theEnv, "SYSDEP", 1, false);
+            WriteString(theEnv, STDERR, "No file found for '");
 
-         switch(theSwitch)
-           {
+            switch (theSwitch) {
+                case BATCH_SWITCH:
+                    WriteString(theEnv, STDERR, "-f");
+                    break;
+
+                case BATCH_STAR_SWITCH:
+                    WriteString(theEnv, STDERR, "-f2");
+                    break;
+
+                case LOAD_SWITCH:
+                    WriteString(theEnv, STDERR, "-l");
+            }
+
+            WriteString(theEnv, STDERR, "' option.\n");
+            return;
+        }
+
+        switch (theSwitch) {
             case BATCH_SWITCH:
-               WriteString(theEnv,STDERR,"-f");
-               break;
+                OpenBatch(theEnv, argv[++i], true);
+                break;
 
             case BATCH_STAR_SWITCH:
-               WriteString(theEnv,STDERR,"-f2");
-               break;
+                BatchStar(theEnv, argv[++i]);
+                break;
 
             case LOAD_SWITCH:
-               WriteString(theEnv,STDERR,"-l");
-           }
-
-         WriteString(theEnv,STDERR,"' option.\n");
-         return;
+                Load(theEnv, argv[++i]);
+                break;
         }
-
-      switch(theSwitch)
-        {
-         case BATCH_SWITCH:
-            OpenBatch(theEnv,argv[++i],true);
-            break;
-
-         case BATCH_STAR_SWITCH:
-            BatchStar(theEnv,argv[++i]);
-            break;
-
-         case LOAD_SWITCH:
-            Load(theEnv,argv[++i]);
-            break;
-        }
-     }
-  }
+    }
+}
 
 
 /***************************************************/
@@ -257,116 +248,115 @@ void RerouteStdin(
 /*   string's length.                              */
 /***************************************************/
 bool ExpandCommandString(
-  Environment *theEnv,
-  int inchar)
-  {
-   size_t k;
+        Environment *theEnv,
+        int inchar) {
+    size_t k;
 
-   k = RouterData(theEnv)->CommandBufferInputCount;
-   CommandLineData(theEnv)->CommandString = ExpandStringWithChar(theEnv,inchar,CommandLineData(theEnv)->CommandString,&RouterData(theEnv)->CommandBufferInputCount,
-                                        &CommandLineData(theEnv)->MaximumCharacters,CommandLineData(theEnv)->MaximumCharacters+80);
-   return((RouterData(theEnv)->CommandBufferInputCount != k) ? true : false);
-  }
+    k = RouterData(theEnv)->CommandBufferInputCount;
+    CommandLineData(theEnv)->CommandString = ExpandStringWithChar(theEnv, inchar, CommandLineData(theEnv)->CommandString,
+                                                                  &RouterData(theEnv)->CommandBufferInputCount,
+                                                                  &CommandLineData(theEnv)->MaximumCharacters,
+                                                                  CommandLineData(theEnv)->MaximumCharacters + 80);
+    return ((RouterData(theEnv)->CommandBufferInputCount != k) ? true : false);
+}
 
 /******************************************************************/
 /* FlushCommandString: Empties the contents of the CommandString. */
 /******************************************************************/
 void FlushCommandString(
-  Environment *theEnv)
-  {
-   if (CommandLineData(theEnv)->CommandString != NULL) rm(theEnv,CommandLineData(theEnv)->CommandString,CommandLineData(theEnv)->MaximumCharacters);
-   CommandLineData(theEnv)->CommandString = NULL;
-   CommandLineData(theEnv)->MaximumCharacters = 0;
-   RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->InputUngets = 0;
-   RouterData(theEnv)->AwaitingInput = true;
-  }
+        Environment *theEnv) {
+    if (CommandLineData(theEnv)->CommandString != NULL)
+        rm(theEnv, CommandLineData(theEnv)->CommandString, CommandLineData(theEnv)->MaximumCharacters);
+    CommandLineData(theEnv)->CommandString = NULL;
+    CommandLineData(theEnv)->MaximumCharacters = 0;
+    RouterData(theEnv)->CommandBufferInputCount = 0;
+    RouterData(theEnv)->InputUngets = 0;
+    RouterData(theEnv)->AwaitingInput = true;
+}
 
 /*********************************************************************************/
 /* SetCommandString: Sets the contents of the CommandString to a specific value. */
 /*********************************************************************************/
 void SetCommandString(
-  Environment *theEnv,
-  const char *str)
-  {
-   size_t length;
+        Environment *theEnv,
+        const char *str) {
+    size_t length;
 
-   FlushCommandString(theEnv);
-   length = strlen(str);
-   CommandLineData(theEnv)->CommandString = (char *)
-                   genrealloc(theEnv,CommandLineData(theEnv)->CommandString,
-                              CommandLineData(theEnv)->MaximumCharacters,
-                              CommandLineData(theEnv)->MaximumCharacters + length + 1);
+    FlushCommandString(theEnv);
+    length = strlen(str);
+    CommandLineData(theEnv)->CommandString = (char *)
+            genrealloc(theEnv, CommandLineData(theEnv)->CommandString,
+                       CommandLineData(theEnv)->MaximumCharacters,
+                       CommandLineData(theEnv)->MaximumCharacters + length + 1);
 
-   genstrcpy(CommandLineData(theEnv)->CommandString,str);
-   CommandLineData(theEnv)->MaximumCharacters += (length + 1);
-   RouterData(theEnv)->CommandBufferInputCount += length;
-  }
+    genstrcpy(CommandLineData(theEnv)->CommandString, str);
+    CommandLineData(theEnv)->MaximumCharacters += (length + 1);
+    RouterData(theEnv)->CommandBufferInputCount += length;
+}
 
 /*************************************************************/
 /* SetNCommandString: Sets the contents of the CommandString */
 /*   to a specific value up to N characters.                 */
 /*************************************************************/
 void SetNCommandString(
-  Environment *theEnv,
-  const char *str,
-  unsigned length)
-  {
-   FlushCommandString(theEnv);
-   CommandLineData(theEnv)->CommandString = (char *)
-                   genrealloc(theEnv,CommandLineData(theEnv)->CommandString,
-                              CommandLineData(theEnv)->MaximumCharacters,
-                              CommandLineData(theEnv)->MaximumCharacters + length + 1);
+        Environment *theEnv,
+        const char *str,
+        unsigned length) {
+    FlushCommandString(theEnv);
+    CommandLineData(theEnv)->CommandString = (char *)
+            genrealloc(theEnv, CommandLineData(theEnv)->CommandString,
+                       CommandLineData(theEnv)->MaximumCharacters,
+                       CommandLineData(theEnv)->MaximumCharacters + length + 1);
 
-   genstrncpy(CommandLineData(theEnv)->CommandString,str,length);
-   CommandLineData(theEnv)->CommandString[CommandLineData(theEnv)->MaximumCharacters + length] = 0;
-   CommandLineData(theEnv)->MaximumCharacters += (length + 1);
-   RouterData(theEnv)->CommandBufferInputCount += length;
-  }
+    genstrncpy(CommandLineData(theEnv)->CommandString, str, length);
+    CommandLineData(theEnv)->CommandString[CommandLineData(theEnv)->MaximumCharacters + length] = 0;
+    CommandLineData(theEnv)->MaximumCharacters += (length + 1);
+    RouterData(theEnv)->CommandBufferInputCount += length;
+}
 
 /******************************************************************************/
 /* AppendCommandString: Appends a value to the contents of the CommandString. */
 /******************************************************************************/
 void AppendCommandString(
-  Environment *theEnv,
-  const char *str)
-  {
-   CommandLineData(theEnv)->CommandString = AppendToString(theEnv,str,CommandLineData(theEnv)->CommandString,&RouterData(theEnv)->CommandBufferInputCount,&CommandLineData(theEnv)->MaximumCharacters);
-  }
+        Environment *theEnv,
+        const char *str) {
+    CommandLineData(theEnv)->CommandString = AppendToString(theEnv, str, CommandLineData(theEnv)->CommandString,
+                                                            &RouterData(theEnv)->CommandBufferInputCount,
+                                                            &CommandLineData(theEnv)->MaximumCharacters);
+}
 
 /******************************************************************************/
 /* InsertCommandString: Inserts a value in the contents of the CommandString. */
 /******************************************************************************/
 void InsertCommandString(
-  Environment *theEnv,
-  const char *str,
-  unsigned int position)
-  {
-   CommandLineData(theEnv)->CommandString =
-      InsertInString(theEnv,str,position,CommandLineData(theEnv)->CommandString,
-                     &RouterData(theEnv)->CommandBufferInputCount,&CommandLineData(theEnv)->MaximumCharacters);
-  }
+        Environment *theEnv,
+        const char *str,
+        unsigned int position) {
+    CommandLineData(theEnv)->CommandString =
+            InsertInString(theEnv, str, position, CommandLineData(theEnv)->CommandString,
+                           &RouterData(theEnv)->CommandBufferInputCount, &CommandLineData(theEnv)->MaximumCharacters);
+}
 
 /************************************************************/
 /* AppendNCommandString: Appends a value up to N characters */
 /*   to the contents of the CommandString.                  */
 /************************************************************/
 void AppendNCommandString(
-  Environment *theEnv,
-  const char *str,
-  unsigned length)
-  {
-   CommandLineData(theEnv)->CommandString = AppendNToString(theEnv,str,CommandLineData(theEnv)->CommandString,length,&RouterData(theEnv)->CommandBufferInputCount,&CommandLineData(theEnv)->MaximumCharacters);
-  }
+        Environment *theEnv,
+        const char *str,
+        unsigned length) {
+    CommandLineData(theEnv)->CommandString = AppendNToString(theEnv, str, CommandLineData(theEnv)->CommandString, length,
+                                                             &RouterData(theEnv)->CommandBufferInputCount,
+                                                             &CommandLineData(theEnv)->MaximumCharacters);
+}
 
 /*****************************************************************************/
 /* GetCommandString: Returns a pointer to the contents of the CommandString. */
 /*****************************************************************************/
 char *GetCommandString(
-  Environment *theEnv)
-  {
-   return(CommandLineData(theEnv)->CommandString);
-  }
+        Environment *theEnv) {
+    return (CommandLineData(theEnv)->CommandString);
+}
 
 /**************************************************************************/
 /* CompleteCommand: Determines whether a string forms a complete command. */
@@ -379,247 +369,228 @@ char *GetCommandString(
 /*   contains an error.                                                   */
 /**************************************************************************/
 int CompleteCommand(
-  const char *mstring)
-  {
-   int i;
-   char inchar;
-   int depth = 0;
-   bool moreThanZero = false;
-   bool complete;
-   bool error = false;
+        const char *mstring) {
+    int i;
+    char inchar;
+    int depth = 0;
+    bool moreThanZero = false;
+    bool complete;
+    bool error = false;
 
-   if (mstring == NULL) return 0;
+    if (mstring == NULL) return 0;
 
-   /*===================================================*/
-   /* Loop through each character of the command string */
-   /* to determine if there is a complete command.      */
-   /*===================================================*/
+    /*===================================================*/
+    /* Loop through each character of the command string */
+    /* to determine if there is a complete command.      */
+    /*===================================================*/
 
-   i = 0;
-   while ((inchar = mstring[i++]) != EOS)
-     {
-      switch(inchar)
-        {
-         /*======================================================*/
-         /* If a carriage return or line feed is found, there is */
-         /* at least one completed token in the command buffer,  */
-         /* and parentheses are balanced, then a complete        */
-         /* command has been found. Otherwise, remove all white  */
-         /* space beginning with the current character.          */
-         /*======================================================*/
+    i = 0;
+    while ((inchar = mstring[i++]) != EOS) {
+        switch (inchar) {
+            /*======================================================*/
+            /* If a carriage return or line feed is found, there is */
+            /* at least one completed token in the command buffer,  */
+            /* and parentheses are balanced, then a complete        */
+            /* command has been found. Otherwise, remove all white  */
+            /* space beginning with the current character.          */
+            /*======================================================*/
 
-         case '\n' :
-         case '\r' :
-           if (error) return(-1);
-           if (moreThanZero && (depth == 0)) return 1;
-           i = DoWhiteSpace(mstring,i);
-           break;
+            case '\n' :
+            case '\r' :
+                if (error) return (-1);
+                if (moreThanZero && (depth == 0)) return 1;
+                i = DoWhiteSpace(mstring, i);
+                break;
 
-         /*=====================*/
-         /* Remove white space. */
-         /*=====================*/
+                /*=====================*/
+                /* Remove white space. */
+                /*=====================*/
 
-         case ' ' :
-         case '\f' :
-         case '\t' :
-           i = DoWhiteSpace(mstring,i);
-           break;
+            case ' ' :
+            case '\f' :
+            case '\t' :
+                i = DoWhiteSpace(mstring, i);
+                break;
 
-         /*======================================================*/
-         /* If the opening quotation of a string is encountered, */
-         /* determine if the closing quotation of the string is  */
-         /* in the command buffer. Until the closing quotation   */
-         /* is found, a complete command can not be made.        */
-         /*======================================================*/
+                /*======================================================*/
+                /* If the opening quotation of a string is encountered, */
+                /* determine if the closing quotation of the string is  */
+                /* in the command buffer. Until the closing quotation   */
+                /* is found, a complete command can not be made.        */
+                /*======================================================*/
 
-         case '"' :
-           i = DoString(mstring,i,&complete);
-           if ((depth == 0) && complete) moreThanZero = true;
-           break;
+            case '"' :
+                i = DoString(mstring, i, &complete);
+                if ((depth == 0) && complete) moreThanZero = true;
+                break;
 
-         /*====================*/
-         /* Process a comment. */
-         /*====================*/
+                /*====================*/
+                /* Process a comment. */
+                /*====================*/
 
-         case ';' :
-           i = DoComment(mstring,i);
-           if (moreThanZero && (depth == 0) && (mstring[i] != EOS))
-             {
-              if (error) return -1;
-              else return 1;
-             }
-           else if (mstring[i] != EOS) i++;
-           break;
+            case ';' :
+                i = DoComment(mstring, i);
+                if (moreThanZero && (depth == 0) && (mstring[i] != EOS)) {
+                    if (error) return -1;
+                    else return 1;
+                } else if (mstring[i] != EOS) i++;
+                break;
 
-         /*====================================================*/
-         /* A left parenthesis increases the nesting depth of  */
-         /* the current command by 1. Don't bother to increase */
-         /* the depth if the first token encountered was not   */
-         /* a parenthesis (e.g. for the command string         */
-         /* "red (+ 3 4", the symbol red already forms a       */
-         /* complete command, so the next carriage return will */
-         /* cause evaluation of red--the closing parenthesis   */
-         /* for "(+ 3 4" does not have to be found).           */
-         /*====================================================*/
+                /*====================================================*/
+                /* A left parenthesis increases the nesting depth of  */
+                /* the current command by 1. Don't bother to increase */
+                /* the depth if the first token encountered was not   */
+                /* a parenthesis (e.g. for the command string         */
+                /* "red (+ 3 4", the symbol red already forms a       */
+                /* complete command, so the next carriage return will */
+                /* cause evaluation of red--the closing parenthesis   */
+                /* for "(+ 3 4" does not have to be found).           */
+                /*====================================================*/
 
-         case '(' :
-           if ((depth > 0) || (moreThanZero == false))
-             {
-              depth++;
-              moreThanZero = true;
-             }
-           break;
-
-         /*====================================================*/
-         /* A right parenthesis decreases the nesting depth of */
-         /* the current command by 1. If the parenthesis is    */
-         /* the first token of the command, then an error is   */
-         /* generated.                                         */
-         /*====================================================*/
-
-         case ')' :
-           if (depth > 0) depth--;
-           else if (moreThanZero == false) error = true;
-           break;
-
-         /*=====================================================*/
-         /* If the command begins with any other character and  */
-         /* an opening parenthesis hasn't yet been found, then  */
-         /* skip all characters on the same line. If a carriage */
-         /* return or line feed is found, then a complete       */
-         /* command exists.                                     */
-         /*=====================================================*/
-
-         default:
-           if (depth == 0)
-             {
-              if (IsUTF8MultiByteStart(inchar) || isprint(inchar))
-                {
-                 while ((inchar = mstring[i++]) != EOS)
-                   {
-                    if ((inchar == '\n') || (inchar == '\r'))
-                      {
-                       if (error) return -1;
-                       else return 1;
-                      }
-                   }
-                 return 0;
+            case '(' :
+                if ((depth > 0) || (moreThanZero == false)) {
+                    depth++;
+                    moreThanZero = true;
                 }
-             }
-           break;
+                break;
+
+                /*====================================================*/
+                /* A right parenthesis decreases the nesting depth of */
+                /* the current command by 1. If the parenthesis is    */
+                /* the first token of the command, then an error is   */
+                /* generated.                                         */
+                /*====================================================*/
+
+            case ')' :
+                if (depth > 0) depth--;
+                else if (moreThanZero == false) error = true;
+                break;
+
+                /*=====================================================*/
+                /* If the command begins with any other character and  */
+                /* an opening parenthesis hasn't yet been found, then  */
+                /* skip all characters on the same line. If a carriage */
+                /* return or line feed is found, then a complete       */
+                /* command exists.                                     */
+                /*=====================================================*/
+
+            default:
+                if (depth == 0) {
+                    if (IsUTF8MultiByteStart(inchar) || isprint(inchar)) {
+                        while ((inchar = mstring[i++]) != EOS) {
+                            if ((inchar == '\n') || (inchar == '\r')) {
+                                if (error) return -1;
+                                else return 1;
+                            }
+                        }
+                        return 0;
+                    }
+                }
+                break;
         }
-     }
+    }
 
-   /*====================================================*/
-   /* Return 0 because a complete command was not found. */
-   /*====================================================*/
+    /*====================================================*/
+    /* Return 0 because a complete command was not found. */
+    /*====================================================*/
 
-   return 0;
-  }
+    return 0;
+}
 
 /***********************************************************/
 /* DoString: Skips over a string contained within a string */
 /*   until the closing quotation mark is encountered.      */
 /***********************************************************/
 static int DoString(
-  const char *str,
-  int pos,
-  bool *complete)
-  {
-   int inchar;
+        const char *str,
+        int pos,
+        bool *complete) {
+    int inchar;
 
-   /*=================================================*/
-   /* Process the string character by character until */
-   /* the closing quotation mark is found.            */
-   /*=================================================*/
+    /*=================================================*/
+    /* Process the string character by character until */
+    /* the closing quotation mark is found.            */
+    /*=================================================*/
 
-   inchar = str[pos];
-   while (inchar  != '"')
-     {
-      /*=====================================================*/
-      /* If a \ is found, then the next character is ignored */
-      /* even if it is a closing quotation mark.             */
-      /*=====================================================*/
+    inchar = str[pos];
+    while (inchar != '"') {
+        /*=====================================================*/
+        /* If a \ is found, then the next character is ignored */
+        /* even if it is a closing quotation mark.             */
+        /*=====================================================*/
 
-      if (inchar == '\\')
-        {
-         pos++;
-         inchar = str[pos];
+        if (inchar == '\\') {
+            pos++;
+            inchar = str[pos];
         }
 
-      /*===================================================*/
-      /* If the end of input is reached before the closing */
-      /* quotation mark is found, the return the last      */
-      /* position that was reached and indicate that a     */
-      /* complete string was not found.                    */
-      /*===================================================*/
+        /*===================================================*/
+        /* If the end of input is reached before the closing */
+        /* quotation mark is found, the return the last      */
+        /* position that was reached and indicate that a     */
+        /* complete string was not found.                    */
+        /*===================================================*/
 
-      if (inchar == EOS)
-        {
-         *complete = false;
-         return(pos);
+        if (inchar == EOS) {
+            *complete = false;
+            return (pos);
         }
 
-      /*================================*/
-      /* Move on to the next character. */
-      /*================================*/
+        /*================================*/
+        /* Move on to the next character. */
+        /*================================*/
 
-      pos++;
-      inchar = str[pos];
-     }
+        pos++;
+        inchar = str[pos];
+    }
 
-   /*======================================================*/
-   /* Indicate that a complete string was found and return */
-   /* the position of the closing quotation mark.          */
-   /*======================================================*/
+    /*======================================================*/
+    /* Indicate that a complete string was found and return */
+    /* the position of the closing quotation mark.          */
+    /*======================================================*/
 
-   pos++;
-   *complete = true;
-   return(pos);
-  }
+    pos++;
+    *complete = true;
+    return (pos);
+}
 
 /*************************************************************/
 /* DoComment: Skips over a comment contained within a string */
 /*   until a line feed or carriage return is encountered.    */
 /*************************************************************/
 static int DoComment(
-  const char *str,
-  int pos)
-  {
-   int inchar;
+        const char *str,
+        int pos) {
+    int inchar;
 
-   inchar = str[pos];
-   while ((inchar != '\n') && (inchar != '\r'))
-     {
-      if (inchar == EOS)
-        { return(pos); }
+    inchar = str[pos];
+    while ((inchar != '\n') && (inchar != '\r')) {
+        if (inchar == EOS) { return (pos); }
 
-      pos++;
-      inchar = str[pos];
-     }
+        pos++;
+        inchar = str[pos];
+    }
 
-   return(pos);
-  }
+    return (pos);
+}
 
 /**************************************************************/
 /* DoWhiteSpace: Skips over white space consisting of spaces, */
 /*   tabs, and form feeds that is contained within a string.  */
 /**************************************************************/
 static int DoWhiteSpace(
-  const char *str,
-  int pos)
-  {
-   int inchar;
+        const char *str,
+        int pos) {
+    int inchar;
 
-   inchar = str[pos];
-   while ((inchar == ' ') || (inchar == '\f') || (inchar == '\t'))
-     {
-      pos++;
-      inchar = str[pos];
-     }
+    inchar = str[pos];
+    while ((inchar == ' ') || (inchar == '\f') || (inchar == '\t')) {
+        pos++;
+        inchar = str[pos];
+    }
 
-   return(pos);
-  }
+    return (pos);
+}
 
 /********************************************************************/
 /* CommandLoop: Endless loop which waits for user commands and then */
@@ -627,63 +598,55 @@ static int DoWhiteSpace(
 /*   if there is an active batch file.                              */
 /********************************************************************/
 void CommandLoop(
-  Environment *theEnv)
-  {
-   int inchar;
+        Environment *theEnv) {
+    int inchar;
 
-   WriteString(theEnv,STDOUT,CommandLineData(theEnv)->BannerString);
-   SetHaltExecution(theEnv,false);
-   SetEvaluationError(theEnv,false);
+    WriteString(theEnv, STDOUT, CommandLineData(theEnv)->BannerString);
+    SetHaltExecution(theEnv, false);
+    SetEvaluationError(theEnv, false);
 
-   CleanCurrentGarbageFrame(theEnv,NULL);
-   CallPeriodicTasks(theEnv);
+    CleanCurrentGarbageFrame(theEnv, NULL);
+    CallPeriodicTasks(theEnv);
 
-   PrintPrompt(theEnv);
-   RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->InputUngets = 0;
-   RouterData(theEnv)->AwaitingInput = true;
+    PrintPrompt(theEnv);
+    RouterData(theEnv)->CommandBufferInputCount = 0;
+    RouterData(theEnv)->InputUngets = 0;
+    RouterData(theEnv)->AwaitingInput = true;
 
-   while (true)
-     {
-      /*===================================================*/
-      /* If a batch file is active, grab the command input */
-      /* directly from the batch file, otherwise call the  */
-      /* event function.                                   */
-      /*===================================================*/
+    while (true) {
+        /*===================================================*/
+        /* If a batch file is active, grab the command input */
+        /* directly from the batch file, otherwise call the  */
+        /* event function.                                   */
+        /*===================================================*/
 
-      if (BatchActive(theEnv) == true)
-        {
-         inchar = LLGetcBatch(theEnv,STDIN,true);
-         if (inchar == EOF)
-           { (*CommandLineData(theEnv)->EventCallback)(theEnv); }
-         else
-           { ExpandCommandString(theEnv,(char) inchar); }
-        }
-      else
-        { (*CommandLineData(theEnv)->EventCallback)(theEnv); }
+        if (BatchActive(theEnv) == true) {
+            inchar = LLGetcBatch(theEnv, STDIN, true);
+            if (inchar == EOF) { (*CommandLineData(theEnv)->EventCallback)(theEnv); }
+            else { ExpandCommandString(theEnv, (char) inchar); }
+        } else { (*CommandLineData(theEnv)->EventCallback)(theEnv); }
 
-      /*=================================================*/
-      /* If execution was halted, then remove everything */
-      /* from the command buffer.                        */
-      /*=================================================*/
+        /*=================================================*/
+        /* If execution was halted, then remove everything */
+        /* from the command buffer.                        */
+        /*=================================================*/
 
-      if (GetHaltExecution(theEnv) == true)
-        {
-         SetHaltExecution(theEnv,false);
-         SetEvaluationError(theEnv,false);
-         FlushCommandString(theEnv);
-         WriteString(theEnv,STDOUT,"\n");
-         PrintPrompt(theEnv);
+        if (GetHaltExecution(theEnv) == true) {
+            SetHaltExecution(theEnv, false);
+            SetEvaluationError(theEnv, false);
+            FlushCommandString(theEnv);
+            WriteString(theEnv, STDOUT, "\n");
+            PrintPrompt(theEnv);
         }
 
-      /*=========================================*/
-      /* If a complete command is in the command */
-      /* buffer, then execute it.                */
-      /*=========================================*/
+        /*=========================================*/
+        /* If a complete command is in the command */
+        /* buffer, then execute it.                */
+        /*=========================================*/
 
-      ExecuteIfCommandComplete(theEnv);
-     }
-  }
+        ExecuteIfCommandComplete(theEnv);
+    }
+}
 
 /***********************************************************/
 /* CommandLoopBatch: Loop which waits for commands from a  */
@@ -691,21 +654,20 @@ void CommandLoop(
 /*   are no longer any active batch files.                 */
 /***********************************************************/
 void CommandLoopBatch(
-  Environment *theEnv)
-  {
-   SetHaltExecution(theEnv,false);
-   SetEvaluationError(theEnv,false);
+        Environment *theEnv) {
+    SetHaltExecution(theEnv, false);
+    SetEvaluationError(theEnv, false);
 
-   CleanCurrentGarbageFrame(theEnv,NULL);
-   CallPeriodicTasks(theEnv);
+    CleanCurrentGarbageFrame(theEnv, NULL);
+    CallPeriodicTasks(theEnv);
 
-   PrintPrompt(theEnv);
-   RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->InputUngets = 0;
-   RouterData(theEnv)->AwaitingInput = true;
+    PrintPrompt(theEnv);
+    RouterData(theEnv)->CommandBufferInputCount = 0;
+    RouterData(theEnv)->InputUngets = 0;
+    RouterData(theEnv)->AwaitingInput = true;
 
-   CommandLoopBatchDriver(theEnv);
-  }
+    CommandLoopBatchDriver(theEnv);
+}
 
 /************************************************************/
 /* CommandLoopOnceThenBatch: Loop which waits for commands  */
@@ -713,12 +675,11 @@ void CommandLoopBatch(
 /*   there are no longer any active batch files.            */
 /************************************************************/
 void CommandLoopOnceThenBatch(
-  Environment *theEnv)
-  {
-   if (! ExecuteIfCommandComplete(theEnv)) return;
+        Environment *theEnv) {
+    if (!ExecuteIfCommandComplete(theEnv)) return;
 
-   CommandLoopBatchDriver(theEnv);
-  }
+    CommandLoopBatchDriver(theEnv);
+}
 
 /*********************************************************/
 /* CommandLoopBatchDriver: Loop which waits for commands */
@@ -726,329 +687,297 @@ void CommandLoopOnceThenBatch(
 /*   when there are no longer any active batch files.    */
 /*********************************************************/
 void CommandLoopBatchDriver(
-  Environment *theEnv)
-  {
-   int inchar;
+        Environment *theEnv) {
+    int inchar;
 
-   while (true)
-     {
-      if (GetHaltCommandLoopBatch(theEnv) == true)
-        {
-         CloseAllBatchSources(theEnv);
-         SetHaltCommandLoopBatch(theEnv,false);
+    while (true) {
+        if (GetHaltCommandLoopBatch(theEnv) == true) {
+            CloseAllBatchSources(theEnv);
+            SetHaltCommandLoopBatch(theEnv, false);
         }
 
-      /*===================================================*/
-      /* If a batch file is active, grab the command input */
-      /* directly from the batch file, otherwise call the  */
-      /* event function.                                   */
-      /*===================================================*/
+        /*===================================================*/
+        /* If a batch file is active, grab the command input */
+        /* directly from the batch file, otherwise call the  */
+        /* event function.                                   */
+        /*===================================================*/
 
-      if (BatchActive(theEnv) == true)
-        {
-         inchar = LLGetcBatch(theEnv,STDIN,true);
-         if (inchar == EOF)
-           { return; }
-         else
-           { ExpandCommandString(theEnv,(char) inchar); }
-        }
-      else
-        { return; }
+        if (BatchActive(theEnv) == true) {
+            inchar = LLGetcBatch(theEnv, STDIN, true);
+            if (inchar == EOF) { return; }
+            else { ExpandCommandString(theEnv, (char) inchar); }
+        } else { return; }
 
-      /*=================================================*/
-      /* If execution was halted, then remove everything */
-      /* from the command buffer.                        */
-      /*=================================================*/
+        /*=================================================*/
+        /* If execution was halted, then remove everything */
+        /* from the command buffer.                        */
+        /*=================================================*/
 
-      if (GetHaltExecution(theEnv) == true)
-        {
-         SetHaltExecution(theEnv,false);
-         SetEvaluationError(theEnv,false);
-         FlushCommandString(theEnv);
-         WriteString(theEnv,STDOUT,"\n");
-         PrintPrompt(theEnv);
+        if (GetHaltExecution(theEnv) == true) {
+            SetHaltExecution(theEnv, false);
+            SetEvaluationError(theEnv, false);
+            FlushCommandString(theEnv);
+            WriteString(theEnv, STDOUT, "\n");
+            PrintPrompt(theEnv);
         }
 
-      /*=========================================*/
-      /* If a complete command is in the command */
-      /* buffer, then execute it.                */
-      /*=========================================*/
+        /*=========================================*/
+        /* If a complete command is in the command */
+        /* buffer, then execute it.                */
+        /*=========================================*/
 
-      ExecuteIfCommandComplete(theEnv);
-     }
-  }
+        ExecuteIfCommandComplete(theEnv);
+    }
+}
 
 /**********************************************************/
 /* ExecuteIfCommandComplete: Checks to determine if there */
 /*   is a completed command and if so executes it.        */
 /**********************************************************/
 bool ExecuteIfCommandComplete(
-  Environment *theEnv)
-  {
-   if ((CompleteCommand(CommandLineData(theEnv)->CommandString) == 0) ||
-       (RouterData(theEnv)->CommandBufferInputCount == 0) ||
-       (RouterData(theEnv)->AwaitingInput == false))
-     { return false; }
+        Environment *theEnv) {
+    if ((CompleteCommand(CommandLineData(theEnv)->CommandString) == 0) ||
+        (RouterData(theEnv)->CommandBufferInputCount == 0) ||
+        (RouterData(theEnv)->AwaitingInput == false)) { return false; }
 
-   if (CommandLineData(theEnv)->BeforeCommandExecutionCallback != NULL)
-     {
-      if (! (*CommandLineData(theEnv)->BeforeCommandExecutionCallback)(theEnv))
-        { return false; }
-     }
+    if (CommandLineData(theEnv)->BeforeCommandExecutionCallback != NULL) {
+        if (!(*CommandLineData(theEnv)->BeforeCommandExecutionCallback)(theEnv)) { return false; }
+    }
 
-   FlushPPBuffer(theEnv);
-   SetPPBufferStatus(theEnv,false);
-   RouterData(theEnv)->CommandBufferInputCount = 0;
-   RouterData(theEnv)->InputUngets = 0;
-   RouterData(theEnv)->AwaitingInput = false;
-   RouteCommand(theEnv,CommandLineData(theEnv)->CommandString,true);
-   FlushPPBuffer(theEnv);
-   FlushParsingMessages(theEnv);
-   SetHaltExecution(theEnv,false);
-   SetEvaluationError(theEnv,false);
-   FlushCommandString(theEnv);
+    FlushPPBuffer(theEnv);
+    SetPPBufferStatus(theEnv, false);
+    RouterData(theEnv)->CommandBufferInputCount = 0;
+    RouterData(theEnv)->InputUngets = 0;
+    RouterData(theEnv)->AwaitingInput = false;
+    RouteCommand(theEnv, CommandLineData(theEnv)->CommandString, true);
+    FlushPPBuffer(theEnv);
+    FlushParsingMessages(theEnv);
+    SetHaltExecution(theEnv, false);
+    SetEvaluationError(theEnv, false);
+    FlushCommandString(theEnv);
 
-   CleanCurrentGarbageFrame(theEnv,NULL);
-   CallPeriodicTasks(theEnv);
+    CleanCurrentGarbageFrame(theEnv, NULL);
+    CallPeriodicTasks(theEnv);
 
-   PrintPrompt(theEnv);
+    PrintPrompt(theEnv);
 
-   return true;
-  }
+    return true;
+}
 
 /*******************************/
 /* CommandCompleteAndNotEmpty: */
 /*******************************/
 bool CommandCompleteAndNotEmpty(
-  Environment *theEnv)
-  {
-   if ((CompleteCommand(CommandLineData(theEnv)->CommandString) == 0) ||
-       (RouterData(theEnv)->CommandBufferInputCount == 0) ||
-       (RouterData(theEnv)->AwaitingInput == false))
-     { return false; }
+        Environment *theEnv) {
+    if ((CompleteCommand(CommandLineData(theEnv)->CommandString) == 0) ||
+        (RouterData(theEnv)->CommandBufferInputCount == 0) ||
+        (RouterData(theEnv)->AwaitingInput == false)) { return false; }
 
-   return true;
-  }
+    return true;
+}
 
 /*******************************************/
 /* PrintPrompt: Prints the command prompt. */
 /*******************************************/
 void PrintPrompt(
-   Environment *theEnv)
-   {
-    WriteString(theEnv,STDOUT,COMMAND_PROMPT);
+        Environment *theEnv) {
+    WriteString(theEnv, STDOUT, COMMAND_PROMPT);
 
-    if (CommandLineData(theEnv)->AfterPromptCallback != NULL)
-      { (*CommandLineData(theEnv)->AfterPromptCallback)(theEnv); }
-   }
+    if (CommandLineData(theEnv)->AfterPromptCallback != NULL) { (*CommandLineData(theEnv)->AfterPromptCallback)(theEnv); }
+}
 
 /*****************************************/
 /* PrintBanner: Prints the CLIPS banner. */
 /*****************************************/
 void PrintBanner(
-   Environment *theEnv)
-   {
-    WriteString(theEnv,STDOUT,CommandLineData(theEnv)->BannerString);
-   }
+        Environment *theEnv) {
+    WriteString(theEnv, STDOUT, CommandLineData(theEnv)->BannerString);
+}
 
 /************************************************/
 /* SetAfterPromptFunction: Replaces the current */
 /*   value of AfterPromptFunction.              */
 /************************************************/
 void SetAfterPromptFunction(
-  Environment *theEnv,
-  AfterPromptFunction *funptr)
-  {
-   CommandLineData(theEnv)->AfterPromptCallback = funptr;
-  }
+        Environment *theEnv,
+        AfterPromptFunction *funptr) {
+    CommandLineData(theEnv)->AfterPromptCallback = funptr;
+}
 
 /***********************************************************/
 /* SetBeforeCommandExecutionFunction: Replaces the current */
 /*   value of BeforeCommandExecutionFunction.              */
 /***********************************************************/
 void SetBeforeCommandExecutionFunction(
-  Environment *theEnv,
-  BeforeCommandExecutionFunction *funptr)
-  {
-   CommandLineData(theEnv)->BeforeCommandExecutionCallback = funptr;
-  }
+        Environment *theEnv,
+        BeforeCommandExecutionFunction *funptr) {
+    CommandLineData(theEnv)->BeforeCommandExecutionCallback = funptr;
+}
 
 /*********************************************************/
 /* RouteCommand: Processes a completed command. Returns  */
 /*   true if a command could be parsed, otherwise false. */
 /*********************************************************/
 bool RouteCommand(
-  Environment *theEnv,
-  const char *command,
-  bool printResult)
-  {
-   UDFValue returnValue;
-   struct expr *top;
-   const char *commandName;
-   struct token theToken;
-   int danglingConstructs;
+        Environment *theEnv,
+        const char *command,
+        bool printResult) {
+    UDFValue returnValue;
+    struct expr *top;
+    const char *commandName;
+    struct token theToken;
+    int danglingConstructs;
 
-   if (command == NULL)
-     { return false; }
+    if (command == NULL) { return false; }
 
-   /*========================================*/
-   /* Open a string input source and get the */
-   /* first token from that source.          */
-   /*========================================*/
+    /*========================================*/
+    /* Open a string input source and get the */
+    /* first token from that source.          */
+    /*========================================*/
 
-   OpenStringSource(theEnv,"command",command,0);
+    OpenStringSource(theEnv, "command", command, 0);
 
-   GetToken(theEnv,"command",&theToken);
+    GetToken(theEnv, "command", &theToken);
 
-   /*=====================*/
-   /* Evaluate constants. */
-   /*=====================*/
+    /*=====================*/
+    /* Evaluate constants. */
+    /*=====================*/
 
-   if ((theToken.tknType == SYMBOL_TOKEN) || (theToken.tknType == STRING_TOKEN) ||
-       (theToken.tknType == FLOAT_TOKEN) || (theToken.tknType == INTEGER_TOKEN) ||
-       (theToken.tknType == INSTANCE_NAME_TOKEN))
-     {
-      CloseStringSource(theEnv,"command");
-      if (printResult)
-        {
-         PrintAtom(theEnv,STDOUT,TokenTypeToType(theToken.tknType),theToken.value);
-         WriteString(theEnv,STDOUT,"\n");
+    if ((theToken.tknType == SYMBOL_TOKEN) || (theToken.tknType == STRING_TOKEN) ||
+        (theToken.tknType == FLOAT_TOKEN) || (theToken.tknType == INTEGER_TOKEN) ||
+        (theToken.tknType == INSTANCE_NAME_TOKEN)) {
+        CloseStringSource(theEnv, "command");
+        if (printResult) {
+            PrintAtom(theEnv, STDOUT, TokenTypeToType(theToken.tknType), theToken.value);
+            WriteString(theEnv, STDOUT, "\n");
         }
-      return true;
-     }
+        return true;
+    }
 
-   /*=====================*/
-   /* Evaluate variables. */
-   /*=====================*/
+    /*=====================*/
+    /* Evaluate variables. */
+    /*=====================*/
 
-   if ((theToken.tknType == GBL_VARIABLE_TOKEN) ||
-       (theToken.tknType == MF_GBL_VARIABLE_TOKEN) ||
-       (theToken.tknType == SF_VARIABLE_TOKEN) ||
-       (theToken.tknType == MF_VARIABLE_TOKEN))
-     {
-      CloseStringSource(theEnv,"command");
-      top = GenConstant(theEnv,TokenTypeToType(theToken.tknType),theToken.value);
-      EvaluateExpression(theEnv,top,&returnValue);
-      rtn_struct(theEnv,expr,top);
-      if (printResult)
-        {
-         WriteUDFValue(theEnv,STDOUT,&returnValue);
-         WriteString(theEnv,STDOUT,"\n");
+    if ((theToken.tknType == GBL_VARIABLE_TOKEN) ||
+        (theToken.tknType == MF_GBL_VARIABLE_TOKEN) ||
+        (theToken.tknType == SF_VARIABLE_TOKEN) ||
+        (theToken.tknType == MF_VARIABLE_TOKEN)) {
+        CloseStringSource(theEnv, "command");
+        top = GenConstant(theEnv, TokenTypeToType(theToken.tknType), theToken.value);
+        EvaluateExpression(theEnv, top, &returnValue);
+        rtn_struct(theEnv, expr, top);
+        if (printResult) {
+            WriteUDFValue(theEnv, STDOUT, &returnValue);
+            WriteString(theEnv, STDOUT, "\n");
         }
-      return true;
-     }
+        return true;
+    }
 
-   /*========================================================*/
-   /* If the next token isn't the beginning left parenthesis */
-   /* of a command or construct, then whatever was entered   */
-   /* cannot be evaluated at the command prompt.             */
-   /*========================================================*/
+    /*========================================================*/
+    /* If the next token isn't the beginning left parenthesis */
+    /* of a command or construct, then whatever was entered   */
+    /* cannot be evaluated at the command prompt.             */
+    /*========================================================*/
 
-   if (theToken.tknType != LEFT_PARENTHESIS_TOKEN)
-     {
-      PrintErrorID(theEnv,"COMMLINE",1,false);
-      WriteString(theEnv,STDERR,"Expected a '(', constant, or variable.\n");
-      CloseStringSource(theEnv,"command");
-      return false;
-     }
+    if (theToken.tknType != LEFT_PARENTHESIS_TOKEN) {
+        PrintErrorID(theEnv, "COMMLINE", 1, false);
+        WriteString(theEnv, STDERR, "Expected a '(', constant, or variable.\n");
+        CloseStringSource(theEnv, "command");
+        return false;
+    }
 
-   /*===========================================================*/
-   /* The next token must be a function name or construct type. */
-   /*===========================================================*/
+    /*===========================================================*/
+    /* The next token must be a function name or construct type. */
+    /*===========================================================*/
 
-   GetToken(theEnv,"command",&theToken);
-   if (theToken.tknType != SYMBOL_TOKEN)
-     {
-      PrintErrorID(theEnv,"COMMLINE",2,false);
-      WriteString(theEnv,STDERR,"Expected a command.\n");
-      CloseStringSource(theEnv,"command");
-      return false;
-     }
+    GetToken(theEnv, "command", &theToken);
+    if (theToken.tknType != SYMBOL_TOKEN) {
+        PrintErrorID(theEnv, "COMMLINE", 2, false);
+        WriteString(theEnv, STDERR, "Expected a command.\n");
+        CloseStringSource(theEnv, "command");
+        return false;
+    }
 
-   commandName = theToken.lexemeValue->contents;
+    commandName = theToken.lexemeValue->contents;
 
-   /*======================*/
-   /* Evaluate constructs. */
-   /*======================*/
+    /*======================*/
+    /* Evaluate constructs. */
+    /*======================*/
 
-   {
-    BuildError errorFlag;
+    {
+        BuildError errorFlag;
 
-    errorFlag = ParseConstruct(theEnv,commandName,"command");
-    if (errorFlag != BE_CONSTRUCT_NOT_FOUND_ERROR)
-      {
-       CloseStringSource(theEnv,"command");
-       if (errorFlag == BE_PARSING_ERROR)
-         {
-          WriteString(theEnv,STDERR,"\nERROR:\n");
-          WriteString(theEnv,STDERR,GetPPBuffer(theEnv));
-          WriteString(theEnv,STDERR,"\n");
-         }
-       DestroyPPBuffer(theEnv);
-       
-       SetWarningFileName(theEnv,NULL);
-       SetErrorFileName(theEnv,NULL);
+        errorFlag = ParseConstruct(theEnv, commandName, "command");
+        if (errorFlag != BE_CONSTRUCT_NOT_FOUND_ERROR) {
+            CloseStringSource(theEnv, "command");
+            if (errorFlag == BE_PARSING_ERROR) {
+                WriteString(theEnv, STDERR, "\nERROR:\n");
+                WriteString(theEnv, STDERR, GetPPBuffer(theEnv));
+                WriteString(theEnv, STDERR, "\n");
+            }
+            DestroyPPBuffer(theEnv);
 
-       if (errorFlag == BE_NO_ERROR) return true;
-       else return false;
-      }
-   }
+            SetWarningFileName(theEnv, NULL);
+            SetErrorFileName(theEnv, NULL);
 
-   /*========================*/
-   /* Parse a function call. */
-   /*========================*/
+            if (errorFlag == BE_NO_ERROR) return true;
+            else return false;
+        }
+    }
 
-   danglingConstructs = ConstructData(theEnv)->DanglingConstructs;
-   CommandLineData(theEnv)->ParsingTopLevelCommand = true;
-   top = Function2Parse(theEnv,"command",commandName);
-   CommandLineData(theEnv)->ParsingTopLevelCommand = false;
-   ClearParsedBindNames(theEnv);
+    /*========================*/
+    /* Parse a function call. */
+    /*========================*/
 
-   /*================================*/
-   /* Close the string input source. */
-   /*================================*/
+    danglingConstructs = ConstructData(theEnv)->DanglingConstructs;
+    CommandLineData(theEnv)->ParsingTopLevelCommand = true;
+    top = Function2Parse(theEnv, "command", commandName);
+    CommandLineData(theEnv)->ParsingTopLevelCommand = false;
+    ClearParsedBindNames(theEnv);
 
-   CloseStringSource(theEnv,"command");
+    /*================================*/
+    /* Close the string input source. */
+    /*================================*/
 
-   /*=========================*/
-   /* Evaluate function call. */
-   /*=========================*/
+    CloseStringSource(theEnv, "command");
 
-   if (top == NULL)
-     {
-      SetWarningFileName(theEnv,NULL);
-      SetErrorFileName(theEnv,NULL);
-      ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
-      return false;
-     }
+    /*=========================*/
+    /* Evaluate function call. */
+    /*=========================*/
 
-   ExpressionInstall(theEnv,top);
+    if (top == NULL) {
+        SetWarningFileName(theEnv, NULL);
+        SetErrorFileName(theEnv, NULL);
+        ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
+        return false;
+    }
 
-   CommandLineData(theEnv)->EvaluatingTopLevelCommand = true;
-   CommandLineData(theEnv)->CurrentCommand = top;
-   EvaluateExpression(theEnv,top,&returnValue);
-   CommandLineData(theEnv)->CurrentCommand = NULL;
-   CommandLineData(theEnv)->EvaluatingTopLevelCommand = false;
+    ExpressionInstall(theEnv, top);
 
-   ExpressionDeinstall(theEnv,top);
-   ReturnExpression(theEnv,top);
-   ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
-   
-   SetWarningFileName(theEnv,NULL);
-   SetErrorFileName(theEnv,NULL);
+    CommandLineData(theEnv)->EvaluatingTopLevelCommand = true;
+    CommandLineData(theEnv)->CurrentCommand = top;
+    EvaluateExpression(theEnv, top, &returnValue);
+    CommandLineData(theEnv)->CurrentCommand = NULL;
+    CommandLineData(theEnv)->EvaluatingTopLevelCommand = false;
 
-   /*=================================================*/
-   /* Print the return value of the function/command. */
-   /*=================================================*/
+    ExpressionDeinstall(theEnv, top);
+    ReturnExpression(theEnv, top);
+    ConstructData(theEnv)->DanglingConstructs = danglingConstructs;
 
-   if ((returnValue.header->type != VOID_TYPE) && printResult)
-     {
-      WriteUDFValue(theEnv,STDOUT,&returnValue);
-      WriteString(theEnv,STDOUT,"\n");
-     }
+    SetWarningFileName(theEnv, NULL);
+    SetErrorFileName(theEnv, NULL);
 
-   return true;
-  }
+    /*=================================================*/
+    /* Print the return value of the function/command. */
+    /*=================================================*/
+
+    if ((returnValue.header->type != VOID_TYPE) && printResult) {
+        WriteUDFValue(theEnv, STDOUT, &returnValue);
+        WriteString(theEnv, STDOUT, "\n");
+    }
+
+    return true;
+}
 
 /*****************************************************************/
 /* DefaultGetNextEvent: Default event-handling function. Handles */
@@ -1057,136 +986,120 @@ bool RouteCommand(
 /*   character to the CommandString.                             */
 /*****************************************************************/
 static void DefaultGetNextEvent(
-  Environment *theEnv)
-  {
-   int inchar;
+        Environment *theEnv) {
+    int inchar;
 
-   inchar = ReadRouter(theEnv,STDIN);
+    inchar = ReadRouter(theEnv, STDIN);
 
-   if (inchar == EOF) inchar = '\n';
+    if (inchar == EOF) inchar = '\n';
 
-   ExpandCommandString(theEnv,(char) inchar);
-  }
+    ExpandCommandString(theEnv, (char) inchar);
+}
 
 /*************************************/
 /* SetEventFunction: Replaces the    */
 /*   current value of EventFunction. */
 /*************************************/
 EventFunction *SetEventFunction(
-  Environment *theEnv,
-  EventFunction *theFunction)
-  {
-   EventFunction *tmp_ptr;
+        Environment *theEnv,
+        EventFunction *theFunction) {
+    EventFunction *tmp_ptr;
 
-   tmp_ptr = CommandLineData(theEnv)->EventCallback;
-   CommandLineData(theEnv)->EventCallback = theFunction;
-   return tmp_ptr;
-  }
+    tmp_ptr = CommandLineData(theEnv)->EventCallback;
+    CommandLineData(theEnv)->EventCallback = theFunction;
+    return tmp_ptr;
+}
 
 /****************************************/
 /* TopLevelCommand: Indicates whether a */
 /*   top-level command is being parsed. */
 /****************************************/
 bool TopLevelCommand(
-  Environment *theEnv)
-  {
-   return(CommandLineData(theEnv)->ParsingTopLevelCommand);
-  }
+        Environment *theEnv) {
+    return (CommandLineData(theEnv)->ParsingTopLevelCommand);
+}
 
 /***********************************************************/
 /* GetCommandCompletionString: Returns the last token in a */
 /*   string if it is a valid token for command completion. */
 /***********************************************************/
 const char *GetCommandCompletionString(
-  Environment *theEnv,
-  const char *theString,
-  size_t maxPosition)
-  {
-   struct token lastToken;
-   struct token theToken;
-   char lastChar;
-   const char *rs;
-   size_t length;
+        Environment *theEnv,
+        const char *theString,
+        size_t maxPosition) {
+    struct token lastToken;
+    struct token theToken;
+    char lastChar;
+    const char *rs;
+    size_t length;
 
-   /*=========================*/
-   /* Get the command string. */
-   /*=========================*/
+    /*=========================*/
+    /* Get the command string. */
+    /*=========================*/
 
-   if (theString == NULL) return("");
+    if (theString == NULL) return ("");
 
-   /*=========================================================================*/
-   /* If the last character in the command string is a space, character       */
-   /* return, or quotation mark, then the command completion can be anything. */
-   /*=========================================================================*/
+    /*=========================================================================*/
+    /* If the last character in the command string is a space, character       */
+    /* return, or quotation mark, then the command completion can be anything. */
+    /*=========================================================================*/
 
-   lastChar = theString[maxPosition - 1];
-   if ((lastChar == ' ') || (lastChar == '"') ||
-       (lastChar == '\t') || (lastChar == '\f') ||
-       (lastChar == '\n') || (lastChar == '\r'))
-     { return(""); }
+    lastChar = theString[maxPosition - 1];
+    if ((lastChar == ' ') || (lastChar == '"') ||
+        (lastChar == '\t') || (lastChar == '\f') ||
+        (lastChar == '\n') || (lastChar == '\r')) { return (""); }
 
-   /*============================================*/
-   /* Find the last token in the command string. */
-   /*============================================*/
+    /*============================================*/
+    /* Find the last token in the command string. */
+    /*============================================*/
 
-   OpenTextSource(theEnv,"CommandCompletion",theString,0,maxPosition);
-   ScannerData(theEnv)->IgnoreCompletionErrors = true;
-   GetToken(theEnv,"CommandCompletion",&theToken);
-   CopyToken(&lastToken,&theToken);
-   while (theToken.tknType != STOP_TOKEN)
-     {
-      CopyToken(&lastToken,&theToken);
-      GetToken(theEnv,"CommandCompletion",&theToken);
-     }
-   CloseStringSource(theEnv,"CommandCompletion");
-   ScannerData(theEnv)->IgnoreCompletionErrors = false;
+    OpenTextSource(theEnv, "CommandCompletion", theString, 0, maxPosition);
+    ScannerData(theEnv)->IgnoreCompletionErrors = true;
+    GetToken(theEnv, "CommandCompletion", &theToken);
+    CopyToken(&lastToken, &theToken);
+    while (theToken.tknType != STOP_TOKEN) {
+        CopyToken(&lastToken, &theToken);
+        GetToken(theEnv, "CommandCompletion", &theToken);
+    }
+    CloseStringSource(theEnv, "CommandCompletion");
+    ScannerData(theEnv)->IgnoreCompletionErrors = false;
 
-   /*===============================================*/
-   /* Determine if the last token can be completed. */
-   /*===============================================*/
+    /*===============================================*/
+    /* Determine if the last token can be completed. */
+    /*===============================================*/
 
-   if (lastToken.tknType == SYMBOL_TOKEN)
-     {
-      rs = lastToken.lexemeValue->contents;
-      if (rs[0] == '[') return (&rs[1]);
-      return lastToken.lexemeValue->contents;
-     }
-   else if (lastToken.tknType == SF_VARIABLE_TOKEN)
-     { return lastToken.lexemeValue->contents; }
-   else if (lastToken.tknType == MF_VARIABLE_TOKEN)
-     { return lastToken.lexemeValue->contents; }
-   else if ((lastToken.tknType == GBL_VARIABLE_TOKEN) ||
-            (lastToken.tknType == MF_GBL_VARIABLE_TOKEN) ||
-            (lastToken.tknType == INSTANCE_NAME_TOKEN))
-     { return NULL; }
-   else if (lastToken.tknType == STRING_TOKEN)
-     {
-      length = strlen(lastToken.lexemeValue->contents);
-      return GetCommandCompletionString(theEnv,lastToken.lexemeValue->contents,length);
-     }
-   else if ((lastToken.tknType == FLOAT_TOKEN) ||
-            (lastToken.tknType == INTEGER_TOKEN))
-     { return NULL; }
+    if (lastToken.tknType == SYMBOL_TOKEN) {
+        rs = lastToken.lexemeValue->contents;
+        if (rs[0] == '[') return (&rs[1]);
+        return lastToken.lexemeValue->contents;
+    } else if (lastToken.tknType == SF_VARIABLE_TOKEN) { return lastToken.lexemeValue->contents; }
+    else if (lastToken.tknType == MF_VARIABLE_TOKEN) { return lastToken.lexemeValue->contents; }
+    else if ((lastToken.tknType == GBL_VARIABLE_TOKEN) ||
+             (lastToken.tknType == MF_GBL_VARIABLE_TOKEN) ||
+             (lastToken.tknType == INSTANCE_NAME_TOKEN)) { return NULL; }
+    else if (lastToken.tknType == STRING_TOKEN) {
+        length = strlen(lastToken.lexemeValue->contents);
+        return GetCommandCompletionString(theEnv, lastToken.lexemeValue->contents, length);
+    } else if ((lastToken.tknType == FLOAT_TOKEN) ||
+               (lastToken.tknType == INTEGER_TOKEN)) { return NULL; }
 
-   return("");
-  }
+    return ("");
+}
 
 /****************************************************************/
 /* SetHaltCommandLoopBatch: Sets the HaltCommandLoopBatch flag. */
 /****************************************************************/
 void SetHaltCommandLoopBatch(
-  Environment *theEnv,
-  bool value)
-  {
-   CommandLineData(theEnv)->HaltCommandLoopBatch = value;
-  }
+        Environment *theEnv,
+        bool value) {
+    CommandLineData(theEnv)->HaltCommandLoopBatch = value;
+}
 
 /*******************************************************************/
 /* GetHaltCommandLoopBatch: Returns the HaltCommandLoopBatch flag. */
 /*******************************************************************/
 bool GetHaltCommandLoopBatch(
-  Environment *theEnv)
-  {
-   return(CommandLineData(theEnv)->HaltCommandLoopBatch);
-  }
+        Environment *theEnv) {
+    return (CommandLineData(theEnv)->HaltCommandLoopBatch);
+}
 

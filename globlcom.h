@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*            DEFGLOBAL COMMANDS HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*            DEFGLOBAL COMMANDS HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -51,13 +51,13 @@
 
 #define _H_globlcom
 
-   void                           DefglobalCommandDefinitions(Environment *);
-   void                           SetResetGlobalsCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SetResetGlobals(Environment *,bool);
-   void                           GetResetGlobalsCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           GetResetGlobals(Environment *);
-   void                           ShowDefglobalsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ShowDefglobals(Environment *,const char *,Defmodule *);
+void DefglobalCommandDefinitions(Environment *);
+void SetResetGlobalsCommand(Environment *, UDFContext *, UDFValue *);
+bool SetResetGlobals(Environment *, bool);
+void GetResetGlobalsCommand(Environment *, UDFContext *, UDFValue *);
+bool GetResetGlobals(Environment *);
+void ShowDefglobalsCommand(Environment *, UDFContext *, UDFValue *);
+void ShowDefglobals(Environment *, const char *, Defmodule *);
 
 #endif /* _H_globlcom */
 

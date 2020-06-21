@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/18/17            */
-   /*                                                     */
-   /*               INSTANCE FUNCTIONS MODULE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/18/17            */
+/*                                                     */
+/*               INSTANCE FUNCTIONS MODULE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -81,47 +81,46 @@
 #include "Entities.h"
 #include "object.h"
 
-typedef struct igarbage
-  {
-   Instance *ins;
-   struct igarbage *nxt;
-  } IGARBAGE;
+typedef struct igarbage {
+    Instance *ins;
+    struct igarbage *nxt;
+} IGARBAGE;
 
 #define INSTANCE_TABLE_HASH_SIZE 8191
 #define InstanceSizeHeuristic(ins)      sizeof(Instance)
 
-   void                           RetainInstance(Instance *);
-   void                           ReleaseInstance(Instance *);
-   void                           IncrementInstanceCallback(Environment *,Instance *);
-   void                           DecrementInstanceCallback(Environment *,Instance *);
-   void                           InitializeInstanceTable(Environment *);
-   void                           CleanupInstances(Environment *,void *);
-   unsigned                       HashInstance(CLIPSLexeme *);
-   void                           DestroyAllInstances(Environment *,void *);
-   void                           RemoveInstanceData(Environment *,Instance *);
-   Instance                      *FindInstanceBySymbol(Environment *,CLIPSLexeme *);
-   Instance                      *FindInstanceInModule(Environment *,CLIPSLexeme *,Defmodule *,
-                                                       Defmodule *,bool);
-   InstanceSlot                  *FindInstanceSlot(Environment *,Instance *,CLIPSLexeme *);
-   int                            FindInstanceTemplateSlot(Environment *,Defclass *,CLIPSLexeme *);
-   PutSlotError                   PutSlotValue(Environment *,Instance *,InstanceSlot *,UDFValue *,UDFValue *,const char *);
-   PutSlotError                   DirectPutSlotValue(Environment *,Instance *,InstanceSlot *,UDFValue *,UDFValue *);
-   PutSlotError                   ValidSlotValue(Environment *,UDFValue *,SlotDescriptor *,Instance *,const char *);
-   Instance                      *CheckInstance(UDFContext *);
-   void                           NoInstanceError(Environment *,const char *,const char *);
-   void                           StaleInstanceAddress(Environment *,const char *,int);
-   bool                           GetInstancesChanged(Environment *);
-   void                           SetInstancesChanged(Environment *,bool);
-   void                           PrintSlot(Environment *,const char *,SlotDescriptor *,Instance *,const char *);
-   void                           PrintInstanceNameAndClass(Environment *,const char *,Instance *,bool);
-   void                           PrintInstanceName(Environment *,const char *,Instance *);
-   void                           PrintInstanceLongForm(Environment *,const char *,Instance *);
+void RetainInstance(Instance *);
+void ReleaseInstance(Instance *);
+void IncrementInstanceCallback(Environment *, Instance *);
+void DecrementInstanceCallback(Environment *, Instance *);
+void InitializeInstanceTable(Environment *);
+void CleanupInstances(Environment *, void *);
+unsigned HashInstance(CLIPSLexeme *);
+void DestroyAllInstances(Environment *, void *);
+void RemoveInstanceData(Environment *, Instance *);
+Instance *FindInstanceBySymbol(Environment *, CLIPSLexeme *);
+Instance *FindInstanceInModule(Environment *, CLIPSLexeme *, Defmodule *,
+                               Defmodule *, bool);
+InstanceSlot *FindInstanceSlot(Environment *, Instance *, CLIPSLexeme *);
+int FindInstanceTemplateSlot(Environment *, Defclass *, CLIPSLexeme *);
+PutSlotError PutSlotValue(Environment *, Instance *, InstanceSlot *, UDFValue *, UDFValue *, const char *);
+PutSlotError DirectPutSlotValue(Environment *, Instance *, InstanceSlot *, UDFValue *, UDFValue *);
+PutSlotError ValidSlotValue(Environment *, UDFValue *, SlotDescriptor *, Instance *, const char *);
+Instance *CheckInstance(UDFContext *);
+void NoInstanceError(Environment *, const char *, const char *);
+void StaleInstanceAddress(Environment *, const char *, int);
+bool GetInstancesChanged(Environment *);
+void SetInstancesChanged(Environment *, bool);
+void PrintSlot(Environment *, const char *, SlotDescriptor *, Instance *, const char *);
+void PrintInstanceNameAndClass(Environment *, const char *, Instance *, bool);
+void PrintInstanceName(Environment *, const char *, Instance *);
+void PrintInstanceLongForm(Environment *, const char *, Instance *);
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
-   void                           DecrementObjectBasisCount(Environment *,Instance *);
-   void                           IncrementObjectBasisCount(Environment *,Instance *);
-   void                           MatchObjectFunction(Environment *,Instance *);
-   bool                           NetworkSynchronized(Environment *,Instance *);
-   bool                           InstanceIsDeleted(Environment *,Instance *);
+void DecrementObjectBasisCount(Environment *, Instance *);
+void IncrementObjectBasisCount(Environment *, Instance *);
+void MatchObjectFunction(Environment *, Instance *);
+bool NetworkSynchronized(Environment *, Instance *);
+bool InstanceIsDeleted(Environment *, Instance *);
 #endif
 
 #endif /* _H_insfun */

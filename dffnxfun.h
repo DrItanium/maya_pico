@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*              DEFFUNCTION HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*              DEFFUNCTION HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -77,69 +77,65 @@ typedef struct deffunctionModuleData DeffunctionModuleData;
 #include "Construct.h"
 #include "Evaluation.h"
 
-struct deffunctionModuleData
-  {
-   struct defmoduleItemHeader header;
-  };
+struct deffunctionModuleData {
+    struct defmoduleItemHeader header;
+};
 
-struct deffunction
-  {
-   ConstructHeader header;
-   unsigned busy;
-   unsigned executing;
-   bool trace;
-   Expression *code;
-   unsigned short minNumberOfParameters;
-   unsigned short maxNumberOfParameters;
-   unsigned short numberOfLocalVars;
-  };
+struct deffunction {
+    ConstructHeader header;
+    unsigned busy;
+    unsigned executing;
+    bool trace;
+    Expression *code;
+    unsigned short minNumberOfParameters;
+    unsigned short maxNumberOfParameters;
+    unsigned short numberOfLocalVars;
+};
 
 #define DEFFUNCTION_DATA 23
 
-struct deffunctionData
-  {
-   Construct *DeffunctionConstruct;
-   unsigned DeffunctionModuleIndex;
-   EntityRecord DeffunctionEntityRecord;
+struct deffunctionData {
+    Construct *DeffunctionConstruct;
+    unsigned DeffunctionModuleIndex;
+    EntityRecord DeffunctionEntityRecord;
 #if DEBUGGING_FUNCTIONS
-   bool WatchDeffunctions;
+    bool WatchDeffunctions;
 #endif
-   struct CodeGeneratorItem *DeffunctionCodeItem;
-   Deffunction *ExecutingDeffunction;
-  };
+    struct CodeGeneratorItem *DeffunctionCodeItem;
+    Deffunction *ExecutingDeffunction;
+};
 
 #define DeffunctionData(theEnv) ((struct deffunctionData *) GetEnvironmentData(theEnv,DEFFUNCTION_DATA))
 
-   bool                           CheckDeffunctionCall(Environment *,Deffunction *,int);
-   void                           DeffunctionGetBind(UDFValue *);
-   void                           DFRtnUnknown(UDFValue *);
-   void                           DFWildargs(UDFValue *);
-   const char                    *DeffunctionModule(Deffunction *);
-   Deffunction                   *FindDeffunction(Environment *,const char *);
-   Deffunction                   *FindDeffunctionInModule(Environment *,const char *);
-   void                           GetDeffunctionList(Environment *,CLIPSValue *,Defmodule *);
-   const char                    *DeffunctionName(Deffunction *);
-   CLIPSLexeme                   *GetDeffunctionNamePointer(Environment *,Deffunction *);
-   const char                    *DeffunctionPPForm(Deffunction *);
-   Deffunction                   *GetNextDeffunction(Environment *,Deffunction *);
-   bool                           DeffunctionIsDeletable(Deffunction *);
-   void                           SetDeffunctionPPForm(Environment *,Deffunction *,const char *);
-   bool                           Undeffunction(Deffunction *,Environment *);
-   void                           GetDeffunctionListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetDeffunctionModuleCommand(Environment *,UDFContext *,UDFValue *);
-   Deffunction                   *LookupDeffunctionByMdlOrScope(Environment *,const char *);
-   Deffunction                   *LookupDeffunctionInScope(Environment *,const char *);
-   void                           RemoveDeffunction(Environment *,Deffunction *);
-   void                           SetupDeffunctions(Environment *);
-   void                           UndeffunctionCommand(Environment *,UDFContext *,UDFValue *);
+bool CheckDeffunctionCall(Environment *, Deffunction *, int);
+void DeffunctionGetBind(UDFValue *);
+void DFRtnUnknown(UDFValue *);
+void DFWildargs(UDFValue *);
+const char *DeffunctionModule(Deffunction *);
+Deffunction *FindDeffunction(Environment *, const char *);
+Deffunction *FindDeffunctionInModule(Environment *, const char *);
+void GetDeffunctionList(Environment *, CLIPSValue *, Defmodule *);
+const char *DeffunctionName(Deffunction *);
+CLIPSLexeme *GetDeffunctionNamePointer(Environment *, Deffunction *);
+const char *DeffunctionPPForm(Deffunction *);
+Deffunction *GetNextDeffunction(Environment *, Deffunction *);
+bool DeffunctionIsDeletable(Deffunction *);
+void SetDeffunctionPPForm(Environment *, Deffunction *, const char *);
+bool Undeffunction(Deffunction *, Environment *);
+void GetDeffunctionListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDeffunctionModuleCommand(Environment *, UDFContext *, UDFValue *);
+Deffunction *LookupDeffunctionByMdlOrScope(Environment *, const char *);
+Deffunction *LookupDeffunctionInScope(Environment *, const char *);
+void RemoveDeffunction(Environment *, Deffunction *);
+void SetupDeffunctions(Environment *);
+void UndeffunctionCommand(Environment *, UDFContext *, UDFValue *);
 #if DEBUGGING_FUNCTIONS
-   bool                           DeffunctionGetWatch(Deffunction *);
-   void                           ListDeffunctions(Environment *,const char *,Defmodule *);
-   void                           DeffunctionSetWatch(Deffunction *,bool);
-   void                           ListDeffunctionsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           PPDeffunctionCommand(Environment *,UDFContext *,UDFValue *);
+bool DeffunctionGetWatch(Deffunction *);
+void ListDeffunctions(Environment *, const char *, Defmodule *);
+void DeffunctionSetWatch(Deffunction *, bool);
+void ListDeffunctionsCommand(Environment *, UDFContext *, UDFValue *);
+void PPDeffunctionCommand(Environment *, UDFContext *, UDFValue *);
 #endif
-
 
 #endif /* _H_dffnxfun */
 

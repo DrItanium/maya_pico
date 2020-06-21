@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*              CLASS COMMANDS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*              CLASS COMMANDS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -54,60 +54,59 @@
 
 #define _H_classcom
 
-typedef enum
-  {
-   CONVENIENCE_MODE,
-   CONSERVATION_MODE
-  } ClassDefaultsMode;
+typedef enum {
+    CONVENIENCE_MODE,
+    CONSERVATION_MODE
+} ClassDefaultsMode;
 
 #include "cstrccom.h"
 #include "moduldef.h"
 #include "object.h"
 #include "Symbol.h"
 
-   const char             *DefclassName(Defclass *);
-   const char             *DefclassPPForm(Defclass *);
-   struct defmoduleItemHeader
-                          *GetDefclassModule(Environment *,Defclass *);
-   const char             *DefclassModule(Defclass *);
-   CLIPSLexeme            *GetDefclassNamePointer(Defclass *);
-   void                    SetNextDefclass(Defclass *,Defclass *);
-   void                    SetDefclassPPForm(Environment *,Defclass *,char *);
+const char *DefclassName(Defclass *);
+const char *DefclassPPForm(Defclass *);
+struct defmoduleItemHeader
+*GetDefclassModule(Environment *, Defclass *);
+const char *DefclassModule(Defclass *);
+CLIPSLexeme *GetDefclassNamePointer(Defclass *);
+void SetNextDefclass(Defclass *, Defclass *);
+void SetDefclassPPForm(Environment *, Defclass *, char *);
 
-   Defclass               *FindDefclass(Environment *,const char *);
-   Defclass               *FindDefclassInModule(Environment *,const char *);
-   Defclass               *LookupDefclassByMdlOrScope(Environment *,const char *);
-   Defclass               *LookupDefclassInScope(Environment *,const char *);
-   Defclass               *LookupDefclassAnywhere(Environment *,Defmodule *,const char *);
-   bool                    DefclassInScope(Environment *,Defclass *,Defmodule *);
-   Defclass               *GetNextDefclass(Environment *,Defclass *);
-   bool                    DefclassIsDeletable(Defclass *);
+Defclass *FindDefclass(Environment *, const char *);
+Defclass *FindDefclassInModule(Environment *, const char *);
+Defclass *LookupDefclassByMdlOrScope(Environment *, const char *);
+Defclass *LookupDefclassInScope(Environment *, const char *);
+Defclass *LookupDefclassAnywhere(Environment *, Defmodule *, const char *);
+bool DefclassInScope(Environment *, Defclass *, Defmodule *);
+Defclass *GetNextDefclass(Environment *, Defclass *);
+bool DefclassIsDeletable(Defclass *);
 
-   void                    UndefclassCommand(Environment *,UDFContext *,UDFValue *);
-   ClassDefaultsMode       SetClassDefaultsMode(Environment *,ClassDefaultsMode);
-   ClassDefaultsMode       GetClassDefaultsMode(Environment *);
-   void                    GetClassDefaultsModeCommand(Environment *,UDFContext *,UDFValue *);
-   void                    SetClassDefaultsModeCommand(Environment *,UDFContext *,UDFValue *);
+void UndefclassCommand(Environment *, UDFContext *, UDFValue *);
+ClassDefaultsMode SetClassDefaultsMode(Environment *, ClassDefaultsMode);
+ClassDefaultsMode GetClassDefaultsMode(Environment *);
+void GetClassDefaultsModeCommand(Environment *, UDFContext *, UDFValue *);
+void SetClassDefaultsModeCommand(Environment *, UDFContext *, UDFValue *);
 
 #if DEBUGGING_FUNCTIONS
-   void                    PPDefclassCommand(Environment *,UDFContext *,UDFValue *);
-   void                    ListDefclassesCommand(Environment *,UDFContext *,UDFValue *);
-   void                    ListDefclasses(Environment *,const char *,Defmodule *);
-   bool                    DefclassGetWatchInstances(Defclass *);
-   void                    DefclassSetWatchInstances(Defclass *,bool);
-   bool                    DefclassGetWatchSlots(Defclass *);
-   void                    DefclassSetWatchSlots(Defclass *,bool);
-   bool                    DefclassWatchAccess(Environment *,int,bool,Expression *);
-   bool                    DefclassWatchPrint(Environment *,const char *,int,Expression *);
+void PPDefclassCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefclassesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefclasses(Environment *, const char *, Defmodule *);
+bool DefclassGetWatchInstances(Defclass *);
+void DefclassSetWatchInstances(Defclass *, bool);
+bool DefclassGetWatchSlots(Defclass *);
+void DefclassSetWatchSlots(Defclass *, bool);
+bool DefclassWatchAccess(Environment *, int, bool, Expression *);
+bool DefclassWatchPrint(Environment *, const char *, int, Expression *);
 #endif
 
-   void                    GetDefclassListFunction(Environment *,UDFContext *,UDFValue *);
-   void                    GetDefclassList(Environment *,CLIPSValue *,Defmodule *);
-   bool                    Undefclass(Defclass *,Environment *);
-   bool                    HasSuperclass(Defclass *,Defclass *);
+void GetDefclassListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDefclassList(Environment *, CLIPSValue *, Defmodule *);
+bool Undefclass(Defclass *, Environment *);
+bool HasSuperclass(Defclass *, Defclass *);
 
-   CLIPSLexeme            *CheckClassAndSlot(UDFContext *,const char *,Defclass **);
+CLIPSLexeme *CheckClassAndSlot(UDFContext *, const char *, Defclass **);
 
-   void                    SaveDefclasses(Environment *,Defmodule *,const char *,void *);
+void SaveDefclasses(Environment *, Defmodule *, const char *, void *);
 
 #endif /* _H_classcom */

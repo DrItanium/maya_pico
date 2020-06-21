@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                ANALYSIS HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                ANALYSIS HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Analyzes LHS patterns to check for semantic      */
@@ -48,14 +48,13 @@
 /*   current position in the nesting of not/and CEs  */
 /*   as the patterns of a rule are analyzed.         */
 /*****************************************************/
-struct nandFrame
-  {
-   int depth;
-   struct lhsParseNode *nandCE;
-   struct nandFrame *next;
-  };
+struct nandFrame {
+    int depth;
+    struct lhsParseNode *nandCE;
+    struct nandFrame *next;
+};
 
-   bool                           VariableAnalysis(Environment *,struct lhsParseNode *);
+bool VariableAnalysis(Environment *, struct lhsParseNode *);
 
 #endif
 

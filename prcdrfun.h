@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*          PROCEDURAL FUNCTIONS HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*          PROCEDURAL FUNCTIONS HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -53,36 +53,34 @@
 
 #include "Evaluation.h"
 
-typedef struct loopCounterStack
-  {
-   long long loopCounter;
-   struct loopCounterStack *nxt;
-  } LOOP_COUNTER_STACK;
+typedef struct loopCounterStack {
+    long long loopCounter;
+    struct loopCounterStack *nxt;
+} LOOP_COUNTER_STACK;
 
 #define PRCDRFUN_DATA 13
 
-struct procedureFunctionData
-  {
-   bool ReturnFlag;
-   bool BreakFlag;
-   LOOP_COUNTER_STACK *LoopCounterStack;
-   UDFValue *BindList;
-  };
+struct procedureFunctionData {
+    bool ReturnFlag;
+    bool BreakFlag;
+    LOOP_COUNTER_STACK *LoopCounterStack;
+    UDFValue *BindList;
+};
 
 #define ProcedureFunctionData(theEnv) ((struct procedureFunctionData *) GetEnvironmentData(theEnv,PRCDRFUN_DATA))
 
-   void                           ProceduralFunctionDefinitions(Environment *);
-   void                           WhileFunction(Environment *,UDFContext *,UDFValue *);
-   void                           LoopForCountFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetLoopCount(Environment *,UDFContext *,UDFValue *);
-   void                           IfFunction(Environment *,UDFContext *,UDFValue *);
-   void                           BindFunction(Environment *,UDFContext *,UDFValue *);
-   void                           PrognFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ReturnFunction(Environment *,UDFContext *,UDFValue *);
-   void                           BreakFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SwitchFunction(Environment *,UDFContext *,UDFValue *);
-   bool                           GetBoundVariable(Environment *,UDFValue *,CLIPSLexeme *);
-   void                           FlushBindList(Environment *,void *);
+void ProceduralFunctionDefinitions(Environment *);
+void WhileFunction(Environment *, UDFContext *, UDFValue *);
+void LoopForCountFunction(Environment *, UDFContext *, UDFValue *);
+void GetLoopCount(Environment *, UDFContext *, UDFValue *);
+void IfFunction(Environment *, UDFContext *, UDFValue *);
+void BindFunction(Environment *, UDFContext *, UDFValue *);
+void PrognFunction(Environment *, UDFContext *, UDFValue *);
+void ReturnFunction(Environment *, UDFContext *, UDFValue *);
+void BreakFunction(Environment *, UDFContext *, UDFValue *);
+void SwitchFunction(Environment *, UDFContext *, UDFValue *);
+bool GetBoundVariable(Environment *, UDFValue *, CLIPSLexeme *);
+void FlushBindList(Environment *, void *);
 
 #endif /* _H_prcdrfun */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/24/17            */
-   /*                                                     */
-   /*            EXTERNAL FUNCTIONS HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/24/17            */
+/*                                                     */
+/*            EXTERNAL FUNCTIONS HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for adding new user or system defined   */
@@ -65,25 +65,24 @@
 #include "Symbol.h"
 #include "UserData.h"
 
-typedef void UserDefinedFunction(Environment *,UDFContext *,UDFValue *);
+typedef void UserDefinedFunction(Environment *, UDFContext *, UDFValue *);
 
-struct functionDefinition
-  {
-   CLIPSLexeme *callFunctionName;
-   unsigned unknownReturnValueType;
-   void (*functionPointer)(Environment *,UDFContext *,UDFValue *);
-   struct expr *(*parser)(Environment *,struct expr *,const char *);
-   CLIPSLexeme *restrictions;
-   unsigned short minArgs;
-   unsigned short maxArgs;
-   bool overloadable;
-   bool sequenceuseok;
-   bool neededFunction;
-   unsigned long bsaveIndex;
-   struct functionDefinition *next;
-   struct userData *usrData;
-   void *context;
-  };
+struct functionDefinition {
+    CLIPSLexeme *callFunctionName;
+    unsigned unknownReturnValueType;
+    void (*functionPointer)(Environment *, UDFContext *, UDFValue *);
+    struct expr *(*parser)(Environment *, struct expr *, const char *);
+    CLIPSLexeme *restrictions;
+    unsigned short minArgs;
+    unsigned short maxArgs;
+    bool overloadable;
+    bool sequenceuseok;
+    bool neededFunction;
+    unsigned long bsaveIndex;
+    struct functionDefinition *next;
+    struct userData *usrData;
+    void *context;
+};
 
 #define UnknownFunctionType(target) (((struct functionDefinition *) target)->unknownReturnValueType)
 #define ExpressionFunctionPointer(target) ((target)->functionValue->functionPointer)
@@ -97,54 +96,51 @@ struct functionDefinition
 
 #define EXTERNAL_FUNCTION_DATA 50
 
-struct externalFunctionData
-  {
-   struct functionDefinition *ListOfFunctions;
-   struct FunctionHash **FunctionHashtable;
-  };
+struct externalFunctionData {
+    struct functionDefinition *ListOfFunctions;
+    struct FunctionHash **FunctionHashtable;
+};
 
 #define ExternalFunctionData(theEnv) ((struct externalFunctionData *) GetEnvironmentData(theEnv,EXTERNAL_FUNCTION_DATA))
 
-typedef enum
-  {
-   AUE_NO_ERROR = 0,
-   AUE_MIN_EXCEEDS_MAX_ERROR,
-   AUE_FUNCTION_NAME_IN_USE_ERROR,
-   AUE_INVALID_ARGUMENT_TYPE_ERROR,
-   AUE_INVALID_RETURN_TYPE_ERROR
-  } AddUDFError;
+typedef enum {
+    AUE_NO_ERROR = 0,
+    AUE_MIN_EXCEEDS_MAX_ERROR,
+    AUE_FUNCTION_NAME_IN_USE_ERROR,
+    AUE_INVALID_ARGUMENT_TYPE_ERROR,
+    AUE_INVALID_RETURN_TYPE_ERROR
+} AddUDFError;
 
-struct FunctionHash
-  {
-   struct functionDefinition *fdPtr;
-   struct FunctionHash *next;
-  };
+struct FunctionHash {
+    struct functionDefinition *fdPtr;
+    struct FunctionHash *next;
+};
 
 #define SIZE_FUNCTION_HASH 517
 
-   void                           InitializeExternalFunctionData(Environment *);
-   AddUDFError AddUDF(Environment *theEnv, const char *name, const char *returnTypes, unsigned short minArgs, unsigned short maxArgs,
-                      const char *argumentTypes, UserDefinedFunction *cFunctionPointer, void *context);
-   bool                           AddFunctionParser(Environment *,const char *,
-                                                           struct expr *(*)( Environment *,struct expr *,const char *));
-   bool                           RemoveFunctionParser(Environment *,const char *);
-   bool                           FuncSeqOvlFlags(Environment *,const char *,bool,bool);
-   struct functionDefinition     *GetFunctionList(Environment *);
-   void                           InstallFunctionList(Environment *,struct functionDefinition *);
-   struct functionDefinition     *FindFunction(Environment *,const char *);
-   unsigned                       GetNthRestriction(Environment *,struct functionDefinition *,unsigned int);
-   bool                           RemoveUDF(Environment *,const char *);
-   int                            GetMinimumArgs(struct functionDefinition *);
-   int                            GetMaximumArgs(struct functionDefinition *);
-   unsigned int                   UDFArgumentCount(UDFContext *);
-   bool                           UDFNthArgument(UDFContext *,unsigned int,unsigned,UDFValue *);
-   void                           UDFInvalidArgumentMessage(UDFContext *,const char *);
-   const char                    *UDFContextFunctionName(UDFContext *);
-   void                           PrintTypesString(Environment *,const char *,unsigned,bool);
-   bool                           UDFFirstArgument(UDFContext *,unsigned,UDFValue *);
-   bool                           UDFNextArgument(UDFContext *,unsigned,UDFValue *);
-   void                           UDFThrowError(UDFContext *);
-   void                          *GetUDFContext(Environment *,const char *);
+void InitializeExternalFunctionData(Environment *);
+AddUDFError AddUDF(Environment *theEnv, const char *name, const char *returnTypes, unsigned short minArgs, unsigned short maxArgs,
+                   const char *argumentTypes, UserDefinedFunction *cFunctionPointer, void *context);
+bool AddFunctionParser(Environment *, const char *,
+                       struct expr *(*)(Environment *, struct expr *, const char *));
+bool RemoveFunctionParser(Environment *, const char *);
+bool FuncSeqOvlFlags(Environment *, const char *, bool, bool);
+struct functionDefinition *GetFunctionList(Environment *);
+void InstallFunctionList(Environment *, struct functionDefinition *);
+struct functionDefinition *FindFunction(Environment *, const char *);
+unsigned GetNthRestriction(Environment *, struct functionDefinition *, unsigned int);
+bool RemoveUDF(Environment *, const char *);
+int GetMinimumArgs(struct functionDefinition *);
+int GetMaximumArgs(struct functionDefinition *);
+unsigned int UDFArgumentCount(UDFContext *);
+bool UDFNthArgument(UDFContext *, unsigned int, unsigned, UDFValue *);
+void UDFInvalidArgumentMessage(UDFContext *, const char *);
+const char *UDFContextFunctionName(UDFContext *);
+void PrintTypesString(Environment *, const char *, unsigned, bool);
+bool UDFFirstArgument(UDFContext *, unsigned, UDFValue *);
+bool UDFNextArgument(UDFContext *, unsigned, UDFValue *);
+void UDFThrowError(UDFContext *);
+void *GetUDFContext(Environment *, const char *);
 
 #define UDFHasNextArgument(context) (context->lastArg != NULL)
 

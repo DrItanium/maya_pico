@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Message-passing support functions                */
@@ -62,33 +62,32 @@
 
 #include "object.h"
 
-typedef struct messageHandlerLink
-  {
-   DefmessageHandler *hnd;
-   struct messageHandlerLink *nxt;
-   struct messageHandlerLink *nxtInStack;
-  } HANDLER_LINK;
+typedef struct messageHandlerLink {
+    DefmessageHandler *hnd;
+    struct messageHandlerLink *nxt;
+    struct messageHandlerLink *nxtInStack;
+} HANDLER_LINK;
 
-   bool             DirectMessage(Environment *,CLIPSLexeme *,Instance *,
-                                  UDFValue *,Expression *);
-   void             Send(Environment *,CLIPSValue *,const char *,const char *,CLIPSValue *);
-   void             DestroyHandlerLinks(Environment *,HANDLER_LINK *);
-   void             SendCommand(Environment *,UDFContext *,UDFValue *);
-   UDFValue        *GetNthMessageArgument(Environment *,int);
+bool DirectMessage(Environment *, CLIPSLexeme *, Instance *,
+                   UDFValue *, Expression *);
+void Send(Environment *, CLIPSValue *, const char *, const char *, CLIPSValue *);
+void DestroyHandlerLinks(Environment *, HANDLER_LINK *);
+void SendCommand(Environment *, UDFContext *, UDFValue *);
+UDFValue *GetNthMessageArgument(Environment *, int);
 
-   bool             NextHandlerAvailable(Environment *);
-   void             NextHandlerAvailableFunction(Environment *,UDFContext *,UDFValue *);
-   void             CallNextHandler(Environment *,UDFContext *,UDFValue *);
-   void             FindApplicableOfName(Environment *,Defclass *,HANDLER_LINK *[],
-                                         HANDLER_LINK *[],CLIPSLexeme *);
-   HANDLER_LINK    *JoinHandlerLinks(Environment *,HANDLER_LINK *[],HANDLER_LINK *[],CLIPSLexeme *);
+bool NextHandlerAvailable(Environment *);
+void NextHandlerAvailableFunction(Environment *, UDFContext *, UDFValue *);
+void CallNextHandler(Environment *, UDFContext *, UDFValue *);
+void FindApplicableOfName(Environment *, Defclass *, HANDLER_LINK *[],
+                          HANDLER_LINK *[], CLIPSLexeme *);
+HANDLER_LINK *JoinHandlerLinks(Environment *, HANDLER_LINK *[], HANDLER_LINK *[], CLIPSLexeme *);
 
-   void             PrintHandlerSlotGetFunction(Environment *,const char *,void *);
-   bool             HandlerSlotGetFunction(Environment *,void *,UDFValue *);
-   void             PrintHandlerSlotPutFunction(Environment *,const char *,void *);
-   bool             HandlerSlotPutFunction(Environment *,void *,UDFValue *);
-   void             DynamicHandlerGetSlot(Environment *,UDFContext *,UDFValue *);
-   void             DynamicHandlerPutSlot(Environment *,UDFContext *,UDFValue *);
+void PrintHandlerSlotGetFunction(Environment *, const char *, void *);
+bool HandlerSlotGetFunction(Environment *, void *, UDFValue *);
+void PrintHandlerSlotPutFunction(Environment *, const char *, void *);
+bool HandlerSlotPutFunction(Environment *, void *, UDFValue *);
+void DynamicHandlerGetSlot(Environment *, UDFContext *, UDFValue *);
+void DynamicHandlerPutSlot(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_object */
 

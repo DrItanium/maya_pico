@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  07/30/16             */
-   /*                                                     */
-   /*          CONSTRUCT BINARY LOAD/SAVE MODULE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  07/30/16             */
+/*                                                     */
+/*          CONSTRUCT BINARY LOAD/SAVE MODULE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Binary load/save functions for construct         */
@@ -56,12 +56,11 @@
   NOTES        : None
  ***************************************************/
 void MarkConstructHeaderNeededItems(
-  ConstructHeader *theConstruct,
-  unsigned long theBsaveID)
-  {
-   theConstruct->name->neededSymbol = true;
-   theConstruct->bsaveID = theBsaveID;
-  }
+        ConstructHeader *theConstruct,
+        unsigned long theBsaveID) {
+    theConstruct->name->neededSymbol = true;
+    theConstruct->bsaveID = theBsaveID;
+}
 
 /******************************************************
   NAME         : AssignBsaveConstructHeaderVals
@@ -81,25 +80,21 @@ void MarkConstructHeaderNeededItems(
                  this construct.
  ******************************************************/
 void AssignBsaveConstructHeaderVals(
-  struct bsaveConstructHeader *theBsaveConstruct,
-  ConstructHeader *theConstruct)
-  {
-   if (theConstruct->name != NULL)
-     { theBsaveConstruct->name = theConstruct->name->bucket; }
-   else
-     { theBsaveConstruct->name = ULONG_MAX; }
-   
-   if ((theConstruct->whichModule != NULL) &&
-       (theConstruct->whichModule->theModule != NULL))
-     { theBsaveConstruct->whichModule = theConstruct->whichModule->theModule->header.bsaveID; }
-   else
-     { theBsaveConstruct->whichModule = ULONG_MAX; }
-     
-   if (theConstruct->next != NULL)
-     theBsaveConstruct->next = theConstruct->next->bsaveID;
-   else
-     theBsaveConstruct->next = ULONG_MAX;
-  }
+        struct bsaveConstructHeader *theBsaveConstruct,
+        ConstructHeader *theConstruct) {
+    if (theConstruct->name != NULL) { theBsaveConstruct->name = theConstruct->name->bucket; }
+    else { theBsaveConstruct->name = ULONG_MAX; }
+
+    if ((theConstruct->whichModule != NULL) &&
+        (theConstruct->whichModule->theModule !=
+         NULL)) { theBsaveConstruct->whichModule = theConstruct->whichModule->theModule->header.bsaveID; }
+    else { theBsaveConstruct->whichModule = ULONG_MAX; }
+
+    if (theConstruct->next != NULL)
+        theBsaveConstruct->next = theConstruct->next->bsaveID;
+    else
+        theBsaveConstruct->next = ULONG_MAX;
+}
 
 #endif /* BLOAD_AND_BSAVE */
 
@@ -122,48 +117,38 @@ void AssignBsaveConstructHeaderVals(
   NOTES        : None
  ***************************************************/
 void UpdateConstructHeader(
-  Environment *theEnv,
-  struct bsaveConstructHeader *theBsaveConstruct,
-  ConstructHeader *theConstruct,
-  ConstructType theType,
-  size_t itemModuleSize,
-  void *itemModuleArray,
-  size_t itemSize,
-  void *itemArray)
-  {
-   size_t moduleOffset, itemOffset;
+        Environment *theEnv,
+        struct bsaveConstructHeader *theBsaveConstruct,
+        ConstructHeader *theConstruct,
+        ConstructType theType,
+        size_t itemModuleSize,
+        void *itemModuleArray,
+        size_t itemSize,
+        void *itemArray) {
+    size_t moduleOffset, itemOffset;
 
-   if (theBsaveConstruct->whichModule != ULONG_MAX)
-     {
-      moduleOffset = itemModuleSize * theBsaveConstruct->whichModule;
-      theConstruct->whichModule =
-        (struct defmoduleItemHeader *) &((char *) itemModuleArray)[moduleOffset];
-     }
-   else
-     { theConstruct->whichModule = NULL; }
-     
-   if (theBsaveConstruct->name != ULONG_MAX)
-     {
-      theConstruct->name = SymbolPointer(theBsaveConstruct->name);
-      IncrementLexemeCount(theConstruct->name);
-     }
-   else
-     { theConstruct->name = NULL; }
-     
-   if (theBsaveConstruct->next != ULONG_MAX)
-     {
-      itemOffset = itemSize * theBsaveConstruct->next;
-      theConstruct->next = (ConstructHeader *) &((char *) itemArray)[itemOffset];
-     }
-   else
-     { theConstruct->next = NULL; }
+    if (theBsaveConstruct->whichModule != ULONG_MAX) {
+        moduleOffset = itemModuleSize * theBsaveConstruct->whichModule;
+        theConstruct->whichModule =
+                (struct defmoduleItemHeader *) &((char *) itemModuleArray)[moduleOffset];
+    } else { theConstruct->whichModule = NULL; }
 
-   theConstruct->constructType = theType;
-   theConstruct->env = theEnv;
-   theConstruct->ppForm = NULL;
-   theConstruct->bsaveID = 0L;
-   theConstruct->usrData = NULL;
-  }
+    if (theBsaveConstruct->name != ULONG_MAX) {
+        theConstruct->name = SymbolPointer(theBsaveConstruct->name);
+        IncrementLexemeCount(theConstruct->name);
+    } else { theConstruct->name = NULL; }
+
+    if (theBsaveConstruct->next != ULONG_MAX) {
+        itemOffset = itemSize * theBsaveConstruct->next;
+        theConstruct->next = (ConstructHeader *) &((char *) itemArray)[itemOffset];
+    } else { theConstruct->next = NULL; }
+
+    theConstruct->constructType = theType;
+    theConstruct->env = theEnv;
+    theConstruct->ppForm = NULL;
+    theConstruct->bsaveID = 0L;
+    theConstruct->usrData = NULL;
+}
 
 /*******************************************************
   NAME         : UnmarkConstructHeader
@@ -175,11 +160,10 @@ void UpdateConstructHeader(
   NOTES        : None
  *******************************************************/
 void UnmarkConstructHeader(
-  Environment *theEnv,
-  ConstructHeader *theConstruct)
-  {
-   ReleaseLexeme(theEnv,theConstruct->name);
-  }
+        Environment *theEnv,
+        ConstructHeader *theConstruct) {
+    ReleaseLexeme(theEnv, theConstruct->name);
+}
 
 #endif /* BLOAD || BLOAD_AND_BSAVE */
 

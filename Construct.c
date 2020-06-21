@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  03/26/19             */
-   /*                                                     */
-   /*                  CONSTRUCT MODULE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  03/26/19             */
+/*                                                     */
+/*                  CONSTRUCT MODULE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides basic functionality for creating new    */
@@ -112,53 +112,52 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                        DeallocateConstructData(Environment *);
+static void DeallocateConstructData(Environment *);
 
 /**************************************************/
 /* InitializeConstructData: Allocates environment */
 /*    data for constructs.                        */
 /**************************************************/
 void InitializeConstructData(
-  Environment *theEnv)
-  {
-   AllocateEnvironmentData(theEnv,CONSTRUCT_DATA,sizeof(struct constructData),DeallocateConstructData);
-  }
+        Environment *theEnv) {
+    AllocateEnvironmentData(theEnv, CONSTRUCT_DATA, sizeof(struct constructData), DeallocateConstructData);
+}
 
 /****************************************************/
 /* DeallocateConstructData: Deallocates environment */
 /*    data for constructs.                          */
 /****************************************************/
 static void DeallocateConstructData(
-  Environment *theEnv)
-  {
-   Construct *tmpPtr, *nextPtr;
+        Environment *theEnv) {
+    Construct *tmpPtr, *nextPtr;
 
-   DeallocateSaveCallList(theEnv,ConstructData(theEnv)->ListOfSaveFunctions);
-   DeallocateVoidCallList(theEnv,ConstructData(theEnv)->ListOfResetFunctions);
-   DeallocateVoidCallList(theEnv,ConstructData(theEnv)->ListOfClearFunctions);
-   DeallocateBoolCallList(theEnv,ConstructData(theEnv)->ListOfClearReadyFunctions);
+    DeallocateSaveCallList(theEnv, ConstructData(theEnv)->ListOfSaveFunctions);
+    DeallocateVoidCallList(theEnv, ConstructData(theEnv)->ListOfResetFunctions);
+    DeallocateVoidCallList(theEnv, ConstructData(theEnv)->ListOfClearFunctions);
+    DeallocateBoolCallList(theEnv, ConstructData(theEnv)->ListOfClearReadyFunctions);
 
-   if (ConstructData(theEnv)->ErrorString != NULL)
-     { genfree(theEnv,ConstructData(theEnv)->ErrorString,sizeof(ConstructData(theEnv)->ErrorString) + 1); }
+    if (ConstructData(theEnv)->ErrorString != NULL) {
+        genfree(theEnv, ConstructData(theEnv)->ErrorString, sizeof(ConstructData(theEnv)->ErrorString) + 1);
+    }
 
-   if (ConstructData(theEnv)->WarningString != NULL)
-     { genfree(theEnv,ConstructData(theEnv)->WarningString,sizeof(ConstructData(theEnv)->WarningString) + 1); }
+    if (ConstructData(theEnv)->WarningString != NULL) {
+        genfree(theEnv, ConstructData(theEnv)->WarningString, sizeof(ConstructData(theEnv)->WarningString) + 1);
+    }
 
-   ConstructData(theEnv)->ErrorString = NULL;
-   ConstructData(theEnv)->WarningString = NULL;
+    ConstructData(theEnv)->ErrorString = NULL;
+    ConstructData(theEnv)->WarningString = NULL;
 
-   SetParsingFileName(theEnv,NULL);
-   SetWarningFileName(theEnv,NULL);
-   SetErrorFileName(theEnv,NULL);
+    SetParsingFileName(theEnv, NULL);
+    SetWarningFileName(theEnv, NULL);
+    SetErrorFileName(theEnv, NULL);
 
-   tmpPtr = ConstructData(theEnv)->ListOfConstructs;
-   while (tmpPtr != NULL)
-     {
-      nextPtr = tmpPtr->next;
-      rtn_struct(theEnv,construct,tmpPtr);
-      tmpPtr = nextPtr;
-     }
-  }
+    tmpPtr = ConstructData(theEnv)->ListOfConstructs;
+    while (tmpPtr != NULL) {
+        nextPtr = tmpPtr->next;
+        rtn_struct(theEnv, construct, tmpPtr);
+        tmpPtr = nextPtr;
+    }
+}
 
 
 /***********************************************/
@@ -167,38 +166,34 @@ static void DeallocateConstructData(
 /*    error occurs to be changed.              */
 /***********************************************/
 ParserErrorFunction *SetParserErrorCallback(
-   Environment *theEnv,
-   ParserErrorFunction *functionPtr,
-   void *context)
-  {
-   ParserErrorFunction *tmpPtr;
+        Environment *theEnv,
+        ParserErrorFunction *functionPtr,
+        void *context) {
+    ParserErrorFunction *tmpPtr;
 
-   tmpPtr = ConstructData(theEnv)->ParserErrorCallback;
-   ConstructData(theEnv)->ParserErrorCallback = functionPtr;
-   ConstructData(theEnv)->ParserErrorContext = context;
-   return tmpPtr;
-  }
+    tmpPtr = ConstructData(theEnv)->ParserErrorCallback;
+    ConstructData(theEnv)->ParserErrorCallback = functionPtr;
+    ConstructData(theEnv)->ParserErrorContext = context;
+    return tmpPtr;
+}
 
 /*************************************************/
 /* FindConstruct: Determines whether a construct */
 /*   type is in the ListOfConstructs.            */
 /*************************************************/
 Construct *FindConstruct(
-  Environment *theEnv,
-  const char *name)
-  {
-   Construct *currentPtr;
+        Environment *theEnv,
+        const char *name) {
+    Construct *currentPtr;
 
-   for (currentPtr = ConstructData(theEnv)->ListOfConstructs;
-        currentPtr != NULL;
-        currentPtr = currentPtr->next)
-     {
-      if (strcmp(name,currentPtr->constructName) == 0)
-        { return currentPtr; }
-     }
+    for (currentPtr = ConstructData(theEnv)->ListOfConstructs;
+         currentPtr != NULL;
+         currentPtr = currentPtr->next) {
+        if (strcmp(name, currentPtr->constructName) == 0) { return currentPtr; }
+    }
 
-   return NULL;
-  }
+    return NULL;
+}
 
 /***********************************************************/
 /* RemoveConstruct: Removes a construct and its associated */
@@ -207,144 +202,130 @@ Construct *FindConstruct(
 /*   false.                                                */
 /***********************************************************/
 bool RemoveConstruct(
-  Environment *theEnv,
-  const char *name)
-  {
-   Construct *currentPtr, *lastPtr = NULL;
+        Environment *theEnv,
+        const char *name) {
+    Construct *currentPtr, *lastPtr = NULL;
 
-   for (currentPtr = ConstructData(theEnv)->ListOfConstructs;
-        currentPtr != NULL;
-        currentPtr = currentPtr->next)
-     {
-      if (strcmp(name,currentPtr->constructName) == 0)
-        {
-         if (lastPtr == NULL)
-           { ConstructData(theEnv)->ListOfConstructs = currentPtr->next; }
-         else
-           { lastPtr->next = currentPtr->next; }
-         rtn_struct(theEnv,construct,currentPtr);
-         return true;
+    for (currentPtr = ConstructData(theEnv)->ListOfConstructs;
+         currentPtr != NULL;
+         currentPtr = currentPtr->next) {
+        if (strcmp(name, currentPtr->constructName) == 0) {
+            if (lastPtr == NULL) { ConstructData(theEnv)->ListOfConstructs = currentPtr->next; }
+            else { lastPtr->next = currentPtr->next; }
+            rtn_struct(theEnv, construct, currentPtr);
+            return true;
         }
 
-      lastPtr = currentPtr;
-     }
+        lastPtr = currentPtr;
+    }
 
-   return false;
-  }
+    return false;
+}
 
 /************************************************/
 /* Save: C access routine for the save command. */
 /************************************************/
 bool Save(
-  Environment *theEnv,
-  const char *fileName)
-  {
-   struct saveCallFunctionItem *saveFunction;
-   FILE *filePtr;
-   Defmodule *defmodulePtr;
-   bool updated = false;
-   bool unvisited = true;
+        Environment *theEnv,
+        const char *fileName) {
+    struct saveCallFunctionItem *saveFunction;
+    FILE *filePtr;
+    Defmodule *defmodulePtr;
+    bool updated = false;
+    bool unvisited = true;
 
-   /*=====================================*/
-   /* If embedded, clear the error flags. */
-   /*=====================================*/
-   
-   if (EvaluationData(theEnv)->CurrentExpression == NULL)
-     { ResetErrorFlags(theEnv); }
+    /*=====================================*/
+    /* If embedded, clear the error flags. */
+    /*=====================================*/
 
-   /*=====================*/
-   /* Open the save file. */
-   /*=====================*/
+    if (EvaluationData(theEnv)->CurrentExpression == NULL) { ResetErrorFlags(theEnv); }
 
-   if ((filePtr = GenOpen(theEnv,fileName,"w")) == NULL)
-     { return false; }
+    /*=====================*/
+    /* Open the save file. */
+    /*=====================*/
 
-   /*===========================*/
-   /* Bypass the router system. */
-   /*===========================*/
+    if ((filePtr = GenOpen(theEnv, fileName, "w")) == NULL) { return false; }
 
-   SetFastSave(theEnv,filePtr);
+    /*===========================*/
+    /* Bypass the router system. */
+    /*===========================*/
 
-   /*================================*/
-   /* Mark all modules as unvisited. */
-   /*================================*/
+    SetFastSave(theEnv, filePtr);
 
-   MarkModulesAsUnvisited(theEnv);
+    /*================================*/
+    /* Mark all modules as unvisited. */
+    /*================================*/
 
-   /*===============================================*/
-   /* Save the constructs. Repeatedly loop over the */
-   /* modules until each module has been save.      */
-   /*===============================================*/
+    MarkModulesAsUnvisited(theEnv);
 
-   while (unvisited)
-     {
-      unvisited = false;
-      updated = false;
+    /*===============================================*/
+    /* Save the constructs. Repeatedly loop over the */
+    /* modules until each module has been save.      */
+    /*===============================================*/
 
-      for (defmodulePtr = GetNextDefmodule(theEnv,NULL);
-           defmodulePtr != NULL;
-           defmodulePtr = GetNextDefmodule(theEnv,defmodulePtr))
-        {
-         /*=================================================================*/
-         /* We only want to save a module if all of the modules it imports  */
-         /* from have already been saved. Since there can't be circular     */
-         /* dependencies in imported modules, this should save the modules  */
-         /* that don't import anything first and then work back from those. */
-         /*=================================================================*/
+    while (unvisited) {
+        unvisited = false;
+        updated = false;
 
-         if (defmodulePtr->visitedFlag)
-           { /* Module has already been saved. */ }
-         else if (AllImportedModulesVisited(theEnv,defmodulePtr))
-           {
-            for (saveFunction = ConstructData(theEnv)->ListOfSaveFunctions;
-                 saveFunction != NULL;
-                 saveFunction = saveFunction->next)
-              { (*saveFunction->func)(theEnv,defmodulePtr,(char *) filePtr,saveFunction->context); }
+        for (defmodulePtr = GetNextDefmodule(theEnv, NULL);
+             defmodulePtr != NULL;
+             defmodulePtr = GetNextDefmodule(theEnv, defmodulePtr)) {
+            /*=================================================================*/
+            /* We only want to save a module if all of the modules it imports  */
+            /* from have already been saved. Since there can't be circular     */
+            /* dependencies in imported modules, this should save the modules  */
+            /* that don't import anything first and then work back from those. */
+            /*=================================================================*/
 
-            updated = true;
-            defmodulePtr->visitedFlag = true;
-           }
-         else
-           { unvisited = true; }
+            if (defmodulePtr->visitedFlag) { /* Module has already been saved. */ }
+            else if (AllImportedModulesVisited(theEnv, defmodulePtr)) {
+                for (saveFunction = ConstructData(theEnv)->ListOfSaveFunctions;
+                     saveFunction != NULL;
+                     saveFunction = saveFunction->next) {
+                    (*saveFunction->func)(theEnv, defmodulePtr, (char *) filePtr, saveFunction->context);
+                }
+
+                updated = true;
+                defmodulePtr->visitedFlag = true;
+            } else { unvisited = true; }
         }
 
-      /*=====================================================================*/
-      /* At least one module should be saved in every pass. If all have been */
-      /* visited/saved, then both flags will be false. If all remaining      */
-      /* unvisited/unsaved modules were visited/saved, then unvisited will   */
-      /* be false and updated will be true. If some, but not all, remaining  */
-      /* unvisited/unsaved modules are visited/saved, then  unvisited will   */
-      /* be true and updated will be true. This leaves the case where there  */
-      /* are remaining unvisited/unsaved modules, but none were              */
-      /* visited/saved: unvisited is true and updated is false.              */
-      /*=====================================================================*/
+        /*=====================================================================*/
+        /* At least one module should be saved in every pass. If all have been */
+        /* visited/saved, then both flags will be false. If all remaining      */
+        /* unvisited/unsaved modules were visited/saved, then unvisited will   */
+        /* be false and updated will be true. If some, but not all, remaining  */
+        /* unvisited/unsaved modules are visited/saved, then  unvisited will   */
+        /* be true and updated will be true. This leaves the case where there  */
+        /* are remaining unvisited/unsaved modules, but none were              */
+        /* visited/saved: unvisited is true and updated is false.              */
+        /*=====================================================================*/
 
-      if (unvisited && (! updated))
-        {
-         SystemError(theEnv,"CONSTRCT",2);
-         break;
+        if (unvisited && (!updated)) {
+            SystemError(theEnv, "CONSTRCT", 2);
+            break;
         }
-     }
+    }
 
-   /*======================*/
-   /* Close the save file. */
-   /*======================*/
+    /*======================*/
+    /* Close the save file. */
+    /*======================*/
 
-   GenClose(theEnv,filePtr);
+    GenClose(theEnv, filePtr);
 
-   /*===========================*/
-   /* Remove the router bypass. */
-   /*===========================*/
+    /*===========================*/
+    /* Remove the router bypass. */
+    /*===========================*/
 
-   SetFastSave(theEnv,NULL);
+    SetFastSave(theEnv, NULL);
 
-   /*=========================*/
-   /* Return true to indicate */
-   /* successful completion.  */
-   /*=========================*/
+    /*=========================*/
+    /* Return true to indicate */
+    /* successful completion.  */
+    /*=========================*/
 
-   return true;
-  }
+    return true;
+}
 
 /*******************************************************/
 /* RemoveSaveFunction: Removes a function from the     */
@@ -352,81 +333,74 @@ bool Save(
 /*   was successfully removed, otherwise false.        */
 /*******************************************************/
 bool RemoveSaveFunction(
-  Environment *theEnv,
-  const char *name)
-  {
-   bool found;
+        Environment *theEnv,
+        const char *name) {
+    bool found;
 
-   ConstructData(theEnv)->ListOfSaveFunctions =
-     RemoveSaveFunctionFromCallList(theEnv,name,ConstructData(theEnv)->ListOfSaveFunctions,&found);
+    ConstructData(theEnv)->ListOfSaveFunctions =
+            RemoveSaveFunctionFromCallList(theEnv, name, ConstructData(theEnv)->ListOfSaveFunctions, &found);
 
-   if (found) return true;
+    if (found) return true;
 
-   return false;
-  }
+    return false;
+}
 
 /**********************************/
 /* SetCompilationsWatch: Sets the */
 /*   value of WatchCompilations.  */
 /**********************************/
 void SetCompilationsWatch(
-  Environment *theEnv,
-  bool value)
-  {
-   ConstructData(theEnv)->WatchCompilations = value;
-  }
+        Environment *theEnv,
+        bool value) {
+    ConstructData(theEnv)->WatchCompilations = value;
+}
 
 /*************************************/
 /* GetCompilationsWatch: Returns the */
 /*   value of WatchCompilations.     */
 /*************************************/
 bool GetCompilationsWatch(
-  Environment *theEnv)
-  {
-   return ConstructData(theEnv)->WatchCompilations;
-  }
+        Environment *theEnv) {
+    return ConstructData(theEnv)->WatchCompilations;
+}
 
 /**********************************/
 /* SetPrintWhileLoading: Sets the */
 /*   value of PrintWhileLoading.  */
 /**********************************/
 void SetPrintWhileLoading(
-  Environment *theEnv,
-  bool value)
-  {
-   ConstructData(theEnv)->PrintWhileLoading = value;
-  }
+        Environment *theEnv,
+        bool value) {
+    ConstructData(theEnv)->PrintWhileLoading = value;
+}
 
 /*************************************/
 /* GetPrintWhileLoading: Returns the */
 /*   value of PrintWhileLoading.     */
 /*************************************/
 bool GetPrintWhileLoading(
-  Environment *theEnv)
-  {
-   return(ConstructData(theEnv)->PrintWhileLoading);
-  }
+        Environment *theEnv) {
+    return (ConstructData(theEnv)->PrintWhileLoading);
+}
 
 /*******************************/
 /* SetLoadInProgress: Sets the */
 /*   value of LoadInProgress.  */
 /*******************************/
 void SetLoadInProgress(
-  Environment *theEnv,
-  bool value)
-  {
-   ConstructData(theEnv)->LoadInProgress = value;
-  }
+        Environment *theEnv,
+        bool value) {
+    ConstructData(theEnv)->LoadInProgress = value;
+}
 
 /**********************************/
 /* GetLoadInProgress: Returns the */
 /*   value of LoadInProgress.     */
 /**********************************/
 bool GetLoadInProgress(
-  Environment *theEnv)
-  {
-   return(ConstructData(theEnv)->LoadInProgress);
-  }
+        Environment *theEnv) {
+    return (ConstructData(theEnv)->LoadInProgress);
+}
 
 
 /*************************************/
@@ -434,290 +408,270 @@ bool GetLoadInProgress(
 /*   the Construct Manager.          */
 /*************************************/
 void InitializeConstructs(
-  Environment *theEnv)
-  {
-      AddUDF(theEnv, "clear", "v", 0, 0, NULL, ClearCommand, NULL);
-      AddUDF(theEnv, "reset", "v", 0, 0, NULL, ResetCommand, NULL);
+        Environment *theEnv) {
+    AddUDF(theEnv, "clear", "v", 0, 0, NULL, ClearCommand, NULL);
+    AddUDF(theEnv, "reset", "v", 0, 0, NULL, ResetCommand, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddWatchItem(theEnv,"compilations",0,&ConstructData(theEnv)->WatchCompilations,30,NULL,NULL);
+    AddWatchItem(theEnv, "compilations", 0, &ConstructData(theEnv)->WatchCompilations, 30, NULL, NULL);
 #endif
-  }
+}
 
 /**************************************/
 /* ClearCommand: H/L access routine   */
 /*   for the clear command.           */
 /**************************************/
 void ClearCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Clear(theEnv);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Clear(theEnv);
+}
 
 /**************************************/
 /* ResetCommand: H/L access routine   */
 /*   for the reset command.           */
 /**************************************/
 void ResetCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Reset(theEnv);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Reset(theEnv);
+}
 
 /****************************/
 /* Reset: C access routine  */
 /*   for the reset command. */
 /****************************/
 void Reset(
-  Environment *theEnv)
-  {
-   struct voidCallFunctionItem *resetPtr;
-   GCBlock gcb;
+        Environment *theEnv) {
+    struct voidCallFunctionItem *resetPtr;
+    GCBlock gcb;
 
-   /*=====================================*/
-   /* The reset command can't be executed */
-   /* while a reset is in progress.       */
-   /*=====================================*/
+    /*=====================================*/
+    /* The reset command can't be executed */
+    /* while a reset is in progress.       */
+    /*=====================================*/
 
-   if (ConstructData(theEnv)->ResetInProgress) return;
+    if (ConstructData(theEnv)->ResetInProgress) return;
 
-   ConstructData(theEnv)->ResetInProgress = true;
-   ConstructData(theEnv)->ResetReadyInProgress = true;
-   
-   /*=====================================*/
-   /* If embedded, clear the error flags. */
-   /*=====================================*/
-   
-   if (EvaluationData(theEnv)->CurrentExpression == NULL)
-     { ResetErrorFlags(theEnv); }
-   SetErrorValue(theEnv,NULL);
-    
-   /*========================================*/
-   /* Set up the frame for tracking garbage. */
-   /*========================================*/
+    ConstructData(theEnv)->ResetInProgress = true;
+    ConstructData(theEnv)->ResetReadyInProgress = true;
 
-   GCBlockStart(theEnv,&gcb);
+    /*=====================================*/
+    /* If embedded, clear the error flags. */
+    /*=====================================*/
 
-   /*=======================================================*/
-   /* Call the before reset function to determine if the    */
-   /* reset should continue. [Used by the some of the       */
-   /* windowed interfaces to query the user whether a       */
-   /* reset should proceed with activations on the agenda.] */
-   /*=======================================================*/
+    if (EvaluationData(theEnv)->CurrentExpression == NULL) { ResetErrorFlags(theEnv); }
+    SetErrorValue(theEnv, NULL);
 
-   if ((ConstructData(theEnv)->BeforeResetCallback != NULL) ?
-       ((*ConstructData(theEnv)->BeforeResetCallback)(theEnv) == false) : false)
-     {
-      ConstructData(theEnv)->ResetReadyInProgress = false;
-      ConstructData(theEnv)->ResetInProgress = false;
-      GCBlockEnd(theEnv,&gcb);
-      return;
-     }
-   ConstructData(theEnv)->ResetReadyInProgress = false;
+    /*========================================*/
+    /* Set up the frame for tracking garbage. */
+    /*========================================*/
 
-   /*===========================*/
-   /* Call each reset function. */
-   /*===========================*/
+    GCBlockStart(theEnv, &gcb);
 
-   for (resetPtr = ConstructData(theEnv)->ListOfResetFunctions;
-        (resetPtr != NULL) && (GetHaltExecution(theEnv) == false);
-        resetPtr = resetPtr->next)
-     { (*resetPtr->func)(theEnv,resetPtr->context); }
+    /*=======================================================*/
+    /* Call the before reset function to determine if the    */
+    /* reset should continue. [Used by the some of the       */
+    /* windowed interfaces to query the user whether a       */
+    /* reset should proceed with activations on the agenda.] */
+    /*=======================================================*/
 
-   /*============================================*/
-   /* Set the current module to the MAIN module. */
-   /*============================================*/
+    if ((ConstructData(theEnv)->BeforeResetCallback != NULL) ?
+        ((*ConstructData(theEnv)->BeforeResetCallback)(theEnv) == false) : false) {
+        ConstructData(theEnv)->ResetReadyInProgress = false;
+        ConstructData(theEnv)->ResetInProgress = false;
+        GCBlockEnd(theEnv, &gcb);
+        return;
+    }
+    ConstructData(theEnv)->ResetReadyInProgress = false;
 
-   SetCurrentModule(theEnv,FindDefmodule(theEnv,"MAIN"));
+    /*===========================*/
+    /* Call each reset function. */
+    /*===========================*/
 
-   /*================================*/
-   /* Restore the old garbage frame. */
-   /*================================*/
-   
-   GCBlockEnd(theEnv,&gcb);
-   
-   /*===============================================*/
-   /* If embedded, clean the topmost garbage frame. */
-   /*===============================================*/
+    for (resetPtr = ConstructData(theEnv)->ListOfResetFunctions;
+         (resetPtr != NULL) && (GetHaltExecution(theEnv) == false);
+         resetPtr = resetPtr->next) { (*resetPtr->func)(theEnv, resetPtr->context); }
 
-   if (EvaluationData(theEnv)->CurrentExpression == NULL)
-     { CleanCurrentGarbageFrame(theEnv,NULL); }
+    /*============================================*/
+    /* Set the current module to the MAIN module. */
+    /*============================================*/
 
-   /*======================*/
-   /* Call periodic tasks. */
-   /*======================*/
-   
-   CallPeriodicTasks(theEnv);
+    SetCurrentModule(theEnv, FindDefmodule(theEnv, "MAIN"));
 
-   /*===================================*/
-   /* A reset is no longer in progress. */
-   /*===================================*/
+    /*================================*/
+    /* Restore the old garbage frame. */
+    /*================================*/
 
-   ConstructData(theEnv)->ResetInProgress = false;
-  }
+    GCBlockEnd(theEnv, &gcb);
+
+    /*===============================================*/
+    /* If embedded, clean the topmost garbage frame. */
+    /*===============================================*/
+
+    if (EvaluationData(theEnv)->CurrentExpression == NULL) { CleanCurrentGarbageFrame(theEnv, NULL); }
+
+    /*======================*/
+    /* Call periodic tasks. */
+    /*======================*/
+
+    CallPeriodicTasks(theEnv);
+
+    /*===================================*/
+    /* A reset is no longer in progress. */
+    /*===================================*/
+
+    ConstructData(theEnv)->ResetInProgress = false;
+}
 
 /************************************/
 /* SetBeforeResetFunction: Sets the */
 /*  value of BeforeResetFunction.   */
 /************************************/
 BeforeResetFunction *SetBeforeResetFunction(
-  Environment *theEnv,
-  BeforeResetFunction *theFunction)
-  {
-   BeforeResetFunction *tempFunction;
+        Environment *theEnv,
+        BeforeResetFunction *theFunction) {
+    BeforeResetFunction *tempFunction;
 
-   tempFunction = ConstructData(theEnv)->BeforeResetCallback;
-   ConstructData(theEnv)->BeforeResetCallback = theFunction;
-   return tempFunction;
-  }
+    tempFunction = ConstructData(theEnv)->BeforeResetCallback;
+    ConstructData(theEnv)->BeforeResetCallback = theFunction;
+    return tempFunction;
+}
 
 /*************************************/
 /* AddResetFunction: Adds a function */
 /*   to ListOfResetFunctions.        */
 /*************************************/
 bool AddResetFunction(
-  Environment *theEnv,
-  const char *name,
-  VoidCallFunction *functionPtr,
-  int priority,
-  void *context)
-  {
-   ConstructData(theEnv)->ListOfResetFunctions =
-      AddVoidFunctionToCallList(theEnv,name,priority,functionPtr,
-                                ConstructData(theEnv)->ListOfResetFunctions,context);
-   return true;
-  }
+        Environment *theEnv,
+        const char *name,
+        VoidCallFunction *functionPtr,
+        int priority,
+        void *context) {
+    ConstructData(theEnv)->ListOfResetFunctions =
+            AddVoidFunctionToCallList(theEnv, name, priority, functionPtr,
+                                      ConstructData(theEnv)->ListOfResetFunctions, context);
+    return true;
+}
 
 /*******************************************/
 /* RemoveResetFunction: Removes a function */
 /*   from the ListOfResetFunctions.        */
 /*******************************************/
 bool RemoveResetFunction(
-  Environment *theEnv,
-  const char *name)
-  {
-   bool found;
+        Environment *theEnv,
+        const char *name) {
+    bool found;
 
-   ConstructData(theEnv)->ListOfResetFunctions =
-      RemoveVoidFunctionFromCallList(theEnv,name,ConstructData(theEnv)->ListOfResetFunctions,&found);
+    ConstructData(theEnv)->ListOfResetFunctions =
+            RemoveVoidFunctionFromCallList(theEnv, name, ConstructData(theEnv)->ListOfResetFunctions, &found);
 
-   return found;
-  }
+    return found;
+}
 
 /****************************************/
 /* IncrementClearReadyLocks: Increments */
 /*   the number of clear ready locks.   */
 /****************************************/
 void IncrementClearReadyLocks(
-  Environment *theEnv)
-  {
-   ConstructData(theEnv)->ClearReadyLocks++;
-  }
+        Environment *theEnv) {
+    ConstructData(theEnv)->ClearReadyLocks++;
+}
 
 /*******************************************/
 /* DecrementClearReadyLocks: Decrements    */
 /*   the number of clear locks.            */
 /*******************************************/
 void DecrementClearReadyLocks(
-  Environment *theEnv)
-  {
-   if (ConstructData(theEnv)->ClearReadyLocks > 0)
-     { ConstructData(theEnv)->ClearReadyLocks--; }
-  }
+        Environment *theEnv) {
+    if (ConstructData(theEnv)->ClearReadyLocks > 0) { ConstructData(theEnv)->ClearReadyLocks--; }
+}
 
 /**************************************************/
 /* Clear: C access routine for the clear command. */
 /**************************************************/
 bool Clear(
-  Environment *theEnv)
-  {
-   struct voidCallFunctionItem *theFunction;
-   GCBlock gcb;
+        Environment *theEnv) {
+    struct voidCallFunctionItem *theFunction;
+    GCBlock gcb;
 
-   /*=====================================*/
-   /* If embedded, clear the error flags. */
-   /*=====================================*/
+    /*=====================================*/
+    /* If embedded, clear the error flags. */
+    /*=====================================*/
 
-   if (EvaluationData(theEnv)->CurrentExpression == NULL)
-     { ResetErrorFlags(theEnv); }
-   SetErrorValue(theEnv,NULL);
-   
-   /*===================================*/
-   /* Determine if a clear is possible. */
-   /*===================================*/
+    if (EvaluationData(theEnv)->CurrentExpression == NULL) { ResetErrorFlags(theEnv); }
+    SetErrorValue(theEnv, NULL);
 
-   ConstructData(theEnv)->ClearReadyInProgress = true;
-   if ((ConstructData(theEnv)->ClearReadyLocks > 0) ||
-       (ConstructData(theEnv)->DanglingConstructs > 0) ||
-       (ClearReady(theEnv) == false))
-     {
-      PrintErrorID(theEnv,"CONSTRCT",1,false);
-      WriteString(theEnv,STDERR,"Some constructs are still in use. Clear cannot continue.\n");
-      ConstructData(theEnv)->ClearReadyInProgress = false;
-      return false;
-     }
-   ConstructData(theEnv)->ClearReadyInProgress = false;
+    /*===================================*/
+    /* Determine if a clear is possible. */
+    /*===================================*/
 
-   /*========================================*/
-   /* Set up the frame for tracking garbage. */
-   /*========================================*/
-   
-   GCBlockStart(theEnv,&gcb);
+    ConstructData(theEnv)->ClearReadyInProgress = true;
+    if ((ConstructData(theEnv)->ClearReadyLocks > 0) ||
+        (ConstructData(theEnv)->DanglingConstructs > 0) ||
+        (ClearReady(theEnv) == false)) {
+        PrintErrorID(theEnv, "CONSTRCT", 1, false);
+        WriteString(theEnv, STDERR, "Some constructs are still in use. Clear cannot continue.\n");
+        ConstructData(theEnv)->ClearReadyInProgress = false;
+        return false;
+    }
+    ConstructData(theEnv)->ClearReadyInProgress = false;
 
-   /*===========================*/
-   /* Call all clear functions. */
-   /*===========================*/
+    /*========================================*/
+    /* Set up the frame for tracking garbage. */
+    /*========================================*/
 
-   ConstructData(theEnv)->ClearInProgress = true;
+    GCBlockStart(theEnv, &gcb);
 
-   for (theFunction = ConstructData(theEnv)->ListOfClearFunctions;
-        theFunction != NULL;
-        theFunction = theFunction->next)
-     { (*theFunction->func)(theEnv,theFunction->context); }
+    /*===========================*/
+    /* Call all clear functions. */
+    /*===========================*/
 
-   /*================================*/
-   /* Restore the old garbage frame. */
-   /*================================*/
-   
-   GCBlockEnd(theEnv,&gcb);
-   
-   /*=======================================*/
-   /* If embedded, clean the garbage frame. */
-   /*=======================================*/
+    ConstructData(theEnv)->ClearInProgress = true;
 
-   if (EvaluationData(theEnv)->CurrentExpression == NULL)
-     { CleanCurrentGarbageFrame(theEnv,NULL); }
+    for (theFunction = ConstructData(theEnv)->ListOfClearFunctions;
+         theFunction != NULL;
+         theFunction = theFunction->next) { (*theFunction->func)(theEnv, theFunction->context); }
 
-   /*======================*/
-   /* Call periodic tasks. */
-   /*======================*/
-   
-   CallPeriodicTasks(theEnv);
+    /*================================*/
+    /* Restore the old garbage frame. */
+    /*================================*/
 
-   /*===========================*/
-   /* Clear has been completed. */
-   /*===========================*/
+    GCBlockEnd(theEnv, &gcb);
 
-   ConstructData(theEnv)->ClearInProgress = false;
+    /*=======================================*/
+    /* If embedded, clean the garbage frame. */
+    /*=======================================*/
+
+    if (EvaluationData(theEnv)->CurrentExpression == NULL) { CleanCurrentGarbageFrame(theEnv, NULL); }
+
+    /*======================*/
+    /* Call periodic tasks. */
+    /*======================*/
+
+    CallPeriodicTasks(theEnv);
+
+    /*===========================*/
+    /* Clear has been completed. */
+    /*===========================*/
+
+    ConstructData(theEnv)->ClearInProgress = false;
 
 #if DEFRULE_CONSTRUCT
-   if ((DefruleData(theEnv)->RightPrimeJoins != NULL) ||
-       (DefruleData(theEnv)->LeftPrimeJoins != NULL))
-     { SystemError(theEnv,"CONSTRCT",1); }
+    if ((DefruleData(theEnv)->RightPrimeJoins != NULL) ||
+        (DefruleData(theEnv)->LeftPrimeJoins != NULL)) { SystemError(theEnv, "CONSTRCT", 1); }
 #endif
 
-   /*============================*/
-   /* Perform reset after clear. */
-   /*============================*/
+    /*============================*/
+    /* Perform reset after clear. */
+    /*============================*/
 
-   Reset(theEnv);
+    Reset(theEnv);
 
-   return true;
-  }
+    return true;
+}
 
 /*********************************************************/
 /* ClearReady: Returns true if a clear can be performed, */
@@ -726,90 +680,83 @@ bool Clear(
 /*   the determination).                                 */
 /*********************************************************/
 bool ClearReady(
-  Environment *theEnv)
-  {
-   struct boolCallFunctionItem *theFunction;
+        Environment *theEnv) {
+    struct boolCallFunctionItem *theFunction;
 
-   for (theFunction = ConstructData(theEnv)->ListOfClearReadyFunctions;
-        theFunction != NULL;
-        theFunction = theFunction->next)
-     {
-      if ((*theFunction->func)(theEnv,theFunction->context) == false)
-        { return false; }
-     }
+    for (theFunction = ConstructData(theEnv)->ListOfClearReadyFunctions;
+         theFunction != NULL;
+         theFunction = theFunction->next) {
+        if ((*theFunction->func)(theEnv, theFunction->context) == false) { return false; }
+    }
 
-   return true;
-  }
+    return true;
+}
 
 /******************************************/
 /* AddClearReadyFunction: Adds a function */
 /*   to ListOfClearReadyFunctions.        */
 /******************************************/
 bool AddClearReadyFunction(
-  Environment *theEnv,
-  const char *name,
-  BoolCallFunction *functionPtr,
-  int priority,
-  void *context)
-  {
-   ConstructData(theEnv)->ListOfClearReadyFunctions =
-     AddBoolFunctionToCallList(theEnv,name,priority,functionPtr,
-                               ConstructData(theEnv)->ListOfClearReadyFunctions,context);
-   return true;
-  }
+        Environment *theEnv,
+        const char *name,
+        BoolCallFunction *functionPtr,
+        int priority,
+        void *context) {
+    ConstructData(theEnv)->ListOfClearReadyFunctions =
+            AddBoolFunctionToCallList(theEnv, name, priority, functionPtr,
+                                      ConstructData(theEnv)->ListOfClearReadyFunctions, context);
+    return true;
+}
 
 /************************************************/
 /* RemoveClearReadyFunction: Removes a function */
 /*   from the ListOfClearReadyFunctions.        */
 /************************************************/
 bool RemoveClearReadyFunction(
-  Environment *theEnv,
-  const char *name)
-  {
-   bool found;
+        Environment *theEnv,
+        const char *name) {
+    bool found;
 
-   ConstructData(theEnv)->ListOfClearReadyFunctions =
-      RemoveBoolFunctionFromCallList(theEnv,name,ConstructData(theEnv)->ListOfClearReadyFunctions,&found);
+    ConstructData(theEnv)->ListOfClearReadyFunctions =
+            RemoveBoolFunctionFromCallList(theEnv, name, ConstructData(theEnv)->ListOfClearReadyFunctions, &found);
 
-   if (found) return true;
+    if (found) return true;
 
-   return false;
-  }
+    return false;
+}
 
 /*************************************/
 /* AddClearFunction: Adds a function */
 /*   to ListOfClearFunctions.        */
 /*************************************/
 bool AddClearFunction(
-  Environment *theEnv,
-  const char *name,
-  VoidCallFunction *functionPtr,
-  int priority,
-  void *context)
-  {
-   ConstructData(theEnv)->ListOfClearFunctions =
-      AddVoidFunctionToCallList(theEnv,name,priority,functionPtr,
-                                ConstructData(theEnv)->ListOfClearFunctions,context);
-   return true;
-  }
+        Environment *theEnv,
+        const char *name,
+        VoidCallFunction *functionPtr,
+        int priority,
+        void *context) {
+    ConstructData(theEnv)->ListOfClearFunctions =
+            AddVoidFunctionToCallList(theEnv, name, priority, functionPtr,
+                                      ConstructData(theEnv)->ListOfClearFunctions, context);
+    return true;
+}
 
 /*******************************************/
 /* RemoveClearFunction: Removes a function */
 /*    from the ListOfClearFunctions.       */
 /*******************************************/
 bool RemoveClearFunction(
-  Environment *theEnv,
-  const char *name)
-  {
-   bool found;
+        Environment *theEnv,
+        const char *name) {
+    bool found;
 
-   ConstructData(theEnv)->ListOfClearFunctions =
-     RemoveVoidFunctionFromCallList(theEnv,name,ConstructData(theEnv)->ListOfClearFunctions,&found);
+    ConstructData(theEnv)->ListOfClearFunctions =
+            RemoveVoidFunctionFromCallList(theEnv, name, ConstructData(theEnv)->ListOfClearFunctions, &found);
 
-   if (found) return true;
+    if (found) return true;
 
-   return false;
-  }
+    return false;
+}
 
 /********************************************/
 /* ExecutingConstruct: Returns true if a    */
@@ -817,10 +764,9 @@ bool RemoveClearFunction(
 /*   otherwise false.                       */
 /********************************************/
 bool ExecutingConstruct(
-  Environment *theEnv)
-  {
-   return ConstructData(theEnv)->Executing;
-  }
+        Environment *theEnv) {
+    return ConstructData(theEnv)->Executing;
+}
 
 /********************************************/
 /* SetExecutingConstruct: Sets the value of */
@@ -829,11 +775,10 @@ bool ExecutingConstruct(
 /*   should not be performed.               */
 /********************************************/
 void SetExecutingConstruct(
-  Environment *theEnv,
-  bool value)
-  {
-   ConstructData(theEnv)->Executing = value;
-  }
+        Environment *theEnv,
+        bool value) {
+    ConstructData(theEnv)->Executing = value;
+}
 
 /*******************************************************/
 /* DeinstallConstructHeader: Decrements the busy count */
@@ -842,23 +787,20 @@ void SetExecutingConstruct(
 /*   in the generic construct header).                 */
 /*******************************************************/
 void DeinstallConstructHeader(
-  Environment *theEnv,
-  ConstructHeader *theHeader)
-  {
-   ReleaseLexeme(theEnv,theHeader->name);
-   if (theHeader->ppForm != NULL)
-     {
-      rm(theEnv,(void *) theHeader->ppForm,
-         sizeof(char) * (strlen(theHeader->ppForm) + 1));
-      theHeader->ppForm = NULL;
-     }
+        Environment *theEnv,
+        ConstructHeader *theHeader) {
+    ReleaseLexeme(theEnv, theHeader->name);
+    if (theHeader->ppForm != NULL) {
+        rm(theEnv, (void *) theHeader->ppForm,
+           sizeof(char) * (strlen(theHeader->ppForm) + 1));
+        theHeader->ppForm = NULL;
+    }
 
-   if (theHeader->usrData != NULL)
-     {
-      ClearUserDataList(theEnv,theHeader->usrData);
-      theHeader->usrData = NULL;
-     }
-  }
+    if (theHeader->usrData != NULL) {
+        ClearUserDataList(theEnv, theHeader->usrData);
+        theHeader->usrData = NULL;
+    }
+}
 
 /**************************************************/
 /* DestroyConstructHeader: Frees the pretty print */
@@ -867,92 +809,87 @@ void DeinstallConstructHeader(
 /*   header).                                     */
 /**************************************************/
 void DestroyConstructHeader(
-  Environment *theEnv,
-  ConstructHeader *theHeader)
-  {
-   if (theHeader->ppForm != NULL)
-     {
-      rm(theEnv,(void *) theHeader->ppForm,
-         sizeof(char) * (strlen(theHeader->ppForm) + 1));
-      theHeader->ppForm = NULL;
-     }
+        Environment *theEnv,
+        ConstructHeader *theHeader) {
+    if (theHeader->ppForm != NULL) {
+        rm(theEnv, (void *) theHeader->ppForm,
+           sizeof(char) * (strlen(theHeader->ppForm) + 1));
+        theHeader->ppForm = NULL;
+    }
 
-   if (theHeader->usrData != NULL)
-     {
-      ClearUserDataList(theEnv,theHeader->usrData);
-      theHeader->usrData = NULL;
-     }
-  }
+    if (theHeader->usrData != NULL) {
+        ClearUserDataList(theEnv, theHeader->usrData);
+        theHeader->usrData = NULL;
+    }
+}
 
 /*****************************************************/
 /* AddConstruct: Adds a construct and its associated */
 /*   parsing function to the ListOfConstructs.       */
 /*****************************************************/
 Construct *AddConstruct(
-  Environment *theEnv,
-  const char *name,
-  const char *pluralName,
-  bool (*parseFunction)(Environment *,const char *),
-  FindConstructFunction *findFunction,
-  CLIPSLexeme *(*getConstructNameFunction)(ConstructHeader *),
-  const char *(*getPPFormFunction)(ConstructHeader *),
-  struct defmoduleItemHeader *(*getModuleItemFunction)(ConstructHeader *),
-  GetNextConstructFunction *getNextItemFunction,
-  void (*setNextItemFunction)(ConstructHeader *,ConstructHeader *),
-  IsConstructDeletableFunction *isConstructDeletableFunction,
-  DeleteConstructFunction *deleteFunction,
-  FreeConstructFunction *freeFunction)
-  {
-   Construct *newPtr;
+        Environment *theEnv,
+        const char *name,
+        const char *pluralName,
+        bool (*parseFunction)(Environment *, const char *),
+        FindConstructFunction *findFunction,
+        CLIPSLexeme *(*getConstructNameFunction)(ConstructHeader *),
+        const char *(*getPPFormFunction)(ConstructHeader *),
+        struct defmoduleItemHeader *(*getModuleItemFunction)(ConstructHeader *),
+        GetNextConstructFunction *getNextItemFunction,
+        void (*setNextItemFunction)(ConstructHeader *, ConstructHeader *),
+        IsConstructDeletableFunction *isConstructDeletableFunction,
+        DeleteConstructFunction *deleteFunction,
+        FreeConstructFunction *freeFunction) {
+    Construct *newPtr;
 
-   /*=============================*/
-   /* Allocate and initialize the */
-   /* construct data structure.   */
-   /*=============================*/
+    /*=============================*/
+    /* Allocate and initialize the */
+    /* construct data structure.   */
+    /*=============================*/
 
-   newPtr = get_struct(theEnv,construct);
+    newPtr = get_struct(theEnv, construct);
 
-   newPtr->constructName = name;
-   newPtr->pluralName = pluralName;
-   newPtr->parseFunction = parseFunction;
-   newPtr->findFunction = findFunction;
-   newPtr->getConstructNameFunction = getConstructNameFunction;
-   newPtr->getPPFormFunction = getPPFormFunction;
-   newPtr->getModuleItemFunction = getModuleItemFunction;
-   newPtr->getNextItemFunction = getNextItemFunction;
-   newPtr->setNextItemFunction = setNextItemFunction;
-   newPtr->isConstructDeletableFunction = isConstructDeletableFunction;
-   newPtr->deleteFunction = deleteFunction;
-   newPtr->freeFunction = freeFunction;
+    newPtr->constructName = name;
+    newPtr->pluralName = pluralName;
+    newPtr->parseFunction = parseFunction;
+    newPtr->findFunction = findFunction;
+    newPtr->getConstructNameFunction = getConstructNameFunction;
+    newPtr->getPPFormFunction = getPPFormFunction;
+    newPtr->getModuleItemFunction = getModuleItemFunction;
+    newPtr->getNextItemFunction = getNextItemFunction;
+    newPtr->setNextItemFunction = setNextItemFunction;
+    newPtr->isConstructDeletableFunction = isConstructDeletableFunction;
+    newPtr->deleteFunction = deleteFunction;
+    newPtr->freeFunction = freeFunction;
 
-   /*===============================*/
-   /* Add the construct to the list */
-   /* of constructs and return it.  */
-   /*===============================*/
+    /*===============================*/
+    /* Add the construct to the list */
+    /* of constructs and return it.  */
+    /*===============================*/
 
-   newPtr->next = ConstructData(theEnv)->ListOfConstructs;
-   ConstructData(theEnv)->ListOfConstructs = newPtr;
-   return(newPtr);
-  }
+    newPtr->next = ConstructData(theEnv)->ListOfConstructs;
+    ConstructData(theEnv)->ListOfConstructs = newPtr;
+    return (newPtr);
+}
 
 /************************************/
 /* AddSaveFunction: Adds a function */
 /*   to the ListOfSaveFunctions.    */
 /************************************/
 bool AddSaveFunction(
-  Environment *theEnv,
-  const char *name,
-  SaveCallFunction *functionPtr,
-  int priority,
-  void *context)
-  {
-   ConstructData(theEnv)->ListOfSaveFunctions =
-     AddSaveFunctionToCallList(theEnv,name,priority,
-                           functionPtr,
-                           ConstructData(theEnv)->ListOfSaveFunctions,context);
+        Environment *theEnv,
+        const char *name,
+        SaveCallFunction *functionPtr,
+        int priority,
+        void *context) {
+    ConstructData(theEnv)->ListOfSaveFunctions =
+            AddSaveFunctionToCallList(theEnv, name, priority,
+                                      functionPtr,
+                                      ConstructData(theEnv)->ListOfSaveFunctions, context);
 
-   return true;
-  }
+    return true;
+}
 
 /**********************************************************/
 /* AddSaveFunctionToCallList: Adds a function to a list   */
@@ -960,52 +897,46 @@ bool AddSaveFunction(
 /*   operations (e.g. clear, reset, and bload functions). */
 /**********************************************************/
 SaveCallFunctionItem *AddSaveFunctionToCallList(
-  Environment *theEnv,
-  const char *name,
-  int priority,
-  SaveCallFunction *func,
-  struct saveCallFunctionItem *head,
-  void *context)
-  {
-   struct saveCallFunctionItem *newPtr, *currentPtr, *lastPtr = NULL;
-   char  *nameCopy;
+        Environment *theEnv,
+        const char *name,
+        int priority,
+        SaveCallFunction *func,
+        struct saveCallFunctionItem *head,
+        void *context) {
+    struct saveCallFunctionItem *newPtr, *currentPtr, *lastPtr = NULL;
+    char *nameCopy;
 
-   newPtr = get_struct(theEnv,saveCallFunctionItem);
+    newPtr = get_struct(theEnv, saveCallFunctionItem);
 
-   nameCopy = (char *) genalloc(theEnv,strlen(name) + 1);
-   genstrcpy(nameCopy,name);
-   newPtr->name = nameCopy;
+    nameCopy = (char *) genalloc(theEnv, strlen(name) + 1);
+    genstrcpy(nameCopy, name);
+    newPtr->name = nameCopy;
 
-   newPtr->func = func;
-   newPtr->priority = priority;
-   newPtr->context = context;
+    newPtr->func = func;
+    newPtr->priority = priority;
+    newPtr->context = context;
 
-   if (head == NULL)
-     {
-      newPtr->next = NULL;
-      return(newPtr);
-     }
+    if (head == NULL) {
+        newPtr->next = NULL;
+        return (newPtr);
+    }
 
-   currentPtr = head;
-   while ((currentPtr != NULL) ? (priority < currentPtr->priority) : false)
-     {
-      lastPtr = currentPtr;
-      currentPtr = currentPtr->next;
-     }
+    currentPtr = head;
+    while ((currentPtr != NULL) ? (priority < currentPtr->priority) : false) {
+        lastPtr = currentPtr;
+        currentPtr = currentPtr->next;
+    }
 
-   if (lastPtr == NULL)
-     {
-      newPtr->next = head;
-      head = newPtr;
-     }
-   else
-     {
-      newPtr->next = currentPtr;
-      lastPtr->next = newPtr;
-     }
+    if (lastPtr == NULL) {
+        newPtr->next = head;
+        head = newPtr;
+    } else {
+        newPtr->next = currentPtr;
+        lastPtr->next = newPtr;
+    }
 
-   return(head);
-  }
+    return (head);
+}
 
 /******************************************************************/
 /* RemoveSaveFunctionFromCallList: Removes a function from a list */
@@ -1013,38 +944,33 @@ SaveCallFunctionItem *AddSaveFunctionToCallList(
 /*   (e.g. clear, reset, and bload functions).                    */
 /******************************************************************/
 struct saveCallFunctionItem *RemoveSaveFunctionFromCallList(
-  Environment *theEnv,
-  const char *name,
-  struct saveCallFunctionItem *head,
-  bool *found)
-  {
-   struct saveCallFunctionItem *currentPtr, *lastPtr;
+        Environment *theEnv,
+        const char *name,
+        struct saveCallFunctionItem *head,
+        bool *found) {
+    struct saveCallFunctionItem *currentPtr, *lastPtr;
 
-   *found = false;
-   lastPtr = NULL;
-   currentPtr = head;
+    *found = false;
+    lastPtr = NULL;
+    currentPtr = head;
 
-   while (currentPtr != NULL)
-     {
-      if (strcmp(name,currentPtr->name) == 0)
-        {
-         *found = true;
-         if (lastPtr == NULL)
-           { head = currentPtr->next; }
-         else
-           { lastPtr->next = currentPtr->next; }
+    while (currentPtr != NULL) {
+        if (strcmp(name, currentPtr->name) == 0) {
+            *found = true;
+            if (lastPtr == NULL) { head = currentPtr->next; }
+            else { lastPtr->next = currentPtr->next; }
 
-         genfree(theEnv,(void *) currentPtr->name,strlen(currentPtr->name) + 1);
-         rtn_struct(theEnv,saveCallFunctionItem,currentPtr);
-         return head;
+            genfree(theEnv, (void *) currentPtr->name, strlen(currentPtr->name) + 1);
+            rtn_struct(theEnv, saveCallFunctionItem, currentPtr);
+            return head;
         }
 
-      lastPtr = currentPtr;
-      currentPtr = currentPtr->next;
-     }
+        lastPtr = currentPtr;
+        currentPtr = currentPtr->next;
+    }
 
-   return head;
-  }
+    return head;
+}
 
 /*************************************************************/
 /* DeallocateSaveCallList: Removes all functions from a list */
@@ -1052,18 +978,16 @@ struct saveCallFunctionItem *RemoveSaveFunctionFromCallList(
 /*   operations (e.g. clear, reset, and bload functions).    */
 /*************************************************************/
 void DeallocateSaveCallList(
-  Environment *theEnv,
-  struct saveCallFunctionItem *theList)
-  {
-   struct saveCallFunctionItem *tmpPtr, *nextPtr;
+        Environment *theEnv,
+        struct saveCallFunctionItem *theList) {
+    struct saveCallFunctionItem *tmpPtr, *nextPtr;
 
-   tmpPtr = theList;
-   while (tmpPtr != NULL)
-     {
-      nextPtr = tmpPtr->next;
-      genfree(theEnv,(void *) tmpPtr->name,strlen(tmpPtr->name) + 1);
-      rtn_struct(theEnv,saveCallFunctionItem,tmpPtr);
-      tmpPtr = nextPtr;
-     }
-  }
+    tmpPtr = theList;
+    while (tmpPtr != NULL) {
+        nextPtr = tmpPtr->next;
+        genfree(theEnv, (void *) tmpPtr->name, strlen(tmpPtr->name) + 1);
+        rtn_struct(theEnv, saveCallFunctionItem, tmpPtr);
+        tmpPtr = nextPtr;
+    }
+}
 

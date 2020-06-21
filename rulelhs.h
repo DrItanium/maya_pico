@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*           DEFRULE LHS PARSING HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*           DEFRULE LHS PARSING HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Coordinates parsing of the LHS conditional       */
@@ -42,8 +42,8 @@
 #include "Reorder.h"
 #include "Scanner.h"
 
-struct lhsParseNode           *ParseRuleLHS(Environment *,const char *,struct token *,const char *,bool *);
-void                           PropagatePatternType(struct lhsParseNode *,struct patternParser *);
+struct lhsParseNode *ParseRuleLHS(Environment *, const char *, struct token *, const char *, bool *);
+void PropagatePatternType(struct lhsParseNode *, struct patternParser *);
 
 #endif
 

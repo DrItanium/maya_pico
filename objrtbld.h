@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*          OBJECT PATTERN MATCHER MODULE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*          OBJECT PATTERN MATCHER MODULE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -56,7 +56,7 @@
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
 
-   void                    SetupObjectPatternStuff(Environment *);
+void SetupObjectPatternStuff(Environment *);
 
 #endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  10/01/16             */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  10/01/16             */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Deffunction Execution Routines                   */
@@ -77,10 +77,10 @@
    =========================================
    ***************************************** */
 
-   static void                    UnboundDeffunctionErr(Environment *,const char *);
+static void UnboundDeffunctionErr(Environment *, const char *);
 
 #if DEBUGGING_FUNCTIONS
-   static void                    WatchDeffunction(Environment *,const char *);
+static void WatchDeffunction(Environment *, const char *);
 #endif
 
 /* =========================================
@@ -101,81 +101,79 @@
   NOTES        : Used in EvaluateExpression(theEnv,)
  ****************************************************/
 void CallDeffunction(
-  Environment *theEnv,
-  Deffunction *dptr,
-  Expression *args,
-  UDFValue *returnValue)
-  {
-   bool oldce;
-   Deffunction *previouslyExecutingDeffunction;
-   GCBlock gcb;
+        Environment *theEnv,
+        Deffunction *dptr,
+        Expression *args,
+        UDFValue *returnValue) {
+    bool oldce;
+    Deffunction *previouslyExecutingDeffunction;
+    GCBlock gcb;
 #if PROFILING_FUNCTIONS
-   struct profileFrameInfo profileFrame;
+    struct profileFrameInfo profileFrame;
 #endif
 
-   returnValue->value = FalseSymbol(theEnv);
-   EvaluationData(theEnv)->EvaluationError = false;
-   if (EvaluationData(theEnv)->HaltExecution)
-     return;
+    returnValue->value = FalseSymbol(theEnv);
+    EvaluationData(theEnv)->EvaluationError = false;
+    if (EvaluationData(theEnv)->HaltExecution)
+        return;
 
-   GCBlockStart(theEnv,&gcb);
+    GCBlockStart(theEnv, &gcb);
 
-   oldce = ExecutingConstruct(theEnv);
-   SetExecutingConstruct(theEnv,true);
-   previouslyExecutingDeffunction = DeffunctionData(theEnv)->ExecutingDeffunction;
-   DeffunctionData(theEnv)->ExecutingDeffunction = dptr;
-   EvaluationData(theEnv)->CurrentEvaluationDepth++;
-   dptr->executing++;
-   PushProcParameters(theEnv,args,CountArguments(args),DeffunctionName(dptr),
-                      "deffunction",UnboundDeffunctionErr);
-   if (EvaluationData(theEnv)->EvaluationError)
-     {
-      dptr->executing--;
-      DeffunctionData(theEnv)->ExecutingDeffunction = previouslyExecutingDeffunction;
-      EvaluationData(theEnv)->CurrentEvaluationDepth--;
+    oldce = ExecutingConstruct(theEnv);
+    SetExecutingConstruct(theEnv, true);
+    previouslyExecutingDeffunction = DeffunctionData(theEnv)->ExecutingDeffunction;
+    DeffunctionData(theEnv)->ExecutingDeffunction = dptr;
+    EvaluationData(theEnv)->CurrentEvaluationDepth++;
+    dptr->executing++;
+    PushProcParameters(theEnv, args, CountArguments(args), DeffunctionName(dptr),
+                       "deffunction", UnboundDeffunctionErr);
+    if (EvaluationData(theEnv)->EvaluationError) {
+        dptr->executing--;
+        DeffunctionData(theEnv)->ExecutingDeffunction = previouslyExecutingDeffunction;
+        EvaluationData(theEnv)->CurrentEvaluationDepth--;
 
-      GCBlockEndUDF(theEnv,&gcb,returnValue);
-      CallPeriodicTasks(theEnv);
+        GCBlockEndUDF(theEnv, &gcb, returnValue);
+        CallPeriodicTasks(theEnv);
 
-      SetExecutingConstruct(theEnv,oldce);
-      return;
-     }
+        SetExecutingConstruct(theEnv, oldce);
+        return;
+    }
 
 #if DEBUGGING_FUNCTIONS
-   if (dptr->trace)
-     WatchDeffunction(theEnv,BEGIN_TRACE);
+    if (dptr->trace)
+        WatchDeffunction(theEnv, BEGIN_TRACE);
 #endif
 
 #if PROFILING_FUNCTIONS
-   StartProfile(theEnv,&profileFrame,
-                &dptr->header.usrData,
-                ProfileFunctionData(theEnv)->ProfileConstructs);
+    StartProfile(theEnv, &profileFrame,
+                 &dptr->header.usrData,
+                 ProfileFunctionData(theEnv)->ProfileConstructs);
 #endif
 
-   EvaluateProcActions(theEnv,dptr->header.whichModule->theModule,
-                       dptr->code,dptr->numberOfLocalVars,
-                       returnValue,UnboundDeffunctionErr);
+    EvaluateProcActions(theEnv, dptr->header.whichModule->theModule,
+                        dptr->code, dptr->numberOfLocalVars,
+                        returnValue, UnboundDeffunctionErr);
 
 #if PROFILING_FUNCTIONS
-    EndProfile(theEnv,&profileFrame);
+    EndProfile(theEnv, &profileFrame);
 #endif
 
 #if DEBUGGING_FUNCTIONS
-   if (dptr->trace)
-     WatchDeffunction(theEnv,END_TRACE);
+    if (dptr->trace)
+        WatchDeffunction(theEnv, END_TRACE);
 #endif
-   ProcedureFunctionData(theEnv)->ReturnFlag = false;
+    ProcedureFunctionData(theEnv)->ReturnFlag = false;
 
-   dptr->executing--;
-   PopProcParameters(theEnv);
-   DeffunctionData(theEnv)->ExecutingDeffunction = previouslyExecutingDeffunction;
-   EvaluationData(theEnv)->CurrentEvaluationDepth--;
+    dptr->executing--;
+    PopProcParameters(theEnv);
+    DeffunctionData(theEnv)->ExecutingDeffunction = previouslyExecutingDeffunction;
+    EvaluationData(theEnv)->CurrentEvaluationDepth--;
 
-   GCBlockEndUDF(theEnv,&gcb,returnValue);
-   CallPeriodicTasks(theEnv);
+    GCBlockEndUDF(theEnv, &gcb, returnValue);
+    CallPeriodicTasks(theEnv);
 
-   SetExecutingConstruct(theEnv,oldce);
-  }
+    SetExecutingConstruct(theEnv, oldce);
+}
 
 /* =========================================
    *****************************************
@@ -194,13 +192,12 @@ void CallDeffunction(
   NOTES        : None
  *******************************************************/
 static void UnboundDeffunctionErr(
-  Environment *theEnv,
-  const char *logName)
-  {
-   WriteString(theEnv,logName,"deffunction '");
-   WriteString(theEnv,logName,DeffunctionName(DeffunctionData(theEnv)->ExecutingDeffunction));
-   WriteString(theEnv,logName,"'.\n");
-  }
+        Environment *theEnv,
+        const char *logName) {
+    WriteString(theEnv, logName, "deffunction '");
+    WriteString(theEnv, logName, DeffunctionName(DeffunctionData(theEnv)->ExecutingDeffunction));
+    WriteString(theEnv, logName, "'.\n");
+}
 
 #if DEBUGGING_FUNCTIONS
 
@@ -217,25 +214,22 @@ static void UnboundDeffunctionErr(
   NOTES        : None
  ***************************************************/
 static void WatchDeffunction(
-  Environment *theEnv,
-  const char *tstring)
-  {
-   if (ConstructData(theEnv)->ClearReadyInProgress ||
-       ConstructData(theEnv)->ClearInProgress)
-     { return; }
+        Environment *theEnv,
+        const char *tstring) {
+    if (ConstructData(theEnv)->ClearReadyInProgress ||
+        ConstructData(theEnv)->ClearInProgress) { return; }
 
-   WriteString(theEnv,STDOUT,"DFN ");
-   WriteString(theEnv,STDOUT,tstring);
-   if (DeffunctionData(theEnv)->ExecutingDeffunction->header.whichModule->theModule != GetCurrentModule(theEnv))
-     {
-      WriteString(theEnv,STDOUT,DeffunctionModule(DeffunctionData(theEnv)->ExecutingDeffunction));;
-      WriteString(theEnv,STDOUT,"::");
-     }
-   WriteString(theEnv,STDOUT,DeffunctionData(theEnv)->ExecutingDeffunction->header.name->contents);
-   WriteString(theEnv,STDOUT," ED:");
-   WriteInteger(theEnv,STDOUT,EvaluationData(theEnv)->CurrentEvaluationDepth);
-   PrintProcParamArray(theEnv,STDOUT);
-  }
+    WriteString(theEnv, STDOUT, "DFN ");
+    WriteString(theEnv, STDOUT, tstring);
+    if (DeffunctionData(theEnv)->ExecutingDeffunction->header.whichModule->theModule != GetCurrentModule(theEnv)) {
+        WriteString(theEnv, STDOUT, DeffunctionModule(DeffunctionData(theEnv)->ExecutingDeffunction));;
+        WriteString(theEnv, STDOUT, "::");
+    }
+    WriteString(theEnv, STDOUT, DeffunctionData(theEnv)->ExecutingDeffunction->header.name->contents);
+    WriteString(theEnv, STDOUT, " ED:");
+    WriteInteger(theEnv, STDOUT, EvaluationData(theEnv)->CurrentEvaluationDepth);
+    PrintProcParamArray(theEnv, STDOUT);
+}
 
 #endif
 #endif

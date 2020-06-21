@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/06/16            */
-   /*                                                     */
-   /*                DEFFACTS HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/06/16            */
+/*                                                     */
+/*                DEFFACTS HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -62,35 +62,32 @@ typedef struct deffacts Deffacts;
 
 #define DEFFACTS_DATA 0
 
-struct deffactsData
-  {
-   Construct *DeffactsConstruct;
-   unsigned DeffactsModuleIndex;
-  };
+struct deffactsData {
+    Construct *DeffactsConstruct;
+    unsigned DeffactsModuleIndex;
+};
 
-struct deffacts
-  {
-   ConstructHeader header;
-   struct expr *assertList;
-  };
+struct deffacts {
+    ConstructHeader header;
+    struct expr *assertList;
+};
 
-struct deffactsModule
-  {
-   struct defmoduleItemHeader header;
-  };
+struct deffactsModule {
+    struct defmoduleItemHeader header;
+};
 
 #define DeffactsData(theEnv) ((struct deffactsData *) GetEnvironmentData(theEnv,DEFFACTS_DATA))
 
-   void                           InitializeDeffacts(Environment *);
-   Deffacts                      *FindDeffacts(Environment *,const char *);
-   Deffacts                      *FindDeffactsInModule(Environment *,const char *);
-   Deffacts                      *GetNextDeffacts(Environment *,Deffacts *);
-   void                           CreateInitialFactDeffacts(void);
-   bool                           DeffactsIsDeletable(Deffacts *);
-   struct deffactsModule         *GetDeffactsModuleItem(Environment *,Defmodule *);
-   const char                    *DeffactsModule(Deffacts *);
-   const char                    *DeffactsName(Deffacts *);
-   const char                    *DeffactsPPForm(Deffacts *);
+void InitializeDeffacts(Environment *);
+Deffacts *FindDeffacts(Environment *, const char *);
+Deffacts *FindDeffactsInModule(Environment *, const char *);
+Deffacts *GetNextDeffacts(Environment *, Deffacts *);
+void CreateInitialFactDeffacts(void);
+bool DeffactsIsDeletable(Deffacts *);
+struct deffactsModule *GetDeffactsModuleItem(Environment *, Defmodule *);
+const char *DeffactsModule(Deffacts *);
+const char *DeffactsName(Deffacts *);
+const char *DeffactsPPForm(Deffacts *);
 
 #endif /* _H_dffctdef */
 

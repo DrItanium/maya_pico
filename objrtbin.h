@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  02/03/18            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  02/03/18            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -53,21 +53,20 @@
 
 #include "objrtmch.h"
 
-struct objectReteBinaryData
-  {
-   unsigned long AlphaNodeCount;
-   unsigned long PatternNodeCount;
-   unsigned long AlphaLinkCount;
-   OBJECT_ALPHA_NODE *AlphaArray;
-   OBJECT_PATTERN_NODE *PatternArray;
-   CLASS_ALPHA_LINK *AlphaLinkArray;
-  };
+struct objectReteBinaryData {
+    unsigned long AlphaNodeCount;
+    unsigned long PatternNodeCount;
+    unsigned long AlphaLinkCount;
+    OBJECT_ALPHA_NODE *AlphaArray;
+    OBJECT_PATTERN_NODE *PatternArray;
+    CLASS_ALPHA_LINK *AlphaLinkArray;
+};
 
 #define ObjectReteBinaryData(theEnv) ((struct objectReteBinaryData *) GetEnvironmentData(theEnv,OBJECTRETEBIN_DATA))
 
 #define ClassAlphaPointer(i)   ((i == ULONG_MAX) ? NULL : (CLASS_ALPHA_LINK *) &ObjectReteBinaryData(theEnv)->AlphaLinkArray[i])
 
-   void                    SetupObjectPatternsBload(Environment *);
+void SetupObjectPatternsBload(Environment *);
 
 #endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 

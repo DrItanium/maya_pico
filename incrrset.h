@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/11/16            */
-   /*                                                     */
-   /*            INCREMENTAL RESET HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/11/16            */
+/*                                                     */
+/*            INCREMENTAL RESET HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functionality for the incremental       */
@@ -59,7 +59,7 @@
 
 #include "ruledef.h"
 
-   void                           IncrementalReset(Environment *,Defrule *);
+void IncrementalReset(Environment *, Defrule *);
 
 #endif /* _H_incrrset */
 

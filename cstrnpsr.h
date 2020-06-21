@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*             CONSTRAINT PARSER HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*             CONSTRAINT PARSER HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functions for parsing constraint        */
@@ -49,36 +49,35 @@
 
 #include "Constraint.h"
 
-struct constraintParseRecord
-  {
-   unsigned int type : 1;
-   unsigned int range : 1;
-   unsigned int allowedSymbols : 1;
-   unsigned int allowedStrings : 1;
-   unsigned int allowedLexemes : 1;
-   unsigned int allowedFloats : 1;
-   unsigned int allowedIntegers : 1;
-   unsigned int allowedNumbers : 1;
-   unsigned int allowedValues : 1;
-   unsigned int allowedClasses : 1;
-   unsigned int allowedInstanceNames : 1;
-   unsigned int cardinality : 1;
-  };
+struct constraintParseRecord {
+    unsigned int type: 1;
+    unsigned int range: 1;
+    unsigned int allowedSymbols: 1;
+    unsigned int allowedStrings: 1;
+    unsigned int allowedLexemes: 1;
+    unsigned int allowedFloats: 1;
+    unsigned int allowedIntegers: 1;
+    unsigned int allowedNumbers: 1;
+    unsigned int allowedValues: 1;
+    unsigned int allowedClasses: 1;
+    unsigned int allowedInstanceNames: 1;
+    unsigned int cardinality: 1;
+};
 
 typedef struct constraintParseRecord CONSTRAINT_PARSE_RECORD;
 
-   bool                           CheckConstraintParseConflicts(Environment *,CONSTRAINT_RECORD *);
-   void                           AttributeConflictErrorMessage(Environment *,const char *,const char *);
-   void                           InitializeConstraintParseRecord(CONSTRAINT_PARSE_RECORD *);
-   bool                           StandardConstraint(const char *);
-   bool                           ParseStandardConstraint(Environment *,const char *,const char *,
-                                                                 CONSTRAINT_RECORD *,
-                                                                 CONSTRAINT_PARSE_RECORD *,
-                                                                 bool);
-   void                           OverlayConstraint(Environment *,CONSTRAINT_PARSE_RECORD *,
-                                                           CONSTRAINT_RECORD *,CONSTRAINT_RECORD *);
-   void                           OverlayConstraintParseRecord(CONSTRAINT_PARSE_RECORD *,
-                                                                      CONSTRAINT_PARSE_RECORD *);
+bool CheckConstraintParseConflicts(Environment *, CONSTRAINT_RECORD *);
+void AttributeConflictErrorMessage(Environment *, const char *, const char *);
+void InitializeConstraintParseRecord(CONSTRAINT_PARSE_RECORD *);
+bool StandardConstraint(const char *);
+bool ParseStandardConstraint(Environment *, const char *, const char *,
+                             CONSTRAINT_RECORD *,
+                             CONSTRAINT_PARSE_RECORD *,
+                             bool);
+void OverlayConstraint(Environment *, CONSTRAINT_PARSE_RECORD *,
+                       CONSTRAINT_RECORD *, CONSTRAINT_RECORD *);
+void OverlayConstraintParseRecord(CONSTRAINT_PARSE_RECORD *,
+                                  CONSTRAINT_PARSE_RECORD *);
 
 #endif /* _H_cstrnpsr */
 

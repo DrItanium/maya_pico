@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/02/18            */
-   /*                                                     */
-   /*           CONSTRUCT COMMAND HEADER MODULE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/02/18            */
+/*                                                     */
+/*           CONSTRUCT COMMAND HEADER MODULE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -50,62 +50,62 @@
 #define _H_cstrccom
 
 typedef bool ConstructGetWatchFunction(void *);
-typedef void ConstructSetWatchFunction(void *,bool);
+typedef void ConstructSetWatchFunction(void *, bool);
 
 #include "moduldef.h"
 #include "Construct.h"
 
-typedef void ConstructActionFunction(Environment *,ConstructHeader *,void *);
+typedef void ConstructActionFunction(Environment *, ConstructHeader *, void *);
 
-   void                           AddConstructToModule(ConstructHeader *);
-   bool                           DeleteNamedConstruct(Environment *,const char *,Construct *);
-   ConstructHeader               *FindNamedConstructInModule(Environment *,const char *,Construct *);
-   ConstructHeader               *FindNamedConstructInModuleOrImports(Environment *,const char *,Construct *);
-   void                           UndefconstructCommand(UDFContext *,const char *,Construct *);
-   bool                           PPConstruct(Environment *,const char *,const char *,Construct *);
-   const char                    *PPConstructNil(Environment *,const char *,Construct *);
-   CLIPSLexeme                   *GetConstructModuleCommand(UDFContext *,const char *,Construct *);
-   Defmodule                     *GetConstructModule(Environment *,const char *,Construct *);
-   bool                           Undefconstruct(Environment *,ConstructHeader *,Construct *);
-   bool                           UndefconstructAll(Environment *,Construct *);
-   void                           SaveConstruct(Environment *,Defmodule *,const char *,Construct *);
-   const char                    *GetConstructNameString(ConstructHeader *);
-   const char                    *GetConstructModuleName(ConstructHeader *);
-   CLIPSLexeme                   *GetConstructNamePointer(ConstructHeader *);
-   void                           GetConstructListFunction(UDFContext *,UDFValue *,Construct *);
-   void                           GetConstructList(Environment *,UDFValue *,Construct *,
-                                                   Defmodule *);
-   void                           ListConstructCommand(UDFContext *,Construct *);
-   void                           ListConstruct(Environment *,Construct *,const char *,Defmodule *);
-   void                           SetNextConstruct(ConstructHeader *,ConstructHeader *);
-   struct defmoduleItemHeader    *GetConstructModuleItem(ConstructHeader *);
-   const char                    *GetConstructPPForm(ConstructHeader *);
-   void                           PPConstructCommand(UDFContext *,const char *,Construct *,UDFValue *);
-   ConstructHeader               *GetNextConstructItem(Environment *,ConstructHeader *,unsigned);
-   struct defmoduleItemHeader    *GetConstructModuleItemByIndex(Environment *,Defmodule *,unsigned);
-   void                           FreeConstructHeaderModule(Environment *,struct defmoduleItemHeader *,
-                                                                   Construct *);
-   void                           DoForAllConstructs(Environment *,
-                                                     ConstructActionFunction *,
-                                                     unsigned,bool,void *);
-   void                           DoForAllConstructsInModule(Environment *,Defmodule *,
-                                                             ConstructActionFunction *,
-                                                             unsigned,bool,void *);
-   void                           InitializeConstructHeader(Environment *,const char *,ConstructType,
-                                                            ConstructHeader *,CLIPSLexeme *);
-   void                           SetConstructPPForm(Environment *,ConstructHeader *,const char *);
-   ConstructHeader        *LookupConstruct(Environment *,Construct *,const char *,bool);
+void AddConstructToModule(ConstructHeader *);
+bool DeleteNamedConstruct(Environment *, const char *, Construct *);
+ConstructHeader *FindNamedConstructInModule(Environment *, const char *, Construct *);
+ConstructHeader *FindNamedConstructInModuleOrImports(Environment *, const char *, Construct *);
+void UndefconstructCommand(UDFContext *, const char *, Construct *);
+bool PPConstruct(Environment *, const char *, const char *, Construct *);
+const char *PPConstructNil(Environment *, const char *, Construct *);
+CLIPSLexeme *GetConstructModuleCommand(UDFContext *, const char *, Construct *);
+Defmodule *GetConstructModule(Environment *, const char *, Construct *);
+bool Undefconstruct(Environment *, ConstructHeader *, Construct *);
+bool UndefconstructAll(Environment *, Construct *);
+void SaveConstruct(Environment *, Defmodule *, const char *, Construct *);
+const char *GetConstructNameString(ConstructHeader *);
+const char *GetConstructModuleName(ConstructHeader *);
+CLIPSLexeme *GetConstructNamePointer(ConstructHeader *);
+void GetConstructListFunction(UDFContext *, UDFValue *, Construct *);
+void GetConstructList(Environment *, UDFValue *, Construct *,
+                      Defmodule *);
+void ListConstructCommand(UDFContext *, Construct *);
+void ListConstruct(Environment *, Construct *, const char *, Defmodule *);
+void SetNextConstruct(ConstructHeader *, ConstructHeader *);
+struct defmoduleItemHeader *GetConstructModuleItem(ConstructHeader *);
+const char *GetConstructPPForm(ConstructHeader *);
+void PPConstructCommand(UDFContext *, const char *, Construct *, UDFValue *);
+ConstructHeader *GetNextConstructItem(Environment *, ConstructHeader *, unsigned);
+struct defmoduleItemHeader *GetConstructModuleItemByIndex(Environment *, Defmodule *, unsigned);
+void FreeConstructHeaderModule(Environment *, struct defmoduleItemHeader *,
+                               Construct *);
+void DoForAllConstructs(Environment *,
+                        ConstructActionFunction *,
+                        unsigned, bool, void *);
+void DoForAllConstructsInModule(Environment *, Defmodule *,
+                                ConstructActionFunction *,
+                                unsigned, bool, void *);
+void InitializeConstructHeader(Environment *, const char *, ConstructType,
+                               ConstructHeader *, CLIPSLexeme *);
+void SetConstructPPForm(Environment *, ConstructHeader *, const char *);
+ConstructHeader *LookupConstruct(Environment *, Construct *, const char *, bool);
 #if DEBUGGING_FUNCTIONS
-   bool                           ConstructPrintWatchAccess(Environment *,Construct *,const char *,
-                                            Expression *,
-                                            ConstructGetWatchFunction *,
-                                            ConstructSetWatchFunction *);
-   bool                           ConstructSetWatchAccess(Environment *,Construct *,bool,
-                                            Expression *,
-                                            ConstructGetWatchFunction *,
-                                            ConstructSetWatchFunction *);
+bool ConstructPrintWatchAccess(Environment *, Construct *, const char *,
+                               Expression *,
+                               ConstructGetWatchFunction *,
+                               ConstructSetWatchFunction *);
+bool ConstructSetWatchAccess(Environment *, Construct *, bool,
+                             Expression *,
+                             ConstructGetWatchFunction *,
+                             ConstructSetWatchFunction *);
 #endif
-   bool                           ConstructsDeletable(Environment *);
+bool ConstructsDeletable(Environment *);
 
 #endif
 

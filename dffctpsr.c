@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  07/30/16             */
-   /*                                                     */
-   /*                DEFFACTS PARSER MODULE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  07/30/16             */
+/*                                                     */
+/*                DEFFACTS PARSER MODULE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Parses a deffacts construct.                     */
@@ -67,109 +67,103 @@
 /*   deffacts keyword has been found.                       */
 /************************************************************/
 bool ParseDeffacts(
-  Environment *theEnv,
-  const char *readSource)
-  {
-   CLIPSLexeme *deffactsName;
-   struct expr *temp;
-   Deffacts *newDeffacts;
-   bool deffactsError;
-   struct token inputToken;
+        Environment *theEnv,
+        const char *readSource) {
+    CLIPSLexeme *deffactsName;
+    struct expr *temp;
+    Deffacts *newDeffacts;
+    bool deffactsError;
+    struct token inputToken;
 
-   /*=========================*/
-   /* Parsing initialization. */
-   /*=========================*/
+    /*=========================*/
+    /* Parsing initialization. */
+    /*=========================*/
 
-   deffactsError = false;
-   SetPPBufferStatus(theEnv,true);
+    deffactsError = false;
+    SetPPBufferStatus(theEnv, true);
 
-   FlushPPBuffer(theEnv);
-   SetIndentDepth(theEnv,3);
-   SavePPBuffer(theEnv,"(deffacts ");
+    FlushPPBuffer(theEnv);
+    SetIndentDepth(theEnv, 3);
+    SavePPBuffer(theEnv, "(deffacts ");
 
-   /*==========================================================*/
-   /* Deffacts can not be added when a binary image is loaded. */
-   /*==========================================================*/
+    /*==========================================================*/
+    /* Deffacts can not be added when a binary image is loaded. */
+    /*==========================================================*/
 
 #if BLOAD || BLOAD_AND_BSAVE
-   if ((Bloaded(theEnv) == true) && (! ConstructData(theEnv)->CheckSyntaxMode))
-     {
-      CannotLoadWithBloadMessage(theEnv,"deffacts");
-      return true;
-     }
+    if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
+        CannotLoadWithBloadMessage(theEnv, "deffacts");
+        return true;
+    }
 #endif
 
-   /*============================*/
-   /* Parse the deffacts header. */
-   /*============================*/
+    /*============================*/
+    /* Parse the deffacts header. */
+    /*============================*/
 
-   deffactsName = GetConstructNameAndComment(theEnv,readSource,&inputToken,"deffacts",
-                                             (FindConstructFunction *) FindDeffactsInModule,
-                                             (DeleteConstructFunction *) Undeffacts,"$",true,
-                                             true,true,false);
-   if (deffactsName == NULL) { return true; }
+    deffactsName = GetConstructNameAndComment(theEnv, readSource, &inputToken, "deffacts",
+                                              (FindConstructFunction *) FindDeffactsInModule,
+                                              (DeleteConstructFunction *) Undeffacts, "$", true,
+                                              true, true, false);
+    if (deffactsName == NULL) { return true; }
 
-   /*===============================================*/
-   /* Parse the list of facts in the deffacts body. */
-   /*===============================================*/
+    /*===============================================*/
+    /* Parse the list of facts in the deffacts body. */
+    /*===============================================*/
 
-   temp = BuildRHSAssert(theEnv,readSource,&inputToken,&deffactsError,false,false,"deffacts");
+    temp = BuildRHSAssert(theEnv, readSource, &inputToken, &deffactsError, false, false, "deffacts");
 
-   if (deffactsError == true) { return true; }
+    if (deffactsError == true) { return true; }
 
-   if (ExpressionContainsVariables(temp,false))
-     {
-      LocalVariableErrorMessage(theEnv,"a deffacts construct");
-      ReturnExpression(theEnv,temp);
-      return true;
-     }
+    if (ExpressionContainsVariables(temp, false)) {
+        LocalVariableErrorMessage(theEnv, "a deffacts construct");
+        ReturnExpression(theEnv, temp);
+        return true;
+    }
 
-   SavePPBuffer(theEnv,"\n");
+    SavePPBuffer(theEnv, "\n");
 
-   /*==============================================*/
-   /* If we're only checking syntax, don't add the */
-   /* successfully parsed deffacts to the KB.      */
-   /*==============================================*/
+    /*==============================================*/
+    /* If we're only checking syntax, don't add the */
+    /* successfully parsed deffacts to the KB.      */
+    /*==============================================*/
 
-   if (ConstructData(theEnv)->CheckSyntaxMode)
-     {
-      ReturnExpression(theEnv,temp);
-      return false;
-     }
+    if (ConstructData(theEnv)->CheckSyntaxMode) {
+        ReturnExpression(theEnv, temp);
+        return false;
+    }
 
-   /*==========================*/
-   /* Create the new deffacts. */
-   /*==========================*/
+    /*==========================*/
+    /* Create the new deffacts. */
+    /*==========================*/
 
-   ExpressionInstall(theEnv,temp);
-   newDeffacts = get_struct(theEnv,deffacts);
-   IncrementLexemeCount(deffactsName);
-   InitializeConstructHeader(theEnv,"deffacts",DEFFACTS,&newDeffacts->header,deffactsName);
+    ExpressionInstall(theEnv, temp);
+    newDeffacts = get_struct(theEnv, deffacts);
+    IncrementLexemeCount(deffactsName);
+    InitializeConstructHeader(theEnv, "deffacts", DEFFACTS, &newDeffacts->header, deffactsName);
 
-   newDeffacts->assertList = PackExpression(theEnv,temp);
-   ReturnExpression(theEnv,temp);
+    newDeffacts->assertList = PackExpression(theEnv, temp);
+    ReturnExpression(theEnv, temp);
 
-   /*=======================================================*/
-   /* Save the pretty print representation of the deffacts. */
-   /*=======================================================*/
+    /*=======================================================*/
+    /* Save the pretty print representation of the deffacts. */
+    /*=======================================================*/
 
-   if (GetConserveMemory(theEnv) == true)
-     { newDeffacts->header.ppForm = NULL; }
-   else
-     { newDeffacts->header.ppForm = CopyPPBuffer(theEnv); }
+    if (GetConserveMemory(theEnv) == true) { newDeffacts->header.ppForm = NULL; }
+    else { newDeffacts->header.ppForm = CopyPPBuffer(theEnv); }
 
-   /*=============================================*/
-   /* Add the deffacts to the appropriate module. */
-   /*=============================================*/
+    /*=============================================*/
+    /* Add the deffacts to the appropriate module. */
+    /*=============================================*/
 
-   AddConstructToModule(&newDeffacts->header);
+    AddConstructToModule(&newDeffacts->header);
 
-   /*================================================================*/
-   /* Return false to indicate the deffacts was successfully parsed. */
-   /*================================================================*/
+    /*================================================================*/
+    /* Return false to indicate the deffacts was successfully parsed. */
+    /*================================================================*/
 
-   return false;
-  }
+    return false;
+}
 
 #endif /* DEFFACTS_CONSTRUCT */
 

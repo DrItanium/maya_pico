@@ -1,6 +1,6 @@
 #include "clips.h"
 #include "libmaya.h"
-#if PARSING_EXTENSIONS 
+#if PARSING_EXTENSIONS
 void NextTokenFunction(void *,DATA_OBJECT_PTR);
 void NextTokenFromStdin(void *,struct token *);
 void* EmptyList(void*);
@@ -10,16 +10,16 @@ void ParsingExtensionsFunctions(void* theEnv) {
    EnvDefineFunction2(theEnv,"empty$",     'w', PTIEF EmptyList, "EmptyList", "11m");
 }
 void* EmptyList(void* theEnv) {
-	DATA_OBJECT arg;
-	if (EnvArgTypeCheck(theEnv,"empty$",1, MULTIFIELD, &arg) == 0) {
-		return EnvFalseSymbol(theEnv);
-	} else {
-		if (GetDOLength(arg) == 0) {
-			return EnvTrueSymbol(theEnv);
-		} else {
-			return EnvFalseSymbol(theEnv);
-		}
-	}
+    DATA_OBJECT arg;
+    if (EnvArgTypeCheck(theEnv,"empty$",1, MULTIFIELD, &arg) == 0) {
+        return EnvFalseSymbol(theEnv);
+    } else {
+        if (GetDOLength(arg) == 0) {
+            return EnvTrueSymbol(theEnv);
+        } else {
+            return EnvFalseSymbol(theEnv);
+        }
+    }
 }
 /****************************************************************/
 /* NextTokenFunction: H/L access routine for the read function. */

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -41,18 +41,17 @@
 
 #include "dffnxfun.h"
 
-   void                           SetupDeffunctionsBload(Environment *);
-   void                          *BloadDeffunctionModuleReference(Environment *,unsigned long);
+void SetupDeffunctionsBload(Environment *);
+void *BloadDeffunctionModuleReference(Environment *, unsigned long);
 
 #define DFFNXBIN_DATA 24
 
-struct deffunctionBinaryData
-  {
-   Deffunction *DeffunctionArray;
-   unsigned long DeffunctionCount;
-   unsigned long ModuleCount;
-   DeffunctionModuleData *ModuleArray;
-  };
+struct deffunctionBinaryData {
+    Deffunction *DeffunctionArray;
+    unsigned long DeffunctionCount;
+    unsigned long ModuleCount;
+    DeffunctionModuleData *ModuleArray;
+};
 
 #define DeffunctionBinaryData(theEnv) ((struct deffunctionBinaryData *) GetEnvironmentData(theEnv,DFFNXBIN_DATA))
 

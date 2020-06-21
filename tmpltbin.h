@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*         DEFTEMPLATE BSAVE/BLOAD HEADER FILE         */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*         DEFTEMPLATE BSAVE/BLOAD HEADER FILE         */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -39,53 +39,49 @@
 
 #define _H_tmpltbin
 
-struct bsaveTemplateSlot
-  {
-   unsigned long slotName;
-   unsigned int multislot : 1;
-   unsigned int noDefault : 1;
-   unsigned int defaultPresent : 1;
-   unsigned int defaultDynamic : 1;
-   unsigned long constraints;
-   unsigned long defaultList;
-   unsigned long facetList;
-   unsigned long next;
-  };
+struct bsaveTemplateSlot {
+    unsigned long slotName;
+    unsigned int multislot: 1;
+    unsigned int noDefault: 1;
+    unsigned int defaultPresent: 1;
+    unsigned int defaultDynamic: 1;
+    unsigned long constraints;
+    unsigned long defaultList;
+    unsigned long facetList;
+    unsigned long next;
+};
 
 struct bsaveDeftemplate;
 struct bsaveDeftemplateModule;
 
 #include "cstrcbin.h"
 
-struct bsaveDeftemplate
-  {
-   struct bsaveConstructHeader header;
-   unsigned long slotList;
-   unsigned int implied : 1;
-   unsigned int numberOfSlots : 15;
-   unsigned long patternNetwork;
-  };
+struct bsaveDeftemplate {
+    struct bsaveConstructHeader header;
+    unsigned long slotList;
+    unsigned int implied: 1;
+    unsigned int numberOfSlots: 15;
+    unsigned long patternNetwork;
+};
 
 #include "modulbin.h"
 
-struct bsaveDeftemplateModule
-  {
-   struct bsaveDefmoduleItemHeader header;
-  };
+struct bsaveDeftemplateModule {
+    struct bsaveDefmoduleItemHeader header;
+};
 
 #define TMPLTBIN_DATA 61
 
 #include "tmpltdef.h"
 
-struct deftemplateBinaryData
-  {
-   Deftemplate *DeftemplateArray;
-   unsigned long NumberOfDeftemplates;
-   unsigned long NumberOfTemplateSlots;
-   unsigned long NumberOfTemplateModules;
-   struct templateSlot *SlotArray;
-   struct deftemplateModule *ModuleArray;
-  };
+struct deftemplateBinaryData {
+    Deftemplate *DeftemplateArray;
+    unsigned long NumberOfDeftemplates;
+    unsigned long NumberOfTemplateSlots;
+    unsigned long NumberOfTemplateModules;
+    struct templateSlot *SlotArray;
+    struct deftemplateModule *ModuleArray;
+};
 
 #define DeftemplateBinaryData(theEnv) ((struct deftemplateBinaryData *) GetEnvironmentData(theEnv,TMPLTBIN_DATA))
 
@@ -95,9 +91,8 @@ struct deftemplateBinaryData
 #include "tmpltdef.h"
 #endif
 
-   void                           DeftemplateBinarySetup(Environment *);
-   void                          *BloadDeftemplateModuleReference(Environment *,unsigned long);
-
+void DeftemplateBinarySetup(Environment *);
+void *BloadDeftemplateModuleReference(Environment *, unsigned long);
 
 #endif /* _H_tmpltbin */
 

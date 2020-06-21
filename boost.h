@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 #include "clips.h"
-void InstallBoostExtensions(Environment* theEnv);
+void InstallBoostExtensions(Environment *theEnv);
 
 #ifdef __cplusplus
 }

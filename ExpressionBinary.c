@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  11/01/16             */
-   /*                                                     */
-   /*             EXPRESSION BSAVE/BLOAD MODULE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  11/01/16             */
+/*                                                     */
+/*             EXPRESSION BSAVE/BLOAD MODULE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements the binary save/load feature for the  */
@@ -75,7 +75,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                        UpdateExpression(Environment *,void *,unsigned long);
+static void UpdateExpression(Environment *, void *, unsigned long);
 
 /***********************************************************/
 /* AllocateExpressions: Determines the amount of space     */
@@ -83,32 +83,29 @@
 /*   and allocates that amount of space.                   */
 /***********************************************************/
 void AllocateExpressions(
-  Environment *theEnv)
-  {
-   size_t space;
+        Environment *theEnv) {
+    size_t space;
 
-   GenReadBinary(theEnv,&ExpressionData(theEnv)->NumberOfExpressions,sizeof(long));
-   if (ExpressionData(theEnv)->NumberOfExpressions == 0L)
-     ExpressionData(theEnv)->ExpressionArray = NULL;
-   else
-     {
-      space = ExpressionData(theEnv)->NumberOfExpressions * sizeof(struct expr);
-      ExpressionData(theEnv)->ExpressionArray = (struct expr *) genalloc(theEnv,space);
-     }
-  }
+    GenReadBinary(theEnv, &ExpressionData(theEnv)->NumberOfExpressions, sizeof(long));
+    if (ExpressionData(theEnv)->NumberOfExpressions == 0L)
+        ExpressionData(theEnv)->ExpressionArray = NULL;
+    else {
+        space = ExpressionData(theEnv)->NumberOfExpressions * sizeof(struct expr);
+        ExpressionData(theEnv)->ExpressionArray = (struct expr *) genalloc(theEnv, space);
+    }
+}
 
 /**********************************************/
 /* RefreshExpressions: Refreshes the pointers */
 /*   used by the expression binary image.     */
 /**********************************************/
 void RefreshExpressions(
-  Environment *theEnv)
-  {
-   if (ExpressionData(theEnv)->ExpressionArray == NULL) return;
+        Environment *theEnv) {
+    if (ExpressionData(theEnv)->ExpressionArray == NULL) return;
 
-   BloadandRefresh(theEnv,ExpressionData(theEnv)->NumberOfExpressions,
-                   sizeof(BSAVE_EXPRESSION),UpdateExpression);
-  }
+    BloadandRefresh(theEnv, ExpressionData(theEnv)->NumberOfExpressions,
+                    sizeof(BSAVE_EXPRESSION), UpdateExpression);
+}
 
 /*********************************************************
   NAME         : UpdateExpression
@@ -122,191 +119,181 @@ void RefreshExpressions(
   NOTES        : None
  *********************************************************/
 static void UpdateExpression(
-  Environment *theEnv,
-  void *buf,
-  unsigned long obji)
-  {
-   BSAVE_EXPRESSION *bexp;
-   unsigned long theIndex;
+        Environment *theEnv,
+        void *buf,
+        unsigned long obji) {
+    BSAVE_EXPRESSION *bexp;
+    unsigned long theIndex;
 
-   bexp = (BSAVE_EXPRESSION *) buf;
-   ExpressionData(theEnv)->ExpressionArray[obji].type = bexp->type;
-   switch(bexp->type)
-     {
-      case FCALL:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = BloadData(theEnv)->FunctionArray[bexp->value];
-        break;
+    bexp = (BSAVE_EXPRESSION *) buf;
+    ExpressionData(theEnv)->ExpressionArray[obji].type = bexp->type;
+    switch (bexp->type) {
+        case FCALL:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = BloadData(theEnv)->FunctionArray[bexp->value];
+            break;
 
-      case GCALL:
+        case GCALL:
 #if DEFGENERIC_CONSTRUCT
-        ExpressionData(theEnv)->ExpressionArray[obji].value = GenericPointer(bexp->value);
+            ExpressionData(theEnv)->ExpressionArray[obji].value = GenericPointer(bexp->value);
 #else
-        ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
+            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
 #endif
-        break;
+            break;
 
-      case PCALL:
+        case PCALL:
 #if DEFFUNCTION_CONSTRUCT
-        ExpressionData(theEnv)->ExpressionArray[obji].value = DeffunctionPointer(bexp->value);
+            ExpressionData(theEnv)->ExpressionArray[obji].value = DeffunctionPointer(bexp->value);
 #else
-        ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
+            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
 #endif
-        break;
+            break;
 
-      case DEFTEMPLATE_PTR:
+        case DEFTEMPLATE_PTR:
 #if DEFTEMPLATE_CONSTRUCT
-        ExpressionData(theEnv)->ExpressionArray[obji].value = DeftemplatePointer(bexp->value);
+            ExpressionData(theEnv)->ExpressionArray[obji].value = DeftemplatePointer(bexp->value);
 #else
-        ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
+            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
 #endif
-        break;
+            break;
 
-     case DEFCLASS_PTR:
+        case DEFCLASS_PTR:
 #if OBJECT_SYSTEM
-        ExpressionData(theEnv)->ExpressionArray[obji].value = DefclassPointer(bexp->value);
+            ExpressionData(theEnv)->ExpressionArray[obji].value = DefclassPointer(bexp->value);
 #else
-        ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
+            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
 #endif
-        break;
+            break;
 
-      case DEFGLOBAL_PTR:
+        case DEFGLOBAL_PTR:
 
 #if DEFGLOBAL_CONSTRUCT
-        ExpressionData(theEnv)->ExpressionArray[obji].value = DefglobalPointer(bexp->value);
+            ExpressionData(theEnv)->ExpressionArray[obji].value = DefglobalPointer(bexp->value);
 #else
-        ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
+            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
 #endif
-        break;
+            break;
 
+        case INTEGER_TYPE:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->IntegerArray[bexp->value];
+            IncrementIntegerCount(ExpressionData(theEnv)->ExpressionArray[obji].integerValue);
+            break;
 
-      case INTEGER_TYPE:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->IntegerArray[bexp->value];
-        IncrementIntegerCount(ExpressionData(theEnv)->ExpressionArray[obji].integerValue);
-        break;
+        case FLOAT_TYPE:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->FloatArray[bexp->value];
+            IncrementFloatCount(ExpressionData(theEnv)->ExpressionArray[obji].floatValue);
+            break;
 
-      case FLOAT_TYPE:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->FloatArray[bexp->value];
-        IncrementFloatCount(ExpressionData(theEnv)->ExpressionArray[obji].floatValue);
-        break;
-
-      case INSTANCE_NAME_TYPE:
-#if ! OBJECT_SYSTEM
-        ExpressionData(theEnv)->ExpressionArray[obji].type = SYMBOL_TYPE;
+        case INSTANCE_NAME_TYPE:
+#if !OBJECT_SYSTEM
+            ExpressionData(theEnv)->ExpressionArray[obji].type = SYMBOL_TYPE;
 #endif
-      case GBL_VARIABLE:
-      case SYMBOL_TYPE:
-      case STRING_TYPE:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->SymbolArray[bexp->value];
-        IncrementLexemeCount(ExpressionData(theEnv)->ExpressionArray[obji].lexemeValue);
-        break;
+        case GBL_VARIABLE:
+        case SYMBOL_TYPE:
+        case STRING_TYPE:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->SymbolArray[bexp->value];
+            IncrementLexemeCount(ExpressionData(theEnv)->ExpressionArray[obji].lexemeValue);
+            break;
 
 #if DEFTEMPLATE_CONSTRUCT
-      case FACT_ADDRESS_TYPE:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = &FactData(theEnv)->DummyFact;
-        RetainFact((Fact *) ExpressionData(theEnv)->ExpressionArray[obji].value);
-        break;
+        case FACT_ADDRESS_TYPE:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = &FactData(theEnv)->DummyFact;
+            RetainFact((Fact *) ExpressionData(theEnv)->ExpressionArray[obji].value);
+            break;
 #endif
 
 #if OBJECT_SYSTEM
-      case INSTANCE_ADDRESS_TYPE:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = &InstanceData(theEnv)->DummyInstance;
-        RetainInstance((Instance *) ExpressionData(theEnv)->ExpressionArray[obji].value);
-        break;
+        case INSTANCE_ADDRESS_TYPE:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = &InstanceData(theEnv)->DummyInstance;
+            RetainInstance((Instance *) ExpressionData(theEnv)->ExpressionArray[obji].value);
+            break;
 #endif
 
-      case EXTERNAL_ADDRESS_TYPE:
-        ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
-        break;
+        case EXTERNAL_ADDRESS_TYPE:
+            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
+            break;
 
-      case VOID_TYPE:
-        break;
+        case VOID_TYPE:
+            break;
 
-      default:
-        if (EvaluationData(theEnv)->PrimitivesArray[bexp->type] == NULL) break;
-        if (EvaluationData(theEnv)->PrimitivesArray[bexp->type]->bitMap)
-          {
-           ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->BitMapArray[bexp->value];
-           IncrementBitMapCount((CLIPSBitMap *) ExpressionData(theEnv)->ExpressionArray[obji].value);
-          }
-        break;
-     }
+        default:
+            if (EvaluationData(theEnv)->PrimitivesArray[bexp->type] == NULL) break;
+            if (EvaluationData(theEnv)->PrimitivesArray[bexp->type]->bitMap) {
+                ExpressionData(theEnv)->ExpressionArray[obji].value = SymbolData(theEnv)->BitMapArray[bexp->value];
+                IncrementBitMapCount((CLIPSBitMap *) ExpressionData(theEnv)->ExpressionArray[obji].value);
+            }
+            break;
+    }
 
-   theIndex = bexp->nextArg;
-   if (theIndex == ULONG_MAX)
-     { ExpressionData(theEnv)->ExpressionArray[obji].nextArg = NULL; }
-   else
-     { ExpressionData(theEnv)->ExpressionArray[obji].nextArg = (struct expr *) &ExpressionData(theEnv)->ExpressionArray[theIndex]; }
+    theIndex = bexp->nextArg;
+    if (theIndex == ULONG_MAX) { ExpressionData(theEnv)->ExpressionArray[obji].nextArg = NULL; }
+    else { ExpressionData(theEnv)->ExpressionArray[obji].nextArg = (struct expr *) &ExpressionData(theEnv)->ExpressionArray[theIndex]; }
 
-   theIndex = bexp->argList;
-   if (theIndex == ULONG_MAX)
-     { ExpressionData(theEnv)->ExpressionArray[obji].argList = NULL; }
-   else
-     { ExpressionData(theEnv)->ExpressionArray[obji].argList = (struct expr *) &ExpressionData(theEnv)->ExpressionArray[theIndex]; }
-  }
+    theIndex = bexp->argList;
+    if (theIndex == ULONG_MAX) { ExpressionData(theEnv)->ExpressionArray[obji].argList = NULL; }
+    else { ExpressionData(theEnv)->ExpressionArray[obji].argList = (struct expr *) &ExpressionData(theEnv)->ExpressionArray[theIndex]; }
+}
 
 /*********************************************/
 /* ClearBloadedExpressions: Clears the space */
 /*   utilized by an expression binary image. */
 /*********************************************/
 void ClearBloadedExpressions(
-  Environment *theEnv)
-  {
-   unsigned long i;
-   size_t space;
+        Environment *theEnv) {
+    unsigned long i;
+    size_t space;
 
-   /*===============================================*/
-   /* Update the busy counts of atomic data values. */
-   /*===============================================*/
+    /*===============================================*/
+    /* Update the busy counts of atomic data values. */
+    /*===============================================*/
 
-   for (i = 0; i < ExpressionData(theEnv)->NumberOfExpressions; i++)
-     {
-      switch (ExpressionData(theEnv)->ExpressionArray[i].type)
-        {
-         case SYMBOL_TYPE          :
-         case STRING_TYPE          :
-         case INSTANCE_NAME_TYPE   :
-         case GBL_VARIABLE    :
-           ReleaseLexeme(theEnv,ExpressionData(theEnv)->ExpressionArray[i].lexemeValue);
-           break;
-         case FLOAT_TYPE           :
-           ReleaseFloat(theEnv,ExpressionData(theEnv)->ExpressionArray[i].floatValue);
-           break;
-         case INTEGER_TYPE         :
-           ReleaseInteger(theEnv,ExpressionData(theEnv)->ExpressionArray[i].integerValue);
-           break;
+    for (i = 0; i < ExpressionData(theEnv)->NumberOfExpressions; i++) {
+        switch (ExpressionData(theEnv)->ExpressionArray[i].type) {
+            case SYMBOL_TYPE          :
+            case STRING_TYPE          :
+            case INSTANCE_NAME_TYPE   :
+            case GBL_VARIABLE    :
+                ReleaseLexeme(theEnv, ExpressionData(theEnv)->ExpressionArray[i].lexemeValue);
+                break;
+            case FLOAT_TYPE           :
+                ReleaseFloat(theEnv, ExpressionData(theEnv)->ExpressionArray[i].floatValue);
+                break;
+            case INTEGER_TYPE         :
+                ReleaseInteger(theEnv, ExpressionData(theEnv)->ExpressionArray[i].integerValue);
+                break;
 
 #if DEFTEMPLATE_CONSTRUCT
-         case FACT_ADDRESS_TYPE    :
-           ReleaseFact((Fact *) ExpressionData(theEnv)->ExpressionArray[i].value);
-           break;
+            case FACT_ADDRESS_TYPE    :
+                ReleaseFact((Fact *) ExpressionData(theEnv)->ExpressionArray[i].value);
+                break;
 #endif
 
 #if OBJECT_SYSTEM
-         case INSTANCE_ADDRESS_TYPE :
-           ReleaseInstance((Instance *) ExpressionData(theEnv)->ExpressionArray[i].value);
-           break;
+            case INSTANCE_ADDRESS_TYPE :
+                ReleaseInstance((Instance *) ExpressionData(theEnv)->ExpressionArray[i].value);
+                break;
 #endif
 
-         case VOID_TYPE:
-           break;
+            case VOID_TYPE:
+                break;
 
-         default:
-           if (EvaluationData(theEnv)->PrimitivesArray[ExpressionData(theEnv)->ExpressionArray[i].type] == NULL) break;
-           if (EvaluationData(theEnv)->PrimitivesArray[ExpressionData(theEnv)->ExpressionArray[i].type]->bitMap)
-             { DecrementBitMapReferenceCount(theEnv,(CLIPSBitMap *) ExpressionData(theEnv)->ExpressionArray[i].value); }
-           break;
+            default:
+                if (EvaluationData(theEnv)->PrimitivesArray[ExpressionData(theEnv)->ExpressionArray[i].type] == NULL) break;
+                if (EvaluationData(theEnv)->PrimitivesArray[ExpressionData(
+                        theEnv)->ExpressionArray[i].type]->bitMap) { DecrementBitMapReferenceCount(theEnv, (CLIPSBitMap *) ExpressionData(
+                            theEnv)->ExpressionArray[i].value);
+                }
+                break;
         }
-     }
+    }
 
-   /*===================================*/
-   /* Free the binary expression array. */
-   /*===================================*/
+    /*===================================*/
+    /* Free the binary expression array. */
+    /*===================================*/
 
-   space = ExpressionData(theEnv)->NumberOfExpressions * sizeof(struct expr);
-   if (space != 0) genfree(theEnv,ExpressionData(theEnv)->ExpressionArray,space);
-   ExpressionData(theEnv)->ExpressionArray = 0;
-  }
-
+    space = ExpressionData(theEnv)->NumberOfExpressions * sizeof(struct expr);
+    if (space != 0) genfree(theEnv, ExpressionData(theEnv)->ExpressionArray, space);
+    ExpressionData(theEnv)->ExpressionArray = 0;
+}
 
 #if BLOAD_AND_BSAVE
 
@@ -322,19 +309,17 @@ void ClearBloadedExpressions(
   NOTES        : None
  ***************************************************/
 void FindHashedExpressions(
-  Environment *theEnv)
-  {
-   unsigned i;
-   EXPRESSION_HN *exphash;
+        Environment *theEnv) {
+    unsigned i;
+    EXPRESSION_HN *exphash;
 
-   for (i = 0 ; i < EXPRESSION_HASH_SIZE ; i++)
-     for (exphash = ExpressionData(theEnv)->ExpressionHashTable[i] ; exphash != NULL ; exphash = exphash->next)
-       {
-        MarkNeededItems(theEnv,exphash->exp);
-        exphash->bsaveID = ExpressionData(theEnv)->ExpressionCount;
-        ExpressionData(theEnv)->ExpressionCount += ExpressionSize(exphash->exp);
-       }
-  }
+    for (i = 0; i < EXPRESSION_HASH_SIZE; i++)
+        for (exphash = ExpressionData(theEnv)->ExpressionHashTable[i]; exphash != NULL; exphash = exphash->next) {
+            MarkNeededItems(theEnv, exphash->exp);
+            exphash->bsaveID = ExpressionData(theEnv)->ExpressionCount;
+            ExpressionData(theEnv)->ExpressionCount += ExpressionSize(exphash->exp);
+        }
+}
 
 /***************************************************
   NAME         : BsaveHashedExpressions
@@ -345,185 +330,173 @@ void FindHashedExpressions(
   NOTES        : None
  ***************************************************/
 void BsaveHashedExpressions(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   unsigned i;
-   EXPRESSION_HN *exphash;
+        Environment *theEnv,
+        FILE *fp) {
+    unsigned i;
+    EXPRESSION_HN *exphash;
 
-   for (i = 0 ; i < EXPRESSION_HASH_SIZE ; i++)
-     for (exphash = ExpressionData(theEnv)->ExpressionHashTable[i] ; exphash != NULL ; exphash = exphash->next)
-       BsaveExpression(theEnv,exphash->exp,fp);
-  }
+    for (i = 0; i < EXPRESSION_HASH_SIZE; i++)
+        for (exphash = ExpressionData(theEnv)->ExpressionHashTable[i]; exphash != NULL; exphash = exphash->next)
+            BsaveExpression(theEnv, exphash->exp, fp);
+}
 
 /***************************************************************/
 /* BsaveConstructExpressions: Writes all expression needed by  */
 /*   constructs for this binary image to the binary save file. */
 /***************************************************************/
 void BsaveConstructExpressions(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   struct BinaryItem *biPtr;
+        Environment *theEnv,
+        FILE *fp) {
+    struct BinaryItem *biPtr;
 
-   for (biPtr = BsaveData(theEnv)->ListOfBinaryItems;
-        biPtr != NULL;
-        biPtr = biPtr->next)
-     {
-      if (biPtr->expressionFunction != NULL)
-        { (*biPtr->expressionFunction)(theEnv,fp); }
-     }
-  }
+    for (biPtr = BsaveData(theEnv)->ListOfBinaryItems;
+         biPtr != NULL;
+         biPtr = biPtr->next) {
+        if (biPtr->expressionFunction != NULL) { (*biPtr->expressionFunction)(theEnv, fp); }
+    }
+}
 
 /***************************************/
 /* BsaveExpression: Recursively saves  */
 /*   an expression to the binary file. */
 /***************************************/
 void BsaveExpression(
-  Environment *theEnv,
-  struct expr *testPtr,
-  FILE *fp)
-  {
-   BSAVE_EXPRESSION newTest;
-   unsigned long newIndex;
+        Environment *theEnv,
+        struct expr *testPtr,
+        FILE *fp) {
+    BSAVE_EXPRESSION newTest;
+    unsigned long newIndex;
 
-   while (testPtr != NULL)
-     {
-      ExpressionData(theEnv)->ExpressionCount++;
+    while (testPtr != NULL) {
+        ExpressionData(theEnv)->ExpressionCount++;
 
-      /*================*/
-      /* Copy the type. */
-      /*================*/
+        /*================*/
+        /* Copy the type. */
+        /*================*/
 
-      newTest.type = testPtr->type;
+        newTest.type = testPtr->type;
 
-      /*=======================================*/
-      /* Convert the argList slot to an index. */
-      /*=======================================*/
+        /*=======================================*/
+        /* Convert the argList slot to an index. */
+        /*=======================================*/
 
-      if (testPtr->argList == NULL)
-        { newTest.argList = ULONG_MAX; }
-      else
-        { newTest.argList = ExpressionData(theEnv)->ExpressionCount; }
+        if (testPtr->argList == NULL) { newTest.argList = ULONG_MAX; }
+        else { newTest.argList = ExpressionData(theEnv)->ExpressionCount; }
 
-      /*========================================*/
-      /* Convert the nextArg slot to an index. */
-      /*========================================*/
+        /*========================================*/
+        /* Convert the nextArg slot to an index. */
+        /*========================================*/
 
-      if (testPtr->nextArg == NULL)
-        { newTest.nextArg = ULONG_MAX; }
-      else
-        {
-         newIndex = ExpressionData(theEnv)->ExpressionCount + ExpressionSize(testPtr->argList);
-         newTest.nextArg = newIndex;
+        if (testPtr->nextArg == NULL) { newTest.nextArg = ULONG_MAX; }
+        else {
+            newIndex = ExpressionData(theEnv)->ExpressionCount + ExpressionSize(testPtr->argList);
+            newTest.nextArg = newIndex;
         }
 
-      /*=========================*/
-      /* Convert the value slot. */
-      /*=========================*/
+        /*=========================*/
+        /* Convert the value slot. */
+        /*=========================*/
 
-      switch(testPtr->type)
-        {
-         case FLOAT_TYPE:
-           newTest.value = testPtr->floatValue->bucket;
-           break;
+        switch (testPtr->type) {
+            case FLOAT_TYPE:
+                newTest.value = testPtr->floatValue->bucket;
+                break;
 
-         case INTEGER_TYPE:
-           newTest.value = testPtr->integerValue->bucket;
-           break;
+            case INTEGER_TYPE:
+                newTest.value = testPtr->integerValue->bucket;
+                break;
 
-         case FCALL:
-           newTest.value = testPtr->functionValue->bsaveIndex;
-           break;
+            case FCALL:
+                newTest.value = testPtr->functionValue->bsaveIndex;
+                break;
 
-         case GCALL:
+            case GCALL:
 #if DEFGENERIC_CONSTRUCT
-           if (testPtr->value != NULL)
-             newTest.value = testPtr->constructValue->bsaveID;
-           else
+                if (testPtr->value != NULL)
+                    newTest.value = testPtr->constructValue->bsaveID;
+                else
 #endif
-             newTest.value = ULONG_MAX;
-           break;
+                    newTest.value = ULONG_MAX;
+                break;
 
-         case PCALL:
+            case PCALL:
 #if DEFFUNCTION_CONSTRUCT
-           if (testPtr->value != NULL)
-             newTest.value = testPtr->constructValue->bsaveID;
-           else
+                if (testPtr->value != NULL)
+                    newTest.value = testPtr->constructValue->bsaveID;
+                else
 #endif
-             newTest.value = ULONG_MAX;
-           break;
+                    newTest.value = ULONG_MAX;
+                break;
 
-         case DEFTEMPLATE_PTR:
+            case DEFTEMPLATE_PTR:
 #if DEFTEMPLATE_CONSTRUCT
-           if (testPtr->value != NULL)
-             newTest.value = testPtr->constructValue->bsaveID;
-           else
+                if (testPtr->value != NULL)
+                    newTest.value = testPtr->constructValue->bsaveID;
+                else
 #endif
-             newTest.value = ULONG_MAX;
-           break;
+                    newTest.value = ULONG_MAX;
+                break;
 
-         case DEFCLASS_PTR:
+            case DEFCLASS_PTR:
 #if OBJECT_SYSTEM
-           if (testPtr->value != NULL)
-             newTest.value = testPtr->constructValue->bsaveID;
-           else
+                if (testPtr->value != NULL)
+                    newTest.value = testPtr->constructValue->bsaveID;
+                else
 #endif
-             newTest.value = ULONG_MAX;
-           break;
+                    newTest.value = ULONG_MAX;
+                break;
 
-         case DEFGLOBAL_PTR:
+            case DEFGLOBAL_PTR:
 #if DEFGLOBAL_CONSTRUCT
-           if (testPtr->value != NULL)
-             newTest.value = testPtr->constructValue->bsaveID;
-           else
+                if (testPtr->value != NULL)
+                    newTest.value = testPtr->constructValue->bsaveID;
+                else
 #endif
-             newTest.value = ULONG_MAX;
-           break;
+                    newTest.value = ULONG_MAX;
+                break;
 
 #if OBJECT_SYSTEM
-         case INSTANCE_NAME_TYPE:
+            case INSTANCE_NAME_TYPE:
 #endif
-         case SYMBOL_TYPE:
-         case GBL_VARIABLE:
-         case STRING_TYPE:
-           newTest.value = testPtr->lexemeValue->bucket;
-           break;
+            case SYMBOL_TYPE:
+            case GBL_VARIABLE:
+            case STRING_TYPE:
+                newTest.value = testPtr->lexemeValue->bucket;
+                break;
 
-         case FACT_ADDRESS_TYPE:
-         case INSTANCE_ADDRESS_TYPE:
-         case EXTERNAL_ADDRESS_TYPE:
-           newTest.value = ULONG_MAX;
-           break;
+            case FACT_ADDRESS_TYPE:
+            case INSTANCE_ADDRESS_TYPE:
+            case EXTERNAL_ADDRESS_TYPE:
+                newTest.value = ULONG_MAX;
+                break;
 
-         case VOID_TYPE:
-           break;
+            case VOID_TYPE:
+                break;
 
-         default:
-           if (EvaluationData(theEnv)->PrimitivesArray[testPtr->type] == NULL) break;
-           if (EvaluationData(theEnv)->PrimitivesArray[testPtr->type]->bitMap)
-             { newTest.value = ((CLIPSBitMap *) testPtr->value)->bucket; }
-           break;
+            default:
+                if (EvaluationData(theEnv)->PrimitivesArray[testPtr->type] == NULL) break;
+                if (EvaluationData(
+                        theEnv)->PrimitivesArray[testPtr->type]->bitMap) { newTest.value = ((CLIPSBitMap *) testPtr->value)->bucket; }
+                break;
         }
 
-     /*===========================*/
-     /* Write out the expression. */
-     /*===========================*/
+        /*===========================*/
+        /* Write out the expression. */
+        /*===========================*/
 
-     GenWrite(&newTest,sizeof(BSAVE_EXPRESSION),fp);
+        GenWrite(&newTest, sizeof(BSAVE_EXPRESSION), fp);
 
-     /*==========================*/
-     /* Write out argument list. */
-     /*==========================*/
+        /*==========================*/
+        /* Write out argument list. */
+        /*==========================*/
 
-     if (testPtr->argList != NULL)
-       {
-        BsaveExpression(theEnv,testPtr->argList,fp);
-       }
+        if (testPtr->argList != NULL) {
+            BsaveExpression(theEnv, testPtr->argList, fp);
+        }
 
-     testPtr = testPtr->nextArg;
+        testPtr = testPtr->nextArg;
     }
-  }
+}
 
 #endif /* BLOAD_AND_BSAVE */
 

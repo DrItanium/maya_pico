@@ -24,17 +24,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #ifndef _LIBMAYA_H
 #define _LIBMAYA_H
-extern void MayaDefinitions(void* theEnv);
+extern void MayaDefinitions(void *theEnv);
 #if FILE_SYSTEM_ROOTING
 #define FILE_SYSTEM_ROOT_DATA USER_ENVIRONMENT_DATA + 0
 typedef struct FileSystemRootData {
-	int rootingenabled;
-	char* root;
-	int stringlength;
-	int issymbol;
+    int rootingenabled;
+    char* root;
+    int stringlength;
+    int issymbol;
 } FileSystemRootData;
 #define FileSystemRootData(theEnv) \
-	((struct FileSystemRootData*) GetEnvironmentData(theEnv, FILE_SYSTEM_ROOT_DATA))
+    ((struct FileSystemRootData*) GetEnvironmentData(theEnv, FILE_SYSTEM_ROOT_DATA))
 
 extern void DefineFSOverrideFunctions(void* theEnv);
 extern int FS_RemoveFunction(void*);
@@ -64,7 +64,7 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 #endif 
 
 #if defined(__i386__) || defined(i386) || defined(__i386) || defined(_M_IX86) \
-	|| defined(_X86_) || defined(_i386) || defined(__X86__)
+    || defined(_X86_) || defined(_i386) || defined(__X86__)
 #define ARCH_X86_32 1
 #define ARCH_STRING "x86_32"
 #else
@@ -73,7 +73,7 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 
 
 #if defined(__x86_64__) || defined(_M_X64) || defined(_M_AMD64) || \
-	defined(__amd64__) || defined(__amd64) || defined(__x86_64)
+    defined(__amd64__) || defined(__amd64) || defined(__x86_64)
 #define ARCH_X86_64 1
 #define ARCH_STRING "x86_64"
 #else
@@ -88,7 +88,7 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 #endif
 
 #if defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(__ia64) \
-	|| defined(_M_IA64) || defined(__itanium__)
+    || defined(_M_IA64) || defined(__itanium__)
 #define ARCH_ITANIUM 1
 #define ARCH_STRING "Itanium"
 #else
@@ -96,14 +96,14 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 #endif
 
 #if defined(__ppc__) || defined(__powerpc) || defined(__powerpc__) || \
-	defined(__POWERPC__) || defined(_M_PPC) || defined(_ARCH_PPC)
+    defined(__POWERPC__) || defined(_M_PPC) || defined(_ARCH_PPC)
 #define ARCH_POWERPC_32 1
 #define ARCH_STRING "powerpc32"
 #else
 #define ARCH_POWERPC_32 0
 #endif
 
-#if defined(__ppc64__) 
+#if defined(__ppc64__)
 #define ARCH_POWERPC_64 1
 #define ARCH_STRING "powerpc64"
 #else
@@ -152,7 +152,7 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 #define ARCH_SH 0
 #endif
 
-#if defined(__s390x__) 
+#if defined(__s390x__)
 #define ARCH_S390X 1
 #define ARCH_STRING "s390x"
 #else
@@ -160,7 +160,7 @@ extern void BinaryOperationsFunctionDefinitions(void *theEnv);
 #endif
 
 #if (! ARCH_ALPHA) && (! ARCH_X86_32) && (! ARCH_X86_64) && (! ARCH_SPARC) && \
-	 (! ARCH_ITANIUM) && (! ARCH_POWERPC_32) && (! ARCH_POWERPC_32) && (!ARCH_ARM) && \
+     (! ARCH_ITANIUM) && (! ARCH_POWERPC_32) && (! ARCH_POWERPC_32) && (!ARCH_ARM) && \
     (! ARCH_ARM64) && (! ARCH_HPPA) && (! ARCH_M68K) && (! ARCH_MIPS) && (!ARCH_SH) && \
     (! ARCH_S390X) && (! ARCH_THEORETICAL)
 #define ARCH_UNKNOWN 1

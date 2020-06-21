@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  10/18/16             */
-   /*                                                     */
-   /*                 CONSTRAINT MODULE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  10/18/16             */
+/*                                                     */
+/*                 CONSTRAINT MODULE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functions for creating and removing     */
@@ -71,11 +71,11 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                     InstallConstraintRecord(Environment *,CONSTRAINT_RECORD *);
-   static bool                     ConstraintCompare(struct constraintRecord *,struct constraintRecord *);
-   static void                     ReturnConstraintRecord(Environment *,CONSTRAINT_RECORD *);
-   static void                     DeinstallConstraintRecord(Environment *,CONSTRAINT_RECORD *);
-   static void                     DeallocateConstraintData(Environment *);
+static void InstallConstraintRecord(Environment *, CONSTRAINT_RECORD *);
+static bool ConstraintCompare(struct constraintRecord *, struct constraintRecord *);
+static void ReturnConstraintRecord(Environment *, CONSTRAINT_RECORD *);
+static void DeinstallConstraintRecord(Environment *, CONSTRAINT_RECORD *);
+static void DeallocateConstraintData(Environment *);
 
 /*****************************************************/
 /* InitializeConstraints: Initializes the constraint */
@@ -83,57 +83,51 @@
 /*   dynamic constraint access functions.            */
 /*****************************************************/
 void InitializeConstraints(
-  Environment *theEnv)
-  {
-   int i;
+        Environment *theEnv) {
+    int i;
 
-   AllocateEnvironmentData(theEnv,CONSTRAINT_DATA,sizeof(struct constraintData),DeallocateConstraintData);
-
+    AllocateEnvironmentData(theEnv, CONSTRAINT_DATA, sizeof(struct constraintData), DeallocateConstraintData);
 
     ConstraintData(theEnv)->ConstraintHashtable = (struct constraintRecord **)
-                          gm2(theEnv,sizeof (struct constraintRecord *) *
-                                    SIZE_CONSTRAINT_HASH);
+            gm2(theEnv, sizeof(struct constraintRecord *) *
+                        SIZE_CONSTRAINT_HASH);
 
-    if (ConstraintData(theEnv)->ConstraintHashtable == NULL) ExitRouter(theEnv,EXIT_FAILURE);
+    if (ConstraintData(theEnv)->ConstraintHashtable == NULL) ExitRouter(theEnv, EXIT_FAILURE);
 
     for (i = 0; i < SIZE_CONSTRAINT_HASH; i++) ConstraintData(theEnv)->ConstraintHashtable[i] = NULL;
 
-      AddUDF(theEnv, "get-dynamic-constraint-checking", "b", 0, 0, NULL, GDCCommand, NULL);
-      AddUDF(theEnv, "set-dynamic-constraint-checking", "b", 1, 1, NULL, SDCCommand, NULL);
-  }
+    AddUDF(theEnv, "get-dynamic-constraint-checking", "b", 0, 0, NULL, GDCCommand, NULL);
+    AddUDF(theEnv, "set-dynamic-constraint-checking", "b", 1, 1, NULL, SDCCommand, NULL);
+}
 
 /*****************************************************/
 /* DeallocateConstraintData: Deallocates environment */
 /*    data for constraints.                          */
 /*****************************************************/
 static void DeallocateConstraintData(
-  Environment *theEnv)
-  {
-   struct constraintRecord *tmpPtr, *nextPtr;
-   int i;
+        Environment *theEnv) {
+    struct constraintRecord *tmpPtr, *nextPtr;
+    int i;
 
-   for (i = 0; i < SIZE_CONSTRAINT_HASH; i++)
-     {
-      tmpPtr = ConstraintData(theEnv)->ConstraintHashtable[i];
-      while (tmpPtr != NULL)
-        {
-         nextPtr = tmpPtr->next;
-         ReturnConstraintRecord(theEnv,tmpPtr);
-         tmpPtr = nextPtr;
+    for (i = 0; i < SIZE_CONSTRAINT_HASH; i++) {
+        tmpPtr = ConstraintData(theEnv)->ConstraintHashtable[i];
+        while (tmpPtr != NULL) {
+            nextPtr = tmpPtr->next;
+            ReturnConstraintRecord(theEnv, tmpPtr);
+            tmpPtr = nextPtr;
         }
-     }
+    }
 
-   rm(theEnv,ConstraintData(theEnv)->ConstraintHashtable,
-      sizeof(struct constraintRecord *) * SIZE_CONSTRAINT_HASH);
+    rm(theEnv, ConstraintData(theEnv)->ConstraintHashtable,
+       sizeof(struct constraintRecord *) * SIZE_CONSTRAINT_HASH);
 
 #if (BLOAD || BLOAD_AND_BSAVE)
-   if (ConstraintData(theEnv)->NumberOfConstraints != 0)
-     {
-      genfree(theEnv,ConstraintData(theEnv)->ConstraintArray,
-              (sizeof(CONSTRAINT_RECORD) * ConstraintData(theEnv)->NumberOfConstraints));
-     }
+    if (ConstraintData(theEnv)->NumberOfConstraints != 0) {
+        genfree(theEnv, ConstraintData(theEnv)->ConstraintArray,
+                (sizeof(CONSTRAINT_RECORD) * ConstraintData(theEnv)->NumberOfConstraints));
+    }
 #endif
-  }
+}
 
 /*************************************************************/
 /* ReturnConstraintRecord: Frees the data structures used by */
@@ -141,25 +135,23 @@ static void DeallocateConstraintData(
 /*   is false, then the constraint record is also freed.     */
 /*************************************************************/
 static void ReturnConstraintRecord(
-  Environment *theEnv,
-  CONSTRAINT_RECORD *constraints)
-  {
-   if (constraints == NULL) return;
+        Environment *theEnv,
+        CONSTRAINT_RECORD *constraints) {
+    if (constraints == NULL) return;
 
-   if (! constraints->installed)
-     {
-      ReturnExpression(theEnv,constraints->classList);
-      ReturnExpression(theEnv,constraints->restrictionList);
-      ReturnExpression(theEnv,constraints->maxValue);
-      ReturnExpression(theEnv,constraints->minValue);
-      ReturnExpression(theEnv,constraints->minFields);
-      ReturnExpression(theEnv,constraints->maxFields);
-     }
+    if (!constraints->installed) {
+        ReturnExpression(theEnv, constraints->classList);
+        ReturnExpression(theEnv, constraints->restrictionList);
+        ReturnExpression(theEnv, constraints->maxValue);
+        ReturnExpression(theEnv, constraints->minValue);
+        ReturnExpression(theEnv, constraints->minFields);
+        ReturnExpression(theEnv, constraints->maxFields);
+    }
 
-   ReturnConstraintRecord(theEnv,constraints->multifield);
+    ReturnConstraintRecord(theEnv, constraints->multifield);
 
-   rtn_struct(theEnv,constraintRecord,constraints);
-  }
+    rtn_struct(theEnv, constraintRecord, constraints);
+}
 
 /***************************************************/
 /* DeinstallConstraintRecord: Decrements the count */
@@ -167,85 +159,73 @@ static void ReturnConstraintRecord(
 /*   types found in a constraint record.           */
 /***************************************************/
 static void DeinstallConstraintRecord(
-  Environment *theEnv,
-  CONSTRAINT_RECORD *constraints)
-  {
-   if (constraints->installed)
-     {
-      RemoveHashedExpression(theEnv,constraints->classList);
-      RemoveHashedExpression(theEnv,constraints->restrictionList);
-      RemoveHashedExpression(theEnv,constraints->maxValue);
-      RemoveHashedExpression(theEnv,constraints->minValue);
-      RemoveHashedExpression(theEnv,constraints->minFields);
-      RemoveHashedExpression(theEnv,constraints->maxFields);
-     }
-   else
-     {
-      ExpressionDeinstall(theEnv,constraints->classList);
-      ExpressionDeinstall(theEnv,constraints->restrictionList);
-      ExpressionDeinstall(theEnv,constraints->maxValue);
-      ExpressionDeinstall(theEnv,constraints->minValue);
-      ExpressionDeinstall(theEnv,constraints->minFields);
-      ExpressionDeinstall(theEnv,constraints->maxFields);
-     }
+        Environment *theEnv,
+        CONSTRAINT_RECORD *constraints) {
+    if (constraints->installed) {
+        RemoveHashedExpression(theEnv, constraints->classList);
+        RemoveHashedExpression(theEnv, constraints->restrictionList);
+        RemoveHashedExpression(theEnv, constraints->maxValue);
+        RemoveHashedExpression(theEnv, constraints->minValue);
+        RemoveHashedExpression(theEnv, constraints->minFields);
+        RemoveHashedExpression(theEnv, constraints->maxFields);
+    } else {
+        ExpressionDeinstall(theEnv, constraints->classList);
+        ExpressionDeinstall(theEnv, constraints->restrictionList);
+        ExpressionDeinstall(theEnv, constraints->maxValue);
+        ExpressionDeinstall(theEnv, constraints->minValue);
+        ExpressionDeinstall(theEnv, constraints->minFields);
+        ExpressionDeinstall(theEnv, constraints->maxFields);
+    }
 
-   if (constraints->multifield != NULL)
-     { DeinstallConstraintRecord(theEnv,constraints->multifield); }
-  }
+    if (constraints->multifield != NULL) { DeinstallConstraintRecord(theEnv, constraints->multifield); }
+}
 
 /******************************************/
 /* RemoveConstraint: Removes a constraint */
 /*   from the constraint hash table.      */
 /******************************************/
 void RemoveConstraint(
-  Environment *theEnv,
-  struct constraintRecord *theConstraint)
-  {
-   struct constraintRecord *tmpPtr, *prevPtr = NULL;
+        Environment *theEnv,
+        struct constraintRecord *theConstraint) {
+    struct constraintRecord *tmpPtr, *prevPtr = NULL;
 
-   if (theConstraint == NULL) return;
+    if (theConstraint == NULL) return;
 
-   /*========================================*/
-   /* If the bucket value is less than zero, */
-   /* then the constraint wasn't stored in   */
-   /* the hash table.                        */
-   /*========================================*/
+    /*========================================*/
+    /* If the bucket value is less than zero, */
+    /* then the constraint wasn't stored in   */
+    /* the hash table.                        */
+    /*========================================*/
 
-   if (! theConstraint->installed)
-     {
-      ReturnConstraintRecord(theEnv,theConstraint);
-      return;
-     }
+    if (!theConstraint->installed) {
+        ReturnConstraintRecord(theEnv, theConstraint);
+        return;
+    }
 
-   /*================================*/
-   /* Find and remove the constraint */
-   /* from the contraint hash table. */
-   /*================================*/
+    /*================================*/
+    /* Find and remove the constraint */
+    /* from the contraint hash table. */
+    /*================================*/
 
-   tmpPtr = ConstraintData(theEnv)->ConstraintHashtable[theConstraint->bucket];
-   while (tmpPtr != NULL)
-     {
-      if (tmpPtr == theConstraint)
-        {
-         theConstraint->count--;
-         if (theConstraint->count == 0)
-           {
-            if (prevPtr == NULL)
-              { ConstraintData(theEnv)->ConstraintHashtable[theConstraint->bucket] = theConstraint->next; }
-            else
-              { prevPtr->next = theConstraint->next; }
-            DeinstallConstraintRecord(theEnv,theConstraint);
-            ReturnConstraintRecord(theEnv,theConstraint);
-           }
-         return;
+    tmpPtr = ConstraintData(theEnv)->ConstraintHashtable[theConstraint->bucket];
+    while (tmpPtr != NULL) {
+        if (tmpPtr == theConstraint) {
+            theConstraint->count--;
+            if (theConstraint->count == 0) {
+                if (prevPtr == NULL) { ConstraintData(theEnv)->ConstraintHashtable[theConstraint->bucket] = theConstraint->next; }
+                else { prevPtr->next = theConstraint->next; }
+                DeinstallConstraintRecord(theEnv, theConstraint);
+                ReturnConstraintRecord(theEnv, theConstraint);
+            }
+            return;
         }
 
-      prevPtr = tmpPtr;
-      tmpPtr = tmpPtr->next;
-     }
+        prevPtr = tmpPtr;
+        tmpPtr = tmpPtr->next;
+    }
 
-   return;
-  }
+    return;
+}
 
 
 /***********************************/
@@ -253,62 +233,66 @@ void RemoveConstraint(
 /*   value for a given constraint. */
 /***********************************/
 unsigned long HashConstraint(
-  struct constraintRecord *theConstraint)
-  {
-   unsigned short i = 0;
-   unsigned long count = 0;
-   unsigned long hashValue;
-   struct expr *tmpPtr;
+        struct constraintRecord *theConstraint) {
+    unsigned short i = 0;
+    unsigned long count = 0;
+    unsigned long hashValue;
+    struct expr *tmpPtr;
 
-   count +=
-      (theConstraint->anyAllowed * 17) +
-      (theConstraint->symbolsAllowed * 5) +
-      (theConstraint->stringsAllowed * 23) +
-      (theConstraint->floatsAllowed * 19) +
-      (theConstraint->integersAllowed * 29) +
-      (theConstraint->instanceNamesAllowed * 31) +
-      (theConstraint->instanceAddressesAllowed * 17);
+    count +=
+            (theConstraint->anyAllowed * 17) +
+            (theConstraint->symbolsAllowed * 5) +
+            (theConstraint->stringsAllowed * 23) +
+            (theConstraint->floatsAllowed * 19) +
+            (theConstraint->integersAllowed * 29) +
+            (theConstraint->instanceNamesAllowed * 31) +
+            (theConstraint->instanceAddressesAllowed * 17);
 
-   count +=
-      (theConstraint->externalAddressesAllowed * 29) +
-      (theConstraint->voidAllowed * 29) +
-      (theConstraint->multifieldsAllowed * 29) +
-      (theConstraint->factAddressesAllowed * 79) +
-      (theConstraint->anyRestriction * 59) +
-      (theConstraint->symbolRestriction * 61);
+    count +=
+            (theConstraint->externalAddressesAllowed * 29) +
+            (theConstraint->voidAllowed * 29) +
+            (theConstraint->multifieldsAllowed * 29) +
+            (theConstraint->factAddressesAllowed * 79) +
+            (theConstraint->anyRestriction * 59) +
+            (theConstraint->symbolRestriction * 61);
 
-   count +=
-      (theConstraint->stringRestriction * 3) +
-      (theConstraint->floatRestriction * 37) +
-      (theConstraint->integerRestriction * 9) +
-      (theConstraint->classRestriction * 11) +
-      (theConstraint->instanceNameRestriction * 7);
+    count +=
+            (theConstraint->stringRestriction * 3) +
+            (theConstraint->floatRestriction * 37) +
+            (theConstraint->integerRestriction * 9) +
+            (theConstraint->classRestriction * 11) +
+            (theConstraint->instanceNameRestriction * 7);
 
-   for (tmpPtr = theConstraint->classList; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg)
-     { count += GetAtomicHashValue(tmpPtr->type,tmpPtr->value,i++); }
+    for (tmpPtr = theConstraint->classList; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg) {
+        count += GetAtomicHashValue(tmpPtr->type, tmpPtr->value, i++);
+    }
 
-   for (tmpPtr = theConstraint->restrictionList; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg)
-     { count += GetAtomicHashValue(tmpPtr->type,tmpPtr->value,i++); }
+    for (tmpPtr = theConstraint->restrictionList; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg) {
+        count += GetAtomicHashValue(tmpPtr->type, tmpPtr->value, i++);
+    }
 
-   for (tmpPtr = theConstraint->minValue; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg)
-     { count += GetAtomicHashValue(tmpPtr->type,tmpPtr->value,i++); }
+    for (tmpPtr = theConstraint->minValue; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg) {
+        count += GetAtomicHashValue(tmpPtr->type, tmpPtr->value, i++);
+    }
 
-   for (tmpPtr = theConstraint->maxValue; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg)
-     { count += GetAtomicHashValue(tmpPtr->type,tmpPtr->value,i++); }
+    for (tmpPtr = theConstraint->maxValue; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg) {
+        count += GetAtomicHashValue(tmpPtr->type, tmpPtr->value, i++);
+    }
 
-   for (tmpPtr = theConstraint->minFields; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg)
-     { count += GetAtomicHashValue(tmpPtr->type,tmpPtr->value,i++); }
+    for (tmpPtr = theConstraint->minFields; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg) {
+        count += GetAtomicHashValue(tmpPtr->type, tmpPtr->value, i++);
+    }
 
-   for (tmpPtr = theConstraint->maxFields; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg)
-     { count += GetAtomicHashValue(tmpPtr->type,tmpPtr->value,i++); }
+    for (tmpPtr = theConstraint->maxFields; tmpPtr != NULL; tmpPtr = tmpPtr->nextArg) {
+        count += GetAtomicHashValue(tmpPtr->type, tmpPtr->value, i++);
+    }
 
-   if (theConstraint->multifield != NULL)
-     { count += HashConstraint(theConstraint->multifield); }
+    if (theConstraint->multifield != NULL) { count += HashConstraint(theConstraint->multifield); }
 
-   hashValue = count % SIZE_CONSTRAINT_HASH;
+    hashValue = count % SIZE_CONSTRAINT_HASH;
 
-   return hashValue;
-  }
+    return hashValue;
+}
 
 /**********************************************/
 /* ConstraintCompare: Compares two constraint */
@@ -316,130 +300,111 @@ unsigned long HashConstraint(
 /*   identical, otherwise false.              */
 /**********************************************/
 static bool ConstraintCompare(
-  struct constraintRecord *constraint1,
-  struct constraintRecord *constraint2)
-  {
-   struct expr *tmpPtr1, *tmpPtr2;
+        struct constraintRecord *constraint1,
+        struct constraintRecord *constraint2) {
+    struct expr *tmpPtr1, *tmpPtr2;
 
-   if ((constraint1->anyAllowed != constraint2->anyAllowed) ||
-       (constraint1->symbolsAllowed != constraint2->symbolsAllowed) ||
-       (constraint1->stringsAllowed != constraint2->stringsAllowed) ||
-       (constraint1->floatsAllowed != constraint2->floatsAllowed) ||
-       (constraint1->integersAllowed != constraint2->integersAllowed) ||
-       (constraint1->instanceNamesAllowed != constraint2->instanceNamesAllowed) ||
-       (constraint1->instanceAddressesAllowed != constraint2->instanceAddressesAllowed) ||
-       (constraint1->externalAddressesAllowed != constraint2->externalAddressesAllowed) ||
-       (constraint1->voidAllowed != constraint2->voidAllowed) ||
-       (constraint1->multifieldsAllowed != constraint2->multifieldsAllowed) ||
-       (constraint1->singlefieldsAllowed != constraint2->singlefieldsAllowed) ||
-       (constraint1->factAddressesAllowed != constraint2->factAddressesAllowed) ||
-       (constraint1->anyRestriction != constraint2->anyRestriction) ||
-       (constraint1->symbolRestriction != constraint2->symbolRestriction) ||
-       (constraint1->stringRestriction != constraint2->stringRestriction) ||
-       (constraint1->floatRestriction != constraint2->floatRestriction) ||
-       (constraint1->integerRestriction != constraint2->integerRestriction) ||
-       (constraint1->classRestriction != constraint2->classRestriction) ||
-       (constraint1->instanceNameRestriction != constraint2->instanceNameRestriction))
-     { return false; }
+    if ((constraint1->anyAllowed != constraint2->anyAllowed) ||
+        (constraint1->symbolsAllowed != constraint2->symbolsAllowed) ||
+        (constraint1->stringsAllowed != constraint2->stringsAllowed) ||
+        (constraint1->floatsAllowed != constraint2->floatsAllowed) ||
+        (constraint1->integersAllowed != constraint2->integersAllowed) ||
+        (constraint1->instanceNamesAllowed != constraint2->instanceNamesAllowed) ||
+        (constraint1->instanceAddressesAllowed != constraint2->instanceAddressesAllowed) ||
+        (constraint1->externalAddressesAllowed != constraint2->externalAddressesAllowed) ||
+        (constraint1->voidAllowed != constraint2->voidAllowed) ||
+        (constraint1->multifieldsAllowed != constraint2->multifieldsAllowed) ||
+        (constraint1->singlefieldsAllowed != constraint2->singlefieldsAllowed) ||
+        (constraint1->factAddressesAllowed != constraint2->factAddressesAllowed) ||
+        (constraint1->anyRestriction != constraint2->anyRestriction) ||
+        (constraint1->symbolRestriction != constraint2->symbolRestriction) ||
+        (constraint1->stringRestriction != constraint2->stringRestriction) ||
+        (constraint1->floatRestriction != constraint2->floatRestriction) ||
+        (constraint1->integerRestriction != constraint2->integerRestriction) ||
+        (constraint1->classRestriction != constraint2->classRestriction) ||
+        (constraint1->instanceNameRestriction != constraint2->instanceNameRestriction)) { return false; }
 
-   for (tmpPtr1 = constraint1->classList, tmpPtr2 = constraint2->classList;
-        (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
-        tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg)
-     {
-      if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value))
-        { return false; }
-     }
-   if (tmpPtr1 != tmpPtr2) return false;
+    for (tmpPtr1 = constraint1->classList, tmpPtr2 = constraint2->classList;
+         (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
+         tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg) {
+        if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value)) { return false; }
+    }
+    if (tmpPtr1 != tmpPtr2) return false;
 
-   for (tmpPtr1 = constraint1->restrictionList, tmpPtr2 = constraint2->restrictionList;
-        (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
-        tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg)
-     {
-      if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value))
-        { return false; }
-     }
-   if (tmpPtr1 != tmpPtr2) return false;
+    for (tmpPtr1 = constraint1->restrictionList, tmpPtr2 = constraint2->restrictionList;
+         (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
+         tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg) {
+        if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value)) { return false; }
+    }
+    if (tmpPtr1 != tmpPtr2) return false;
 
-   for (tmpPtr1 = constraint1->minValue, tmpPtr2 = constraint2->minValue;
-        (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
-        tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg)
-     {
-      if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value))
-        { return false; }
-     }
-   if (tmpPtr1 != tmpPtr2) return false;
+    for (tmpPtr1 = constraint1->minValue, tmpPtr2 = constraint2->minValue;
+         (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
+         tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg) {
+        if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value)) { return false; }
+    }
+    if (tmpPtr1 != tmpPtr2) return false;
 
-   for (tmpPtr1 = constraint1->maxValue, tmpPtr2 = constraint2->maxValue;
-        (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
-        tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg)
-     {
-      if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value))
-        { return false; }
-     }
-   if (tmpPtr1 != tmpPtr2) return false;
+    for (tmpPtr1 = constraint1->maxValue, tmpPtr2 = constraint2->maxValue;
+         (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
+         tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg) {
+        if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value)) { return false; }
+    }
+    if (tmpPtr1 != tmpPtr2) return false;
 
-   for (tmpPtr1 = constraint1->minFields, tmpPtr2 = constraint2->minFields;
-        (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
-        tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg)
-     {
-      if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value))
-        { return false; }
-     }
-   if (tmpPtr1 != tmpPtr2) return false;
+    for (tmpPtr1 = constraint1->minFields, tmpPtr2 = constraint2->minFields;
+         (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
+         tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg) {
+        if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value)) { return false; }
+    }
+    if (tmpPtr1 != tmpPtr2) return false;
 
-   for (tmpPtr1 = constraint1->maxFields, tmpPtr2 = constraint2->maxFields;
-        (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
-        tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg)
-     {
-      if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value))
-        { return false; }
-     }
-   if (tmpPtr1 != tmpPtr2) return false;
+    for (tmpPtr1 = constraint1->maxFields, tmpPtr2 = constraint2->maxFields;
+         (tmpPtr1 != NULL) && (tmpPtr2 != NULL);
+         tmpPtr1 = tmpPtr1->nextArg, tmpPtr2 = tmpPtr2->nextArg) {
+        if ((tmpPtr1->type != tmpPtr2->type) || (tmpPtr1->value != tmpPtr2->value)) { return false; }
+    }
+    if (tmpPtr1 != tmpPtr2) return false;
 
-   if (((constraint1->multifield == NULL) && (constraint2->multifield != NULL)) ||
-       ((constraint1->multifield != NULL) && (constraint2->multifield == NULL)))
-     { return false; }
-   else if (constraint1->multifield == constraint2->multifield)
-     { return true; }
+    if (((constraint1->multifield == NULL) && (constraint2->multifield != NULL)) ||
+        ((constraint1->multifield != NULL) && (constraint2->multifield == NULL))) { return false; }
+    else if (constraint1->multifield == constraint2->multifield) { return true; }
 
-   return(ConstraintCompare(constraint1->multifield,constraint2->multifield));
-  }
+    return (ConstraintCompare(constraint1->multifield, constraint2->multifield));
+}
 
 /************************************/
 /* AddConstraint: Adds a constraint */
 /*   to the constraint hash table.  */
 /************************************/
 struct constraintRecord *AddConstraint(
-  Environment *theEnv,
-  struct constraintRecord *theConstraint)
-  {
-   struct constraintRecord *tmpPtr;
-   unsigned long hashValue;
+        Environment *theEnv,
+        struct constraintRecord *theConstraint) {
+    struct constraintRecord *tmpPtr;
+    unsigned long hashValue;
 
-   if (theConstraint == NULL) return NULL;
+    if (theConstraint == NULL) return NULL;
 
-   hashValue = HashConstraint(theConstraint);
+    hashValue = HashConstraint(theConstraint);
 
-   for (tmpPtr = ConstraintData(theEnv)->ConstraintHashtable[hashValue];
-        tmpPtr != NULL;
-        tmpPtr = tmpPtr->next)
-     {
-      if (ConstraintCompare(theConstraint,tmpPtr))
-        {
-         tmpPtr->count++;
-         ReturnConstraintRecord(theEnv,theConstraint);
-         return tmpPtr;
+    for (tmpPtr = ConstraintData(theEnv)->ConstraintHashtable[hashValue];
+         tmpPtr != NULL;
+         tmpPtr = tmpPtr->next) {
+        if (ConstraintCompare(theConstraint, tmpPtr)) {
+            tmpPtr->count++;
+            ReturnConstraintRecord(theEnv, theConstraint);
+            return tmpPtr;
         }
-     }
+    }
 
-   InstallConstraintRecord(theEnv,theConstraint);
-   theConstraint->count = 1;
-   theConstraint->bucket = (unsigned int) hashValue;
-   theConstraint->installed = true;
-   theConstraint->next = ConstraintData(theEnv)->ConstraintHashtable[hashValue];
-   ConstraintData(theEnv)->ConstraintHashtable[hashValue] = theConstraint;
-   return theConstraint;
-  }
+    InstallConstraintRecord(theEnv, theConstraint);
+    theConstraint->count = 1;
+    theConstraint->bucket = (unsigned int) hashValue;
+    theConstraint->installed = true;
+    theConstraint->next = ConstraintData(theEnv)->ConstraintHashtable[hashValue];
+    ConstraintData(theEnv)->ConstraintHashtable[hashValue] = theConstraint;
+    return theConstraint;
+}
 
 /*************************************************/
 /* InstallConstraintRecord: Increments the count */
@@ -447,38 +412,36 @@ struct constraintRecord *AddConstraint(
 /*   types found in a constraint record.         */
 /*************************************************/
 static void InstallConstraintRecord(
-  Environment *theEnv,
-  CONSTRAINT_RECORD *constraints)
-  {
-   struct expr *tempExpr;
+        Environment *theEnv,
+        CONSTRAINT_RECORD *constraints) {
+    struct expr *tempExpr;
 
-   tempExpr = AddHashedExpression(theEnv,constraints->classList);
-   ReturnExpression(theEnv,constraints->classList);
-   constraints->classList = tempExpr;
+    tempExpr = AddHashedExpression(theEnv, constraints->classList);
+    ReturnExpression(theEnv, constraints->classList);
+    constraints->classList = tempExpr;
 
-   tempExpr = AddHashedExpression(theEnv,constraints->restrictionList);
-   ReturnExpression(theEnv,constraints->restrictionList);
-   constraints->restrictionList = tempExpr;
+    tempExpr = AddHashedExpression(theEnv, constraints->restrictionList);
+    ReturnExpression(theEnv, constraints->restrictionList);
+    constraints->restrictionList = tempExpr;
 
-   tempExpr = AddHashedExpression(theEnv,constraints->maxValue);
-   ReturnExpression(theEnv,constraints->maxValue);
-   constraints->maxValue = tempExpr;
+    tempExpr = AddHashedExpression(theEnv, constraints->maxValue);
+    ReturnExpression(theEnv, constraints->maxValue);
+    constraints->maxValue = tempExpr;
 
-   tempExpr = AddHashedExpression(theEnv,constraints->minValue);
-   ReturnExpression(theEnv,constraints->minValue);
-   constraints->minValue = tempExpr;
+    tempExpr = AddHashedExpression(theEnv, constraints->minValue);
+    ReturnExpression(theEnv, constraints->minValue);
+    constraints->minValue = tempExpr;
 
-   tempExpr = AddHashedExpression(theEnv,constraints->minFields);
-   ReturnExpression(theEnv,constraints->minFields);
-   constraints->minFields = tempExpr;
+    tempExpr = AddHashedExpression(theEnv, constraints->minFields);
+    ReturnExpression(theEnv, constraints->minFields);
+    constraints->minFields = tempExpr;
 
-   tempExpr = AddHashedExpression(theEnv,constraints->maxFields);
-   ReturnExpression(theEnv,constraints->maxFields);
-   constraints->maxFields = tempExpr;
+    tempExpr = AddHashedExpression(theEnv, constraints->maxFields);
+    ReturnExpression(theEnv, constraints->maxFields);
+    constraints->maxFields = tempExpr;
 
-   if (constraints->multifield != NULL)
-     { InstallConstraintRecord(theEnv,constraints->multifield); }
-  }
+    if (constraints->multifield != NULL) { InstallConstraintRecord(theEnv, constraints->multifield); }
+}
 
 
 /**********************************************/
@@ -486,53 +449,48 @@ static void InstallConstraintRecord(
 /*   set-dynamic-constraint-checking command. */
 /**********************************************/
 void SDCCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue theArg;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UDFValue theArg;
 
-   returnValue->lexemeValue = CreateBoolean(theEnv,GetDynamicConstraintChecking(theEnv));
+    returnValue->lexemeValue = CreateBoolean(theEnv, GetDynamicConstraintChecking(theEnv));
 
-   if (! UDFFirstArgument(context,ANY_TYPE_BITS,&theArg))
-     { return; }
+    if (!UDFFirstArgument(context, ANY_TYPE_BITS, &theArg)) { return; }
 
-   SetDynamicConstraintChecking(theEnv,theArg.value != FalseSymbol(theEnv));
-  }
+    SetDynamicConstraintChecking(theEnv, theArg.value != FalseSymbol(theEnv));
+}
 
 /**********************************************/
 /* GDCCommand: H/L access routine for the     */
 /*   get-dynamic-constraint-checking command. */
 /**********************************************/
 void GDCCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   returnValue->lexemeValue = CreateBoolean(theEnv,GetDynamicConstraintChecking(theEnv));
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    returnValue->lexemeValue = CreateBoolean(theEnv, GetDynamicConstraintChecking(theEnv));
+}
 
 /******************************************************/
 /* SetDynamicConstraintChecking: C access routine     */
 /*   for the set-dynamic-constraint-checking command. */
 /******************************************************/
 bool SetDynamicConstraintChecking(
-  Environment *theEnv,
-  bool value)
-  {
-   bool ov;
-   ov = ConstraintData(theEnv)->DynamicConstraintChecking;
-   ConstraintData(theEnv)->DynamicConstraintChecking = value;
-   return(ov);
-  }
+        Environment *theEnv,
+        bool value) {
+    bool ov;
+    ov = ConstraintData(theEnv)->DynamicConstraintChecking;
+    ConstraintData(theEnv)->DynamicConstraintChecking = value;
+    return (ov);
+}
 
 /******************************************************/
 /* GetDynamicConstraintChecking: C access routine     */
 /*   for the get-dynamic-constraint-checking command. */
 /******************************************************/
 bool GetDynamicConstraintChecking(
-  Environment *theEnv)
-  {
-   return(ConstraintData(theEnv)->DynamicConstraintChecking);
-  }
+        Environment *theEnv) {
+    return (ConstraintData(theEnv)->DynamicConstraintChecking);
+}
 

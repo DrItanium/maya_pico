@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/13/17            */
-   /*                                                     */
-   /*              CONSTRUCT PARSER MODULE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/13/17            */
+/*                                                     */
+/*              CONSTRUCT PARSER MODULE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Parsing routines and utilities for parsing       */
@@ -62,28 +62,27 @@
 
 #include "StringFunctions.h"
 
-typedef enum
-  {
-   LE_NO_ERROR = 0,
-   LE_OPEN_FILE_ERROR,
-   LE_PARSING_ERROR,
-  } LoadError;
+typedef enum {
+    LE_NO_ERROR = 0,
+    LE_OPEN_FILE_ERROR,
+    LE_PARSING_ERROR,
+} LoadError;
 
-   LoadError                      Load(Environment *,const char *);
-   bool                           LoadConstructsFromLogicalName(Environment *,const char *);
-   bool                           LoadFromString(Environment *,const char *,size_t);
-   BuildError                     ParseConstruct(Environment *,const char *,const char *);
-   void                           ImportExportConflictMessage(Environment *,const char *,const char *,
-                                                              const char *,const char *);
-   void                           FlushParsingMessages(Environment *);
-   char                          *GetParsingFileName(Environment *);
-   void                           SetParsingFileName(Environment *,const char *);
-   char                          *GetErrorFileName(Environment *);
-   void                           SetErrorFileName(Environment *,const char *);
-   char                          *GetWarningFileName(Environment *);
-   void                           SetWarningFileName(Environment *,const char *);
-   void                           CreateErrorCaptureRouter(Environment *);
-   void                           DeleteErrorCaptureRouter(Environment *);
+LoadError Load(Environment *, const char *);
+bool LoadConstructsFromLogicalName(Environment *, const char *);
+bool LoadFromString(Environment *, const char *, size_t);
+BuildError ParseConstruct(Environment *, const char *, const char *);
+void ImportExportConflictMessage(Environment *, const char *, const char *,
+                                 const char *, const char *);
+void FlushParsingMessages(Environment *);
+char *GetParsingFileName(Environment *);
+void SetParsingFileName(Environment *, const char *);
+char *GetErrorFileName(Environment *);
+void SetErrorFileName(Environment *, const char *);
+char *GetWarningFileName(Environment *);
+void SetWarningFileName(Environment *, const char *);
+void CreateErrorCaptureRouter(Environment *);
+void DeleteErrorCaptureRouter(Environment *);
 
 #endif
 

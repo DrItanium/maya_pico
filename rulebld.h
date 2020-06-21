@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  06/28/17            */
-   /*                                                     */
-   /*               RULE BUILD HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  06/28/17            */
+/*                                                     */
+/*               RULE BUILD HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines to ntegrates a set of pattern  */
@@ -53,8 +53,8 @@
 #include "Network.h"
 #include "Reorder.h"
 
-   struct joinNode               *ConstructJoins(Environment *,int,struct lhsParseNode *,int,struct joinNode *,bool,bool);
-   void                           AttachTestCEsToPatternCEs(Environment *,struct lhsParseNode *);
+struct joinNode *ConstructJoins(Environment *, int, struct lhsParseNode *, int, struct joinNode *, bool, bool);
+void AttachTestCEsToPatternCEs(Environment *, struct lhsParseNode *);
 
 #endif /* _H_rulebld */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*       PROCEDURAL FUNCTIONS PARSER HEADER FILE       */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*       PROCEDURAL FUNCTIONS PARSER HEADER FILE       */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -55,22 +55,21 @@
 
 #include "Constraint.h"
 
-struct BindInfo
-  {
-   CLIPSLexeme *name;
-   CONSTRAINT_RECORD *constraints;
-   struct BindInfo *next;
-  };
+struct BindInfo {
+    CLIPSLexeme *name;
+    CONSTRAINT_RECORD *constraints;
+    struct BindInfo *next;
+};
 
-   void                           ProceduralFunctionParsers(Environment *);
-   struct BindInfo               *GetParsedBindNames(Environment *);
-   void                           SetParsedBindNames(Environment *,struct BindInfo *);
-   void                           ClearParsedBindNames(Environment *);
-   bool                           ParsedBindNamesEmpty(Environment *);
-   unsigned short                 SearchParsedBindNames(Environment *,CLIPSLexeme *);
-   unsigned short                 CountParsedBindNames(Environment *);
-   void                           RemoveParsedBindName(Environment *,CLIPSLexeme *);
-   struct constraintRecord       *FindBindConstraints(Environment *,CLIPSLexeme *);
+void ProceduralFunctionParsers(Environment *);
+struct BindInfo *GetParsedBindNames(Environment *);
+void SetParsedBindNames(Environment *, struct BindInfo *);
+void ClearParsedBindNames(Environment *);
+bool ParsedBindNamesEmpty(Environment *);
+unsigned short SearchParsedBindNames(Environment *, CLIPSLexeme *);
+unsigned short CountParsedBindNames(Environment *);
+void RemoveParsedBindName(Environment *, CLIPSLexeme *);
+struct constraintRecord *FindBindConstraints(Environment *, CLIPSLexeme *);
 
 #endif /* _H_prcdrpsr */
 

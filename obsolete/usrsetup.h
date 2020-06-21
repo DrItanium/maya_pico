@@ -30,11 +30,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef _WIN32
 #define OS_NAME "Nt"
 #ifdef _WIN64 
-   #define OS_WIN64 1
-   #define OS_WIN32 0
+#define OS_WIN64 1
+#define OS_WIN32 0
 #else
-   #define OS_WIN32 1
-   #define OS_WIN64 0
+#define OS_WIN32 1
+#define OS_WIN64 0
 #endif
 #else
 #define OS_WIN32 0
@@ -93,33 +93,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef __APPLE__
 #include "TargetConditionals.h"
-   #if TARGET_OS_MAC
-       #define OS_OSX 1
-       #define OS_IOS 0
-       #define OS_APPLE_UNKNOWN 0
-       #define OS_NAME "OSX"
-   #elif TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-       #define OS_IOS 1
-       #define OS_OSX 0
-       #define OS_APPLE_UNKNOWN 0
-       #define OS_NAME "iOS"
-   #else
-       #define OS_IOS 0
-       #define OS_OSX 0
-       #define OS_APPLE_UNKNOWN 1
-       #define OS_NAME "AppleUnknown"
-   #endif
+#if TARGET_OS_MAC
+#define OS_OSX 1
+#define OS_IOS 0
+#define OS_APPLE_UNKNOWN 0
+#define OS_NAME "OSX"
+#elif TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#define OS_IOS 1
+#define OS_OSX 0
+#define OS_APPLE_UNKNOWN 0
+#define OS_NAME "iOS"
 #else
-       #define OS_IOS 0
-       #define OS_OSX 0
-       #define OS_APPLE_UNKNOWN 0
+#define OS_IOS 0
+#define OS_OSX 0
+#define OS_APPLE_UNKNOWN 1
+#define OS_NAME "AppleUnknown"
+#endif
+#else
+#define OS_IOS 0
+#define OS_OSX 0
+#define OS_APPLE_UNKNOWN 0
 #endif
 
-   
-
-#if (! OS_WIN32) && (! OS_WIN64) && (! OS_LINUX) && (! OS_FREEBSD) && \
-    (! OS_OSX) && (! OS_IOS) && (! OS_APPLE_UNKNOWN) && (! OS_OPENBSD) && \
-    (! OS_NETBSD) && (! OS_DRAGONFLYBSD) && (! OS_CYGWIN) && (! OS_ANDROID) 
+#if (!OS_WIN32) && (!OS_WIN64) && (!OS_LINUX) && (!OS_FREEBSD) && \
+    (!OS_OSX) && (!OS_IOS) && (!OS_APPLE_UNKNOWN) && (!OS_OPENBSD) && \
+    (!OS_NETBSD) && (!OS_DRAGONFLYBSD) && (!OS_CYGWIN) && (!OS_ANDROID)
 #define OS_UNKNOWN 1
 #define OS_NAME "Unknown"
 #else
@@ -135,7 +133,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 // make sure we disable the corresponding features
-#if ! MAYA_EXTENSIONS
+#if !MAYA_EXTENSIONS
 #define ARCHITECTURE_IDENTIFICATION 0
 #define BINARY_LOGICAL_OPERATIONS 0
 #define FILE_SYSTEM_ROOTING 0
@@ -162,5 +160,5 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define PARSING_EXTENSIONS 1
 #endif
 
-extern void MayaOptions(void* theEnv);
+extern void MayaOptions(void *theEnv);
 #endif

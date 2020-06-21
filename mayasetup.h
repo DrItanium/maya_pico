@@ -48,7 +48,5 @@
 #define FUNCTIONAL_EXTENSIONS 1
 #endif
 
-
-
 #endif // end __MAYA_SETUP_H__
 

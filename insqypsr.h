@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -52,8 +52,8 @@
 
 #include "Expression.h"
 
-   Expression                    *ParseQueryNoAction(Environment *,Expression *,const char *);
-   Expression                    *ParseQueryAction(Environment *,Expression *,const char *);
+Expression *ParseQueryNoAction(Environment *, Expression *, const char *);
+Expression *ParseQueryAction(Environment *, Expression *, const char *);
 
 #endif /* INSTANCE_SET_QUERIES */
 

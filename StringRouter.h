@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*            STRING_TYPE I/O ROUTER HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*            STRING_TYPE I/O ROUTER HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: I/O Router routines which allow strings to be    */
@@ -53,29 +53,26 @@ typedef struct stringBuilderRouter StringBuilderRouter;
 
 #define STRING_ROUTER_DATA 48
 
-struct stringRouter
-  {
-   const char *name;
-   const char *readString;
-   char *writeString;
-   size_t currentPosition;
-   size_t maximumPosition;
-   int readWriteType;
-   StringRouter *next;
-  };
+struct stringRouter {
+    const char *name;
+    const char *readString;
+    char *writeString;
+    size_t currentPosition;
+    size_t maximumPosition;
+    int readWriteType;
+    StringRouter *next;
+};
 
-struct stringBuilderRouter
-  {
-   const char *name;
-   StringBuilder *SBR;
-   StringBuilderRouter *next;
-  };
+struct stringBuilderRouter {
+    const char *name;
+    StringBuilder *SBR;
+    StringBuilderRouter *next;
+};
 
-struct stringRouterData
-  {
-   StringRouter *ListOfStringRouters;
-   StringBuilderRouter *ListOfStringBuilderRouters;
-  };
+struct stringRouterData {
+    StringRouter *ListOfStringRouters;
+    StringBuilderRouter *ListOfStringBuilderRouters;
+};
 
 #define StringRouterData(theEnv) ((struct stringRouterData *) GetEnvironmentData(theEnv,STRING_ROUTER_DATA))
 
@@ -83,14 +80,14 @@ struct stringRouterData
 /* I/O ROUTER DEFINITIONS */
 /**************************/
 
-   void                           InitializeStringRouter(Environment *);
-   bool                           OpenStringSource(Environment *,const char *,const char *,size_t);
-   bool                           OpenTextSource(Environment *,const char *,const char *,size_t,size_t);
-   bool                           CloseStringSource(Environment *,const char *);
-   bool                           OpenStringDestination(Environment *,const char *,char *,size_t);
-   bool                           CloseStringDestination(Environment *,const char *);
-   bool                           OpenStringBuilderDestination(Environment *,const char *,StringBuilder *);
-   bool                           CloseStringBuilderDestination(Environment *,const char *);
+void InitializeStringRouter(Environment *);
+bool OpenStringSource(Environment *, const char *, const char *, size_t);
+bool OpenTextSource(Environment *, const char *, const char *, size_t, size_t);
+bool CloseStringSource(Environment *, const char *);
+bool OpenStringDestination(Environment *, const char *, char *, size_t);
+bool CloseStringDestination(Environment *, const char *);
+bool OpenStringBuilderDestination(Environment *, const char *, StringBuilder *);
+bool CloseStringBuilderDestination(Environment *, const char *);
 
 #endif /* _H_strngrtr */
 

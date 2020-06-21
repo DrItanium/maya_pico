@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/17/17            */
-   /*                                                     */
-   /*               EVALUATION HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/17/17            */
+/*                                                     */
+/*               EVALUATION HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines for evaluating expressions.    */
@@ -75,43 +75,40 @@
 
 typedef struct functionCallBuilder FunctionCallBuilder;
 
-struct functionCallBuilder
-  {
-   Environment *fcbEnv;
-   CLIPSValue *contents;
-   size_t bufferReset;
-   size_t length;
-   size_t bufferMaximum;
-  };
+struct functionCallBuilder {
+    Environment *fcbEnv;
+    CLIPSValue *contents;
+    size_t bufferReset;
+    size_t length;
+    size_t bufferMaximum;
+};
 
-typedef enum
-  {
-   FCBE_NO_ERROR = 0,
-   FCBE_NULL_POINTER_ERROR,
-   FCBE_FUNCTION_NOT_FOUND_ERROR,
-   FCBE_INVALID_FUNCTION_ERROR,
-   FCBE_ARGUMENT_COUNT_ERROR,
-   FCBE_ARGUMENT_TYPE_ERROR,
-   FCBE_PROCESSING_ERROR
-  } FunctionCallBuilderError;
+typedef enum {
+    FCBE_NO_ERROR = 0,
+    FCBE_NULL_POINTER_ERROR,
+    FCBE_FUNCTION_NOT_FOUND_ERROR,
+    FCBE_INVALID_FUNCTION_ERROR,
+    FCBE_ARGUMENT_COUNT_ERROR,
+    FCBE_ARGUMENT_TYPE_ERROR,
+    FCBE_PROCESSING_ERROR
+} FunctionCallBuilderError;
 
 #define PARAMETERS_UNBOUNDED USHRT_MAX
 
 #define C_POINTER_EXTERNAL_ADDRESS 0
 
-struct externalAddressType
-  {
-   const  char *name;
-   void (*shortPrintFunction)(Environment *,const char *,void *);
-   void (*longPrintFunction)(Environment *,const char *,void *);
-   bool (*discardFunction)(Environment *,void *);
-   void (*newFunction)(UDFContext *,UDFValue *);
-   bool (*callFunction)(UDFContext *,UDFValue *,UDFValue *);
-  };
+struct externalAddressType {
+    const char *name;
+    void (*shortPrintFunction)(Environment *, const char *, void *);
+    void (*longPrintFunction)(Environment *, const char *, void *);
+    bool (*discardFunction)(Environment *, void *);
+    void (*newFunction)(UDFContext *, UDFValue *);
+    bool (*callFunction)(UDFContext *, UDFValue *, UDFValue *);
+};
 
-#define CoerceToLongInteger(t,v) ((t == INTEGER_TYPE) ? ValueToLong(v) : (long) ValueToDouble(v))
-#define CoerceToInteger(t,v) ((t == INTEGER_TYPE) ? (int) ValueToLong(v) : (int) ValueToDouble(v))
-#define CoerceToDouble(t,v) ((t == INTEGER_TYPE) ? (double) ValueToLong(v) : ValueToDouble(v))
+#define CoerceToLongInteger(t, v) ((t == INTEGER_TYPE) ? ValueToLong(v) : (long) ValueToDouble(v))
+#define CoerceToInteger(t, v) ((t == INTEGER_TYPE) ? (int) ValueToLong(v) : (int) ValueToDouble(v))
+#define CoerceToDouble(t, v) ((t == INTEGER_TYPE) ? (double) ValueToLong(v) : ValueToDouble(v))
 
 #define GetFirstArgument()           (EvaluationData(theEnv)->CurrentExpression->argList)
 #define GetNextArgument(ep)          (ep->nextArg)
@@ -121,81 +118,80 @@ struct externalAddressType
 
 #define BITS_PER_BYTE    8
 
-#define BitwiseTest(n,b)   (((n) & (char) (1 << (b))) ? true : false)
-#define BitwiseSet(n,b)    (n |= (char) (1 << (b)))
-#define BitwiseClear(n,b)  (n &= (char) ~(1 << (b)))
+#define BitwiseTest(n, b)   (((n) & (char) (1 << (b))) ? true : false)
+#define BitwiseSet(n, b)    (n |= (char) (1 << (b)))
+#define BitwiseClear(n, b)  (n &= (char) ~(1 << (b)))
 
-#define CountToBitMapSize(c) (((c) + (BITS_PER_BYTE - 1)) / BITS_PER_BYTE) 
-#define TestBitMap(map,id)  BitwiseTest(map[(id) / BITS_PER_BYTE],(id) % BITS_PER_BYTE)
-#define SetBitMap(map,id)   BitwiseSet(map[(id) / BITS_PER_BYTE],(id) % BITS_PER_BYTE)
-#define ClearBitMap(map,id) BitwiseClear(map[(id) / BITS_PER_BYTE],(id) % BITS_PER_BYTE)
+#define CountToBitMapSize(c) (((c) + (BITS_PER_BYTE - 1)) / BITS_PER_BYTE)
+#define TestBitMap(map, id)  BitwiseTest(map[(id) / BITS_PER_BYTE],(id) % BITS_PER_BYTE)
+#define SetBitMap(map, id)   BitwiseSet(map[(id) / BITS_PER_BYTE],(id) % BITS_PER_BYTE)
+#define ClearBitMap(map, id) BitwiseClear(map[(id) / BITS_PER_BYTE],(id) % BITS_PER_BYTE)
 
 #define EVALUATION_DATA 44
 
-struct evaluationData
-  {
-   struct expr *CurrentExpression;
-   bool EvaluationError;
-   bool HaltExecution;
-   int CurrentEvaluationDepth;
-   int numberOfAddressTypes;
-   struct entityRecord *PrimitivesArray[MAXIMUM_PRIMITIVES];
-   struct externalAddressType *ExternalAddressTypes[MAXIMUM_EXTERNAL_ADDRESS_TYPES];
-  };
+struct evaluationData {
+    struct expr *CurrentExpression;
+    bool EvaluationError;
+    bool HaltExecution;
+    int CurrentEvaluationDepth;
+    int numberOfAddressTypes;
+    struct entityRecord *PrimitivesArray[MAXIMUM_PRIMITIVES];
+    struct externalAddressType *ExternalAddressTypes[MAXIMUM_EXTERNAL_ADDRESS_TYPES];
+};
 
 #define EvaluationData(theEnv) ((struct evaluationData *) GetEnvironmentData(theEnv,EVALUATION_DATA))
 
-   void                           InitializeEvaluationData(Environment *);
-   bool                           EvaluateExpression(Environment *,struct expr *,UDFValue *);
-   void                           SetEvaluationError(Environment *,bool);
-   bool                           GetEvaluationError(Environment *);
-   void                           SetHaltExecution(Environment *,bool);
-   bool                           GetHaltExecution(Environment *);
-   void                           ReturnValues(Environment *,UDFValue *,bool);
-   void                           WriteUDFValue(Environment *,const char *,UDFValue *);
-   void                           WriteCLIPSValue(Environment *,const char *,CLIPSValue *);
-   void                           SetMultifieldErrorValue(Environment *,UDFValue *);
-   void                           CopyDataObject(Environment *,UDFValue *,UDFValue *,int);
-   void                           AtomInstall(Environment *,unsigned short,void *);
-   void                           AtomDeinstall(Environment *,unsigned short,void *);
-   void                           Retain(Environment *,TypeHeader *);
-   void                           Release(Environment *,TypeHeader *);
-   void                           RetainCV(Environment *,CLIPSValue *);
-   void                           ReleaseCV(Environment *,CLIPSValue *);
-   void                           RetainUDFV(Environment *,UDFValue *);
-   void                           ReleaseUDFV(Environment *,UDFValue *);
-   struct expr                   *ConvertValueToExpression(Environment *,UDFValue *);
-   unsigned long                  GetAtomicHashValue(unsigned short,void *,unsigned short);
-   void                           InstallPrimitive(Environment *,struct entityRecord *,int);
-   int                            InstallExternalAddressType(Environment *,struct externalAddressType *);
-   void                           TransferDataObjectValues(UDFValue *,UDFValue *);
-   struct expr                   *FunctionReferenceExpression(Environment *,const char *);
-   bool                           GetFunctionReference(Environment *,const char *,Expression *);
-   bool                           DOsEqual(UDFValue *,UDFValue *);
-   bool                           EvaluateAndStoreInDataObject(Environment *,bool,Expression *,UDFValue *,bool);
-   void                           ResetErrorFlags(Environment *);
-   FunctionCallBuilder           *CreateFunctionCallBuilder(Environment *,size_t);
-   void                           FCBAppendUDFValue(FunctionCallBuilder *,UDFValue *);
-   void                           FCBAppend(FunctionCallBuilder *,CLIPSValue *);
-   void                           FCBAppendCLIPSInteger(FunctionCallBuilder *,CLIPSInteger *);
-   void                           FCBAppendInteger(FunctionCallBuilder *,long long);
-   void                           FCBAppendCLIPSFloat(FunctionCallBuilder *,CLIPSFloat *);
-   void                           FCBAppendFloat(FunctionCallBuilder *,double);
-   void                           FCBAppendCLIPSLexeme(FunctionCallBuilder *,CLIPSLexeme *);
-   void                           FCBAppendSymbol(FunctionCallBuilder *,const char *);
-   void                           FCBAppendString(FunctionCallBuilder *,const char *);
-   void                           FCBAppendInstanceName(FunctionCallBuilder *,const char *);
-   void                           FCBAppendCLIPSExternalAddress(FunctionCallBuilder *,CLIPSExternalAddress *);
-   void                           FCBAppendFact(FunctionCallBuilder *,Fact *);
-   void                           FCBAppendInstance(FunctionCallBuilder *,Instance *);
-   void                           FCBAppendMultifield(FunctionCallBuilder *,Multifield *);
-   void                           FCBDispose(FunctionCallBuilder *);
-   void                           FCBReset(FunctionCallBuilder *);
-   FunctionCallBuilderError       FCBCall(FunctionCallBuilder *,const char *,CLIPSValue *);
-   
-#define CVIsType(cv,cvType) (((1 << (((TypeHeader *) (cv)->value)->type)) & (cvType)) ? true : false)
+void InitializeEvaluationData(Environment *);
+bool EvaluateExpression(Environment *, struct expr *, UDFValue *);
+void SetEvaluationError(Environment *, bool);
+bool GetEvaluationError(Environment *);
+void SetHaltExecution(Environment *, bool);
+bool GetHaltExecution(Environment *);
+void ReturnValues(Environment *, UDFValue *, bool);
+void WriteUDFValue(Environment *, const char *, UDFValue *);
+void WriteCLIPSValue(Environment *, const char *, CLIPSValue *);
+void SetMultifieldErrorValue(Environment *, UDFValue *);
+void CopyDataObject(Environment *, UDFValue *, UDFValue *, int);
+void AtomInstall(Environment *, unsigned short, void *);
+void AtomDeinstall(Environment *, unsigned short, void *);
+void Retain(Environment *, TypeHeader *);
+void Release(Environment *, TypeHeader *);
+void RetainCV(Environment *, CLIPSValue *);
+void ReleaseCV(Environment *, CLIPSValue *);
+void RetainUDFV(Environment *, UDFValue *);
+void ReleaseUDFV(Environment *, UDFValue *);
+struct expr *ConvertValueToExpression(Environment *, UDFValue *);
+unsigned long GetAtomicHashValue(unsigned short, void *, unsigned short);
+void InstallPrimitive(Environment *, struct entityRecord *, int);
+int InstallExternalAddressType(Environment *, struct externalAddressType *);
+void TransferDataObjectValues(UDFValue *, UDFValue *);
+struct expr *FunctionReferenceExpression(Environment *, const char *);
+bool GetFunctionReference(Environment *, const char *, Expression *);
+bool DOsEqual(UDFValue *, UDFValue *);
+bool EvaluateAndStoreInDataObject(Environment *, bool, Expression *, UDFValue *, bool);
+void ResetErrorFlags(Environment *);
+FunctionCallBuilder *CreateFunctionCallBuilder(Environment *, size_t);
+void FCBAppendUDFValue(FunctionCallBuilder *, UDFValue *);
+void FCBAppend(FunctionCallBuilder *, CLIPSValue *);
+void FCBAppendCLIPSInteger(FunctionCallBuilder *, CLIPSInteger *);
+void FCBAppendInteger(FunctionCallBuilder *, long long);
+void FCBAppendCLIPSFloat(FunctionCallBuilder *, CLIPSFloat *);
+void FCBAppendFloat(FunctionCallBuilder *, double);
+void FCBAppendCLIPSLexeme(FunctionCallBuilder *, CLIPSLexeme *);
+void FCBAppendSymbol(FunctionCallBuilder *, const char *);
+void FCBAppendString(FunctionCallBuilder *, const char *);
+void FCBAppendInstanceName(FunctionCallBuilder *, const char *);
+void FCBAppendCLIPSExternalAddress(FunctionCallBuilder *, CLIPSExternalAddress *);
+void FCBAppendFact(FunctionCallBuilder *, Fact *);
+void FCBAppendInstance(FunctionCallBuilder *, Instance *);
+void FCBAppendMultifield(FunctionCallBuilder *, Multifield *);
+void FCBDispose(FunctionCallBuilder *);
+void FCBReset(FunctionCallBuilder *);
+FunctionCallBuilderError FCBCall(FunctionCallBuilder *, const char *, CLIPSValue *);
 
-#define ValueIsType(value,vType) ((1 << (((TypeHeader *) value)->type)) & (vType))
+#define CVIsType(cv, cvType) (((1 << (((TypeHeader *) (cv)->value)->type)) & (cvType)) ? true : false)
+
+#define ValueIsType(value, vType) ((1 << (((TypeHeader *) value)->type)) & (vType))
 
 #define CVCoerceToFloat(cv) (((cv)->header->type == FLOAT_TYPE) ? \
                              ((cv)->floatValue->contents) : \

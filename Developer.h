@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*                 DEVELOPER HEADER FILE               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*                 DEVELOPER HEADER FILE               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -46,22 +46,22 @@
 
 #define _H_developr
 
-   void                           DeveloperCommands(Environment *);
-   void                           PrimitiveTablesInfoCommand(Environment *,UDFContext *,UDFValue *);
-   void                           PrimitiveTablesUsageCommand(Environment *,UDFContext *,UDFValue *);
+void DeveloperCommands(Environment *);
+void PrimitiveTablesInfoCommand(Environment *, UDFContext *, UDFValue *);
+void PrimitiveTablesUsageCommand(Environment *, UDFContext *, UDFValue *);
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
-   void                           ShowFactPatternNetworkCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ValidateFactIntegrityCommand(Environment *,UDFContext *,UDFValue *);
+void ShowFactPatternNetworkCommand(Environment *, UDFContext *, UDFValue *);
+void ValidateFactIntegrityCommand(Environment *, UDFContext *, UDFValue *);
 #endif
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
-   void                           PrintObjectPatternNetworkCommand(Environment *,UDFContext *,UDFValue *);
+void PrintObjectPatternNetworkCommand(Environment *, UDFContext *, UDFValue *);
 #endif
 #if OBJECT_SYSTEM
-   void                           InstanceTableUsageCommand(Environment *,UDFContext *,UDFValue *);
+void InstanceTableUsageCommand(Environment *, UDFContext *, UDFValue *);
 #endif
 #if DEFRULE_CONSTRUCT
-   void                           ValidateBetaMemoriesCommand(Environment *,UDFContext *,UDFValue *);
+void ValidateBetaMemoriesCommand(Environment *, UDFContext *, UDFValue *);
 #endif
 
 #endif /* _H_developr */

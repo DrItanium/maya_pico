@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -66,25 +66,24 @@
 
 #define MESSAGE_HANDLER_DATA 32
 
-struct messageHandlerData
-  {
-   EntityRecord HandlerGetInfo;
-   EntityRecord HandlerPutInfo;
-   CLIPSLexeme *INIT_SYMBOL;
-   CLIPSLexeme *DELETE_SYMBOL;
-   CLIPSLexeme *CREATE_SYMBOL;
+struct messageHandlerData {
+    EntityRecord HandlerGetInfo;
+    EntityRecord HandlerPutInfo;
+    CLIPSLexeme *INIT_SYMBOL;
+    CLIPSLexeme *DELETE_SYMBOL;
+    CLIPSLexeme *CREATE_SYMBOL;
 #if DEBUGGING_FUNCTIONS
-   bool WatchHandlers;
-   bool WatchMessages;
+    bool WatchHandlers;
+    bool WatchMessages;
 #endif
-   const char *hndquals[4];
-   CLIPSLexeme *SELF_SYMBOL;
-   CLIPSLexeme *CurrentMessageName;
-   HANDLER_LINK *CurrentCore;
-   HANDLER_LINK *TopOfCore;
-   HANDLER_LINK *NextInCore;
-   HANDLER_LINK *OldCore;
-  };
+    const char *hndquals[4];
+    CLIPSLexeme *SELF_SYMBOL;
+    CLIPSLexeme *CurrentMessageName;
+    HANDLER_LINK *CurrentCore;
+    HANDLER_LINK *TopOfCore;
+    HANDLER_LINK *NextInCore;
+    HANDLER_LINK *OldCore;
+};
 
 #define MessageHandlerData(theEnv) ((struct messageHandlerData *) GetEnvironmentData(theEnv,MESSAGE_HANDLER_DATA))
 
@@ -93,28 +92,28 @@ struct messageHandlerData
 #define PRINT_STRING  "print"
 #define CREATE_STRING "create"
 
-   void             SetupMessageHandlers(Environment *);
-   const char      *DefmessageHandlerName(Defclass *,unsigned);
-   const char      *DefmessageHandlerType(Defclass *,unsigned);
-   unsigned         GetNextDefmessageHandler(Defclass *,unsigned);
-   DefmessageHandler
-                   *GetDefmessageHandlerPointer(Defclass *,unsigned int);
+void SetupMessageHandlers(Environment *);
+const char *DefmessageHandlerName(Defclass *, unsigned);
+const char *DefmessageHandlerType(Defclass *, unsigned);
+unsigned GetNextDefmessageHandler(Defclass *, unsigned);
+DefmessageHandler
+*GetDefmessageHandlerPointer(Defclass *, unsigned int);
 #if DEBUGGING_FUNCTIONS
-   bool             DefmessageHandlerGetWatch(Defclass *,unsigned);
-   void             DefmessageHandlerSetWatch(Defclass *,unsigned,bool);
+bool DefmessageHandlerGetWatch(Defclass *, unsigned);
+void DefmessageHandlerSetWatch(Defclass *, unsigned, bool);
 #endif
-   unsigned         FindDefmessageHandler(Defclass *,const char *,const char *);
-   bool             DefmessageHandlerIsDeletable(Defclass *,unsigned);
-   void             UndefmessageHandlerCommand(Environment *,UDFContext *,UDFValue *);
-   bool             UndefmessageHandler(Defclass *,unsigned,Environment *);
+unsigned FindDefmessageHandler(Defclass *, const char *, const char *);
+bool DefmessageHandlerIsDeletable(Defclass *, unsigned);
+void UndefmessageHandlerCommand(Environment *, UDFContext *, UDFValue *);
+bool UndefmessageHandler(Defclass *, unsigned, Environment *);
 #if DEBUGGING_FUNCTIONS
-   void             PPDefmessageHandlerCommand(Environment *,UDFContext *,UDFValue *);
-   void             ListDefmessageHandlersCommand(Environment *,UDFContext *,UDFValue *);
-   void             PreviewSendCommand(Environment *,UDFContext *,UDFValue *);
-   const char      *DefmessageHandlerPPForm(Defclass *,unsigned);
-   void             ListDefmessageHandlers(Environment *,Defclass *,const char *,bool);
-   void             PreviewSend(Defclass *,const char *,const char *);
-   unsigned long    DisplayHandlersInLinks(Environment *,const char *,PACKED_CLASS_LINKS *,unsigned int);
+void PPDefmessageHandlerCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefmessageHandlersCommand(Environment *, UDFContext *, UDFValue *);
+void PreviewSendCommand(Environment *, UDFContext *, UDFValue *);
+const char *DefmessageHandlerPPForm(Defclass *, unsigned);
+void ListDefmessageHandlers(Environment *, Defclass *, const char *, bool);
+void PreviewSend(Defclass *, const char *, const char *);
+unsigned long DisplayHandlersInLinks(Environment *, const char *, PACKED_CLASS_LINKS *, unsigned int);
 #endif
 
 #endif /* _H_msgcom */

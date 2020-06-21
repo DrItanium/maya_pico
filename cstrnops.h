@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*           CONSTRAINT OPERATIONS HEADER FILE         */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*           CONSTRAINT OPERATIONS HEADER FILE         */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functions for performing operations on  */
@@ -38,8 +38,8 @@
 #include "Evaluation.h"
 #include "Constraint.h"
 
-   struct constraintRecord       *IntersectConstraints(Environment *,struct constraintRecord *,struct constraintRecord *);
-   struct constraintRecord       *UnionConstraints(Environment *,struct constraintRecord *,struct constraintRecord *);
-   void                           RemoveConstantFromConstraint(Environment *,int,void *,CONSTRAINT_RECORD *);
+struct constraintRecord *IntersectConstraints(Environment *, struct constraintRecord *, struct constraintRecord *);
+struct constraintRecord *UnionConstraints(Environment *, struct constraintRecord *, struct constraintRecord *);
+void RemoveConstantFromConstraint(Environment *, int, void *, CONSTRAINT_RECORD *);
 
 #endif /* _H_cstrnops */

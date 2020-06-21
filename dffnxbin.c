@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  11/01/16             */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  11/01/16             */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Binary Load/Save Functions for Deffunctions      */
@@ -61,41 +61,39 @@
                MACROS AND TYPES
    =========================================
    ***************************************** */
-typedef struct bsaveDeffunctionModule
-  {
-   struct bsaveDefmoduleItemHeader header;
-  } BSAVE_DEFFUNCTION_MODULE;
+typedef struct bsaveDeffunctionModule {
+    struct bsaveDefmoduleItemHeader header;
+} BSAVE_DEFFUNCTION_MODULE;
 
-typedef struct bsaveDeffunctionStruct
-  {
-   struct bsaveConstructHeader header;
-   unsigned short minNumberOfParameters;
-   unsigned short maxNumberOfParameters;
-   unsigned short numberOfLocalVars;
-   unsigned long name;
-   unsigned long code;
-  } BSAVE_DEFFUNCTION;
+typedef struct bsaveDeffunctionStruct {
+    struct bsaveConstructHeader header;
+    unsigned short minNumberOfParameters;
+    unsigned short maxNumberOfParameters;
+    unsigned short numberOfLocalVars;
+    unsigned long name;
+    unsigned long code;
+} BSAVE_DEFFUNCTION;
 
 /****************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS  */
 /****************************************/
 
 #if BLOAD_AND_BSAVE
-   static void                    BsaveDeffunctionFind(Environment *);
-   static void                    MarkDeffunctionItems(Environment *,ConstructHeader *,void *);
-   static void                    BsaveDeffunctionExpressions(Environment *,FILE *);
-   static void                    BsaveDeffunctionExpression(Environment *,ConstructHeader *,void *);
-   static void                    BsaveStorageDeffunctions(Environment *,FILE *);
-   static void                    BsaveDeffunctions(Environment *,FILE *);
-   static void                    BsaveDeffunction(Environment *,ConstructHeader *,void *);
+static void BsaveDeffunctionFind(Environment *);
+static void MarkDeffunctionItems(Environment *, ConstructHeader *, void *);
+static void BsaveDeffunctionExpressions(Environment *, FILE *);
+static void BsaveDeffunctionExpression(Environment *, ConstructHeader *, void *);
+static void BsaveStorageDeffunctions(Environment *, FILE *);
+static void BsaveDeffunctions(Environment *, FILE *);
+static void BsaveDeffunction(Environment *, ConstructHeader *, void *);
 #endif
 
-   static void                    BloadStorageDeffunctions(Environment *);
-   static void                    BloadDeffunctions(Environment *);
-   static void                    UpdateDeffunctionModule(Environment *,void *,unsigned long);
-   static void                    UpdateDeffunction(Environment *,void *,unsigned long);
-   static void                    ClearDeffunctionBload(Environment *);
-   static void                    DeallocateDeffunctionBloadData(Environment *);
+static void BloadStorageDeffunctions(Environment *);
+static void BloadDeffunctions(Environment *);
+static void UpdateDeffunctionModule(Environment *, void *, unsigned long);
+static void UpdateDeffunction(Environment *, void *, unsigned long);
+static void ClearDeffunctionBload(Environment *);
+static void DeallocateDeffunctionBloadData(Environment *);
 
 /* =========================================
    *****************************************
@@ -113,38 +111,36 @@ typedef struct bsaveDeffunctionStruct
   NOTES        : None
  ***********************************************************/
 void SetupDeffunctionsBload(
-  Environment *theEnv)
-  {
-   AllocateEnvironmentData(theEnv,DFFNXBIN_DATA,sizeof(struct deffunctionBinaryData),DeallocateDeffunctionBloadData);
+        Environment *theEnv) {
+    AllocateEnvironmentData(theEnv, DFFNXBIN_DATA, sizeof(struct deffunctionBinaryData), DeallocateDeffunctionBloadData);
 #if BLOAD_AND_BSAVE
-   AddBinaryItem(theEnv,"deffunctions",0,BsaveDeffunctionFind,BsaveDeffunctionExpressions,
-                             BsaveStorageDeffunctions,BsaveDeffunctions,
-                             BloadStorageDeffunctions,BloadDeffunctions,
-                             ClearDeffunctionBload);
+    AddBinaryItem(theEnv, "deffunctions", 0, BsaveDeffunctionFind, BsaveDeffunctionExpressions,
+                  BsaveStorageDeffunctions, BsaveDeffunctions,
+                  BloadStorageDeffunctions, BloadDeffunctions,
+                  ClearDeffunctionBload);
 #else
-   AddBinaryItem(theEnv,"deffunctions",0,NULL,NULL,NULL,NULL,
-                             BloadStorageDeffunctions,BloadDeffunctions,
-                             ClearDeffunctionBload);
+    AddBinaryItem(theEnv,"deffunctions",0,NULL,NULL,NULL,NULL,
+                              BloadStorageDeffunctions,BloadDeffunctions,
+                              ClearDeffunctionBload);
 #endif
-  }
+}
 
 /***********************************************************/
 /* DeallocateDeffunctionBloadData: Deallocates environment */
 /*    data for the deffunction bsave functionality.        */
 /***********************************************************/
 static void DeallocateDeffunctionBloadData(
-  Environment *theEnv)
-  {
-   size_t space;
+        Environment *theEnv) {
+    size_t space;
 
 #if (BLOAD || BLOAD_AND_BSAVE)
-   space = DeffunctionBinaryData(theEnv)->DeffunctionCount * sizeof(Deffunction);
-   if (space != 0) genfree(theEnv,DeffunctionBinaryData(theEnv)->DeffunctionArray,space);
+    space = DeffunctionBinaryData(theEnv)->DeffunctionCount * sizeof(Deffunction);
+    if (space != 0) genfree(theEnv, DeffunctionBinaryData(theEnv)->DeffunctionArray, space);
 
-   space =  DeffunctionBinaryData(theEnv)->ModuleCount * sizeof(struct deffunctionModuleData);
-   if (space != 0) genfree(theEnv,DeffunctionBinaryData(theEnv)->ModuleArray,space);
+    space = DeffunctionBinaryData(theEnv)->ModuleCount * sizeof(struct deffunctionModuleData);
+    if (space != 0) genfree(theEnv, DeffunctionBinaryData(theEnv)->ModuleArray, space);
 #endif
-  }
+}
 
 /***************************************************
   NAME         : BloadDeffunctionModuleReference
@@ -156,11 +152,10 @@ static void DeallocateDeffunctionBloadData(
   NOTES        : None
  ***************************************************/
 void *BloadDeffunctionModuleReference(
-  Environment *theEnv,
-  unsigned long theIndex)
-  {
-   return (void *) &DeffunctionBinaryData(theEnv)->ModuleArray[theIndex];
-  }
+        Environment *theEnv,
+        unsigned long theIndex) {
+    return (void *) &DeffunctionBinaryData(theEnv)->ModuleArray[theIndex];
+}
 
 /* =========================================
    *****************************************
@@ -186,18 +181,17 @@ void *BloadDeffunctionModuleReference(
                    deffunctions will be bsaved in order of binary list)
  ***************************************************************************/
 static void BsaveDeffunctionFind(
-  Environment *theEnv)
-  {
-   SaveBloadCount(theEnv,DeffunctionBinaryData(theEnv)->ModuleCount);
-   SaveBloadCount(theEnv,DeffunctionBinaryData(theEnv)->DeffunctionCount);
-   DeffunctionBinaryData(theEnv)->DeffunctionCount = 0L;
+        Environment *theEnv) {
+    SaveBloadCount(theEnv, DeffunctionBinaryData(theEnv)->ModuleCount);
+    SaveBloadCount(theEnv, DeffunctionBinaryData(theEnv)->DeffunctionCount);
+    DeffunctionBinaryData(theEnv)->DeffunctionCount = 0L;
 
-   DeffunctionBinaryData(theEnv)->ModuleCount = GetNumberOfDefmodules(theEnv);
-   
-   DoForAllConstructs(theEnv,MarkDeffunctionItems,
-                      DeffunctionData(theEnv)->DeffunctionModuleIndex,
-                      false,NULL);
-  }
+    DeffunctionBinaryData(theEnv)->ModuleCount = GetNumberOfDefmodules(theEnv);
+
+    DoForAllConstructs(theEnv, MarkDeffunctionItems,
+                       DeffunctionData(theEnv)->DeffunctionModuleIndex,
+                       false, NULL);
+}
 
 /***************************************************
   NAME         : MarkDeffunctionItems
@@ -210,18 +204,17 @@ static void BsaveDeffunctionFind(
   NOTES        : None
  ***************************************************/
 static void MarkDeffunctionItems(
-  Environment *theEnv,
-  ConstructHeader *theDeffunction,
-  void *userBuffer)
-  {
+        Environment *theEnv,
+        ConstructHeader *theDeffunction,
+        void *userBuffer) {
 #if MAC_XCD
 #pragma unused(userBuffer)
 #endif
 
-   MarkConstructHeaderNeededItems(theDeffunction,DeffunctionBinaryData(theEnv)->DeffunctionCount++);
-   ExpressionData(theEnv)->ExpressionCount += ExpressionSize(((Deffunction *) theDeffunction)->code);
-   MarkNeededItems(theEnv,((Deffunction *) theDeffunction)->code);
-  }
+    MarkConstructHeaderNeededItems(theDeffunction, DeffunctionBinaryData(theEnv)->DeffunctionCount++);
+    ExpressionData(theEnv)->ExpressionCount += ExpressionSize(((Deffunction *) theDeffunction)->code);
+    MarkNeededItems(theEnv, ((Deffunction *) theDeffunction)->code);
+}
 
 /***************************************************
   NAME         : BsaveDeffunctionExpressions
@@ -233,12 +226,11 @@ static void MarkDeffunctionItems(
   NOTES        : None
  ***************************************************/
 static void BsaveDeffunctionExpressions(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   DoForAllConstructs(theEnv,BsaveDeffunctionExpression,DeffunctionData(theEnv)->DeffunctionModuleIndex,
-                      false,fp);
-  }
+        Environment *theEnv,
+        FILE *fp) {
+    DoForAllConstructs(theEnv, BsaveDeffunctionExpression, DeffunctionData(theEnv)->DeffunctionModuleIndex,
+                       false, fp);
+}
 
 /***************************************************
   NAME         : BsaveDeffunctionExpression
@@ -251,12 +243,11 @@ static void BsaveDeffunctionExpressions(
   NOTES        : None
  ***************************************************/
 static void BsaveDeffunctionExpression(
-  Environment *theEnv,
-  ConstructHeader *theDeffunction,
-  void *userBuffer)
-  {
-   BsaveExpression(theEnv,((Deffunction *) theDeffunction)->code,(FILE *) userBuffer);
-  }
+        Environment *theEnv,
+        ConstructHeader *theDeffunction,
+        void *userBuffer) {
+    BsaveExpression(theEnv, ((Deffunction *) theDeffunction)->code, (FILE *) userBuffer);
+}
 
 /***********************************************************
   NAME         : BsaveStorageDeffunctions
@@ -269,16 +260,15 @@ static void BsaveDeffunctionExpression(
   NOTES        : None
  ***********************************************************/
 static void BsaveStorageDeffunctions(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   size_t space;
+        Environment *theEnv,
+        FILE *fp) {
+    size_t space;
 
-   space = sizeof(unsigned long) * 2;
-   GenWrite(&space,sizeof(size_t),fp);
-   GenWrite(&DeffunctionBinaryData(theEnv)->ModuleCount,sizeof(unsigned long),fp);
-   GenWrite(&DeffunctionBinaryData(theEnv)->DeffunctionCount,sizeof(unsigned long),fp);
-  }
+    space = sizeof(unsigned long) * 2;
+    GenWrite(&space, sizeof(size_t), fp);
+    GenWrite(&DeffunctionBinaryData(theEnv)->ModuleCount, sizeof(unsigned long), fp);
+    GenWrite(&DeffunctionBinaryData(theEnv)->DeffunctionCount, sizeof(unsigned long), fp);
+}
 
 /*************************************************************************************
   NAME         : BsaveDeffunctions
@@ -291,41 +281,39 @@ static void BsaveStorageDeffunctions(
   NOTES        : None
  *************************************************************************************/
 static void BsaveDeffunctions(
-  Environment *theEnv,
-  FILE *fp)
-  {
-   size_t space;
-   Defmodule *theModule;
-   DeffunctionModuleData *theModuleItem;
-   BSAVE_DEFFUNCTION_MODULE dummy_mitem;
+        Environment *theEnv,
+        FILE *fp) {
+    size_t space;
+    Defmodule *theModule;
+    DeffunctionModuleData *theModuleItem;
+    BSAVE_DEFFUNCTION_MODULE dummy_mitem;
 
-   space = ((sizeof(BSAVE_DEFFUNCTION_MODULE) * DeffunctionBinaryData(theEnv)->ModuleCount) +
-            (sizeof(BSAVE_DEFFUNCTION) * DeffunctionBinaryData(theEnv)->DeffunctionCount));
-   GenWrite(&space,sizeof(size_t),fp);
+    space = ((sizeof(BSAVE_DEFFUNCTION_MODULE) * DeffunctionBinaryData(theEnv)->ModuleCount) +
+             (sizeof(BSAVE_DEFFUNCTION) * DeffunctionBinaryData(theEnv)->DeffunctionCount));
+    GenWrite(&space, sizeof(size_t), fp);
 
-   /* =================================
-      Write out each deffunction module
-      ================================= */
-   DeffunctionBinaryData(theEnv)->DeffunctionCount = 0L;
-   theModule = GetNextDefmodule(theEnv,NULL);
-   while (theModule != NULL)
-     {
-      theModuleItem = (DeffunctionModuleData *)
-                      GetModuleItem(theEnv,theModule,FindModuleItem(theEnv,"deffunction")->moduleIndex);
-      AssignBsaveDefmdlItemHdrVals(&dummy_mitem.header,&theModuleItem->header);
-      GenWrite(&dummy_mitem,sizeof(BSAVE_DEFFUNCTION_MODULE),fp);
-      theModule = GetNextDefmodule(theEnv,theModule);
-     }
+    /* =================================
+       Write out each deffunction module
+       ================================= */
+    DeffunctionBinaryData(theEnv)->DeffunctionCount = 0L;
+    theModule = GetNextDefmodule(theEnv, NULL);
+    while (theModule != NULL) {
+        theModuleItem = (DeffunctionModuleData *)
+                GetModuleItem(theEnv, theModule, FindModuleItem(theEnv, "deffunction")->moduleIndex);
+        AssignBsaveDefmdlItemHdrVals(&dummy_mitem.header, &theModuleItem->header);
+        GenWrite(&dummy_mitem, sizeof(BSAVE_DEFFUNCTION_MODULE), fp);
+        theModule = GetNextDefmodule(theEnv, theModule);
+    }
 
-   /* ==========================
-      Write out each deffunction
-      ========================== */
-   DoForAllConstructs(theEnv,BsaveDeffunction,DeffunctionData(theEnv)->DeffunctionModuleIndex,
-                      false,fp);
+    /* ==========================
+       Write out each deffunction
+       ========================== */
+    DoForAllConstructs(theEnv, BsaveDeffunction, DeffunctionData(theEnv)->DeffunctionModuleIndex,
+                       false, fp);
 
-   RestoreBloadCount(theEnv,&DeffunctionBinaryData(theEnv)->ModuleCount);
-   RestoreBloadCount(theEnv,&DeffunctionBinaryData(theEnv)->DeffunctionCount);
-  }
+    RestoreBloadCount(theEnv, &DeffunctionBinaryData(theEnv)->ModuleCount);
+    RestoreBloadCount(theEnv, &DeffunctionBinaryData(theEnv)->DeffunctionCount);
+}
 
 /***************************************************
   NAME         : BsaveDeffunction
@@ -337,26 +325,23 @@ static void BsaveDeffunctions(
   NOTES        : None
  ***************************************************/
 static void BsaveDeffunction(
-  Environment *theEnv,
-  ConstructHeader *theDeffunction,
-  void *userBuffer)
-  {
-   Deffunction *dptr = (Deffunction *) theDeffunction;
-   BSAVE_DEFFUNCTION dummy_df;
+        Environment *theEnv,
+        ConstructHeader *theDeffunction,
+        void *userBuffer) {
+    Deffunction *dptr = (Deffunction *) theDeffunction;
+    BSAVE_DEFFUNCTION dummy_df;
 
-   AssignBsaveConstructHeaderVals(&dummy_df.header,&dptr->header);
-   dummy_df.minNumberOfParameters = dptr->minNumberOfParameters;
-   dummy_df.maxNumberOfParameters = dptr->maxNumberOfParameters;
-   dummy_df.numberOfLocalVars = dptr->numberOfLocalVars;
-   if (dptr->code != NULL)
-     {
-      dummy_df.code = ExpressionData(theEnv)->ExpressionCount;
-      ExpressionData(theEnv)->ExpressionCount += ExpressionSize(dptr->code);
-     }
-   else
-     dummy_df.code = ULONG_MAX;
-   GenWrite(&dummy_df,sizeof(BSAVE_DEFFUNCTION),(FILE *) userBuffer);
-  }
+    AssignBsaveConstructHeaderVals(&dummy_df.header, &dptr->header);
+    dummy_df.minNumberOfParameters = dptr->minNumberOfParameters;
+    dummy_df.maxNumberOfParameters = dptr->maxNumberOfParameters;
+    dummy_df.numberOfLocalVars = dptr->numberOfLocalVars;
+    if (dptr->code != NULL) {
+        dummy_df.code = ExpressionData(theEnv)->ExpressionCount;
+        ExpressionData(theEnv)->ExpressionCount += ExpressionSize(dptr->code);
+    } else
+        dummy_df.code = ULONG_MAX;
+    GenWrite(&dummy_df, sizeof(BSAVE_DEFFUNCTION), (FILE *) userBuffer);
+}
 
 #endif
 
@@ -371,34 +356,31 @@ static void BsaveDeffunction(
                    within the structures
  ***********************************************************************/
 static void BloadStorageDeffunctions(
-  Environment *theEnv)
-  {
-   size_t space;
+        Environment *theEnv) {
+    size_t space;
 
-   GenReadBinary(theEnv,&space,sizeof(size_t));
-   if (space == 0L)
-     return;
-   GenReadBinary(theEnv,&DeffunctionBinaryData(theEnv)->ModuleCount,sizeof(unsigned long));
-   GenReadBinary(theEnv,&DeffunctionBinaryData(theEnv)->DeffunctionCount,sizeof(unsigned long));
-   if (DeffunctionBinaryData(theEnv)->ModuleCount == 0L)
-     {
-      DeffunctionBinaryData(theEnv)->ModuleArray = NULL;
-      DeffunctionBinaryData(theEnv)->DeffunctionArray = NULL;
-      return;
-     }
+    GenReadBinary(theEnv, &space, sizeof(size_t));
+    if (space == 0L)
+        return;
+    GenReadBinary(theEnv, &DeffunctionBinaryData(theEnv)->ModuleCount, sizeof(unsigned long));
+    GenReadBinary(theEnv, &DeffunctionBinaryData(theEnv)->DeffunctionCount, sizeof(unsigned long));
+    if (DeffunctionBinaryData(theEnv)->ModuleCount == 0L) {
+        DeffunctionBinaryData(theEnv)->ModuleArray = NULL;
+        DeffunctionBinaryData(theEnv)->DeffunctionArray = NULL;
+        return;
+    }
 
-   space = (DeffunctionBinaryData(theEnv)->ModuleCount * sizeof(DeffunctionModuleData));
-   DeffunctionBinaryData(theEnv)->ModuleArray = (DeffunctionModuleData *) genalloc(theEnv,space);
+    space = (DeffunctionBinaryData(theEnv)->ModuleCount * sizeof(DeffunctionModuleData));
+    DeffunctionBinaryData(theEnv)->ModuleArray = (DeffunctionModuleData *) genalloc(theEnv, space);
 
-   if (DeffunctionBinaryData(theEnv)->DeffunctionCount == 0L)
-     {
-      DeffunctionBinaryData(theEnv)->DeffunctionArray = NULL;
-      return;
-     }
+    if (DeffunctionBinaryData(theEnv)->DeffunctionCount == 0L) {
+        DeffunctionBinaryData(theEnv)->DeffunctionArray = NULL;
+        return;
+    }
 
-   space = (DeffunctionBinaryData(theEnv)->DeffunctionCount * sizeof(Deffunction));
-   DeffunctionBinaryData(theEnv)->DeffunctionArray = (Deffunction *) genalloc(theEnv,space);
-  }
+    space = (DeffunctionBinaryData(theEnv)->DeffunctionCount * sizeof(Deffunction));
+    DeffunctionBinaryData(theEnv)->DeffunctionArray = (Deffunction *) genalloc(theEnv, space);
+}
 
 /*********************************************************************
   NAME         : BloadDeffunctions
@@ -412,14 +394,13 @@ static void BloadStorageDeffunctions(
   NOTES        : Assumes all loading is finished
  ********************************************************************/
 static void BloadDeffunctions(
-  Environment *theEnv)
-  {
-   size_t space;
+        Environment *theEnv) {
+    size_t space;
 
-   GenReadBinary(theEnv,&space,sizeof(size_t));
-   BloadandRefresh(theEnv,DeffunctionBinaryData(theEnv)->ModuleCount,sizeof(BSAVE_DEFFUNCTION_MODULE),UpdateDeffunctionModule);
-   BloadandRefresh(theEnv,DeffunctionBinaryData(theEnv)->DeffunctionCount,sizeof(BSAVE_DEFFUNCTION),UpdateDeffunction);
-  }
+    GenReadBinary(theEnv, &space, sizeof(size_t));
+    BloadandRefresh(theEnv, DeffunctionBinaryData(theEnv)->ModuleCount, sizeof(BSAVE_DEFFUNCTION_MODULE), UpdateDeffunctionModule);
+    BloadandRefresh(theEnv, DeffunctionBinaryData(theEnv)->DeffunctionCount, sizeof(BSAVE_DEFFUNCTION), UpdateDeffunction);
+}
 
 /*******************************************************
   NAME         : UpdateDeffunctionModule
@@ -434,16 +415,15 @@ static void BloadDeffunctions(
   NOTES        : None
  *******************************************************/
 static void UpdateDeffunctionModule(
-  Environment *theEnv,
-  void *buf,
-  unsigned long obji)
-  {
-   BSAVE_DEFFUNCTION_MODULE *bdptr;
+        Environment *theEnv,
+        void *buf,
+        unsigned long obji) {
+    BSAVE_DEFFUNCTION_MODULE *bdptr;
 
-   bdptr = (BSAVE_DEFFUNCTION_MODULE *) buf;
-   UpdateDefmoduleItemHeader(theEnv,&bdptr->header,&DeffunctionBinaryData(theEnv)->ModuleArray[obji].header,
-                             sizeof(Deffunction),DeffunctionBinaryData(theEnv)->DeffunctionArray);
-  }
+    bdptr = (BSAVE_DEFFUNCTION_MODULE *) buf;
+    UpdateDefmoduleItemHeader(theEnv, &bdptr->header, &DeffunctionBinaryData(theEnv)->ModuleArray[obji].header,
+                              sizeof(Deffunction), DeffunctionBinaryData(theEnv)->DeffunctionArray);
+}
 
 /***************************************************
   NAME         : UpdateDeffunction
@@ -458,30 +438,29 @@ static void UpdateDeffunctionModule(
   NOTES        : None
  ***************************************************/
 static void UpdateDeffunction(
-  Environment *theEnv,
-  void *buf,
-  unsigned long obji)
-  {
-   BSAVE_DEFFUNCTION *bdptr;
-   Deffunction *dptr;
+        Environment *theEnv,
+        void *buf,
+        unsigned long obji) {
+    BSAVE_DEFFUNCTION *bdptr;
+    Deffunction *dptr;
 
-   bdptr = (BSAVE_DEFFUNCTION *) buf;
-   dptr = &DeffunctionBinaryData(theEnv)->DeffunctionArray[obji];
+    bdptr = (BSAVE_DEFFUNCTION *) buf;
+    dptr = &DeffunctionBinaryData(theEnv)->DeffunctionArray[obji];
 
-   UpdateConstructHeader(theEnv,&bdptr->header,&dptr->header,DEFFUNCTION,
-                         sizeof(DeffunctionModuleData),DeffunctionBinaryData(theEnv)->ModuleArray,
-                         sizeof(Deffunction),DeffunctionBinaryData(theEnv)->DeffunctionArray);
+    UpdateConstructHeader(theEnv, &bdptr->header, &dptr->header, DEFFUNCTION,
+                          sizeof(DeffunctionModuleData), DeffunctionBinaryData(theEnv)->ModuleArray,
+                          sizeof(Deffunction), DeffunctionBinaryData(theEnv)->DeffunctionArray);
 
-   dptr->code = ExpressionPointer(bdptr->code);
-   dptr->busy = 0;
-   dptr->executing = 0;
+    dptr->code = ExpressionPointer(bdptr->code);
+    dptr->busy = 0;
+    dptr->executing = 0;
 #if DEBUGGING_FUNCTIONS
-   dptr->trace = DeffunctionData(theEnv)->WatchDeffunctions;
+    dptr->trace = DeffunctionData(theEnv)->WatchDeffunctions;
 #endif
-   dptr->minNumberOfParameters = bdptr->minNumberOfParameters;
-   dptr->maxNumberOfParameters = bdptr->maxNumberOfParameters;
-   dptr->numberOfLocalVars = bdptr->numberOfLocalVars;
-  }
+    dptr->minNumberOfParameters = bdptr->minNumberOfParameters;
+    dptr->maxNumberOfParameters = bdptr->maxNumberOfParameters;
+    dptr->numberOfLocalVars = bdptr->numberOfLocalVars;
+}
 
 /***************************************************************
   NAME         : ClearDeffunctionBload
@@ -494,27 +473,26 @@ static void UpdateDeffunction(
   NOTES        : Deffunction name symbol counts decremented
  ***************************************************************/
 static void ClearDeffunctionBload(
-  Environment *theEnv)
-  {
-   unsigned long i;
-   size_t space;
+        Environment *theEnv) {
+    unsigned long i;
+    size_t space;
 
-   space = (sizeof(DeffunctionModuleData) * DeffunctionBinaryData(theEnv)->ModuleCount);
-   if (space == 0L)
-     return;
-   genfree(theEnv,DeffunctionBinaryData(theEnv)->ModuleArray,space);
-   DeffunctionBinaryData(theEnv)->ModuleArray = NULL;
-   DeffunctionBinaryData(theEnv)->ModuleCount = 0L;
+    space = (sizeof(DeffunctionModuleData) * DeffunctionBinaryData(theEnv)->ModuleCount);
+    if (space == 0L)
+        return;
+    genfree(theEnv, DeffunctionBinaryData(theEnv)->ModuleArray, space);
+    DeffunctionBinaryData(theEnv)->ModuleArray = NULL;
+    DeffunctionBinaryData(theEnv)->ModuleCount = 0L;
 
-   for (i = 0 ; i < DeffunctionBinaryData(theEnv)->DeffunctionCount ; i++)
-     UnmarkConstructHeader(theEnv,&DeffunctionBinaryData(theEnv)->DeffunctionArray[i].header);
-   space = (sizeof(Deffunction) * DeffunctionBinaryData(theEnv)->DeffunctionCount);
-   if (space == 0)
-     return;
-   genfree(theEnv,DeffunctionBinaryData(theEnv)->DeffunctionArray,space);
-   DeffunctionBinaryData(theEnv)->DeffunctionArray = NULL;
-   DeffunctionBinaryData(theEnv)->DeffunctionCount = 0L;
-  }
+    for (i = 0; i < DeffunctionBinaryData(theEnv)->DeffunctionCount; i++)
+        UnmarkConstructHeader(theEnv, &DeffunctionBinaryData(theEnv)->DeffunctionArray[i].header);
+    space = (sizeof(Deffunction) * DeffunctionBinaryData(theEnv)->DeffunctionCount);
+    if (space == 0)
+        return;
+    genfree(theEnv, DeffunctionBinaryData(theEnv)->DeffunctionArray, space);
+    DeffunctionBinaryData(theEnv)->DeffunctionArray = NULL;
+    DeffunctionBinaryData(theEnv)->DeffunctionCount = 0L;
+}
 
 #endif
 

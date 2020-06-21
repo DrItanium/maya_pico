@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  05/03/19            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  05/03/19            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -79,78 +79,72 @@ typedef struct classAlphaLink CLASS_ALPHA_LINK;
 #include "object.h"
 #include "Symbol.h"
 
-typedef struct classBitMap
-  {
-   unsigned short maxid;
-   char map[1];
-  } CLASS_BITMAP;
+typedef struct classBitMap {
+    unsigned short maxid;
+    char map[1];
+} CLASS_BITMAP;
 
 #define ClassBitMapSize(bmp) ((sizeof(CLASS_BITMAP) + \
                                      (sizeof(char) * (bmp->maxid / BITS_PER_BYTE))))
 
-typedef struct slotBitMap
-  {
-   unsigned short maxid;
-   char map[1];
-  } SLOT_BITMAP;
+typedef struct slotBitMap {
+    unsigned short maxid;
+    char map[1];
+} SLOT_BITMAP;
 
 #define SlotBitMapSize(bmp) ((sizeof(SLOT_BITMAP) + \
                                      (sizeof(char) * (bmp->maxid / BITS_PER_BYTE))))
 
-typedef struct objectPatternNode
-  {
-   unsigned blocked        : 1;
-   unsigned multifieldNode : 1;
-   unsigned endSlot        : 1;
-   unsigned selector       : 1;
-   unsigned whichField     : 8;
-   unsigned short leaveFields;
-   unsigned long long matchTimeTag;
-   unsigned short slotNameID;
-   Expression *networkTest;
-   struct objectPatternNode *nextLevel;
-   struct objectPatternNode *lastLevel;
-   struct objectPatternNode *leftNode;
-   struct objectPatternNode *rightNode;
-   OBJECT_ALPHA_NODE *alphaNode;
-   unsigned long bsaveID;
-  } OBJECT_PATTERN_NODE;
+typedef struct objectPatternNode {
+    unsigned blocked: 1;
+    unsigned multifieldNode: 1;
+    unsigned endSlot: 1;
+    unsigned selector: 1;
+    unsigned whichField: 8;
+    unsigned short leaveFields;
+    unsigned long long matchTimeTag;
+    unsigned short slotNameID;
+    Expression *networkTest;
+    struct objectPatternNode *nextLevel;
+    struct objectPatternNode *lastLevel;
+    struct objectPatternNode *leftNode;
+    struct objectPatternNode *rightNode;
+    OBJECT_ALPHA_NODE *alphaNode;
+    unsigned long bsaveID;
+} OBJECT_PATTERN_NODE;
 
-struct objectAlphaNode
-  {
-   struct patternNodeHeader header;
-   unsigned long long matchTimeTag;
-   CLIPSBitMap *classbmp,*slotbmp;
-   OBJECT_PATTERN_NODE *patternNode;
-   struct objectAlphaNode *nxtInGroup,
-                          *nxtTerminal;
-   unsigned long bsaveID;
-  };
+struct objectAlphaNode {
+    struct patternNodeHeader header;
+    unsigned long long matchTimeTag;
+    CLIPSBitMap *classbmp, *slotbmp;
+    OBJECT_PATTERN_NODE *patternNode;
+    struct objectAlphaNode *nxtInGroup,
+            *nxtTerminal;
+    unsigned long bsaveID;
+};
 
-struct classAlphaLink
-  {
-   OBJECT_ALPHA_NODE *alphaNode;
-   struct classAlphaLink *next;
-   unsigned long bsaveID;
-  };
+struct classAlphaLink {
+    OBJECT_ALPHA_NODE *alphaNode;
+    struct classAlphaLink *next;
+    unsigned long bsaveID;
+};
 
-typedef struct objectMatchAction
-  {
-   int type;
-   Instance *ins;
-   SLOT_BITMAP *slotNameIDs;
-   struct objectMatchAction *nxt;
-  } OBJECT_MATCH_ACTION;
+typedef struct objectMatchAction {
+    int type;
+    Instance *ins;
+    SLOT_BITMAP *slotNameIDs;
+    struct objectMatchAction *nxt;
+} OBJECT_MATCH_ACTION;
 
-   void                  ObjectMatchDelay(Environment *,UDFContext *,UDFValue *);
-   bool                  SetDelayObjectPatternMatching(Environment *,bool);
-   bool                  GetDelayObjectPatternMatching(Environment *);
-   OBJECT_PATTERN_NODE  *ObjectNetworkPointer(Environment *);
-   OBJECT_ALPHA_NODE    *ObjectNetworkTerminalPointer(Environment *);
-   void                  SetObjectNetworkPointer(Environment *,OBJECT_PATTERN_NODE *);
-   void                  SetObjectNetworkTerminalPointer(Environment *,OBJECT_ALPHA_NODE *);
-   void                  ObjectNetworkAction(Environment *,int,Instance *,int);
-   void                  ResetObjectMatchTimeTags(Environment *);
+void ObjectMatchDelay(Environment *, UDFContext *, UDFValue *);
+bool SetDelayObjectPatternMatching(Environment *, bool);
+bool GetDelayObjectPatternMatching(Environment *);
+OBJECT_PATTERN_NODE *ObjectNetworkPointer(Environment *);
+OBJECT_ALPHA_NODE *ObjectNetworkTerminalPointer(Environment *);
+void SetObjectNetworkPointer(Environment *, OBJECT_PATTERN_NODE *);
+void SetObjectNetworkTerminalPointer(Environment *, OBJECT_ALPHA_NODE *);
+void ObjectNetworkAction(Environment *, int, Instance *, int);
+void ResetObjectMatchTimeTags(Environment *);
 
 #endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 

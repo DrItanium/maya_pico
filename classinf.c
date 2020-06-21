@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  08/25/16             */
-   /*                                                     */
-   /*        CLASS INFO PROGRAMMATIC ACCESS MODULE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  08/25/16             */
+/*                                                     */
+/*        CLASS INFO PROGRAMMATIC ACCESS MODULE        */
+/*******************************************************/
 
 /**************************************************************/
 /* Purpose: Class Information Interface Support Routines      */
@@ -86,10 +86,10 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                    SlotInfoSupportFunction(UDFContext *,UDFValue *,const char *,bool (*)(Defclass *,const char *,CLIPSValue *));
-   static unsigned                CountSubclasses(Defclass *,bool,int);
-   static unsigned                StoreSubclasses(Multifield *,unsigned,Defclass *,int,int,bool);
-   static SlotDescriptor         *SlotInfoSlot(Environment *,UDFValue *,Defclass *,const char *,const char *);
+static void SlotInfoSupportFunction(UDFContext *, UDFValue *, const char *, bool (*)(Defclass *, const char *, CLIPSValue *));
+static unsigned CountSubclasses(Defclass *, bool, int);
+static unsigned StoreSubclasses(Multifield *, unsigned, Defclass *, int, int, bool);
+static SlotDescriptor *SlotInfoSlot(Environment *, UDFValue *, Defclass *, const char *, const char *);
 
 /*********************************************************************
   NAME         : ClassAbstractPCommand
@@ -100,26 +100,23 @@
   NOTES        : Syntax: (class-abstractp <class>)
  *********************************************************************/
 void ClassAbstractPCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue theArg;
-   Defclass *cls;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UDFValue theArg;
+    Defclass *cls;
 
-   if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
-     { return; }
+    if (!UDFFirstArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-   cls = LookupDefclassByMdlOrScope(theEnv,theArg.lexemeValue->contents);
-   if (cls == NULL)
-     {
-      ClassExistError(theEnv,"class-abstractp",theArg.lexemeValue->contents);
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    cls = LookupDefclassByMdlOrScope(theEnv, theArg.lexemeValue->contents);
+    if (cls == NULL) {
+        ClassExistError(theEnv, "class-abstractp", theArg.lexemeValue->contents);
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   returnValue->lexemeValue = CreateBoolean(theEnv,(ClassAbstractP(cls)));
-  }
+    returnValue->lexemeValue = CreateBoolean(theEnv, (ClassAbstractP(cls)));
+}
 
 #if DEFRULE_CONSTRUCT
 
@@ -134,26 +131,23 @@ void ClassAbstractPCommand(
   NOTES        : Syntax: (class-reactivep <class>)
  *****************************************************************/
 void ClassReactivePCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue theArg;
-   Defclass *cls;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UDFValue theArg;
+    Defclass *cls;
 
-   if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
-     { return; }
+    if (!UDFFirstArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-   cls = LookupDefclassByMdlOrScope(theEnv,theArg.lexemeValue->contents);
-   if (cls == NULL)
-     {
-      ClassExistError(theEnv,"class-reactivep",theArg.lexemeValue->contents);
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    cls = LookupDefclassByMdlOrScope(theEnv, theArg.lexemeValue->contents);
+    if (cls == NULL) {
+        ClassExistError(theEnv, "class-reactivep", theArg.lexemeValue->contents);
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   returnValue->lexemeValue = CreateBoolean(theEnv,ClassReactiveP(cls));
-  }
+    returnValue->lexemeValue = CreateBoolean(theEnv, ClassReactiveP(cls));
+}
 
 #endif
 
@@ -172,43 +166,36 @@ void ClassReactivePCommand(
   NOTES        : None
  ***********************************************************/
 Defclass *ClassInfoFnxArgs(
-  UDFContext *context,
-  const char *fnx,
-  bool *inhp)
-  {
-   Defclass *clsptr;
-   UDFValue theArg;
-   Environment *theEnv = context->environment;
+        UDFContext *context,
+        const char *fnx,
+        bool *inhp) {
+    Defclass *clsptr;
+    UDFValue theArg;
+    Environment *theEnv = context->environment;
 
-   *inhp = false;
+    *inhp = false;
 
-   if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
-     { return NULL; }
+    if (!UDFFirstArgument(context, SYMBOL_BIT, &theArg)) { return NULL; }
 
-   clsptr = LookupDefclassByMdlOrScope(theEnv,theArg.lexemeValue->contents);
-   if (clsptr == NULL)
-     {
-      ClassExistError(theEnv,fnx,theArg.lexemeValue->contents);
-      return NULL;
-     }
+    clsptr = LookupDefclassByMdlOrScope(theEnv, theArg.lexemeValue->contents);
+    if (clsptr == NULL) {
+        ClassExistError(theEnv, fnx, theArg.lexemeValue->contents);
+        return NULL;
+    }
 
-   if (UDFHasNextArgument(context))
-     {
-      if (! UDFNextArgument(context,SYMBOL_BIT,&theArg))
-        { return NULL; }
+    if (UDFHasNextArgument(context)) {
+        if (!UDFNextArgument(context, SYMBOL_BIT, &theArg)) { return NULL; }
 
-      if (strcmp(theArg.lexemeValue->contents,"inherit") == 0)
-        { *inhp = true; }
-      else
-        {
-         SyntaxErrorMessage(theEnv,fnx);
-         SetEvaluationError(theEnv,true);
-         return NULL;
+        if (strcmp(theArg.lexemeValue->contents, "inherit") == 0) { *inhp = true; }
+        else {
+            SyntaxErrorMessage(theEnv, fnx);
+            SetEvaluationError(theEnv, true);
+            return NULL;
         }
-     }
+    }
 
-   return clsptr;
-  }
+    return clsptr;
+}
 
 /********************************************************************
   NAME         : ClassSlotsCommand
@@ -221,23 +208,21 @@ Defclass *ClassInfoFnxArgs(
   NOTES        : Syntax: (class-slots <class> [inherit])
  ********************************************************************/
 void ClassSlotsCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   bool inhp;
-   Defclass *clsptr;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    bool inhp;
+    Defclass *clsptr;
+    CLIPSValue result;
 
-   clsptr = ClassInfoFnxArgs(context,"class-slots",&inhp);
-   if (clsptr == NULL)
-     {
-      SetMultifieldErrorValue(theEnv,returnValue);
-      return;
-     }
-   ClassSlots(clsptr,&result,inhp);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    clsptr = ClassInfoFnxArgs(context, "class-slots", &inhp);
+    if (clsptr == NULL) {
+        SetMultifieldErrorValue(theEnv, returnValue);
+        return;
+    }
+    ClassSlots(clsptr, &result, inhp);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /************************************************************************
   NAME         : ClassSuperclassesCommand
@@ -250,23 +235,21 @@ void ClassSlotsCommand(
   NOTES        : Syntax: (class-superclasses <class> [inherit])
  ************************************************************************/
 void ClassSuperclassesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   bool inhp;
-   Defclass *clsptr;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    bool inhp;
+    Defclass *clsptr;
+    CLIPSValue result;
 
-   clsptr = ClassInfoFnxArgs(context,"class-superclasses",&inhp);
-   if (clsptr == NULL)
-     {
-      SetMultifieldErrorValue(theEnv,returnValue);
-      return;
-     }
-   ClassSuperclasses(clsptr,&result,inhp);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    clsptr = ClassInfoFnxArgs(context, "class-superclasses", &inhp);
+    if (clsptr == NULL) {
+        SetMultifieldErrorValue(theEnv, returnValue);
+        return;
+    }
+    ClassSuperclasses(clsptr, &result, inhp);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /************************************************************************
   NAME         : ClassSubclassesCommand
@@ -279,23 +262,21 @@ void ClassSuperclassesCommand(
   NOTES        : Syntax: (class-subclasses <class> [inherit])
  ************************************************************************/
 void ClassSubclassesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   bool inhp;
-   Defclass *clsptr;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    bool inhp;
+    Defclass *clsptr;
+    CLIPSValue result;
 
-   clsptr = ClassInfoFnxArgs(context,"class-subclasses",&inhp);
-   if (clsptr == NULL)
-     {
-      SetMultifieldErrorValue(theEnv,returnValue);
-      return;
-     }
-   ClassSubclasses(clsptr,&result,inhp);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    clsptr = ClassInfoFnxArgs(context, "class-subclasses", &inhp);
+    if (clsptr == NULL) {
+        SetMultifieldErrorValue(theEnv, returnValue);
+        return;
+    }
+    ClassSubclasses(clsptr, &result, inhp);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /***********************************************************************
   NAME         : GetDefmessageHandlersListCmd
@@ -308,91 +289,79 @@ void ClassSubclassesCommand(
   NOTES        : Syntax: (get-defmessage-handler-list <class> [inherit])
  ***********************************************************************/
 void GetDefmessageHandlersListCmd(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   bool inhp;
-   Defclass *clsptr;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    bool inhp;
+    Defclass *clsptr;
+    CLIPSValue result;
 
-   if (! UDFHasNextArgument(context))
-     {
-      GetDefmessageHandlerList(theEnv,NULL,&result,false);
-      CLIPSToUDFValue(&result,returnValue);
-     }
-   else
-     {
-      clsptr = ClassInfoFnxArgs(context,"get-defmessage-handler-list",&inhp);
-      if (clsptr == NULL)
-        {
-         SetMultifieldErrorValue(theEnv,returnValue);
-         return;
+    if (!UDFHasNextArgument(context)) {
+        GetDefmessageHandlerList(theEnv, NULL, &result, false);
+        CLIPSToUDFValue(&result, returnValue);
+    } else {
+        clsptr = ClassInfoFnxArgs(context, "get-defmessage-handler-list", &inhp);
+        if (clsptr == NULL) {
+            SetMultifieldErrorValue(theEnv, returnValue);
+            return;
         }
-        
-      GetDefmessageHandlerList(theEnv,clsptr,&result,inhp);
-      CLIPSToUDFValue(&result,returnValue);
-     }
-  }
+
+        GetDefmessageHandlerList(theEnv, clsptr, &result, inhp);
+        CLIPSToUDFValue(&result, returnValue);
+    }
+}
 
 /*********************************
  Slot Information Access Functions
  *********************************/
 void SlotFacetsCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-facets",SlotFacets);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-facets", SlotFacets);
+}
 
 void SlotSourcesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-sources",SlotSources);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-sources", SlotSources);
+}
 
 void SlotTypesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-types",SlotTypes);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-types", SlotTypes);
+}
 
 void SlotAllowedValuesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-allowed-values",SlotAllowedValues);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-allowed-values", SlotAllowedValues);
+}
 
 void SlotAllowedClassesCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-allowed-classes",SlotAllowedClasses);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-allowed-classes", SlotAllowedClasses);
+}
 
 void SlotRangeCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-range",SlotRange);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-range", SlotRange);
+}
 
 void SlotCardinalityCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   SlotInfoSupportFunction(context,returnValue,"slot-cardinality",SlotCardinality);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    SlotInfoSupportFunction(context, returnValue, "slot-cardinality", SlotCardinality);
+}
 
 /********************************************************************
   NAME         : ClassAbstractP
@@ -403,10 +372,9 @@ void SlotCardinalityCommand(
   NOTES        : None
  ********************************************************************/
 bool ClassAbstractP(
-  Defclass *theDefclass)
-  {
-   return theDefclass->abstract;
-  }
+        Defclass *theDefclass) {
+    return theDefclass->abstract;
+}
 
 #if DEFRULE_CONSTRUCT
 
@@ -419,10 +387,9 @@ bool ClassAbstractP(
   NOTES        : None
  ********************************************************************/
 bool ClassReactiveP(
-  Defclass *theDefclass)
-  {
-   return theDefclass->reactive;
-  }
+        Defclass *theDefclass) {
+    return theDefclass->reactive;
+}
 
 #endif
 
@@ -439,38 +406,31 @@ bool ClassReactiveP(
   NOTES        : None
  ********************************************************************/
 void ClassSlots(
-  Defclass *theDefclass,
-  CLIPSValue *returnValue,
-  bool inhp)
-  {
-   size_t size;
-   unsigned i;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        CLIPSValue *returnValue,
+        bool inhp) {
+    size_t size;
+    unsigned i;
+    Environment *theEnv = theDefclass->header.env;
 
-   size = inhp ? theDefclass->instanceSlotCount : theDefclass->slotCount;
+    size = inhp ? theDefclass->instanceSlotCount : theDefclass->slotCount;
 
-   returnValue->value = CreateMultifield(theEnv,size);
+    returnValue->value = CreateMultifield(theEnv, size);
 
-   if (size == 0)
-     { return; }
+    if (size == 0) { return; }
 
-   if (inhp)
-     {
-      for (i = 0 ; i < theDefclass->instanceSlotCount ; i++)
-        {
-         returnValue->multifieldValue->contents[i].value =
-            theDefclass->instanceTemplate[i]->slotName->name;
+    if (inhp) {
+        for (i = 0; i < theDefclass->instanceSlotCount; i++) {
+            returnValue->multifieldValue->contents[i].value =
+                    theDefclass->instanceTemplate[i]->slotName->name;
         }
-     }
-   else
-     {
-      for (i = 0 ; i < theDefclass->slotCount ; i++)
-        {
-         returnValue->multifieldValue->contents[i].value =
-            theDefclass->slots[i].slotName->name;
+    } else {
+        for (i = 0; i < theDefclass->slotCount; i++) {
+            returnValue->multifieldValue->contents[i].value =
+                    theDefclass->slots[i].slotName->name;
         }
-     }
-  }
+    }
+}
 
 /************************************************************************
   NAME         : GetDefmessageHandlerList
@@ -486,70 +446,59 @@ void ClassSlots(
   NOTES        : None
  ************************************************************************/
 void GetDefmessageHandlerList(
-  Environment *theEnv,
-  Defclass *theDefclass,
-  CLIPSValue *returnValue,
-  bool inhp)
-  {
-   Defclass *cls,*svcls,*svnxt,*supcls;
-   long j;
-   unsigned long classi, classiLimit;
-   unsigned long i, sublen, len;
+        Environment *theEnv,
+        Defclass *theDefclass,
+        CLIPSValue *returnValue,
+        bool inhp) {
+    Defclass *cls, *svcls, *svnxt, *supcls;
+    long j;
+    unsigned long classi, classiLimit;
+    unsigned long i, sublen, len;
 
-   if (theDefclass == NULL)
-     {
-      inhp = 0;
-      cls = GetNextDefclass(theEnv,NULL);
-      svnxt = GetNextDefclass(theEnv,cls);
-     }
-   else
-     {
-      cls = theDefclass;
-      svnxt = GetNextDefclass(theEnv,theDefclass);
-      SetNextDefclass(cls,NULL);
-     }
+    if (theDefclass == NULL) {
+        inhp = 0;
+        cls = GetNextDefclass(theEnv, NULL);
+        svnxt = GetNextDefclass(theEnv, cls);
+    } else {
+        cls = theDefclass;
+        svnxt = GetNextDefclass(theEnv, theDefclass);
+        SetNextDefclass(cls, NULL);
+    }
 
-   for (svcls = cls , i = 0 ;
-        cls != NULL ;
-        cls = GetNextDefclass(theEnv,cls))
-     {
-      classiLimit = inhp ? cls->allSuperclasses.classCount : 1;
-      for (classi = 0 ; classi < classiLimit ; classi++)
-        { i += cls->allSuperclasses.classArray[classi]->handlerCount; }
-     }
+    for (svcls = cls, i = 0;
+         cls != NULL;
+         cls = GetNextDefclass(theEnv, cls)) {
+        classiLimit = inhp ? cls->allSuperclasses.classCount : 1;
+        for (classi = 0; classi < classiLimit; classi++) { i += cls->allSuperclasses.classArray[classi]->handlerCount; }
+    }
 
-   len = i * 3;
+    len = i * 3;
 
-   returnValue->value = CreateMultifield(theEnv,len);
+    returnValue->value = CreateMultifield(theEnv, len);
 
-   for (cls = svcls , sublen = 0 ;
-        cls != NULL ;
-        cls = GetNextDefclass(theEnv,cls))
-     {
-      classiLimit = inhp ? cls->allSuperclasses.classCount : 1;
-      for (classi = 0 ; classi < classiLimit ; classi++)
-        {
-         supcls = cls->allSuperclasses.classArray[classi];
+    for (cls = svcls, sublen = 0;
+         cls != NULL;
+         cls = GetNextDefclass(theEnv, cls)) {
+        classiLimit = inhp ? cls->allSuperclasses.classCount : 1;
+        for (classi = 0; classi < classiLimit; classi++) {
+            supcls = cls->allSuperclasses.classArray[classi];
 
-         if (inhp == 0)
-           { i = sublen; }
-         else
-           { i = len - (supcls->handlerCount * 3) - sublen; }
+            if (inhp == 0) { i = sublen; }
+            else { i = len - (supcls->handlerCount * 3) - sublen; }
 
-         for (j = 0 ; j < supcls->handlerCount ; j++)
-           {
-            returnValue->multifieldValue->contents[i++].value = GetDefclassNamePointer(supcls);
-            returnValue->multifieldValue->contents[i++].value = supcls->handlers[j].header.name;
-            returnValue->multifieldValue->contents[i++].value = CreateSymbol(theEnv,MessageHandlerData(theEnv)->hndquals[supcls->handlers[j].type]);
-           }
+            for (j = 0; j < supcls->handlerCount; j++) {
+                returnValue->multifieldValue->contents[i++].value = GetDefclassNamePointer(supcls);
+                returnValue->multifieldValue->contents[i++].value = supcls->handlers[j].header.name;
+                returnValue->multifieldValue->contents[i++].value = CreateSymbol(theEnv, MessageHandlerData(
+                        theEnv)->hndquals[supcls->handlers[j].type]);
+            }
 
-         sublen += supcls->handlerCount * 3;
+            sublen += supcls->handlerCount * 3;
         }
-     }
+    }
 
-   if (svcls != NULL)
-     { SetNextDefclass(svcls,svnxt); }
-  }
+    if (svcls != NULL) { SetNextDefclass(svcls, svnxt); }
+}
 
 /***************************************************************************
   NAME         : ClassSuperclasses
@@ -564,36 +513,30 @@ void GetDefmessageHandlerList(
   NOTES        : None
  ***************************************************************************/
 void ClassSuperclasses(
-  Defclass *theDefclass,
-  CLIPSValue *returnValue,
-  bool inhp)
-  {
-   PACKED_CLASS_LINKS *plinks;
-   unsigned offset;
-   unsigned long i, j;
-   Environment *theEnv = theDefclass->header.env;
-   
-   if (inhp)
-     {
-      plinks = &theDefclass->allSuperclasses;
-      offset = 1;
-     }
-   else
-     {
-      plinks = &theDefclass->directSuperclasses;
-      offset = 0;
-     }
+        Defclass *theDefclass,
+        CLIPSValue *returnValue,
+        bool inhp) {
+    PACKED_CLASS_LINKS *plinks;
+    unsigned offset;
+    unsigned long i, j;
+    Environment *theEnv = theDefclass->header.env;
 
-   returnValue->value = CreateMultifield(theEnv,(plinks->classCount - offset));
+    if (inhp) {
+        plinks = &theDefclass->allSuperclasses;
+        offset = 1;
+    } else {
+        plinks = &theDefclass->directSuperclasses;
+        offset = 0;
+    }
 
-   if (returnValue->multifieldValue->length == 0)
-     { return; }
+    returnValue->value = CreateMultifield(theEnv, (plinks->classCount - offset));
 
-   for (i = offset, j = 0 ; i < plinks->classCount; i++, j++)
-     {
-      returnValue->multifieldValue->contents[j].value = GetDefclassNamePointer(plinks->classArray[i]);
-     }
-  }
+    if (returnValue->multifieldValue->length == 0) { return; }
+
+    for (i = offset, j = 0; i < plinks->classCount; i++, j++) {
+        returnValue->multifieldValue->contents[j].value = GetDefclassNamePointer(plinks->classArray[i]);
+    }
+}
 
 /**************************************************************************
   NAME         : ClassSubclasses
@@ -608,32 +551,28 @@ void ClassSuperclasses(
   NOTES        : None
  **************************************************************************/
 void ClassSubclasses(
-  Defclass *theDefclass,
-  CLIPSValue *returnValue,
-  bool inhp)
-  {
-   unsigned i;
-   int id;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        CLIPSValue *returnValue,
+        bool inhp) {
+    unsigned i;
+    int id;
+    Environment *theEnv = theDefclass->header.env;
 
-   if ((id = GetTraversalID(theEnv)) == -1)
-     { return; }
+    if ((id = GetTraversalID(theEnv)) == -1) { return; }
 
-   i = CountSubclasses(theDefclass,inhp,id);
+    i = CountSubclasses(theDefclass, inhp, id);
 
-   ReleaseTraversalID(theEnv);
+    ReleaseTraversalID(theEnv);
 
-   returnValue->value = CreateMultifield(theEnv,i);
+    returnValue->value = CreateMultifield(theEnv, i);
 
-   if (i == 0)
-     { return; }
+    if (i == 0) { return; }
 
-   if ((id = GetTraversalID(theEnv)) == -1)
-     { return; }
+    if ((id = GetTraversalID(theEnv)) == -1) { return; }
 
-   StoreSubclasses(returnValue->multifieldValue,0,theDefclass,inhp,id,true);
-   ReleaseTraversalID(theEnv);
-  }
+    StoreSubclasses(returnValue->multifieldValue, 0, theDefclass, inhp, id, true);
+    ReleaseTraversalID(theEnv);
+}
 
 /**************************************************************************
   NAME         : ClassSubclassAddresses
@@ -648,34 +587,30 @@ void ClassSubclasses(
   NOTES        : None
  **************************************************************************/
 void ClassSubclassAddresses(
-  Environment *theEnv,
-  Defclass *theDefclass,
-  UDFValue *returnValue,
-  bool inhp)
-  {
-   unsigned i;
-   int id;
+        Environment *theEnv,
+        Defclass *theDefclass,
+        UDFValue *returnValue,
+        bool inhp) {
+    unsigned i;
+    int id;
 
-   if ((id = GetTraversalID(theEnv)) == -1)
-     { return; }
+    if ((id = GetTraversalID(theEnv)) == -1) { return; }
 
-   i = CountSubclasses(theDefclass,inhp,id);
+    i = CountSubclasses(theDefclass, inhp, id);
 
-   ReleaseTraversalID(theEnv);
+    ReleaseTraversalID(theEnv);
 
-   returnValue->begin = 0;
-   returnValue->range = i;
-   returnValue->value = CreateMultifield(theEnv,i);
+    returnValue->begin = 0;
+    returnValue->range = i;
+    returnValue->value = CreateMultifield(theEnv, i);
 
-   if (i == 0)
-     { return; }
+    if (i == 0) { return; }
 
-   if ((id = GetTraversalID(theEnv)) == -1)
-     { return; }
+    if ((id = GetTraversalID(theEnv)) == -1) { return; }
 
-   StoreSubclasses(returnValue->multifieldValue,0,theDefclass,inhp,id,false);
-   ReleaseTraversalID(theEnv);
-  }
+    StoreSubclasses(returnValue->multifieldValue, 0, theDefclass, inhp, id, false);
+    ReleaseTraversalID(theEnv);
+}
 /**************************************************************************
   NAME         : Slot...  Slot information access functions
   DESCRIPTION  : Groups the sources/facets/types/allowed-values/range or
@@ -694,391 +629,344 @@ void ClassSubclassAddresses(
 /* SlotFacets */
 /**************/
 bool SlotFacets(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   SlotDescriptor *sp;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    SlotDescriptor *sp;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-facets")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-facets")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
 
 #if DEFRULE_CONSTRUCT
-   returnValue->value = CreateMultifield(theEnv,10L);
+    returnValue->value = CreateMultifield(theEnv, 10L);
 #else
-   returnValue->value = CreateMultifield(theEnv,9L);
+    returnValue->value = CreateMultifield(theEnv,9L);
 #endif
 
-   if (sp->multiple)
-     { returnValue->multifieldValue->contents[0].lexemeValue = CreateSymbol(theEnv,"MLT"); }
-   else
-     { returnValue->multifieldValue->contents[0].lexemeValue = CreateSymbol(theEnv,"SGL"); }
+    if (sp->multiple) { returnValue->multifieldValue->contents[0].lexemeValue = CreateSymbol(theEnv, "MLT"); }
+    else { returnValue->multifieldValue->contents[0].lexemeValue = CreateSymbol(theEnv, "SGL"); }
 
-   if (sp->noDefault)
-     returnValue->multifieldValue->contents[1].lexemeValue = CreateSymbol(theEnv,"NIL");
-   else
-     {
-      if (sp->dynamicDefault)
-        { returnValue->multifieldValue->contents[1].lexemeValue = CreateSymbol(theEnv,"DYN"); }
-      else
-        { returnValue->multifieldValue->contents[1].lexemeValue = CreateSymbol(theEnv,"STC"); }
-     }
+    if (sp->noDefault)
+        returnValue->multifieldValue->contents[1].lexemeValue = CreateSymbol(theEnv, "NIL");
+    else {
+        if (sp->dynamicDefault) { returnValue->multifieldValue->contents[1].lexemeValue = CreateSymbol(theEnv, "DYN"); }
+        else { returnValue->multifieldValue->contents[1].lexemeValue = CreateSymbol(theEnv, "STC"); }
+    }
 
-   if (sp->noInherit)
-     returnValue->multifieldValue->contents[2].lexemeValue = CreateSymbol(theEnv,"NIL");
-   else
-     returnValue->multifieldValue->contents[2].lexemeValue = CreateSymbol(theEnv,"INH");
+    if (sp->noInherit)
+        returnValue->multifieldValue->contents[2].lexemeValue = CreateSymbol(theEnv, "NIL");
+    else
+        returnValue->multifieldValue->contents[2].lexemeValue = CreateSymbol(theEnv, "INH");
 
-   if (sp->initializeOnly)
-     returnValue->multifieldValue->contents[3].lexemeValue = CreateSymbol(theEnv,"INT");
-   else if (sp->noWrite)
-     returnValue->multifieldValue->contents[3].lexemeValue = CreateSymbol(theEnv,"R");
-   else
-     returnValue->multifieldValue->contents[3].lexemeValue = CreateSymbol(theEnv,"RW");
+    if (sp->initializeOnly)
+        returnValue->multifieldValue->contents[3].lexemeValue = CreateSymbol(theEnv, "INT");
+    else if (sp->noWrite)
+        returnValue->multifieldValue->contents[3].lexemeValue = CreateSymbol(theEnv, "R");
+    else
+        returnValue->multifieldValue->contents[3].lexemeValue = CreateSymbol(theEnv, "RW");
 
-   if (sp->shared)
-     returnValue->multifieldValue->contents[4].lexemeValue = CreateSymbol(theEnv,"SHR");
-   else
-     returnValue->multifieldValue->contents[4].lexemeValue = CreateSymbol(theEnv,"LCL");
+    if (sp->shared)
+        returnValue->multifieldValue->contents[4].lexemeValue = CreateSymbol(theEnv, "SHR");
+    else
+        returnValue->multifieldValue->contents[4].lexemeValue = CreateSymbol(theEnv, "LCL");
 
 #if DEFRULE_CONSTRUCT
-   if (sp->reactive)
-     returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"RCT");
-   else
-     returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"NIL");
+    if (sp->reactive)
+        returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv, "RCT");
+    else
+        returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv, "NIL");
 
-   if (sp->composite)
-     returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"CMP");
-   else
-     returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"EXC");
+    if (sp->composite)
+        returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv, "CMP");
+    else
+        returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv, "EXC");
 
-   if (sp->publicVisibility)
-     returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv,"PUB");
-   else
-     returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv,"PRV");
+    if (sp->publicVisibility)
+        returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv, "PUB");
+    else
+        returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv, "PRV");
 
-   returnValue->multifieldValue->contents[8].lexemeValue = CreateSymbol(theEnv,GetCreateAccessorString(sp));
-   returnValue->multifieldValue->contents[9].lexemeValue = (sp->noWrite ? CreateSymbol(theEnv,"NIL") : sp->overrideMessage);
+    returnValue->multifieldValue->contents[8].lexemeValue = CreateSymbol(theEnv, GetCreateAccessorString(sp));
+    returnValue->multifieldValue->contents[9].lexemeValue = (sp->noWrite ? CreateSymbol(theEnv, "NIL") : sp->overrideMessage);
 #else
-   if (sp->composite)
-     returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"CMP");
-   else
-     returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"EXC");
+    if (sp->composite)
+      returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"CMP");
+    else
+      returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"EXC");
 
-   if (sp->publicVisibility)
-     returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"PUB");
-   else
-     returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"PRV");
+    if (sp->publicVisibility)
+      returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"PUB");
+    else
+      returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"PRV");
 
-   returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv,GetCreateAccessorString(sp));
-   returnValue->multifieldValue->contents[8].lexemeValue = (sp->noWrite ? CreateSymbol(theEnv,"NIL") : sp->overrideMessage);
+    returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv,GetCreateAccessorString(sp));
+    returnValue->multifieldValue->contents[8].lexemeValue = (sp->noWrite ? CreateSymbol(theEnv,"NIL") : sp->overrideMessage);
 #endif
 
-   return true;
-  }
+    return true;
+}
 
 /***************/
 /* SlotSources */
 /***************/
 bool SlotSources(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   unsigned i;
-   unsigned classi;
-   SlotDescriptor *sp, *csp;
-   CLASS_LINK *ctop,*ctmp;
-   Defclass *cls;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    unsigned i;
+    unsigned classi;
+    SlotDescriptor *sp, *csp;
+    CLASS_LINK *ctop, *ctmp;
+    Defclass *cls;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-sources")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
-   i = 1;
-   ctop = get_struct(theEnv,classLink);
-   ctop->cls = sp->cls;
-   ctop->nxt = NULL;
-   if (sp->composite)
-     {
-      for (classi = 1 ; classi < sp->cls->allSuperclasses.classCount ; classi++)
-        {
-         cls = sp->cls->allSuperclasses.classArray[classi];
-         csp = FindClassSlot(cls,sp->slotName->name);
-         if ((csp != NULL) ? (csp->noInherit == 0) : false)
-           {
-            ctmp = get_struct(theEnv,classLink);
-            ctmp->cls = cls;
-            ctmp->nxt = ctop;
-            ctop = ctmp;
-            i++;
-            if (csp->composite == 0)
-              break;
-           }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-sources")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
+    i = 1;
+    ctop = get_struct(theEnv, classLink);
+    ctop->cls = sp->cls;
+    ctop->nxt = NULL;
+    if (sp->composite) {
+        for (classi = 1; classi < sp->cls->allSuperclasses.classCount; classi++) {
+            cls = sp->cls->allSuperclasses.classArray[classi];
+            csp = FindClassSlot(cls, sp->slotName->name);
+            if ((csp != NULL) ? (csp->noInherit == 0) : false) {
+                ctmp = get_struct(theEnv, classLink);
+                ctmp->cls = cls;
+                ctmp->nxt = ctop;
+                ctop = ctmp;
+                i++;
+                if (csp->composite == 0)
+                    break;
+            }
         }
-     }
+    }
 
-   returnValue->value = CreateMultifield(theEnv,i);
-   for (ctmp = ctop , i = 0 ; ctmp != NULL ; ctmp = ctmp->nxt , i++)
-     {
-      returnValue->multifieldValue->contents[i].value = GetDefclassNamePointer(ctmp->cls);
-     }
-   DeleteClassLinks(theEnv,ctop);
-   
-   return true;
-  }
+    returnValue->value = CreateMultifield(theEnv, i);
+    for (ctmp = ctop, i = 0; ctmp != NULL; ctmp = ctmp->nxt, i++) {
+        returnValue->multifieldValue->contents[i].value = GetDefclassNamePointer(ctmp->cls);
+    }
+    DeleteClassLinks(theEnv, ctop);
+
+    return true;
+}
 
 /*************/
 /* SlotTypes */
 /*************/
 bool SlotTypes(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   unsigned i,j;
-   SlotDescriptor *sp;
-   char typemap[2];
-   unsigned msize;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
-   
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-types")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
-     
-   if ((sp->constraint != NULL) ? sp->constraint->anyAllowed : true)
-     {
-      typemap[0] = typemap[1] = (char) 0xFF;
-      ClearBitMap(typemap,MULTIFIELD_TYPE);
-      msize = 8;
-     }
-   else
-     {
-      typemap[0] = typemap[1] = (char) 0x00;
-      msize = 0;
-      if (sp->constraint->symbolsAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,SYMBOL_TYPE);
-        }
-      if (sp->constraint->stringsAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,STRING_TYPE);
-        }
-      if (sp->constraint->floatsAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,FLOAT_TYPE);
-        }
-      if (sp->constraint->integersAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,INTEGER_TYPE);
-        }
-      if (sp->constraint->instanceNamesAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,INSTANCE_NAME_TYPE);
-        }
-      if (sp->constraint->instanceAddressesAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,INSTANCE_ADDRESS_TYPE);
-        }
-      if (sp->constraint->externalAddressesAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,EXTERNAL_ADDRESS_TYPE);
-        }
-      if (sp->constraint->factAddressesAllowed)
-        {
-         msize++;
-         SetBitMap(typemap,FACT_ADDRESS_TYPE);
-        }
-     }
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    unsigned i, j;
+    SlotDescriptor *sp;
+    char typemap[2];
+    unsigned msize;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   returnValue->value = CreateMultifield(theEnv,msize);
-   i = 0;
-   j = 0;
-   while (i < msize)
-     {
-      if (TestBitMap(typemap,j))
-       {
-        returnValue->multifieldValue->contents[i].value =
-                   GetDefclassNamePointer(DefclassData(theEnv)->PrimitiveClassMap[j]);
-        i++;
-       }
-      j++;
-     }
-     
-   return true;
-  }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-types")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
+
+    if ((sp->constraint != NULL) ? sp->constraint->anyAllowed : true) {
+        typemap[0] = typemap[1] = (char) 0xFF;
+        ClearBitMap(typemap, MULTIFIELD_TYPE);
+        msize = 8;
+    } else {
+        typemap[0] = typemap[1] = (char) 0x00;
+        msize = 0;
+        if (sp->constraint->symbolsAllowed) {
+            msize++;
+            SetBitMap(typemap, SYMBOL_TYPE);
+        }
+        if (sp->constraint->stringsAllowed) {
+            msize++;
+            SetBitMap(typemap, STRING_TYPE);
+        }
+        if (sp->constraint->floatsAllowed) {
+            msize++;
+            SetBitMap(typemap, FLOAT_TYPE);
+        }
+        if (sp->constraint->integersAllowed) {
+            msize++;
+            SetBitMap(typemap, INTEGER_TYPE);
+        }
+        if (sp->constraint->instanceNamesAllowed) {
+            msize++;
+            SetBitMap(typemap, INSTANCE_NAME_TYPE);
+        }
+        if (sp->constraint->instanceAddressesAllowed) {
+            msize++;
+            SetBitMap(typemap, INSTANCE_ADDRESS_TYPE);
+        }
+        if (sp->constraint->externalAddressesAllowed) {
+            msize++;
+            SetBitMap(typemap, EXTERNAL_ADDRESS_TYPE);
+        }
+        if (sp->constraint->factAddressesAllowed) {
+            msize++;
+            SetBitMap(typemap, FACT_ADDRESS_TYPE);
+        }
+    }
+
+    returnValue->value = CreateMultifield(theEnv, msize);
+    i = 0;
+    j = 0;
+    while (i < msize) {
+        if (TestBitMap(typemap, j)) {
+            returnValue->multifieldValue->contents[i].value =
+                    GetDefclassNamePointer(DefclassData(theEnv)->PrimitiveClassMap[j]);
+            i++;
+        }
+        j++;
+    }
+
+    return true;
+}
 
 /*********************/
 /* SlotAllowedValues */
 /*********************/
 bool SlotAllowedValues(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   int i;
-   SlotDescriptor *sp;
-   Expression *theExp;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    int i;
+    SlotDescriptor *sp;
+    Expression *theExp;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-allowed-values")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-allowed-values")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
 
-   if ((sp->constraint != NULL) ? (sp->constraint->restrictionList == NULL) : true)
-     {
-      returnValue->value = FalseSymbol(theEnv);
-      return true;
-     }
+    if ((sp->constraint != NULL) ? (sp->constraint->restrictionList == NULL) : true) {
+        returnValue->value = FalseSymbol(theEnv);
+        return true;
+    }
 
-   returnValue->value = CreateMultifield(theEnv,ExpressionSize(sp->constraint->restrictionList));
-   i = 0;
-   theExp = sp->constraint->restrictionList;
-   while (theExp != NULL)
-     {
-      returnValue->multifieldValue->contents[i].value = theExp->value;
-      theExp = theExp->nextArg;
-      i++;
-     }
-     
-   return true;
-  }
+    returnValue->value = CreateMultifield(theEnv, ExpressionSize(sp->constraint->restrictionList));
+    i = 0;
+    theExp = sp->constraint->restrictionList;
+    while (theExp != NULL) {
+        returnValue->multifieldValue->contents[i].value = theExp->value;
+        theExp = theExp->nextArg;
+        i++;
+    }
+
+    return true;
+}
 
 /**********************/
 /* SlotAllowedClasses */
 /**********************/
 bool SlotAllowedClasses(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   int i;
-   SlotDescriptor *sp;
-   Expression *theExp;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    int i;
+    SlotDescriptor *sp;
+    Expression *theExp;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-allowed-classes")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
-   if ((sp->constraint != NULL) ? (sp->constraint->classList == NULL) : true)
-     {
-      returnValue->value = FalseSymbol(theEnv);
-      return true;
-     }
-   returnValue->value = CreateMultifield(theEnv,ExpressionSize(sp->constraint->classList));
-   i = 0;
-   theExp = sp->constraint->classList;
-   while (theExp != NULL)
-     {
-      returnValue->multifieldValue->contents[i].value = theExp->value;
-      theExp = theExp->nextArg;
-      i++;
-     }
-     
-   return true;
-  }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-allowed-classes")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
+    if ((sp->constraint != NULL) ? (sp->constraint->classList == NULL) : true) {
+        returnValue->value = FalseSymbol(theEnv);
+        return true;
+    }
+    returnValue->value = CreateMultifield(theEnv, ExpressionSize(sp->constraint->classList));
+    i = 0;
+    theExp = sp->constraint->classList;
+    while (theExp != NULL) {
+        returnValue->multifieldValue->contents[i].value = theExp->value;
+        theExp = theExp->nextArg;
+        i++;
+    }
+
+    return true;
+}
 
 /*************/
 /* SlotRange */
 /*************/
 bool SlotRange(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   SlotDescriptor *sp;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    SlotDescriptor *sp;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-range")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
-   if ((sp->constraint == NULL) ? false :
-       (sp->constraint->anyAllowed || sp->constraint->floatsAllowed ||
-        sp->constraint->integersAllowed))
-     {
-      returnValue->value = CreateMultifield(theEnv,2L);
-      returnValue->multifieldValue->contents[0].value = sp->constraint->minValue->value;
-      returnValue->multifieldValue->contents[1].value = sp->constraint->maxValue->value;
-     }
-   else
-     {
-      returnValue->value = FalseSymbol(theEnv);
-     }
-   return true;
-  }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-range")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
+    if ((sp->constraint == NULL) ? false :
+        (sp->constraint->anyAllowed || sp->constraint->floatsAllowed ||
+         sp->constraint->integersAllowed)) {
+        returnValue->value = CreateMultifield(theEnv, 2L);
+        returnValue->multifieldValue->contents[0].value = sp->constraint->minValue->value;
+        returnValue->multifieldValue->contents[1].value = sp->constraint->maxValue->value;
+    } else {
+        returnValue->value = FalseSymbol(theEnv);
+    }
+    return true;
+}
 
 /*******************/
 /* SlotCardinality */
 /*******************/
 bool SlotCardinality(
-  Defclass *theDefclass,
-  const char *sname,
-  CLIPSValue *returnValue)
-  {
-   SlotDescriptor *sp;
-   UDFValue result;
-   Environment *theEnv = theDefclass->header.env;
-     
-   if ((sp = SlotInfoSlot(theEnv,&result,theDefclass,sname,"slot-cardinality")) == NULL)
-     {
-      NormalizeMultifield(theEnv,&result);
-      returnValue->value = result.value;
-      return false;
-     }
-     
-   if (sp->multiple == 0)
-     {
-      returnValue->multifieldValue = CreateMultifield(theEnv,0L);
-      return true;
-     }
+        Defclass *theDefclass,
+        const char *sname,
+        CLIPSValue *returnValue) {
+    SlotDescriptor *sp;
+    UDFValue result;
+    Environment *theEnv = theDefclass->header.env;
 
-   returnValue->value = CreateMultifield(theEnv,2L);
-   if (sp->constraint != NULL)
-     {
-      returnValue->multifieldValue->contents[0].value = sp->constraint->minFields->value;
-      returnValue->multifieldValue->contents[1].value = sp->constraint->maxFields->value;
-     }
-   else
-     {
-      returnValue->multifieldValue->contents[0].value = SymbolData(theEnv)->Zero;
-      returnValue->multifieldValue->contents[1].value = SymbolData(theEnv)->PositiveInfinity;
-     }
-     
-   return true;
-  }
+    if ((sp = SlotInfoSlot(theEnv, &result, theDefclass, sname, "slot-cardinality")) == NULL) {
+        NormalizeMultifield(theEnv, &result);
+        returnValue->value = result.value;
+        return false;
+    }
+
+    if (sp->multiple == 0) {
+        returnValue->multifieldValue = CreateMultifield(theEnv, 0L);
+        return true;
+    }
+
+    returnValue->value = CreateMultifield(theEnv, 2L);
+    if (sp->constraint != NULL) {
+        returnValue->multifieldValue->contents[0].value = sp->constraint->minFields->value;
+        returnValue->multifieldValue->contents[1].value = sp->constraint->maxFields->value;
+    } else {
+        returnValue->multifieldValue->contents[0].value = SymbolData(theEnv)->Zero;
+        returnValue->multifieldValue->contents[1].value = SymbolData(theEnv)->PositiveInfinity;
+    }
+
+    return true;
+}
 
 /* =========================================
    *****************************************
@@ -1099,24 +987,22 @@ bool SlotCardinality(
   NOTES        : None
  *****************************************************/
 static void SlotInfoSupportFunction(
-  UDFContext *context,
-  UDFValue *returnValue,
-  const char *fnxname,
-  bool (*fnx)(Defclass *,const char *,CLIPSValue *))
-  {
-   CLIPSLexeme *ssym;
-   Defclass *cls;
-   CLIPSValue result;
+        UDFContext *context,
+        UDFValue *returnValue,
+        const char *fnxname,
+        bool (*fnx)(Defclass *, const char *, CLIPSValue *)) {
+    CLIPSLexeme *ssym;
+    Defclass *cls;
+    CLIPSValue result;
 
-   ssym = CheckClassAndSlot(context,fnxname,&cls);
-   if (ssym == NULL)
-     {
-      SetMultifieldErrorValue(context->environment,returnValue);
-      return;
-     }
-   (*fnx)(cls,ssym->contents,&result);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    ssym = CheckClassAndSlot(context, fnxname, &cls);
+    if (ssym == NULL) {
+        SetMultifieldErrorValue(context->environment, returnValue);
+        return;
+    }
+    (*fnx)(cls, ssym->contents, &result);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /*****************************************************************
   NAME         : CountSubclasses
@@ -1130,26 +1016,23 @@ static void SlotInfoSupportFunction(
   NOTES        : None
  *****************************************************************/
 static unsigned CountSubclasses(
-  Defclass *cls,
-  bool inhp,
-  int tvid)
-  {
-   unsigned i, cnt;
-   Defclass *subcls;
+        Defclass *cls,
+        bool inhp,
+        int tvid) {
+    unsigned i, cnt;
+    Defclass *subcls;
 
-   for (cnt = 0 , i = 0 ; i < cls->directSubclasses.classCount ; i++)
-     {
-      subcls = cls->directSubclasses.classArray[i];
-      if (TestTraversalID(subcls->traversalRecord,tvid) == 0)
-        {
-         cnt++;
-         SetTraversalID(subcls->traversalRecord,tvid);
-         if (inhp && (subcls->directSubclasses.classCount != 0))
-           cnt += CountSubclasses(subcls,inhp,tvid);
+    for (cnt = 0, i = 0; i < cls->directSubclasses.classCount; i++) {
+        subcls = cls->directSubclasses.classArray[i];
+        if (TestTraversalID(subcls->traversalRecord, tvid) == 0) {
+            cnt++;
+            SetTraversalID(subcls->traversalRecord, tvid);
+            if (inhp && (subcls->directSubclasses.classCount != 0))
+                cnt += CountSubclasses(subcls, inhp, tvid);
         }
-     }
-   return cnt;
-  }
+    }
+    return cnt;
+}
 
 /*********************************************************************
   NAME         : StoreSubclasses
@@ -1165,37 +1048,31 @@ static unsigned CountSubclasses(
   NOTES        : Assumes multifield is big enough to hold subclasses
  *********************************************************************/
 static unsigned StoreSubclasses(
-  Multifield *mfval,
-  unsigned si,
-  Defclass *cls,
-  int inhp,
-  int tvid,
-  bool storeName)
-  {
-   unsigned i, classi;
-   Defclass *subcls;
+        Multifield *mfval,
+        unsigned si,
+        Defclass *cls,
+        int inhp,
+        int tvid,
+        bool storeName) {
+    unsigned i, classi;
+    Defclass *subcls;
 
-   for (i = si , classi = 0 ; classi < cls->directSubclasses.classCount ; classi++)
-     {
-      subcls = cls->directSubclasses.classArray[classi];
-      if (TestTraversalID(subcls->traversalRecord,tvid) == 0)
-        {
-         SetTraversalID(subcls->traversalRecord,tvid);
-         if (storeName)
-           {
-            mfval->contents[i++].value = GetDefclassNamePointer(subcls);
-           }
-         else
-           {
-            mfval->contents[i++].value = subcls;
-           }
+    for (i = si, classi = 0; classi < cls->directSubclasses.classCount; classi++) {
+        subcls = cls->directSubclasses.classArray[classi];
+        if (TestTraversalID(subcls->traversalRecord, tvid) == 0) {
+            SetTraversalID(subcls->traversalRecord, tvid);
+            if (storeName) {
+                mfval->contents[i++].value = GetDefclassNamePointer(subcls);
+            } else {
+                mfval->contents[i++].value = subcls;
+            }
 
-         if (inhp && (subcls->directSubclasses.classCount != 0))
-           i += StoreSubclasses(mfval,i,subcls,inhp,tvid,storeName);
+            if (inhp && (subcls->directSubclasses.classCount != 0))
+                i += StoreSubclasses(mfval, i, subcls, inhp, tvid, storeName);
         }
-     }
-   return i - si;
-  }
+    }
+    return i - si;
+}
 
 /*********************************************************
   NAME         : SlotInfoSlot
@@ -1212,34 +1089,31 @@ static unsigned StoreSubclasses(
   NOTES        : None
  *********************************************************/
 static SlotDescriptor *SlotInfoSlot(
-  Environment *theEnv,
-  UDFValue *returnValue,
-  Defclass *cls,
-  const char *sname,
-  const char *fnxname)
-  {
-   CLIPSLexeme *ssym;
-   int i;
+        Environment *theEnv,
+        UDFValue *returnValue,
+        Defclass *cls,
+        const char *sname,
+        const char *fnxname) {
+    CLIPSLexeme *ssym;
+    int i;
 
-   if ((ssym = FindSymbolHN(theEnv,sname,SYMBOL_BIT)) == NULL)
-     {
-      SetEvaluationError(theEnv,true);
-      SetMultifieldErrorValue(theEnv,returnValue);
-      return NULL;
-     }
-     
-   i = FindInstanceTemplateSlot(theEnv,cls,ssym);
-   if (i == -1)
-     {
-      SlotExistError(theEnv,sname,fnxname);
-      SetEvaluationError(theEnv,true);
-      SetMultifieldErrorValue(theEnv,returnValue);
-      return NULL;
-     }
-     
-   returnValue->begin = 0;
-   
-   return cls->instanceTemplate[i];
-  }
+    if ((ssym = FindSymbolHN(theEnv, sname, SYMBOL_BIT)) == NULL) {
+        SetEvaluationError(theEnv, true);
+        SetMultifieldErrorValue(theEnv, returnValue);
+        return NULL;
+    }
+
+    i = FindInstanceTemplateSlot(theEnv, cls, ssym);
+    if (i == -1) {
+        SlotExistError(theEnv, sname, fnxname);
+        SetEvaluationError(theEnv, true);
+        SetMultifieldErrorValue(theEnv, returnValue);
+        return NULL;
+    }
+
+    returnValue->begin = 0;
+
+    return cls->instanceTemplate[i];
+}
 
 #endif

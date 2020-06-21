@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*       DEFTEMPLATE BASIC COMMANDS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*       DEFTEMPLATE BASIC COMMANDS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the deftemplate     */
@@ -65,21 +65,21 @@
 #include "Evaluation.h"
 #include "tmpltdef.h"
 
-   void                           DeftemplateBasicCommands(Environment *);
-   void                           UndeftemplateCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           Undeftemplate(Deftemplate *,Environment *);
-   void                           GetDeftemplateListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetDeftemplateList(Environment *,CLIPSValue *,Defmodule *);
-   void                           DeftemplateModuleFunction(Environment *,UDFContext *,UDFValue *);
+void DeftemplateBasicCommands(Environment *);
+void UndeftemplateCommand(Environment *, UDFContext *, UDFValue *);
+bool Undeftemplate(Deftemplate *, Environment *);
+void GetDeftemplateListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDeftemplateList(Environment *, CLIPSValue *, Defmodule *);
+void DeftemplateModuleFunction(Environment *, UDFContext *, UDFValue *);
 #if DEBUGGING_FUNCTIONS
-   void                           PPDeftemplateCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           PPDeftemplate(Environment *,const char *,const char *);
-   void                           ListDeftemplatesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListDeftemplates(Environment *,const char *,Defmodule *);
-   bool                           DeftemplateGetWatch(Deftemplate *);
-   void                           DeftemplateSetWatch(Deftemplate *,bool);
-   bool                           DeftemplateWatchAccess(Environment *,int,bool,struct expr *);
-   bool                           DeftemplateWatchPrint(Environment *,const char *,int,struct expr *);
+void PPDeftemplateCommand(Environment *, UDFContext *, UDFValue *);
+bool PPDeftemplate(Environment *, const char *, const char *);
+void ListDeftemplatesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDeftemplates(Environment *, const char *, Defmodule *);
+bool DeftemplateGetWatch(Deftemplate *);
+void DeftemplateSetWatch(Deftemplate *, bool);
+bool DeftemplateWatchAccess(Environment *, int, bool, struct expr *);
+bool DeftemplateWatchPrint(Environment *, const char *, int, struct expr *);
 #endif
 
 #endif /* _H_tmpltbsc */

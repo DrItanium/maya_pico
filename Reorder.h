@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  06/22/18            */
-   /*                                                     */
-   /*                 REORDER HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  06/22/18            */
+/*                                                     */
+/*                 REORDER HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines necessary for converting the   */
@@ -61,36 +61,35 @@ struct lhsParseNode;
 #include "Pattern.h"
 #include "ruledef.h"
 
-typedef enum
-  {
-   PATTERN_CE_NODE = 2049,
-   AND_CE_NODE,
-   OR_CE_NODE,
-   NOT_CE_NODE,
-   TEST_CE_NODE,
-   NAND_CE_NODE,
-   EXISTS_CE_NODE,
-   FORALL_CE_NODE,
-   SF_WILDCARD_NODE,
-   MF_WILDCARD_NODE,
-   SF_VARIABLE_NODE,
-   MF_VARIABLE_NODE,
-   GBL_VARIABLE_NODE,
-   PREDICATE_CONSTRAINT_NODE,
-   RETURN_VALUE_CONSTRAINT_NODE,
-   FCALL_NODE,
-   GCALL_NODE,
-   PCALL_NODE,
-   INTEGER_NODE,
-   FLOAT_NODE,
-   SYMBOL_NODE,
-   STRING_NODE,
-   INSTANCE_NAME_NODE,
-   FACT_STORE_MULTIFIELD_NODE,
-   DEFTEMPLATE_PTR_NODE,
-   DEFCLASS_PTR_NODE,
-   UNKNOWN_NODE
-  } ParseNodeType;
+typedef enum {
+    PATTERN_CE_NODE = 2049,
+    AND_CE_NODE,
+    OR_CE_NODE,
+    NOT_CE_NODE,
+    TEST_CE_NODE,
+    NAND_CE_NODE,
+    EXISTS_CE_NODE,
+    FORALL_CE_NODE,
+    SF_WILDCARD_NODE,
+    MF_WILDCARD_NODE,
+    SF_VARIABLE_NODE,
+    MF_VARIABLE_NODE,
+    GBL_VARIABLE_NODE,
+    PREDICATE_CONSTRAINT_NODE,
+    RETURN_VALUE_CONSTRAINT_NODE,
+    FCALL_NODE,
+    GCALL_NODE,
+    PCALL_NODE,
+    INTEGER_NODE,
+    FLOAT_NODE,
+    SYMBOL_NODE,
+    STRING_NODE,
+    INSTANCE_NAME_NODE,
+    FACT_STORE_MULTIFIELD_NODE,
+    DEFTEMPLATE_PTR_NODE,
+    DEFCLASS_PTR_NODE,
+    UNKNOWN_NODE
+} ParseNodeType;
 
 #define UNSPECIFIED_SLOT USHRT_MAX
 #define NO_INDEX USHRT_MAX
@@ -99,70 +98,68 @@ typedef enum
 /* lhsParseNode structure: Stores information about the intermediate   */
 /*   parsed representation of the lhs of a rule.                       */
 /***********************************************************************/
-struct lhsParseNode
-  {
-   ParseNodeType pnType;
-   union
-     {
-      void *value;
-      CLIPSLexeme *lexemeValue;
-      struct functionDefinition *functionValue;
-     };
-   unsigned int negated : 1;
-   unsigned int exists : 1;
-   unsigned int existsNand : 1;
-   unsigned int logical : 1;
-   unsigned int multifieldSlot : 1;
-   unsigned int bindingVariable : 1;
-   unsigned int derivedConstraints : 1;
-   unsigned int userCE : 1;
-   unsigned int whichCE : 7;
-   //unsigned int marked : 1;
-   unsigned int withinMultifieldSlot : 1;
-   unsigned short multiFieldsBefore;
-   unsigned short multiFieldsAfter;
-   unsigned short singleFieldsBefore;
-   unsigned short singleFieldsAfter;
-   struct constraintRecord *constraints;
-   struct lhsParseNode *referringNode;
-   struct patternParser *patternType;
-   short pattern;
-   unsigned short index; // TBD is this 1 or 0 based?
-   CLIPSLexeme *slot;
-   unsigned short slotNumber; // TBD 1 or 0 based?
-   int beginNandDepth;
-   int endNandDepth;
-   unsigned short joinDepth;
-   struct expr *networkTest;
-   struct expr *externalNetworkTest;
-   struct expr *secondaryNetworkTest;
-   struct expr *externalLeftHash;
-   struct expr *externalRightHash;
-   struct expr *constantSelector;
-   struct expr *constantValue;
-   struct expr *leftHash;
-   struct expr *rightHash;
-   struct expr *betaHash;
-   struct lhsParseNode *expression;
-   struct lhsParseNode *secondaryExpression;
-   void *userData;
-   struct lhsParseNode *right;
-   struct lhsParseNode *bottom;
-  };
+struct lhsParseNode {
+    ParseNodeType pnType;
+    union {
+        void *value;
+        CLIPSLexeme *lexemeValue;
+        struct functionDefinition *functionValue;
+    };
+    unsigned int negated: 1;
+    unsigned int exists: 1;
+    unsigned int existsNand: 1;
+    unsigned int logical: 1;
+    unsigned int multifieldSlot: 1;
+    unsigned int bindingVariable: 1;
+    unsigned int derivedConstraints: 1;
+    unsigned int userCE: 1;
+    unsigned int whichCE: 7;
+    //unsigned int marked : 1;
+    unsigned int withinMultifieldSlot: 1;
+    unsigned short multiFieldsBefore;
+    unsigned short multiFieldsAfter;
+    unsigned short singleFieldsBefore;
+    unsigned short singleFieldsAfter;
+    struct constraintRecord *constraints;
+    struct lhsParseNode *referringNode;
+    struct patternParser *patternType;
+    short pattern;
+    unsigned short index; // TBD is this 1 or 0 based?
+    CLIPSLexeme *slot;
+    unsigned short slotNumber; // TBD 1 or 0 based?
+    int beginNandDepth;
+    int endNandDepth;
+    unsigned short joinDepth;
+    struct expr *networkTest;
+    struct expr *externalNetworkTest;
+    struct expr *secondaryNetworkTest;
+    struct expr *externalLeftHash;
+    struct expr *externalRightHash;
+    struct expr *constantSelector;
+    struct expr *constantValue;
+    struct expr *leftHash;
+    struct expr *rightHash;
+    struct expr *betaHash;
+    struct lhsParseNode *expression;
+    struct lhsParseNode *secondaryExpression;
+    void *userData;
+    struct lhsParseNode *right;
+    struct lhsParseNode *bottom;
+};
 
-   struct lhsParseNode           *ReorderPatterns(Environment *,struct lhsParseNode *,bool *);
-   struct lhsParseNode           *CopyLHSParseNodes(Environment *,struct lhsParseNode *);
-   void                           CopyLHSParseNode(Environment *,struct lhsParseNode *,struct lhsParseNode *,bool);
-   struct lhsParseNode           *GetLHSParseNode(Environment *);
-   void                           ReturnLHSParseNodes(Environment *,struct lhsParseNode *);
-   struct lhsParseNode           *ExpressionToLHSParseNodes(Environment *,struct expr *);
-   struct expr                   *LHSParseNodesToExpression(Environment *,struct lhsParseNode *);
-   void                           AddInitialPatterns(Environment *,struct lhsParseNode *);
-   bool                           IsExistsSubjoin(struct lhsParseNode *,int);
-   struct lhsParseNode           *CombineLHSParseNodes(Environment *,struct lhsParseNode *,struct lhsParseNode *);
-   bool                           ConstantNode(struct lhsParseNode *);
-   unsigned short                 NodeTypeToType(struct lhsParseNode *);
-   ParseNodeType                  TypeToNodeType(unsigned short);
+struct lhsParseNode *ReorderPatterns(Environment *, struct lhsParseNode *, bool *);
+struct lhsParseNode *CopyLHSParseNodes(Environment *, struct lhsParseNode *);
+void CopyLHSParseNode(Environment *, struct lhsParseNode *, struct lhsParseNode *, bool);
+struct lhsParseNode *GetLHSParseNode(Environment *);
+void ReturnLHSParseNodes(Environment *, struct lhsParseNode *);
+struct lhsParseNode *ExpressionToLHSParseNodes(Environment *, struct expr *);
+struct expr *LHSParseNodesToExpression(Environment *, struct lhsParseNode *);
+void AddInitialPatterns(Environment *, struct lhsParseNode *);
+bool IsExistsSubjoin(struct lhsParseNode *, int);
+struct lhsParseNode *CombineLHSParseNodes(Environment *, struct lhsParseNode *, struct lhsParseNode *);
+bool ConstantNode(struct lhsParseNode *);
+unsigned short NodeTypeToType(struct lhsParseNode *);
+ParseNodeType TypeToNodeType(unsigned short);
 
 #endif /* _H_reorder */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*          RULE DELETION MODULE HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*          RULE DELETION MODULE HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides routines for deleting a rule including  */
@@ -46,8 +46,8 @@
 
 #define _H_ruledlt
 
-   void                           ReturnDefrule(Environment *,Defrule *);
-   void                           DestroyDefrule(Environment *,Defrule *);
+void ReturnDefrule(Environment *, Defrule *);
+void DestroyDefrule(Environment *, Defrule *);
 
 #endif /* _H_ruledlt */
 

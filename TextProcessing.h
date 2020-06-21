@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*             TEXT PROCESSING HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*             TEXT PROCESSING HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -61,13 +61,13 @@
 #define _H_textpro
 
 #if TEXTPRO_FUNCTIONS
-   void                           FetchCommand(Environment *,UDFContext *,UDFValue *);
-   void                           PrintRegionCommand(Environment *,UDFContext *,UDFValue *);
-   void                           GetRegionCommand(Environment *,UDFContext *,UDFValue *);
-   void                           TossCommand(Environment *,UDFContext *,UDFValue *);
+void FetchCommand(Environment *, UDFContext *, UDFValue *);
+void PrintRegionCommand(Environment *, UDFContext *, UDFValue *);
+void GetRegionCommand(Environment *, UDFContext *, UDFValue *);
+void TossCommand(Environment *, UDFContext *, UDFValue *);
 #endif
 
-   void                           HelpFunctionDefinitions(Environment *);
+void HelpFunctionDefinitions(Environment *);
 
 #endif /* _H_textpro */
 

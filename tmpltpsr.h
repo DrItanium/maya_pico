@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*            DEFTEMPLATE PARSER HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*            DEFTEMPLATE PARSER HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -50,8 +50,8 @@
 #include "Symbol.h"
 #include "tmpltdef.h"
 
-   bool                           ParseDeftemplate(Environment *,const char *);
-   void                           InstallDeftemplate(Environment *,Deftemplate *);
+bool ParseDeftemplate(Environment *, const char *);
+void InstallDeftemplate(Environment *, Deftemplate *);
 
 #endif /* _H_tmpltpsr */
 

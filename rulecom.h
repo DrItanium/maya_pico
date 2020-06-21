@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*             DEFRULE COMMANDS HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*             DEFRULE COMMANDS HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides the matches command. Also provides the  */
@@ -70,47 +70,45 @@
 
 #include "Evaluation.h"
 
-struct joinInformation
-  {
-   unsigned short whichCE;
-   struct joinNode *theJoin;
-   int patternBegin;
-   int patternEnd;
-   int marked;
-   struct betaMemory *theMemory;
-   struct joinNode *nextJoin;
-  };
+struct joinInformation {
+    unsigned short whichCE;
+    struct joinNode *theJoin;
+    int patternBegin;
+    int patternEnd;
+    int marked;
+    struct betaMemory *theMemory;
+    struct joinNode *nextJoin;
+};
 
-typedef enum
-  {
-   VERBOSE,
-   SUCCINCT,
-   TERSE
-  } Verbosity;
+typedef enum {
+    VERBOSE,
+    SUCCINCT,
+    TERSE
+} Verbosity;
 
-   bool                           GetBetaMemoryResizing(Environment *);
-   bool                           SetBetaMemoryResizing(Environment *,bool);
-   void                           GetBetaMemoryResizingCommand(Environment *,UDFContext *,UDFValue *);
-   void                           SetBetaMemoryResizingCommand(Environment *,UDFContext *,UDFValue *);
-   void                           Matches(Defrule *,Verbosity,CLIPSValue *);
-   void                           JoinActivity(Environment *,Defrule *,int,UDFValue *);
-   void                           DefruleCommands(Environment *);
-   void                           MatchesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           JoinActivityCommand(Environment *,UDFContext *,UDFValue *);
-   void                           TimetagFunction(Environment *,UDFContext *,UDFValue *);
-   unsigned short                 AlphaJoinCount(Environment *,Defrule *);
-   unsigned short                 BetaJoinCount(Environment *,Defrule *);
-   struct joinInformation        *CreateJoinArray(Environment *,unsigned short);
-   void                           FreeJoinArray(Environment *,struct joinInformation *,unsigned short);
-   void                           AlphaJoins(Environment *,Defrule *,unsigned short,struct joinInformation *);
-   void                           BetaJoins(Environment *,Defrule *,unsigned short,struct joinInformation *);
-   void                           JoinActivityResetCommand(Environment *,UDFContext *,UDFValue *);
-   void                           GetFocusFunction(Environment *,UDFContext *,UDFValue *);
-   Defmodule                     *GetFocus(Environment *);
+bool GetBetaMemoryResizing(Environment *);
+bool SetBetaMemoryResizing(Environment *, bool);
+void GetBetaMemoryResizingCommand(Environment *, UDFContext *, UDFValue *);
+void SetBetaMemoryResizingCommand(Environment *, UDFContext *, UDFValue *);
+void Matches(Defrule *, Verbosity, CLIPSValue *);
+void JoinActivity(Environment *, Defrule *, int, UDFValue *);
+void DefruleCommands(Environment *);
+void MatchesCommand(Environment *, UDFContext *, UDFValue *);
+void JoinActivityCommand(Environment *, UDFContext *, UDFValue *);
+void TimetagFunction(Environment *, UDFContext *, UDFValue *);
+unsigned short AlphaJoinCount(Environment *, Defrule *);
+unsigned short BetaJoinCount(Environment *, Defrule *);
+struct joinInformation *CreateJoinArray(Environment *, unsigned short);
+void FreeJoinArray(Environment *, struct joinInformation *, unsigned short);
+void AlphaJoins(Environment *, Defrule *, unsigned short, struct joinInformation *);
+void BetaJoins(Environment *, Defrule *, unsigned short, struct joinInformation *);
+void JoinActivityResetCommand(Environment *, UDFContext *, UDFValue *);
+void GetFocusFunction(Environment *, UDFContext *, UDFValue *);
+Defmodule *GetFocus(Environment *);
 #if DEVELOPER
-   void                           ShowJoinsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           RuleComplexityCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ShowAlphaHashTable(Environment *,UDFContext *,UDFValue *);
+void                           ShowJoinsCommand(Environment *,UDFContext *,UDFValue *);
+void                           RuleComplexityCommand(Environment *,UDFContext *,UDFValue *);
+void                           ShowAlphaHashTable(Environment *,UDFContext *,UDFValue *);
 #endif
 
 #endif /* _H_rulecom */

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -44,34 +44,33 @@
 
 #define OBJECTBIN_DATA 33
 
-struct objectBinaryData
-  {
-   Defclass *DefclassArray;
-   unsigned long ModuleCount;
-   unsigned long ClassCount;
-   unsigned long LinkCount;
-   unsigned long SlotCount;
-   unsigned long SlotNameCount;
-   unsigned long TemplateSlotCount;
-   unsigned long SlotNameMapCount;
-   unsigned long HandlerCount;
-   DEFCLASS_MODULE *ModuleArray;
-   Defclass **LinkArray;
-   SlotDescriptor *SlotArray;
-   SlotDescriptor **TmpslotArray;
-   SLOT_NAME *SlotNameArray;
-   unsigned *MapslotArray;
-   DefmessageHandler *HandlerArray;
-   unsigned *MaphandlerArray;
-  };
+struct objectBinaryData {
+    Defclass *DefclassArray;
+    unsigned long ModuleCount;
+    unsigned long ClassCount;
+    unsigned long LinkCount;
+    unsigned long SlotCount;
+    unsigned long SlotNameCount;
+    unsigned long TemplateSlotCount;
+    unsigned long SlotNameMapCount;
+    unsigned long HandlerCount;
+    DEFCLASS_MODULE *ModuleArray;
+    Defclass **LinkArray;
+    SlotDescriptor *SlotArray;
+    SlotDescriptor **TmpslotArray;
+    SLOT_NAME *SlotNameArray;
+    unsigned *MapslotArray;
+    DefmessageHandler *HandlerArray;
+    unsigned *MaphandlerArray;
+};
 
 #define ObjectBinaryData(theEnv) ((struct objectBinaryData *) GetEnvironmentData(theEnv,OBJECTBIN_DATA))
 
 #define DefclassPointer(i) (((i) == ULONG_MAX) ? NULL : &ObjectBinaryData(theEnv)->DefclassArray[i])
 #define DefclassIndex(cls) (((cls) == NULL) ? ULONG_MAX : ((ConstructHeader *) cls)->bsaveID)
 
-   void                    SetupObjectsBload(Environment *);
-   void                   *BloadDefclassModuleReference(Environment *,unsigned long);
+void SetupObjectsBload(Environment *);
+void *BloadDefclassModuleReference(Environment *, unsigned long);
 
 #endif /* _H_objbin */
 

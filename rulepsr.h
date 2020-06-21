@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*               RULE PARSING HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*               RULE PARSING HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Coordinates parsing of a rule.                   */
@@ -49,11 +49,11 @@
 
 #define _H_rulepsr
 
-   bool                           ParseDefrule(Environment *,const char *);
-   struct lhsParseNode           *FindVariable(CLIPSLexeme *,
-                                               struct lhsParseNode *);
+bool ParseDefrule(Environment *, const char *);
+struct lhsParseNode *FindVariable(CLIPSLexeme *,
+                                  struct lhsParseNode *);
 #if DEVELOPER && DEBUGGING_FUNCTIONS
-   void                           DumpRuleAnalysis(Environment *,struct lhsParseNode *);
+void                           DumpRuleAnalysis(Environment *,struct lhsParseNode *);
 #endif
 
 #endif /* _H_rulepsr */

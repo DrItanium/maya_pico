@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*           DEFFACTS BSAVE/BLOAD HEADER FILE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*           DEFFACTS BSAVE/BLOAD HEADER FILE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -39,32 +39,28 @@
 #include "dffctdef.h"
 #include "modulbin.h"
 
-struct bsaveDeffacts
-  {
-   struct bsaveConstructHeader header;
-   unsigned long assertList;
-  };
+struct bsaveDeffacts {
+    struct bsaveConstructHeader header;
+    unsigned long assertList;
+};
 
-struct bsaveDeffactsModule
-  {
-   struct bsaveDefmoduleItemHeader header;
-  };
+struct bsaveDeffactsModule {
+    struct bsaveDefmoduleItemHeader header;
+};
 
 #define DFFCTBIN_DATA 26
 
-struct deffactsBinaryData
-  {
-   Deffacts *DeffactsArray;
-   unsigned long NumberOfDeffacts;
-   struct deffactsModule *ModuleArray;
-   unsigned long NumberOfDeffactsModules;
-  };
+struct deffactsBinaryData {
+    Deffacts *DeffactsArray;
+    unsigned long NumberOfDeffacts;
+    struct deffactsModule *ModuleArray;
+    unsigned long NumberOfDeffactsModules;
+};
 
 #define DeffactsBinaryData(theEnv) ((struct deffactsBinaryData *) GetEnvironmentData(theEnv,DFFCTBIN_DATA))
 
-   void                           DeffactsBinarySetup(Environment *);
-   void                          *BloadDeffactsModuleReference(Environment *,unsigned long);
-
+void DeffactsBinarySetup(Environment *);
+void *BloadDeffactsModuleReference(Environment *, unsigned long);
 
 #endif /* _H_dffctbin */
 

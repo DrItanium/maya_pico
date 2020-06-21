@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  10/18/16             */
-   /*                                                     */
-   /*                ENVIRONMENT MODULE                   */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  10/18/16             */
+/*                                                     */
+/*                ENVIRONMENT MODULE                   */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for supporting multiple environments.   */
@@ -130,128 +130,115 @@
 /*    for the specified environment data record.       */
 /*******************************************************/
 bool AllocateEnvironmentData(
-  Environment *theEnvironment,
-  unsigned position,
-  size_t size,
-  EnvironmentCleanupFunction *cleanupFunction)
-  {
-   /*================================================================*/
-   /* Check to see if the data position exceeds the maximum allowed. */
-   /*================================================================*/
+        Environment *theEnvironment,
+        unsigned position,
+        size_t size,
+        EnvironmentCleanupFunction *cleanupFunction) {
+    /*================================================================*/
+    /* Check to see if the data position exceeds the maximum allowed. */
+    /*================================================================*/
 
-   if (position >= MAXIMUM_ENVIRONMENT_POSITIONS)
-     {
-      printf("\n[ENVRNMNT2] Environment data position %d exceeds the maximum allowed.\n",position);
-      return false;
-     }
+    if (position >= MAXIMUM_ENVIRONMENT_POSITIONS) {
+        printf("\n[ENVRNMNT2] Environment data position %d exceeds the maximum allowed.\n", position);
+        return false;
+    }
 
-   /*============================================================*/
-   /* Check if the environment data has already been registered. */
-   /*============================================================*/
+    /*============================================================*/
+    /* Check if the environment data has already been registered. */
+    /*============================================================*/
 
-   if (theEnvironment->theData[position] != NULL)
-     {
-      printf("\n[ENVRNMNT3] Environment data position %d already allocated.\n",position);
-      return false;
-     }
+    if (theEnvironment->theData[position] != NULL) {
+        printf("\n[ENVRNMNT3] Environment data position %d already allocated.\n", position);
+        return false;
+    }
 
-   /*====================*/
-   /* Allocate the data. */
-   /*====================*/
+    /*====================*/
+    /* Allocate the data. */
+    /*====================*/
 
-   theEnvironment->theData[position] = malloc(size);
-   if (theEnvironment->theData[position] == NULL)
-     {
-      printf("\n[ENVRNMNT4] Environment data position %d could not be allocated.\n",position);
-      return false;
-     }
+    theEnvironment->theData[position] = malloc(size);
+    if (theEnvironment->theData[position] == NULL) {
+        printf("\n[ENVRNMNT4] Environment data position %d could not be allocated.\n", position);
+        return false;
+    }
 
-   memset(theEnvironment->theData[position],0,size);
+    memset(theEnvironment->theData[position], 0, size);
 
-   /*=============================*/
-   /* Store the cleanup function. */
-   /*=============================*/
+    /*=============================*/
+    /* Store the cleanup function. */
+    /*=============================*/
 
-   theEnvironment->cleanupFunctions[position] = cleanupFunction;
+    theEnvironment->cleanupFunctions[position] = cleanupFunction;
 
-   /*===============================*/
-   /* Data successfully registered. */
-   /*===============================*/
+    /*===============================*/
+    /* Data successfully registered. */
+    /*===============================*/
 
-   return true;
-  }
+    return true;
+}
 
 /**********************************************/
 /* GetEnvironmentContext: Returns the context */
 /*   of the specified environment.            */
 /**********************************************/
 void *GetEnvironmentContext(
-  Environment *theEnvironment)
-  {
-   return theEnvironment->context;
-  }
+        Environment *theEnvironment) {
+    return theEnvironment->context;
+}
 
 /*******************************************/
 /* SetEnvironmentContext: Sets the context */
 /*   of the specified environment.         */
 /*******************************************/
 void *SetEnvironmentContext(
-  Environment *theEnvironment,
-  void *theContext)
-  {
-   void *oldContext;
+        Environment *theEnvironment,
+        void *theContext) {
+    void *oldContext;
 
-   oldContext = theEnvironment->context;
+    oldContext = theEnvironment->context;
 
-   theEnvironment->context = theContext;
+    theEnvironment->context = theContext;
 
-   return oldContext;
-  }
+    return oldContext;
+}
 
 /**************************************************/
 /* AddEnvironmentCleanupFunction: Adds a function */
 /*   to the ListOfCleanupEnvironmentFunctions.    */
 /**************************************************/
 bool AddEnvironmentCleanupFunction(
-  Environment *theEnv,
-  const char *name,
-  EnvironmentCleanupFunction *functionPtr,
-  int priority)
-  {
-   struct environmentCleanupFunction *newPtr, *currentPtr, *lastPtr = NULL;
+        Environment *theEnv,
+        const char *name,
+        EnvironmentCleanupFunction *functionPtr,
+        int priority) {
+    struct environmentCleanupFunction *newPtr, *currentPtr, *lastPtr = NULL;
 
-   newPtr = (struct environmentCleanupFunction *) malloc(sizeof(struct environmentCleanupFunction));
-   if (newPtr == NULL)
-     { return false; }
+    newPtr = (struct environmentCleanupFunction *) malloc(sizeof(struct environmentCleanupFunction));
+    if (newPtr == NULL) { return false; }
 
-   newPtr->name = name;
-   newPtr->func = functionPtr;
-   newPtr->priority = priority;
+    newPtr->name = name;
+    newPtr->func = functionPtr;
+    newPtr->priority = priority;
 
-   if (theEnv->listOfCleanupEnvironmentFunctions == NULL)
-     {
-      newPtr->next = NULL;
-      theEnv->listOfCleanupEnvironmentFunctions = newPtr;
-      return true;
-     }
+    if (theEnv->listOfCleanupEnvironmentFunctions == NULL) {
+        newPtr->next = NULL;
+        theEnv->listOfCleanupEnvironmentFunctions = newPtr;
+        return true;
+    }
 
-   currentPtr = theEnv->listOfCleanupEnvironmentFunctions;
-   while ((currentPtr != NULL) ? (priority < currentPtr->priority) : false)
-     {
-      lastPtr = currentPtr;
-      currentPtr = currentPtr->next;
-     }
+    currentPtr = theEnv->listOfCleanupEnvironmentFunctions;
+    while ((currentPtr != NULL) ? (priority < currentPtr->priority) : false) {
+        lastPtr = currentPtr;
+        currentPtr = currentPtr->next;
+    }
 
-   if (lastPtr == NULL)
-     {
-      newPtr->next = theEnv->listOfCleanupEnvironmentFunctions;
-      theEnv->listOfCleanupEnvironmentFunctions = newPtr;
-     }
-   else
-     {
-      newPtr->next = currentPtr;
-      lastPtr->next = newPtr;
-     }
+    if (lastPtr == NULL) {
+        newPtr->next = theEnv->listOfCleanupEnvironmentFunctions;
+        theEnv->listOfCleanupEnvironmentFunctions = newPtr;
+    } else {
+        newPtr->next = currentPtr;
+        lastPtr->next = newPtr;
+    }
 
-   return true;
-  }
+    return true;
+}

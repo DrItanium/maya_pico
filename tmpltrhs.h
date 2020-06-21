@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*          DEFTEMPLATE RHS PARSING HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*          DEFTEMPLATE RHS PARSING HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -46,8 +46,8 @@
 #include "Scanner.h"
 #include "tmpltdef.h"
 
-   struct expr                   *ParseAssertTemplate(Environment *,const char *,struct token *,bool *,
-                                                      TokenType,bool,Deftemplate *);
+struct expr *ParseAssertTemplate(Environment *, const char *, struct token *, bool *,
+                                 TokenType, bool, Deftemplate *);
 
 #endif /* _H_tmpltrhs */
 

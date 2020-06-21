@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  07/30/16             */
-   /*                                                     */
-   /*           FACT LHS PATTERN PARSING MODULE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  07/30/16             */
+/*                                                     */
+/*           FACT LHS PATTERN PARSING MODULE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Contains routines for integration of ordered and */
@@ -70,89 +70,84 @@
 /*             ::= (<symbol> <constraint>+)    */
 /***********************************************/
 struct lhsParseNode *SequenceRestrictionParse(
-  Environment *theEnv,
-  const char *readSource,
-  struct token *theToken)
-  {
-   struct lhsParseNode *topNode;
-   struct lhsParseNode *nextField;
+        Environment *theEnv,
+        const char *readSource,
+        struct token *theToken) {
+    struct lhsParseNode *topNode;
+    struct lhsParseNode *nextField;
 
-   /*================================================*/
-   /* Create the pattern node for the relation name. */
-   /*================================================*/
+    /*================================================*/
+    /* Create the pattern node for the relation name. */
+    /*================================================*/
 
-   topNode = GetLHSParseNode(theEnv);
-   topNode->pnType = SF_WILDCARD_NODE;
-   topNode->negated = false;
-   topNode->exists = false;
-   topNode->index = NO_INDEX;
-   topNode->slotNumber = 1;
-   topNode->bottom = GetLHSParseNode(theEnv);
-   topNode->bottom->pnType = SYMBOL_NODE;
-   topNode->bottom->negated = false;
-   topNode->bottom->exists = false;
-   topNode->bottom->value = theToken->value;
+    topNode = GetLHSParseNode(theEnv);
+    topNode->pnType = SF_WILDCARD_NODE;
+    topNode->negated = false;
+    topNode->exists = false;
+    topNode->index = NO_INDEX;
+    topNode->slotNumber = 1;
+    topNode->bottom = GetLHSParseNode(theEnv);
+    topNode->bottom->pnType = SYMBOL_NODE;
+    topNode->bottom->negated = false;
+    topNode->bottom->exists = false;
+    topNode->bottom->value = theToken->value;
 
-   /*======================================================*/
-   /* Connective constraints cannot be used in conjunction */
-   /* with the first field of a pattern.                   */
-   /*======================================================*/
+    /*======================================================*/
+    /* Connective constraints cannot be used in conjunction */
+    /* with the first field of a pattern.                   */
+    /*======================================================*/
 
-   SavePPBuffer(theEnv," ");
-   GetToken(theEnv,readSource,theToken);
-   if ((theToken->tknType == OR_CONSTRAINT_TOKEN) ||
-       (theToken->tknType == AND_CONSTRAINT_TOKEN))
-     {
-      ReturnLHSParseNodes(theEnv,topNode);
-      SyntaxErrorMessage(theEnv,"the first field of a pattern");
-      return NULL;
-     }
+    SavePPBuffer(theEnv, " ");
+    GetToken(theEnv, readSource, theToken);
+    if ((theToken->tknType == OR_CONSTRAINT_TOKEN) ||
+        (theToken->tknType == AND_CONSTRAINT_TOKEN)) {
+        ReturnLHSParseNodes(theEnv, topNode);
+        SyntaxErrorMessage(theEnv, "the first field of a pattern");
+        return NULL;
+    }
 
-   /*============================================================*/
-   /* Treat the remaining constraints of an ordered fact pattern */
-   /* as if they were contained in a multifield slot.            */
-   /*============================================================*/
+    /*============================================================*/
+    /* Treat the remaining constraints of an ordered fact pattern */
+    /* as if they were contained in a multifield slot.            */
+    /*============================================================*/
 
-   nextField = RestrictionParse(theEnv,readSource,theToken,true,NULL,1,NULL,1);
-   if (nextField == NULL)
-     {
-      ReturnLHSParseNodes(theEnv,topNode);
-      return NULL;
-     }
-   topNode->right = nextField;
+    nextField = RestrictionParse(theEnv, readSource, theToken, true, NULL, 1, NULL, 1);
+    if (nextField == NULL) {
+        ReturnLHSParseNodes(theEnv, topNode);
+        return NULL;
+    }
+    topNode->right = nextField;
 
-   /*================================================*/
-   /* The pattern must end with a right parenthesis. */
-   /*================================================*/
+    /*================================================*/
+    /* The pattern must end with a right parenthesis. */
+    /*================================================*/
 
-   if (theToken->tknType != RIGHT_PARENTHESIS_TOKEN)
-     {
-      PPBackup(theEnv);
-      SavePPBuffer(theEnv," ");
-      SavePPBuffer(theEnv,theToken->printForm);
-      SyntaxErrorMessage(theEnv,"fact patterns");
-      ReturnLHSParseNodes(theEnv,topNode);
-      return NULL;
-     }
+    if (theToken->tknType != RIGHT_PARENTHESIS_TOKEN) {
+        PPBackup(theEnv);
+        SavePPBuffer(theEnv, " ");
+        SavePPBuffer(theEnv, theToken->printForm);
+        SyntaxErrorMessage(theEnv, "fact patterns");
+        ReturnLHSParseNodes(theEnv, topNode);
+        return NULL;
+    }
 
-   /*====================================*/
-   /* Fix the pretty print output if the */
-   /* slot contained no restrictions.    */
-   /*====================================*/
+    /*====================================*/
+    /* Fix the pretty print output if the */
+    /* slot contained no restrictions.    */
+    /*====================================*/
 
-   if (nextField->bottom == NULL)
-     {
-      PPBackup(theEnv);
-      PPBackup(theEnv);
-      SavePPBuffer(theEnv,")");
-     }
+    if (nextField->bottom == NULL) {
+        PPBackup(theEnv);
+        PPBackup(theEnv);
+        SavePPBuffer(theEnv, ")");
+    }
 
-   /*===================================*/
-   /* If no errors, return the pattern. */
-   /*===================================*/
+    /*===================================*/
+    /* If no errors, return the pattern. */
+    /*===================================*/
 
-   return(topNode);
-  }
+    return (topNode);
+}
 
 /**********************************************************************/
 /* FactPatternParserFind: This function is the pattern find function  */
@@ -163,86 +158,79 @@ struct lhsParseNode *SequenceRestrictionParse(
 /*   can be parsed as a fact pattern.                                 */
 /**********************************************************************/
 bool FactPatternParserFind(
-  CLIPSLexeme *theRelation)
-  {
+        CLIPSLexeme *theRelation) {
 #if MAC_XCD
 #pragma unused(theRelation)
 #endif
-   return true;
-  }
+    return true;
+}
 
 /******************************************************/
 /* FactPatternParse: This function is called to parse */
 /*  both deftemplate and ordered fact patterns.       */
 /******************************************************/
 struct lhsParseNode *FactPatternParse(
-  Environment *theEnv,
-  const char *readSource,
-  struct token *theToken)
-  {
-   Deftemplate *theDeftemplate;
-   unsigned int count;
+        Environment *theEnv,
+        const char *readSource,
+        struct token *theToken) {
+    Deftemplate *theDeftemplate;
+    unsigned int count;
 
-   /*=========================================*/
-   /* A module separator can not be included  */
-   /* as part of the pattern's relation name. */
-   /*=========================================*/
+    /*=========================================*/
+    /* A module separator can not be included  */
+    /* as part of the pattern's relation name. */
+    /*=========================================*/
 
-   if (FindModuleSeparator(theToken->lexemeValue->contents))
-     {
-      IllegalModuleSpecifierMessage(theEnv);
-      return NULL;
-     }
+    if (FindModuleSeparator(theToken->lexemeValue->contents)) {
+        IllegalModuleSpecifierMessage(theEnv);
+        return NULL;
+    }
 
-   /*=========================================================*/
-   /* Find the deftemplate associated with the relation name. */
-   /*=========================================================*/
+    /*=========================================================*/
+    /* Find the deftemplate associated with the relation name. */
+    /*=========================================================*/
 
-   theDeftemplate = (Deftemplate *)
-                    FindImportedConstruct(theEnv,"deftemplate",NULL,theToken->lexemeValue->contents,
-                                          &count,true,NULL);
+    theDeftemplate = (Deftemplate *)
+            FindImportedConstruct(theEnv, "deftemplate", NULL, theToken->lexemeValue->contents,
+                                  &count, true, NULL);
 
-   if (count > 1)
-     {
-      AmbiguousReferenceErrorMessage(theEnv,"deftemplate",theToken->lexemeValue->contents);
-      return NULL;
-     }
+    if (count > 1) {
+        AmbiguousReferenceErrorMessage(theEnv, "deftemplate", theToken->lexemeValue->contents);
+        return NULL;
+    }
 
-   /*======================================================*/
-   /* If no deftemplate exists with the specified relation */
-   /* name, then create an implied deftemplate.            */
-   /*======================================================*/
+    /*======================================================*/
+    /* If no deftemplate exists with the specified relation */
+    /* name, then create an implied deftemplate.            */
+    /*======================================================*/
 
-   if (theDeftemplate == NULL)
-     {
+    if (theDeftemplate == NULL) {
 #if DEFMODULE_CONSTRUCT
-      if (FindImportExportConflict(theEnv,"deftemplate",GetCurrentModule(theEnv),theToken->lexemeValue->contents))
-        {
-         ImportExportConflictMessage(theEnv,"implied deftemplate",theToken->lexemeValue->contents,NULL,NULL);
-         return NULL;
+        if (FindImportExportConflict(theEnv, "deftemplate", GetCurrentModule(theEnv), theToken->lexemeValue->contents)) {
+            ImportExportConflictMessage(theEnv, "implied deftemplate", theToken->lexemeValue->contents, NULL, NULL);
+            return NULL;
         }
 #endif /* DEFMODULE_CONSTRUCT */
 
-      if (! ConstructData(theEnv)->CheckSyntaxMode)
-        { theDeftemplate = CreateImpliedDeftemplate(theEnv,theToken->lexemeValue,true); }
-      else
-        { theDeftemplate = NULL; }
-     }
+        if (!ConstructData(theEnv)->CheckSyntaxMode) { theDeftemplate = CreateImpliedDeftemplate(theEnv, theToken->lexemeValue, true); }
+        else { theDeftemplate = NULL; }
+    }
 
-   /*===============================================*/
-   /* If an explicit deftemplate exists, then parse */
-   /* the pattern as a deftemplate pattern.         */
-   /*===============================================*/
+    /*===============================================*/
+    /* If an explicit deftemplate exists, then parse */
+    /* the pattern as a deftemplate pattern.         */
+    /*===============================================*/
 
-   if ((theDeftemplate != NULL) && (theDeftemplate->implied == false))
-     { return(DeftemplateLHSParse(theEnv,readSource,theDeftemplate)); }
+    if ((theDeftemplate != NULL) && (theDeftemplate->implied == false)) {
+        return (DeftemplateLHSParse(theEnv, readSource, theDeftemplate));
+    }
 
-   /*================================*/
-   /* Parse an ordered fact pattern. */
-   /*================================*/
+    /*================================*/
+    /* Parse an ordered fact pattern. */
+    /*================================*/
 
-   return(SequenceRestrictionParse(theEnv,readSource,theToken));
-  }
+    return (SequenceRestrictionParse(theEnv, readSource, theToken));
+}
 
 #endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT */
 

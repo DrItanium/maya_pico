@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -47,7 +47,7 @@
 #include "Entities.h"
 #include "dffnxfun.h"
 
-   void                           CallDeffunction(Environment *,Deffunction *,Expression *,UDFValue *);
+void CallDeffunction(Environment *, Deffunction *, Expression *, UDFValue *);
 
 #endif /* DEFFUNCTION_CONSTRUCT */
 

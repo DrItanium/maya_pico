@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                  DRIVE HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                  DRIVE HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Handles join network activity associated with    */
@@ -48,14 +48,14 @@
 #include "Match.h"
 #include "Network.h"
 
-   void                           NetworkAssert(Environment *,struct partialMatch *,struct joinNode *);
-   bool                           EvaluateJoinExpression(Environment *,struct expr *,struct joinNode *);
-   void                           NetworkAssertLeft(Environment *,struct partialMatch *,struct joinNode *,int);
-   void                           NetworkAssertRight(Environment *,struct partialMatch *,struct joinNode *,int);
-   void                           PPDrive(Environment *,struct partialMatch *,struct partialMatch *,struct joinNode *,int);
-   unsigned long                  BetaMemoryHashValue(Environment *,struct expr *,struct partialMatch *,struct partialMatch *,struct joinNode *);
-   bool                           EvaluateSecondaryNetworkTest(Environment *,struct partialMatch *,struct joinNode *);
-   void                           EPMDrive(Environment *,struct partialMatch *,struct joinNode *,int);
+void NetworkAssert(Environment *, struct partialMatch *, struct joinNode *);
+bool EvaluateJoinExpression(Environment *, struct expr *, struct joinNode *);
+void NetworkAssertLeft(Environment *, struct partialMatch *, struct joinNode *, int);
+void NetworkAssertRight(Environment *, struct partialMatch *, struct joinNode *, int);
+void PPDrive(Environment *, struct partialMatch *, struct partialMatch *, struct joinNode *, int);
+unsigned long BetaMemoryHashValue(Environment *, struct expr *, struct partialMatch *, struct partialMatch *, struct joinNode *);
+bool EvaluateSecondaryNetworkTest(Environment *, struct partialMatch *, struct joinNode *);
+void EPMDrive(Environment *, struct partialMatch *, struct joinNode *, int);
 
 #endif /* _H_drive */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -65,79 +65,76 @@
 #include "Scanner.h"
 #include "Symbol.h"
 
-typedef struct ProcParamStack
-  {
-   UDFValue *ParamArray;
+typedef struct ProcParamStack {
+    UDFValue *ParamArray;
 
 #if DEFGENERIC_CONSTRUCT
-   Expression *ParamExpressions;
+    Expression *ParamExpressions;
 #endif
 
-   unsigned int ParamArraySize;
-   UDFValue *WildcardValue;
-   void (*UnboundErrFunc)(Environment *,const char *);
-   struct ProcParamStack *nxt;
-  } PROC_PARAM_STACK;
+    unsigned int ParamArraySize;
+    UDFValue *WildcardValue;
+    void (*UnboundErrFunc)(Environment *, const char *);
+    struct ProcParamStack *nxt;
+} PROC_PARAM_STACK;
 
 #define PROCEDURAL_PRIMITIVE_DATA 37
 
-struct proceduralPrimitiveData
-  {
-   Multifield *NoParamValue;
-   UDFValue *ProcParamArray;
-   unsigned int ProcParamArraySize;
-   Expression *CurrentProcActions;
+struct proceduralPrimitiveData {
+    Multifield *NoParamValue;
+    UDFValue *ProcParamArray;
+    unsigned int ProcParamArraySize;
+    Expression *CurrentProcActions;
 #if DEFGENERIC_CONSTRUCT
-   Expression *ProcParamExpressions;
+    Expression *ProcParamExpressions;
 #endif
-   PROC_PARAM_STACK *pstack;
-   UDFValue *WildcardValue;
-   UDFValue *LocalVarArray;
-   void (*ProcUnboundErrFunc)(Environment *,const char *);
-   EntityRecord ProcParameterInfo;
-   EntityRecord ProcWildInfo;
-   EntityRecord ProcGetInfo;
-   EntityRecord ProcBindInfo;
-#if ! DEFFUNCTION_CONSTRUCT
-   EntityRecord DeffunctionEntityRecord;
+    PROC_PARAM_STACK *pstack;
+    UDFValue *WildcardValue;
+    UDFValue *LocalVarArray;
+    void (*ProcUnboundErrFunc)(Environment *, const char *);
+    EntityRecord ProcParameterInfo;
+    EntityRecord ProcWildInfo;
+    EntityRecord ProcGetInfo;
+    EntityRecord ProcBindInfo;
+#if !DEFFUNCTION_CONSTRUCT
+    EntityRecord DeffunctionEntityRecord;
 #endif
-#if ! DEFGENERIC_CONSTRUCT
-   EntityRecord GenericEntityRecord;
+#if !DEFGENERIC_CONSTRUCT
+    EntityRecord GenericEntityRecord;
 #endif
-   unsigned int Oldindex;
-  };
+    unsigned int Oldindex;
+};
 
 #define ProceduralPrimitiveData(theEnv) ((struct proceduralPrimitiveData *) GetEnvironmentData(theEnv,PROCEDURAL_PRIMITIVE_DATA))
 
-   void                           InstallProcedurePrimitives(Environment *);
-
+void InstallProcedurePrimitives(Environment *);
 
 #if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
-   Expression                    *ParseProcParameters(Environment *,const char *,struct token *,Expression *,
-                                                             CLIPSLexeme **,unsigned short *,unsigned short *,bool *,
-                                                             bool (*)(Environment *,const char *));
+Expression *ParseProcParameters(Environment *, const char *, struct token *, Expression *,
+                                CLIPSLexeme **, unsigned short *, unsigned short *, bool *,
+                                bool (*)(Environment *, const char *));
 #endif
-   Expression                    *ParseProcActions(Environment *,const char *,const char *,struct token *,Expression *,CLIPSLexeme *,
-                                                          int (*)(Environment *,Expression *,void *),
-                                                          int (*)(Environment *,Expression *,void *),
-                                                          unsigned short *,void *);
-   int                            ReplaceProcVars(Environment *,const char *,Expression *,Expression *,CLIPSLexeme *,
-                                                         int (*)(Environment *,Expression *,void *),void *);
+Expression *ParseProcActions(Environment *, const char *, const char *, struct token *, Expression *, CLIPSLexeme *,
+                             int (*)(Environment *, Expression *, void *),
+                             int (*)(Environment *, Expression *, void *),
+                             unsigned short *, void *);
+int ReplaceProcVars(Environment *, const char *, Expression *, Expression *, CLIPSLexeme *,
+                    int (*)(Environment *, Expression *, void *), void *);
 #if DEFGENERIC_CONSTRUCT
-   Expression                    *GenProcWildcardReference(Environment *,int);
+Expression *GenProcWildcardReference(Environment *, int);
 #endif
 
-   void                           PushProcParameters(Environment *,Expression *,unsigned int,const char *,const char *,void (*)(Environment *,const char *));
-   void                           PopProcParameters(Environment *);
+void PushProcParameters(Environment *, Expression *, unsigned int, const char *, const char *, void (*)(Environment *, const char *));
+void PopProcParameters(Environment *);
 
 #if DEFGENERIC_CONSTRUCT
-   Expression                    *GetProcParamExpressions(Environment *);
+Expression *GetProcParamExpressions(Environment *);
 #endif
 
-   void                           EvaluateProcActions(Environment *,Defmodule *,Expression *,unsigned short,
-                                                      UDFValue *,void (*)(Environment *,const char *));
-   void                           PrintProcParamArray(Environment *,const char *);
-   void                           GrabProcWildargs(Environment *,UDFValue *,unsigned int);
+void EvaluateProcActions(Environment *, Defmodule *, Expression *, unsigned short,
+                         UDFValue *, void (*)(Environment *, const char *));
+void PrintProcParamArray(Environment *, const char *);
+void GrabProcWildargs(Environment *, UDFValue *, unsigned int);
 
 #endif /* _H_prccode */
 

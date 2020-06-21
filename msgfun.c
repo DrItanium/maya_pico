@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  06/22/18             */
-   /*                                                     */
-   /*              OBJECT MESSAGE FUNCTIONS               */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  06/22/18             */
+/*                                                     */
+/*              OBJECT MESSAGE FUNCTIONS               */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -74,8 +74,8 @@
 /***************************************/
 
 #if DEBUGGING_FUNCTIONS
-   static HANDLER_LINK           *DisplayPrimaryCore(Environment *,const char *,HANDLER_LINK *,int);
-   static void                    PrintPreviewHandler(Environment *,const char *,HANDLER_LINK *,int,const char *);
+static HANDLER_LINK *DisplayPrimaryCore(Environment *, const char *, HANDLER_LINK *, int);
+static void PrintPreviewHandler(Environment *, const char *, HANDLER_LINK *, int, const char *);
 #endif
 
 /* =========================================
@@ -95,12 +95,11 @@
   NOTES        : None
  ********************************************************/
 void UnboundHandlerErr(
-  Environment *theEnv,
-  const char *logName)
-  {
-   WriteString(theEnv,logName,"message-handler ");
-   PrintHandler(theEnv,logName,MessageHandlerData(theEnv)->CurrentCore->hnd,true,true);
-  }
+        Environment *theEnv,
+        const char *logName) {
+    WriteString(theEnv, logName, "message-handler ");
+    PrintHandler(theEnv, logName, MessageHandlerData(theEnv)->CurrentCore->hnd, true, true);
+}
 
 /*****************************************************************
   NAME         : PrintNoHandlerError
@@ -111,14 +110,13 @@ void UnboundHandlerErr(
   NOTES        : None
  *****************************************************************/
 void PrintNoHandlerError(
-  Environment *theEnv,
-  const char *msg)
-  {
-   PrintErrorID(theEnv,"MSGFUN",1,false);
-   WriteString(theEnv,STDERR,"No applicable primary message-handlers found for '");
-   WriteString(theEnv,STDERR,msg);
-   WriteString(theEnv,STDERR,"'.\n");
-  }
+        Environment *theEnv,
+        const char *msg) {
+    PrintErrorID(theEnv, "MSGFUN", 1, false);
+    WriteString(theEnv, STDERR, "No applicable primary message-handlers found for '");
+    WriteString(theEnv, STDERR, msg);
+    WriteString(theEnv, STDERR, "'.\n");
+}
 
 /***************************************************************
   NAME         : CheckHandlerArgCount
@@ -131,40 +129,36 @@ void PrintNoHandlerError(
   NOTES        : Uses ProcParamArraySize and CurrentCore globals
  ***************************************************************/
 bool CheckHandlerArgCount(
-  Environment *theEnv)
-  {
-   DefmessageHandler *hnd;
+        Environment *theEnv) {
+    DefmessageHandler *hnd;
 
-   hnd = MessageHandlerData(theEnv)->CurrentCore->hnd;
-   if ((hnd->maxParams == PARAMETERS_UNBOUNDED) ?
-          (ProceduralPrimitiveData(theEnv)->ProcParamArraySize < hnd->minParams) : // TBD
-          (ProceduralPrimitiveData(theEnv)->ProcParamArraySize != hnd->minParams))
-     {
-      SetEvaluationError(theEnv,true);
-      PrintErrorID(theEnv,"MSGFUN",2,false);
-      WriteString(theEnv,STDERR,"Message-handler '");
-      WriteString(theEnv,STDERR,hnd->header.name->contents);
-      WriteString(theEnv,STDERR,"' ");
-      WriteString(theEnv,STDERR,MessageHandlerData(theEnv)->hndquals[hnd->type]);
-      WriteString(theEnv,STDERR," in class '");
-      WriteString(theEnv,STDERR,DefclassName(hnd->cls));
-      WriteString(theEnv,STDERR,"' expected ");
-      
-      if (hnd->maxParams == PARAMETERS_UNBOUNDED)
-        WriteString(theEnv,STDERR,"at least ");
-      else
-        WriteString(theEnv,STDERR,"exactly ");
-        
-      PrintUnsignedInteger(theEnv,STDERR,hnd->minParams-1);
-      if (hnd->minParams-1 == 1)
-        { WriteString(theEnv,STDERR," argument.\n"); }
-      else
-        { WriteString(theEnv,STDERR," arguments.\n"); }
-        
-      return false;
-     }
-   return true;
-  }
+    hnd = MessageHandlerData(theEnv)->CurrentCore->hnd;
+    if ((hnd->maxParams == PARAMETERS_UNBOUNDED) ?
+        (ProceduralPrimitiveData(theEnv)->ProcParamArraySize < hnd->minParams) : // TBD
+        (ProceduralPrimitiveData(theEnv)->ProcParamArraySize != hnd->minParams)) {
+        SetEvaluationError(theEnv, true);
+        PrintErrorID(theEnv, "MSGFUN", 2, false);
+        WriteString(theEnv, STDERR, "Message-handler '");
+        WriteString(theEnv, STDERR, hnd->header.name->contents);
+        WriteString(theEnv, STDERR, "' ");
+        WriteString(theEnv, STDERR, MessageHandlerData(theEnv)->hndquals[hnd->type]);
+        WriteString(theEnv, STDERR, " in class '");
+        WriteString(theEnv, STDERR, DefclassName(hnd->cls));
+        WriteString(theEnv, STDERR, "' expected ");
+
+        if (hnd->maxParams == PARAMETERS_UNBOUNDED)
+            WriteString(theEnv, STDERR, "at least ");
+        else
+            WriteString(theEnv, STDERR, "exactly ");
+
+        PrintUnsignedInteger(theEnv, STDERR, hnd->minParams - 1);
+        if (hnd->minParams - 1 == 1) { WriteString(theEnv, STDERR, " argument.\n"); }
+        else { WriteString(theEnv, STDERR, " arguments.\n"); }
+
+        return false;
+    }
+    return true;
+}
 
 /***************************************************
   NAME         : SlotAccessViolationError
@@ -181,30 +175,26 @@ bool CheckHandlerArgCount(
   NOTES        : None
  ***************************************************/
 void SlotAccessViolationError(
-  Environment *theEnv,
-  const char *slotName,
-  Instance *theInstance,
-  Defclass *theDefclass)
-  {
-   PrintErrorID(theEnv,"MSGFUN",3,false);
-   WriteString(theEnv,STDERR,"Write access denied for slot '");
-   WriteString(theEnv,STDERR,slotName);
-   WriteString(theEnv,STDERR,"' in ");
-   if (theInstance != NULL)
-     {
-      WriteString(theEnv,STDERR,"instance ");
-      WriteString(theEnv,STDERR,"[");
-      WriteString(theEnv,STDERR,InstanceName(theInstance));
-      WriteString(theEnv,STDERR,"] of class ");
-      PrintClassName(theEnv,STDERR,theInstance->cls,true,false);
-     }
-   else
-     {
-      WriteString(theEnv,STDERR,"class ");
-      PrintClassName(theEnv,STDERR,theDefclass,true,false);
-     }
-   WriteString(theEnv,STDERR,".\n");
-  }
+        Environment *theEnv,
+        const char *slotName,
+        Instance *theInstance,
+        Defclass *theDefclass) {
+    PrintErrorID(theEnv, "MSGFUN", 3, false);
+    WriteString(theEnv, STDERR, "Write access denied for slot '");
+    WriteString(theEnv, STDERR, slotName);
+    WriteString(theEnv, STDERR, "' in ");
+    if (theInstance != NULL) {
+        WriteString(theEnv, STDERR, "instance ");
+        WriteString(theEnv, STDERR, "[");
+        WriteString(theEnv, STDERR, InstanceName(theInstance));
+        WriteString(theEnv, STDERR, "] of class ");
+        PrintClassName(theEnv, STDERR, theInstance->cls, true, false);
+    } else {
+        WriteString(theEnv, STDERR, "class ");
+        PrintClassName(theEnv, STDERR, theDefclass, true, false);
+    }
+    WriteString(theEnv, STDERR, ".\n");
+}
 
 /***************************************************
   NAME         : SlotVisibilityViolationError
@@ -218,21 +208,19 @@ void SlotAccessViolationError(
   NOTES        : None
  ***************************************************/
 void SlotVisibilityViolationError(
-  Environment *theEnv,
-  SlotDescriptor *sd,
-  Defclass *theDefclass,
-  bool printCR)
-  {
-   PrintErrorID(theEnv,"MSGFUN",6,printCR);
-   WriteString(theEnv,STDERR,"Private slot '");
-   WriteString(theEnv,STDERR,sd->slotName->name->contents);
-   WriteString(theEnv,STDERR,"' of class ");
-   PrintClassName(theEnv,STDERR,sd->cls,true,false);
-   WriteString(theEnv,STDERR," cannot be accessed directly by handlers attached to class ");
-   PrintClassName(theEnv,STDERR,theDefclass,true,false);
-   WriteString(theEnv,STDERR,"\n");
-  }
-
+        Environment *theEnv,
+        SlotDescriptor *sd,
+        Defclass *theDefclass,
+        bool printCR) {
+    PrintErrorID(theEnv, "MSGFUN", 6, printCR);
+    WriteString(theEnv, STDERR, "Private slot '");
+    WriteString(theEnv, STDERR, sd->slotName->name->contents);
+    WriteString(theEnv, STDERR, "' of class ");
+    PrintClassName(theEnv, STDERR, sd->cls, true, false);
+    WriteString(theEnv, STDERR, " cannot be accessed directly by handlers attached to class ");
+    PrintClassName(theEnv, STDERR, theDefclass, true, false);
+    WriteString(theEnv, STDERR, "\n");
+}
 
 /******************************************************************************
   NAME         : NewSystemHandler
@@ -256,27 +244,26 @@ void SlotVisibilityViolationError(
   NOTES        : Does not check to see if handler already exists
  *******************************************************************************/
 void NewSystemHandler(
-  Environment *theEnv,
-  const char *cname,
-  const char *mname,
-  const char *fname,
-  unsigned short extraargs)
-  {
-   Defclass *cls;
-   DefmessageHandler *hnd;
+        Environment *theEnv,
+        const char *cname,
+        const char *mname,
+        const char *fname,
+        unsigned short extraargs) {
+    Defclass *cls;
+    DefmessageHandler *hnd;
 
-   cls = LookupDefclassInScope(theEnv,cname);
-   hnd = InsertHandlerHeader(theEnv,cls,CreateSymbol(theEnv,mname),MPRIMARY);
-   IncrementLexemeCount(hnd->header.name);
-   hnd->system = 1;
-   hnd->minParams = hnd->maxParams = extraargs + 1;
-   hnd->localVarCount = 0;
-   hnd->actions = get_struct(theEnv,expr);
-   hnd->actions->argList = NULL;
-   hnd->actions->type = FCALL;
-   hnd->actions->value = FindFunction(theEnv,fname);
-   hnd->actions->nextArg = NULL;
-  }
+    cls = LookupDefclassInScope(theEnv, cname);
+    hnd = InsertHandlerHeader(theEnv, cls, CreateSymbol(theEnv, mname), MPRIMARY);
+    IncrementLexemeCount(hnd->header.name);
+    hnd->system = 1;
+    hnd->minParams = hnd->maxParams = extraargs + 1;
+    hnd->localVarCount = 0;
+    hnd->actions = get_struct(theEnv, expr);
+    hnd->actions->argList = NULL;
+    hnd->actions->type = FCALL;
+    hnd->actions->value = FindFunction(theEnv, fname);
+    hnd->actions->nextArg = NULL;
+}
 
 /***************************************************
   NAME         : InsertHandlerHeader
@@ -293,66 +280,61 @@ void NewSystemHandler(
   NOTES        : Assumes handler does not exist
  ***************************************************/
 DefmessageHandler *InsertHandlerHeader(
-  Environment *theEnv,
-  Defclass *cls,
-  CLIPSLexeme *mname,
-  unsigned mtype)
-  {
-   DefmessageHandler *nhnd,*hnd;
-   unsigned *narr,*arr;
-   long i;
-   long j,ni = -1;
+        Environment *theEnv,
+        Defclass *cls,
+        CLIPSLexeme *mname,
+        unsigned mtype) {
+    DefmessageHandler *nhnd, *hnd;
+    unsigned *narr, *arr;
+    long i;
+    long j, ni = -1;
 
-   hnd = cls->handlers;
-   arr = cls->handlerOrderMap;
-   nhnd = (DefmessageHandler *) gm2(theEnv,(sizeof(DefmessageHandler) * (cls->handlerCount+1)));
-   narr = (unsigned *) gm2(theEnv,(sizeof(unsigned) * (cls->handlerCount+1)));
-   GenCopyMemory(DefmessageHandler,cls->handlerCount,nhnd,hnd);
-   for (i = 0 , j = 0 ; i < cls->handlerCount ; i++ , j++)
-     {
-      if (ni == -1)
-        {
-         if ((hnd[arr[i]].header.name->bucket > mname->bucket) ? true :
-             (hnd[arr[i]].header.name == mname))
-           {
-            ni = i;
-            j++;
-           }
+    hnd = cls->handlers;
+    arr = cls->handlerOrderMap;
+    nhnd = (DefmessageHandler *) gm2(theEnv, (sizeof(DefmessageHandler) * (cls->handlerCount + 1)));
+    narr = (unsigned *) gm2(theEnv, (sizeof(unsigned) * (cls->handlerCount + 1)));
+    GenCopyMemory(DefmessageHandler, cls->handlerCount, nhnd, hnd);
+    for (i = 0, j = 0; i < cls->handlerCount; i++, j++) {
+        if (ni == -1) {
+            if ((hnd[arr[i]].header.name->bucket > mname->bucket) ? true :
+                (hnd[arr[i]].header.name == mname)) {
+                ni = i;
+                j++;
+            }
         }
-      narr[j] = arr[i];
-     }
-   if (ni == -1)
-     ni = (int) cls->handlerCount;
-   narr[ni] = cls->handlerCount;
-   nhnd[cls->handlerCount].system = 0;
-   nhnd[cls->handlerCount].type = mtype;
-   nhnd[cls->handlerCount].busy = 0;
-   nhnd[cls->handlerCount].mark = 0;
+        narr[j] = arr[i];
+    }
+    if (ni == -1)
+        ni = (int) cls->handlerCount;
+    narr[ni] = cls->handlerCount;
+    nhnd[cls->handlerCount].system = 0;
+    nhnd[cls->handlerCount].type = mtype;
+    nhnd[cls->handlerCount].busy = 0;
+    nhnd[cls->handlerCount].mark = 0;
 #if DEBUGGING_FUNCTIONS
-   nhnd[cls->handlerCount].trace = MessageHandlerData(theEnv)->WatchHandlers;
+    nhnd[cls->handlerCount].trace = MessageHandlerData(theEnv)->WatchHandlers;
 #endif
-   nhnd[cls->handlerCount].header.name = mname;
-   nhnd[cls->handlerCount].header.whichModule = cls->header.whichModule;
-   nhnd[cls->handlerCount].header.next = NULL;
-   nhnd[cls->handlerCount].cls = cls;
-   nhnd[cls->handlerCount].minParams = 0;
-   nhnd[cls->handlerCount].maxParams = 0;
-   nhnd[cls->handlerCount].localVarCount = 0;
-   nhnd[cls->handlerCount].actions = NULL;
-   nhnd[cls->handlerCount].header.ppForm = NULL;
-   nhnd[cls->handlerCount].header.usrData = NULL;
-   nhnd[cls->handlerCount].header.constructType = DEFMESSAGE_HANDLER;
-   nhnd[cls->handlerCount].header.env = theEnv;
-   if (cls->handlerCount != 0)
-     {
-      rm(theEnv,hnd,(sizeof(DefmessageHandler) * cls->handlerCount));
-      rm(theEnv,arr,(sizeof(unsigned) * cls->handlerCount));
-     }
-   cls->handlers = nhnd;
-   cls->handlerOrderMap = narr;
-   cls->handlerCount++;
-   return(&nhnd[cls->handlerCount-1]);
-  }
+    nhnd[cls->handlerCount].header.name = mname;
+    nhnd[cls->handlerCount].header.whichModule = cls->header.whichModule;
+    nhnd[cls->handlerCount].header.next = NULL;
+    nhnd[cls->handlerCount].cls = cls;
+    nhnd[cls->handlerCount].minParams = 0;
+    nhnd[cls->handlerCount].maxParams = 0;
+    nhnd[cls->handlerCount].localVarCount = 0;
+    nhnd[cls->handlerCount].actions = NULL;
+    nhnd[cls->handlerCount].header.ppForm = NULL;
+    nhnd[cls->handlerCount].header.usrData = NULL;
+    nhnd[cls->handlerCount].header.constructType = DEFMESSAGE_HANDLER;
+    nhnd[cls->handlerCount].header.env = theEnv;
+    if (cls->handlerCount != 0) {
+        rm(theEnv, hnd, (sizeof(DefmessageHandler) * cls->handlerCount));
+        rm(theEnv, arr, (sizeof(unsigned) * cls->handlerCount));
+    }
+    cls->handlers = nhnd;
+    cls->handlerOrderMap = narr;
+    cls->handlerCount++;
+    return (&nhnd[cls->handlerCount - 1]);
+}
 
 
 
@@ -367,15 +349,14 @@ DefmessageHandler *InsertHandlerHeader(
   NOTES        : None
  *****************************************************/
 bool HandlersExecuting(
-  Defclass *cls)
-  {
-   long i;
+        Defclass *cls) {
+    long i;
 
-   for (i = 0 ; i < cls->handlerCount ; i++)
-     if (cls->handlers[i].busy > 0)
-       return true;
-   return false;
-  }
+    for (i = 0; i < cls->handlerCount; i++)
+        if (cls->handlers[i].busy > 0)
+            return true;
+    return false;
+}
 
 /*********************************************************************
   NAME         : DeleteHandler
@@ -398,90 +379,72 @@ bool HandlersExecuting(
                    will fail
  **********************************************************************/
 bool DeleteHandler(
-   Environment *theEnv,
-   Defclass *cls,
-   CLIPSLexeme *mname,
-   int mtype,
-   bool indicate_missing)
-  {
-   long i;
-   DefmessageHandler *hnd;
-   bool found,success = true;
+        Environment *theEnv,
+        Defclass *cls,
+        CLIPSLexeme *mname,
+        int mtype,
+        bool indicate_missing) {
+    long i;
+    DefmessageHandler *hnd;
+    bool found, success = true;
 
-   if (cls->handlerCount == 0)
-     {
-      if (indicate_missing)
-        {
-         HandlerDeleteError(theEnv,DefclassName(cls));
-         return false;
+    if (cls->handlerCount == 0) {
+        if (indicate_missing) {
+            HandlerDeleteError(theEnv, DefclassName(cls));
+            return false;
         }
-      return true;
-     }
-   if (HandlersExecuting(cls))
-     {
-      HandlerDeleteError(theEnv,DefclassName(cls));
-      return false;
-     }
-   if (mtype == -1)
-     {
-      found = false;
-      for (i = MAROUND ; i <= MAFTER ; i++)
-        {
-         hnd = FindHandlerByAddress(cls,mname,(unsigned) i);
-         if (hnd != NULL)
-           {
-            found = true;
-            if (hnd->system == 0)
-              hnd->mark = 1;
-            else
-              {
-               PrintErrorID(theEnv,"MSGPSR",3,false);
-               WriteString(theEnv,STDERR,"System message-handlers may not be modified.\n");
-               success = false;
-              }
-           }
+        return true;
+    }
+    if (HandlersExecuting(cls)) {
+        HandlerDeleteError(theEnv, DefclassName(cls));
+        return false;
+    }
+    if (mtype == -1) {
+        found = false;
+        for (i = MAROUND; i <= MAFTER; i++) {
+            hnd = FindHandlerByAddress(cls, mname, (unsigned) i);
+            if (hnd != NULL) {
+                found = true;
+                if (hnd->system == 0)
+                    hnd->mark = 1;
+                else {
+                    PrintErrorID(theEnv, "MSGPSR", 3, false);
+                    WriteString(theEnv, STDERR, "System message-handlers may not be modified.\n");
+                    success = false;
+                }
+            }
         }
-      if ((found == false) ? (strcmp(mname->contents,"*") == 0) : false)
-        {
-         for (i = 0 ; i < cls->handlerCount ; i++)
-           if (cls->handlers[i].system == 0)
-             cls->handlers[i].mark = 1;
+        if ((found == false) ? (strcmp(mname->contents, "*") == 0) : false) {
+            for (i = 0; i < cls->handlerCount; i++)
+                if (cls->handlers[i].system == 0)
+                    cls->handlers[i].mark = 1;
         }
-     }
-   else
-     {
-      hnd = FindHandlerByAddress(cls,mname,(unsigned) mtype);
-      if (hnd == NULL)
-        {
-         if (strcmp(mname->contents,"*") == 0)
-           {
-            for (i = 0 ; i < cls->handlerCount ; i++)
-              if ((cls->handlers[i].type == (unsigned) mtype) &&
-                  (cls->handlers[i].system == 0))
-                cls->handlers[i].mark = 1;
-           }
-         else
-           {
-            if (indicate_missing)
-              HandlerDeleteError(theEnv,DefclassName(cls));
+    } else {
+        hnd = FindHandlerByAddress(cls, mname, (unsigned) mtype);
+        if (hnd == NULL) {
+            if (strcmp(mname->contents, "*") == 0) {
+                for (i = 0; i < cls->handlerCount; i++)
+                    if ((cls->handlers[i].type == (unsigned) mtype) &&
+                        (cls->handlers[i].system == 0))
+                        cls->handlers[i].mark = 1;
+            } else {
+                if (indicate_missing)
+                    HandlerDeleteError(theEnv, DefclassName(cls));
+                success = false;
+            }
+        } else if (hnd->system == 0)
+            hnd->mark = 1;
+        else {
+            if (indicate_missing) {
+                PrintErrorID(theEnv, "MSGPSR", 3, false);
+                WriteString(theEnv, STDERR, "System message-handlers may not be modified.\n");
+            }
             success = false;
-           }
         }
-      else if (hnd->system == 0)
-        hnd->mark = 1;
-      else
-        {
-         if (indicate_missing)
-           {
-            PrintErrorID(theEnv,"MSGPSR",3,false);
-            WriteString(theEnv,STDERR,"System message-handlers may not be modified.\n");
-           }
-         success = false;
-        }
-     }
-   DeallocateMarkedHandlers(theEnv,cls);
-   return(success);
-  }
+    }
+    DeallocateMarkedHandlers(theEnv, cls);
+    return (success);
+}
 
 /***************************************************
   NAME         : DeallocateMarkedHandlers
@@ -496,82 +459,70 @@ bool DeleteHandler(
                    busy count != 0 for any reason
  ***************************************************/
 void DeallocateMarkedHandlers(
-  Environment *theEnv,
-  Defclass *cls)
-  {
-   unsigned short count;
-   DefmessageHandler *hnd,*nhnd;
-   unsigned *arr,*narr;
-   long i,j;
+        Environment *theEnv,
+        Defclass *cls) {
+    unsigned short count;
+    DefmessageHandler *hnd, *nhnd;
+    unsigned *arr, *narr;
+    long i, j;
 
-   for (i = 0 , count = 0 ; i < cls->handlerCount ; i++)
-     {
-      hnd = &cls->handlers[i];
-      if (hnd->mark == 1)
-        {
-         count++;
-         ReleaseLexeme(theEnv,hnd->header.name);
-         ExpressionDeinstall(theEnv,hnd->actions);
-         ReturnPackedExpression(theEnv,hnd->actions);
-         ClearUserDataList(theEnv,hnd->header.usrData);
-         if (hnd->header.ppForm != NULL)
-           rm(theEnv,(void *) hnd->header.ppForm,
-              (sizeof(char) * (strlen(hnd->header.ppForm)+1)));
+    for (i = 0, count = 0; i < cls->handlerCount; i++) {
+        hnd = &cls->handlers[i];
+        if (hnd->mark == 1) {
+            count++;
+            ReleaseLexeme(theEnv, hnd->header.name);
+            ExpressionDeinstall(theEnv, hnd->actions);
+            ReturnPackedExpression(theEnv, hnd->actions);
+            ClearUserDataList(theEnv, hnd->header.usrData);
+            if (hnd->header.ppForm != NULL)
+                rm(theEnv, (void *) hnd->header.ppForm,
+                   (sizeof(char) * (strlen(hnd->header.ppForm) + 1)));
+        } else
+            /* ============================================
+               Use the busy field to count how many
+               message-handlers are removed before this one
+               ============================================ */
+            hnd->busy = count;
+    }
+    if (count == 0)
+        return;
+    if (count == cls->handlerCount) {
+        rm(theEnv, cls->handlers, (sizeof(DefmessageHandler) * cls->handlerCount));
+        rm(theEnv, cls->handlerOrderMap, (sizeof(unsigned) * cls->handlerCount));
+        cls->handlers = NULL;
+        cls->handlerOrderMap = NULL;
+        cls->handlerCount = 0;
+    } else {
+        count = (cls->handlerCount - count);
+        hnd = cls->handlers;
+        arr = cls->handlerOrderMap;
+        nhnd = (DefmessageHandler *) gm2(theEnv, (sizeof(DefmessageHandler) * count));
+        narr = (unsigned *) gm2(theEnv, (sizeof(unsigned) * count));
+        for (i = 0, j = 0; j < count; i++) {
+            if (hnd[arr[i]].mark == 0) {
+                /* ==============================================================
+                   The offsets in the map need to be decremented by the number of
+                   preceding nodes which were deleted.  Use the value of the busy
+                   field set in the first loop.
+                   ============================================================== */
+                narr[j] = arr[i] - hnd[arr[i]].busy;
+                j++;
+            }
         }
-      else
-         /* ============================================
-            Use the busy field to count how many
-            message-handlers are removed before this one
-            ============================================ */
-        hnd->busy = count;
-     }
-   if (count == 0)
-     return;
-   if (count == cls->handlerCount)
-     {
-      rm(theEnv,cls->handlers,(sizeof(DefmessageHandler) * cls->handlerCount));
-      rm(theEnv,cls->handlerOrderMap,(sizeof(unsigned) * cls->handlerCount));
-      cls->handlers = NULL;
-      cls->handlerOrderMap = NULL;
-      cls->handlerCount = 0;
-     }
-   else
-     {
-      count = (cls->handlerCount - count);
-      hnd = cls->handlers;
-      arr = cls->handlerOrderMap;
-      nhnd = (DefmessageHandler *) gm2(theEnv,(sizeof(DefmessageHandler) * count));
-      narr = (unsigned *) gm2(theEnv,(sizeof(unsigned) * count));
-      for (i = 0 , j = 0 ; j < count ; i++)
-        {
-         if (hnd[arr[i]].mark == 0)
-           {
-            /* ==============================================================
-               The offsets in the map need to be decremented by the number of
-               preceding nodes which were deleted.  Use the value of the busy
-               field set in the first loop.
-               ============================================================== */
-            narr[j] = arr[i] - hnd[arr[i]].busy;
-            j++;
-           }
+        for (i = 0, j = 0; j < count; i++) {
+            if (hnd[i].mark == 0) {
+                hnd[i].busy = 0;
+                GenCopyMemory(DefmessageHandler, 1, &nhnd[j], &hnd[i]);
+                j++;
+            }
         }
-      for (i = 0 , j = 0 ; j < count ; i++)
-        {
-         if (hnd[i].mark == 0)
-           {
-            hnd[i].busy = 0;
-            GenCopyMemory(DefmessageHandler,1,&nhnd[j],&hnd[i]);
-            j++;
-           }
-        }
-      rm(theEnv,hnd,(sizeof(DefmessageHandler) * cls->handlerCount));
-      rm(theEnv,arr,(sizeof(unsigned) * cls->handlerCount));
-      cls->handlers = nhnd;
-      cls->handlerOrderMap = narr;
-      cls->handlerCount = count;
-     }
-  }
-
+        rm(theEnv, hnd, (sizeof(DefmessageHandler) * cls->handlerCount));
+        rm(theEnv, arr, (sizeof(unsigned) * cls->handlerCount));
+        cls->handlers = nhnd;
+        cls->handlerOrderMap = narr;
+        cls->handlerCount = count;
+    }
+}
 
 /*****************************************************
   NAME         : HandlerType
@@ -587,34 +538,28 @@ void DeallocateMarkedHandlers(
   NOTES        : None
  *****************************************************/
 unsigned short HandlerType(
-  Environment *theEnv,
-  const char *where,
-  bool whereIsFunction,
-  const char *str)
-  {
-   unsigned short i;
+        Environment *theEnv,
+        const char *where,
+        bool whereIsFunction,
+        const char *str) {
+    unsigned short i;
 
-   for (i = MAROUND ; i <= MAFTER ; i++)
-     {
-      if (strcmp(str,MessageHandlerData(theEnv)->hndquals[i]) == 0)
-        { return i; }
-     }
-     
-   PrintErrorID(theEnv,"MSGFUN",7,false);
-   WriteString(theEnv,STDERR,"Unrecognized message-handler type in ");
-   if (whereIsFunction)
-     {
-      WriteString(theEnv,STDERR,"function '");
-      WriteString(theEnv,STDERR,where);
-      WriteString(theEnv,STDERR,"'.");
-     }
-   else
-     { WriteString(theEnv,STDERR,where); }
-   
-   WriteString(theEnv,STDERR,".\n");
-   
-   return(MERROR);
-  }
+    for (i = MAROUND; i <= MAFTER; i++) {
+        if (strcmp(str, MessageHandlerData(theEnv)->hndquals[i]) == 0) { return i; }
+    }
+
+    PrintErrorID(theEnv, "MSGFUN", 7, false);
+    WriteString(theEnv, STDERR, "Unrecognized message-handler type in ");
+    if (whereIsFunction) {
+        WriteString(theEnv, STDERR, "function '");
+        WriteString(theEnv, STDERR, where);
+        WriteString(theEnv, STDERR, "'.");
+    } else { WriteString(theEnv, STDERR, where); }
+
+    WriteString(theEnv, STDERR, ".\n");
+
+    return (MERROR);
+}
 
 /*****************************************************************
   NAME         : CheckCurrentMessage
@@ -629,40 +574,37 @@ unsigned short HandlerType(
   NOTES        : None
  *****************************************************************/
 bool CheckCurrentMessage(
-  Environment *theEnv,
-  const char *func,
-  bool ins_reqd)
-  {
-   UDFValue *activeMsgArg;
+        Environment *theEnv,
+        const char *func,
+        bool ins_reqd) {
+    UDFValue *activeMsgArg;
 
-   if (!MessageHandlerData(theEnv)->CurrentCore || (MessageHandlerData(theEnv)->CurrentCore->hnd->actions != ProceduralPrimitiveData(theEnv)->CurrentProcActions))
-     {
-      PrintErrorID(theEnv,"MSGFUN",4,false);
-      WriteString(theEnv,STDERR,"The function '");
-      WriteString(theEnv,STDERR,func);
-      WriteString(theEnv,STDERR,"' may only be called from within message-handlers.\n");
-      SetEvaluationError(theEnv,true);
-      return false;
-     }
-   activeMsgArg = GetNthMessageArgument(theEnv,0);
-   if ((ins_reqd == true) ? (activeMsgArg->header->type != INSTANCE_ADDRESS_TYPE) : false)
-     {
-      PrintErrorID(theEnv,"MSGFUN",5,false);
-      WriteString(theEnv,STDERR,"The function '");
-      WriteString(theEnv,STDERR,func);
-      WriteString(theEnv,STDERR,"' operates only on instances.\n");
-      SetEvaluationError(theEnv,true);
-      return false;
-     }
-   if ((activeMsgArg->header->type == INSTANCE_ADDRESS_TYPE) ?
-       (activeMsgArg->instanceValue->garbage == 1) : false)
-     {
-      StaleInstanceAddress(theEnv,func,0);
-      SetEvaluationError(theEnv,true);
-      return false;
-     }
-   return true;
-  }
+    if (!MessageHandlerData(theEnv)->CurrentCore ||
+        (MessageHandlerData(theEnv)->CurrentCore->hnd->actions != ProceduralPrimitiveData(theEnv)->CurrentProcActions)) {
+        PrintErrorID(theEnv, "MSGFUN", 4, false);
+        WriteString(theEnv, STDERR, "The function '");
+        WriteString(theEnv, STDERR, func);
+        WriteString(theEnv, STDERR, "' may only be called from within message-handlers.\n");
+        SetEvaluationError(theEnv, true);
+        return false;
+    }
+    activeMsgArg = GetNthMessageArgument(theEnv, 0);
+    if ((ins_reqd == true) ? (activeMsgArg->header->type != INSTANCE_ADDRESS_TYPE) : false) {
+        PrintErrorID(theEnv, "MSGFUN", 5, false);
+        WriteString(theEnv, STDERR, "The function '");
+        WriteString(theEnv, STDERR, func);
+        WriteString(theEnv, STDERR, "' operates only on instances.\n");
+        SetEvaluationError(theEnv, true);
+        return false;
+    }
+    if ((activeMsgArg->header->type == INSTANCE_ADDRESS_TYPE) ?
+        (activeMsgArg->instanceValue->garbage == 1) : false) {
+        StaleInstanceAddress(theEnv, func, 0);
+        SetEvaluationError(theEnv, true);
+        return false;
+    }
+    return true;
+}
 
 /***************************************************
   NAME         : PrintHandler
@@ -676,20 +618,19 @@ bool CheckCurrentMessage(
   NOTES        : None
  ***************************************************/
 void PrintHandler(
-  Environment *theEnv,
-  const char *logName,
-  DefmessageHandler *theHandler,
-  bool useQuotes,
-  bool crtn)
-  {
-   if (useQuotes) WriteString(theEnv,logName,"'");
-   WriteString(theEnv,logName,theHandler->header.name->contents);
-   if (useQuotes) WriteString(theEnv,logName,"'");
-   WriteString(theEnv,logName," ");
-   WriteString(theEnv,logName,MessageHandlerData(theEnv)->hndquals[theHandler->type]);
-   WriteString(theEnv,logName," in class ");
-   PrintClassName(theEnv,logName,theHandler->cls,useQuotes,crtn);
-  }
+        Environment *theEnv,
+        const char *logName,
+        DefmessageHandler *theHandler,
+        bool useQuotes,
+        bool crtn) {
+    if (useQuotes) WriteString(theEnv, logName, "'");
+    WriteString(theEnv, logName, theHandler->header.name->contents);
+    if (useQuotes) WriteString(theEnv, logName, "'");
+    WriteString(theEnv, logName, " ");
+    WriteString(theEnv, logName, MessageHandlerData(theEnv)->hndquals[theHandler->type]);
+    WriteString(theEnv, logName, " in class ");
+    PrintClassName(theEnv, logName, theHandler->cls, useQuotes, crtn);
+}
 
 /***********************************************************
   NAME         : FindHandlerByAddress
@@ -706,28 +647,26 @@ void PrintHandler(
                    2nd key: type of handler
  ***********************************************************/
 DefmessageHandler *FindHandlerByAddress(
-  Defclass *cls,
-  CLIPSLexeme *name,
-  unsigned type)
-  {
-   int b;
-   long i;
-   DefmessageHandler *hnd;
-   unsigned *arr;
+        Defclass *cls,
+        CLIPSLexeme *name,
+        unsigned type) {
+    int b;
+    long i;
+    DefmessageHandler *hnd;
+    unsigned *arr;
 
-   if ((b = FindHandlerNameGroup(cls,name)) == -1)
-     return NULL;
-   arr = cls->handlerOrderMap;
-   hnd = cls->handlers;
-   for (i = (unsigned) b ; i < cls->handlerCount ; i++)
-     {
-      if (hnd[arr[i]].header.name != name)
+    if ((b = FindHandlerNameGroup(cls, name)) == -1)
         return NULL;
-      if (hnd[arr[i]].type == type)
-        return(&hnd[arr[i]]);
-     }
-   return NULL;
-  }
+    arr = cls->handlerOrderMap;
+    hnd = cls->handlers;
+    for (i = (unsigned) b; i < cls->handlerCount; i++) {
+        if (hnd[arr[i]].header.name != name)
+            return NULL;
+        if (hnd[arr[i]].type == type)
+            return (&hnd[arr[i]]);
+    }
+    return NULL;
+}
 
 /***********************************************************
   NAME         : FindHandlerByIndex
@@ -744,28 +683,26 @@ DefmessageHandler *FindHandlerByAddress(
                    2nd key: type of handler
  ***********************************************************/
 int FindHandlerByIndex(
-  Defclass *cls,
-  CLIPSLexeme *name,
-  unsigned type)
-  {
-   int b;
-   long i;
-   DefmessageHandler *hnd;
-   unsigned *arr;
+        Defclass *cls,
+        CLIPSLexeme *name,
+        unsigned type) {
+    int b;
+    long i;
+    DefmessageHandler *hnd;
+    unsigned *arr;
 
-   if ((b = FindHandlerNameGroup(cls,name)) == -1)
-     return -1;
-   arr = cls->handlerOrderMap;
-   hnd = cls->handlers;
-   for (i = (unsigned) b ; i < cls->handlerCount ; i++)
-     {
-      if (hnd[arr[i]].header.name != name)
+    if ((b = FindHandlerNameGroup(cls, name)) == -1)
         return -1;
-      if (hnd[arr[i]].type == type)
-        return (int) arr[i];
-     }
-   return -1;
-  }
+    arr = cls->handlerOrderMap;
+    hnd = cls->handlers;
+    for (i = (unsigned) b; i < cls->handlerCount; i++) {
+        if (hnd[arr[i]].header.name != name)
+            return -1;
+        if (hnd[arr[i]].type == type)
+            return (int) arr[i];
+    }
+    return -1;
+}
 
 /*****************************************************
   NAME         : FindHandlerNameGroup
@@ -780,52 +717,45 @@ int FindHandlerByIndex(
                    1st key: handler name symbol bucket
  *****************************************************/
 int FindHandlerNameGroup(
-  Defclass *cls,
-  CLIPSLexeme *name)
-  {
-   int b,e,i,j;
-   DefmessageHandler *hnd;
-   unsigned *arr;
-   int start;
+        Defclass *cls,
+        CLIPSLexeme *name) {
+    int b, e, i, j;
+    DefmessageHandler *hnd;
+    unsigned *arr;
+    int start;
 
-   if (cls->handlerCount == 0)
-     return(-1);
-   hnd = cls->handlers;
-   arr = cls->handlerOrderMap;
-   b = 0;
-   e = (int) (cls->handlerCount-1);
-   start = -1;
-   do
-     {
-      i = (b+e)/2;
-      if (name->bucket == hnd[arr[i]].header.name->bucket)
-        {
-         for (j = i ; j >= b ; j--)
-           {
-            if (hnd[arr[j]].header.name == name)
-              start = j;
-            if (hnd[arr[j]].header.name->bucket != name->bucket)
-              break;
-           }
-         if (start != -1)
-           return(start);
-         for (j = i+1 ; j <= e ; j++)
-           {
-            if (hnd[arr[j]].header.name == name)
-              return(j);
-            if (hnd[arr[j]].header.name->bucket != name->bucket)
-              return(-1);
-           }
-         return(-1);
-        }
-      else if (name->bucket < hnd[arr[i]].header.name->bucket)
-        e = i-1;
-      else
-        b = i+1;
-     }
-   while (b <= e);
-   return(-1);
-  }
+    if (cls->handlerCount == 0)
+        return (-1);
+    hnd = cls->handlers;
+    arr = cls->handlerOrderMap;
+    b = 0;
+    e = (int) (cls->handlerCount - 1);
+    start = -1;
+    do {
+        i = (b + e) / 2;
+        if (name->bucket == hnd[arr[i]].header.name->bucket) {
+            for (j = i; j >= b; j--) {
+                if (hnd[arr[j]].header.name == name)
+                    start = j;
+                if (hnd[arr[j]].header.name->bucket != name->bucket)
+                    break;
+            }
+            if (start != -1)
+                return (start);
+            for (j = i + 1; j <= e; j++) {
+                if (hnd[arr[j]].header.name == name)
+                    return (j);
+                if (hnd[arr[j]].header.name->bucket != name->bucket)
+                    return (-1);
+            }
+            return (-1);
+        } else if (name->bucket < hnd[arr[i]].header.name->bucket)
+            e = i - 1;
+        else
+            b = i + 1;
+    } while (b <= e);
+    return (-1);
+}
 
 /***************************************************
   NAME         : HandlerDeleteError
@@ -837,14 +767,13 @@ int FindHandlerNameGroup(
   NOTES        : None
  ***************************************************/
 void HandlerDeleteError(
-  Environment *theEnv,
-  const char *cname)
-  {
-   PrintErrorID(theEnv,"MSGFUN",8,false);
-   WriteString(theEnv,STDERR,"Unable to delete message-handler(s) from class '");
-   WriteString(theEnv,STDERR,cname);
-   WriteString(theEnv,STDERR,"'.\n");
-  }
+        Environment *theEnv,
+        const char *cname) {
+    PrintErrorID(theEnv, "MSGFUN", 8, false);
+    WriteString(theEnv, STDERR, "Unable to delete message-handler(s) from class '");
+    WriteString(theEnv, STDERR, cname);
+    WriteString(theEnv, STDERR, "'.\n");
+}
 
 #if DEBUGGING_FUNCTIONS
 
@@ -868,39 +797,33 @@ void HandlerDeleteError(
                  Assumes (partial) core is not empty
  ********************************************************************/
 void DisplayCore(
-  Environment *theEnv,
-  const char *logicalName,
-  HANDLER_LINK *core,
-  int sdepth)
-  {
-   if (core->hnd->type == MAROUND)
-     {
-      PrintPreviewHandler(theEnv,logicalName,core,sdepth,BEGIN_TRACE);
-      if (core->nxt != NULL)
-        DisplayCore(theEnv,logicalName,core->nxt,sdepth+1);
-      PrintPreviewHandler(theEnv,logicalName,core,sdepth,END_TRACE);
-     }
-   else
-     {
-      while ((core != NULL) ? (core->hnd->type == MBEFORE) : false)
-        {
-         PrintPreviewHandler(theEnv,logicalName,core,sdepth,BEGIN_TRACE);
-         PrintPreviewHandler(theEnv,logicalName,core,sdepth,END_TRACE);
-         core = core->nxt;
+        Environment *theEnv,
+        const char *logicalName,
+        HANDLER_LINK *core,
+        int sdepth) {
+    if (core->hnd->type == MAROUND) {
+        PrintPreviewHandler(theEnv, logicalName, core, sdepth, BEGIN_TRACE);
+        if (core->nxt != NULL)
+            DisplayCore(theEnv, logicalName, core->nxt, sdepth + 1);
+        PrintPreviewHandler(theEnv, logicalName, core, sdepth, END_TRACE);
+    } else {
+        while ((core != NULL) ? (core->hnd->type == MBEFORE) : false) {
+            PrintPreviewHandler(theEnv, logicalName, core, sdepth, BEGIN_TRACE);
+            PrintPreviewHandler(theEnv, logicalName, core, sdepth, END_TRACE);
+            core = core->nxt;
         }
-      if ((core != NULL) ? (core->hnd->type == MPRIMARY) : false)
+        if ((core != NULL) ? (core->hnd->type == MPRIMARY) : false)
 
-        core = DisplayPrimaryCore(theEnv,logicalName,core,sdepth);
+            core = DisplayPrimaryCore(theEnv, logicalName, core, sdepth);
 
-      while ((core != NULL) ? (core->hnd->type == MAFTER) : false)
-        {
-         PrintPreviewHandler(theEnv,logicalName,core,sdepth,BEGIN_TRACE);
-         PrintPreviewHandler(theEnv,logicalName,core,sdepth,END_TRACE);
-         core = core->nxt;
+        while ((core != NULL) ? (core->hnd->type == MAFTER) : false) {
+            PrintPreviewHandler(theEnv, logicalName, core, sdepth, BEGIN_TRACE);
+            PrintPreviewHandler(theEnv, logicalName, core, sdepth, END_TRACE);
+            core = core->nxt;
         }
 
-     }
-  }
+    }
+}
 
 /*******************************************************************
   NAME         : FindPreviewApplicableHandlers
@@ -914,21 +837,20 @@ void DisplayCore(
   NOTES        : None
  ******************************************************************/
 HANDLER_LINK *FindPreviewApplicableHandlers(
-  Environment *theEnv,
-  Defclass *cls,
-  CLIPSLexeme *mname)
-  {
-   unsigned int i;
-   HANDLER_LINK *tops[4],*bots[4];
+        Environment *theEnv,
+        Defclass *cls,
+        CLIPSLexeme *mname) {
+    unsigned int i;
+    HANDLER_LINK *tops[4], *bots[4];
 
-   for (i = MAROUND ; i <= MAFTER ; i++)
-     tops[i] = bots[i] = NULL;
+    for (i = MAROUND; i <= MAFTER; i++)
+        tops[i] = bots[i] = NULL;
 
-   for (i = 0 ; i < cls->allSuperclasses.classCount ; i++)
-     FindApplicableOfName(theEnv,cls->allSuperclasses.classArray[i],tops,bots,mname);
-   
-   return JoinHandlerLinks(theEnv,tops,bots,mname);
-  }
+    for (i = 0; i < cls->allSuperclasses.classCount; i++)
+        FindApplicableOfName(theEnv, cls->allSuperclasses.classArray[i], tops, bots, mname);
+
+    return JoinHandlerLinks(theEnv, tops, bots, mname);
+}
 
 /***********************************************************
   NAME         : WatchMessage
@@ -942,22 +864,20 @@ HANDLER_LINK *FindPreviewApplicableHandlers(
                    and CurrentMessageName
  ***********************************************************/
 void WatchMessage(
-  Environment *theEnv,
-  const char *logName,
-  const char *tstring)
-  {
-   if (ConstructData(theEnv)->ClearReadyInProgress ||
-       ConstructData(theEnv)->ClearInProgress)
-     { return; }
+        Environment *theEnv,
+        const char *logName,
+        const char *tstring) {
+    if (ConstructData(theEnv)->ClearReadyInProgress ||
+        ConstructData(theEnv)->ClearInProgress) { return; }
 
-   WriteString(theEnv,logName,"MSG ");
-   WriteString(theEnv,logName,tstring);
-   WriteString(theEnv,logName," ");
-   WriteString(theEnv,logName,MessageHandlerData(theEnv)->CurrentMessageName->contents);
-   WriteString(theEnv,logName," ED:");
-   WriteInteger(theEnv,logName,EvaluationData(theEnv)->CurrentEvaluationDepth);
-   PrintProcParamArray(theEnv,logName);
-  }
+    WriteString(theEnv, logName, "MSG ");
+    WriteString(theEnv, logName, tstring);
+    WriteString(theEnv, logName, " ");
+    WriteString(theEnv, logName, MessageHandlerData(theEnv)->CurrentMessageName->contents);
+    WriteString(theEnv, logName, " ED:");
+    WriteInteger(theEnv, logName, EvaluationData(theEnv)->CurrentEvaluationDepth);
+    PrintProcParamArray(theEnv, logName);
+}
 
 /***********************************************************
   NAME         : WatchHandler
@@ -972,26 +892,24 @@ void WatchMessage(
                    and CurrentMessageName
  ***********************************************************/
 void WatchHandler(
-  Environment *theEnv,
-  const char *logName,
-  HANDLER_LINK *hndl,
-  const char *tstring)
-  {
-   DefmessageHandler *hnd;
-   
-   if (ConstructData(theEnv)->ClearReadyInProgress ||
-       ConstructData(theEnv)->ClearInProgress)
-     { return; }
+        Environment *theEnv,
+        const char *logName,
+        HANDLER_LINK *hndl,
+        const char *tstring) {
+    DefmessageHandler *hnd;
 
-   WriteString(theEnv,logName,"HND ");
-   WriteString(theEnv,logName,tstring);
-   WriteString(theEnv,logName," ");
-   hnd = hndl->hnd;
-   PrintHandler(theEnv,logName,hnd,false,true);
-   WriteString(theEnv,logName,"       ED:");
-   WriteInteger(theEnv,logName,EvaluationData(theEnv)->CurrentEvaluationDepth);
-   PrintProcParamArray(theEnv,logName);
-  }
+    if (ConstructData(theEnv)->ClearReadyInProgress ||
+        ConstructData(theEnv)->ClearInProgress) { return; }
+
+    WriteString(theEnv, logName, "HND ");
+    WriteString(theEnv, logName, tstring);
+    WriteString(theEnv, logName, " ");
+    hnd = hndl->hnd;
+    PrintHandler(theEnv, logName, hnd, false, true);
+    WriteString(theEnv, logName, "       ED:");
+    WriteInteger(theEnv, logName, EvaluationData(theEnv)->CurrentEvaluationDepth);
+    PrintProcParamArray(theEnv, logName);
+}
 
 #endif /* DEBUGGING_FUNCTIONS */
 
@@ -1023,21 +941,20 @@ void WatchHandler(
                  Assumes (partial) core is not empty
  ********************************************************************/
 static HANDLER_LINK *DisplayPrimaryCore(
-  Environment *theEnv,
-  const char *logicalName,
-  HANDLER_LINK *core,
-  int pdepth)
-  {
-   HANDLER_LINK *rtn;
+        Environment *theEnv,
+        const char *logicalName,
+        HANDLER_LINK *core,
+        int pdepth) {
+    HANDLER_LINK *rtn;
 
-   PrintPreviewHandler(theEnv,logicalName,core,pdepth,BEGIN_TRACE);
-   if ((core->nxt != NULL) ? (core->nxt->hnd->type == MPRIMARY) : false)
-     rtn = DisplayPrimaryCore(theEnv,logicalName,core->nxt,pdepth+1);
-   else
-     rtn = core->nxt;
-   PrintPreviewHandler(theEnv,logicalName,core,pdepth,END_TRACE);
-   return(rtn);
-  }
+    PrintPreviewHandler(theEnv, logicalName, core, pdepth, BEGIN_TRACE);
+    if ((core->nxt != NULL) ? (core->nxt->hnd->type == MPRIMARY) : false)
+        rtn = DisplayPrimaryCore(theEnv, logicalName, core->nxt, pdepth + 1);
+    else
+        rtn = core->nxt;
+    PrintPreviewHandler(theEnv, logicalName, core, pdepth, END_TRACE);
+    return (rtn);
+}
 
 /***************************************************
   NAME         : PrintPreviewHandler
@@ -1051,20 +968,19 @@ static HANDLER_LINK *DisplayPrimaryCore(
   NOTES        : None
  ***************************************************/
 static void PrintPreviewHandler(
-  Environment *theEnv,
-  const char *logicalName,
-  HANDLER_LINK *cptr,
-  int sdepth,
-  const char *tstr)
-  {
-   int i;
+        Environment *theEnv,
+        const char *logicalName,
+        HANDLER_LINK *cptr,
+        int sdepth,
+        const char *tstr) {
+    int i;
 
-   for (i = 0 ; i < sdepth ; i++)
-     WriteString(theEnv,logicalName,"| ");
-   WriteString(theEnv,logicalName,tstr);
-   WriteString(theEnv,logicalName," ");
-   PrintHandler(theEnv,logicalName,cptr->hnd,false,true);
-  }
+    for (i = 0; i < sdepth; i++)
+        WriteString(theEnv, logicalName, "| ");
+    WriteString(theEnv, logicalName, tstr);
+    WriteString(theEnv, logicalName, " ");
+    PrintHandler(theEnv, logicalName, cptr->hnd, false, true);
+}
 
 #endif
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/19/17            */
-   /*                                                     */
-   /*             FILE I/O ROUTER HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/19/17            */
+/*                                                     */
+/*             FILE I/O ROUTER HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: I/O Router routines which allow files to be used */
@@ -59,31 +59,29 @@
 
 #define FILE_ROUTER_DATA 47
 
-struct fileRouter
-  {
-   const char *logicalName;
-   FILE *stream;
-   struct fileRouter *next;
-  };
+struct fileRouter {
+    const char *logicalName;
+    FILE *stream;
+    struct fileRouter *next;
+};
 
-struct fileRouterData
-  {
-   struct fileRouter *ListOfFileRouters;
-  };
+struct fileRouterData {
+    struct fileRouter *ListOfFileRouters;
+};
 
 #define FileRouterData(theEnv) ((struct fileRouterData *) GetEnvironmentData(theEnv,FILE_ROUTER_DATA))
 
-   void                           InitializeFileRouter(Environment *);
-   FILE                          *FindFptr(Environment *,const char *);
-   bool                           OpenAFile(Environment *,const char *,const char *,const char *);
-   bool                           CloseAllFiles(Environment *);
-   bool                           CloseFile(Environment *,const char *);
-   bool                           FindFile(Environment *,const char *,void *);
-   bool                           FlushAllFiles(Environment *);
-   bool                           FlushFile(Environment *,const char *);
-   bool                           RewindFile(Environment *,const char *);
-   long long                      TellFile(Environment *,const char *);
-   bool                           SeekFile(Environment *,const char *,long,int);
+void InitializeFileRouter(Environment *);
+FILE *FindFptr(Environment *, const char *);
+bool OpenAFile(Environment *, const char *, const char *, const char *);
+bool CloseAllFiles(Environment *);
+bool CloseFile(Environment *, const char *);
+bool FindFile(Environment *, const char *, void *);
+bool FlushAllFiles(Environment *);
+bool FlushFile(Environment *, const char *);
+bool RewindFile(Environment *, const char *);
+long long TellFile(Environment *, const char *);
+bool SeekFile(Environment *, const char *, long, int);
 
 #endif /* _H_filertr */
 

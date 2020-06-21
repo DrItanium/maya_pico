@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*          LOGICAL DEPENDENCIES HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*          LOGICAL DEPENDENCIES HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provide support routines for managing truth      */
@@ -45,27 +45,26 @@
 
 #define _H_lgcldpnd
 
-struct dependency
-  {
-   void *dPtr;
-   struct dependency *next;
-  };
+struct dependency {
+    void *dPtr;
+    struct dependency *next;
+};
 
 #include "Entities.h"
 #include "Match.h"
 
-   bool                           AddLogicalDependencies(Environment *,PatternEntity *,bool);
-   void                           RemoveEntityDependencies(Environment *,PatternEntity *);
-   void                           RemovePMDependencies(Environment *,PartialMatch *);
-   void                           DestroyPMDependencies(Environment *,PartialMatch *);
-   void                           RemoveLogicalSupport(Environment *,PartialMatch *);
-   void                           ForceLogicalRetractions(Environment *);
-   void                           Dependencies(Environment *,PatternEntity *);
-   void                           Dependents(Environment *,PatternEntity *);
-   void                           DependenciesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DependentsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ReturnEntityDependencies(Environment *,PatternEntity *);
-   PartialMatch                  *FindLogicalBind(struct joinNode *,PartialMatch *);
+bool AddLogicalDependencies(Environment *, PatternEntity *, bool);
+void RemoveEntityDependencies(Environment *, PatternEntity *);
+void RemovePMDependencies(Environment *, PartialMatch *);
+void DestroyPMDependencies(Environment *, PartialMatch *);
+void RemoveLogicalSupport(Environment *, PartialMatch *);
+void ForceLogicalRetractions(Environment *);
+void Dependencies(Environment *, PatternEntity *);
+void Dependents(Environment *, PatternEntity *);
+void DependenciesCommand(Environment *, UDFContext *, UDFValue *);
+void DependentsCommand(Environment *, UDFContext *, UDFValue *);
+void ReturnEntityDependencies(Environment *, PatternEntity *);
+PartialMatch *FindLogicalBind(struct joinNode *, PartialMatch *);
 
 #endif /* _H_lgcldpnd */
 

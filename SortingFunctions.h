@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*            SORT FUNCTIONS HEADER MODULE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*            SORT FUNCTIONS HEADER MODULE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Contains the code for sorting functions.         */
@@ -44,10 +44,10 @@
 
 #define _H_sortfun
 
-   void                           SortFunctionDefinitions(Environment *);
-   void                           MergeSort(Environment *,size_t,UDFValue *,
-                                            bool (*)(Environment *,UDFValue *,UDFValue *));
-   void                           SortFunction(Environment *,UDFContext *,UDFValue *);
+void SortFunctionDefinitions(Environment *);
+void MergeSort(Environment *, size_t, UDFValue *,
+               bool (*)(Environment *, UDFValue *, UDFValue *));
+void SortFunction(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_sortfun */
 

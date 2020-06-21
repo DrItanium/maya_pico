@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  07/30/16             */
-   /*                                                     */
-   /*          CLASS INITIALIZATION HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  07/30/16             */
+/*                                                     */
+/*          CLASS INITIALIZATION HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -57,8 +57,8 @@
 
 #if OBJECT_SYSTEM
 
-   void                           SetupObjectSystem(Environment *);
-   void                           CreateSystemClasses(Environment *,void *);
+void SetupObjectSystem(Environment *);
+void CreateSystemClasses(Environment *, void *);
 
 #endif /* OBJECT_SYSTEM */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*             BASIC MATH FUNCTIONS MODULE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*             BASIC MATH FUNCTIONS MODULE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -47,17 +47,17 @@
 
 #include "Evaluation.h"
 
-   void                    BasicMathFunctionDefinitions(Environment *);
-   void                    AdditionFunction(Environment *,UDFContext *,UDFValue *);
-   void                    MultiplicationFunction(Environment *,UDFContext *,UDFValue *);
-   void                    SubtractionFunction(Environment *,UDFContext *,UDFValue *);
-   void                    DivisionFunction(Environment *,UDFContext *,UDFValue *);
-   void                    DivFunction(Environment *,UDFContext *,UDFValue *);
-   void                    IntegerFunction(Environment *,UDFContext *,UDFValue *);
-   void                    FloatFunction(Environment *,UDFContext *,UDFValue *);
-   void                    AbsFunction(Environment *,UDFContext *,UDFValue *);
-   void                    MinFunction(Environment *,UDFContext *,UDFValue *);
-   void                    MaxFunction(Environment *,UDFContext *,UDFValue *);
+void BasicMathFunctionDefinitions(Environment *);
+void AdditionFunction(Environment *, UDFContext *, UDFValue *);
+void MultiplicationFunction(Environment *, UDFContext *, UDFValue *);
+void SubtractionFunction(Environment *, UDFContext *, UDFValue *);
+void DivisionFunction(Environment *, UDFContext *, UDFValue *);
+void DivFunction(Environment *, UDFContext *, UDFValue *);
+void IntegerFunction(Environment *, UDFContext *, UDFValue *);
+void FloatFunction(Environment *, UDFContext *, UDFValue *);
+void AbsFunction(Environment *, UDFContext *, UDFValue *);
+void MinFunction(Environment *, UDFContext *, UDFValue *);
+void MaxFunction(Environment *, UDFContext *, UDFValue *);
 
 #endif
 

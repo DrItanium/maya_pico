@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  01/29/18            */
-   /*                                                     */
-   /*              PRINT UTILITY HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  01/29/18            */
+/*                                                     */
+/*              PRINT UTILITY HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Utility routines for printing various items      */
@@ -76,45 +76,44 @@
 
 #define PRINT_UTILITY_DATA 53
 
-struct printUtilityData
-  {
-   bool PreserveEscapedCharacters;
-   bool AddressesToStrings;
-   bool InstanceAddressesToNames;
-  };
+struct printUtilityData {
+    bool PreserveEscapedCharacters;
+    bool AddressesToStrings;
+    bool InstanceAddressesToNames;
+};
 
 #define PrintUtilityData(theEnv) ((struct printUtilityData *) GetEnvironmentData(theEnv,PRINT_UTILITY_DATA))
 
-   void                           InitializePrintUtilityData(Environment *);
-   void                           WriteFloat(Environment *,const char *,double);
-   void                           WriteInteger(Environment *,const char *,long long);
-   void                           PrintUnsignedInteger(Environment *,const char *,unsigned long long);
-   void                           PrintAtom(Environment *,const char *,unsigned short,void *);
-   void                           PrintTally(Environment *,const char *,unsigned long long,const char *,const char *);
-   const char                    *FloatToString(Environment *,double);
-   const char                    *LongIntegerToString(Environment *,long long);
-   const char                    *DataObjectToString(Environment *,UDFValue *);
-   void                           SyntaxErrorMessage(Environment *,const char *);
-   void                           SystemError(Environment *,const char *,int);
-   void                           PrintErrorID(Environment *,const char *,int,bool);
-   void                           PrintWarningID(Environment *,const char *,int,bool);
-   void                           CantFindItemErrorMessage(Environment *,const char *,const char *,bool);
-   void                           CantDeleteItemErrorMessage(Environment *,const char *,const char *);
-   void                           AlreadyParsedErrorMessage(Environment *,const char *,const char *);
-   void                           LocalVariableErrorMessage(Environment *,const char *);
-   void                           DivideByZeroErrorMessage(Environment *,const char *);
-   void                           SalienceInformationError(Environment *,const char *,const char *);
-   void                           SalienceRangeError(Environment *,int,int);
-   void                           SalienceNonIntegerError(Environment *);
-   void                           CantFindItemInFunctionErrorMessage(Environment *,const char *,const char *,const char *,bool);
-   void                           SlotExistError(Environment *,const char *,const char *);
-   void                           FactRetractedErrorMessage(Environment *,Fact *);
-   void                           FactVarSlotErrorMessage1(Environment *,Fact *,const char *);
-   void                           FactVarSlotErrorMessage2(Environment *,Fact *,const char *);
-   void                           InvalidVarSlotErrorMessage(Environment *,const char *);
-   void                           InstanceVarSlotErrorMessage1(Environment *,Instance *,const char *);
-   void                           InstanceVarSlotErrorMessage2(Environment *,Instance *,const char *);
-   void                           ArgumentOverUnderflowErrorMessage(Environment *,const char *,bool);
+void InitializePrintUtilityData(Environment *);
+void WriteFloat(Environment *, const char *, double);
+void WriteInteger(Environment *, const char *, long long);
+void PrintUnsignedInteger(Environment *, const char *, unsigned long long);
+void PrintAtom(Environment *, const char *, unsigned short, void *);
+void PrintTally(Environment *, const char *, unsigned long long, const char *, const char *);
+const char *FloatToString(Environment *, double);
+const char *LongIntegerToString(Environment *, long long);
+const char *DataObjectToString(Environment *, UDFValue *);
+void SyntaxErrorMessage(Environment *, const char *);
+void SystemError(Environment *, const char *, int);
+void PrintErrorID(Environment *, const char *, int, bool);
+void PrintWarningID(Environment *, const char *, int, bool);
+void CantFindItemErrorMessage(Environment *, const char *, const char *, bool);
+void CantDeleteItemErrorMessage(Environment *, const char *, const char *);
+void AlreadyParsedErrorMessage(Environment *, const char *, const char *);
+void LocalVariableErrorMessage(Environment *, const char *);
+void DivideByZeroErrorMessage(Environment *, const char *);
+void SalienceInformationError(Environment *, const char *, const char *);
+void SalienceRangeError(Environment *, int, int);
+void SalienceNonIntegerError(Environment *);
+void CantFindItemInFunctionErrorMessage(Environment *, const char *, const char *, const char *, bool);
+void SlotExistError(Environment *, const char *, const char *);
+void FactRetractedErrorMessage(Environment *, Fact *);
+void FactVarSlotErrorMessage1(Environment *, Fact *, const char *);
+void FactVarSlotErrorMessage2(Environment *, Fact *, const char *);
+void InvalidVarSlotErrorMessage(Environment *, const char *);
+void InstanceVarSlotErrorMessage1(Environment *, Instance *, const char *);
+void InstanceVarSlotErrorMessage2(Environment *, Instance *, const char *);
+void ArgumentOverUnderflowErrorMessage(Environment *, const char *, bool);
 
 #endif /* _H_prntutil */
 

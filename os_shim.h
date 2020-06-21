@@ -26,15 +26,15 @@
 #include "Platform.h"
 
 #if defined(PLATFORM_LINUX)
-	#define LINUX 1
+#define LINUX 1
 #elif defined(PLATFORM_OSX) || defined(PLATFORM_IOS) || defined(PLATFORM_APPLE_UNKNOWN)
-	#define DARWIN 1
+#define DARWIN 1
 #elif defined(PLATFORM_FREEBSD) || defined(PLATFORM_OPENBSD) || defined(PLATFORM_NETBSD) || defined(PLATFORM_DRAGONFLYBSD)
-	#define UNIX_V 1
+#define UNIX_V 1
 #elif defined(PLATFORM_NT)
-	#define WIN_MVC 1
+#define WIN_MVC 1
 #elif defined(PLATFORM_ARDUINO)
-    #define GENERIC 1
+#define GENERIC 1
 #else
 
 #endif

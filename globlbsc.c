@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  07/02/18             */
-   /*                                                     */
-   /*         DEFGLOBAL BASIC COMMANDS HEADER FILE        */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  07/02/18             */
+/*                                                     */
+/*         DEFGLOBAL BASIC COMMANDS HEADER FILE        */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the defglobal       */
@@ -78,160 +78,147 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                    SaveDefglobals(Environment *,Defmodule *,const char *,void *);
-   static void                    ResetDefglobalAction(Environment *,ConstructHeader *,void *);
+static void SaveDefglobals(Environment *, Defmodule *, const char *, void *);
+static void ResetDefglobalAction(Environment *, ConstructHeader *, void *);
 #if DEBUGGING_FUNCTIONS
-   static bool                    DefglobalWatchAccess(Environment *,int,bool,struct expr *);
-   static bool                    DefglobalWatchPrint(Environment *,const char *,int,struct expr *);
+static bool DefglobalWatchAccess(Environment *, int, bool, struct expr *);
+static bool DefglobalWatchPrint(Environment *, const char *, int, struct expr *);
 #endif
 
 /*****************************************************************/
 /* DefglobalBasicCommands: Initializes basic defglobal commands. */
 /*****************************************************************/
 void DefglobalBasicCommands(
-  Environment *theEnv)
-  {
-   AddSaveFunction(theEnv,"defglobal",SaveDefglobals,40,NULL);
-   AddResetFunction(theEnv,"defglobal",ResetDefglobals,50,NULL);
+        Environment *theEnv) {
+    AddSaveFunction(theEnv, "defglobal", SaveDefglobals, 40, NULL);
+    AddResetFunction(theEnv, "defglobal", ResetDefglobals, 50, NULL);
 
-      AddUDF(theEnv, "get-defglobal-list", "m", 0, 1, "y", GetDefglobalListFunction, NULL);
-      AddUDF(theEnv, "undefglobal", "v", 1, 1, "y", UndefglobalCommand, NULL);
-      AddUDF(theEnv, "defglobal-module", "y", 1, 1, "y", DefglobalModuleFunction, NULL);
+    AddUDF(theEnv, "get-defglobal-list", "m", 0, 1, "y", GetDefglobalListFunction, NULL);
+    AddUDF(theEnv, "undefglobal", "v", 1, 1, "y", UndefglobalCommand, NULL);
+    AddUDF(theEnv, "defglobal-module", "y", 1, 1, "y", DefglobalModuleFunction, NULL);
 
 #if DEBUGGING_FUNCTIONS
-       AddUDF(theEnv, "list-defglobals", "v", 0, 1, "y", ListDefglobalsCommand, NULL);
-       AddUDF(theEnv, "ppdefglobal", "vs", 1, 2, ";y;ldsyn", PPDefglobalCommand, NULL);
-   AddWatchItem(theEnv,"globals",0,&DefglobalData(theEnv)->WatchGlobals,0,DefglobalWatchAccess,DefglobalWatchPrint);
+    AddUDF(theEnv, "list-defglobals", "v", 0, 1, "y", ListDefglobalsCommand, NULL);
+    AddUDF(theEnv, "ppdefglobal", "vs", 1, 2, ";y;ldsyn", PPDefglobalCommand, NULL);
+    AddWatchItem(theEnv, "globals", 0, &DefglobalData(theEnv)->WatchGlobals, 0, DefglobalWatchAccess, DefglobalWatchPrint);
 #endif
 
 #if (BLOAD || BLOAD_AND_BSAVE)
-   DefglobalBinarySetup(theEnv);
+    DefglobalBinarySetup(theEnv);
 #endif
 
-  }
+}
 
 /*************************************************************/
 /* ResetDefglobals: Defglobal reset routine for use with the */
 /*   reset command. Restores the values of the defglobals.   */
 /*************************************************************/
 void ResetDefglobals(
-  Environment *theEnv,
-  void *context)
-  {
-   if (! GetResetGlobals(theEnv)) return;
-   DoForAllConstructs(theEnv,ResetDefglobalAction,
-                      DefglobalData(theEnv)->DefglobalModuleIndex,true,NULL);
-  }
+        Environment *theEnv,
+        void *context) {
+    if (!GetResetGlobals(theEnv)) return;
+    DoForAllConstructs(theEnv, ResetDefglobalAction,
+                       DefglobalData(theEnv)->DefglobalModuleIndex, true, NULL);
+}
 
 /******************************************************/
 /* ResetDefglobalAction: Action to be applied to each */
 /*   defglobal construct during a reset command.      */
 /******************************************************/
 static void ResetDefglobalAction(
-  Environment *theEnv,
-  ConstructHeader *theConstruct,
-  void *buffer)
-  {
+        Environment *theEnv,
+        ConstructHeader *theConstruct,
+        void *buffer) {
 #if MAC_XCD
 #pragma unused(buffer)
 #endif
-   Defglobal *theDefglobal = (Defglobal *) theConstruct;
-   UDFValue assignValue;
+    Defglobal *theDefglobal = (Defglobal *) theConstruct;
+    UDFValue assignValue;
 
-   if (EvaluateExpression(theEnv,theDefglobal->initial,&assignValue))
-     {
-      assignValue.value = FalseSymbol(theEnv);
-     }
+    if (EvaluateExpression(theEnv, theDefglobal->initial, &assignValue)) {
+        assignValue.value = FalseSymbol(theEnv);
+    }
 
-   QSetDefglobalValue(theEnv,theDefglobal,&assignValue,false);
-  }
+    QSetDefglobalValue(theEnv, theDefglobal, &assignValue, false);
+}
 
 /******************************************/
 /* SaveDefglobals: Defglobal save routine */
 /*   for use with the save command.       */
 /******************************************/
 static void SaveDefglobals(
-  Environment *theEnv,
-  Defmodule *theModule,
-  const char *logicalName,
-  void *context)
-  {
-   SaveConstruct(theEnv,theModule,logicalName,DefglobalData(theEnv)->DefglobalConstruct);
-  }
+        Environment *theEnv,
+        Defmodule *theModule,
+        const char *logicalName,
+        void *context) {
+    SaveConstruct(theEnv, theModule, logicalName, DefglobalData(theEnv)->DefglobalConstruct);
+}
 
 /********************************************/
 /* UndefglobalCommand: H/L access routine   */
 /*   for the undefglobal command.           */
 /********************************************/
 void UndefglobalCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UndefconstructCommand(context,"undefglobal",DefglobalData(theEnv)->DefglobalConstruct);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UndefconstructCommand(context, "undefglobal", DefglobalData(theEnv)->DefglobalConstruct);
+}
 
 /**********************************/
 /* Undefglobal: C access routine  */
 /*   for the undefglobal command. */
 /**********************************/
 bool Undefglobal(
-  Defglobal *theDefglobal,
-  Environment *allEnv)
-  {
-   Environment *theEnv;
-   
-   if (theDefglobal == NULL)
-     {
-      theEnv = allEnv;
-      return(Undefconstruct(theEnv,NULL,DefglobalData(theEnv)->DefglobalConstruct));
-     }
-   else 
-     {
-      theEnv = theDefglobal->header.env;
-      return(Undefconstruct(theEnv,&theDefglobal->header,DefglobalData(theEnv)->DefglobalConstruct));
-     }
-  }
+        Defglobal *theDefglobal,
+        Environment *allEnv) {
+    Environment *theEnv;
+
+    if (theDefglobal == NULL) {
+        theEnv = allEnv;
+        return (Undefconstruct(theEnv, NULL, DefglobalData(theEnv)->DefglobalConstruct));
+    } else {
+        theEnv = theDefglobal->header.env;
+        return (Undefconstruct(theEnv, &theDefglobal->header, DefglobalData(theEnv)->DefglobalConstruct));
+    }
+}
 
 /**************************************************/
 /* GetDefglobalListFunction: H/L access routine   */
 /*   for the get-defglobal-list function.         */
 /**************************************************/
 void GetDefglobalListFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   GetConstructListFunction(context,returnValue,DefglobalData(theEnv)->DefglobalConstruct);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    GetConstructListFunction(context, returnValue, DefglobalData(theEnv)->DefglobalConstruct);
+}
 
 /******************************************/
 /* GetDefglobalList: C access routine     */
 /*   for the get-defglobal-list function. */
 /******************************************/
 void GetDefglobalList(
-  Environment *theEnv,
-  CLIPSValue *returnValue,
-  Defmodule *theModule)
-  {
-   UDFValue result;
-   
-   GetConstructList(theEnv,&result,DefglobalData(theEnv)->DefglobalConstruct,theModule);
-   NormalizeMultifield(theEnv,&result);
-   returnValue->value = result.value;
-  }
+        Environment *theEnv,
+        CLIPSValue *returnValue,
+        Defmodule *theModule) {
+    UDFValue result;
+
+    GetConstructList(theEnv, &result, DefglobalData(theEnv)->DefglobalConstruct, theModule);
+    NormalizeMultifield(theEnv, &result);
+    returnValue->value = result.value;
+}
 
 /*************************************************/
 /* DefglobalModuleFunction: H/L access routine   */
 /*   for the defglobal-module function.          */
 /*************************************************/
 void DefglobalModuleFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   returnValue->value = GetConstructModuleCommand(context,"defglobal-module",DefglobalData(theEnv)->DefglobalConstruct);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    returnValue->value = GetConstructModuleCommand(context, "defglobal-module", DefglobalData(theEnv)->DefglobalConstruct);
+}
 
 #if DEBUGGING_FUNCTIONS
 
@@ -240,69 +227,63 @@ void DefglobalModuleFunction(
 /*   for the ppdefglobal command.           */
 /********************************************/
 void PPDefglobalCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   PPConstructCommand(context,"ppdefglobal",DefglobalData(theEnv)->DefglobalConstruct,returnValue);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    PPConstructCommand(context, "ppdefglobal", DefglobalData(theEnv)->DefglobalConstruct, returnValue);
+}
 
 /*************************************/
 /* PPDefglobal: C access routine for */
 /*   the ppdefglobal command.        */
 /*************************************/
 bool PPDefglobal(
-  Environment *theEnv,
-  const char *defglobalName,
-  const char *logicalName)
-  {
-   return(PPConstruct(theEnv,defglobalName,logicalName,DefglobalData(theEnv)->DefglobalConstruct));
-  }
+        Environment *theEnv,
+        const char *defglobalName,
+        const char *logicalName) {
+    return (PPConstruct(theEnv, defglobalName, logicalName, DefglobalData(theEnv)->DefglobalConstruct));
+}
 
 /***********************************************/
 /* ListDefglobalsCommand: H/L access routine   */
 /*   for the list-defglobals command.          */
 /***********************************************/
 void ListDefglobalsCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   ListConstructCommand(context,DefglobalData(theEnv)->DefglobalConstruct);
-  }
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    ListConstructCommand(context, DefglobalData(theEnv)->DefglobalConstruct);
+}
 
 /**************************************/
 /* ListDefglobals: C access routine   */
 /*   for the list-defglobals command. */
 /**************************************/
 void ListDefglobals(
-  Environment *theEnv,
-  const char *logicalName,
-  Defmodule *theModule)
-  {
-   ListConstruct(theEnv,DefglobalData(theEnv)->DefglobalConstruct,logicalName,theModule);
-  }
+        Environment *theEnv,
+        const char *logicalName,
+        Defmodule *theModule) {
+    ListConstruct(theEnv, DefglobalData(theEnv)->DefglobalConstruct, logicalName, theModule);
+}
 
 /******************************************************/
 /* DefglobalGetWatch: C access routine for retrieving */
 /*   the current watch value of a defglobal.          */
 /******************************************************/
 bool DefglobalGetWatch(
-  Defglobal *theGlobal)
-  {
-   return theGlobal->watch;
-  }
+        Defglobal *theGlobal) {
+    return theGlobal->watch;
+}
 
 /******************************************************/
 /* EnvSetDefglobalWatch: C access routine for setting */
 /*   the current watch value of a defglobal.          */
 /******************************************************/
 void DefglobalSetWatch(
-  Defglobal *theGlobal,
-  bool newState)
-  {
-   theGlobal->watch = newState;
-  }
+        Defglobal *theGlobal,
+        bool newState) {
+    theGlobal->watch = newState;
+}
 
 
 /********************************************************/
@@ -310,37 +291,35 @@ void DefglobalSetWatch(
 /*   watch flag of a defglobal via the watch command.   */
 /********************************************************/
 static bool DefglobalWatchAccess(
-  Environment *theEnv,
-  int code,
-  bool newState,
-  Expression *argExprs)
-  {
+        Environment *theEnv,
+        int code,
+        bool newState,
+        Expression *argExprs) {
 #if MAC_XCD
 #pragma unused(code)
 #endif
 
-   return(ConstructSetWatchAccess(theEnv,DefglobalData(theEnv)->DefglobalConstruct,newState,argExprs,
-                                  (ConstructGetWatchFunction *) DefglobalGetWatch,
-                                  (ConstructSetWatchFunction *) DefglobalSetWatch));
-  }
+    return (ConstructSetWatchAccess(theEnv, DefglobalData(theEnv)->DefglobalConstruct, newState, argExprs,
+                                    (ConstructGetWatchFunction *) DefglobalGetWatch,
+                                    (ConstructSetWatchFunction *) DefglobalSetWatch));
+}
 
 /*********************************************************************/
 /* DefglobalWatchPrint: Access routine for printing which defglobals */
 /*   have their watch flag set via the list-watch-items command.     */
 /*********************************************************************/
 static bool DefglobalWatchPrint(
-  Environment *theEnv,
-  const char *logName,
-  int code,
-  Expression *argExprs)
-  {
+        Environment *theEnv,
+        const char *logName,
+        int code,
+        Expression *argExprs) {
 #if MAC_XCD
 #pragma unused(code)
 #endif
-   return(ConstructPrintWatchAccess(theEnv,DefglobalData(theEnv)->DefglobalConstruct,logName,argExprs,
-                                    (ConstructGetWatchFunction *) DefglobalGetWatch,
-                                    (ConstructSetWatchFunction *) DefglobalSetWatch));
-  }
+    return (ConstructPrintWatchAccess(theEnv, DefglobalData(theEnv)->DefglobalConstruct, logName, argExprs,
+                                      (ConstructGetWatchFunction *) DefglobalGetWatch,
+                                      (ConstructSetWatchFunction *) DefglobalSetWatch));
+}
 
 #endif /* DEBUGGING_FUNCTIONS */
 

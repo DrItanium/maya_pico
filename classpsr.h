@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*               CLASS PARSER HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*               CLASS PARSER HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -56,11 +56,10 @@
 
 #if OBJECT_SYSTEM
 
-   bool                    ParseDefclass(Environment *,const char *);
-
+bool ParseDefclass(Environment *, const char *);
 
 #if DEFMODULE_CONSTRUCT
-   void                   *CreateClassScopeMap(Environment *,Defclass *);
+void *CreateClassScopeMap(Environment *, Defclass *);
 #endif
 
 #endif /* OBJECT_SYSTEM */

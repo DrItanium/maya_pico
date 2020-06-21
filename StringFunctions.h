@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/27/19            */
-   /*                                                     */
-   /*          STRING_TYPE FUNCTIONS HEADER FILE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/27/19            */
+/*                                                     */
+/*          STRING_TYPE FUNCTIONS HEADER FILE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -61,36 +61,34 @@
 
 #include "Entities.h"
 
-typedef enum
-  {
-   EE_NO_ERROR = 0,
-   EE_PARSING_ERROR,
-   EE_PROCESSING_ERROR
-  } EvalError;
+typedef enum {
+    EE_NO_ERROR = 0,
+    EE_PARSING_ERROR,
+    EE_PROCESSING_ERROR
+} EvalError;
 
-typedef enum
-  {
-   BE_NO_ERROR = 0,
-   BE_COULD_NOT_BUILD_ERROR,
-   BE_CONSTRUCT_NOT_FOUND_ERROR,
-   BE_PARSING_ERROR,
-  } BuildError;
+typedef enum {
+    BE_NO_ERROR = 0,
+    BE_COULD_NOT_BUILD_ERROR,
+    BE_CONSTRUCT_NOT_FOUND_ERROR,
+    BE_PARSING_ERROR,
+} BuildError;
 
-   BuildError                     Build(Environment *,const char *);
-   EvalError                      Eval(Environment *,const char *,CLIPSValue *);
-   void                           StringFunctionDefinitions(Environment *);
-   void                           StrCatFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SymCatFunction(Environment *,UDFContext *,UDFValue *);
-   void                           StrLengthFunction(Environment *,UDFContext *,UDFValue *);
-   void                           UpcaseFunction(Environment *,UDFContext *,UDFValue *);
-   void                           LowcaseFunction(Environment *,UDFContext *,UDFValue *);
-   void                           StrCompareFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SubStringFunction(Environment *,UDFContext *,UDFValue *);
-   void                           StrIndexFunction(Environment *,UDFContext *,UDFValue *);
-   void                           EvalFunction(Environment *,UDFContext *,UDFValue *);
-   void                           BuildFunction(Environment *,UDFContext *,UDFValue *);
-   void                           StringToFieldFunction(Environment *,UDFContext *,UDFValue *);
-   void                           StringToField(Environment *,const char *,UDFValue *);
-   void                           StrReplaceFunction(Environment *,UDFContext *,UDFValue *);
+BuildError Build(Environment *, const char *);
+EvalError Eval(Environment *, const char *, CLIPSValue *);
+void StringFunctionDefinitions(Environment *);
+void StrCatFunction(Environment *, UDFContext *, UDFValue *);
+void SymCatFunction(Environment *, UDFContext *, UDFValue *);
+void StrLengthFunction(Environment *, UDFContext *, UDFValue *);
+void UpcaseFunction(Environment *, UDFContext *, UDFValue *);
+void LowcaseFunction(Environment *, UDFContext *, UDFValue *);
+void StrCompareFunction(Environment *, UDFContext *, UDFValue *);
+void SubStringFunction(Environment *, UDFContext *, UDFValue *);
+void StrIndexFunction(Environment *, UDFContext *, UDFValue *);
+void EvalFunction(Environment *, UDFContext *, UDFValue *);
+void BuildFunction(Environment *, UDFContext *, UDFValue *);
+void StringToFieldFunction(Environment *, UDFContext *, UDFValue *);
+void StringToField(Environment *, const char *, UDFValue *);
+void StrReplaceFunction(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_strngfun */

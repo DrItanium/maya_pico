@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  04/20/20            */
-   /*                                                     */
-   /*                  SETUP HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  04/20/20            */
+/*                                                     */
+/*                  SETUP HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: This file is the general header file included by */
@@ -144,9 +144,9 @@
 /* Use GENERIC if nothing else is used. */
 
 #ifndef GENERIC
-#if (! UNIX_V) && (! LINUX) && (! UNIX_7) && \
-    (! MAC_XCD) && (! DARWIN) && \
-    (! WIN_MVC) && (! WIN_GCC)
+#if (!UNIX_V) && (!LINUX) && (!UNIX_7) && \
+    (!MAC_XCD) && (!DARWIN) && \
+    (!WIN_MVC) && (!WIN_GCC)
 #define GENERIC 1   /* Generic (any machine)                   */
 #else
 #define GENERIC 0   /* Generic (any machine)                   */
@@ -192,7 +192,7 @@
 #define DEFTEMPLATE_CONSTRUCT 1
 #endif
 
-#if ! DEFRULE_CONSTRUCT
+#if !DEFRULE_CONSTRUCT
 #undef DEFTEMPLATE_CONSTRUCT
 #define DEFTEMPLATE_CONSTRUCT 0
 #endif
@@ -206,7 +206,7 @@
 #define FACT_SET_QUERIES 1
 #endif
 
-#if ! DEFTEMPLATE_CONSTRUCT
+#if !DEFTEMPLATE_CONSTRUCT
 #undef FACT_SET_QUERIES
 #define FACT_SET_QUERIES        0
 #endif
@@ -220,7 +220,7 @@
 #define DEFFACTS_CONSTRUCT 1
 #endif
 
-#if ! DEFTEMPLATE_CONSTRUCT
+#if !DEFTEMPLATE_CONSTRUCT
 #undef DEFFACTS_CONSTRUCT
 #define DEFFACTS_CONSTRUCT 0
 #endif
@@ -271,7 +271,7 @@
 #define DEFINSTANCES_CONSTRUCT      1
 #endif
 
-#if ! OBJECT_SYSTEM
+#if !OBJECT_SYSTEM
 #undef DEFINSTANCES_CONSTRUCT
 #define DEFINSTANCES_CONSTRUCT      0
 #endif
@@ -285,7 +285,7 @@
 #define INSTANCE_SET_QUERIES 1
 #endif
 
-#if ! OBJECT_SYSTEM
+#if !OBJECT_SYSTEM
 #undef INSTANCE_SET_QUERIES
 #define INSTANCE_SET_QUERIES        0
 #endif
@@ -294,7 +294,7 @@
 /* Check for consistencies associated with the defrule construct. */
 /******************************************************************/
 
-#if (! DEFTEMPLATE_CONSTRUCT) && (! OBJECT_SYSTEM)
+#if (!DEFTEMPLATE_CONSTRUCT) && (!OBJECT_SYSTEM)
 #undef DEFRULE_CONSTRUCT
 #define DEFRULE_CONSTRUCT 0
 #endif
@@ -312,7 +312,7 @@
 #define BSAVE_INSTANCES 1
 #endif
 
-#if ! OBJECT_SYSTEM
+#if !OBJECT_SYSTEM
 #undef BLOAD_INSTANCES
 #undef BSAVE_INSTANCES
 #define BLOAD_INSTANCES             0
@@ -431,7 +431,7 @@
 
 #include "UserSetup.h"
 
-#endif	/* _H_setup */
+#endif    /* _H_setup */
 
 
 

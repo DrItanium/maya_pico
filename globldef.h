@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/13/17            */
-   /*                                                     */
-   /*                DEFGLOBAL HEADER FILE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/13/17            */
+/*                                                     */
+/*                DEFGLOBAL HEADER FILE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -74,70 +74,67 @@ typedef struct defglobal Defglobal;
 
 #define DEFGLOBAL_DATA 1
 
-struct defglobalData
-  {
-   Construct *DefglobalConstruct;
-   unsigned DefglobalModuleIndex;
-   bool ChangeToGlobals;
+struct defglobalData {
+    Construct *DefglobalConstruct;
+    unsigned DefglobalModuleIndex;
+    bool ChangeToGlobals;
 #if DEBUGGING_FUNCTIONS
-   bool WatchGlobals;
+    bool WatchGlobals;
 #endif
-   bool ResetGlobals;
-   struct entityRecord GlobalInfo;
-   struct entityRecord DefglobalPtrRecord;
-   long LastModuleIndex;
-   Defmodule *TheDefmodule;
-  };
+    bool ResetGlobals;
+    struct entityRecord GlobalInfo;
+    struct entityRecord DefglobalPtrRecord;
+    long LastModuleIndex;
+    Defmodule *TheDefmodule;
+};
 
-struct defglobal
-  {
-   ConstructHeader header;
-   unsigned int watch   : 1;
-   unsigned int inScope : 1;
-   long busyCount;
-   CLIPSValue current;
-   struct expr *initial;
-  };
+struct defglobal {
+    ConstructHeader header;
+    unsigned int watch: 1;
+    unsigned int inScope: 1;
+    long busyCount;
+    CLIPSValue current;
+    struct expr *initial;
+};
 
-struct defglobalModule
-  {
-   struct defmoduleItemHeader header;
-  };
+struct defglobalModule {
+    struct defmoduleItemHeader header;
+};
 
 #define DefglobalData(theEnv) ((struct defglobalData *) GetEnvironmentData(theEnv,DEFGLOBAL_DATA))
 
-   void                           InitializeDefglobals(Environment *);
-   Defglobal                     *FindDefglobal(Environment *,const char *);
-   Defglobal                     *FindDefglobalInModule(Environment *,const char *);
-   Defglobal                     *GetNextDefglobal(Environment *,Defglobal *);
-   void                           CreateInitialFactDefglobal(void);
-   bool                           DefglobalIsDeletable(Defglobal *);
-   struct defglobalModule        *GetDefglobalModuleItem(Environment *,Defmodule *);
-   void                           QSetDefglobalValue(Environment *,Defglobal *,UDFValue *,bool);
-   Defglobal                     *QFindDefglobal(Environment *,CLIPSLexeme *);
-   void                           DefglobalValueForm(Defglobal *,StringBuilder *);
-   bool                           GetGlobalsChanged(Environment *);
-   void                           SetGlobalsChanged(Environment *,bool);
-   void                           DefglobalGetValue(Defglobal *,CLIPSValue *);
-   void                           DefglobalSetValue(Defglobal *,CLIPSValue *);
-   void                           DefglobalSetInteger(Defglobal *,long long);
-   void                           DefglobalSetFloat(Defglobal *,double);
-   void                           DefglobalSetSymbol(Defglobal *,const char *);
-   void                           DefglobalSetString(Defglobal *,const char *);
-   void                           DefglobalSetInstanceName(Defglobal *,const char *);
-   void                           DefglobalSetCLIPSInteger(Defglobal *,CLIPSInteger *);
-   void                           DefglobalSetCLIPSFloat(Defglobal *,CLIPSFloat *);
-   void                           DefglobalSetCLIPSLexeme(Defglobal *,CLIPSLexeme *);
-   void                           DefglobalSetFact(Defglobal *,Fact *);
-   void                           DefglobalSetInstance(Defglobal *,Instance *);
-   void                           DefglobalSetMultifield(Defglobal *,Multifield *);
-   void                           DefglobalSetCLIPSExternalAddress(Defglobal *,CLIPSExternalAddress *);
-   void                           UpdateDefglobalScope(Environment *);
-   Defglobal                     *GetNextDefglobalInScope(Environment *,Defglobal *);
-   bool                           QGetDefglobalUDFValue(Environment *,Defglobal *,UDFValue *);
-   const char                    *DefglobalModule(Defglobal *);
-   const char                    *DefglobalName(Defglobal *);
-   const char                    *DefglobalPPForm(Defglobal *);
+void InitializeDefglobals(Environment *);
+Defglobal *FindDefglobal(Environment *, const char *);
+Defglobal *FindDefglobalInModule(Environment *, const char *);
+Defglobal *GetNextDefglobal(Environment *, Defglobal *);
+void CreateInitialFactDefglobal(void);
+bool DefglobalIsDeletable(Defglobal *);
+struct defglobalModule *GetDefglobalModuleItem(Environment *, Defmodule *);
+void QSetDefglobalValue(Environment *, Defglobal *, UDFValue *, bool);
+Defglobal *QFindDefglobal(Environment *, CLIPSLexeme *);
+void DefglobalValueForm(Defglobal *, StringBuilder *);
+bool GetGlobalsChanged(Environment *);
+void SetGlobalsChanged(Environment *, bool);
+void DefglobalGetValue(Defglobal *, CLIPSValue *);
+void DefglobalSetValue(Defglobal *, CLIPSValue *);
+void DefglobalSetInteger(Defglobal *, long long);
+void DefglobalSetFloat(Defglobal *, double);
+void DefglobalSetSymbol(Defglobal *, const char *);
+void DefglobalSetString(Defglobal *, const char *);
+void DefglobalSetInstanceName(Defglobal *, const char *);
+void DefglobalSetCLIPSInteger(Defglobal *, CLIPSInteger *);
+void DefglobalSetCLIPSFloat(Defglobal *, CLIPSFloat *);
+void DefglobalSetCLIPSLexeme(Defglobal *, CLIPSLexeme *);
+void DefglobalSetFact(Defglobal *, Fact *);
+void DefglobalSetInstance(Defglobal *, Instance *);
+void DefglobalSetMultifield(Defglobal *, Multifield *);
+void DefglobalSetCLIPSExternalAddress(Defglobal *, CLIPSExternalAddress *);
+void UpdateDefglobalScope(Environment *);
+Defglobal *GetNextDefglobalInScope(Environment *, Defglobal *);
+bool QGetDefglobalUDFValue(Environment *, Defglobal *, UDFValue *);
+const char *DefglobalModule(Defglobal *);
+const char *DefglobalName(Defglobal *);
+const char *DefglobalPPForm(Defglobal *);
 
 #endif /* _H_globldef */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -33,24 +33,23 @@
 
 #if BLOAD || BLOAD_AND_BSAVE
 
-struct bsaveConstructHeader
-  {
-   unsigned long name;
-   unsigned long whichModule;
-   unsigned long next;
-  };
+struct bsaveConstructHeader {
+    unsigned long name;
+    unsigned long whichModule;
+    unsigned long next;
+};
 
 #include "Construct.h"
 
 #if BLOAD_AND_BSAVE
-void MarkConstructHeaderNeededItems(ConstructHeader *,unsigned long);
+void MarkConstructHeaderNeededItems(ConstructHeader *, unsigned long);
 void AssignBsaveConstructHeaderVals(struct bsaveConstructHeader *,
                                     ConstructHeader *);
 #endif
 
-void UpdateConstructHeader(Environment *,struct bsaveConstructHeader *,
-                           ConstructHeader *,ConstructType,size_t,void *,size_t,void *);
-void UnmarkConstructHeader(Environment *,ConstructHeader *);
+void UpdateConstructHeader(Environment *, struct bsaveConstructHeader *,
+                           ConstructHeader *, ConstructType, size_t, void *, size_t, void *);
+void UnmarkConstructHeader(Environment *, ConstructHeader *);
 
 #endif
 

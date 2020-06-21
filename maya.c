@@ -28,7 +28,7 @@
 
 #if BOOST_EXTENSIONS
 #include "boost.h"
-#endif 
+#endif
 
 #if FUNCTIONAL_EXTENSIONS
 #include "functional.h"
@@ -37,62 +37,63 @@
 #if !MAYA_EXTENSIONS
 void InstallMayaExtensions(void* environment) { }
 #else
-static void EmptyFunction(Environment*, UDFContext*, UDFValue*);
-static void Functionp(Environment*, UDFContext*, UDFValue*);
+static void EmptyFunction(Environment *, UDFContext *, UDFValue *);
+static void Functionp(Environment *, UDFContext *, UDFValue *);
 //static void NextToken(Environment*, UDFContext* context, UDFValue* ret);
-static void LastFunction(Environment*, UDFContext* context, UDFValue* ret);
+static void LastFunction(Environment *, UDFContext *context, UDFValue *ret);
 
-void InstallMayaExtensions(Environment* environment) {
+void InstallMayaExtensions(Environment *environment) {
     AddUDF(environment, "empty$", "b", 1, 1, "m", EmptyFunction, NULL);
     AddUDF(environment, "functionp", "b", 1, 1, "y", Functionp, NULL);
     AddUDF(environment, "quit", "v", 0, 1, "l", ExitCommand, NULL);
     AddUDF(environment, "bye", "v", 0, 1, "l", ExitCommand, NULL);
     AddUDF(environment, "last$", "m", 1, 1, "m", LastFunction, NULL);
 #if BOOST_EXTENSIONS
-	InstallBoostExtensions(environment);
+    InstallBoostExtensions(environment);
 #endif
 #if FUNCTIONAL_EXTENSIONS
-	InstallFunctionalExtensions(environment);
+    InstallFunctionalExtensions(environment);
 #endif
 }
 
 void
-LastFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	UDFValue theArg;
-	Multifield* theList;
+LastFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+    UDFValue theArg;
+    Multifield *theList;
 
-	/*===================================*/
-	/* Get the segment to be subdivided. */
-	/*===================================*/
-	if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
-		return; 
-	}
+    /*===================================*/
+    /* Get the segment to be subdivided. */
+    /*===================================*/
+    if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
+        return;
+    }
 
-	theList = theArg.multifieldValue;
+    theList = theArg.multifieldValue;
 
-	ret->value = theList;
-	if (theArg.range >= 1) {
-		ret->begin = (theArg.begin + theArg.range) - 1;
-		ret->range = 1;
-	} else {
-		ret->begin = theArg.begin;
-		ret->range = theArg.range;
-	}
+    ret->value = theList;
+    if (theArg.range >= 1) {
+        ret->begin = (theArg.begin + theArg.range) - 1;
+        ret->range = 1;
+    } else {
+        ret->begin = theArg.begin;
+        ret->range = theArg.range;
+    }
 }
 
 void
-Functionp(Environment* env, UDFContext* context, UDFValue* ret) {
-	Expression theRef;
-	UDFValue theArg;
-	ret->lexemeValue = CreateBoolean(env, (UDFFirstArgument(context, LEXEME_BITS, &theArg) && GetFunctionReference(env, theArg.lexemeValue->contents, &theRef)));
+Functionp(Environment *env, UDFContext *context, UDFValue *ret) {
+    Expression theRef;
+    UDFValue theArg;
+    ret->lexemeValue = CreateBoolean(env, (UDFFirstArgument(context, LEXEME_BITS, &theArg) &&
+                                           GetFunctionReference(env, theArg.lexemeValue->contents, &theRef)));
 }
 void
-EmptyFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	UDFValue theArg;
-	if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
-		return;
-	}
-	ret->lexemeValue = CreateBoolean(env, theArg.range > 0);
+EmptyFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+    UDFValue theArg;
+    if (!UDFFirstArgument(context, MULTIFIELD_BIT, &theArg)) {
+        return;
+    }
+    ret->lexemeValue = CreateBoolean(env, theArg.range > 0);
 }
 
 #endif // end MAYA_EXTENSIONS

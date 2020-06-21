@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*             DEFGLOBAL BINARY HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*             DEFGLOBAL BINARY HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -37,33 +37,30 @@
 #include "cstrcbin.h"
 #include "globldef.h"
 
-struct bsaveDefglobal
-  {
-   struct bsaveConstructHeader header;
-   unsigned long initial;
-  };
+struct bsaveDefglobal {
+    struct bsaveConstructHeader header;
+    unsigned long initial;
+};
 
-struct bsaveDefglobalModule
-  {
-   struct bsaveDefmoduleItemHeader header;
-  };
+struct bsaveDefglobalModule {
+    struct bsaveDefmoduleItemHeader header;
+};
 
 #define GLOBLBIN_DATA 60
 
-struct defglobalBinaryData
-  {
-   Defglobal *DefglobalArray;
-   unsigned long NumberOfDefglobals;
-   struct defglobalModule *ModuleArray;
-   unsigned long NumberOfDefglobalModules;
-  };
+struct defglobalBinaryData {
+    Defglobal *DefglobalArray;
+    unsigned long NumberOfDefglobals;
+    struct defglobalModule *ModuleArray;
+    unsigned long NumberOfDefglobalModules;
+};
 
 #define DefglobalBinaryData(theEnv) ((struct defglobalBinaryData *) GetEnvironmentData(theEnv,GLOBLBIN_DATA))
 
 #define DefglobalPointer(i) (&DefglobalBinaryData(theEnv)->DefglobalArray[i])
 
-   void                           DefglobalBinarySetup(Environment *);
-   void                          *BloadDefglobalModuleReference(Environment *,unsigned long);
+void DefglobalBinarySetup(Environment *);
+void *BloadDefglobalModuleReference(Environment *, unsigned long);
 
 #endif /* _H_globlbin */
 

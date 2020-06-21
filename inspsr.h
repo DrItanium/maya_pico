@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -50,9 +50,9 @@
 
 #include "Expression.h"
 
-   Expression                    *ParseInitializeInstance(Environment *,Expression *,const char *);
-   Expression                    *ParseSlotOverrides(Environment *,const char *,bool *);
-   Expression                    *ParseSimpleInstance(Environment *,Expression *,const char *);
+Expression *ParseInitializeInstance(Environment *, Expression *, const char *);
+Expression *ParseSlotOverrides(Environment *, const char *, bool *);
+Expression *ParseSimpleInstance(Environment *, Expression *, const char *);
 
 #endif /* _H_inspsr */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*      CONFLICT RESOLUTION STRATEGY HEADER MODULE     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*      CONFLICT RESOLUTION STRATEGY HEADER MODULE     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Used to determine where a new activation is      */
@@ -58,27 +58,26 @@
 
 #define _H_crstrtgy
 
-typedef enum
-  {
-   DEPTH_STRATEGY,
-   BREADTH_STRATEGY,
-   LEX_STRATEGY,
-   MEA_STRATEGY,
-   COMPLEXITY_STRATEGY,
-   SIMPLICITY_STRATEGY,
-   RANDOM_STRATEGY
-  } StrategyType;
+typedef enum {
+    DEPTH_STRATEGY,
+    BREADTH_STRATEGY,
+    LEX_STRATEGY,
+    MEA_STRATEGY,
+    COMPLEXITY_STRATEGY,
+    SIMPLICITY_STRATEGY,
+    RANDOM_STRATEGY
+} StrategyType;
 
 #include "Agenda.h"
 #include "Entities.h"
 
 #define DEFAULT_STRATEGY DEPTH_STRATEGY
 
-   void                           PlaceActivation(Environment *,Activation **,Activation *,struct salienceGroup *);
-   StrategyType                   SetStrategy(Environment *,StrategyType);
-   StrategyType                   GetStrategy(Environment *);
-   void                           SetStrategyCommand(Environment *,UDFContext *,UDFValue *);
-   void                           GetStrategyCommand(Environment *,UDFContext *,UDFValue *);
+void PlaceActivation(Environment *, Activation **, Activation *, struct salienceGroup *);
+StrategyType SetStrategy(Environment *, StrategyType);
+StrategyType GetStrategy(Environment *);
+void SetStrategyCommand(Environment *, UDFContext *, UDFValue *);
+void GetStrategyCommand(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_crstrtgy */
 

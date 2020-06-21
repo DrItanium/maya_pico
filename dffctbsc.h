@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*         DEFFACTS BASIC COMMANDS HEADER FILE         */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*         DEFFACTS BASIC COMMANDS HEADER FILE         */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the deffacts        */
@@ -57,16 +57,16 @@
 #include "dffctdef.h"
 #include "Evaluation.h"
 
-   void                           DeffactsBasicCommands(Environment *);
-   void                           UndeffactsCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           Undeffacts(Deffacts *,Environment *);
-   void                           GetDeffactsListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetDeffactsList(Environment *,CLIPSValue *,Defmodule *);
-   void                           DeffactsModuleFunction(Environment *,UDFContext *,UDFValue *);
-   void                           PPDeffactsCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           PPDeffacts(Environment *,const char *,const char *);
-   void                           ListDeffactsCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListDeffacts(Environment *,const char *,Defmodule *);
+void DeffactsBasicCommands(Environment *);
+void UndeffactsCommand(Environment *, UDFContext *, UDFValue *);
+bool Undeffacts(Deffacts *, Environment *);
+void GetDeffactsListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDeffactsList(Environment *, CLIPSValue *, Defmodule *);
+void DeffactsModuleFunction(Environment *, UDFContext *, UDFValue *);
+void PPDeffactsCommand(Environment *, UDFContext *, UDFValue *);
+bool PPDeffacts(Environment *, const char *, const char *);
+void ListDeffactsCommand(Environment *, UDFContext *, UDFValue *);
+void ListDeffacts(Environment *, const char *, Defmodule *);
 
 #endif /* _H_dffctbsc */
 

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/18/16            */
-   /*                                                     */
-   /*                ENVRNMNT HEADER FILE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/18/16            */
+/*                                                     */
+/*                ENVRNMNT HEADER FILE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Routines for supporting multiple environments.   */
@@ -76,44 +76,42 @@ typedef void EnvironmentCleanupFunction(Environment *);
 #define USER_ENVIRONMENT_DATA 70
 #define MAXIMUM_ENVIRONMENT_POSITIONS 100
 
-struct environmentCleanupFunction
-  {
-   const char *name;
-   void (*func)(Environment *);
-   int priority;
-   struct environmentCleanupFunction *next;
-  };
+struct environmentCleanupFunction {
+    const char *name;
+    void (*func)(Environment *);
+    int priority;
+    struct environmentCleanupFunction *next;
+};
 
-struct environmentData
-  {
-   unsigned int initialized : 1;
-   void *context;
-   CLIPSLexeme *TrueSymbol;
-   CLIPSLexeme *FalseSymbol;
-   CLIPSVoid *VoidConstant;
-   void **theData;
-   void (**cleanupFunctions)(Environment *);
-   struct environmentCleanupFunction *listOfCleanupEnvironmentFunctions;
-   struct environmentData *next;
-  };
+struct environmentData {
+    unsigned int initialized: 1;
+    void *context;
+    CLIPSLexeme *TrueSymbol;
+    CLIPSLexeme *FalseSymbol;
+    CLIPSVoid *VoidConstant;
+    void **theData;
+    void (**cleanupFunctions)(Environment *);
+    struct environmentCleanupFunction *listOfCleanupEnvironmentFunctions;
+    struct environmentData *next;
+};
 
 #define VoidConstant(theEnv) (theEnv->VoidConstant)
 #define FalseSymbol(theEnv) (theEnv->FalseSymbol)
 #define TrueSymbol(theEnv) (theEnv->TrueSymbol)
 
-#define GetEnvironmentData(theEnv,position) (((struct environmentData *) theEnv)->theData[position])
-#define SetEnvironmentData(theEnv,position,value) (((struct environmentData *) theEnv)->theData[position] = value)
+#define GetEnvironmentData(theEnv, position) (((struct environmentData *) theEnv)->theData[position])
+#define SetEnvironmentData(theEnv, position, value) (((struct environmentData *) theEnv)->theData[position] = value)
 
-   bool                           AllocateEnvironmentData(Environment *,unsigned,size_t,EnvironmentCleanupFunction *);
-   bool                           AddEnvironmentCleanupFunction(Environment *,const char *,EnvironmentCleanupFunction *,int);
-   void                          *GetEnvironmentContext(Environment *);
-   void                          *SetEnvironmentContext(Environment *,void *);
+bool AllocateEnvironmentData(Environment *, unsigned, size_t, EnvironmentCleanupFunction *);
+bool AddEnvironmentCleanupFunction(Environment *, const char *, EnvironmentCleanupFunction *, int);
+void *GetEnvironmentContext(Environment *);
+void *SetEnvironmentContext(Environment *, void *);
 
-   Environment                   *CreateEnvironment(void);
-   Environment                   *CreateRuntimeEnvironment(CLIPSLexeme **,CLIPSFloat **,
-                                                           CLIPSInteger **,CLIPSBitMap **,
-                                                           struct functionDefinition *);
-   bool                           DestroyEnvironment(Environment *);
+Environment *CreateEnvironment(void);
+Environment *CreateRuntimeEnvironment(CLIPSLexeme **, CLIPSFloat **,
+                                      CLIPSInteger **, CLIPSBitMap **,
+                                      struct functionDefinition *);
+bool DestroyEnvironment(Environment *);
 
 #endif /* _H_envrnmnt */
 

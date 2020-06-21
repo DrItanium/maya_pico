@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*         DEFRULE BASIC COMMANDS HEADER FILE          */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*         DEFRULE BASIC COMMANDS HEADER FILE          */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Implements core commands for the defrule         */
@@ -67,23 +67,23 @@
 
 #include "Evaluation.h"
 
-   void                           DefruleBasicCommands(Environment *);
-   void                           UndefruleCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           Undefrule(Defrule *,Environment *);
-   void                           GetDefruleListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetDefruleList(Environment *,CLIPSValue *,Defmodule *);
-   void                           DefruleModuleFunction(Environment *,UDFContext *,UDFValue *);
+void DefruleBasicCommands(Environment *);
+void UndefruleCommand(Environment *, UDFContext *, UDFValue *);
+bool Undefrule(Defrule *, Environment *);
+void GetDefruleListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDefruleList(Environment *, CLIPSValue *, Defmodule *);
+void DefruleModuleFunction(Environment *, UDFContext *, UDFValue *);
 #if DEBUGGING_FUNCTIONS
-   void                           PPDefruleCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           PPDefrule(Environment *,const char *,const char *);
-   void                           ListDefrulesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListDefrules(Environment *,const char *,Defmodule *);
-   bool                           DefruleGetWatchFirings(Defrule *);
-   bool                           DefruleGetWatchActivations(Defrule *);
-   void                           DefruleSetWatchFirings(Defrule *,bool);
-   void                           DefruleSetWatchActivations(Defrule *,bool);
-   bool                           DefruleWatchAccess(Environment *,int,bool,struct expr *);
-   bool                           DefruleWatchPrint(Environment *,const char *,int,struct expr *);
+void PPDefruleCommand(Environment *, UDFContext *, UDFValue *);
+bool PPDefrule(Environment *, const char *, const char *);
+void ListDefrulesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefrules(Environment *, const char *, Defmodule *);
+bool DefruleGetWatchFirings(Defrule *);
+bool DefruleGetWatchActivations(Defrule *);
+void DefruleSetWatchFirings(Defrule *, bool);
+void DefruleSetWatchActivations(Defrule *, bool);
+bool DefruleWatchAccess(Environment *, int, bool, struct expr *);
+bool DefruleWatchPrint(Environment *, const char *, int, struct expr *);
 #endif
 
 #endif /* _H_rulebsc */

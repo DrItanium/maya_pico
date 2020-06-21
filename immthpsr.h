@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -44,7 +44,7 @@
 
 #include "genrcfun.h"
 
-   void                           AddImplicitMethods(Environment *,Defgeneric *);
+void AddImplicitMethods(Environment *, Defgeneric *);
 
 #endif /* DEFGENERIC_CONSTRUCT */
 

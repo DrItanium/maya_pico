@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/05/18            */
-   /*                                                     */
-   /*               I/O FUNCTIONS HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/05/18            */
+/*                                                     */
+/*               I/O FUNCTIONS HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -82,29 +82,29 @@
 
 #define _H_iofun
 
-   void                           IOFunctionDefinitions(Environment *);
+void IOFunctionDefinitions(Environment *);
 #if IO_FUNCTIONS
-   bool                           SetFullCRLF(Environment *,bool);
-   void                           PrintoutFunction(Environment *,UDFContext *,UDFValue *);
-   void                           PrintFunction(Environment *,UDFContext *,UDFValue *);
-   void                           PrintlnFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ReadFunction(Environment *,UDFContext *,UDFValue *);
-   void                           OpenFunction(Environment *,UDFContext *,UDFValue *);
-   void                           CloseFunction(Environment *,UDFContext *,UDFValue *);
-   void                           FlushFunction(Environment *,UDFContext *,UDFValue *);
-   void                           RewindFunction(Environment *,UDFContext *,UDFValue *);
-   void                           TellFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SeekFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetCharFunction(Environment *,UDFContext *,UDFValue *);
-   void                           UngetCharFunction(Environment *,UDFContext *,UDFValue *);
-   void                           PutCharFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ReadlineFunction(Environment *,UDFContext *,UDFValue *);
-   void                           FormatFunction(Environment *,UDFContext *,UDFValue *);
-   void                           RemoveFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ChdirFunction(Environment *,UDFContext *,UDFValue *);
-   void                           RenameFunction(Environment *,UDFContext *,UDFValue *);
-   void                           SetLocaleFunction(Environment *,UDFContext *,UDFValue *);
-   void                           ReadNumberFunction(Environment *,UDFContext *,UDFValue *);
+bool SetFullCRLF(Environment *, bool);
+void PrintoutFunction(Environment *, UDFContext *, UDFValue *);
+void PrintFunction(Environment *, UDFContext *, UDFValue *);
+void PrintlnFunction(Environment *, UDFContext *, UDFValue *);
+void ReadFunction(Environment *, UDFContext *, UDFValue *);
+void OpenFunction(Environment *, UDFContext *, UDFValue *);
+void CloseFunction(Environment *, UDFContext *, UDFValue *);
+void FlushFunction(Environment *, UDFContext *, UDFValue *);
+void RewindFunction(Environment *, UDFContext *, UDFValue *);
+void TellFunction(Environment *, UDFContext *, UDFValue *);
+void SeekFunction(Environment *, UDFContext *, UDFValue *);
+void GetCharFunction(Environment *, UDFContext *, UDFValue *);
+void UngetCharFunction(Environment *, UDFContext *, UDFValue *);
+void PutCharFunction(Environment *, UDFContext *, UDFValue *);
+void ReadlineFunction(Environment *, UDFContext *, UDFValue *);
+void FormatFunction(Environment *, UDFContext *, UDFValue *);
+void RemoveFunction(Environment *, UDFContext *, UDFValue *);
+void ChdirFunction(Environment *, UDFContext *, UDFValue *);
+void RenameFunction(Environment *, UDFContext *, UDFValue *);
+void SetLocaleFunction(Environment *, UDFContext *, UDFValue *);
+void ReadNumberFunction(Environment *, UDFContext *, UDFValue *);
 #endif
 
 #endif /* _H_iofun */

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  05/03/19             */
-   /*                                                     */
-   /*            SYSTEM DEPENDENT HEADER FILE             */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  05/03/19             */
+/*                                                     */
+/*            SYSTEM DEPENDENT HEADER FILE             */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Isolation of system dependent routines.          */
@@ -105,41 +105,41 @@
 #include <stdio.h>
 #include <setjmp.h>
 
-   double                      gentime(void);
-   int                         gensystem(Environment *,const char *);
-   bool                        GenOpenReadBinary(Environment *,const char *,const char *);
-   void                        GetSeekCurBinary(Environment *,long);
-   void                        GetSeekSetBinary(Environment *,long);
-   void                        GenTellBinary(Environment *,long *);
-   void                        GenCloseBinary(Environment *);
-   void                        GenReadBinary(Environment *,void *,size_t);
-   FILE                       *GenOpen(Environment *,const char *,const char *);
-   int                         GenClose(Environment *,FILE *);
-   int                         GenFlush(Environment *,FILE *);
-   void                        GenRewind(Environment *,FILE *);
-   long long                   GenTell(Environment *,FILE *);
-   int                         GenSeek(Environment *,FILE *,long,int);
-   void                        genexit(Environment *,int);
-   int                         genrand(void);
-   void                        genseed(unsigned int);
-   bool                        genremove(Environment *,const char *);
-   bool                        genrename(Environment *,const char *,const char *);
-   char                       *gengetcwd(char *,int);
-   void                        GenWrite(void *,size_t,FILE *);
-   int                       (*SetBeforeOpenFunction(Environment *,int (*)(Environment *)))(Environment *);
-   int                       (*SetAfterOpenFunction(Environment *,int (*)(Environment *)))(Environment *);
-   int                         gensprintf(char *,const char *,...);
-   char                       *genstrcpy(char *,const char *);
-   char                       *genstrncpy(char *,const char *,size_t);
-   char                       *genstrcat(char *,const char *);
-   char                       *genstrncat(char *,const char *,size_t);
-   int                         genchdir(Environment *,const char *);
-   void                        SetJmpBuffer(Environment *,jmp_buf *);
-   void                        genprintfile(Environment *,FILE *,const char *);
-   int                         gengetchar(Environment *);
-   int                         genungetchar(Environment *,int);
-   void                        InitializeSystemDependentData(Environment *);
-   void                        InitializeNonportableFeatures(Environment *);
+double gentime(void);
+int gensystem(Environment *, const char *);
+bool GenOpenReadBinary(Environment *, const char *, const char *);
+void GetSeekCurBinary(Environment *, long);
+void GetSeekSetBinary(Environment *, long);
+void GenTellBinary(Environment *, long *);
+void GenCloseBinary(Environment *);
+void GenReadBinary(Environment *, void *, size_t);
+FILE *GenOpen(Environment *, const char *, const char *);
+int GenClose(Environment *, FILE *);
+int GenFlush(Environment *, FILE *);
+void GenRewind(Environment *, FILE *);
+long long GenTell(Environment *, FILE *);
+int GenSeek(Environment *, FILE *, long, int);
+void genexit(Environment *, int);
+int genrand(void);
+void genseed(unsigned int);
+bool genremove(Environment *, const char *);
+bool genrename(Environment *, const char *, const char *);
+char *gengetcwd(char *, int);
+void GenWrite(void *, size_t, FILE *);
+int (*SetBeforeOpenFunction(Environment *, int (*)(Environment *)))(Environment *);
+int (*SetAfterOpenFunction(Environment *, int (*)(Environment *)))(Environment *);
+int gensprintf(char *, const char *, ...);
+char *genstrcpy(char *, const char *);
+char *genstrncpy(char *, const char *, size_t);
+char *genstrcat(char *, const char *);
+char *genstrncat(char *, const char *, size_t);
+int genchdir(Environment *, const char *);
+void SetJmpBuffer(Environment *, jmp_buf *);
+void genprintfile(Environment *, FILE *, const char *);
+int gengetchar(Environment *);
+int genungetchar(Environment *, int);
+void InitializeSystemDependentData(Environment *);
+void InitializeNonportableFeatures(Environment *);
 
 #endif /* _H_sysdep */
 

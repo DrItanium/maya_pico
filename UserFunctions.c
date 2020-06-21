@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  07/30/16             */
-   /*                                                     */
-   /*                USER FUNCTIONS MODULE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  07/30/16             */
+/*                                                     */
+/*                USER FUNCTIONS MODULE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -62,7 +62,6 @@ void UserFunctions(Environment *);
 /*   this function can be deleted from this file and     */
 /*   included in another file.                           */
 /*********************************************************/
-void UserFunctions(Environment *env)
-{
-	InstallMayaExtensions(env);
+void UserFunctions(Environment *env) {
+    InstallMayaExtensions(env);
 }

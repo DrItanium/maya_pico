@@ -28,24 +28,22 @@ extern "C" {
 #include <functional>
 #include <string>
 
-using String = const std::string&;
+using String = const std::string &;
 
 #if FUNCTIONAL_EXTENSIONS
-void MapFunction(Environment* env, UDFContext* context, UDFValue* ret);
-void FilterFunction(Environment* env, UDFContext* context, UDFValue* ret);
-void ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
-void NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret);
-void FunctionError(Environment*, int, FunctionCallBuilderError, String) noexcept;
-void LeftShift(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
-void RightShift(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
-void BitwiseOr(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
-void BitwiseAnd(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
-void BitwiseNot(Environment* env, UDFContext* context, UDFValue* ret) noexcept;
+void MapFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FilterFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void ExistsFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void NotExistsFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FunctionError(Environment *, int, FunctionCallBuilderError, String) noexcept;
+void LeftShift(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
+void RightShift(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
+void BitwiseOr(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
+void BitwiseAnd(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
+void BitwiseNot(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
 #endif
 
-
-
-extern "C" void InstallFunctionalExtensions(Environment* theEnv) {
+extern "C" void InstallFunctionalExtensions(Environment *theEnv) {
 #if FUNCTIONAL_EXTENSIONS
     AddUDF(theEnv, "map$", "m", 1, UNBOUNDED, "*;y;*", MapFunction, nullptr);
     AddUDF(theEnv, "filter$", "m", 1, UNBOUNDED, "*;y;*", FilterFunction, nullptr);
@@ -61,7 +59,7 @@ extern "C" void InstallFunctionalExtensions(Environment* theEnv) {
 
 #if FUNCTIONAL_EXTENSIONS
 void
-BitwiseNot(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
+BitwiseNot(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept {
     UDFValue invert;
     if (!UDFFirstArgument(context, INTEGER_BIT, &invert)) {
         ret->lexemeValue = FalseSymbol(theEnv);
@@ -70,254 +68,254 @@ BitwiseNot(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
     }
 }
 void
-LeftShift(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
-	UDFValue shift, by;
-	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+LeftShift(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept {
+    UDFValue shift, by;
+    if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else {
         ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) << std::abs(CVCoerceToInteger(&by)));
     }
 }
 
 void
-BitwiseAnd(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
-	UDFValue shift, by;
-	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+BitwiseAnd(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept {
+    UDFValue shift, by;
+    if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else {
         ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) & std::abs(CVCoerceToInteger(&by)));
     }
 }
 
 void
-BitwiseOr(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
-	UDFValue shift, by;
-	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+BitwiseOr(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept {
+    UDFValue shift, by;
+    if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else {
         ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) | std::abs(CVCoerceToInteger(&by)));
     }
 }
 void
-RightShift(Environment* theEnv, UDFContext* context, UDFValue* ret) noexcept {
-	UDFValue shift, by;
-	if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+RightShift(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept {
+    UDFValue shift, by;
+    if (!UDFFirstArgument(context, INTEGER_BIT, &shift)) {
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else if (!UDFNextArgument(context, INTEGER_BIT, &by)) {
-		ret->lexemeValue = FalseSymbol(theEnv);
+        ret->lexemeValue = FalseSymbol(theEnv);
     } else {
         ret->integerValue = CreateInteger(theEnv, CVCoerceToInteger(&shift) >> std::abs(CVCoerceToInteger(&by)));
     }
 }
 void
-FunctionError(Environment* theEnv, int code, FunctionCallBuilderError err, String func) noexcept {
-	PrintErrorID(theEnv, "FUNCTIONAL", code, false);
-	switch(err) {
-		case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
-			WriteString(theEnv, STDERR, "Error during evaluation of arguments!\n");
-			break;
-		case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
-			WriteString(theEnv, STDERR, "Argument type check failed!\n");
-			break;
-		case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
-			WriteString(theEnv, STDERR, "Argument count check failed!\n");
-			break;
-		case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
-			WriteString(theEnv, STDERR, "Function '");
-			WriteString(theEnv, STDERR, func.c_str());
-			WriteString(theEnv, STDERR, "' does not exist!\n");
-			break;
-		case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
-			WriteString(theEnv, STDERR, "Function '");
-			WriteString(theEnv, STDERR, func.c_str());
-			WriteString(theEnv, STDERR, "' has a custom parser and cannot be used with map$!\n");
-			break;
-		case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
-			WriteString(theEnv, STDERR, "Provided function name is null!\n");
-			break;
-		case FunctionCallBuilderError::FCBE_NO_ERROR:
-			WriteString(theEnv, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
-			break;
-		default:
-			WriteString(theEnv, STDERR, "Unknown function builder error occurred!\n");
-			break;
-	}
+FunctionError(Environment *theEnv, int code, FunctionCallBuilderError err, String func) noexcept {
+    PrintErrorID(theEnv, "FUNCTIONAL", code, false);
+    switch (err) {
+        case FunctionCallBuilderError::FCBE_PROCESSING_ERROR:
+            WriteString(theEnv, STDERR, "Error during evaluation of arguments!\n");
+            break;
+        case FunctionCallBuilderError::FCBE_ARGUMENT_TYPE_ERROR:
+            WriteString(theEnv, STDERR, "Argument type check failed!\n");
+            break;
+        case FunctionCallBuilderError::FCBE_ARGUMENT_COUNT_ERROR:
+            WriteString(theEnv, STDERR, "Argument count check failed!\n");
+            break;
+        case FunctionCallBuilderError::FCBE_FUNCTION_NOT_FOUND_ERROR:
+            WriteString(theEnv, STDERR, "Function '");
+            WriteString(theEnv, STDERR, func.c_str());
+            WriteString(theEnv, STDERR, "' does not exist!\n");
+            break;
+        case FunctionCallBuilderError::FCBE_INVALID_FUNCTION_ERROR:
+            WriteString(theEnv, STDERR, "Function '");
+            WriteString(theEnv, STDERR, func.c_str());
+            WriteString(theEnv, STDERR, "' has a custom parser and cannot be used with map$!\n");
+            break;
+        case FunctionCallBuilderError::FCBE_NULL_POINTER_ERROR:
+            WriteString(theEnv, STDERR, "Provided function name is null!\n");
+            break;
+        case FunctionCallBuilderError::FCBE_NO_ERROR:
+            WriteString(theEnv, STDERR, "NO_ERROR SHOULD NEVER EVER BE FIRED!!!\n");
+            break;
+        default:
+            WriteString(theEnv, STDERR, "Unknown function builder error occurred!\n");
+            break;
+    }
 
 }
 void
-MapFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	UDFValue func, curr;
-	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-		ret->lexemeValue = FalseSymbol(env);
-		return;
-	} else {
-		maya::MultifieldBuilder mb(env);
-		while (UDFHasNextArgument(context)) {
-			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
-				ret->lexemeValue = FalseSymbol(env);
-				return;
-			} else {
-				CLIPSValue tmp;
-				maya::FunctionCallBuilder fcb(env, 0);
-				fcb.append(&curr);
-				auto result = fcb.call(func.lexemeValue->contents, &tmp);
-				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-					FunctionError(env, 1, result, func.lexemeValue->contents);
-					break;
-				}
-				mb.append(&tmp);
-			}
-		}
-		ret->multifieldValue = mb.create();
-	}
+MapFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+    UDFValue func, curr;
+    if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+        ret->lexemeValue = FalseSymbol(env);
+        return;
+    } else {
+        maya::MultifieldBuilder mb(env);
+        while (UDFHasNextArgument(context)) {
+            if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
+                ret->lexemeValue = FalseSymbol(env);
+                return;
+            } else {
+                CLIPSValue tmp;
+                maya::FunctionCallBuilder fcb(env, 0);
+                fcb.append(&curr);
+                auto result = fcb.call(func.lexemeValue->contents, &tmp);
+                if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    break;
+                }
+                mb.append(&tmp);
+            }
+        }
+        ret->multifieldValue = mb.create();
+    }
 }
 
 void
-FilterFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	UDFValue func, curr;
-	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-		ret->lexemeValue = FalseSymbol(env);
-		return;
-	} else {
-		maya::MultifieldBuilder mb(env);
-		while (UDFHasNextArgument(context)) {
-			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
-				ret->lexemeValue = FalseSymbol(env);
-				return;
-			} else {
-				CLIPSValue tmp;
-				maya::FunctionCallBuilder fcb(env, 0);
-				fcb.append(&curr);
-				auto result = fcb.call(func.lexemeValue->contents, &tmp);
-				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-					FunctionError(env, 1, result, func.lexemeValue->contents);
-					break;
-				}
-				if (tmp.lexemeValue != FalseSymbol(env)) {
-					mb.append(&curr);
-				}
-			}
-		}
-		ret->multifieldValue = mb.create();
-	}
+FilterFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+    UDFValue func, curr;
+    if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+        ret->lexemeValue = FalseSymbol(env);
+        return;
+    } else {
+        maya::MultifieldBuilder mb(env);
+        while (UDFHasNextArgument(context)) {
+            if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
+                ret->lexemeValue = FalseSymbol(env);
+                return;
+            } else {
+                CLIPSValue tmp;
+                maya::FunctionCallBuilder fcb(env, 0);
+                fcb.append(&curr);
+                auto result = fcb.call(func.lexemeValue->contents, &tmp);
+                if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    break;
+                }
+                if (tmp.lexemeValue != FalseSymbol(env)) {
+                    mb.append(&curr);
+                }
+            }
+        }
+        ret->multifieldValue = mb.create();
+    }
 }
 
 void
-ExistsFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	UDFValue func, curr;
-	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-		ret->lexemeValue = FalseSymbol(env);
-		return;
-	} else {
-		ret->lexemeValue = FalseSymbol(env);
-		while (UDFHasNextArgument(context)) {
-			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
-				ret->lexemeValue = FalseSymbol(env);
-				return;
-			} else {
-				CLIPSValue tmp;
-				maya::FunctionCallBuilder fcb(env, 0);
-				fcb.append(&curr);
-				auto result = fcb.call(func.lexemeValue->contents, &tmp);
-				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-					FunctionError(env, 1, result, func.lexemeValue->contents);
-					break;
-				}
-				if (tmp.lexemeValue != FalseSymbol(env)) {
-					ret->lexemeValue = TrueSymbol(env);
-					return;
-				}
-			}
-		}
-	}
+ExistsFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+    UDFValue func, curr;
+    if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+        ret->lexemeValue = FalseSymbol(env);
+        return;
+    } else {
+        ret->lexemeValue = FalseSymbol(env);
+        while (UDFHasNextArgument(context)) {
+            if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
+                ret->lexemeValue = FalseSymbol(env);
+                return;
+            } else {
+                CLIPSValue tmp;
+                maya::FunctionCallBuilder fcb(env, 0);
+                fcb.append(&curr);
+                auto result = fcb.call(func.lexemeValue->contents, &tmp);
+                if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    break;
+                }
+                if (tmp.lexemeValue != FalseSymbol(env)) {
+                    ret->lexemeValue = TrueSymbol(env);
+                    return;
+                }
+            }
+        }
+    }
 }
 
 void
-NotExistsFunction(Environment* env, UDFContext* context, UDFValue* ret) {
-	UDFValue func, curr;
-	if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-		ret->lexemeValue = FalseSymbol(env);
-		return;
-	} else {
-		ret->lexemeValue = TrueSymbol(env);
-		while (UDFHasNextArgument(context)) {
-			if (! UDFNextArgument(context,ANY_TYPE_BITS,&curr)) {
-				ret->lexemeValue = FalseSymbol(env);
-				return;
-			} else {
-				CLIPSValue tmp;
-				maya::FunctionCallBuilder fcb(env, 0);
-				fcb.append(&curr);
-				auto result = fcb.call(func.lexemeValue->contents, &tmp);
-				if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-					FunctionError(env, 1, result, func.lexemeValue->contents);
-					break;
-				}
-				if (tmp.lexemeValue != FalseSymbol(env)) {
-					ret->lexemeValue = FalseSymbol(env);
-					return;
-				}
-			}
-		}
-	}
+NotExistsFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+    UDFValue func, curr;
+    if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
+        ret->lexemeValue = FalseSymbol(env);
+        return;
+    } else {
+        ret->lexemeValue = TrueSymbol(env);
+        while (UDFHasNextArgument(context)) {
+            if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
+                ret->lexemeValue = FalseSymbol(env);
+                return;
+            } else {
+                CLIPSValue tmp;
+                maya::FunctionCallBuilder fcb(env, 0);
+                fcb.append(&curr);
+                auto result = fcb.call(func.lexemeValue->contents, &tmp);
+                if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
+                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    break;
+                }
+                if (tmp.lexemeValue != FalseSymbol(env)) {
+                    ret->lexemeValue = FalseSymbol(env);
+                    return;
+                }
+            }
+        }
+    }
 }
 
 namespace maya {
-	FunctionCallBuilder::FunctionCallBuilder(Environment* theEnv, size_t size) : _builder(CreateFunctionCallBuilder(theEnv, size)) { }
-	FunctionCallBuilder::~FunctionCallBuilder() {
-		FCBDispose(_builder);
-		_builder = nullptr;
-	}
-	FunctionCallBuilder::ErrorKind FunctionCallBuilder::call(FunctionCallBuilder::String functionName, CLIPSValue* ret) noexcept {
-		return FCBCall(_builder, functionName.c_str() , ret);
-	}
-	void FunctionCallBuilder::append(UDFValue* value) noexcept { FCBAppendUDFValue(_builder, value); }
-	void FunctionCallBuilder::append(CLIPSValue* value) noexcept { FCBAppend(_builder, value); }
-	void FunctionCallBuilder::append(CLIPSInteger* value) noexcept { FCBAppendCLIPSInteger(_builder, value); }
-	void FunctionCallBuilder::append(int64_t value) noexcept { FCBAppendInteger(_builder, value); }
-	void FunctionCallBuilder::append(CLIPSFloat* value) noexcept { FCBAppendCLIPSFloat(_builder, value); }
-	void FunctionCallBuilder::append(double value) noexcept { FCBAppendFloat(_builder, value); }
-	void FunctionCallBuilder::append(CLIPSLexeme* value) noexcept { FCBAppendCLIPSLexeme(_builder, value); }
-	void FunctionCallBuilder::append(CLIPSExternalAddress* value) noexcept { FCBAppendCLIPSExternalAddress(_builder, value); }
-	void FunctionCallBuilder::append(Fact* value) noexcept { FCBAppendFact(_builder, value); }
-	void FunctionCallBuilder::append(Instance* value) noexcept { FCBAppendInstance(_builder, value); }
-	void FunctionCallBuilder::append(Multifield* value) noexcept { FCBAppendMultifield(_builder, value); }
-	void FunctionCallBuilder::appendSymbol(FunctionCallBuilder::String sym) noexcept { 
-        FCBAppendSymbol(_builder, sym.c_str()); 
+    FunctionCallBuilder::FunctionCallBuilder(Environment *theEnv, size_t size) : _builder(CreateFunctionCallBuilder(theEnv, size)) {}
+    FunctionCallBuilder::~FunctionCallBuilder() {
+        FCBDispose(_builder);
+        _builder = nullptr;
     }
-	void FunctionCallBuilder::appendString(FunctionCallBuilder::String sym) noexcept { 
+    FunctionCallBuilder::ErrorKind FunctionCallBuilder::call(FunctionCallBuilder::String functionName, CLIPSValue *ret) noexcept {
+        return FCBCall(_builder, functionName.c_str(), ret);
+    }
+    void FunctionCallBuilder::append(UDFValue *value) noexcept { FCBAppendUDFValue(_builder, value); }
+    void FunctionCallBuilder::append(CLIPSValue *value) noexcept { FCBAppend(_builder, value); }
+    void FunctionCallBuilder::append(CLIPSInteger *value) noexcept { FCBAppendCLIPSInteger(_builder, value); }
+    void FunctionCallBuilder::append(int64_t value) noexcept { FCBAppendInteger(_builder, value); }
+    void FunctionCallBuilder::append(CLIPSFloat *value) noexcept { FCBAppendCLIPSFloat(_builder, value); }
+    void FunctionCallBuilder::append(double value) noexcept { FCBAppendFloat(_builder, value); }
+    void FunctionCallBuilder::append(CLIPSLexeme *value) noexcept { FCBAppendCLIPSLexeme(_builder, value); }
+    void FunctionCallBuilder::append(CLIPSExternalAddress *value) noexcept { FCBAppendCLIPSExternalAddress(_builder, value); }
+    void FunctionCallBuilder::append(Fact *value) noexcept { FCBAppendFact(_builder, value); }
+    void FunctionCallBuilder::append(Instance *value) noexcept { FCBAppendInstance(_builder, value); }
+    void FunctionCallBuilder::append(Multifield *value) noexcept { FCBAppendMultifield(_builder, value); }
+    void FunctionCallBuilder::appendSymbol(FunctionCallBuilder::String sym) noexcept {
+        FCBAppendSymbol(_builder, sym.c_str());
+    }
+    void FunctionCallBuilder::appendString(FunctionCallBuilder::String sym) noexcept {
         FCBAppendString(_builder, sym.c_str());
     }
-	void FunctionCallBuilder::appendInstanceName(FunctionCallBuilder::String sym) noexcept { 
-        FCBAppendInstanceName(_builder, sym.c_str()); 
+    void FunctionCallBuilder::appendInstanceName(FunctionCallBuilder::String sym) noexcept {
+        FCBAppendInstanceName(_builder, sym.c_str());
     }
-	MultifieldBuilder::MultifieldBuilder(Environment* theEnv, size_t size) : _builder(CreateMultifieldBuilder(theEnv, size)) { }
-	MultifieldBuilder::~MultifieldBuilder() { MBDispose(_builder); }
-	void MultifieldBuilder::append(UDFValue* value) noexcept { MBAppendUDFValue(_builder, value); }
-	void MultifieldBuilder::append(CLIPSValue* value) noexcept { MBAppend(_builder, value); }
-	void MultifieldBuilder::append(CLIPSInteger* value) noexcept { MBAppendCLIPSInteger(_builder, value); }
-	void MultifieldBuilder::append(CLIPSFloat* value) noexcept { MBAppendCLIPSFloat(_builder, value); }
-	void MultifieldBuilder::append(CLIPSLexeme* value) noexcept { MBAppendCLIPSLexeme(_builder, value); }
-	void MultifieldBuilder::append(CLIPSExternalAddress* value) noexcept { MBAppendCLIPSExternalAddress(_builder, value); }
-	void MultifieldBuilder::append(Fact* value) noexcept { MBAppendFact(_builder, value); }
-	void MultifieldBuilder::append(Instance* value) noexcept { MBAppendInstance(_builder, value); }
-	void MultifieldBuilder::append(Multifield* value) noexcept { MBAppendMultifield(_builder, value); }
-	void MultifieldBuilder::append(int64_t value) noexcept { MBAppendInteger(_builder, value); }
-	void MultifieldBuilder::append(double value) noexcept { MBAppendFloat(_builder, value); }
-	void MultifieldBuilder::appendSymbol(MultifieldBuilder::String value) noexcept { 
-        MBAppendSymbol(_builder, value.c_str()); 
+    MultifieldBuilder::MultifieldBuilder(Environment *theEnv, size_t size) : _builder(CreateMultifieldBuilder(theEnv, size)) {}
+    MultifieldBuilder::~MultifieldBuilder() { MBDispose(_builder); }
+    void MultifieldBuilder::append(UDFValue *value) noexcept { MBAppendUDFValue(_builder, value); }
+    void MultifieldBuilder::append(CLIPSValue *value) noexcept { MBAppend(_builder, value); }
+    void MultifieldBuilder::append(CLIPSInteger *value) noexcept { MBAppendCLIPSInteger(_builder, value); }
+    void MultifieldBuilder::append(CLIPSFloat *value) noexcept { MBAppendCLIPSFloat(_builder, value); }
+    void MultifieldBuilder::append(CLIPSLexeme *value) noexcept { MBAppendCLIPSLexeme(_builder, value); }
+    void MultifieldBuilder::append(CLIPSExternalAddress *value) noexcept { MBAppendCLIPSExternalAddress(_builder, value); }
+    void MultifieldBuilder::append(Fact *value) noexcept { MBAppendFact(_builder, value); }
+    void MultifieldBuilder::append(Instance *value) noexcept { MBAppendInstance(_builder, value); }
+    void MultifieldBuilder::append(Multifield *value) noexcept { MBAppendMultifield(_builder, value); }
+    void MultifieldBuilder::append(int64_t value) noexcept { MBAppendInteger(_builder, value); }
+    void MultifieldBuilder::append(double value) noexcept { MBAppendFloat(_builder, value); }
+    void MultifieldBuilder::appendSymbol(MultifieldBuilder::String value) noexcept {
+        MBAppendSymbol(_builder, value.c_str());
     }
-	void MultifieldBuilder::appendString(MultifieldBuilder::String value) noexcept { 
-        MBAppendString(_builder, value.c_str()); 
+    void MultifieldBuilder::appendString(MultifieldBuilder::String value) noexcept {
+        MBAppendString(_builder, value.c_str());
     }
-	void MultifieldBuilder::appendInstanceName(MultifieldBuilder::String value) noexcept { 
-        MBAppendInstanceName(_builder, value.c_str()); 
+    void MultifieldBuilder::appendInstanceName(MultifieldBuilder::String value) noexcept {
+        MBAppendInstanceName(_builder, value.c_str());
     }
 } // end namespace maya
 #endif

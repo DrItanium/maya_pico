@@ -26,49 +26,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "clips.h"
 #include "libmaya.h"
 
-void MayaDefinitions(void* theEnv) {
-	/* Insert declarations here */
+void MayaDefinitions(void *theEnv) {
+    /* Insert declarations here */
 #if FILE_SYSTEM_ROOTING
-	DefineFSOverrideFunctions(theEnv);
+    DefineFSOverrideFunctions(theEnv);
 #endif
 #if ARCHITECTURE_IDENTIFICATION
-   ArchitectureDetectionFunctionDefinitions(theEnv);
+    ArchitectureDetectionFunctionDefinitions(theEnv);
 #endif /* ARCHITECTURE_IDENTIFICATION */
 
 #if BINARY_LOGICAL_OPERATIONS
-   BinaryOperationsFunctionDefinitions(theEnv);
+    BinaryOperationsFunctionDefinitions(theEnv);
 #endif /* BINARY_LOGICAL_OPERATIONS */
 
 #if PARSING_EXTENSIONS
-   ParsingExtensionsFunctions(theEnv);
+    ParsingExtensionsFunctions(theEnv);
 #endif /* PARSING_EXTENSIONS */
 }
 
-void MayaOptions(void* theEnv) {
+void MayaOptions(void *theEnv) {
 #if MAYA_EXTENSIONS
-EnvPrintRouter(theEnv,WDISPLAY,"Architecture identification is ");
+    EnvPrintRouter(theEnv,WDISPLAY,"Architecture identification is ");
 #if ARCHITECTURE_IDENTIFICATION 
-  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+      EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
 #else
-  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+      EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
-EnvPrintRouter(theEnv,WDISPLAY, "Binary logical operators are ");
-#if BINARY_LOGICAL_OPERATIONS 
-  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+    EnvPrintRouter(theEnv,WDISPLAY, "Binary logical operators are ");
+#if BINARY_LOGICAL_OPERATIONS
+      EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
 #else
-  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+      EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
-EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ");
-#if FILE_SYSTEM_ROOTING 
-  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+    EnvPrintRouter(theEnv,WDISPLAY, "File system rooting is ");
+#if FILE_SYSTEM_ROOTING
+      EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
 #else
-  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+      EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
 #endif
-EnvPrintRouter(theEnv, WDISPLAY, "CLIPS Parsing Extensions are ");
+    EnvPrintRouter(theEnv, WDISPLAY, "CLIPS Parsing Extensions are ");
 #if PARSING_EXTENSIONS
-  EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
+      EnvPrintRouter(theEnv,WDISPLAY,"ON\n");
 #else
-  EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
-#endif 
+      EnvPrintRouter(theEnv,WDISPLAY,"OFF\n");
+#endif
 #endif /* MAYA_EXTENSIONS */
 }

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -63,14 +63,14 @@
 
 #include "genrcfun.h"
 
-   bool                           ParseDefgeneric(Environment *,const char *);
-   bool                           ParseDefmethod(Environment *,const char *);
-   Defmethod                     *AddMethod(Environment *,Defgeneric *,Defmethod *,int,unsigned short,Expression *,
-                                            unsigned short,unsigned short,CLIPSLexeme *,Expression *,char *,bool);
-   void                           PackRestrictionTypes(Environment *,RESTRICTION *,Expression *);
-   void                           DeleteTempRestricts(Environment *,Expression *);
-   Defmethod                     *FindMethodByRestrictions(Defgeneric *,Expression *,int,
-                                                           CLIPSLexeme *,int *);
+bool ParseDefgeneric(Environment *, const char *);
+bool ParseDefmethod(Environment *, const char *);
+Defmethod *AddMethod(Environment *, Defgeneric *, Defmethod *, int, unsigned short, Expression *,
+                     unsigned short, unsigned short, CLIPSLexeme *, Expression *, char *, bool);
+void PackRestrictionTypes(Environment *, RESTRICTION *, Expression *);
+void DeleteTempRestricts(Environment *, Expression *);
+Defmethod *FindMethodByRestrictions(Defgeneric *, Expression *, int,
+                                    CLIPSLexeme *, int *);
 
 #endif /* DEFGENERIC_CONSTRUCT */
 

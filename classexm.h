@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  11/01/16            */
-   /*                                                     */
-   /*             CLASS EXAMINATION HEADER FILE           */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  11/01/16            */
+/*                                                     */
+/*             CLASS EXAMINATION HEADER FILE           */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -66,33 +66,33 @@
 
 #if DEBUGGING_FUNCTIONS
 
-   void                           BrowseClassesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           BrowseClasses(Defclass *,const char *);
-   void                           DescribeClassCommand(Environment *,UDFContext *,UDFValue *);
-   void                           DescribeClass(Defclass *,const char *);
+void BrowseClassesCommand(Environment *, UDFContext *, UDFValue *);
+void BrowseClasses(Defclass *, const char *);
+void DescribeClassCommand(Environment *, UDFContext *, UDFValue *);
+void DescribeClass(Defclass *, const char *);
 
 #endif /* DEBUGGING_FUNCTIONS */
 
-   const char                    *GetCreateAccessorString(SlotDescriptor *);
-   void                           GetDefclassModuleCommand(Environment *,UDFContext *,UDFValue *);
-   void                           SuperclassPCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SuperclassP(Defclass *,Defclass *);
-   void                           SubclassPCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SubclassP(Defclass *,Defclass *);
-   void                           SlotExistPCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SlotExistP(Defclass *,const char *,bool);
-   void                           MessageHandlerExistPCommand(Environment *,UDFContext *,UDFValue *);
-   void                           SlotWritablePCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SlotWritableP(Defclass *,const char *);
-   void                           SlotInitablePCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SlotInitableP(Defclass *,const char *);
-   void                           SlotPublicPCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SlotPublicP(Defclass *,const char *);
-   void                           SlotDirectAccessPCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SlotDirectAccessP(Defclass *,const char *);
-   void                           SlotDefaultValueCommand(Environment *,UDFContext *,UDFValue *);
-   bool                           SlotDefaultValue(Defclass *,const char *,CLIPSValue *);
-   void                           ClassExistPCommand(Environment *,UDFContext *,UDFValue *);
-   int                            SlotDefaultP(Environment *,Defclass *,const char *);
+const char *GetCreateAccessorString(SlotDescriptor *);
+void GetDefclassModuleCommand(Environment *, UDFContext *, UDFValue *);
+void SuperclassPCommand(Environment *, UDFContext *, UDFValue *);
+bool SuperclassP(Defclass *, Defclass *);
+void SubclassPCommand(Environment *, UDFContext *, UDFValue *);
+bool SubclassP(Defclass *, Defclass *);
+void SlotExistPCommand(Environment *, UDFContext *, UDFValue *);
+bool SlotExistP(Defclass *, const char *, bool);
+void MessageHandlerExistPCommand(Environment *, UDFContext *, UDFValue *);
+void SlotWritablePCommand(Environment *, UDFContext *, UDFValue *);
+bool SlotWritableP(Defclass *, const char *);
+void SlotInitablePCommand(Environment *, UDFContext *, UDFValue *);
+bool SlotInitableP(Defclass *, const char *);
+void SlotPublicPCommand(Environment *, UDFContext *, UDFValue *);
+bool SlotPublicP(Defclass *, const char *);
+void SlotDirectAccessPCommand(Environment *, UDFContext *, UDFValue *);
+bool SlotDirectAccessP(Defclass *, const char *);
+void SlotDefaultValueCommand(Environment *, UDFContext *, UDFValue *);
+bool SlotDefaultValue(Defclass *, const char *, CLIPSValue *);
+void ClassExistPCommand(Environment *, UDFContext *, UDFValue *);
+int SlotDefaultP(Environment *, Defclass *, const char *);
 
 #endif /* _H_classexm */

@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*            DEFAULT ATTRIBUTE HEADER FILE            */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*            DEFAULT ATTRIBUTE HEADER FILE            */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Provides functions for parsing the default       */
@@ -48,8 +48,8 @@
 #include "Constraint.h"
 #include "Evaluation.h"
 
-   void                           DeriveDefaultFromConstraints(Environment *,CONSTRAINT_RECORD *,UDFValue *,bool,bool);
-   struct expr                   *ParseDefault(Environment *,const char *,bool,bool,bool,bool *,bool *,bool *);
+void DeriveDefaultFromConstraints(Environment *, CONSTRAINT_RECORD *, UDFValue *, bool, bool);
+struct expr *ParseDefault(Environment *, const char *, bool, bool, bool, bool *, bool *, bool *);
 
 #endif /* _H_default */
 

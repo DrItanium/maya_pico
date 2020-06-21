@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  07/30/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  07/30/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -46,7 +46,7 @@
 
 #if DEFFUNCTION_CONSTRUCT
 
-   bool                           ParseDeffunction(Environment *,const char *);
+bool ParseDeffunction(Environment *, const char *);
 
 #endif /* DEFFUNCTION_CONSTRUCT */
 

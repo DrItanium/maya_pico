@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  08/28/17             */
-   /*                                                     */
-   /*                  MATCH HEADER FILE                  */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  08/28/17             */
+/*                                                     */
+/*                  MATCH HEADER FILE                  */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -49,64 +49,59 @@ typedef struct multifieldMarker MultifieldMarker;
 /****************/
 /* patternMatch */
 /****************/
-struct patternMatch
-  {
-   PatternMatch *next;
-   PartialMatch *theMatch;
-   PatternNodeHeader *matchingPattern;
-  };
+struct patternMatch {
+    PatternMatch *next;
+    PartialMatch *theMatch;
+    PatternNodeHeader *matchingPattern;
+};
 
 /****************/
 /* genericMatch */
 /****************/
-struct genericMatch
-  {
-   union
-     {
-      void *theValue;
-      AlphaMatch *theMatch;
-     } gm;
-  };
+struct genericMatch {
+    union {
+        void *theValue;
+        AlphaMatch *theMatch;
+    } gm;
+};
 
 /****************/
 /* partialMatch */
 /****************/
-struct partialMatch
-  {
-   unsigned int betaMemory  :  1;
-   unsigned int busy        :  1;
-   unsigned int rhsMemory   :  1;
-   unsigned int deleting    :  1;
-   unsigned short bcount;
-   unsigned long hashValue;
-   void *owner;
-   void *marker;
-   void *dependents;
-   PartialMatch *nextInMemory;
-   PartialMatch *prevInMemory;
-   PartialMatch *children;
-   PartialMatch *rightParent;
-   PartialMatch *nextRightChild;
-   PartialMatch *prevRightChild;
-   PartialMatch *leftParent;
-   PartialMatch *nextLeftChild;
-   PartialMatch *prevLeftChild;
-   PartialMatch *blockList;
-   PartialMatch *nextBlocked;
-   PartialMatch *prevBlocked;
-   GenericMatch binds[1];
-  };
+struct partialMatch {
+    unsigned int betaMemory: 1;
+    unsigned int busy: 1;
+    unsigned int rhsMemory: 1;
+    unsigned int deleting: 1;
+    unsigned short bcount;
+    unsigned long hashValue;
+    void *owner;
+    void *marker;
+    void *dependents;
+    PartialMatch *nextInMemory;
+    PartialMatch *prevInMemory;
+    PartialMatch *children;
+    PartialMatch *rightParent;
+    PartialMatch *nextRightChild;
+    PartialMatch *prevRightChild;
+    PartialMatch *leftParent;
+    PartialMatch *nextLeftChild;
+    PartialMatch *prevLeftChild;
+    PartialMatch *blockList;
+    PartialMatch *nextBlocked;
+    PartialMatch *prevBlocked;
+    GenericMatch binds[1];
+};
 
 /**************/
 /* alphaMatch */
 /**************/
-struct alphaMatch
-  {
-   PatternEntity *matchingItem;
-   MultifieldMarker *markers;
-   AlphaMatch *next;
-   unsigned long bucket;
-  };
+struct alphaMatch {
+    PatternEntity *matchingItem;
+    MultifieldMarker *markers;
+    AlphaMatch *next;
+    unsigned long bucket;
+};
 
 /******************************************************/
 /* multifieldMarker: Used in the pattern matching     */
@@ -114,24 +109,22 @@ struct alphaMatch
 /*    and $?variables match because a single pattern  */
 /*    restriction may span zero or more fields.       */
 /******************************************************/
-struct multifieldMarker
-  {
-   unsigned short whichField;
-   union
-     {
-      void *whichSlot;
-      unsigned short whichSlotNumber;
-     } where;
+struct multifieldMarker {
+    unsigned short whichField;
+    union {
+        void *whichSlot;
+        unsigned short whichSlotNumber;
+    } where;
     size_t startPosition;
     size_t range;
     MultifieldMarker *next;
-   };
+};
 
-#define get_nth_pm_value(thePM,thePos) (thePM->binds[thePos].gm.theValue)
-#define get_nth_pm_match(thePM,thePos) (thePM->binds[thePos].gm.theMatch)
+#define get_nth_pm_value(thePM, thePos) (thePM->binds[thePos].gm.theValue)
+#define get_nth_pm_match(thePM, thePos) (thePM->binds[thePos].gm.theMatch)
 
-#define set_nth_pm_value(thePM,thePos,theVal) (thePM->binds[thePos].gm.theValue = (void *) theVal)
-#define set_nth_pm_match(thePM,thePos,theVal) (thePM->binds[thePos].gm.theMatch = theVal)
+#define set_nth_pm_value(thePM, thePos, theVal) (thePM->binds[thePos].gm.theValue = (void *) theVal)
+#define set_nth_pm_match(thePM, thePos, theVal) (thePM->binds[thePos].gm.theMatch = theVal)
 
 #endif /* _H_match */
 

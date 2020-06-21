@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  08/25/16            */
-   /*                                                     */
-   /*               DEFINSTANCES HEADER FILE              */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  08/25/16            */
+/*                                                     */
+/*               DEFINSTANCES HEADER FILE              */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -66,48 +66,45 @@ struct definstances;
 #include "moduldef.h"
 #include "object.h"
 
-typedef struct definstancesModule
-  {
-   struct defmoduleItemHeader header;
-  } DEFINSTANCES_MODULE;
+typedef struct definstancesModule {
+    struct defmoduleItemHeader header;
+} DEFINSTANCES_MODULE;
 
-typedef struct definstances
-  {
-   ConstructHeader header;
-   unsigned busy;
-   Expression *mkinstance;
-  } Definstances;
+typedef struct definstances {
+    ConstructHeader header;
+    unsigned busy;
+    Expression *mkinstance;
+} Definstances;
 
 #define DEFINSTANCES_DATA 22
 
-struct definstancesData
-  {
-   Construct *DefinstancesConstruct;
-   unsigned DefinstancesModuleIndex;
-  };
+struct definstancesData {
+    Construct *DefinstancesConstruct;
+    unsigned DefinstancesModuleIndex;
+};
 
 #define DefinstancesData(theEnv) ((struct definstancesData *) GetEnvironmentData(theEnv,DEFINSTANCES_DATA))
 
-   const char                    *DefinstancesModule(Definstances *);
-   const char                    *DefinstancesModuleName(Environment *,Definstances *);
-   Definstances                  *FindDefinstances(Environment *,const char *);
-   Definstances                  *FindDefinstancesInModule(Environment *,const char *);
-   void                           GetDefinstancesList(Environment *,CLIPSValue *,Defmodule *);
-   const char                    *DefinstancesName(Definstances *);
-   CLIPSLexeme                   *GetDefinstancesNamePointer(Environment *,Definstances *);
-   const char                    *DefinstancesPPForm(Definstances *);
-   Definstances                  *GetNextDefinstances(Environment *,Definstances *);
-   bool                           DefinstancesIsDeletable(Definstances *);
-   void                           SetDefinstancesPPForm(Environment *,Definstances *,const char *);
-   bool                           Undefinstances(Definstances *,Environment *);
-   void                           GetDefinstancesListFunction(Environment *,UDFContext *,UDFValue *);
-   void                           GetDefinstancesModuleCommand(Environment *,UDFContext *,UDFValue *);
-   void                           SetupDefinstances(Environment *);
-   void                           UndefinstancesCommand(Environment *,UDFContext *,UDFValue *);
+const char *DefinstancesModule(Definstances *);
+const char *DefinstancesModuleName(Environment *, Definstances *);
+Definstances *FindDefinstances(Environment *, const char *);
+Definstances *FindDefinstancesInModule(Environment *, const char *);
+void GetDefinstancesList(Environment *, CLIPSValue *, Defmodule *);
+const char *DefinstancesName(Definstances *);
+CLIPSLexeme *GetDefinstancesNamePointer(Environment *, Definstances *);
+const char *DefinstancesPPForm(Definstances *);
+Definstances *GetNextDefinstances(Environment *, Definstances *);
+bool DefinstancesIsDeletable(Definstances *);
+void SetDefinstancesPPForm(Environment *, Definstances *, const char *);
+bool Undefinstances(Definstances *, Environment *);
+void GetDefinstancesListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDefinstancesModuleCommand(Environment *, UDFContext *, UDFValue *);
+void SetupDefinstances(Environment *);
+void UndefinstancesCommand(Environment *, UDFContext *, UDFValue *);
 #if DEBUGGING_FUNCTIONS
-   void                           PPDefinstancesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListDefinstancesCommand(Environment *,UDFContext *,UDFValue *);
-   void                           ListDefinstances(Environment *,const char *,Defmodule *);
+void PPDefinstancesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefinstancesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefinstances(Environment *, const char *, Defmodule *);
 #endif
 
 #endif /* DEFINSTANCES_CONSTRUCT */

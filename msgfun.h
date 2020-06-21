@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*             CLIPS Version 6.40  10/01/16            */
-   /*                                                     */
-   /*                                                     */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*             CLIPS Version 6.40  10/01/16            */
+/*                                                     */
+/*                                                     */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: Message-passing support functions                */
@@ -49,11 +49,10 @@
 
 #define _H_msgfun
 
-typedef struct handlerSlotReference
-  {
-   unsigned classID;
-   unsigned short slotID;
-  } HANDLER_SLOT_REFERENCE;
+typedef struct handlerSlotReference {
+    unsigned classID;
+    unsigned short slotID;
+} HANDLER_SLOT_REFERENCE;
 
 #include "msgpass.h"
 #include "object.h"
@@ -73,35 +72,35 @@ typedef struct handlerSlotReference
 #define LOOKUP_HANDLER_INDEX   0
 #define LOOKUP_HANDLER_ADDRESS 1
 
-   void             UnboundHandlerErr(Environment *,const char *);
-   void             PrintNoHandlerError(Environment *,const char *);
-   bool             CheckHandlerArgCount(Environment *);
-   void             SlotAccessViolationError(Environment *,const char *,Instance *,Defclass *);
-   void             SlotVisibilityViolationError(Environment *,SlotDescriptor *,Defclass *,bool);
+void UnboundHandlerErr(Environment *, const char *);
+void PrintNoHandlerError(Environment *, const char *);
+bool CheckHandlerArgCount(Environment *);
+void SlotAccessViolationError(Environment *, const char *, Instance *, Defclass *);
+void SlotVisibilityViolationError(Environment *, SlotDescriptor *, Defclass *, bool);
 
-   void             NewSystemHandler(Environment *,const char *,const char *,const char *,unsigned short);
-   DefmessageHandler
-                   *InsertHandlerHeader(Environment *,Defclass *,CLIPSLexeme *,unsigned);
+void NewSystemHandler(Environment *, const char *, const char *, const char *, unsigned short);
+DefmessageHandler
+*InsertHandlerHeader(Environment *, Defclass *, CLIPSLexeme *, unsigned);
 
-   DefmessageHandler
-                   *NewHandler(void);
-   bool             HandlersExecuting(Defclass *);
-   bool             DeleteHandler(Environment *,Defclass *,CLIPSLexeme *,int,bool);
-   void             DeallocateMarkedHandlers(Environment *,Defclass *);
-   unsigned short   HandlerType(Environment *,const char *,bool,const char *);
-   bool             CheckCurrentMessage(Environment *,const char *,bool);
-   void             PrintHandler(Environment *,const char *,DefmessageHandler *,bool,bool);
-   DefmessageHandler
-                   *FindHandlerByAddress(Defclass *,CLIPSLexeme *,unsigned);
-   int              FindHandlerByIndex(Defclass *,CLIPSLexeme *,unsigned);
-   int              FindHandlerNameGroup(Defclass *,CLIPSLexeme *);
-   void             HandlerDeleteError(Environment *,const char *);
+DefmessageHandler
+*NewHandler(void);
+bool HandlersExecuting(Defclass *);
+bool DeleteHandler(Environment *, Defclass *, CLIPSLexeme *, int, bool);
+void DeallocateMarkedHandlers(Environment *, Defclass *);
+unsigned short HandlerType(Environment *, const char *, bool, const char *);
+bool CheckCurrentMessage(Environment *, const char *, bool);
+void PrintHandler(Environment *, const char *, DefmessageHandler *, bool, bool);
+DefmessageHandler
+*FindHandlerByAddress(Defclass *, CLIPSLexeme *, unsigned);
+int FindHandlerByIndex(Defclass *, CLIPSLexeme *, unsigned);
+int FindHandlerNameGroup(Defclass *, CLIPSLexeme *);
+void HandlerDeleteError(Environment *, const char *);
 
 #if DEBUGGING_FUNCTIONS
-   void             DisplayCore(Environment *,const char *,HANDLER_LINK *,int);
-   HANDLER_LINK    *FindPreviewApplicableHandlers(Environment *,Defclass *,CLIPSLexeme *);
-   void             WatchMessage(Environment *,const char *,const char *);
-   void             WatchHandler(Environment *,const char *,HANDLER_LINK *,const char *);
+void DisplayCore(Environment *, const char *, HANDLER_LINK *, int);
+HANDLER_LINK *FindPreviewApplicableHandlers(Environment *, Defclass *, CLIPSLexeme *);
+void WatchMessage(Environment *, const char *, const char *);
+void WatchHandler(Environment *, const char *, HANDLER_LINK *, const char *);
 #endif
 
 #endif /* _H_msgfun */

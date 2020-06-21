@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  10/19/17             */
-   /*                                                     */
-   /*               FILE I/O ROUTER MODULE                */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  10/19/17             */
+/*                                                     */
+/*               FILE I/O ROUTER MODULE                */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose: I/O Router routines which allow files to be used */
@@ -73,80 +73,71 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-   static void                    ExitFileCallback(Environment *,int,void *);
-   static void                    WriteFileCallback(Environment *,const char *,const char *,void *);
-   static int                     ReadFileCallback(Environment *,const char *,void *);
-   static int                     UnreadFileCallback(Environment *,const char *,int,void *);
-   static void                    DeallocateFileRouterData(Environment *);
+static void ExitFileCallback(Environment *, int, void *);
+static void WriteFileCallback(Environment *, const char *, const char *, void *);
+static int ReadFileCallback(Environment *, const char *, void *);
+static int UnreadFileCallback(Environment *, const char *, int, void *);
+static void DeallocateFileRouterData(Environment *);
 
 /***************************************************************/
 /* InitializeFileRouter: Initializes file input/output router. */
 /***************************************************************/
 void InitializeFileRouter(
-  Environment *theEnv)
-  {
-   AllocateEnvironmentData(theEnv,FILE_ROUTER_DATA,sizeof(struct fileRouterData),DeallocateFileRouterData);
+        Environment *theEnv) {
+    AllocateEnvironmentData(theEnv, FILE_ROUTER_DATA, sizeof(struct fileRouterData), DeallocateFileRouterData);
 
-   AddRouter(theEnv,"fileio",0,FindFile,
-             WriteFileCallback,ReadFileCallback,
-             UnreadFileCallback,ExitFileCallback,NULL);
-  }
+    AddRouter(theEnv, "fileio", 0, FindFile,
+              WriteFileCallback, ReadFileCallback,
+              UnreadFileCallback, ExitFileCallback, NULL);
+}
 
 /*****************************************/
 /* DeallocateFileRouterData: Deallocates */
 /*    environment data for file routers. */
 /*****************************************/
 static void DeallocateFileRouterData(
-  Environment *theEnv)
-  {
-   struct fileRouter *tmpPtr, *nextPtr;
+        Environment *theEnv) {
+    struct fileRouter *tmpPtr, *nextPtr;
 
-   tmpPtr = FileRouterData(theEnv)->ListOfFileRouters;
-   while (tmpPtr != NULL)
-     {
-      nextPtr = tmpPtr->next;
-      GenClose(theEnv,tmpPtr->stream);
-      rm(theEnv,(void *) tmpPtr->logicalName,strlen(tmpPtr->logicalName) + 1);
-      rtn_struct(theEnv,fileRouter,tmpPtr);
-      tmpPtr = nextPtr;
-     }
-  }
+    tmpPtr = FileRouterData(theEnv)->ListOfFileRouters;
+    while (tmpPtr != NULL) {
+        nextPtr = tmpPtr->next;
+        GenClose(theEnv, tmpPtr->stream);
+        rm(theEnv, (void *) tmpPtr->logicalName, strlen(tmpPtr->logicalName) + 1);
+        rtn_struct(theEnv, fileRouter, tmpPtr);
+        tmpPtr = nextPtr;
+    }
+}
 
 /*****************************************/
 /* FindFptr: Returns a pointer to a file */
 /*   stream for a given logical name.    */
 /*****************************************/
 FILE *FindFptr(
-  Environment *theEnv,
-  const char *logicalName)
-  {
-   struct fileRouter *fptr;
+        Environment *theEnv,
+        const char *logicalName) {
+    struct fileRouter *fptr;
 
-   /*========================================================*/
-   /* Check to see if standard input or output is requested. */
-   /*========================================================*/
+    /*========================================================*/
+    /* Check to see if standard input or output is requested. */
+    /*========================================================*/
 
-   if (strcmp(logicalName,STDOUT) == 0)
-     { return stdout; }
-   else if (strcmp(logicalName,STDIN) == 0)
-     { return stdin;  }
-   else if (strcmp(logicalName,STDERR) == 0)
-     { return stderr; }
-   else if (strcmp(logicalName,STDWRN) == 0)
-     { return stdout; }
+    if (strcmp(logicalName, STDOUT) == 0) { return stdout; }
+    else if (strcmp(logicalName, STDIN) == 0) { return stdin; }
+    else if (strcmp(logicalName, STDERR) == 0) { return stderr; }
+    else if (strcmp(logicalName, STDWRN) == 0) { return stdout; }
 
-   /*==============================================================*/
-   /* Otherwise, look up the logical name on the global file list. */
-   /*==============================================================*/
+    /*==============================================================*/
+    /* Otherwise, look up the logical name on the global file list. */
+    /*==============================================================*/
 
-   fptr = FileRouterData(theEnv)->ListOfFileRouters;
-   while ((fptr != NULL) ? (strcmp(logicalName,fptr->logicalName) != 0) : false)
-     { fptr = fptr->next; }
+    fptr = FileRouterData(theEnv)->ListOfFileRouters;
+    while ((fptr != NULL) ? (strcmp(logicalName, fptr->logicalName) != 0) : false) { fptr = fptr->next; }
 
-   if (fptr != NULL) return fptr->stream;
+    if (fptr != NULL) return fptr->stream;
 
-   return NULL;
-  }
+    return NULL;
+}
 
 /*****************************************************/
 /* FindFile: Find routine for file router logical    */
@@ -156,97 +147,88 @@ FILE *FindFptr(
 /*   file router). Otherwise, false is returned.     */
 /*****************************************************/
 bool FindFile(
-  Environment *theEnv,
-  const char *logicalName,
-  void *context)
-  {
-   if (FindFptr(theEnv,logicalName) != NULL) return true;
+        Environment *theEnv,
+        const char *logicalName,
+        void *context) {
+    if (FindFptr(theEnv, logicalName) != NULL) return true;
 
-   return false;
-  }
+    return false;
+}
 
 /***************************************************/
 /* ExitFileCallback: Exit routine for file router. */
 /***************************************************/
 static void ExitFileCallback(
-  Environment *theEnv,
-  int num,
-  void *context)
-  {
+        Environment *theEnv,
+        int num,
+        void *context) {
 #if MAC_XCD
 #pragma unused(num)
 #endif
 #if IO_FUNCTIONS
-   CloseAllFiles(theEnv);
+    CloseAllFiles(theEnv);
 #else
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
 #endif
-  }
+}
 
 /******************************************************/
 /* WriteFileCallback: Write callback for file router. */
 /******************************************************/
 static void WriteFileCallback(
-  Environment *theEnv,
-  const char *logicalName,
-  const char *str,
-  void *context)
-  {
-   FILE *fptr;
+        Environment *theEnv,
+        const char *logicalName,
+        const char *str,
+        void *context) {
+    FILE *fptr;
 
-   fptr = FindFptr(theEnv,logicalName);
+    fptr = FindFptr(theEnv, logicalName);
 
-   genprintfile(theEnv,fptr,str);
-  }
+    genprintfile(theEnv, fptr, str);
+}
 
 /****************************************************/
 /* ReadFileCallback: Read callback for file router. */
 /****************************************************/
 static int ReadFileCallback(
-  Environment *theEnv,
-  const char *logicalName,
-  void *context)
-  {
-   FILE *fptr;
-   int theChar;
+        Environment *theEnv,
+        const char *logicalName,
+        void *context) {
+    FILE *fptr;
+    int theChar;
 
-   fptr = FindFptr(theEnv,logicalName);
+    fptr = FindFptr(theEnv, logicalName);
 
-   if (fptr == stdin)
-     { theChar = gengetchar(theEnv); }
-   else
-     { theChar = getc(fptr); }
+    if (fptr == stdin) { theChar = gengetchar(theEnv); }
+    else { theChar = getc(fptr); }
 
-   /*=================================================*/
-   /* The following code prevents Control-D on UNIX   */
-   /* machines from terminating all input from stdin. */
-   /*=================================================*/
+    /*=================================================*/
+    /* The following code prevents Control-D on UNIX   */
+    /* machines from terminating all input from stdin. */
+    /*=================================================*/
 
-   if ((fptr == stdin) && (theChar == EOF)) clearerr(stdin);
+    if ((fptr == stdin) && (theChar == EOF)) clearerr(stdin);
 
-   return theChar;
-  }
+    return theChar;
+}
 
 /********************************************************/
 /* UnreadFileCallback: Unread callback for file router. */
 /********************************************************/
 static int UnreadFileCallback(
-  Environment *theEnv,
-  const char *logicalName,
-  int ch,
-  void *context)
-  {
-   FILE *fptr;
+        Environment *theEnv,
+        const char *logicalName,
+        int ch,
+        void *context) {
+    FILE *fptr;
 
-   fptr = FindFptr(theEnv,logicalName);
+    fptr = FindFptr(theEnv, logicalName);
 
-   if (fptr == stdin)
-     { return genungetchar(theEnv,ch); }
-   else
-     { return ungetc(ch,fptr); }
-  }
+    if (fptr == stdin) { return genungetchar(theEnv, ch); }
+    else { return ungetc(ch, fptr); }
+}
 
 /*********************************************************/
 /* OpenFile: Opens a file with the specified access mode */
@@ -255,48 +237,46 @@ static int UnreadFileCallback(
 /*   file was succesfully opened, otherwise false.       */
 /*********************************************************/
 bool OpenAFile(
-  Environment *theEnv,
-  const char *fileName,
-  const char *accessMode,
-  const char *logicalName)
-  {
-   FILE *newstream;
-   struct fileRouter *newRouter;
-   char *theName;
+        Environment *theEnv,
+        const char *fileName,
+        const char *accessMode,
+        const char *logicalName) {
+    FILE *newstream;
+    struct fileRouter *newRouter;
+    char *theName;
 
-   /*==================================*/
-   /* Make sure the file can be opened */
-   /* with the specified access mode.  */
-   /*==================================*/
+    /*==================================*/
+    /* Make sure the file can be opened */
+    /* with the specified access mode.  */
+    /*==================================*/
 
-   if ((newstream = GenOpen(theEnv,fileName,accessMode)) == NULL)
-     { return false; }
+    if ((newstream = GenOpen(theEnv, fileName, accessMode)) == NULL) { return false; }
 
-   /*===========================*/
-   /* Create a new file router. */
-   /*===========================*/
+    /*===========================*/
+    /* Create a new file router. */
+    /*===========================*/
 
-   newRouter = get_struct(theEnv,fileRouter);
-   theName = (char *) gm2(theEnv,strlen(logicalName) + 1);
-   genstrcpy(theName,logicalName);
-   newRouter->logicalName = theName;
-   newRouter->stream = newstream;
+    newRouter = get_struct(theEnv, fileRouter);
+    theName = (char *) gm2(theEnv, strlen(logicalName) + 1);
+    genstrcpy(theName, logicalName);
+    newRouter->logicalName = theName;
+    newRouter->stream = newstream;
 
-   /*==========================================*/
-   /* Add the newly opened file to the list of */
-   /* files associated with logical names.     */
-   /*==========================================*/
+    /*==========================================*/
+    /* Add the newly opened file to the list of */
+    /* files associated with logical names.     */
+    /*==========================================*/
 
-   newRouter->next = FileRouterData(theEnv)->ListOfFileRouters;
-   FileRouterData(theEnv)->ListOfFileRouters = newRouter;
+    newRouter->next = FileRouterData(theEnv)->ListOfFileRouters;
+    FileRouterData(theEnv)->ListOfFileRouters = newRouter;
 
-   /*==================================*/
-   /* Return true to indicate the file */
-   /* was opened successfully.         */
-   /*==================================*/
+    /*==================================*/
+    /* Return true to indicate the file */
+    /* was opened successfully.         */
+    /*==================================*/
 
-   return true;
-  }
+    return true;
+}
 
 /*************************************************************/
 /* CloseFile: Closes the file associated with the specified  */
@@ -304,33 +284,28 @@ bool OpenAFile(
 /*   closed, otherwise false.                                */
 /*************************************************************/
 bool CloseFile(
-  Environment *theEnv,
-  const char *fid)
-  {
-   struct fileRouter *fptr, *prev;
+        Environment *theEnv,
+        const char *fid) {
+    struct fileRouter *fptr, *prev;
 
-   for (fptr = FileRouterData(theEnv)->ListOfFileRouters, prev = NULL;
-        fptr != NULL;
-        fptr = fptr->next)
-     {
-      if (strcmp(fptr->logicalName,fid) == 0)
-        {
-         GenClose(theEnv,fptr->stream);
-         rm(theEnv,(void *) fptr->logicalName,strlen(fptr->logicalName) + 1);
-         if (prev == NULL)
-           { FileRouterData(theEnv)->ListOfFileRouters = fptr->next; }
-         else
-           { prev->next = fptr->next; }
-         rm(theEnv,fptr,sizeof(struct fileRouter));
+    for (fptr = FileRouterData(theEnv)->ListOfFileRouters, prev = NULL;
+         fptr != NULL;
+         fptr = fptr->next) {
+        if (strcmp(fptr->logicalName, fid) == 0) {
+            GenClose(theEnv, fptr->stream);
+            rm(theEnv, (void *) fptr->logicalName, strlen(fptr->logicalName) + 1);
+            if (prev == NULL) { FileRouterData(theEnv)->ListOfFileRouters = fptr->next; }
+            else { prev->next = fptr->next; }
+            rm(theEnv, fptr, sizeof(struct fileRouter));
 
-         return true;
+            return true;
         }
 
-      prev = fptr;
-     }
+        prev = fptr;
+    }
 
-   return false;
-  }
+    return false;
+}
 
 /**********************************************/
 /* CloseAllFiles: Closes all files associated */
@@ -338,27 +313,25 @@ bool CloseFile(
 /*   any file was closed, otherwise false.    */
 /**********************************************/
 bool CloseAllFiles(
-  Environment *theEnv)
-  {
-   struct fileRouter *fptr, *prev;
+        Environment *theEnv) {
+    struct fileRouter *fptr, *prev;
 
-   if (FileRouterData(theEnv)->ListOfFileRouters == NULL) return false;
+    if (FileRouterData(theEnv)->ListOfFileRouters == NULL) return false;
 
-   fptr = FileRouterData(theEnv)->ListOfFileRouters;
+    fptr = FileRouterData(theEnv)->ListOfFileRouters;
 
-   while (fptr != NULL)
-     {
-      GenClose(theEnv,fptr->stream);
-      prev = fptr;
-      rm(theEnv,(void *) fptr->logicalName,strlen(fptr->logicalName) + 1);
-      fptr = fptr->next;
-      rm(theEnv,prev,sizeof(struct fileRouter));
-     }
+    while (fptr != NULL) {
+        GenClose(theEnv, fptr->stream);
+        prev = fptr;
+        rm(theEnv, (void *) fptr->logicalName, strlen(fptr->logicalName) + 1);
+        fptr = fptr->next;
+        rm(theEnv, prev, sizeof(struct fileRouter));
+    }
 
-   FileRouterData(theEnv)->ListOfFileRouters = NULL;
+    FileRouterData(theEnv)->ListOfFileRouters = NULL;
 
-   return true;
-  }
+    return true;
+}
 
 /*************************************************************/
 /* FlushFile: Flushes the file associated with the specified */
@@ -366,24 +339,21 @@ bool CloseAllFiles(
 /*   flushed, otherwise false.                               */
 /*************************************************************/
 bool FlushFile(
-  Environment *theEnv,
-  const char *fid)
-  {
-   struct fileRouter *fptr;
+        Environment *theEnv,
+        const char *fid) {
+    struct fileRouter *fptr;
 
-   for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
-        fptr != NULL;
-        fptr = fptr->next)
-     {
-      if (strcmp(fptr->logicalName,fid) == 0)
-        {
-         GenFlush(theEnv,fptr->stream);
-         return true;
+    for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
+         fptr != NULL;
+         fptr = fptr->next) {
+        if (strcmp(fptr->logicalName, fid) == 0) {
+            GenFlush(theEnv, fptr->stream);
+            return true;
         }
-     }
+    }
 
-   return false;
-  }
+    return false;
+}
 
 /***********************************************/
 /* FlushAllFiles: Flushes all files associated */
@@ -391,19 +361,17 @@ bool FlushFile(
 /*   any file was flushed, otherwise false.    */
 /***********************************************/
 bool FlushAllFiles(
-  Environment *theEnv)
-  {
-   struct fileRouter *fptr;
+        Environment *theEnv) {
+    struct fileRouter *fptr;
 
-   if (FileRouterData(theEnv)->ListOfFileRouters == NULL) return false;
+    if (FileRouterData(theEnv)->ListOfFileRouters == NULL) return false;
 
-   for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
-        fptr != NULL;
-        fptr = fptr->next)
-     { GenFlush(theEnv,fptr->stream); }
+    for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
+         fptr != NULL;
+         fptr = fptr->next) { GenFlush(theEnv, fptr->stream); }
 
-   return true;
-  }
+    return true;
+}
 
 /*****************************************************/
 /* RewindFile: Rewinds the file associated with the  */
@@ -411,71 +379,60 @@ bool FlushAllFiles(
 /*   file was successfully rewound, otherwise false. */
 /*****************************************************/
 bool RewindFile(
-  Environment *theEnv,
-  const char *fid)
-  {
-   struct fileRouter *fptr;
+        Environment *theEnv,
+        const char *fid) {
+    struct fileRouter *fptr;
 
-   for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
-        fptr != NULL;
-        fptr = fptr->next)
-     {
-      if (strcmp(fptr->logicalName,fid) == 0)
-        {
-         GenRewind(theEnv,fptr->stream);
-         return true;
+    for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
+         fptr != NULL;
+         fptr = fptr->next) {
+        if (strcmp(fptr->logicalName, fid) == 0) {
+            GenRewind(theEnv, fptr->stream);
+            return true;
         }
-     }
+    }
 
-   return false;
-  }
+    return false;
+}
 
 /**************************************************/
 /* TellFile: Returns the file position associated */
 /*   with the specified logical name.             */
 /**************************************************/
 long long TellFile(
-  Environment *theEnv,
-  const char *fid)
-  {
-   struct fileRouter *fptr;
+        Environment *theEnv,
+        const char *fid) {
+    struct fileRouter *fptr;
 
-   for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
-        fptr != NULL;
-        fptr = fptr->next)
-     {
-      if (strcmp(fptr->logicalName,fid) == 0)
-        { return GenTell(theEnv,fptr->stream); }
-     }
+    for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
+         fptr != NULL;
+         fptr = fptr->next) {
+        if (strcmp(fptr->logicalName, fid) == 0) { return GenTell(theEnv, fptr->stream); }
+    }
 
-   return LLONG_MIN;
-  }
+    return LLONG_MIN;
+}
 
 /***********************************************/
 /* SeekFile: Sets the file position associated */
 /*   with the specified logical name.          */
 /***********************************************/
 bool SeekFile(
-  Environment *theEnv,
-  const char *fid,
-  long offset,
-  int whereFrom)
-  {
-   struct fileRouter *fptr;
+        Environment *theEnv,
+        const char *fid,
+        long offset,
+        int whereFrom) {
+    struct fileRouter *fptr;
 
-   for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
-        fptr != NULL;
-        fptr = fptr->next)
-     {
-      if (strcmp(fptr->logicalName,fid) == 0)
-        {
-         if (GenSeek(theEnv,fptr->stream,offset,whereFrom))
-           { return false; }
-         else
-           { return true; }
+    for (fptr = FileRouterData(theEnv)->ListOfFileRouters;
+         fptr != NULL;
+         fptr = fptr->next) {
+        if (strcmp(fptr->logicalName, fid) == 0) {
+            if (GenSeek(theEnv, fptr->stream, offset, whereFrom)) { return false; }
+            else { return true; }
         }
-     }
+    }
 
-   return false;
-  }
+    return false;
+}
 

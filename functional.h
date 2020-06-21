@@ -29,65 +29,66 @@
 extern "C" {
 #endif
 #include "clips.h"
-void InstallFunctionalExtensions(Environment* theEnv);
+void InstallFunctionalExtensions(Environment *theEnv);
 
 #ifdef __cplusplus
 }
 namespace maya {
 // class definition for the FunctionBuilder
-class FunctionCallBuilder {
-	public:
-		using FCB = ::FunctionCallBuilder;
-		using ErrorKind = ::FunctionCallBuilderError;
-        using String = const std::string&;
-	public:
-		FunctionCallBuilder(Environment* theEnv, size_t size = 0);
-		~FunctionCallBuilder();
-		ErrorKind call(String functionName, CLIPSValue* ret) noexcept;
-		void reset() noexcept { FCBReset(_builder); }
-		void append(UDFValue* value) noexcept;
-		void append(CLIPSValue* value) noexcept;
-		void append(CLIPSInteger* value) noexcept;
-		void append(int64_t value) noexcept;
-		void append(CLIPSFloat* value) noexcept;
-		void append(double value) noexcept;
-		void append(CLIPSLexeme* value) noexcept;
-		void appendSymbol(String sym) noexcept;
-		void appendString(String sym) noexcept;
-		void appendInstanceName(String sym) noexcept;
-		void append(CLIPSExternalAddress* value) noexcept;
-		void append(Fact* value) noexcept;
-		void append(Instance* value) noexcept;
-		void append(Multifield* value) noexcept;
-	private:
-		FCB* _builder;
-};
-class MultifieldBuilder {
-	public:
-		using MB = ::MultifieldBuilder;
-        using String = const std::string&;
-	public:
-		MultifieldBuilder(Environment* theEnv, size_t size = 0); 
-		~MultifieldBuilder(); 
-		Multifield* create() noexcept { return MBCreate(_builder); }
-		void reset() noexcept { MBReset(_builder); }
-		void append(UDFValue*) noexcept;
-		void append(CLIPSValue*) noexcept;
-		void append(CLIPSInteger* value) noexcept;
-		void append(int64_t) noexcept;
-		void append(CLIPSFloat*) noexcept;
-		void append(double) noexcept;
-		void append(CLIPSLexeme*) noexcept;
-		void append(CLIPSExternalAddress*) noexcept;
-		void append(Fact*) noexcept;
-		void append(Instance*) noexcept;
-		void append(Multifield*) noexcept;
-		void appendSymbol(String)noexcept;
-		void appendString(String) noexcept;
-		void appendInstanceName(String) noexcept;
-	private:
-		MB* _builder;
-};
+    class FunctionCallBuilder {
+    public:
+        using FCB = ::FunctionCallBuilder;
+        using ErrorKind = ::FunctionCallBuilderError;
+        using String = const std::string &;
+    public:
+        FunctionCallBuilder(Environment *theEnv, size_t size = 0);
+        ~FunctionCallBuilder();
+        ErrorKind call(String functionName, CLIPSValue *ret) noexcept;
+        void reset() noexcept { FCBReset(_builder); }
+        void append(UDFValue *value) noexcept;
+        void append(CLIPSValue *value) noexcept;
+        void append(CLIPSInteger *value) noexcept;
+        void append(int64_t value) noexcept;
+        void append(CLIPSFloat *value) noexcept;
+        void append(double value) noexcept;
+        void append(CLIPSLexeme *value) noexcept;
+        void appendSymbol(String sym) noexcept;
+        void appendString(String sym) noexcept;
+        void appendInstanceName(String sym) noexcept;
+        void append(CLIPSExternalAddress *value) noexcept;
+        void append(Fact *value) noexcept;
+        void append(Instance *value) noexcept;
+        void append(Multifield *value) noexcept;
+    private:
+        FCB *_builder;
+    };
+
+    class MultifieldBuilder {
+    public:
+        using MB = ::MultifieldBuilder;
+        using String = const std::string &;
+    public:
+        MultifieldBuilder(Environment *theEnv, size_t size = 0);
+        ~MultifieldBuilder();
+        Multifield *create() noexcept { return MBCreate(_builder); }
+        void reset() noexcept { MBReset(_builder); }
+        void append(UDFValue *) noexcept;
+        void append(CLIPSValue *) noexcept;
+        void append(CLIPSInteger *value) noexcept;
+        void append(int64_t) noexcept;
+        void append(CLIPSFloat *) noexcept;
+        void append(double) noexcept;
+        void append(CLIPSLexeme *) noexcept;
+        void append(CLIPSExternalAddress *) noexcept;
+        void append(Fact *) noexcept;
+        void append(Instance *) noexcept;
+        void append(Multifield *) noexcept;
+        void appendSymbol(String) noexcept;
+        void appendString(String) noexcept;
+        void appendInstanceName(String) noexcept;
+    private:
+        MB *_builder;
+    };
 }
 #endif // end __cplusplus
 #endif // end __MAYA_FUNCTIONAL_H__

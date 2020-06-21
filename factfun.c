@@ -1,10 +1,10 @@
-   /*******************************************************/
-   /*      "C" Language Integrated Production System      */
-   /*                                                     */
-   /*            CLIPS Version 6.40  05/29/19             */
-   /*                                                     */
-   /*               FACT FUNCTIONS MODULE                 */
-   /*******************************************************/
+/*******************************************************/
+/*      "C" Language Integrated Production System      */
+/*                                                     */
+/*            CLIPS Version 6.40  05/29/19             */
+/*                                                     */
+/*               FACT FUNCTIONS MODULE                 */
+/*******************************************************/
 
 /*************************************************************/
 /* Purpose:                                                  */
@@ -120,553 +120,485 @@
 /* FactFunctionDefinitions: Defines fact functions. */
 /****************************************************/
 void FactFunctionDefinitions(
-  Environment *theEnv)
-  {
-      AddUDF(theEnv, "fact-existp", "b", 1, 1, "lf", FactExistpFunction, NULL);
-      AddUDF(theEnv, "fact-relation", "y", 1, 1, "lf", FactRelationFunction, NULL);
-      AddUDF(theEnv, "fact-slot-value", "*", 2, 2, ";lf;y", FactSlotValueFunction, NULL);
-      AddUDF(theEnv, "fact-slot-names", "*", 1, 1, "lf", FactSlotNamesFunction, NULL);
-      AddUDF(theEnv, "get-fact-list", "m", 0, 1, "y", GetFactListFunction, NULL);
-      AddUDF(theEnv, "ppfact", "vs", 1, 3, "*;lf;ldsyn", PPFactFunction, NULL);
-      AddUDF(theEnv, "fact-addressp", "b", 1, 1, NULL, FactAddresspFunction, NULL);
-  }
+        Environment *theEnv) {
+    AddUDF(theEnv, "fact-existp", "b", 1, 1, "lf", FactExistpFunction, NULL);
+    AddUDF(theEnv, "fact-relation", "y", 1, 1, "lf", FactRelationFunction, NULL);
+    AddUDF(theEnv, "fact-slot-value", "*", 2, 2, ";lf;y", FactSlotValueFunction, NULL);
+    AddUDF(theEnv, "fact-slot-names", "*", 1, 1, "lf", FactSlotNamesFunction, NULL);
+    AddUDF(theEnv, "get-fact-list", "m", 0, 1, "y", GetFactListFunction, NULL);
+    AddUDF(theEnv, "ppfact", "vs", 1, 3, "*;lf;ldsyn", PPFactFunction, NULL);
+    AddUDF(theEnv, "fact-addressp", "b", 1, 1, NULL, FactAddresspFunction, NULL);
+}
 
 /**********************************************/
 /* FactRelationFunction: H/L access routine   */
 /*   for the fact-relation function.          */
 /**********************************************/
 void FactRelationFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Fact *theFact;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Fact *theFact;
 
-   theFact = GetFactAddressOrIndexArgument(context,true);
+    theFact = GetFactAddressOrIndexArgument(context, true);
 
-   if (theFact == NULL)
-     {
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    if (theFact == NULL) {
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   returnValue->value = FactRelation(theFact);
-  }
+    returnValue->value = FactRelation(theFact);
+}
 
 /**************************************/
 /* FactRelation: C access routine for */
 /*   the fact-relation function.      */
 /**************************************/
 CLIPSLexeme *FactRelation(
-  Fact *theFact)
-  {
-   return theFact->whichDeftemplate->header.name;
-  }
+        Fact *theFact) {
+    return theFact->whichDeftemplate->header.name;
+}
 
 /***************************************/
 /* FactDeftemplate: C access routine   */
 /*   to retrieve a fact's deftemplate. */
 /***************************************/
 Deftemplate *FactDeftemplate(
-  Fact *theFact)
-  {
-   return theFact->whichDeftemplate;
-  }
+        Fact *theFact) {
+    return theFact->whichDeftemplate;
+}
 
 /********************************************/
 /* FactExistpFunction: H/L access routine   */
 /*   for the fact-existp function.          */
 /********************************************/
 void FactExistpFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Fact *theFact;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Fact *theFact;
 
-   theFact = GetFactAddressOrIndexArgument(context,false);
+    theFact = GetFactAddressOrIndexArgument(context, false);
 
-   returnValue->lexemeValue = CreateBoolean(theEnv,FactExistp(theFact));
-  }
+    returnValue->lexemeValue = CreateBoolean(theEnv, FactExistp(theFact));
+}
 
 /***********************************/
 /* FactExistp: C access routine    */
 /*   for the fact-existp function. */
 /***********************************/
 bool FactExistp(
-  Fact *theFact)
-  {
-   if (theFact == NULL) return false;
+        Fact *theFact) {
+    if (theFact == NULL) return false;
 
-   if (theFact->garbage) return false;
+    if (theFact->garbage) return false;
 
-   if (theFact->factIndex == 0LL) return false;
+    if (theFact->factIndex == 0LL) return false;
 
-   return true;
-  }
+    return true;
+}
 
 /********************************************/
 /* FactAddresspFunction: H/L access routine */
 /*   for the fact-addressp function.        */
 /********************************************/
 void FactAddresspFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue item;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    UDFValue item;
 
-   if (! UDFFirstArgument(context,ANY_TYPE_BITS,&item))
-     { return; }
+    if (!UDFFirstArgument(context, ANY_TYPE_BITS, &item)) { return; }
 
-   if (CVIsType(&item,FACT_ADDRESS_BIT))
-     { returnValue->lexemeValue = TrueSymbol(theEnv); }
-   else
-     { returnValue->lexemeValue = FalseSymbol(theEnv); }
-  }
+    if (CVIsType(&item, FACT_ADDRESS_BIT)) { returnValue->lexemeValue = TrueSymbol(theEnv); }
+    else { returnValue->lexemeValue = FalseSymbol(theEnv); }
+}
 
 /***********************************************/
 /* FactSlotValueFunction: H/L access routine   */
 /*   for the fact-slot-value function.         */
 /***********************************************/
 void FactSlotValueFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Fact *theFact;
-   UDFValue theArg;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Fact *theFact;
+    UDFValue theArg;
+    CLIPSValue result;
 
-   /*================================*/
-   /* Get the reference to the fact. */
-   /*================================*/
+    /*================================*/
+    /* Get the reference to the fact. */
+    /*================================*/
 
-   theFact = GetFactAddressOrIndexArgument(context,true);
-   if (theFact == NULL)
-     {
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    theFact = GetFactAddressOrIndexArgument(context, true);
+    if (theFact == NULL) {
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   /*===========================*/
-   /* Get the name of the slot. */
-   /*===========================*/
+    /*===========================*/
+    /* Get the name of the slot. */
+    /*===========================*/
 
-   if (! UDFNextArgument(context,SYMBOL_BIT,&theArg))
-     { return; }
+    if (!UDFNextArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-   /*=======================*/
-   /* Get the slot's value. */
-   /*=======================*/
+    /*=======================*/
+    /* Get the slot's value. */
+    /*=======================*/
 
-   FactSlotValue(theEnv,theFact,theArg.lexemeValue->contents,&result);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    FactSlotValue(theEnv, theFact, theArg.lexemeValue->contents, &result);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /***************************************/
 /* FactSlotValue: C access routine for */
 /*   the fact-slot-value function.     */
 /***************************************/
 void FactSlotValue(
-  Environment *theEnv,
-  Fact *theFact,
-  const char *theSlotName,
-  CLIPSValue *returnValue)
-  {
-   /*==================================================*/
-   /* Make sure the slot exists (the symbol implied is */
-   /* used for the implied slot of an ordered fact).   */
-   /*==================================================*/
+        Environment *theEnv,
+        Fact *theFact,
+        const char *theSlotName,
+        CLIPSValue *returnValue) {
+    /*==================================================*/
+    /* Make sure the slot exists (the symbol implied is */
+    /* used for the implied slot of an ordered fact).   */
+    /*==================================================*/
 
-   if (theFact->whichDeftemplate->implied)
-     {
-      if (strcmp(theSlotName,"implied") != 0)
-        {
-         SetEvaluationError(theEnv,true);
-         InvalidDeftemplateSlotMessage(theEnv,theSlotName,
-                                       theFact->whichDeftemplate->header.name->contents,false);
-         returnValue->lexemeValue = FalseSymbol(theEnv);
-         return;
+    if (theFact->whichDeftemplate->implied) {
+        if (strcmp(theSlotName, "implied") != 0) {
+            SetEvaluationError(theEnv, true);
+            InvalidDeftemplateSlotMessage(theEnv, theSlotName,
+                                          theFact->whichDeftemplate->header.name->contents, false);
+            returnValue->lexemeValue = FalseSymbol(theEnv);
+            return;
         }
-     }
+    } else if (FindSlot(theFact->whichDeftemplate, CreateSymbol(theEnv, theSlotName), NULL) == NULL) {
+        SetEvaluationError(theEnv, true);
+        InvalidDeftemplateSlotMessage(theEnv, theSlotName,
+                                      theFact->whichDeftemplate->header.name->contents, false);
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   else if (FindSlot(theFact->whichDeftemplate,CreateSymbol(theEnv,theSlotName),NULL) == NULL)
-     {
-      SetEvaluationError(theEnv,true);
-      InvalidDeftemplateSlotMessage(theEnv,theSlotName,
-                                    theFact->whichDeftemplate->header.name->contents,false);
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    /*==========================*/
+    /* Return the slot's value. */
+    /*==========================*/
 
-   /*==========================*/
-   /* Return the slot's value. */
-   /*==========================*/
-
-   if (theFact->whichDeftemplate->implied)
-     { GetFactSlot(theFact,NULL,returnValue); }
-   else
-     { GetFactSlot(theFact,theSlotName,returnValue); }
-  }
+    if (theFact->whichDeftemplate->implied) { GetFactSlot(theFact, NULL, returnValue); }
+    else { GetFactSlot(theFact, theSlotName, returnValue); }
+}
 
 /***********************************************/
 /* FactSlotNamesFunction: H/L access routine   */
 /*   for the fact-slot-names function.         */
 /***********************************************/
 void FactSlotNamesFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Fact *theFact;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Fact *theFact;
+    CLIPSValue result;
 
-   /*================================*/
-   /* Get the reference to the fact. */
-   /*================================*/
+    /*================================*/
+    /* Get the reference to the fact. */
+    /*================================*/
 
-   theFact = GetFactAddressOrIndexArgument(context,true);
-   if (theFact == NULL)
-     {
-      returnValue->lexemeValue = FalseSymbol(theEnv);
-      return;
-     }
+    theFact = GetFactAddressOrIndexArgument(context, true);
+    if (theFact == NULL) {
+        returnValue->lexemeValue = FalseSymbol(theEnv);
+        return;
+    }
 
-   /*=====================*/
-   /* Get the slot names. */
-   /*=====================*/
+    /*=====================*/
+    /* Get the slot names. */
+    /*=====================*/
 
-   FactSlotNames(theFact,&result);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    FactSlotNames(theFact, &result);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /***************************************/
 /* FactSlotNames: C access routine     */
 /*   for the fact-slot-names function. */
 /***************************************/
 void FactSlotNames(
-  Fact *theFact,
-  CLIPSValue *returnValue)
-  {
-   Multifield *theList;
-   struct templateSlot *theSlot;
-   unsigned long count;
-   Environment *theEnv = theFact->whichDeftemplate->header.env;
+        Fact *theFact,
+        CLIPSValue *returnValue) {
+    Multifield *theList;
+    struct templateSlot *theSlot;
+    unsigned long count;
+    Environment *theEnv = theFact->whichDeftemplate->header.env;
 
-   /*===============================================*/
-   /* If we're dealing with an implied deftemplate, */
-   /* then the only slot names is "implied."        */
-   /*===============================================*/
+    /*===============================================*/
+    /* If we're dealing with an implied deftemplate, */
+    /* then the only slot names is "implied."        */
+    /*===============================================*/
 
-   if (theFact->whichDeftemplate->implied)
-     {
-      theList = CreateMultifield(theEnv,1);
-      theList->contents[0].lexemeValue = CreateSymbol(theEnv,"implied");
-      returnValue->value = theList;
-      return;
-     }
+    if (theFact->whichDeftemplate->implied) {
+        theList = CreateMultifield(theEnv, 1);
+        theList->contents[0].lexemeValue = CreateSymbol(theEnv, "implied");
+        returnValue->value = theList;
+        return;
+    }
 
-   /*=================================*/
-   /* Count the number of slot names. */
-   /*=================================*/
+    /*=================================*/
+    /* Count the number of slot names. */
+    /*=================================*/
 
-   for (count = 0, theSlot = theFact->whichDeftemplate->slotList;
-        theSlot != NULL;
-        count++, theSlot = theSlot->next)
-     { /* Do Nothing */ }
+    for (count = 0, theSlot = theFact->whichDeftemplate->slotList;
+         theSlot != NULL;
+         count++, theSlot = theSlot->next) { /* Do Nothing */ }
 
-   /*=============================================================*/
-   /* Create a multifield value in which to store the slot names. */
-   /*=============================================================*/
+    /*=============================================================*/
+    /* Create a multifield value in which to store the slot names. */
+    /*=============================================================*/
 
-   theList = CreateMultifield(theEnv,count);
-   returnValue->value = theList;
+    theList = CreateMultifield(theEnv, count);
+    returnValue->value = theList;
 
-   /*===============================================*/
-   /* Store the slot names in the multifield value. */
-   /*===============================================*/
+    /*===============================================*/
+    /* Store the slot names in the multifield value. */
+    /*===============================================*/
 
-   for (count = 0, theSlot = theFact->whichDeftemplate->slotList;
-        theSlot != NULL;
-        count++, theSlot = theSlot->next)
-     {
-      theList->contents[count].lexemeValue = theSlot->slotName;
-     }
-  }
+    for (count = 0, theSlot = theFact->whichDeftemplate->slotList;
+         theSlot != NULL;
+         count++, theSlot = theSlot->next) {
+        theList->contents[count].lexemeValue = theSlot->slotName;
+    }
+}
 
 /*********************************************/
 /* GetFactListFunction: H/L access routine   */
 /*   for the get-fact-list function.         */
 /*********************************************/
 void GetFactListFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Defmodule *theModule;
-   UDFValue theArg;
-   CLIPSValue result;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Defmodule *theModule;
+    UDFValue theArg;
+    CLIPSValue result;
 
-   /*===========================================*/
-   /* Determine if a module name was specified. */
-   /*===========================================*/
+    /*===========================================*/
+    /* Determine if a module name was specified. */
+    /*===========================================*/
 
-   if (UDFHasNextArgument(context))
-     {
-      if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
-        { return; }
+    if (UDFHasNextArgument(context)) {
+        if (!UDFFirstArgument(context, SYMBOL_BIT, &theArg)) { return; }
 
-      if ((theModule = FindDefmodule(theEnv,theArg.lexemeValue->contents)) == NULL)
-        {
-         if (strcmp("*",theArg.lexemeValue->contents) != 0)
-           {
-            SetMultifieldErrorValue(theEnv,returnValue);
-            UDFInvalidArgumentMessage(context,"defmodule name");
-            return;
-           }
+        if ((theModule = FindDefmodule(theEnv, theArg.lexemeValue->contents)) == NULL) {
+            if (strcmp("*", theArg.lexemeValue->contents) != 0) {
+                SetMultifieldErrorValue(theEnv, returnValue);
+                UDFInvalidArgumentMessage(context, "defmodule name");
+                return;
+            }
 
-         theModule = NULL;
+            theModule = NULL;
         }
-     }
-   else
-     { theModule = GetCurrentModule(theEnv); }
+    } else { theModule = GetCurrentModule(theEnv); }
 
-   /*=====================*/
-   /* Get the constructs. */
-   /*=====================*/
+    /*=====================*/
+    /* Get the constructs. */
+    /*=====================*/
 
-   GetFactList(theEnv,&result,theModule);
-   CLIPSToUDFValue(&result,returnValue);
-  }
+    GetFactList(theEnv, &result, theModule);
+    CLIPSToUDFValue(&result, returnValue);
+}
 
 /*************************************/
 /* GetFactList: C access routine     */
 /*   for the get-fact-list function. */
 /*************************************/
 void GetFactList(
-  Environment *theEnv,
-  CLIPSValue *returnValue,
-  Defmodule *theModule)
-  {
-   Fact *theFact;
-   unsigned long count;
-   Multifield *theList;
+        Environment *theEnv,
+        CLIPSValue *returnValue,
+        Defmodule *theModule) {
+    Fact *theFact;
+    unsigned long count;
+    Multifield *theList;
 
-   /*==========================*/
-   /* Save the current module. */
-   /*==========================*/
+    /*==========================*/
+    /* Save the current module. */
+    /*==========================*/
 
-   SaveCurrentModule(theEnv);
+    SaveCurrentModule(theEnv);
 
-   /*============================================*/
-   /* Count the number of facts to be retrieved. */
-   /*============================================*/
+    /*============================================*/
+    /* Count the number of facts to be retrieved. */
+    /*============================================*/
 
-   if (theModule == NULL)
-     {
-      for (theFact = GetNextFact(theEnv,NULL), count = 0;
-           theFact != NULL;
-           theFact = GetNextFact(theEnv,theFact), count++)
-        { /* Do Nothing */ }
-     }
-   else
-     {
-      SetCurrentModule(theEnv,theModule);
-      UpdateDeftemplateScope(theEnv);
-      for (theFact = GetNextFactInScope(theEnv,NULL), count = 0;
-           theFact != NULL;
-           theFact = GetNextFactInScope(theEnv,theFact), count++)
-        { /* Do Nothing */ }
-     }
+    if (theModule == NULL) {
+        for (theFact = GetNextFact(theEnv, NULL), count = 0;
+             theFact != NULL;
+             theFact = GetNextFact(theEnv, theFact), count++) { /* Do Nothing */ }
+    } else {
+        SetCurrentModule(theEnv, theModule);
+        UpdateDeftemplateScope(theEnv);
+        for (theFact = GetNextFactInScope(theEnv, NULL), count = 0;
+             theFact != NULL;
+             theFact = GetNextFactInScope(theEnv, theFact), count++) { /* Do Nothing */ }
+    }
 
-   /*===========================================================*/
-   /* Create the multifield value to store the construct names. */
-   /*===========================================================*/
+    /*===========================================================*/
+    /* Create the multifield value to store the construct names. */
+    /*===========================================================*/
 
-   theList = CreateMultifield(theEnv,count);
-   returnValue->value = theList;
+    theList = CreateMultifield(theEnv, count);
+    returnValue->value = theList;
 
-   /*==================================================*/
-   /* Store the fact pointers in the multifield value. */
-   /*==================================================*/
+    /*==================================================*/
+    /* Store the fact pointers in the multifield value. */
+    /*==================================================*/
 
-   if (theModule == NULL)
-     {
-      for (theFact = GetNextFact(theEnv,NULL), count = 0;
-           theFact != NULL;
-           theFact = GetNextFact(theEnv,theFact), count++)
-        {
-         theList->contents[count].factValue = theFact;
+    if (theModule == NULL) {
+        for (theFact = GetNextFact(theEnv, NULL), count = 0;
+             theFact != NULL;
+             theFact = GetNextFact(theEnv, theFact), count++) {
+            theList->contents[count].factValue = theFact;
         }
-     }
-   else
-     {
-      for (theFact = GetNextFactInScope(theEnv,NULL), count = 0;
-           theFact != NULL;
-           theFact = GetNextFactInScope(theEnv,theFact), count++)
-        {
-         theList->contents[count].factValue = theFact;
+    } else {
+        for (theFact = GetNextFactInScope(theEnv, NULL), count = 0;
+             theFact != NULL;
+             theFact = GetNextFactInScope(theEnv, theFact), count++) {
+            theList->contents[count].factValue = theFact;
         }
-     }
+    }
 
-   /*=============================*/
-   /* Restore the current module. */
-   /*=============================*/
+    /*=============================*/
+    /* Restore the current module. */
+    /*=============================*/
 
-   RestoreCurrentModule(theEnv);
-   UpdateDeftemplateScope(theEnv);
-  }
+    RestoreCurrentModule(theEnv);
+    UpdateDeftemplateScope(theEnv);
+}
 
 /**************************************/
 /* PPFactFunction: H/L access routine */
 /*   for the ppfact function.         */
 /**************************************/
 void PPFactFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   Fact *theFact;
-   const char *logicalName = NULL;      /* Avoids warning */
-   bool ignoreDefaults = false;
-   UDFValue theArg;
+        Environment *theEnv,
+        UDFContext *context,
+        UDFValue *returnValue) {
+    Fact *theFact;
+    const char *logicalName = NULL;      /* Avoids warning */
+    bool ignoreDefaults = false;
+    UDFValue theArg;
 
-   theFact = GetFactAddressOrIndexArgument(context,true);
-   if (theFact == NULL) return;
+    theFact = GetFactAddressOrIndexArgument(context, true);
+    if (theFact == NULL) return;
 
-   /*===============================================================*/
-   /* Determine the logical name to which the fact will be printed. */
-   /*===============================================================*/
+    /*===============================================================*/
+    /* Determine the logical name to which the fact will be printed. */
+    /*===============================================================*/
 
-   if (UDFHasNextArgument(context))
-     {
-      logicalName = GetLogicalName(context,STDOUT);
-      if (logicalName == NULL)
-        {
-         IllegalLogicalNameMessage(theEnv,"ppfact");
-         SetHaltExecution(theEnv,true);
-         SetEvaluationError(theEnv,true);
-         return;
+    if (UDFHasNextArgument(context)) {
+        logicalName = GetLogicalName(context, STDOUT);
+        if (logicalName == NULL) {
+            IllegalLogicalNameMessage(theEnv, "ppfact");
+            SetHaltExecution(theEnv, true);
+            SetEvaluationError(theEnv, true);
+            return;
         }
-     }
-   else
-     { logicalName = STDOUT; }
+    } else { logicalName = STDOUT; }
 
-   /*=========================================*/
-   /* Should slot values be printed if they   */
-   /* are the same as the default slot value. */
-   /*=========================================*/
+    /*=========================================*/
+    /* Should slot values be printed if they   */
+    /* are the same as the default slot value. */
+    /*=========================================*/
 
-   if (UDFHasNextArgument(context))
-     {
-      UDFNextArgument(context,ANY_TYPE_BITS,&theArg);
+    if (UDFHasNextArgument(context)) {
+        UDFNextArgument(context, ANY_TYPE_BITS, &theArg);
 
-      if (theArg.value == FalseSymbol(theEnv))
-        { ignoreDefaults = false; }
-      else
-        { ignoreDefaults = true; }
-     }
+        if (theArg.value == FalseSymbol(theEnv)) { ignoreDefaults = false; }
+        else { ignoreDefaults = true; }
+    }
 
-   /*============================================================*/
-   /* Determine if any router recognizes the output destination. */
-   /*============================================================*/
+    /*============================================================*/
+    /* Determine if any router recognizes the output destination. */
+    /*============================================================*/
 
-   if (strcmp(logicalName,"nil") == 0)
-     {
-      StringBuilder *theSB;
-      
-      theSB = CreateStringBuilder(theEnv,256);
-      
-      FactPPForm(theFact,theSB,ignoreDefaults);
-      returnValue->lexemeValue = CreateString(theEnv,theSB->contents);
-      
-      SBDispose(theSB);
+    if (strcmp(logicalName, "nil") == 0) {
+        StringBuilder *theSB;
 
-      return;
-     }
-   else if (QueryRouters(theEnv,logicalName) == false)
-     {
-      UnrecognizedRouterMessage(theEnv,logicalName);
-      return;
-     }
+        theSB = CreateStringBuilder(theEnv, 256);
 
-   PPFact(theFact,logicalName,ignoreDefaults);
-  }
+        FactPPForm(theFact, theSB, ignoreDefaults);
+        returnValue->lexemeValue = CreateString(theEnv, theSB->contents);
+
+        SBDispose(theSB);
+
+        return;
+    } else if (QueryRouters(theEnv, logicalName) == false) {
+        UnrecognizedRouterMessage(theEnv, logicalName);
+        return;
+    }
+
+    PPFact(theFact, logicalName, ignoreDefaults);
+}
 
 /******************************/
 /* PPFact: C access routine   */
 /*   for the ppfact function. */
 /******************************/
 void PPFact(
-  Fact *theFact,
-  const char *logicalName,
-  bool ignoreDefaults)
-  {
-   Environment *theEnv = theFact->whichDeftemplate->header.env;
-   
-   if (theFact == NULL) return;
+        Fact *theFact,
+        const char *logicalName,
+        bool ignoreDefaults) {
+    Environment *theEnv = theFact->whichDeftemplate->header.env;
 
-   if (theFact->garbage) return;
+    if (theFact == NULL) return;
 
-   PrintFact(theEnv,logicalName,theFact,true,ignoreDefaults,NULL);
+    if (theFact->garbage) return;
 
-   WriteString(theEnv,logicalName,"\n");
-  }
+    PrintFact(theEnv, logicalName, theFact, true, ignoreDefaults, NULL);
+
+    WriteString(theEnv, logicalName, "\n");
+}
 
 /**************************************************************/
 /* GetFactAddressOrIndexArgument: Retrieves an argument for a */
 /*   function which should be a reference to a valid fact.    */
 /**************************************************************/
 Fact *GetFactAddressOrIndexArgument(
-  UDFContext *context,
-  bool noFactError)
-  {
-   UDFValue theArg;
-   long long factIndex;
-   Fact *theFact;
-   Environment *theEnv = context->environment;
-   char tempBuffer[20];
+        UDFContext *context,
+        bool noFactError) {
+    UDFValue theArg;
+    long long factIndex;
+    Fact *theFact;
+    Environment *theEnv = context->environment;
+    char tempBuffer[20];
 
-   if (! UDFNextArgument(context,ANY_TYPE_BITS,&theArg))
-     { return NULL; }
+    if (!UDFNextArgument(context, ANY_TYPE_BITS, &theArg)) { return NULL; }
 
-   if (theArg.header->type == FACT_ADDRESS_TYPE)
-     {
-      if (theArg.factValue->garbage)
-        {
-         if (noFactError)
-           {
-            FactRetractedErrorMessage(theEnv,theArg.factValue);
-            SetEvaluationError(theEnv,true);
-           }
-         return NULL;
-        }
-      else return theArg.factValue;
-     }
-   else if (theArg.header->type == INTEGER_TYPE)
-     {
-      factIndex = theArg.integerValue->contents;
-      if (factIndex < 0)
-        {
-         UDFInvalidArgumentMessage(context,"fact-address or fact-index");
-         return NULL;
+    if (theArg.header->type == FACT_ADDRESS_TYPE) {
+        if (theArg.factValue->garbage) {
+            if (noFactError) {
+                FactRetractedErrorMessage(theEnv, theArg.factValue);
+                SetEvaluationError(theEnv, true);
+            }
+            return NULL;
+        } else return theArg.factValue;
+    } else if (theArg.header->type == INTEGER_TYPE) {
+        factIndex = theArg.integerValue->contents;
+        if (factIndex < 0) {
+            UDFInvalidArgumentMessage(context, "fact-address or fact-index");
+            return NULL;
         }
 
-      theFact = FindIndexedFact(theEnv,factIndex);
-      if ((theFact == NULL) && noFactError)
-        {
-         gensprintf(tempBuffer,"f-%lld",factIndex);
-         CantFindItemErrorMessage(theEnv,"fact",tempBuffer,false);
-         return NULL;
+        theFact = FindIndexedFact(theEnv, factIndex);
+        if ((theFact == NULL) && noFactError) {
+            gensprintf(tempBuffer, "f-%lld", factIndex);
+            CantFindItemErrorMessage(theEnv, "fact", tempBuffer, false);
+            return NULL;
         }
 
-      return theFact;
-     }
+        return theFact;
+    }
 
-   UDFInvalidArgumentMessage(context,"fact-address or fact-index");
-   return NULL;
-  }
+    UDFInvalidArgumentMessage(context, "fact-address or fact-index");
+    return NULL;
+}
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 
