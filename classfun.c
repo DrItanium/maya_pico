@@ -82,7 +82,7 @@
 #include "classini.h"
 #include "Constants.h"
 #include "Construct.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "inscom.h"

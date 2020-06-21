@@ -78,7 +78,7 @@
 #include "classcom.h"
 #endif
 
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"

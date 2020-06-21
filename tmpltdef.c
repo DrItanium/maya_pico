@@ -63,7 +63,7 @@
 
 #include <stdio.h>
 
-#include "cstrccom.h"
+#include "Construct.h"
 #include "cstrnchk.h"
 #include "Environment.h"
 #include "Expression.h"

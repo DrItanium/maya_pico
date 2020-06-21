@@ -98,7 +98,7 @@
 #endif
 
 #include "ArgumentAccess.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "MemoryAllocation.h"
 #include "modulutl.h"
 #include "Multifield.h"

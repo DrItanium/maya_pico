@@ -87,7 +87,7 @@
 #endif
 
 #include "Construct.h"
-#include "cstrccom.h"
+#include "Construct.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

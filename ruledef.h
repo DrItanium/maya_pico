@@ -104,7 +104,7 @@ struct defrule {
 
 #include "Agenda.h"
 #include "Constraint.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Evaluation.h"
 #include "moduldef.h"
 

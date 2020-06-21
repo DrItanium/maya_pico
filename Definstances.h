@@ -62,7 +62,7 @@
 struct definstances;
 
 #include "Construct.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "moduldef.h"
 #include "object.h"
 

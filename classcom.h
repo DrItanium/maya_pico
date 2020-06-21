@@ -59,7 +59,7 @@ typedef enum {
     CONSERVATION_MODE
 } ClassDefaultsMode;
 
-#include "cstrccom.h"
+#include "Construct.h"
 #include "moduldef.h"
 #include "object.h"
 #include "Symbol.h"

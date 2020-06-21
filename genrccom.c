@@ -93,7 +93,7 @@
 #include "inscom.h"
 #endif
 #include "Construct.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
 #include "Evaluation.h"

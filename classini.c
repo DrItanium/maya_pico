@@ -79,7 +79,7 @@
 #include "classfun.h"
 #include "classinf.h"
 #include "classpsr.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"

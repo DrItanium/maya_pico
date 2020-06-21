@@ -82,7 +82,7 @@
 #include "ArgumentAccess.h"
 #include "classcom.h"
 #include "classfun.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Construct.h"
 #include "Constants.h"
 #include "Construct.h"

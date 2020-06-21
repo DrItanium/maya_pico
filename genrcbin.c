@@ -45,7 +45,7 @@
 #include "BinarySave.h"
 #include "Constants.h"
 #include "Construct.h"
-#include "cstrccom.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "genrccom.h"
 #include "MemoryAllocation.h"
