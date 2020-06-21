@@ -82,7 +82,7 @@
 #include "developr.h"
 #endif
 
-#include "envrnbld.h"
+#include "environment.h"
 
 /****************************************/
 /* GLOBAL EXTERNAL FUNCTION DEFINITIONS */

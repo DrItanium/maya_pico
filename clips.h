@@ -42,7 +42,6 @@
 #include "fileutil.h"
 #include "strngfun.h"
 #include "environment.h"
-#include "envrnbld.h"
 #include "commline.h"
 #include "symbol.h"
 

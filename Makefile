@@ -321,7 +321,7 @@ envrnbld.o: envrnbld.c setup.h os_shim.h platform.h environment.h entities.h \
  prntutil.h proflfun.h router.h sortfun.h strngfun.h sysdep.h textpro.h \
  watch.h dffctdef.h genrccom.h genrcfun.h dffnxfun.h globldef.h \
  tmpltdef.h fact.h reorder.h pattern.h classini.h object.h multifld.h \
- objrtmch.h envrnbld.h extnfunc.h
+ objrtmch.h  extnfunc.h
 envrnmnt.o: environment.c setup.h os_shim.h platform.h environment.h entities.h \
  usrsetup.h bmathfun.h evaluatn.h constant.h commline.h emathfun.h \
  engine.h lgcldpnd.h match.h network.h ruledef.h constrct.h userdata.h \
@@ -637,7 +637,7 @@ lgcldpnd.o: lgcldpnd.c setup.h os_shim.h platform.h environment.h entities.h \
 maya.o: maya.c clips.h setup.h os_shim.h platform.h environment.h entities.h \
  usrsetup.h argacces.h expressn.h exprnops.h constrct.h userdata.h \
  moduldef.h utility.h evaluatn.h constant.h memalloc.h cstrcpsr.h \
- strngfun.h fileutil.h envrnbld.h extnfunc.h symbol.h commline.h \
+ strngfun.h fileutil.h  extnfunc.h symbol.h commline.h \
  prntutil.h router.h filertr.h strngrtr.h iofun.h sysdep.h bmathfun.h \
  exprnpsr.h scanner.h miscfun.h watch.h modulbsc.h bload.h exprnbin.h \
  symblbin.h bsave.h ruledef.h network.h match.h agenda.h crstrtgy.h \
@@ -986,7 +986,7 @@ userdata.o: userdata.c setup.h os_shim.h platform.h environment.h entities.h \
 userfunctions.o: userfunctions.c clips.h setup.h os_shim.h platform.h \
  environment.h entities.h usrsetup.h argacces.h expressn.h exprnops.h \
  constrct.h userdata.h moduldef.h utility.h evaluatn.h constant.h \
- memalloc.h cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h \
+ memalloc.h cstrcpsr.h strngfun.h fileutil.h  extnfunc.h \
  symbol.h commline.h prntutil.h router.h filertr.h strngrtr.h iofun.h \
  sysdep.h bmathfun.h exprnpsr.h scanner.h miscfun.h watch.h modulbsc.h \
  bload.h exprnbin.h symblbin.h bsave.h ruledef.h network.h match.h \
@@ -1010,7 +1010,7 @@ watch.o: watch.c setup.h os_shim.h platform.h environment.h entities.h \
 main.o: cmd/repl/main.c clips.h setup.h os_shim.h platform.h environment.h \
  entities.h usrsetup.h argacces.h expressn.h exprnops.h constrct.h \
  userdata.h moduldef.h utility.h evaluatn.h constant.h memalloc.h \
- cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h symbol.h \
+ cstrcpsr.h strngfun.h fileutil.h  extnfunc.h symbol.h \
  commline.h prntutil.h router.h filertr.h strngrtr.h iofun.h sysdep.h \
  bmathfun.h exprnpsr.h scanner.h miscfun.h watch.h modulbsc.h bload.h \
  exprnbin.h symblbin.h bsave.h ruledef.h network.h match.h agenda.h \
@@ -1027,7 +1027,7 @@ main.o: cmd/repl/main.c clips.h setup.h os_shim.h platform.h environment.h \
 boost.o: boost.cc clips.h setup.h os_shim.h platform.h environment.h \
  entities.h usrsetup.h argacces.h expressn.h exprnops.h constrct.h \
  userdata.h moduldef.h utility.h evaluatn.h constant.h memalloc.h \
- cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h symbol.h \
+ cstrcpsr.h strngfun.h fileutil.h  extnfunc.h symbol.h \
  commline.h prntutil.h router.h filertr.h strngrtr.h iofun.h sysdep.h \
  bmathfun.h exprnpsr.h scanner.h miscfun.h watch.h modulbsc.h bload.h \
  exprnbin.h symblbin.h bsave.h ruledef.h network.h match.h agenda.h \
@@ -1041,7 +1041,7 @@ boost.o: boost.cc clips.h setup.h os_shim.h platform.h environment.h \
 functional.o: functional.cpp clips.h setup.h os_shim.h platform.h \
  environment.h entities.h usrsetup.h argacces.h expressn.h exprnops.h \
  constrct.h userdata.h moduldef.h utility.h evaluatn.h constant.h \
- memalloc.h cstrcpsr.h strngfun.h fileutil.h envrnbld.h extnfunc.h \
+ memalloc.h cstrcpsr.h strngfun.h fileutil.h  extnfunc.h \
  symbol.h commline.h prntutil.h router.h filertr.h strngrtr.h iofun.h \
  sysdep.h bmathfun.h exprnpsr.h scanner.h miscfun.h watch.h modulbsc.h \
  bload.h exprnbin.h symblbin.h bsave.h ruledef.h network.h match.h \

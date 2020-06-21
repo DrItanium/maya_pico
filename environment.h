@@ -71,6 +71,7 @@ typedef struct environmentData Environment;
 typedef void EnvironmentCleanupFunction(Environment *);
 
 #include "entities.h"
+#include "extnfunc.h"
 
 #define USER_ENVIRONMENT_DATA 70
 #define MAXIMUM_ENVIRONMENT_POSITIONS 100
@@ -107,6 +108,12 @@ struct environmentData
    bool                           AddEnvironmentCleanupFunction(Environment *,const char *,EnvironmentCleanupFunction *,int);
    void                          *GetEnvironmentContext(Environment *);
    void                          *SetEnvironmentContext(Environment *,void *);
+
+   Environment                   *CreateEnvironment(void);
+   Environment                   *CreateRuntimeEnvironment(CLIPSLexeme **,CLIPSFloat **,
+                                                           CLIPSInteger **,CLIPSBitMap **,
+                                                           struct functionDefinition *);
+   bool                           DestroyEnvironment(Environment *);
 
 #endif /* _H_envrnmnt */
 
