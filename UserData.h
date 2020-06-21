@@ -37,11 +37,12 @@ struct userData {
 
 typedef struct userData USER_DATA;
 typedef struct userData *USER_DATA_PTR;
-
+typedef void* CreateUserDataFunction(Environment*);
+typedef void DeleteUserDataFunction(Environment*, void*);
 struct userDataRecord {
     unsigned char dataID;
-    void *(*createUserData)(Environment *);
-    void (*deleteUserData)(Environment *, void *);
+    CreateUserDataFunction* createUserData;
+    DeleteUserDataFunction* deleteUserData;
 };
 
 typedef struct userDataRecord USER_DATA_RECORD;

@@ -148,13 +148,13 @@ struct stringBuilder {
 };
 
 #define UTILITY_DATA 55
-
+typedef void YieldTimeFunctionType(void);
 struct utilityData {
     struct voidCallFunctionItem *ListOfCleanupFunctions;
     struct voidCallFunctionItem *ListOfPeriodicFunctions;
     bool PeriodicFunctionsEnabled;
     bool YieldFunctionEnabled;
-    void (*YieldTimeFunction)(void);
+    YieldTimeFunctionType* YieldTimeFunction;
     struct trackedMemory *trackList;
     struct garbageFrame MasterGarbageFrame;
     struct garbageFrame *CurrentGarbageFrame;
