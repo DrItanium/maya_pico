@@ -286,13 +286,13 @@ namespace maya {
     void FunctionCallBuilder::append(Fact *value) noexcept { FCBAppendFact(_builder, value); }
     void FunctionCallBuilder::append(Instance *value) noexcept { FCBAppendInstance(_builder, value); }
     void FunctionCallBuilder::append(Multifield *value) noexcept { FCBAppendMultifield(_builder, value); }
-    void FunctionCallBuilder::appendSymbol(FunctionCallBuilder::String sym) noexcept {
+    void FunctionCallBuilder::append(FunctionCallBuilder::String sym, TreatLexemeAsSymbol) noexcept {
         FCBAppendSymbol(_builder, sym.c_str());
     }
-    void FunctionCallBuilder::appendString(FunctionCallBuilder::String sym) noexcept {
+    void FunctionCallBuilder::append(FunctionCallBuilder::String sym, TreatLexemeAsString) noexcept {
         FCBAppendString(_builder, sym.c_str());
     }
-    void FunctionCallBuilder::appendInstanceName(FunctionCallBuilder::String sym) noexcept {
+    void FunctionCallBuilder::append(FunctionCallBuilder::String sym, TreatLexemeAsInstanceName) noexcept {
         FCBAppendInstanceName(_builder, sym.c_str());
     }
     MultifieldBuilder::MultifieldBuilder(Environment *theEnv, size_t size) : _builder(CreateMultifieldBuilder(theEnv, size)) {}
@@ -308,13 +308,13 @@ namespace maya {
     void MultifieldBuilder::append(Multifield *value) noexcept { MBAppendMultifield(_builder, value); }
     void MultifieldBuilder::append(int64_t value) noexcept { MBAppendInteger(_builder, value); }
     void MultifieldBuilder::append(double value) noexcept { MBAppendFloat(_builder, value); }
-    void MultifieldBuilder::appendSymbol(MultifieldBuilder::String value) noexcept {
+    void MultifieldBuilder::append(MultifieldBuilder::String value, TreatLexemeAsSymbol) noexcept {
         MBAppendSymbol(_builder, value.c_str());
     }
-    void MultifieldBuilder::appendString(MultifieldBuilder::String value) noexcept {
+    void MultifieldBuilder::append(MultifieldBuilder::String value, TreatLexemeAsString) noexcept {
         MBAppendString(_builder, value.c_str());
     }
-    void MultifieldBuilder::appendInstanceName(MultifieldBuilder::String value) noexcept {
+    void MultifieldBuilder::append(MultifieldBuilder::String value, TreatLexemeAsInstanceName) noexcept {
         MBAppendInstanceName(_builder, value.c_str());
     }
 } // end namespace maya

@@ -34,6 +34,9 @@ void InstallFunctionalExtensions(Environment *theEnv);
 #ifdef __cplusplus
 }
 namespace maya {
+    class TreatLexemeAsSymbol final { };
+    class TreatLexemeAsString final { };
+    class TreatLexemeAsInstanceName final { };
 // class definition for the FunctionBuilder
     class FunctionCallBuilder {
     public:
@@ -52,9 +55,9 @@ namespace maya {
         void append(CLIPSFloat *value) noexcept;
         void append(double value) noexcept;
         void append(CLIPSLexeme *value) noexcept;
-        void appendSymbol(String sym) noexcept;
-        void appendString(String sym) noexcept;
-        void appendInstanceName(String sym) noexcept;
+        void append(String sym, TreatLexemeAsSymbol) noexcept;
+        void append(String sym, TreatLexemeAsString) noexcept;
+        void append(String sym, TreatLexemeAsInstanceName) noexcept;
         void append(CLIPSExternalAddress *value) noexcept;
         void append(Fact *value) noexcept;
         void append(Instance *value) noexcept;
@@ -83,9 +86,9 @@ namespace maya {
         void append(Fact *) noexcept;
         void append(Instance *) noexcept;
         void append(Multifield *) noexcept;
-        void appendSymbol(String) noexcept;
-        void appendString(String) noexcept;
-        void appendInstanceName(String) noexcept;
+        void append(String, TreatLexemeAsSymbol) noexcept;
+        void append(String, TreatLexemeAsString) noexcept;
+        void append(String, TreatLexemeAsInstanceName) noexcept;
     private:
         MB *_builder;
     };
