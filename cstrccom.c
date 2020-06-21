@@ -69,7 +69,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "moduldef.h"

@@ -35,7 +35,7 @@
 
 #define _H_cstrnops
 
-#include "evaluation.h"
+#include "Evaluation.h"
 #include "constrnt.h"
 
    struct constraintRecord       *IntersectConstraints(Environment *,struct constraintRecord *,struct constraintRecord *);

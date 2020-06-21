@@ -40,7 +40,7 @@
 #include "constrnt.h"
 #include "cstrnchk.h"
 #include "cstrnutl.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "multifld.h"

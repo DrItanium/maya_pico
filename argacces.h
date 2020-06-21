@@ -51,8 +51,8 @@
 
 #define _H_argacces
 
-#include "expression.h"
-#include "evaluation.h"
+#include "Expression.h"
+#include "Evaluation.h"
 #include "moduldef.h"
 
    const char                    *GetLogicalName(UDFContext *,const char *);

@@ -54,7 +54,7 @@
 #include <stdlib.h>
 
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "constrct.h"
 #include "drive.h"
 #include "incrrset.h"

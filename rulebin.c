@@ -51,7 +51,7 @@
 #include "bload.h"
 #include "bsave.h"
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "moduldef.h"
 #include "pattern.h"

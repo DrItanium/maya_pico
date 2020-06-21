@@ -41,7 +41,7 @@
 #include "cstrcpsr.h"
 #include "fileutil.h"
 #include "strngfun.h"
-#include "environment.h"
+#include "Environment.h"
 #include "CommandLine.h"
 #include "symbol.h"
 
@@ -54,9 +54,9 @@
 
 #include "sysdep.h"
 #include "bmathfun.h"
-#include "expression.h"
-#include "expression.h"
-#include "evaluation.h"
+#include "Expression.h"
+#include "Expression.h"
+#include "Evaluation.h"
 #include "miscfun.h"
 #include "constrct.h"
 #include "utility.h"

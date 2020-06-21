@@ -58,9 +58,9 @@
 #endif
 #include "constrct.h"
 #include "cstrcpsr.h"
-#include "environment.h"
-#include "evaluation.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Evaluation.h"
+#include "Expression.h"
 #include "globlbsc.h"
 #include "globldef.h"
 #include "memalloc.h"

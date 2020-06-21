@@ -47,8 +47,8 @@
 
 #include "constant.h"
 #include "constrct.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "network.h"

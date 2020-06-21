@@ -36,7 +36,7 @@
 #if (BLOAD || BLOAD_AND_BSAVE)
 
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"

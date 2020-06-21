@@ -48,8 +48,8 @@
 
 #if DEFGENERIC_CONSTRUCT
 
-#include "evaluation.h"
-#include "expression.h"
+#include "Evaluation.h"
+#include "Expression.h"
 #include "genrcfun.h"
 
    void                           GenericDispatch(Environment *,Defgeneric *,Defmethod *,Defmethod *,Expression *,UDFValue *);

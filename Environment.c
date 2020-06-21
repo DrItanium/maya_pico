@@ -121,7 +121,7 @@
 #include "developr.h"
 #endif
 
-#include "environment.h"
+#include "Environment.h"
 
 #define SIZE_ENVIRONMENT_HASH  131
 

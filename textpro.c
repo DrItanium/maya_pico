@@ -81,7 +81,7 @@
 
 #include "argacces.h"
 #include "CommandLine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "prntutil.h"

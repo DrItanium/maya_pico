@@ -69,7 +69,7 @@
 #include "constant.h"
 #include "crstrtgy.h"
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "moduldef.h"

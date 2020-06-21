@@ -38,7 +38,7 @@
 
 #include <stdio.h>
 
-#include "evaluation.h"
+#include "Evaluation.h"
 #include "constrnt.h"
 
 #define ConstraintIndex(theConstraint) (((! GetDynamicConstraintChecking(theEnv)) || (theConstraint == NULL)) ? ULONG_MAX : (theConstraint->bsaveID))

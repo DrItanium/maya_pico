@@ -106,7 +106,7 @@
 #if DEFTEMPLATE_CONSTRUCT
 
 #include "argacces.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "multifld.h"
 #include "prntutil.h"

@@ -118,7 +118,7 @@
 #include "argacces.h"
 #include "CommandLine.h"
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "filertr.h"
 #include "memalloc.h"

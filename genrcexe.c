@@ -64,7 +64,7 @@
 
 #include "argacces.h"
 #include "constrct.h"
-#include "environment.h"
+#include "Environment.h"
 #include "genrccom.h"
 #include "prcdrfun.h"
 #include "prccode.h"

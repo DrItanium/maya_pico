@@ -42,7 +42,7 @@
 
 #define _H_tmpltrhs
 
-#include "expression.h"
+#include "Expression.h"
 #include "scanner.h"
 #include "tmpltdef.h"
 

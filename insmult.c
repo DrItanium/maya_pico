@@ -55,7 +55,7 @@
 #if OBJECT_SYSTEM
 
 #include "argacces.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "insfun.h"
 #include "msgfun.h"

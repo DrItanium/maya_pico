@@ -72,7 +72,7 @@ struct deftemplateModule;
 #include "entities.h"
 
 #include "constrct.h"
-#include "evaluation.h"
+#include "Evaluation.h"
 #include "moduldef.h"
 
 struct deftemplateModule

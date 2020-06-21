@@ -52,7 +52,7 @@
 #include "argacces.h"
 #include "bload.h"
 #include "constrct.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "modulbin.h"
 #include "multifld.h"

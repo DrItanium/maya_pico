@@ -60,8 +60,8 @@
 
 #include <string.h>
 
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "ExternalFunctions.h"
 #include "fact.h"
 #include "modulutl.h"

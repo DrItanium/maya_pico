@@ -78,7 +78,7 @@
 #include "constrct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
-#include "environment.h"
+#include "Environment.h"
 #include "genrccom.h"
 #include "genrcexe.h"
 #include "genrcfun.h"

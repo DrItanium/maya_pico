@@ -28,7 +28,7 @@
 #include "bmathfun.h"
 #include "CommandLine.h"
 #include "emathfun.h"
-#include "environment.h"
+#include "Environment.h"
 #include "engine.h"
 #include "filecom.h"
 #include "iofun.h"
@@ -82,7 +82,7 @@
 #include "developr.h"
 #endif
 
-#include "environment.h"
+#include "Environment.h"
 
 /****************************************/
 /* GLOBAL EXTERNAL FUNCTION DEFINITIONS */

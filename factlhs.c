@@ -47,7 +47,7 @@
 #include <stdio.h>
 
 #include "cstrcpsr.h"
-#include "environment.h"
+#include "Environment.h"
 #include "modulpsr.h"
 #include "modulutl.h"
 #include "pattern.h"

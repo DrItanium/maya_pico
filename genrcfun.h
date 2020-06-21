@@ -70,8 +70,8 @@ typedef struct defgeneric Defgeneric;
 
 #include "entities.h"
 #include "constrct.h"
-#include "expression.h"
-#include "evaluation.h"
+#include "Expression.h"
+#include "Evaluation.h"
 #include "moduldef.h"
 #include "symbol.h"
 

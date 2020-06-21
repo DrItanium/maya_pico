@@ -46,7 +46,7 @@
 
 #define _H_insmult
 
-#include "evaluation.h"
+#include "Evaluation.h"
 
    void                           SetupInstanceMultifieldCommands(Environment *);
    void                           MVSlotReplaceCommand(Environment *,UDFContext *,UDFValue *);

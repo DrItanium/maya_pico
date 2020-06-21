@@ -37,7 +37,7 @@
 #include "bsave.h"
 #include "constrct.h"
 #include "dffctdef.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "moduldef.h"
@@ -69,7 +69,7 @@
 #include "inscom.h"
 #endif
 
-#include "expression.h"
+#include "Expression.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -26,7 +26,7 @@
 
 #include "setup.h"
 
-#include "environment.h"
+#include "Environment.h"
 
 #include "userdata.h"
 

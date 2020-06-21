@@ -61,8 +61,8 @@
 #include <string.h>
 
 #include "classcom.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "insquery.h"
 #include "prcdrpsr.h"
 #include "pprint.h"

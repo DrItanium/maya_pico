@@ -75,7 +75,7 @@
 #include "globlbin.h"
 #endif
 #include "CommandLine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "globlbsc.h"
 #include "globlcom.h"
 #include "globlpsr.h"

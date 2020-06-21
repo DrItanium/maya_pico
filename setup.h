@@ -421,7 +421,7 @@
 /* Environment Definitions */
 /***************************/
 
-#include "environment.h"
+#include "Environment.h"
 
 /*************************************************/
 /* Any user defined global setup information can */

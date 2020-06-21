@@ -53,7 +53,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "inscom.h"
 #include "modulutl.h"
@@ -75,7 +75,7 @@
 #include "insfun.h"
 #endif
 
-#include "developr.h"
+#include "Developer.h"
 
 #if DEVELOPER
 

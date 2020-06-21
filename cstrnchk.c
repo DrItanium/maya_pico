@@ -58,7 +58,7 @@
 #include "setup.h"
 
 #include "cstrnutl.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "multifld.h"
 #include "prntutil.h"

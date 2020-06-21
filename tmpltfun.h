@@ -78,7 +78,7 @@
 
 #define _H_tmpltfun
 
-#include "expression.h"
+#include "Expression.h"
 #include "fact.h"
 #include "symbol.h"
 #include "tmpltdef.h"

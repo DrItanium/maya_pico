@@ -39,7 +39,7 @@
 #include "bsave.h"
 #include "constrct.h"
 #include "cstrcbin.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "moduldef.h"
 

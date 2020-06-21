@@ -57,7 +57,7 @@
 
 #include "classcom.h"
 #include "classfun.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "inscom.h"
 #include "insfun.h"

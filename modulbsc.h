@@ -52,7 +52,7 @@
 
 #define _H_modulbsc
 
-#include "evaluation.h"
+#include "Evaluation.h"
 
    void                           DefmoduleBasicCommands(Environment *);
    void                           GetDefmoduleListFunction(Environment *,UDFContext *,UDFValue *);

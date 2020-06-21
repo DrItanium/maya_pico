@@ -55,8 +55,8 @@
 #define _H_tmpltutl
 
 #include "constrnt.h"
-#include "evaluation.h"
-#include "expression.h"
+#include "Evaluation.h"
+#include "Expression.h"
 #include "fact.h"
 #include "symbol.h"
 

@@ -42,7 +42,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
-#include "environment.h"
+#include "Environment.h"
 #include "fact.h"
 #include "prntutil.h"
 #include "router.h"

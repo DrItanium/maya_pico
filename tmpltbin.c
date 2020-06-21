@@ -45,7 +45,7 @@
 #include "bload.h"
 #include "bsave.h"
 #include "cstrnbin.h"
-#include "environment.h"
+#include "Environment.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "tmpltdef.h"

@@ -62,8 +62,8 @@
 
 #include "constant.h"
 #include "cstrcpsr.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "modulutl.h"
 #include "modulpsr.h"
 #include "pattern.h"

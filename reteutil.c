@@ -69,7 +69,7 @@
 
 #include "drive.h"
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "incrrset.h"
 #include "match.h"
 #include "memalloc.h"

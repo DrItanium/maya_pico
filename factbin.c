@@ -40,7 +40,7 @@
 #include "fact.h"
 #include "bload.h"
 #include "bsave.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "moduldef.h"
 #include "pattern.h"

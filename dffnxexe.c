@@ -52,7 +52,7 @@
 #include <string.h>
 
 #include "constrct.h"
-#include "environment.h"
+#include "Environment.h"
 #include "prcdrfun.h"
 #include "prccode.h"
 #include "prntutil.h"

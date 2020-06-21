@@ -73,12 +73,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "environment.h"
+#include "Environment.h"
 #include "router.h"
 #include "watch.h"
 #include "constrct.h"
 #include "prcdrpsr.h"
-#include "expression.h"
+#include "Expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "modulpsr.h"

@@ -74,11 +74,11 @@
 
 #include "memalloc.h"
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #if DEFGLOBAL_CONSTRUCT
 #include "globlpsr.h"
 #endif
-#include "expression.h"
+#include "Expression.h"
 #include "multifld.h"
 #if OBJECT_SYSTEM
 #include "object.h"

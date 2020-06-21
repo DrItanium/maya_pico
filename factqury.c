@@ -71,9 +71,9 @@
 #if FACT_SET_QUERIES
 
 #include "argacces.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
-#include "expression.h"
+#include "Expression.h"
 #include "modulutl.h"
 #include "tmpltutl.h"
 #include "insfun.h"

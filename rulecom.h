@@ -68,7 +68,7 @@
 
 #define _H_rulecom
 
-#include "evaluation.h"
+#include "Evaluation.h"
 
 struct joinInformation
   {

@@ -51,8 +51,8 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "multifld.h"
 #include "router.h"
 

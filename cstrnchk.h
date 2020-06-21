@@ -56,7 +56,7 @@
 #define _H_cstrnchk
 
 #include "constrnt.h"
-#include "evaluation.h"
+#include "Evaluation.h"
 
 typedef enum
   {

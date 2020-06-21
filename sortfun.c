@@ -40,8 +40,8 @@
 
 #include "argacces.h"
 #include "dffnxfun.h"
-#include "environment.h"
-#include "evaluation.h"
+#include "Environment.h"
+#include "Evaluation.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "multifld.h"

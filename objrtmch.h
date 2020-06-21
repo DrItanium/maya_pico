@@ -72,8 +72,8 @@ typedef struct classAlphaLink CLASS_ALPHA_LINK;
 #define OBJECT_RETRACT 2
 #define OBJECT_MODIFY  3
 
-#include "evaluation.h"
-#include "expression.h"
+#include "Evaluation.h"
+#include "Expression.h"
 #include "match.h"
 #include "network.h"
 #include "object.h"

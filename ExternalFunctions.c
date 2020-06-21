@@ -60,8 +60,8 @@
 
 #include "argacces.h"
 #include "constant.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "router.h"

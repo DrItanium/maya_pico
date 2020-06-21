@@ -74,7 +74,7 @@
 #include "argacces.h"
 #include "classfun.h"
 #include "classini.h"
-#include "environment.h"
+#include "Environment.h"
 #include "modulutl.h"
 #include "msgcom.h"
 #include "prntutil.h"

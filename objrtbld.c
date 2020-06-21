@@ -78,7 +78,7 @@
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "drive.h"
-#include "environment.h"
+#include "Environment.h"
 #include "inscom.h"
 #include "insfun.h"
 #include "insmngr.h"
@@ -96,7 +96,7 @@
 
 
 #include "constrct.h"
-#include "expression.h"
+#include "Expression.h"
 #include "objrtmch.h"
 #include "objrtgen.h"
 #include "objrtfnx.h"

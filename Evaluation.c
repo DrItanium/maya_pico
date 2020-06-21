@@ -79,7 +79,7 @@
 #include "argacces.h"
 #include "CommandLine.h"
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
@@ -87,7 +87,7 @@
 #include "prcdrfun.h"
 #include "multifld.h"
 #include "prntutil.h"
-#include "expression.h"
+#include "Expression.h"
 #include "utility.h"
 #include "proflfun.h"
 #include "sysdep.h"
@@ -105,7 +105,7 @@
 #include "inscom.h"
 #endif
 
-#include "evaluation.h"
+#include "Evaluation.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

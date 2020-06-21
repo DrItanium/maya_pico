@@ -31,7 +31,7 @@ add_library(clips
 	cstrnutl.c
 	default.c
 	defins.c
-	developr.c
+		Developer.c
 	dffctbin.c
 	dffctbsc.c
 	dffctdef.c
@@ -44,10 +44,10 @@ add_library(clips
 	drive.c
 	emathfun.c
 	engine.c
-	environment.c
+		Environment.c
 	envrnbld.c
-	evaluation.c
-	expression.c
+		Evaluation.c
+		Expression.c
 	exprnbin.c
 	exprnops.c
 	exprnpsr.c

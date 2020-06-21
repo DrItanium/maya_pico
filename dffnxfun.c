@@ -87,7 +87,7 @@
 #include "dffnxpsr.h"
 #include "modulpsr.h"
 
-#include "environment.h"
+#include "Environment.h"
 
 #include "ExternalFunctions.h"
 

@@ -70,7 +70,7 @@
 
 #include "argacces.h"
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "filertr.h"
 #include "memalloc.h"

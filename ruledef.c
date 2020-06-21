@@ -75,7 +75,7 @@
 #include "agenda.h"
 #include "drive.h"
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "pattern.h"
 #include "retract.h"

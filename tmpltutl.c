@@ -67,7 +67,7 @@
 #include "argacces.h"
 #include "constrct.h"
 #include "cstrnchk.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "modulutl.h"

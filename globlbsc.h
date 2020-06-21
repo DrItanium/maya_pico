@@ -59,7 +59,7 @@
 
 #define _H_globlbsc
 
-#include "evaluation.h"
+#include "Evaluation.h"
 #include "globldef.h"
 
    void                           DefglobalBasicCommands(Environment *);

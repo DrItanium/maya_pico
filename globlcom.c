@@ -48,7 +48,7 @@
 #if DEFGLOBAL_CONSTRUCT
 
 #include "argacces.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "globldef.h"
 #include "prntutil.h"

@@ -51,8 +51,8 @@
 
 #include "argacces.h"
 #include "constant.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 
 #if DEFGLOBAL_CONSTRUCT
 #include "globlpsr.h"

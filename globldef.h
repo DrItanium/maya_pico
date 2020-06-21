@@ -67,8 +67,8 @@ typedef struct defglobal Defglobal;
 
 #include "constrct.h"
 #include "cstrccom.h"
-#include "evaluation.h"
-#include "expression.h"
+#include "Evaluation.h"
+#include "Expression.h"
 #include "moduldef.h"
 #include "symbol.h"
 

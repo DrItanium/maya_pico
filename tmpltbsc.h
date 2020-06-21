@@ -62,7 +62,7 @@
 
 #define _H_tmpltbsc
 
-#include "evaluation.h"
+#include "Evaluation.h"
 #include "tmpltdef.h"
 
    void                           DeftemplateBasicCommands(Environment *);

@@ -61,7 +61,7 @@
 
 #include "setup.h"
 #include "argacces.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "miscfun.h"
 #include "prntutil.h"

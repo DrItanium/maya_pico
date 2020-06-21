@@ -96,7 +96,7 @@
 #include "objrtmch.h"
 #endif
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "inscom.h"
 #include "insmngr.h"
 #include "memalloc.h"

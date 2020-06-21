@@ -62,8 +62,8 @@
 #include "classfun.h"
 #endif
 #include "cstrnutl.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "ExternalFunctions.h"
 #include "genrcpsr.h"
 #include "memalloc.h"

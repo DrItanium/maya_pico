@@ -50,7 +50,7 @@
 
 #if INSTANCE_SET_QUERIES
 
-#include "expression.h"
+#include "Expression.h"
 
    Expression                    *ParseQueryNoAction(Environment *,Expression *,const char *);
    Expression                    *ParseQueryAction(Environment *,Expression *,const char *);

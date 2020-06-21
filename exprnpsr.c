@@ -78,8 +78,8 @@
 #include "argacces.h"
 #include "constant.h"
 #include "cstrnchk.h"
-#include "environment.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"
@@ -101,7 +101,7 @@
 #include "dffnxfun.h"
 #endif
 
-#include "expression.h"
+#include "Expression.h"
 
 
 /***************************************************/

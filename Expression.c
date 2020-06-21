@@ -50,14 +50,14 @@
 #include <ctype.h>
 
 #include "bload.h"
-#include "environment.h"
-#include "evaluation.h"
+#include "Environment.h"
+#include "Evaluation.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"
 
-#include "expression.h"
+#include "Expression.h"
 
 #define PRIME_ONE   257
 #define PRIME_TWO   263

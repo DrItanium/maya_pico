@@ -64,7 +64,7 @@
 #endif
 #include "constant.h"
 #include "constrct.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "modulbsc.h"

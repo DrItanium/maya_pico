@@ -66,9 +66,9 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "environment.h"
-#include "evaluation.h"
-#include "expression.h"
+#include "Environment.h"
+#include "Evaluation.h"
+#include "Expression.h"
 #include "memalloc.h"
 #if OBJECT_SYSTEM
 #include "object.h"

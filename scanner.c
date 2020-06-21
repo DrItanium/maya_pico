@@ -48,7 +48,7 @@
 #include "setup.h"
 
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "pprint.h"
 #include "prntutil.h"

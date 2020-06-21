@@ -59,8 +59,8 @@
 
 #define _H_prccode
 
-#include "expression.h"
-#include "evaluation.h"
+#include "Expression.h"
+#include "Evaluation.h"
 #include "moduldef.h"
 #include "scanner.h"
 #include "symbol.h"

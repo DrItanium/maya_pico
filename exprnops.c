@@ -51,13 +51,13 @@
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "cstrnutl.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "prntutil.h"
 #include "router.h"
 
-#include "expression.h"
+#include "Expression.h"
 
 /************************************/
 /* CheckArgumentAgainstRestriction: */

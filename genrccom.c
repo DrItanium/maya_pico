@@ -95,8 +95,8 @@
 #include "constrct.h"
 #include "cstrccom.h"
 #include "cstrcpsr.h"
-#include "environment.h"
-#include "evaluation.h"
+#include "Environment.h"
+#include "Evaluation.h"
 #include "ExternalFunctions.h"
 #if BLOAD || BLOAD_AND_BSAVE
 #include "genrcbin.h"

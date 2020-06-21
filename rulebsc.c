@@ -70,7 +70,7 @@
 #include "constrct.h"
 #include "drive.h"
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "multifld.h"
 #include "reteutil.h"

@@ -73,7 +73,7 @@
 #include "memalloc.h"
 #include "drive.h"
 #include "engine.h"
-#include "environment.h"
+#include "Environment.h"
 #include "incrrset.h"
 #include "lgcldpnd.h"
 #include "multifld.h"

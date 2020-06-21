@@ -62,7 +62,7 @@
 #include "agenda.h"
 #include "argacces.h"
 #include "constant.h"
-#include "environment.h"
+#include "Environment.h"
 #include "memalloc.h"
 #include "pattern.h"
 #include "reteutil.h"

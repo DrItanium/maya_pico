@@ -49,7 +49,7 @@
 #include "constant.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
-#include "environment.h"
+#include "Environment.h"
 #include "ExternalFunctions.h"
 #include "memalloc.h"
 #include "modulutl.h"
