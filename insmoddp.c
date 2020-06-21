@@ -112,18 +112,18 @@ void SetupInstanceModDupCommands(
   {
 
 #if DEFRULE_CONSTRUCT
-   AddUDF(theEnv,"modify-instance","*",0,UNBOUNDED,NULL,InactiveModifyInstance,"InactiveModifyInstance",NULL);
-   AddUDF(theEnv,"active-modify-instance","*",0,UNBOUNDED,NULL,ModifyInstance,"ModifyInstance",NULL);
+       AddUDF(theEnv, "modify-instance", "*", 0, UNBOUNDED, NULL, InactiveModifyInstance, NULL);
+       AddUDF(theEnv, "active-modify-instance", "*", 0, UNBOUNDED, NULL, ModifyInstance, NULL);
    AddFunctionParser(theEnv,"active-modify-instance",ParseInitializeInstance);
-   AddUDF(theEnv,"message-modify-instance","*",0,UNBOUNDED,NULL,InactiveMsgModifyInstance,"InactiveMsgModifyInstance",NULL);
-   AddUDF(theEnv,"active-message-modify-instance","*",0,UNBOUNDED,NULL,MsgModifyInstance,"MsgModifyInstance",NULL);
+       AddUDF(theEnv, "message-modify-instance", "*", 0, UNBOUNDED, NULL, InactiveMsgModifyInstance, NULL);
+       AddUDF(theEnv, "active-message-modify-instance", "*", 0, UNBOUNDED, NULL, MsgModifyInstance, NULL);
    AddFunctionParser(theEnv,"active-message-modify-instance",ParseInitializeInstance);
 
-   AddUDF(theEnv,"duplicate-instance","*",0,UNBOUNDED,NULL,InactiveDuplicateInstance,"InactiveDuplicateInstance",NULL);
-   AddUDF(theEnv,"active-duplicate-instance","*",0,UNBOUNDED,NULL,DuplicateInstance,"DuplicateInstance",NULL);
+       AddUDF(theEnv, "duplicate-instance", "*", 0, UNBOUNDED, NULL, InactiveDuplicateInstance, NULL);
+       AddUDF(theEnv, "active-duplicate-instance", "*", 0, UNBOUNDED, NULL, DuplicateInstance, NULL);
    AddFunctionParser(theEnv,"active-duplicate-instance",ParseInitializeInstance);
-   AddUDF(theEnv,"message-duplicate-instance","*",0,UNBOUNDED,NULL,InactiveMsgDuplicateInstance,"InactiveMsgDuplicateInstance",NULL);
-   AddUDF(theEnv,"active-message-duplicate-instance","*",0,UNBOUNDED,NULL,MsgDuplicateInstance,"MsgDuplicateInstance",NULL);
+       AddUDF(theEnv, "message-duplicate-instance", "*", 0, UNBOUNDED, NULL, InactiveMsgDuplicateInstance, NULL);
+       AddUDF(theEnv, "active-message-duplicate-instance", "*", 0, UNBOUNDED, NULL, MsgDuplicateInstance, NULL);
    AddFunctionParser(theEnv,"active-message-duplicate-instance",ParseInitializeInstance);
 #else
    AddUDF(theEnv,"modify-instance","*",0,UNBOUNDED,NULL,ModifyInstance,"ModifyInstance",NULL);
@@ -132,10 +132,10 @@ void SetupInstanceModDupCommands(
    AddUDF(theEnv,"message-duplicate-instance","*",0,UNBOUNDED,NULL,MsgDuplicateInstance,"MsgDuplicateInstance",NULL);
 #endif
 
-   AddUDF(theEnv,"(direct-modify)","*",0,UNBOUNDED,NULL,DirectModifyMsgHandler,"DirectModifyMsgHandler",NULL);
-   AddUDF(theEnv,"(message-modify)","*",0,UNBOUNDED,NULL,MsgModifyMsgHandler,"MsgModifyMsgHandler",NULL);
-   AddUDF(theEnv,"(direct-duplicate)","*",0,UNBOUNDED,NULL,DirectDuplicateMsgHandler,"DirectDuplicateMsgHandler",NULL);
-   AddUDF(theEnv,"(message-duplicate)","*",0,UNBOUNDED,NULL,MsgDuplicateMsgHandler,"MsgDuplicateMsgHandler",NULL);
+       AddUDF(theEnv, "(direct-modify)", "*", 0, UNBOUNDED, NULL, DirectModifyMsgHandler, NULL);
+       AddUDF(theEnv, "(message-modify)", "*", 0, UNBOUNDED, NULL, MsgModifyMsgHandler, NULL);
+       AddUDF(theEnv, "(direct-duplicate)", "*", 0, UNBOUNDED, NULL, DirectDuplicateMsgHandler, NULL);
+       AddUDF(theEnv, "(message-duplicate)", "*", 0, UNBOUNDED, NULL, MsgDuplicateMsgHandler, NULL);
 
 
 #if DEFRULE_CONSTRUCT

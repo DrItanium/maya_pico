@@ -166,50 +166,50 @@ void MiscFunctionDefinitions(
    MiscFunctionData(theEnv)->errorCode.lexemeValue = FalseSymbol(theEnv);
    Retain(theEnv,MiscFunctionData(theEnv)->errorCode.header);
 
-   AddUDF(theEnv,"exit","v",0,1,"l",ExitCommand,"ExitCommand",NULL);
+      AddUDF(theEnv, "exit", "v", 0, 1, "l", ExitCommand, NULL);
 
-   AddUDF(theEnv,"gensym","y",0,0,NULL,GensymFunction,"GensymFunction",NULL);
-   AddUDF(theEnv,"gensym*","y",0,0,NULL,GensymStarFunction,"GensymStarFunction",NULL);
-   AddUDF(theEnv,"setgen","l",1,1,"l",SetgenFunction,"SetgenFunction",NULL);
+      AddUDF(theEnv, "gensym", "y", 0, 0, NULL, GensymFunction, NULL);
+      AddUDF(theEnv, "gensym*", "y", 0, 0, NULL, GensymStarFunction, NULL);
+      AddUDF(theEnv, "setgen", "l", 1, 1, "l", SetgenFunction, NULL);
 
-   AddUDF(theEnv,"system","ly",0,UNBOUNDED,"sy",SystemCommand,"SystemCommand",NULL);
-   AddUDF(theEnv,"length$","l",1,1,"m",LengthFunction,"LengthFunction",NULL);
-   AddUDF(theEnv,"time","d",0,0,NULL,TimeFunction,"TimeFunction",NULL);
-   AddUDF(theEnv,"local-time","m",0,0,NULL,LocalTimeFunction,"LocalTimeFunction",NULL);
-   AddUDF(theEnv,"gm-time","m",0,0,NULL,GMTimeFunction,"GMTimeFunction",NULL);
+      AddUDF(theEnv, "system", "ly", 0, UNBOUNDED, "sy", SystemCommand, NULL);
+      AddUDF(theEnv, "length$", "l", 1, 1, "m", LengthFunction, NULL);
+      AddUDF(theEnv, "time", "d", 0, 0, NULL, TimeFunction, NULL);
+      AddUDF(theEnv, "local-time", "m", 0, 0, NULL, LocalTimeFunction, NULL);
+      AddUDF(theEnv, "gm-time", "m", 0, 0, NULL, GMTimeFunction, NULL);
 
-   AddUDF(theEnv,"random","l",0,2,"l",RandomFunction,"RandomFunction",NULL);
-   AddUDF(theEnv,"seed","v",1,1,"l",SeedFunction,"SeedFunction",NULL);
-   AddUDF(theEnv,"conserve-mem","v",1,1,"y",ConserveMemCommand,"ConserveMemCommand",NULL);
-   AddUDF(theEnv,"release-mem","l",0,0,NULL,ReleaseMemCommand,"ReleaseMemCommand",NULL);
+      AddUDF(theEnv, "random", "l", 0, 2, "l", RandomFunction, NULL);
+      AddUDF(theEnv, "seed", "v", 1, 1, "l", SeedFunction, NULL);
+      AddUDF(theEnv, "conserve-mem", "v", 1, 1, "y", ConserveMemCommand, NULL);
+      AddUDF(theEnv, "release-mem", "l", 0, 0, NULL, ReleaseMemCommand, NULL);
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"mem-used","l",0,0,NULL,MemUsedCommand,"MemUsedCommand",NULL);
-   AddUDF(theEnv,"mem-requests","l",0,0,NULL,MemRequestsCommand,"MemRequestsCommand",NULL);
+       AddUDF(theEnv, "mem-used", "l", 0, 0, NULL, MemUsedCommand, NULL);
+       AddUDF(theEnv, "mem-requests", "l", 0, 0, NULL, MemRequestsCommand, NULL);
 #endif
 
-   AddUDF(theEnv,"options","v",0,0,NULL,OptionsCommand,"OptionsCommand",NULL);
+       AddUDF(theEnv, "options", "v", 0, 0, NULL, OptionsCommand, NULL);
 
-   AddUDF(theEnv,"operating-system","y",0,0,NULL,OperatingSystemFunction,"OperatingSystemFunction",NULL);
-   AddUDF(theEnv,"(expansion-call)","*",0,UNBOUNDED,NULL,ExpandFuncCall,"ExpandFuncCall",NULL);
-   AddUDF(theEnv,"expand$","*",1,1,"m",DummyExpandFuncMultifield,"DummyExpandFuncMultifield",NULL);
+       AddUDF(theEnv, "operating-system", "y", 0, 0, NULL, OperatingSystemFunction, NULL);
+       AddUDF(theEnv, "(expansion-call)", "*", 0, UNBOUNDED, NULL, ExpandFuncCall, NULL);
+       AddUDF(theEnv, "expand$", "*", 1, 1, "m", DummyExpandFuncMultifield, NULL);
    FuncSeqOvlFlags(theEnv,"expand$",false,false);
-   AddUDF(theEnv,"(set-evaluation-error)","y",0,0,NULL,CauseEvaluationError,"CauseEvaluationError",NULL);
-   AddUDF(theEnv,"set-sequence-operator-recognition","b",1,1,"y",SetSORCommand,"SetSORCommand",NULL);
-   AddUDF(theEnv,"get-sequence-operator-recognition","b",0,0,NULL,GetSORCommand,"GetSORCommand",NULL);
-   AddUDF(theEnv,"get-function-restrictions","s",1,1,"y",GetFunctionRestrictions,"GetFunctionRestrictions",NULL);
-   AddUDF(theEnv,"create$","m",0,UNBOUNDED,NULL,CreateFunction,"CreateFunction",NULL);
-   AddUDF(theEnv,"apropos","v",1,1,"y",AproposCommand,"AproposCommand",NULL);
-   AddUDF(theEnv,"get-function-list","m",0,0,NULL,GetFunctionListFunction,"GetFunctionListFunction",NULL);
-   AddUDF(theEnv,"funcall","*",1,UNBOUNDED,"*;sy",FuncallFunction,"FuncallFunction",NULL);
-   AddUDF(theEnv,"new","*",1,UNBOUNDED,"*;y",NewFunction,"NewFunction",NULL);
-   AddUDF(theEnv,"call","*",1,UNBOUNDED,"*",CallFunction,"CallFunction",NULL);
-   AddUDF(theEnv,"timer","d",0,UNBOUNDED,NULL,TimerFunction,"TimerFunction",NULL);
+       AddUDF(theEnv, "(set-evaluation-error)", "y", 0, 0, NULL, CauseEvaluationError, NULL);
+       AddUDF(theEnv, "set-sequence-operator-recognition", "b", 1, 1, "y", SetSORCommand, NULL);
+       AddUDF(theEnv, "get-sequence-operator-recognition", "b", 0, 0, NULL, GetSORCommand, NULL);
+       AddUDF(theEnv, "get-function-restrictions", "s", 1, 1, "y", GetFunctionRestrictions, NULL);
+       AddUDF(theEnv, "create$", "m", 0, UNBOUNDED, NULL, CreateFunction, NULL);
+       AddUDF(theEnv, "apropos", "v", 1, 1, "y", AproposCommand, NULL);
+       AddUDF(theEnv, "get-function-list", "m", 0, 0, NULL, GetFunctionListFunction, NULL);
+       AddUDF(theEnv, "funcall", "*", 1, UNBOUNDED, "*;sy", FuncallFunction, NULL);
+       AddUDF(theEnv, "new", "*", 1, UNBOUNDED, "*;y", NewFunction, NULL);
+       AddUDF(theEnv, "call", "*", 1, UNBOUNDED, "*", CallFunction, NULL);
+       AddUDF(theEnv, "timer", "d", 0, UNBOUNDED, NULL, TimerFunction, NULL);
 
-   AddUDF(theEnv,"get-error","*",0,0,NULL,GetErrorFunction,"GetErrorFunction",NULL);
-   AddUDF(theEnv,"clear-error","*",0,0,NULL,ClearErrorFunction,"ClearErrorFunction",NULL);
-   AddUDF(theEnv,"set-error","v",1,1,NULL,SetErrorFunction,"SetErrorFunction",NULL);
+       AddUDF(theEnv, "get-error", "*", 0, 0, NULL, GetErrorFunction, NULL);
+       AddUDF(theEnv, "clear-error", "*", 0, 0, NULL, ClearErrorFunction, NULL);
+       AddUDF(theEnv, "set-error", "v", 1, 1, NULL, SetErrorFunction, NULL);
 
-   AddUDF(theEnv,"void","v",0,0,NULL,VoidFunction,"VoidFunction",NULL);
+       AddUDF(theEnv, "void", "v", 0, 0, NULL, VoidFunction, NULL);
   }
 
 /*****************************************************/

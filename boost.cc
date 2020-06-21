@@ -64,20 +64,20 @@ void GetFileExtension(Environment*, UDFContext*, UDFValue*);
 
 extern "C" void InstallBoostExtensions(Environment* theEnv) {
 #if BOOST_EXTENSIONS
-	AddUDF(theEnv, "has-prefix", "b", 2, 2, "sy;sy;sy", HasPrefix, "HasPrefix",  nullptr);
-	AddUDF(theEnv, "has-suffix", "b", 2, 2, "sy;sy;sy", HasSuffix, "HasSuffix",  nullptr);
-	AddUDF(theEnv, "string-trim", "y", 1, 1, "s", TrimString, "TrimString", nullptr);
-	AddUDF(theEnv, "string-trim-front", "y", 1, 1, "s", TrimStringFront, "TrimStringFront", nullptr);
-	AddUDF(theEnv, "string-trim-back", "y",  1, 1, "s", TrimStringBack, "TrimStringBack", nullptr);
-	AddUDF(theEnv, "new-uuid", "s", 0, 0, "", NewUUID, "NewUUID", nullptr);
-	AddUDF(theEnv, "gcd", "l",  2, 2, "l;l;l", gcdFunction, "gcdFunction", nullptr);
-	AddUDF(theEnv, "lcm", "l",  2, 2, "l;l;l", lcmFunction, "lcmFunction", nullptr);
-	AddUDF(theEnv, "path-exists",   "b", 1, 1, "sy", FileExists, "FileExists", nullptr);
-	AddUDF(theEnv, "directoryp",    "b", 1, 1, "sy", IsDirectory, "IsDirectory", nullptr);
-	AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, "IsRegularFile", nullptr);
-	AddUDF(theEnv, "clamp", "l",  3, 3, "l;l;l;l", ClampValue, "ClampValue", nullptr);
-	AddUDF(theEnv, "get-directory-contents", "m", 1, 1, "sy", GetDirectoryContents, "GetDirectoryContents", nullptr);
-	AddUDF(theEnv, "get-file-extension", "sy", 1, 1, "sy", GetFileExtension, "GetFileExtension", nullptr);
+    AddUDF(theEnv, "has-prefix", "b", 2, 2, "sy;sy;sy", HasPrefix, nullptr);
+    AddUDF(theEnv, "has-suffix", "b", 2, 2, "sy;sy;sy", HasSuffix, nullptr);
+    AddUDF(theEnv, "string-trim", "y", 1, 1, "s", TrimString, nullptr);
+    AddUDF(theEnv, "string-trim-front", "y", 1, 1, "s", TrimStringFront, nullptr);
+    AddUDF(theEnv, "string-trim-back", "y", 1, 1, "s", TrimStringBack, nullptr);
+    AddUDF(theEnv, "new-uuid", "s", 0, 0, "", NewUUID, nullptr);
+    AddUDF(theEnv, "gcd", "l", 2, 2, "l;l;l", gcdFunction, nullptr);
+    AddUDF(theEnv, "lcm", "l", 2, 2, "l;l;l", lcmFunction, nullptr);
+    AddUDF(theEnv, "path-exists", "b", 1, 1, "sy", FileExists, nullptr);
+    AddUDF(theEnv, "directoryp", "b", 1, 1, "sy", IsDirectory, nullptr);
+    AddUDF(theEnv, "regular-filep", "b", 1, 1, "sy", IsRegularFile, nullptr);
+    AddUDF(theEnv, "clamp", "l", 3, 3, "l;l;l;l", ClampValue, nullptr);
+    AddUDF(theEnv, "get-directory-contents", "m", 1, 1, "sy", GetDirectoryContents, nullptr);
+    AddUDF(theEnv, "get-file-extension", "sy", 1, 1, "sy", GetFileExtension, nullptr);
 #endif
 }
 

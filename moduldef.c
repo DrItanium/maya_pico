@@ -184,9 +184,9 @@ void InitializeDefmodules(
 #endif
 
 #if DEFMODULE_CONSTRUCT
-   AddUDF(theEnv,"get-current-module","y",0,0,NULL,GetCurrentModuleCommand,"GetCurrentModuleCommand",NULL);
+       AddUDF(theEnv, "get-current-module", "y", 0, 0, NULL, GetCurrentModuleCommand, NULL);
 
-   AddUDF(theEnv,"set-current-module","y",1,1,"y",SetCurrentModuleCommand,"SetCurrentModuleCommand",NULL);
+       AddUDF(theEnv, "set-current-module", "y", 1, 1, "y", SetCurrentModuleCommand, NULL);
 #endif
   }
 

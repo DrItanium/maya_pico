@@ -109,21 +109,21 @@ void FileCommandDefinitions(
    AllocateEnvironmentData(theEnv,FILECOM_DATA,sizeof(struct fileCommandData),DeallocateFileCommandData);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"batch","b",1,1,"sy",BatchCommand,"BatchCommand",NULL);
-   AddUDF(theEnv,"batch*","b",1,1,"sy",BatchStarCommand,"BatchStarCommand",NULL);
-   AddUDF(theEnv,"dribble-on","b",1,1,"sy",DribbleOnCommand,"DribbleOnCommand",NULL);
-   AddUDF(theEnv,"dribble-off","b",0,0,NULL,DribbleOffCommand,"DribbleOffCommand",NULL);
-   AddUDF(theEnv,"save","b",1,1,"sy",SaveCommand,"SaveCommand",NULL);
+       AddUDF(theEnv, "batch", "b", 1, 1, "sy", BatchCommand, NULL);
+       AddUDF(theEnv, "batch*", "b", 1, 1, "sy", BatchStarCommand, NULL);
+       AddUDF(theEnv, "dribble-on", "b", 1, 1, "sy", DribbleOnCommand, NULL);
+       AddUDF(theEnv, "dribble-off", "b", 0, 0, NULL, DribbleOffCommand, NULL);
+       AddUDF(theEnv, "save", "b", 1, 1, "sy", SaveCommand, NULL);
 #endif
-   AddUDF(theEnv,"load","b",1,1,"sy",LoadCommand,"LoadCommand",NULL);
-   AddUDF(theEnv,"load*","b",1,1,"sy",LoadStarCommand,"LoadStarCommand",NULL);
+       AddUDF(theEnv, "load", "b", 1, 1, "sy", LoadCommand, NULL);
+       AddUDF(theEnv, "load*", "b", 1, 1, "sy", LoadStarCommand, NULL);
 #if BLOAD_AND_BSAVE
-   AddUDF(theEnv,"bsave","b",1,1,"sy",BsaveCommand,"BsaveCommand",NULL);
+       AddUDF(theEnv, "bsave", "b", 1, 1, "sy", BsaveCommand, NULL);
 #endif
 #if BLOAD || BLOAD_AND_BSAVE
    InitializeBsaveData(theEnv);
    InitializeBloadData(theEnv);
-   AddUDF(theEnv,"bload","b",1,1,"sy",BloadCommand,"BloadCommand",NULL);
+       AddUDF(theEnv, "bload", "b", 1, 1, "sy", BloadCommand, NULL);
 #endif
   }
 

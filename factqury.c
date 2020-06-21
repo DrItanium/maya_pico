@@ -118,21 +118,21 @@ void SetupFactQuery(
    FactQueryData(theEnv)->QUERY_DELIMITER_SYMBOL = CreateSymbol(theEnv,QUERY_DELIMITER_STRING);
    IncrementLexemeCount(FactQueryData(theEnv)->QUERY_DELIMITER_SYMBOL);
 
-   AddUDF(theEnv,"(query-fact)","f",0,UNBOUNDED,NULL,GetQueryFact,"GetQueryFact",NULL);
+      AddUDF(theEnv, "(query-fact)", "f", 0, UNBOUNDED, NULL, GetQueryFact, NULL);
 
-   AddUDF(theEnv,"(query-fact-slot)","*",0,UNBOUNDED,NULL,GetQueryFactSlot,"GetQueryFactSlot",NULL);
+      AddUDF(theEnv, "(query-fact-slot)", "*", 0, UNBOUNDED, NULL, GetQueryFactSlot, NULL);
 
-   AddUDF(theEnv,"any-factp","b",0,UNBOUNDED,NULL,AnyFacts,"AnyFacts",NULL);
+      AddUDF(theEnv, "any-factp", "b", 0, UNBOUNDED, NULL, AnyFacts, NULL);
 
-   AddUDF(theEnv,"find-fact","m",0,UNBOUNDED,NULL,QueryFindFact,"QueryFindFact",NULL);
+      AddUDF(theEnv, "find-fact", "m", 0, UNBOUNDED, NULL, QueryFindFact, NULL);
 
-   AddUDF(theEnv,"find-all-facts","m",0,UNBOUNDED,NULL,QueryFindAllFacts,"QueryFindAllFacts",NULL);
+      AddUDF(theEnv, "find-all-facts", "m", 0, UNBOUNDED, NULL, QueryFindAllFacts, NULL);
 
-   AddUDF(theEnv,"do-for-fact","*",0,UNBOUNDED,NULL,QueryDoForFact,"QueryDoForFact",NULL);
+      AddUDF(theEnv, "do-for-fact", "*", 0, UNBOUNDED, NULL, QueryDoForFact, NULL);
 
-   AddUDF(theEnv,"do-for-all-facts","*",0,UNBOUNDED,NULL,QueryDoForAllFacts,"QueryDoForAllFacts",NULL);
+      AddUDF(theEnv, "do-for-all-facts", "*", 0, UNBOUNDED, NULL, QueryDoForAllFacts, NULL);
 
-   AddUDF(theEnv,"delayed-do-for-all-facts","*",0,UNBOUNDED,NULL,DelayedQueryDoForAllFacts,"DelayedQueryDoForAllFacts",NULL);
+      AddUDF(theEnv, "delayed-do-for-all-facts", "*", 0, UNBOUNDED, NULL, DelayedQueryDoForAllFacts, NULL);
 
    AddFunctionParser(theEnv,"any-factp",FactParseQueryNoAction);
    AddFunctionParser(theEnv,"find-fact",FactParseQueryNoAction);

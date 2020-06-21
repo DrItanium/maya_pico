@@ -70,7 +70,6 @@ typedef void UserDefinedFunction(Environment *,UDFContext *,UDFValue *);
 struct functionDefinition
   {
    CLIPSLexeme *callFunctionName;
-   const char *actualFunctionName;
    unsigned unknownReturnValueType;
    void (*functionPointer)(Environment *,UDFContext *,UDFValue *);
    struct expr *(*parser)(Environment *,struct expr *,const char *);
@@ -124,10 +123,8 @@ struct FunctionHash
 #define SIZE_FUNCTION_HASH 517
 
    void                           InitializeExternalFunctionData(Environment *);
-   AddUDFError                    AddUDF(Environment *,const char *,const char *,
-                                         unsigned short,unsigned short,const char *,
-                                         UserDefinedFunction *,
-                                         const char *,void *);
+   AddUDFError AddUDF(Environment *theEnv, const char *name, const char *returnTypes, unsigned short minArgs, unsigned short maxArgs,
+                      const char *argumentTypes, UserDefinedFunction *cFunctionPointer, void *context);
    bool                           AddFunctionParser(Environment *,const char *,
                                                            struct expr *(*)( Environment *,struct expr *,const char *));
    bool                           RemoveFunctionParser(Environment *,const char *);

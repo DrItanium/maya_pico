@@ -127,18 +127,18 @@
 void StringFunctionDefinitions(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"str-cat","sy",1,UNBOUNDED,"synld" ,StrCatFunction,"StrCatFunction",NULL);
-   AddUDF(theEnv,"sym-cat","sy",1,UNBOUNDED,"synld" ,SymCatFunction,"SymCatFunction",NULL);
-   AddUDF(theEnv,"str-length","l",1,1,"syn",StrLengthFunction,"StrLengthFunction",NULL);
-   AddUDF(theEnv,"str-compare","l",2,3,"*;syn;syn;l" ,StrCompareFunction,"StrCompareFunction",NULL);
-   AddUDF(theEnv,"upcase","syn",1,1,"syn",UpcaseFunction,"UpcaseFunction",NULL);
-   AddUDF(theEnv,"lowcase","syn",1,1,"syn",LowcaseFunction,"LowcaseFunction",NULL);
-   AddUDF(theEnv,"sub-string","s",3,3,"*;l;l;syn",SubStringFunction,"SubStringFunction",NULL);
-   AddUDF(theEnv,"str-index","bl",2,2,"syn",StrIndexFunction,"StrIndexFunction",NULL);
-   AddUDF(theEnv,"eval","*",1,1,"sy",EvalFunction,"EvalFunction",NULL);
-   AddUDF(theEnv,"build","b",1,1,"sy",BuildFunction,"BuildFunction",NULL);
-   AddUDF(theEnv,"string-to-field","*",1,1,"syn",StringToFieldFunction,"StringToFieldFunction",NULL);
-   AddUDF(theEnv,"str-replace","syn",3,3,"syn",StrReplaceFunction,"StrReplaceFunction",NULL);
+      AddUDF(theEnv, "str-cat", "sy", 1, UNBOUNDED, "synld", StrCatFunction, NULL);
+      AddUDF(theEnv, "sym-cat", "sy", 1, UNBOUNDED, "synld", SymCatFunction, NULL);
+      AddUDF(theEnv, "str-length", "l", 1, 1, "syn", StrLengthFunction, NULL);
+      AddUDF(theEnv, "str-compare", "l", 2, 3, "*;syn;syn;l", StrCompareFunction, NULL);
+      AddUDF(theEnv, "upcase", "syn", 1, 1, "syn", UpcaseFunction, NULL);
+      AddUDF(theEnv, "lowcase", "syn", 1, 1, "syn", LowcaseFunction, NULL);
+      AddUDF(theEnv, "sub-string", "s", 3, 3, "*;l;l;syn", SubStringFunction, NULL);
+      AddUDF(theEnv, "str-index", "bl", 2, 2, "syn", StrIndexFunction, NULL);
+      AddUDF(theEnv, "eval", "*", 1, 1, "sy", EvalFunction, NULL);
+      AddUDF(theEnv, "build", "b", 1, 1, "sy", BuildFunction, NULL);
+      AddUDF(theEnv, "string-to-field", "*", 1, 1, "syn", StringToFieldFunction, NULL);
+      AddUDF(theEnv, "str-replace", "syn", 3, 3, "syn", StrReplaceFunction, NULL);
   }
 
 /****************************************/

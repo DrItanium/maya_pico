@@ -100,13 +100,13 @@ void DeftemplateBasicCommands(
   {
    AddSaveFunction(theEnv,"deftemplate",SaveDeftemplates,10,NULL);
 
-   AddUDF(theEnv,"get-deftemplate-list","m",0,1,"y",GetDeftemplateListFunction,"GetDeftemplateListFunction",NULL);
-   AddUDF(theEnv,"undeftemplate","v",1,1,"y",UndeftemplateCommand,"UndeftemplateCommand",NULL);
-   AddUDF(theEnv,"deftemplate-module","y",1,1,"y",DeftemplateModuleFunction,"DeftemplateModuleFunction",NULL);
+      AddUDF(theEnv, "get-deftemplate-list", "m", 0, 1, "y", GetDeftemplateListFunction, NULL);
+      AddUDF(theEnv, "undeftemplate", "v", 1, 1, "y", UndeftemplateCommand, NULL);
+      AddUDF(theEnv, "deftemplate-module", "y", 1, 1, "y", DeftemplateModuleFunction, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"list-deftemplates","v",0,1,"y",ListDeftemplatesCommand,"ListDeftemplatesCommand",NULL);
-   AddUDF(theEnv,"ppdeftemplate","vs",1,2,";y;ldsyn",PPDeftemplateCommand,"PPDeftemplateCommand",NULL);
+       AddUDF(theEnv, "list-deftemplates", "v", 0, 1, "y", ListDeftemplatesCommand, NULL);
+       AddUDF(theEnv, "ppdeftemplate", "vs", 1, 2, ";y;ldsyn", PPDeftemplateCommand, NULL);
 #endif
 
 #if (BLOAD || BLOAD_AND_BSAVE)

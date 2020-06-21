@@ -81,11 +81,11 @@ void DefmoduleBasicCommands(
 #if DEFMODULE_CONSTRUCT
    AddSaveFunction(theEnv,"defmodule",SaveDefmodules,1100,NULL);
 
-   AddUDF(theEnv,"get-defmodule-list","m",0,0,NULL,GetDefmoduleListFunction,"GetDefmoduleListFunction",NULL);
+       AddUDF(theEnv, "get-defmodule-list", "m", 0, 0, NULL, GetDefmoduleListFunction, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"list-defmodules","v",0,0,NULL,ListDefmodulesCommand,"ListDefmodulesCommand",NULL);
-   AddUDF(theEnv,"ppdefmodule","v",1,2,";y;ldsyn",PPDefmoduleCommand,"PPDefmoduleCommand",NULL);
+       AddUDF(theEnv, "list-defmodules", "v", 0, 0, NULL, ListDefmodulesCommand, NULL);
+       AddUDF(theEnv, "ppdefmodule", "v", 1, 2, ";y;ldsyn", PPDefmoduleCommand, NULL);
 #endif
 #endif
 

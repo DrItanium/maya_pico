@@ -436,8 +436,8 @@ bool GetLoadInProgress(
 void InitializeConstructs(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"clear","v",0,0,NULL,ClearCommand,"ClearCommand",NULL);
-   AddUDF(theEnv,"reset","v",0,0,NULL,ResetCommand,"ResetCommand",NULL);
+      AddUDF(theEnv, "clear", "v", 0, 0, NULL, ClearCommand, NULL);
+      AddUDF(theEnv, "reset", "v", 0, 0, NULL, ResetCommand, NULL);
 
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"compilations",0,&ConstructData(theEnv)->WatchCompilations,30,NULL,NULL);

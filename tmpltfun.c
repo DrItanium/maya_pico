@@ -144,24 +144,24 @@
 void DeftemplateFunctions(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"modify","bf",0,UNBOUNDED,"*;lf",ModifyCommand,"ModifyCommand",NULL);
-   AddUDF(theEnv,"duplicate","bf",0,UNBOUNDED,"*;lf",DuplicateCommand,"DuplicateCommand",NULL);
+      AddUDF(theEnv, "modify", "bf", 0, UNBOUNDED, "*;lf", ModifyCommand, NULL);
+      AddUDF(theEnv, "duplicate", "bf", 0, UNBOUNDED, "*;lf", DuplicateCommand, NULL);
 
-   AddUDF(theEnv,"deftemplate-slot-names","bm",1,1,"y",DeftemplateSlotNamesFunction,"DeftemplateSlotNamesFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-default-value","*",2,2,"y",DeftemplateSlotDefaultValueFunction,"DeftemplateSlotDefaultValueFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-cardinality","*",2,2,"y",DeftemplateSlotCardinalityFunction,"DeftemplateSlotCardinalityFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-allowed-values","*",2,2,"y",DeftemplateSlotAllowedValuesFunction,"DeftemplateSlotAllowedValuesFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-range","*",2,2,"y",DeftemplateSlotRangeFunction,"DeftemplateSlotRangeFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-types","*",2,2,"y",DeftemplateSlotTypesFunction,"DeftemplateSlotTypesFunction",NULL);
+      AddUDF(theEnv, "deftemplate-slot-names", "bm", 1, 1, "y", DeftemplateSlotNamesFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-default-value", "*", 2, 2, "y", DeftemplateSlotDefaultValueFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-cardinality", "*", 2, 2, "y", DeftemplateSlotCardinalityFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-allowed-values", "*", 2, 2, "y", DeftemplateSlotAllowedValuesFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-range", "*", 2, 2, "y", DeftemplateSlotRangeFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-types", "*", 2, 2, "y", DeftemplateSlotTypesFunction, NULL);
 
-   AddUDF(theEnv,"deftemplate-slot-multip","b",2,2,"y",DeftemplateSlotMultiPFunction,"DeftemplateSlotMultiPFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-singlep","b",2,2,"y",DeftemplateSlotSinglePFunction,"DeftemplateSlotSinglePFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-existp","b",2,2,"y",DeftemplateSlotExistPFunction,"DeftemplateSlotExistPFunction",NULL);
-   AddUDF(theEnv,"deftemplate-slot-defaultp","y",2,2,"y",DeftemplateSlotDefaultPFunction,"DeftemplateSlotDefaultPFunction",NULL);
+      AddUDF(theEnv, "deftemplate-slot-multip", "b", 2, 2, "y", DeftemplateSlotMultiPFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-singlep", "b", 2, 2, "y", DeftemplateSlotSinglePFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-existp", "b", 2, 2, "y", DeftemplateSlotExistPFunction, NULL);
+      AddUDF(theEnv, "deftemplate-slot-defaultp", "y", 2, 2, "y", DeftemplateSlotDefaultPFunction, NULL);
 
-   AddUDF(theEnv,"deftemplate-slot-facet-existp","b",3,3,"y",DeftemplateSlotFacetExistPFunction,"DeftemplateSlotFacetExistPFunction",NULL);
+      AddUDF(theEnv, "deftemplate-slot-facet-existp", "b", 3, 3, "y", DeftemplateSlotFacetExistPFunction, NULL);
 
-   AddUDF(theEnv,"deftemplate-slot-facet-value","*",3,3,"y",DeftemplateSlotFacetValueFunction,"DeftemplateSlotFacetValueFunction",NULL);
+      AddUDF(theEnv, "deftemplate-slot-facet-value", "*", 3, 3, "y", DeftemplateSlotFacetValueFunction, NULL);
 
    FuncSeqOvlFlags(theEnv,"modify",false,false);
    FuncSeqOvlFlags(theEnv,"duplicate",false,false);

@@ -198,15 +198,15 @@ void SetupDeffunctions(
 #endif
    AddSaveFunction(theEnv,"deffunction-headers",SaveDeffunctionHeaders,1000,NULL);
    AddSaveFunction(theEnv,"deffunctions",SaveDeffunctions,0,NULL);
-   AddUDF(theEnv,"undeffunction","v",1,1,"y",UndeffunctionCommand,"UndeffunctionCommand",NULL);
+       AddUDF(theEnv, "undeffunction", "v", 1, 1, "y", UndeffunctionCommand, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"list-deffunctions","v",0,1,"y",ListDeffunctionsCommand,"ListDeffunctionsCommand",NULL);
-   AddUDF(theEnv,"ppdeffunction","vs",1,2,";y;ldsyn",PPDeffunctionCommand,"PPDeffunctionCommand",NULL);
+       AddUDF(theEnv, "list-deffunctions", "v", 0, 1, "y", ListDeffunctionsCommand, NULL);
+       AddUDF(theEnv, "ppdeffunction", "vs", 1, 2, ";y;ldsyn", PPDeffunctionCommand, NULL);
 #endif
 
-   AddUDF(theEnv,"get-deffunction-list","m",0,1,"y",GetDeffunctionListFunction,"GetDeffunctionListFunction",NULL);
-   AddUDF(theEnv,"deffunction-module","y",1,1,"y",GetDeffunctionModuleCommand,"GetDeffunctionModuleCommand",NULL);
+       AddUDF(theEnv, "get-deffunction-list", "m", 0, 1, "y", GetDeffunctionListFunction, NULL);
+       AddUDF(theEnv, "deffunction-module", "y", 1, 1, "y", GetDeffunctionModuleCommand, NULL);
 
 #if BLOAD_AND_BSAVE || BLOAD
    SetupDeffunctionsBload(theEnv);

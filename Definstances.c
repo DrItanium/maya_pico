@@ -178,16 +178,16 @@ void SetupDefinstances(
 
    AddClearReadyFunction(theEnv,"definstances",ClearDefinstancesReady,0,NULL);
 
-   AddUDF(theEnv,"undefinstances","v",1,1,"y",UndefinstancesCommand,"UndefinstancesCommand",NULL);
+      AddUDF(theEnv, "undefinstances", "v", 1, 1, "y", UndefinstancesCommand, NULL);
    AddSaveFunction(theEnv,"definstances",SaveDefinstances,0,NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"ppdefinstances","vs",1,2,";y;ldsyn",PPDefinstancesCommand,"PPDefinstancesCommand",NULL);
-   AddUDF(theEnv,"list-definstances","v",0,1,"y",ListDefinstancesCommand,"ListDefinstancesCommand",NULL);
+       AddUDF(theEnv, "ppdefinstances", "vs", 1, 2, ";y;ldsyn", PPDefinstancesCommand, NULL);
+       AddUDF(theEnv, "list-definstances", "v", 0, 1, "y", ListDefinstancesCommand, NULL);
 #endif
 
-   AddUDF(theEnv,"get-definstances-list","m",0,1,"y",GetDefinstancesListFunction,"GetDefinstancesListFunction",NULL);
-   AddUDF(theEnv,"definstances-module","y",1,1,"y",GetDefinstancesModuleCommand,"GetDefinstancesModuleCommand",NULL);
+       AddUDF(theEnv, "get-definstances-list", "m", 0, 1, "y", GetDefinstancesListFunction, NULL);
+       AddUDF(theEnv, "definstances-module", "y", 1, 1, "y", GetDefinstancesModuleCommand, NULL);
 
    AddResetFunction(theEnv,"definstances",ResetDefinstances,0,NULL);
 

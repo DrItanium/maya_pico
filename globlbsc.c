@@ -94,13 +94,13 @@ void DefglobalBasicCommands(
    AddSaveFunction(theEnv,"defglobal",SaveDefglobals,40,NULL);
    AddResetFunction(theEnv,"defglobal",ResetDefglobals,50,NULL);
 
-   AddUDF(theEnv,"get-defglobal-list","m",0,1,"y",GetDefglobalListFunction,"GetDefglobalListFunction",NULL);
-   AddUDF(theEnv,"undefglobal","v",1,1,"y",UndefglobalCommand,"UndefglobalCommand",NULL);
-   AddUDF(theEnv,"defglobal-module","y",1,1,"y",DefglobalModuleFunction,"DefglobalModuleFunction",NULL);
+      AddUDF(theEnv, "get-defglobal-list", "m", 0, 1, "y", GetDefglobalListFunction, NULL);
+      AddUDF(theEnv, "undefglobal", "v", 1, 1, "y", UndefglobalCommand, NULL);
+      AddUDF(theEnv, "defglobal-module", "y", 1, 1, "y", DefglobalModuleFunction, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"list-defglobals","v",0,1,"y",ListDefglobalsCommand,"ListDefglobalsCommand",NULL);
-   AddUDF(theEnv,"ppdefglobal","vs",1,2,";y;ldsyn",PPDefglobalCommand,"PPDefglobalCommand",NULL);
+       AddUDF(theEnv, "list-defglobals", "v", 0, 1, "y", ListDefglobalsCommand, NULL);
+       AddUDF(theEnv, "ppdefglobal", "vs", 1, 2, ";y;ldsyn", PPDefglobalCommand, NULL);
    AddWatchItem(theEnv,"globals",0,&DefglobalData(theEnv)->WatchGlobals,0,DefglobalWatchAccess,DefglobalWatchPrint);
 #endif
 

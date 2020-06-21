@@ -1353,10 +1353,10 @@ void HelpFunctionDefinitions(
   {
    AllocateEnvironmentData(theEnv,TEXTPRO_DATA,sizeof(struct textProcessingData),DeallocateTextProcessingData);
 #if TEXTPRO_FUNCTIONS
-   AddUDF(theEnv,"fetch","bl",1,1,"sy",FetchCommand,"FetchCommand",NULL);
-   AddUDF(theEnv,"toss","b",1,1,"sy",TossCommand,"TossCommand",NULL);
-   AddUDF(theEnv,"print-region","b",2,UNBOUNDED,"*;y;sy",PrintRegionCommand,"PrintRegionCommand",NULL);
-   AddUDF(theEnv,"get-region","s",1,UNBOUNDED,"*;sy",GetRegionCommand,"GetRegionCommand", NULL);
+       AddUDF(theEnv, "fetch", "bl", 1, 1, "sy", FetchCommand, NULL);
+       AddUDF(theEnv, "toss", "b", 1, 1, "sy", TossCommand, NULL);
+       AddUDF(theEnv, "print-region", "b", 2, UNBOUNDED, "*;y;sy", PrintRegionCommand, NULL);
+       AddUDF(theEnv, "get-region", "s", 1, UNBOUNDED, "*;sy", GetRegionCommand, NULL);
 #endif
   }
 

@@ -184,37 +184,37 @@ void SetupInstances(
 
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
-   AddUDF(theEnv,"initialize-instance","bn",0,UNBOUNDED,NULL,InactiveInitializeInstance,"InactiveInitializeInstance",NULL);
-   AddUDF(theEnv,"active-initialize-instance","bn",0,UNBOUNDED,NULL,InitializeInstanceCommand,"InitializeInstanceCommand",NULL);
+       AddUDF(theEnv, "initialize-instance", "bn", 0, UNBOUNDED, NULL, InactiveInitializeInstance, NULL);
+       AddUDF(theEnv, "active-initialize-instance", "bn", 0, UNBOUNDED, NULL, InitializeInstanceCommand, NULL);
 
-   AddUDF(theEnv,"make-instance","bn",0,UNBOUNDED,NULL,InactiveMakeInstance,"InactiveMakeInstance",NULL);
-   AddUDF(theEnv,"active-make-instance","bn",0,UNBOUNDED,NULL,MakeInstanceCommand,"MakeInstanceCommand",NULL);
+       AddUDF(theEnv, "make-instance", "bn", 0, UNBOUNDED, NULL, InactiveMakeInstance, NULL);
+       AddUDF(theEnv, "active-make-instance", "bn", 0, UNBOUNDED, NULL, MakeInstanceCommand, NULL);
 
 #else
    AddUDF(theEnv,"initialize-instance","bn",0,UNBOUNDED,NULL,InitializeInstanceCommand,"InitializeInstanceCommand",NULL);
    AddUDF(theEnv,"make-instance","bn",0,UNBOUNDED,NULL,MakeInstanceCommand,"MakeInstanceCommand",NULL);
 #endif
 
-   AddUDF(theEnv,"init-slots","*",0,0,NULL,InitSlotsCommand,"InitSlotsCommand",NULL);
+       AddUDF(theEnv, "init-slots", "*", 0, 0, NULL, InitSlotsCommand, NULL);
 
-   AddUDF(theEnv,"delete-instance","b",0,0,NULL,DeleteInstanceCommand,"DeleteInstanceCommand",NULL);
-   AddUDF(theEnv,"(create-instance)","b",0,0,NULL,CreateInstanceHandler,"CreateInstanceHandler",NULL);
-   AddUDF(theEnv,"unmake-instance","b",1,UNBOUNDED,"iny",UnmakeInstanceCommand,"UnmakeInstanceCommand",NULL);
+       AddUDF(theEnv, "delete-instance", "b", 0, 0, NULL, DeleteInstanceCommand, NULL);
+       AddUDF(theEnv, "(create-instance)", "b", 0, 0, NULL, CreateInstanceHandler, NULL);
+       AddUDF(theEnv, "unmake-instance", "b", 1, UNBOUNDED, "iny", UnmakeInstanceCommand, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"instances","v",0,3,"y",InstancesCommand,"InstancesCommand",NULL);
-   AddUDF(theEnv,"ppinstance","v",0,0,NULL,PPInstanceCommand,"PPInstanceCommand",NULL);
+       AddUDF(theEnv, "instances", "v", 0, 3, "y", InstancesCommand, NULL);
+       AddUDF(theEnv, "ppinstance", "v", 0, 0, NULL, PPInstanceCommand, NULL);
 #endif
 
-   AddUDF(theEnv,"symbol-to-instance-name","*",1,1,"y",SymbolToInstanceNameFunction,"SymbolToInstanceNameFunction",NULL);
-   AddUDF(theEnv,"instance-name-to-symbol","y",1,1,"ny",InstanceNameToSymbolFunction,"InstanceNameToSymbolFunction",NULL);
-   AddUDF(theEnv,"instance-address","bi",1,2,";iyn;yn",InstanceAddressCommand,"InstanceAddressCommand",NULL);
-   AddUDF(theEnv,"instance-addressp","b",1,1,NULL,InstanceAddressPCommand,"InstanceAddressPCommand",NULL);
-   AddUDF(theEnv,"instance-namep","b",1,1,NULL,InstanceNamePCommand,"InstanceNamePCommand",NULL);
-   AddUDF(theEnv,"instance-name","bn",1,1,"yin",InstanceNameCommand,"InstanceNameCommand",NULL);
-   AddUDF(theEnv,"instancep","b",1,1,NULL,InstancePCommand,"InstancePCommand",NULL);
-   AddUDF(theEnv,"instance-existp","b",1,1,"niy",InstanceExistPCommand,"InstanceExistPCommand",NULL);
-   AddUDF(theEnv,"class","*",1,1,NULL,ClassCommand,"ClassCommand",NULL);
+       AddUDF(theEnv, "symbol-to-instance-name", "*", 1, 1, "y", SymbolToInstanceNameFunction, NULL);
+       AddUDF(theEnv, "instance-name-to-symbol", "y", 1, 1, "ny", InstanceNameToSymbolFunction, NULL);
+       AddUDF(theEnv, "instance-address", "bi", 1, 2, ";iyn;yn", InstanceAddressCommand, NULL);
+       AddUDF(theEnv, "instance-addressp", "b", 1, 1, NULL, InstanceAddressPCommand, NULL);
+       AddUDF(theEnv, "instance-namep", "b", 1, 1, NULL, InstanceNamePCommand, NULL);
+       AddUDF(theEnv, "instance-name", "bn", 1, 1, "yin", InstanceNameCommand, NULL);
+       AddUDF(theEnv, "instancep", "b", 1, 1, NULL, InstancePCommand, NULL);
+       AddUDF(theEnv, "instance-existp", "b", 1, 1, "niy", InstanceExistPCommand, NULL);
+       AddUDF(theEnv, "class", "*", 1, 1, NULL, ClassCommand, NULL);
 
 
 #if DEFRULE_CONSTRUCT && OBJECT_SYSTEM

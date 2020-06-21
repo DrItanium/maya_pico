@@ -81,7 +81,7 @@
    static void                    DeallocateExternalFunctionData(Environment *);
    static bool                    RemoveHashFunction(Environment *,struct functionDefinition *);
    static AddUDFError             DefineFunction(Environment *,const char *,unsigned,void (*)(Environment *,UDFContext *,UDFValue *),
-                                                 const char *,unsigned short,unsigned short,const char *,void *);
+                                                 unsigned short,unsigned short,const char *,void *);
    static void                    PrintType(Environment *,const char *,int,int *,const char *);
    static void                    AssignErrorValue(UDFContext *);
 
@@ -138,16 +138,8 @@ static void DeallocateExternalFunctionData(
 /* AddUDF: Used to define a system or user external */
 /*   function so that the KB can access it.         */
 /****************************************************/
-AddUDFError AddUDF(
-  Environment *theEnv,
-  const char *clipsFunctionName,
-  const char *returnTypes,
-  unsigned short minArgs,
-  unsigned short maxArgs,
-  const char *argumentTypes,
-  UserDefinedFunction *cFunctionPointer,
-  const char *cFunctionName,
-  void *context)
+   AddUDFError AddUDF(Environment *theEnv, const char *name, const char *returnTypes, unsigned short minArgs, unsigned short maxArgs,
+                      const char *argumentTypes, UserDefinedFunction *cFunctionPointer, void *context)
   {
    unsigned returnTypeBits;
    size_t i;
@@ -178,8 +170,8 @@ AddUDFError AddUDF(
    else
      { returnTypeBits = ANY_TYPE_BITS; }
 
-   return DefineFunction(theEnv,clipsFunctionName,returnTypeBits,cFunctionPointer,
-                         cFunctionName,minArgs,maxArgs,argumentTypes,context);
+   return DefineFunction(theEnv, name, returnTypeBits, cFunctionPointer,
+                         minArgs, maxArgs, argumentTypes, context);
   }
 
 /*************************************************************/
@@ -192,7 +184,6 @@ static AddUDFError DefineFunction(
   const char *name,
   unsigned returnTypeBits,
   void (*pointer)(Environment *,UDFContext *,UDFValue *),
-  const char *actualName,
   unsigned short minArgs,
   unsigned short maxArgs,
   const char *restrictions,
@@ -213,7 +204,6 @@ static AddUDFError DefineFunction(
 
    newFunction->unknownReturnValueType = returnTypeBits;
    newFunction->functionPointer = pointer;
-   newFunction->actualFunctionName = actualName;
 
    newFunction->minArgs = minArgs;
    newFunction->maxArgs = maxArgs;

@@ -202,15 +202,15 @@ void SetupInstanceFileCommands(
    InstanceFileData(theEnv)->InstanceBinaryVersionID = "V6.00";
 #endif
 
-   AddUDF(theEnv,"save-instances","l",1,UNBOUNDED,"y;sy",SaveInstancesCommand,"SaveInstancesCommand",NULL);
-   AddUDF(theEnv,"load-instances","l",1,1,"sy",LoadInstancesCommand,"LoadInstancesCommand",NULL);
-   AddUDF(theEnv,"restore-instances","l",1,1,"sy",RestoreInstancesCommand,"RestoreInstancesCommand",NULL);
+       AddUDF(theEnv, "save-instances", "l", 1, UNBOUNDED, "y;sy", SaveInstancesCommand, NULL);
+       AddUDF(theEnv, "load-instances", "l", 1, 1, "sy", LoadInstancesCommand, NULL);
+       AddUDF(theEnv, "restore-instances", "l", 1, 1, "sy", RestoreInstancesCommand, NULL);
 
 #if BSAVE_INSTANCES
-   AddUDF(theEnv,"bsave-instances","l",1,UNBOUNDED,"y;sy",BinarySaveInstancesCommand,"BinarySaveInstancesCommand",NULL);
+       AddUDF(theEnv, "bsave-instances", "l", 1, UNBOUNDED, "y;sy", BinarySaveInstancesCommand, NULL);
 #endif
 #if BLOAD_INSTANCES
-   AddUDF(theEnv,"bload-instances","l",1,1,"sy",BinaryLoadInstancesCommand,"BinaryLoadInstancesCommand",NULL);
+       AddUDF(theEnv, "bload-instances", "l", 1, 1, "sy", BinaryLoadInstancesCommand, NULL);
 #endif
 
   }

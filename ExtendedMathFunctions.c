@@ -111,44 +111,44 @@
 void ExtendedMathFunctionDefinitions(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"cos","d",1,1,"ld",CosFunction,"CosFunction",NULL);
-   AddUDF(theEnv,"sin","d",1,1,"ld",SinFunction,"SinFunction",NULL);
-   AddUDF(theEnv,"tan","d",1,1,"ld",TanFunction,"TanFunction",NULL);
-   AddUDF(theEnv,"sec","d",1,1,"ld",SecFunction,"SecFunction",NULL);
-   AddUDF(theEnv,"csc","d",1,1,"ld",CscFunction,"CscFunction",NULL);
-   AddUDF(theEnv,"cot","d",1,1,"ld",CotFunction,"CotFunction",NULL);
-   AddUDF(theEnv,"acos","d",1,1,"ld",AcosFunction,"AcosFunction",NULL);
-   AddUDF(theEnv,"asin","d",1,1,"ld",AsinFunction,"AsinFunction",NULL);
-   AddUDF(theEnv,"atan","d",1,1,"ld",AtanFunction,"AtanFunction",NULL);
-   AddUDF(theEnv,"atan2","d",2,2,"ld",Atan2Function,"Atan2Function",NULL);
-   AddUDF(theEnv,"asec","d",1,1,"ld",AsecFunction,"AsecFunction",NULL);
-   AddUDF(theEnv,"acsc","d",1,1,"ld",AcscFunction,"AcscFunction",NULL);
-   AddUDF(theEnv,"acot","d",1,1,"ld",AcotFunction,"AcotFunction",NULL);
-   AddUDF(theEnv,"cosh","d",1,1,"ld",CoshFunction,"CoshFunction",NULL);
-   AddUDF(theEnv,"sinh","d",1,1,"ld",SinhFunction,"SinhFunction",NULL);
-   AddUDF(theEnv,"tanh","d",1,1,"ld",TanhFunction,"TanhFunction",NULL);
-   AddUDF(theEnv,"sech","d",1,1,"ld",SechFunction,"SechFunction",NULL);
-   AddUDF(theEnv,"csch","d",1,1,"ld",CschFunction,"CschFunction",NULL);
-   AddUDF(theEnv,"coth","d",1,1,"ld",CothFunction,"CothFunction",NULL);
-   AddUDF(theEnv,"acosh","d",1,1,"ld",AcoshFunction,"AcoshFunction",NULL);
-   AddUDF(theEnv,"asinh","d",1,1,"ld",AsinhFunction,"AsinhFunction",NULL);
-   AddUDF(theEnv,"atanh","d",1,1,"ld",AtanhFunction,"AtanhFunction",NULL);
-   AddUDF(theEnv,"asech","d",1,1,"ld",AsechFunction,"AsechFunction",NULL);
-   AddUDF(theEnv,"acsch","d",1,1,"ld",AcschFunction,"AcschFunction",NULL);
-   AddUDF(theEnv,"acoth","d",1,1,"ld",AcothFunction,"AcothFunction",NULL);
+      AddUDF(theEnv, "cos", "d", 1, 1, "ld", CosFunction, NULL);
+      AddUDF(theEnv, "sin", "d", 1, 1, "ld", SinFunction, NULL);
+      AddUDF(theEnv, "tan", "d", 1, 1, "ld", TanFunction, NULL);
+      AddUDF(theEnv, "sec", "d", 1, 1, "ld", SecFunction, NULL);
+      AddUDF(theEnv, "csc", "d", 1, 1, "ld", CscFunction, NULL);
+      AddUDF(theEnv, "cot", "d", 1, 1, "ld", CotFunction, NULL);
+      AddUDF(theEnv, "acos", "d", 1, 1, "ld", AcosFunction, NULL);
+      AddUDF(theEnv, "asin", "d", 1, 1, "ld", AsinFunction, NULL);
+      AddUDF(theEnv, "atan", "d", 1, 1, "ld", AtanFunction, NULL);
+      AddUDF(theEnv, "atan2", "d", 2, 2, "ld", Atan2Function, NULL);
+      AddUDF(theEnv, "asec", "d", 1, 1, "ld", AsecFunction, NULL);
+      AddUDF(theEnv, "acsc", "d", 1, 1, "ld", AcscFunction, NULL);
+      AddUDF(theEnv, "acot", "d", 1, 1, "ld", AcotFunction, NULL);
+      AddUDF(theEnv, "cosh", "d", 1, 1, "ld", CoshFunction, NULL);
+      AddUDF(theEnv, "sinh", "d", 1, 1, "ld", SinhFunction, NULL);
+      AddUDF(theEnv, "tanh", "d", 1, 1, "ld", TanhFunction, NULL);
+      AddUDF(theEnv, "sech", "d", 1, 1, "ld", SechFunction, NULL);
+      AddUDF(theEnv, "csch", "d", 1, 1, "ld", CschFunction, NULL);
+      AddUDF(theEnv, "coth", "d", 1, 1, "ld", CothFunction, NULL);
+      AddUDF(theEnv, "acosh", "d", 1, 1, "ld", AcoshFunction, NULL);
+      AddUDF(theEnv, "asinh", "d", 1, 1, "ld", AsinhFunction, NULL);
+      AddUDF(theEnv, "atanh", "d", 1, 1, "ld", AtanhFunction, NULL);
+      AddUDF(theEnv, "asech", "d", 1, 1, "ld", AsechFunction, NULL);
+      AddUDF(theEnv, "acsch", "d", 1, 1, "ld", AcschFunction, NULL);
+      AddUDF(theEnv, "acoth", "d", 1, 1, "ld", AcothFunction, NULL);
 
-   AddUDF(theEnv,"mod","ld",2,2,"ld",ModFunction,"ModFunction",NULL);
-   AddUDF(theEnv,"exp","d", 1,1,"ld",ExpFunction,"ExpFunction",NULL);
-   AddUDF(theEnv,"log","d",1,1,"ld",LogFunction,"LogFunction",NULL);
-   AddUDF(theEnv,"log10","d",1,1,"ld",Log10Function,"Log10Function",NULL);
-   AddUDF(theEnv,"sqrt","d",1,1,"ld",SqrtFunction,"SqrtFunction",NULL);
-   AddUDF(theEnv,"pi","d",0,0,NULL,PiFunction, "PiFunction",NULL);
-   AddUDF(theEnv,"deg-rad","d",1,1,"ld",DegRadFunction, "DegRadFunction",NULL);
-   AddUDF(theEnv,"rad-deg","d",1,1,"ld",RadDegFunction, "RadDegFunction",NULL);
-   AddUDF(theEnv,"deg-grad","d",1,1,"ld",DegGradFunction,"DegGradFunction",NULL);
-   AddUDF(theEnv,"grad-deg","d",1,1,"ld",GradDegFunction,"GradDegFunction",NULL);
-   AddUDF(theEnv,"**","d",2,2,"ld",PowFunction,"PowFunction",NULL);
-   AddUDF(theEnv,"round","l", 1,1,"ld",RoundFunction,"RoundFunction",NULL);
+      AddUDF(theEnv, "mod", "ld", 2, 2, "ld", ModFunction, NULL);
+      AddUDF(theEnv, "exp", "d", 1, 1, "ld", ExpFunction, NULL);
+      AddUDF(theEnv, "log", "d", 1, 1, "ld", LogFunction, NULL);
+      AddUDF(theEnv, "log10", "d", 1, 1, "ld", Log10Function, NULL);
+      AddUDF(theEnv, "sqrt", "d", 1, 1, "ld", SqrtFunction, NULL);
+      AddUDF(theEnv, "pi", "d", 0, 0, NULL, PiFunction, NULL);
+      AddUDF(theEnv, "deg-rad", "d", 1, 1, "ld", DegRadFunction, NULL);
+      AddUDF(theEnv, "rad-deg", "d", 1, 1, "ld", RadDegFunction, NULL);
+      AddUDF(theEnv, "deg-grad", "d", 1, 1, "ld", DegGradFunction, NULL);
+      AddUDF(theEnv, "grad-deg", "d", 1, 1, "ld", GradDegFunction, NULL);
+      AddUDF(theEnv, "**", "d", 2, 2, "ld", PowFunction, NULL);
+      AddUDF(theEnv, "round", "l", 1, 1, "ld", RoundFunction, NULL);
   }
 
 /************************************************************/

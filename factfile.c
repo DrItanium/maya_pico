@@ -106,11 +106,11 @@ struct bsaveSlotValueAtom
 void FactFileCommandDefinitions(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"save-facts","l",1,UNBOUNDED,"y;sy",SaveFactsCommand,"SaveFactsCommand",NULL);
-   AddUDF(theEnv,"load-facts","l",1,1,"sy",LoadFactsCommand,"LoadFactsCommand",NULL);
-   
-   AddUDF(theEnv,"bsave-facts","l",1,UNBOUNDED,"y;sy",BinarySaveFactsCommand,"BinarySaveFactsCommand",NULL);
-   AddUDF(theEnv,"bload-facts","l",1,1,"sy",BinaryLoadFactsCommand,"BinaryLoadFactsCommand",NULL);
+      AddUDF(theEnv, "save-facts", "l", 1, UNBOUNDED, "y;sy", SaveFactsCommand, NULL);
+      AddUDF(theEnv, "load-facts", "l", 1, 1, "sy", LoadFactsCommand, NULL);
+
+      AddUDF(theEnv, "bsave-facts", "l", 1, UNBOUNDED, "y;sy", BinarySaveFactsCommand, NULL);
+      AddUDF(theEnv, "bload-facts", "l", 1, 1, "sy", BinaryLoadFactsCommand, NULL);
   }
 
 /******************************************/

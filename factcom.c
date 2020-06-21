@@ -122,18 +122,18 @@ void FactCommandDefinitions(
   Environment *theEnv)
   {
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"facts","v",0,4,"l;*",FactsCommand,"FactsCommand",NULL);
+       AddUDF(theEnv, "facts", "v", 0, 4, "l;*", FactsCommand, NULL);
 #endif
 
-   AddUDF(theEnv,"assert","bf",0,UNBOUNDED,NULL,AssertCommand,"AssertCommand",NULL);
-   AddUDF(theEnv,"retract", "v",1,UNBOUNDED,"fly",RetractCommand,"RetractCommand",NULL);
-   AddUDF(theEnv,"assert-string","bf",1,1,"s",AssertStringFunction,"AssertStringFunction",NULL);
-   AddUDF(theEnv,"str-assert","bf",1,1,"s",AssertStringFunction,"AssertStringFunction",NULL);
+       AddUDF(theEnv, "assert", "bf", 0, UNBOUNDED, NULL, AssertCommand, NULL);
+       AddUDF(theEnv, "retract", "v", 1, UNBOUNDED, "fly", RetractCommand, NULL);
+       AddUDF(theEnv, "assert-string", "bf", 1, 1, "s", AssertStringFunction, NULL);
+       AddUDF(theEnv, "str-assert", "bf", 1, 1, "s", AssertStringFunction, NULL);
 
-   AddUDF(theEnv,"get-fact-duplication","b",0,0,NULL,GetFactDuplicationCommand,"GetFactDuplicationCommand", NULL);
-   AddUDF(theEnv,"set-fact-duplication","b",1,1,NULL,SetFactDuplicationCommand,"SetFactDuplicationCommand", NULL);
+       AddUDF(theEnv, "get-fact-duplication", "b", 0, 0, NULL, GetFactDuplicationCommand, NULL);
+       AddUDF(theEnv, "set-fact-duplication", "b", 1, 1, NULL, SetFactDuplicationCommand, NULL);
 
-   AddUDF(theEnv,"fact-index","l",1,1,"f",FactIndexFunction,"FactIndexFunction",NULL);
+       AddUDF(theEnv, "fact-index", "l", 1, 1, "f", FactIndexFunction, NULL);
 
    FuncSeqOvlFlags(theEnv,"assert",false,false);
    AddFunctionParser(theEnv,"assert",AssertParse);

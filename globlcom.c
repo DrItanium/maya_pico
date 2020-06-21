@@ -70,11 +70,11 @@
 void DefglobalCommandDefinitions(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"set-reset-globals","b",1,1,NULL,SetResetGlobalsCommand,"SetResetGlobalsCommand",NULL);
-   AddUDF(theEnv,"get-reset-globals","b",0,0,NULL,GetResetGlobalsCommand,"GetResetGlobalsCommand",NULL);
+      AddUDF(theEnv, "set-reset-globals", "b", 1, 1, NULL, SetResetGlobalsCommand, NULL);
+      AddUDF(theEnv, "get-reset-globals", "b", 0, 0, NULL, GetResetGlobalsCommand, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"show-defglobals","v",0,1,"y",ShowDefglobalsCommand,"ShowDefglobalsCommand",NULL);
+       AddUDF(theEnv, "show-defglobals", "v", 0, 1, "y", ShowDefglobalsCommand, NULL);
 #endif
   }
 

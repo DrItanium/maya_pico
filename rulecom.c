@@ -132,32 +132,32 @@
 void DefruleCommands(
   Environment *theEnv)
   {
-   AddUDF(theEnv,"run","v",0,1,"l",RunCommand,"RunCommand",NULL);
-   AddUDF(theEnv,"halt","v",0,0,NULL,HaltCommand,"HaltCommand",NULL);
-   AddUDF(theEnv,"focus","b",1,UNBOUNDED,"y",FocusCommand,"FocusCommand",NULL);
-   AddUDF(theEnv,"clear-focus-stack","v",0,0,NULL,ClearFocusStackCommand,"ClearFocusStackCommand",NULL);
-   AddUDF(theEnv,"get-focus-stack","m",0,0,NULL,GetFocusStackFunction,"GetFocusStackFunction",NULL);
-   AddUDF(theEnv,"pop-focus","y",0,0,NULL,PopFocusFunction,"PopFocusFunction",NULL);
-   AddUDF(theEnv,"get-focus","y",0,0,NULL,GetFocusFunction,"GetFocusFunction",NULL);
+      AddUDF(theEnv, "run", "v", 0, 1, "l", RunCommand, NULL);
+      AddUDF(theEnv, "halt", "v", 0, 0, NULL, HaltCommand, NULL);
+      AddUDF(theEnv, "focus", "b", 1, UNBOUNDED, "y", FocusCommand, NULL);
+      AddUDF(theEnv, "clear-focus-stack", "v", 0, 0, NULL, ClearFocusStackCommand, NULL);
+      AddUDF(theEnv, "get-focus-stack", "m", 0, 0, NULL, GetFocusStackFunction, NULL);
+      AddUDF(theEnv, "pop-focus", "y", 0, 0, NULL, PopFocusFunction, NULL);
+      AddUDF(theEnv, "get-focus", "y", 0, 0, NULL, GetFocusFunction, NULL);
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"set-break","v",1,1,"y",SetBreakCommand,"SetBreakCommand",NULL);
-   AddUDF(theEnv,"remove-break","v",0,1,"y",RemoveBreakCommand,"RemoveBreakCommand",NULL);
-   AddUDF(theEnv,"show-breaks","v",0,1,"y",ShowBreaksCommand,"ShowBreaksCommand",NULL);
-   AddUDF(theEnv,"matches","bm",1,2,"y",MatchesCommand,"MatchesCommand",NULL);
-   AddUDF(theEnv,"join-activity","bm",1,2,"y",JoinActivityCommand,"JoinActivityCommand",NULL);
-   AddUDF(theEnv,"join-activity-reset","v",0,0,NULL,JoinActivityResetCommand,"JoinActivityResetCommand",NULL);
-   AddUDF(theEnv,"list-focus-stack","v",0,0,NULL,ListFocusStackCommand,"ListFocusStackCommand",NULL);
-   AddUDF(theEnv,"dependencies","v",1,1,"infly",DependenciesCommand,"DependenciesCommand",NULL);
-   AddUDF(theEnv,"dependents","v",1,1,"infly",DependentsCommand,"DependentsCommand",NULL);
+       AddUDF(theEnv, "set-break", "v", 1, 1, "y", SetBreakCommand, NULL);
+       AddUDF(theEnv, "remove-break", "v", 0, 1, "y", RemoveBreakCommand, NULL);
+       AddUDF(theEnv, "show-breaks", "v", 0, 1, "y", ShowBreaksCommand, NULL);
+       AddUDF(theEnv, "matches", "bm", 1, 2, "y", MatchesCommand, NULL);
+       AddUDF(theEnv, "join-activity", "bm", 1, 2, "y", JoinActivityCommand, NULL);
+       AddUDF(theEnv, "join-activity-reset", "v", 0, 0, NULL, JoinActivityResetCommand, NULL);
+       AddUDF(theEnv, "list-focus-stack", "v", 0, 0, NULL, ListFocusStackCommand, NULL);
+       AddUDF(theEnv, "dependencies", "v", 1, 1, "infly", DependenciesCommand, NULL);
+       AddUDF(theEnv, "dependents", "v", 1, 1, "infly", DependentsCommand, NULL);
 
-   AddUDF(theEnv,"timetag","l",1,1,"infly" ,TimetagFunction,"TimetagFunction",NULL);
+       AddUDF(theEnv, "timetag", "l", 1, 1, "infly", TimetagFunction, NULL);
 #endif /* DEBUGGING_FUNCTIONS */
 
-   AddUDF(theEnv,"get-beta-memory-resizing","b",0,0,NULL,GetBetaMemoryResizingCommand,"GetBetaMemoryResizingCommand",NULL);
-   AddUDF(theEnv,"set-beta-memory-resizing","b",1,1,NULL,SetBetaMemoryResizingCommand,"SetBetaMemoryResizingCommand",NULL);
+       AddUDF(theEnv, "get-beta-memory-resizing", "b", 0, 0, NULL, GetBetaMemoryResizingCommand, NULL);
+       AddUDF(theEnv, "set-beta-memory-resizing", "b", 1, 1, NULL, SetBetaMemoryResizingCommand, NULL);
 
-   AddUDF(theEnv,"get-strategy","y",0,0,NULL,GetStrategyCommand,"GetStrategyCommand",NULL);
-   AddUDF(theEnv,"set-strategy","y",1,1,"y",SetStrategyCommand,"SetStrategyCommand",NULL);
+       AddUDF(theEnv, "get-strategy", "y", 0, 0, NULL, GetStrategyCommand, NULL);
+       AddUDF(theEnv, "set-strategy", "y", 1, 1, "y", SetStrategyCommand, NULL);
 
 #if DEVELOPER
    AddUDF(theEnv,"rule-complexity","l",1,1,"y",RuleComplexityCommand,"RuleComplexityCommand",NULL);

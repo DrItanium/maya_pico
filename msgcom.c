@@ -181,29 +181,28 @@ void SetupMessageHandlers(
 
    AddConstruct(theEnv,"defmessage-handler","defmessage-handlers",
                 ParseDefmessageHandler,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-   AddUDF(theEnv,"undefmessage-handler","v",2,3,"y",UndefmessageHandlerCommand,"UndefmessageHandlerCommand",NULL);
+      AddUDF(theEnv, "undefmessage-handler", "v", 2, 3, "y", UndefmessageHandlerCommand, NULL);
 
-
-   AddUDF(theEnv,"send","*",2,UNBOUNDED,"*;*;y",SendCommand,"SendCommand",NULL);
+      AddUDF(theEnv, "send", "*", 2, UNBOUNDED, "*;*;y", SendCommand, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"preview-send","v",2,2,"y",PreviewSendCommand,"PreviewSendCommand",NULL);
+       AddUDF(theEnv, "preview-send", "v", 2, 2, "y", PreviewSendCommand, NULL);
 
-   AddUDF(theEnv,"ppdefmessage-handler","v",2,4,"y",PPDefmessageHandlerCommand,"PPDefmessageHandlerCommand",NULL);
-   AddUDF(theEnv,"list-defmessage-handlers","v",0,2,"y",ListDefmessageHandlersCommand,"ListDefmessageHandlersCommand",NULL);
+       AddUDF(theEnv, "ppdefmessage-handler", "v", 2, 4, "y", PPDefmessageHandlerCommand, NULL);
+       AddUDF(theEnv, "list-defmessage-handlers", "v", 0, 2, "y", ListDefmessageHandlersCommand, NULL);
 #endif
 
-   AddUDF(theEnv,"next-handlerp","b",0,0,NULL,NextHandlerAvailableFunction,"NextHandlerAvailableFunction",NULL);
+       AddUDF(theEnv, "next-handlerp", "b", 0, 0, NULL, NextHandlerAvailableFunction, NULL);
    FuncSeqOvlFlags(theEnv,"next-handlerp",true,false);
-   AddUDF(theEnv,"call-next-handler","*",0,0,NULL,CallNextHandler,"CallNextHandler",NULL);
+       AddUDF(theEnv, "call-next-handler", "*", 0, 0, NULL, CallNextHandler, NULL);
    FuncSeqOvlFlags(theEnv,"call-next-handler",true,false);
-   AddUDF(theEnv,"override-next-handler","*",0,UNBOUNDED,NULL,CallNextHandler,"CallNextHandler",NULL);
+       AddUDF(theEnv, "override-next-handler", "*", 0, UNBOUNDED, NULL, CallNextHandler, NULL);
    FuncSeqOvlFlags(theEnv,"override-next-handler",true,false);
 
-   AddUDF(theEnv,"dynamic-get","*",1,1,"y",DynamicHandlerGetSlot,"DynamicHandlerGetSlot",NULL);
-   AddUDF(theEnv,"dynamic-put","*",1,UNBOUNDED,"*;y",DynamicHandlerPutSlot,"DynamicHandlerPutSlot",NULL);
-   AddUDF(theEnv,"get","*",1,1,"y",DynamicHandlerGetSlot,"DynamicHandlerGetSlot",NULL);
-   AddUDF(theEnv,"put","*",1,UNBOUNDED,"*;y",DynamicHandlerPutSlot,"DynamicHandlerPutSlot",NULL);
+       AddUDF(theEnv, "dynamic-get", "*", 1, 1, "y", DynamicHandlerGetSlot, NULL);
+       AddUDF(theEnv, "dynamic-put", "*", 1, UNBOUNDED, "*;y", DynamicHandlerPutSlot, NULL);
+       AddUDF(theEnv, "get", "*", 1, 1, "y", DynamicHandlerGetSlot, NULL);
+       AddUDF(theEnv, "put", "*", 1, UNBOUNDED, "*;y", DynamicHandlerPutSlot, NULL);
 
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"messages",0,&MessageHandlerData(theEnv)->WatchMessages,36,NULL,NULL);

@@ -110,14 +110,14 @@ void DefruleBasicCommands(
    AddWatchItem(theEnv,"rules",0,&DefruleData(theEnv)->WatchRules,70,DefruleWatchAccess,DefruleWatchPrint);
 #endif
 
-   AddUDF(theEnv,"get-defrule-list","m",0,1,"y",GetDefruleListFunction,"GetDefruleListFunction",NULL);
-   AddUDF(theEnv,"undefrule","v",1,1,"y",UndefruleCommand,"UndefruleCommand",NULL);
-   AddUDF(theEnv,"defrule-module","y",1,1,"y",DefruleModuleFunction,"DefruleModuleFunction",NULL);
+       AddUDF(theEnv, "get-defrule-list", "m", 0, 1, "y", GetDefruleListFunction, NULL);
+       AddUDF(theEnv, "undefrule", "v", 1, 1, "y", UndefruleCommand, NULL);
+       AddUDF(theEnv, "defrule-module", "y", 1, 1, "y", DefruleModuleFunction, NULL);
 
 #if DEBUGGING_FUNCTIONS
-   AddUDF(theEnv,"rules","v",0,1,"y",ListDefrulesCommand,"ListDefrulesCommand",NULL);
-   AddUDF(theEnv,"list-defrules","v",0,1,"y",ListDefrulesCommand,"ListDefrulesCommand",NULL);
-   AddUDF(theEnv,"ppdefrule","vs",1,2,";y;ldsyn",PPDefruleCommand,"PPDefruleCommand",NULL);
+       AddUDF(theEnv, "rules", "v", 0, 1, "y", ListDefrulesCommand, NULL);
+       AddUDF(theEnv, "list-defrules", "v", 0, 1, "y", ListDefrulesCommand, NULL);
+       AddUDF(theEnv, "ppdefrule", "vs", 1, 2, ";y;ldsyn", PPDefruleCommand, NULL);
 #endif
 
 #if (BLOAD || BLOAD_AND_BSAVE)
