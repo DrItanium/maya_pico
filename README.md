@@ -28,3 +28,5 @@ Here is what is different (not exhaustive):
   - Routines from boost are pulled in to provide even better string and filesystem support (has-prefix, filep, etc)
   - New functional and multifield (empty$) routines are also provided
 
+My maya fork was originally known as the electron platform but I renamed it to maya because... well I can't remember 
+exactly why at this point in time.
