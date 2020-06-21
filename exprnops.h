@@ -46,7 +46,7 @@
 
 #define _H_exprnops
 
-#include "expressn.h"
+#include "expression.h"
 
    bool                           ConstantExpression(struct expr *);
    void                           PrintExpression(Environment *,const char *,struct expr *);

@@ -73,7 +73,7 @@ typedef struct classAlphaLink CLASS_ALPHA_LINK;
 #define OBJECT_MODIFY  3
 
 #include "evaluatn.h"
-#include "expressn.h"
+#include "expression.h"
 #include "match.h"
 #include "network.h"
 #include "object.h"

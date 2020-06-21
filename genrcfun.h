@@ -70,7 +70,7 @@ typedef struct defgeneric Defgeneric;
 
 #include "entities.h"
 #include "constrct.h"
-#include "expressn.h"
+#include "expression.h"
 #include "evaluatn.h"
 #include "moduldef.h"
 #include "symbol.h"

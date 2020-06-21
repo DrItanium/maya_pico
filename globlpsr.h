@@ -47,7 +47,7 @@
 
 #define _H_globlpsr
 
-#include "expressn.h"
+#include "expression.h"
 
    bool                    ParseDefglobal(Environment *,const char *);
    bool                    ReplaceGlobalVariable(Environment *,struct expr *);

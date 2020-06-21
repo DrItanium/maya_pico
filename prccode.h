@@ -59,7 +59,7 @@
 
 #define _H_prccode
 
-#include "expressn.h"
+#include "expression.h"
 #include "evaluatn.h"
 #include "moduldef.h"
 #include "scanner.h"

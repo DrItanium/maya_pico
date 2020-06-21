@@ -80,7 +80,7 @@
 #include "constrct.h"
 #include "dffnxfun.h"
 #include "environment.h"
-#include "expressn.h"
+#include "expression.h"
 #include "exprnpsr.h"
 #include "memalloc.h"
 #include "modulutl.h"

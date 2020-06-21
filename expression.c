@@ -58,7 +58,7 @@
 #include "prntutil.h"
 #include "router.h"
 
-#include "expressn.h"
+#include "expression.h"
 
 #define PRIME_ONE   257
 #define PRIME_TWO   263

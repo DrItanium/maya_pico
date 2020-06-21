@@ -49,7 +49,7 @@
 
 struct exprHashNode;
 typedef struct savedContexts SavedContexts;
-
+#include <stdio.h>
 #include "entities.h"
 #include "exprnops.h"
 #include "constrct.h"
@@ -141,7 +141,16 @@ struct expressionData
 #if BLOAD_AND_BSAVE || BLOAD
    unsigned long                  HashedExpressionIndex(Environment *,Expression *);
 #endif
+#define ExpressionPointer(i) ((struct expr *) (((i) == ULONG_MAX) ? NULL : &ExpressionData(theEnv)->ExpressionArray[i]))
+#define HashedExpressionPointer(i) ExpressionPointer(i)
 
+   void                        AllocateExpressions(Environment *);
+   void                        RefreshExpressions(Environment *);
+   void                        ClearBloadedExpressions(Environment *);
+   void                        FindHashedExpressions(Environment *);
+   void                        BsaveHashedExpressions(Environment *,FILE *);
+   void                        BsaveConstructExpressions(Environment *,FILE *);
+   void                        BsaveExpression(Environment *,struct expr *,FILE *);
 #endif
 
 

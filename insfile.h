@@ -55,7 +55,7 @@
 
 #define _H_insfile
 
-#include "expressn.h"
+#include "expression.h"
 
 #define INSTANCE_FILE_DATA 30
 

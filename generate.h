@@ -44,7 +44,7 @@
 #define _H_generate
 
 #include "analysis.h"
-#include "expressn.h"
+#include "expression.h"
 #include "reorder.h"
 
    void                           FieldConversion(Environment *,struct lhsParseNode *,struct lhsParseNode *,struct nandFrame *);

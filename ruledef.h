@@ -80,7 +80,7 @@ typedef struct defrule Defrule;
 struct defruleModule;
 
 #include "constrct.h"
-#include "expressn.h"
+#include "expression.h"
 #include "network.h"
 #include "ruledef.h"
 #include "symbol.h"

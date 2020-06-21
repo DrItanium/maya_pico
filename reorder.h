@@ -57,7 +57,7 @@
 
 struct lhsParseNode;
 
-#include "expressn.h"
+#include "expression.h"
 #include "pattern.h"
 #include "ruledef.h"
 

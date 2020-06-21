@@ -48,7 +48,7 @@
 
 #define _H_inspsr
 
-#include "expressn.h"
+#include "expression.h"
 
    Expression                    *ParseInitializeInstance(Environment *,Expression *,const char *);
    Expression                    *ParseSlotOverrides(Environment *,const char *,bool *);

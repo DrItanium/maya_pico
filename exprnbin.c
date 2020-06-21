@@ -69,7 +69,7 @@
 #include "inscom.h"
 #endif
 
-#include "exprnbin.h"
+#include "expression.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

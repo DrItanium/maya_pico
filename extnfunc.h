@@ -61,7 +61,7 @@
 #include "entities.h"
 
 #include "evaluatn.h"
-#include "expressn.h"
+#include "expression.h"
 #include "symbol.h"
 #include "userdata.h"
 

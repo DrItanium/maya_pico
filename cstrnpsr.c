@@ -51,7 +51,7 @@
 #include "cstrnchk.h"
 #include "cstrnutl.h"
 #include "environment.h"
-#include "expressn.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "pprint.h"
 #include "prntutil.h"

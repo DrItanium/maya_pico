@@ -44,7 +44,7 @@
 
 #define _H_drive
 
-#include "expressn.h"
+#include "expression.h"
 #include "match.h"
 #include "network.h"
 

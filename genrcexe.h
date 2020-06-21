@@ -49,7 +49,7 @@
 #if DEFGENERIC_CONSTRUCT
 
 #include "evaluatn.h"
-#include "expressn.h"
+#include "expression.h"
 #include "genrcfun.h"
 
    void                           GenericDispatch(Environment *,Defgeneric *,Defmethod *,Defmethod *,Expression *,UDFValue *);

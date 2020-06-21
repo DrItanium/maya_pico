@@ -55,7 +55,7 @@
 
 #include "utility.h"
 #include "extnfunc.h"
-#include "exprnbin.h"
+#include "expression.h"
 #include "symbol.h"
 #include "sysdep.h"
 #include "symblbin.h"

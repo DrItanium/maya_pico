@@ -40,7 +40,7 @@
 
 #define _H_analysis
 
-#include "expressn.h"
+#include "expression.h"
 #include "reorder.h"
 
 /*****************************************************/

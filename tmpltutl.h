@@ -56,7 +56,7 @@
 
 #include "constrnt.h"
 #include "evaluatn.h"
-#include "expressn.h"
+#include "expression.h"
 #include "fact.h"
 #include "symbol.h"
 

@@ -79,7 +79,7 @@
 #include "constant.h"
 #include "cstrnchk.h"
 #include "environment.h"
-#include "expressn.h"
+#include "expression.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"

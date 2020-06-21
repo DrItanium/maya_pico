@@ -14,7 +14,7 @@ struct factPatternNode;
 #include "network.h"
 #include "entities.h"
 #include "tmpltdef.h"
-#include "expressn.h"
+#include "expression.h"
 #include "evaluatn.h"
 #include "scanner.h"
 #include "symbol.h"
