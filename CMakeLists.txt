@@ -156,8 +156,8 @@ add_library(clips
         UserFunctions.c
         Utility.c
         Watch.c)
-add_library(maya_extensions boost.cc
-        functional.cpp
+add_library(maya_extensions BoostExtensions.cc
+        FunctionalExtensions.cpp
         maya.c)
 
 # TODO express the configurable dependencies in setup.h using CMAKE instead

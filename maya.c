@@ -27,11 +27,11 @@
 #include "mayasetup.h"
 
 #if BOOST_EXTENSIONS
-#include "boost.h"
+#include "BoostExtensions.h"
 #endif
 
 #if FUNCTIONAL_EXTENSIONS
-#include "functional.h"
+#include "FunctionalExtensions.h"
 #endif
 
 #if !MAYA_EXTENSIONS

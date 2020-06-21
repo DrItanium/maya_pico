@@ -24,7 +24,7 @@ extern "C" {
 #include "clips.h"
 }
 #include "mayasetup.h"
-#include "functional.h"
+#include "FunctionalExtensions.h"
 #include <functional>
 #include <string>
 

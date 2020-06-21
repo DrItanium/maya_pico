@@ -24,7 +24,7 @@ extern "C" {
 #include "clips.h"
 }
 #include "mayasetup.h"
-#include "boost.h"
+#include "BoostExtensions.h"
 #include <string>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/trim.hpp>
