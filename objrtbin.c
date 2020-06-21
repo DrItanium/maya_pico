@@ -49,7 +49,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (BLOAD || BLOAD_AND_BSAVE)
 
 #include "bload.h"
 #include "bsave.h"
@@ -170,7 +170,7 @@ void SetupObjectPatternsBload(
 static void DeallocateObjectReteBinaryData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    size_t space;
    unsigned long i;
 

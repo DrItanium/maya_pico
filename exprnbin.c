@@ -29,7 +29,7 @@
 
 #include "setup.h"
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -527,5 +527,5 @@ void BsaveExpression(
 
 #endif /* BLOAD_AND_BSAVE */
 
-#endif /* (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) */
+#endif /* (BLOAD || BLOAD_AND_BSAVE) */
 

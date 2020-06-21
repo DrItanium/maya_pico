@@ -256,7 +256,7 @@ void InitializeFacts(
    /* with the bload/bsave commands.   */
    /*==================================*/
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    FactBinarySetup(theEnv);
 #endif
 

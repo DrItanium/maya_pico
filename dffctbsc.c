@@ -111,7 +111,7 @@ void DeffactsBasicCommands(
    AddUDF(theEnv,"ppdeffacts","vs",1,2,";y;ldsyn",PPDeffactsCommand,"PPDeffactsCommand",NULL);
 #endif
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    DeffactsBinarySetup(theEnv);
 #endif
 

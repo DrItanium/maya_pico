@@ -42,7 +42,7 @@
 
 #include "setup.h"
 
-#if DEFRULE_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if DEFRULE_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 #include <string.h>
@@ -116,7 +116,7 @@ void DefruleBinarySetup(
 static void DeallocateDefruleBloadData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    size_t space;
    unsigned long i;
    struct defruleModule *theModuleItem;
@@ -1131,6 +1131,6 @@ void *BloadDefruleModuleReference(
    return ((void *) &DefruleBinaryData(theEnv)->ModuleArray[theIndex]);
   }
 
-#endif /* DEFRULE_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) */
+#endif /* DEFRULE_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
 
 

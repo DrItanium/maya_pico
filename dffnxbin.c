@@ -38,7 +38,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
 #include "bload.h"
 #include "bsave.h"
@@ -137,7 +137,7 @@ static void DeallocateDeffunctionBloadData(
   {
    size_t space;
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    space = DeffunctionBinaryData(theEnv)->DeffunctionCount * sizeof(Deffunction);
    if (space != 0) genfree(theEnv,DeffunctionBinaryData(theEnv)->DeffunctionArray,space);
 

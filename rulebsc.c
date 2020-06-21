@@ -120,7 +120,7 @@ void DefruleBasicCommands(
    AddUDF(theEnv,"ppdefrule","vs",1,2,";y;ldsyn",PPDefruleCommand,"PPDefruleCommand",NULL);
 #endif
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    DefruleBinarySetup(theEnv);
 #endif
 

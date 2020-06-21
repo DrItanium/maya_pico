@@ -37,7 +37,7 @@
 
 #define _H_dffnxbin
 
-#if DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
 #include "dffnxfun.h"
 
@@ -58,7 +58,7 @@ struct deffunctionBinaryData
 
 #define DeffunctionPointer(i) (((i) == ULONG_MAX) ? NULL : &DeffunctionBinaryData(theEnv)->DeffunctionArray[i])
 
-#endif /* DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) */
+#endif /* DEFFUNCTION_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
 
 #endif /* _H_dffnxbin */
 

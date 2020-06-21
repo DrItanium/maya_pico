@@ -132,7 +132,7 @@ static void DeallocateConstraintData(
    rm(theEnv,ConstraintData(theEnv)->ConstraintHashtable,
       sizeof(struct constraintRecord *) * SIZE_CONSTRAINT_HASH);
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    if (ConstraintData(theEnv)->NumberOfConstraints != 0)
      {
       genfree(theEnv,ConstraintData(theEnv)->ConstraintArray,

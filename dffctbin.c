@@ -29,7 +29,7 @@
 
 #include "setup.h"
 
-#if DEFFACTS_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if DEFFACTS_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -472,6 +472,6 @@ void *BloadDeffactsModuleReference(
    return (void *) &DeffactsBinaryData(theEnv)->ModuleArray[theIndex];
   }
 
-#endif /* DEFFACTS_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) */
+#endif /* DEFFACTS_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
 
 

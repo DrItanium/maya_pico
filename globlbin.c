@@ -95,7 +95,7 @@ void DefglobalBinarySetup(
 static void DeallocateDefglobalBloadData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    size_t space;
    unsigned long i;
 

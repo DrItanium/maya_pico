@@ -39,7 +39,7 @@
 
 #include "setup.h"
 
-#if DEFGENERIC_CONSTRUCT && (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if DEFGENERIC_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
 
 #include "bload.h"
 #include "bsave.h"
@@ -170,7 +170,7 @@ void SetupGenericsBload(
 static void DeallocateDefgenericBinaryData(
   Environment *theEnv)
   {
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    size_t space;
 
    space = DefgenericBinaryData(theEnv)->GenericCount * sizeof(Defgeneric);

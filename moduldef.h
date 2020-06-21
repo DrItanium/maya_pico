@@ -221,7 +221,7 @@ struct defmoduleData
    unsigned short NumberOfDefmodules;
    struct voidCallFunctionItem *AfterModuleDefinedFunctions;
 #endif
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    unsigned long BNumberOfDefmodules;
    unsigned long NumberOfPortItems;
    struct portItem *PortItemArray;

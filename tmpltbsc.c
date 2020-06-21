@@ -109,7 +109,7 @@ void DeftemplateBasicCommands(
    AddUDF(theEnv,"ppdeftemplate","vs",1,2,";y;ldsyn",PPDeftemplateCommand,"PPDeftemplateCommand",NULL);
 #endif
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
    DeftemplateBinarySetup(theEnv);
 #endif
 

@@ -31,7 +31,7 @@
 
 #include "setup.h"
 
-#if (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE)
+#if (BLOAD || BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -602,6 +602,6 @@ static void ClearBload(
    DefmoduleData(theEnv)->MainModuleRedefinable = true;
   }
 
-#endif /*  (BLOAD || BLOAD_ONLY || BLOAD_AND_BSAVE) */
+#endif /*  (BLOAD || BLOAD_AND_BSAVE) */
 
 
