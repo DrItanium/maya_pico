@@ -1211,6 +1211,6 @@ void PropagatePatternType(
      }
   }
 
-#endif /* (! BLOAD_ONLY) &&  DEFRULE_CONSTRUCT */
+#endif /* DEFRULE_CONSTRUCT */
 
 

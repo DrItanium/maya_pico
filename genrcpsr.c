@@ -1606,7 +1606,7 @@ static Defgeneric *NewGeneric(
    return(ngen);
   }
 
-#endif /* DEFGENERIC_CONSTRUCT && (! BLOAD_ONLY) */
+#endif /* DEFGENERIC_CONSTRUCT */
 
 /***************************************************
   NAME         :

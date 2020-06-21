@@ -452,7 +452,7 @@ void *BloadDefglobalModuleReference(
    return (void *) &DefglobalBinaryData(theEnv)->ModuleArray[theIndex];
   }
 
-#endif /* DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY) */
+#endif /* DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
 
 
 

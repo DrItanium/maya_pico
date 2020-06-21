@@ -244,7 +244,7 @@ struct lhsParseNode *FactPatternParse(
    return(SequenceRestrictionParse(theEnv,readSource,theToken));
   }
 
-#endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! BLOAD_ONLY) */
+#endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT */
 
 
 

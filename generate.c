@@ -1074,6 +1074,6 @@ static bool AllVariablesInExpression(
    return true;
   }
 
-#endif /* (! BLOAD_ONLY) && DEFRULE_CONSTRUCT */
+#endif /* DEFRULE_CONSTRUCT */
 
 

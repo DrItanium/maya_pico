@@ -457,7 +457,7 @@ unsigned long HashedExpressionIndex(
    return((exphash != NULL) ? exphash->bsaveID : ULONG_MAX);
   }
 
-#endif /* (BLOAD_AND_BSAVE || BLOAD_ONLY || BLOAD) */
+#endif /* (BLOAD_AND_BSAVE || BLOAD) */
 
 /********************************************************/
 /* SetSequenceOperatorRecognition: C access routine     */

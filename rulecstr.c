@@ -874,4 +874,4 @@ static bool CheckArgumentForConstraintError(
    return(rv);
   }
 
-#endif /* (! BLOAD_ONLY) && DEFRULE_CONSTRUCT */
+#endif /* DEFRULE_CONSTRUCT */

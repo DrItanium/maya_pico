@@ -508,5 +508,5 @@ static Deffunction *AddDeffunction(
    return dfuncPtr;
   }
 
-#endif /* DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY) */
+#endif /* DEFFUNCTION_CONSTRUCT */
 

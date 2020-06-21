@@ -374,6 +374,6 @@ static bool MultiplyDefinedLHSSlots(
    return false;
   }
 
-#endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT && (! BLOAD_ONLY) */
+#endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT */
 
 
