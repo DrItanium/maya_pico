@@ -209,6 +209,12 @@ struct udfContext {
     UDFValue *returnValue;
 };
 
+typedef void EntityRecordPropagateDepthFunction(void*, void*);
+typedef void EntityRecordMarkNeededFunction(void*, void*);
+typedef void EntityRecordInstallFunction(void*, void*);
+typedef void EntityRecordDeinstallFunction(void*, void*);
+typedef bool EntityRecordDeleteFunction(void*, Environment*);
+typedef void* EntityRecordGetNextFunction(void*, void*);
 /****************/
 /* entityRecord */
 /****************/
@@ -220,15 +226,15 @@ struct entityRecord {
     unsigned int addsToRuleComplexity: 1;
     EntityPrintFunction *shortPrintFunction;
     EntityPrintFunction *longPrintFunction;
-    bool (*deleteFunction)(void *, Environment *);
+    EntityRecordDeleteFunction* deleteFunction;
     EntityEvaluationFunction *evaluateFunction;
-    void *(*getNextFunction)(void *, void *);
+    EntityRecordGetNextFunction* getNextFunction;
     EntityBusyCountFunction *decrementBusyCount;
     EntityBusyCountFunction *incrementBusyCount;
-    void (*propagateDepth)(void *, void *);
-    void (*markNeeded)(void *, void *);
-    void (*install)(void *, void *);
-    void (*deinstall)(void *, void *);
+    EntityRecordPropagateDepthFunction* propagateDepth;
+    EntityRecordMarkNeededFunction* markNeeded;
+    EntityRecordInstallFunction* install;
+    EntityRecordDeinstallFunction* deinstall;
     struct userData *usrData;
 };
 
