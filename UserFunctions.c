@@ -49,7 +49,7 @@
 /***************************************************************************/
 
 #include "clips.h"
-#include "maya.h"
+#include "MayaExtensions.h"
 
 void UserFunctions(Environment *);
 

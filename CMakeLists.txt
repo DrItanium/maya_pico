@@ -157,7 +157,7 @@ add_library(clips
         Watch.c)
 add_library(maya_extensions BoostExtensions.cc
         FunctionalExtensions.cpp
-        maya.c)
+        MayaExtensions.c)
 
 # TODO express the configurable dependencies in setup.h using CMAKE instead
 add_executable(maya cmd/repl/main.c)

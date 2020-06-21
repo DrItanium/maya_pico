@@ -23,7 +23,7 @@
 #include "clips.h"
 #include "MiscFunctions.h"
 #include "ExternalFunctions.h"
-#include "maya.h"
+#include "MayaExtensions.h"
 #include "mayasetup.h"
 
 #if BOOST_EXTENSIONS
