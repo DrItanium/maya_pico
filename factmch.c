@@ -808,11 +808,9 @@ static bool SkipFactPatternNode(
   Environment *theEnv,
   struct factPatternNode *thePattern)
   {
-#if (! BLOAD_ONLY)
    if (EngineData(theEnv)->IncrementalResetInProgress &&
        (thePattern->header.initialize == false))
      { return true; }
-#endif
 
    return false;
   }

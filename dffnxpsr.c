@@ -60,7 +60,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if DEFFUNCTION_CONSTRUCT && (! BLOAD_ONLY)
+#if DEFFUNCTION_CONSTRUCT
 
 #if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"

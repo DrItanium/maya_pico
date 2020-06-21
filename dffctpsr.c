@@ -70,7 +70,6 @@ bool ParseDeffacts(
   Environment *theEnv,
   const char *readSource)
   {
-#if (! BLOAD_ONLY)
    CLIPSLexeme *deffactsName;
    struct expr *temp;
    Deffacts *newDeffacts;
@@ -164,8 +163,6 @@ bool ParseDeffacts(
    /*=============================================*/
 
    AddConstructToModule(&newDeffacts->header);
-
-#endif /* (! BLOAD_ONLY) */
 
    /*================================================================*/
    /* Return false to indicate the deffacts was successfully parsed. */

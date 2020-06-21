@@ -1039,7 +1039,6 @@ static Deftemplate *BloadFactsCreateImpliedDeftemplate(
   Environment *theEnv,
   CLIPSLexeme *deftemplateName)
   {
-#if (! BLOAD_ONLY)
 
 #if BLOAD || BLOAD_AND_BSAVE
    if (Bloaded(theEnv))
@@ -1057,10 +1056,6 @@ static Deftemplate *BloadFactsCreateImpliedDeftemplate(
 #endif
    return CreateImpliedDeftemplate(theEnv,deftemplateName,true);
 
-#else
-   CantFindItemInFunctionErrorMessage(theEnv,"deftemplate",deftemplateName->contents,"bload-facts",true);
-   return NULL;
-#endif
   }
 
 /***************************************************

@@ -74,7 +74,7 @@ void DeffactsBinarySetup(
                              ClearBload);
 #endif
 
-#if (BLOAD || BLOAD_ONLY)
+#if BLOAD
    AddBinaryItem(theEnv,"deffacts",0,NULL,NULL,NULL,NULL,
                              BloadStorage,BloadBinaryItem,
                              ClearBload);

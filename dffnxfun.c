@@ -357,9 +357,6 @@ bool Undeffunction(
   Deffunction *theDeffunction,
   Environment *allEnv)
   {   
-#if BLOAD_ONLY
-   return false;
-#else
    Environment *theEnv;
    bool success;
    GCBlock gcb;
@@ -393,7 +390,6 @@ bool Undeffunction(
    GCBlockEnd(theEnv,&gcb);
 
    return true;
-#endif
   }
 
 /****************************************************

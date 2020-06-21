@@ -129,9 +129,7 @@ struct deffunctionData
    void                           GetDeffunctionModuleCommand(Environment *,UDFContext *,UDFValue *);
    Deffunction                   *LookupDeffunctionByMdlOrScope(Environment *,const char *);
    Deffunction                   *LookupDeffunctionInScope(Environment *,const char *);
-#if (! BLOAD_ONLY)
    void                           RemoveDeffunction(Environment *,Deffunction *);
-#endif
    void                           SetupDeffunctions(Environment *);
    void                           UndeffunctionCommand(Environment *,UDFContext *,UDFValue *);
 #if DEBUGGING_FUNCTIONS
