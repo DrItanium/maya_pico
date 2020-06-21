@@ -6,10 +6,11 @@
 #define MAYA_FACTEXTENSIONS_H
 
 extern "C" {
-    #include "Environment.h"
-    #include "Fact.h"
+#include "Environment.h"
+#include "Fact.h"
 }
 #include <string>
+#include <tuple>
 #include "FunctionalExtensions.h"
 
 namespace maya {
@@ -33,7 +34,6 @@ namespace maya {
         X(Instance, Instance*);
         X(Multifield, Multifield*);
 #undef X
-        inline FactBuilderError error() noexcept { return FBError(&_env); }
 #define X(kind) \
     inline PutSlotError putSlot(const std::string& slotName, const std::string& value, TreatLexemeAs ## kind ) noexcept {  \
         return FBPutSlot ## kind (_contents, slotName.c_str(), value.c_str()); \
@@ -42,10 +42,10 @@ namespace maya {
         X(String);
         X(InstanceName);
 #undef X
+        inline FactBuilderError error() noexcept { return FBError(&_env); }
     private:
         ::Environment& _env;
         ::FactBuilder* _contents = nullptr;
-
     };
 
 } // end namespace maya
