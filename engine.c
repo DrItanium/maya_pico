@@ -96,7 +96,7 @@
 
 #include "agenda.h"
 #include "argacces.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "constant.h"
 #include "environment.h"
 #include "fact.h"

@@ -40,7 +40,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "cstrcpsr.h"
 #include "memalloc.h"
 #include "prcdrfun.h"

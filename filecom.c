@@ -81,7 +81,7 @@
 #include "bload.h"
 #include "bsave.h"
 #endif
-#include "commline.h"
+#include "CommandLine.h"
 #include "cstrcpsr.h"
 #include "environment.h"
 #include "ExternalFunctions.h"

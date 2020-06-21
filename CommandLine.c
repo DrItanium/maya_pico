@@ -115,7 +115,7 @@
 #include "sysdep.h"
 #include "utility.h"
 
-#include "commline.h"
+#include "CommandLine.h"
 
 /***************/
 /* DEFINITIONS */

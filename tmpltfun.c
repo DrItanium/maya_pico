@@ -103,7 +103,7 @@
 #include <string.h>
 
 #include "argacces.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "constant.h"
 #include "cstrnchk.h"
 #include "default.h"

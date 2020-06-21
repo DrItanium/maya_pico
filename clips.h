@@ -42,7 +42,7 @@
 #include "fileutil.h"
 #include "strngfun.h"
 #include "environment.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "symbol.h"
 
 #include "prntutil.h"

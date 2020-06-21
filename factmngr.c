@@ -123,7 +123,7 @@
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
 #include "fact.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "default.h"
 #include "engine.h"
 #include "lgcldpnd.h"

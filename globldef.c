@@ -74,7 +74,7 @@
 #include "bload.h"
 #include "globlbin.h"
 #endif
-#include "commline.h"
+#include "CommandLine.h"
 #include "environment.h"
 #include "globlbsc.h"
 #include "globlcom.h"

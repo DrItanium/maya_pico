@@ -67,7 +67,7 @@
 #include "setup.h"
 
 #include "bmathfun.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "emathfun.h"
 #include "engine.h"
 #include "filecom.h"

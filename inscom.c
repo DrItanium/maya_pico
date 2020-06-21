@@ -85,7 +85,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "classinf.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "environment.h"
 #include "expression.h"
 #include "evaluation.h"

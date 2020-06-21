@@ -89,7 +89,7 @@
 #include <string.h>
 
 #include "argacces.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
 #include "engine.h"

@@ -86,7 +86,7 @@
 #include "setup.h"
 
 #include "argacces.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "constant.h"
 #include "cstrcpsr.h"
 #include "environment.h"

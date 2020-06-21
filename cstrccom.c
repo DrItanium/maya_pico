@@ -79,7 +79,7 @@
 #include "prntutil.h"
 #include "router.h"
 #include "utility.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "sysdep.h"
 
 #if BLOAD || BLOAD_AND_BSAVE

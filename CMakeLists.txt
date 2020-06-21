@@ -17,7 +17,7 @@ add_library(clips
 	classini.c
 	classpsr.c
 	clsltpsr.c
-	commline.c
+        CommandLine.c
 	constrct.c
 	constrnt.c
 	crstrtgy.c

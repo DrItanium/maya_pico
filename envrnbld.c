@@ -26,7 +26,7 @@
 #include "setup.h"
 
 #include "bmathfun.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "emathfun.h"
 #include "environment.h"
 #include "engine.h"

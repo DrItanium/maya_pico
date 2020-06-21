@@ -75,7 +75,7 @@
 #include "argacces.h"
 #include "classcom.h"
 #include "classfun.h"
-#include "commline.h"
+#include "CommandLine.h"
 #include "constrct.h"
 #include "environment.h"
 #include "expression.h"
