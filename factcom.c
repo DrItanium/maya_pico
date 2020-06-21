@@ -92,7 +92,7 @@
 
 #include "argacces.h"
 #include "ExternalFunctions.h"
-#include "fact.h"
+#include "Fact.h"
 #include "multifld.h"
 #include "pprint.h"
 #include "prntutil.h"

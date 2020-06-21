@@ -12,7 +12,7 @@ struct factPatternNode;
 
 #include "setup.h"
 #include "network.h"
-#include "entities.h"
+#include "Entities.h"
 #include "tmpltdef.h"
 #include "Expression.h"
 #include "Evaluation.h"

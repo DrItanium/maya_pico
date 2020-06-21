@@ -130,7 +130,7 @@
 #endif
 
 #if DEFTEMPLATE_CONSTRUCT
-#include "fact.h"
+#include "Fact.h"
 #include "tmpltutl.h"
 #endif
 

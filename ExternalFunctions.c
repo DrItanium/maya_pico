@@ -62,7 +62,7 @@
 #include "constant.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "router.h"
 

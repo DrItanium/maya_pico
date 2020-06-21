@@ -52,7 +52,7 @@
 #include <stdio.h>
 
 #include "Evaluation.h"
-#include "entities.h"
+#include "Entities.h"
 
 
 #ifndef _H_symbol

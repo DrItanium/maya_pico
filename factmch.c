@@ -55,10 +55,10 @@
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
 #include "drive.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "fact.h"
+#include "Fact.h"
 #include "incrrset.h"
 #include "memalloc.h"
 #include "prntutil.h"

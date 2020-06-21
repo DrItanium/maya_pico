@@ -53,7 +53,7 @@
 #include "cstrnutl.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "fact.h"
+#include "Fact.h"
 #include "inscom.h"
 #include "multifld.h"
 #include "pprint.h"

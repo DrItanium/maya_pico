@@ -44,7 +44,7 @@
 #include "bload.h"
 #endif
 #include "cstrcpsr.h"
-#include "fact.h"
+#include "Fact.h"
 #include "insmngr.h"
 #include "memalloc.h"
 #include "modulpsr.h"

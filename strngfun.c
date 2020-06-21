@@ -92,7 +92,7 @@
 #include "CommandLine.h"
 #include "constrct.h"
 #include "cstrcpsr.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "ExternalFunctions.h"

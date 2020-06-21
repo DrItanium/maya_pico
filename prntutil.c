@@ -79,7 +79,7 @@
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "Evaluation.h"
-#include "fact.h"
+#include "Fact.h"
 #include "inscom.h"
 #include "insmngr.h"
 #include "memalloc.h"

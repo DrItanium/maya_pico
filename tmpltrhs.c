@@ -45,7 +45,7 @@
 
 #include "default.h"
 #include "ExternalFunctions.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pprint.h"

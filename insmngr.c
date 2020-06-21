@@ -77,7 +77,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "cstrnchk.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "insfun.h"

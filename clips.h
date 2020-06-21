@@ -74,7 +74,7 @@
 #if DEFRULE_CONSTRUCT
 #include "ruledef.h"
 #include "rulebsc.h"
-#include "engine.h"
+#include "Engine.h"
 #include "drive.h"
 #include "incrrset.h"
 #include "rulecom.h"
@@ -90,7 +90,7 @@
 #include "tmpltdef.h"
 #include "tmpltbsc.h"
 #include "tmpltfun.h"
-#include "fact.h"
+#include "Fact.h"
 #endif
 
 #if DEFGLOBAL_CONSTRUCT

@@ -45,7 +45,7 @@
 
 #include "argacces.h"
 #include "Environment.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "reorder.h"

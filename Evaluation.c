@@ -80,7 +80,7 @@
 #include "CommandLine.h"
 #include "constant.h"
 #include "Environment.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "router.h"

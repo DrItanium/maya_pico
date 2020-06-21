@@ -37,7 +37,7 @@
 
 #include <stdio.h>
 
-#include "fact.h"
+#include "Fact.h"
 #include "bload.h"
 #include "bsave.h"
 #include "Environment.h"

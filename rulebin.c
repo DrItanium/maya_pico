@@ -50,7 +50,7 @@
 #include "agenda.h"
 #include "bload.h"
 #include "bsave.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "moduldef.h"

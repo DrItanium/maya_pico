@@ -84,7 +84,7 @@
 
 #include <stdlib.h>
 
-#include "entities.h"
+#include "Entities.h"
 
 typedef struct genericHashNode GENERIC_HN;
 

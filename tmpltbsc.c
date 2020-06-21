@@ -72,7 +72,7 @@
 #include "cstrcpsr.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "router.h"

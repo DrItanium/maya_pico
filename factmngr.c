@@ -122,10 +122,10 @@
 
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
 
-#include "fact.h"
+#include "Fact.h"
 #include "CommandLine.h"
 #include "default.h"
-#include "engine.h"
+#include "Engine.h"
 #include "lgcldpnd.h"
 #include "memalloc.h"
 #include "multifld.h"

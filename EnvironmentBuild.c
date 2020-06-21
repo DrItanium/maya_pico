@@ -29,7 +29,7 @@
 #include "CommandLine.h"
 #include "emathfun.h"
 #include "Environment.h"
-#include "engine.h"
+#include "Engine.h"
 #include "filecom.h"
 #include "iofun.h"
 #include "memalloc.h"

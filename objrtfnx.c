@@ -67,7 +67,7 @@
 #endif
 #include "constant.h"
 #include "drive.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "memalloc.h"
 #include "multifld.h"

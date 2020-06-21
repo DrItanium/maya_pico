@@ -46,7 +46,7 @@
 #include "bsave.h"
 #include "cstrnbin.h"
 #include "Environment.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "tmpltdef.h"
 #include "tmpltpsr.h"

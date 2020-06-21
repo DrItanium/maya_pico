@@ -61,7 +61,7 @@
 #include "cstrcpsr.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "incrrset.h"

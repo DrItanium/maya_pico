@@ -95,7 +95,7 @@
 #include "drive.h"
 #include "objrtmch.h"
 #endif
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "inscom.h"
 #include "insmngr.h"

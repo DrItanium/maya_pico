@@ -57,7 +57,7 @@
 
 #include "constant.h"
 #include "Environment.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "router.h"

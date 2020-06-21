@@ -60,7 +60,7 @@
 #include "prntutil.h"
 #include "router.h"
 #include "utility.h"
-#include "fact.h"
+#include "Fact.h"
 
 #if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
 #include "tmpltdef.h"

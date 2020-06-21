@@ -60,7 +60,7 @@
 
 #define _H_classexm
 
-#include "entities.h"
+#include "Entities.h"
 #include "object.h"
 #include "ExternalFunctions.h"
 

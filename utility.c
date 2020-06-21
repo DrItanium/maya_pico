@@ -84,7 +84,7 @@
 #include "CommandLine.h"
 #include "Environment.h"
 #include "Evaluation.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "multifld.h"
 #include "prntutil.h"

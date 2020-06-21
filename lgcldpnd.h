@@ -51,7 +51,7 @@ struct dependency
    struct dependency *next;
   };
 
-#include "entities.h"
+#include "Entities.h"
 #include "match.h"
 
    bool                           AddLogicalDependencies(Environment *,PatternEntity *,bool);

@@ -84,7 +84,7 @@ typedef enum
   } ConstructType;
 
 #include <stdio.h>
-#include "entities.h"
+#include "Entities.h"
 #include "userdata.h"
 #include "utility.h"
 

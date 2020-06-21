@@ -58,7 +58,7 @@
 
 #define _H_extnfunc
 
-#include "entities.h"
+#include "Entities.h"
 
 #include "Evaluation.h"
 #include "Expression.h"

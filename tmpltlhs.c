@@ -44,7 +44,7 @@
 #include "constrnt.h"
 #include "Environment.h"
 #include "Expression.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "modulutl.h"
 #include "pattern.h"

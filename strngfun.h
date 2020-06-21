@@ -59,7 +59,7 @@
 
 #define _H_strngfun
 
-#include "entities.h"
+#include "Entities.h"
 
 typedef enum
   {

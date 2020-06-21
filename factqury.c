@@ -77,7 +77,7 @@
 #include "modulutl.h"
 #include "tmpltutl.h"
 #include "insfun.h"
-#include "fact.h"
+#include "Fact.h"
 #include "prcdrfun.h"
 #include "prntutil.h"
 #include "router.h"

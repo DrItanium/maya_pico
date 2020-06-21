@@ -99,7 +99,7 @@
 #include "CommandLine.h"
 #include "constant.h"
 #include "Environment.h"
-#include "fact.h"
+#include "Fact.h"
 #include "inscom.h"
 #include "memalloc.h"
 #include "modulutl.h"
@@ -115,7 +115,7 @@
 #include "utility.h"
 #include "watch.h"
 
-#include "engine.h"
+#include "Engine.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

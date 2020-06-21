@@ -47,10 +47,10 @@
 #if DEFRULE_CONSTRUCT
 
 #include "argacces.h"
-#include "engine.h"
+#include "Engine.h"
 #include "Environment.h"
 #include "Evaluation.h"
-#include "fact.h"
+#include "Fact.h"
 #include "memalloc.h"
 #include "pattern.h"
 #include "reteutil.h"

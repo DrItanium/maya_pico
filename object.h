@@ -60,7 +60,7 @@ typedef struct instanceModifier InstanceModifier;
 #define VALUE_PROHIBITED   1
 #define VALUE_NOT_REQUIRED 2
 
-#include "entities.h"
+#include "Entities.h"
 #include "constrct.h"
 #include "constrnt.h"
 #include "moduldef.h"

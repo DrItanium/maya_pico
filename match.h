@@ -43,7 +43,7 @@ typedef struct partialMatch PartialMatch;
 typedef struct alphaMatch AlphaMatch;
 typedef struct multifieldMarker MultifieldMarker;
 
-#include "entities.h"
+#include "Entities.h"
 #include "network.h"
 
 /****************/

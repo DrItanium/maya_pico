@@ -78,7 +78,7 @@
 
 #define _H_insfun
 
-#include "entities.h"
+#include "Entities.h"
 #include "object.h"
 
 typedef struct igarbage

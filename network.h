@@ -38,7 +38,7 @@ struct joinNode;
 struct patternNodeHashEntry;
 typedef struct patternNodeHeader PatternNodeHeader;
 
-#include "entities.h"
+#include "Entities.h"
 
 struct patternNodeHeader
   {

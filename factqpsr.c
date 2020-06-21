@@ -63,7 +63,7 @@
 #include "Environment.h"
 #include "Expression.h"
 #include "ExternalFunctions.h"
-#include "fact.h"
+#include "Fact.h"
 #include "modulutl.h"
 #include "prcdrpsr.h"
 #include "pprint.h"

@@ -64,7 +64,7 @@
 
 #define _H_multifld
 
-#include "entities.h"
+#include "Entities.h"
 
 typedef struct multifieldBuilder MultifieldBuilder;
 

@@ -43,14 +43,14 @@ add_library(clips
 	dfinsbin.c
 	drive.c
 	emathfun.c
-	engine.c
+		Engine.c
 		Environment.c
-	envrnbld.c
+		EnvironmentBuild.c
 		Evaluation.c
 		Expression.c
-	exprnbin.c
-	exprnops.c
-	exprnpsr.c
+		ExpressionBinary.c
+		ExpressionOperations.c
+		ExpressionParser.c
 	ExternalFunctions.c
 	factbin.c
 	factbld.c

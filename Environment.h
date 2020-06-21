@@ -70,7 +70,7 @@ typedef struct environmentData Environment;
 
 typedef void EnvironmentCleanupFunction(Environment *);
 
-#include "entities.h"
+#include "Entities.h"
 #include "ExternalFunctions.h"
 
 #define USER_ENVIRONMENT_DATA 70

@@ -99,7 +99,7 @@
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
-#include "fact.h"
+#include "Fact.h"
 #endif
 #include "inscom.h"
 #include "insfun.h"
