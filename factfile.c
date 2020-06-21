@@ -43,7 +43,7 @@
 #if BLOAD || BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Fact.h"
 #include "insmngr.h"
 #include "MemoryAllocation.h"

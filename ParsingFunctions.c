@@ -55,7 +55,7 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"

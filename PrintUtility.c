@@ -76,7 +76,7 @@
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "Fact.h"

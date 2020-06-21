@@ -77,7 +77,7 @@
 #include "ArgumentAccess.h"
 #include "Construct.h"
 #include "cstrccom.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "genrccom.h"
 #include "genrcexe.h"

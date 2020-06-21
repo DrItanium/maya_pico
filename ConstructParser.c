@@ -87,7 +87,6 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#include "cstrcpsr.h"
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */

@@ -76,7 +76,7 @@
 
 #include "Constants.h"
 #include "cstrccom.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Construct.h"
 #include "dffnxfun.h"
 #include "Environment.h"

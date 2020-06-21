@@ -83,7 +83,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "cstrccom.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Constants.h"
 #include "Construct.h"
 #include "Environment.h"

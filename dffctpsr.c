@@ -47,7 +47,7 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "dffctbsc.h"
 #include "dffctdef.h"
 #include "Environment.h"

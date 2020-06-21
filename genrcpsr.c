@@ -79,7 +79,7 @@
 #endif
 
 #include "cstrccom.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "genrccom.h"

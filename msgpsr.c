@@ -68,7 +68,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "Construct.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "cstrnchk.h"
 #include "Environment.h"
 #include "Expression.h"

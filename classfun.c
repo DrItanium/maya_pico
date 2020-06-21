@@ -83,7 +83,6 @@
 #include "Constants.h"
 #include "Construct.h"
 #include "cstrccom.h"
-#include "cstrcpsr.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "inscom.h"

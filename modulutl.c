@@ -44,7 +44,7 @@
 #include "setup.h"
 
 #include "Environment.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "MemoryAllocation.h"
 #include "modulpsr.h"
 #include "PrettyPrint.h"

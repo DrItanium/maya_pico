@@ -61,7 +61,7 @@
 #endif
 
 #include "Constants.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "modulutl.h"

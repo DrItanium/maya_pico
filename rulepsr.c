@@ -58,7 +58,7 @@
 #include "Analysis.h"
 #include "Constants.h"
 #include "Construct.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "cstrnchk.h"
 #include "cstrnops.h"
 #include "Engine.h"

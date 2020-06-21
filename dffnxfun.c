@@ -83,7 +83,7 @@
 #endif
 
 #include "Construct.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "dffnxpsr.h"
 #include "modulpsr.h"
 

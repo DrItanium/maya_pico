@@ -23,7 +23,7 @@ add_library(clips
         ConflictResolutionStrategy.c
 		ConstructBinaryLoadSave.c
         cstrccom.c
-        cstrcpsr.c
+		ConstructParser.c
         cstrnbin.c
         cstrnchk.c
         cstrnops.c

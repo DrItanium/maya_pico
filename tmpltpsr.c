@@ -56,7 +56,7 @@
 #endif
 #include "Constants.h"
 #include "Construct.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "cstrnchk.h"
 #include "cstrnpsr.h"
 #include "cstrnutl.h"

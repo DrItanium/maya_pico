@@ -48,7 +48,7 @@
 #include "ArgumentAccess.h"
 #include "Constants.h"
 #include "Construct.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
 #include "MemoryAllocation.h"

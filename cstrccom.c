@@ -86,7 +86,7 @@
 #include "BinaryLoad.h"
 #endif
 
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "cstrccom.h"
 
 /***************************************/

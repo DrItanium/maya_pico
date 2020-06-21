@@ -94,7 +94,7 @@
 #endif
 #include "Construct.h"
 #include "cstrccom.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"

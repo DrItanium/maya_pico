@@ -67,7 +67,7 @@
 #include "classcom.h"
 #include "classfun.h"
 #include "clsltpsr.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "Environment.h"
 #include "inherpsr.h"
 #include "MemoryAllocation.h"

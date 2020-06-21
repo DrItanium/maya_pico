@@ -41,7 +41,7 @@
 
 #include "ArgumentAccess.h"
 #include "CommandLine.h"
-#include "cstrcpsr.h"
+#include "Construct.h"
 #include "MemoryAllocation.h"
 #include "prcdrfun.h"
 #include "PrettyPrint.h"

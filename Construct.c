@@ -88,7 +88,6 @@
 #include "ArgumentAccess.h"
 #include "CommandLine.h"
 #include "Constants.h"
-#include "cstrcpsr.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"

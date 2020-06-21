@@ -98,7 +98,6 @@
 
 #include "ArgumentAccess.h"
 #include "Construct.h"
-#include "cstrcpsr.h"
 #include "Environment.h"
 #include "Expression.h"
 #include "FileUtilities.h"
