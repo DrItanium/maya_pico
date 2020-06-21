@@ -38,7 +38,7 @@
    ***************************************** */
 #include "Setup.h"
 
-#if DEFINSTANCES_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
+#if DEFINSTANCES_CONSTRUCT && (BLOAD_AND_BSAVE)
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
@@ -131,7 +131,7 @@ static void DeallocateDefinstancesBinaryData(
         Environment *theEnv) {
     size_t space;
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     space = DefinstancesBinaryData(theEnv)->DefinstancesCount * sizeof(struct definstances);
     if (space != 0) genfree(theEnv, DefinstancesBinaryData(theEnv)->DefinstancesArray, space);
 

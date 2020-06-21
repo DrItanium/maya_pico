@@ -104,7 +104,7 @@ struct constraintRecord {
 struct constraintData {
     struct constraintRecord **ConstraintHashtable;
     bool DynamicConstraintChecking;
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     struct constraintRecord *ConstraintArray;
     unsigned long NumberOfConstraints;
 #endif

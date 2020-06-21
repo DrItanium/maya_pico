@@ -80,7 +80,7 @@
 #include "Scanner.h"
 #include "Deftemplate.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "DeffactsBinarySaveLoad.h"
 #endif
 #include "DeffactsBasicCommands.h"
@@ -110,7 +110,7 @@ void DeffactsBasicCommands(
     AddUDF(theEnv, "ppdeffacts", "vs", 1, 2, ";y;ldsyn", PPDeffactsCommand, NULL);
 #endif
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     DeffactsBinarySetup(theEnv);
 #endif
 

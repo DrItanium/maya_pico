@@ -62,7 +62,7 @@
 
 #if DEFFUNCTION_CONSTRUCT
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -132,7 +132,7 @@ bool ParseDeffunction(
     SetIndentDepth(theEnv, 3);
     SavePPBuffer(theEnv, "(deffunction ");
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "deffunctions");
         return true;

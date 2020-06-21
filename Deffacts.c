@@ -59,7 +59,7 @@
 #include "Environment.h"
 #include "MemoryAllocation.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "DeffactsBinarySaveLoad.h"
 #endif
@@ -109,7 +109,7 @@ static void DeallocateDeffactsData(
     struct deffactsModule *theModuleItem;
     Defmodule *theModule;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 
@@ -160,7 +160,7 @@ static void InitializeDeffactsModules(
             RegisterModuleItem(theEnv, "deffacts",
                                AllocateModule,
                                ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                BloadDeffactsModuleReference,
 #else
                     NULL,

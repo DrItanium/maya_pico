@@ -70,7 +70,7 @@
 
 #include <stdio.h>
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "DefglobalBinary.h"
 #endif
@@ -164,7 +164,7 @@ static void DeallocateDefglobalData(
     struct defglobalModule *theModuleItem;
     Defmodule *theModule;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 
@@ -208,7 +208,7 @@ static void InitializeDefglobalModules(
     DefglobalData(theEnv)->DefglobalModuleIndex = RegisterModuleItem(theEnv, "defglobal",
                                                                      AllocateModule,
                                                                      ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                                                      BloadDefglobalModuleReference,
 #else
             NULL,

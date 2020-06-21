@@ -40,7 +40,7 @@
 #if DEFTEMPLATE_CONSTRUCT
 
 #include "ArgumentAccess.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 #include "Construct.h"
@@ -957,7 +957,7 @@ static Deftemplate *BloadFactsCreateImpliedDeftemplate(
         Environment *theEnv,
         CLIPSLexeme *deftemplateName) {
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) {
         CantFindItemInFunctionErrorMessage(theEnv, "deftemplate", deftemplateName->contents, "bload-facts", true);
         return NULL;

@@ -56,7 +56,7 @@
 
 #if DEFTEMPLATE_CONSTRUCT
 
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -81,7 +81,7 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 static void NoSuchTemplateError(Environment *, const char *);
 #endif
 
@@ -296,7 +296,7 @@ struct expr *GetRHSPattern(
     /*======================================================*/
 
     if (theDeftemplate == NULL) {
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
         if ((Bloaded(theEnv)) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
             NoSuchTemplateError(theEnv, templateName->contents);
             *error = true;
@@ -573,7 +573,7 @@ Fact *StringToFact(
     return (factPtr);
 }
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 
 /*********************************************************/
 /* NoSuchTemplateError: Prints out an error message      */
@@ -590,7 +590,7 @@ static void NoSuchTemplateError(
     WriteString(theEnv, STDERR, "' cannot be created with binary load in effect.\n");
 }
 
-#endif /* BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD_AND_BSAVE */
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 

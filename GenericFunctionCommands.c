@@ -85,7 +85,7 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 #if OBJECT_SYSTEM
@@ -98,7 +98,7 @@
 #include "Environment.h"
 #include "Evaluation.h"
 #include "ExternalFunctions.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "GenericFunctionBinaryLoadSave.h"
 #endif
 #include "GenericFunctionExecution.h"
@@ -185,7 +185,7 @@ void SetupGenericFunctions(
             RegisterModuleItem(theEnv, "defgeneric",
                                AllocateDefgenericModule,
                                FreeDefgenericModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                BloadDefgenericModuleReference,
 #else
                     NULL,
@@ -206,7 +206,7 @@ void SetupGenericFunctions(
 
     AddClearReadyFunction(theEnv, "defgeneric", ClearDefgenericsReady, 0, NULL);
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     SetupGenericsBload(theEnv);
 #endif
 
@@ -275,7 +275,7 @@ static void DeallocateDefgenericData(
     struct defgenericModule *theModuleItem;
     Defmodule *theModule;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 
@@ -636,7 +636,7 @@ bool Undefmethod(
     if (theDefgeneric == NULL) { theEnv = allEnv; }
     else { theEnv = theDefgeneric->header.env; }
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv) == true) {
         PrintErrorID(theEnv, "PRNTUTIL", 4, false);
         WriteString(theEnv, STDERR, "Unable to delete method ");

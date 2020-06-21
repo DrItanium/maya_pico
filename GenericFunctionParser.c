@@ -65,7 +65,7 @@
 
 #if DEFGENERIC_CONSTRUCT
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -163,7 +163,7 @@ bool ParseDefgeneric(
     SavePPBuffer(theEnv, "(defgeneric ");
     SetIndentDepth(theEnv, 3);
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "defgeneric");
         return true;
@@ -239,7 +239,7 @@ bool ParseDefmethod(
     SetIndentDepth(theEnv, 3);
     SavePPBuffer(theEnv, "(defmethod ");
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "defmethod");
         return true;

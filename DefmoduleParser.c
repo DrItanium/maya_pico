@@ -58,7 +58,7 @@
 #include "Router.h"
 #include "Utility.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -159,7 +159,7 @@ bool ParseDefmodule(
     /* a binary load is in effect.   */
     /*===============================*/
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "defmodule");
         return true;

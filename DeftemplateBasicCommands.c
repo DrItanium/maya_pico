@@ -77,7 +77,7 @@
 #include "Multifield.h"
 #include "Router.h"
 #include "Scanner.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "DeftemplateBinarySaveLoad.h"
 #endif
 #include "Deftemplate.h"
@@ -108,7 +108,7 @@ void DeftemplateBasicCommands(
     AddUDF(theEnv, "ppdeftemplate", "vs", 1, 2, ";y;ldsyn", PPDeftemplateCommand, NULL);
 #endif
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     DeftemplateBinarySetup(theEnv);
 #endif
 

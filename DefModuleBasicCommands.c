@@ -88,7 +88,7 @@ void DefmoduleBasicCommands(
 #endif
 #endif
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     DefmoduleBinarySetup(theEnv);
 #endif
 
@@ -101,7 +101,7 @@ void DefmoduleBasicCommands(
 static void ClearDefmodules(
         Environment *theEnv,
         void *context) {
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     if (Bloaded(theEnv) == true) return;
 #endif
     RemoveAllDefmodules(theEnv, NULL);

@@ -74,7 +74,7 @@
 
 #if OBJECT_SYSTEM
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -959,7 +959,7 @@ bool RemoveAllUserClasses(
     Defclass *userClasses, *ctmp;
     bool success = true;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv))
         return false;
 #endif

@@ -77,7 +77,7 @@
 
 #if DEFFUNCTION_CONSTRUCT
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
 #include "BinaryLoad.h"
 #include "DeffunctionBinaryLoadSave.h"
 #endif
@@ -172,7 +172,7 @@ void SetupDeffunctions(
             RegisterModuleItem(theEnv, "deffunction",
                                AllocateModule,
                                ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                BloadDeffunctionModuleReference,
 #else
                     NULL,
@@ -207,7 +207,7 @@ void SetupDeffunctions(
     AddUDF(theEnv, "get-deffunction-list", "m", 0, 1, "y", GetDeffunctionListFunction, NULL);
     AddUDF(theEnv, "deffunction-module", "y", 1, 1, "y", GetDeffunctionModuleCommand, NULL);
 
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
     SetupDeffunctionsBload(theEnv);
 #endif
 
@@ -227,7 +227,7 @@ static void DeallocateDeffunctionData(
     DeffunctionModuleData *theModuleItem;
     Defmodule *theModule;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 
@@ -353,7 +353,7 @@ bool Undeffunction(
     if (theDeffunction == NULL) { theEnv = allEnv; }
     else { theEnv = theDeffunction->header.env; }
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv) == true)
         return false;
 #endif
@@ -760,7 +760,7 @@ static bool RemoveAllDeffunctions(
     unsigned oldbusy;
     bool success = true;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 
     if (Bloaded(theEnv) == true)
         return false;

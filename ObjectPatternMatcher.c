@@ -102,7 +102,7 @@
 #include "Reorder.h"
 #include "Router.h"
 
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
 #include "ObjectReteBinarySaveLoad.h"
 #endif
 
@@ -235,7 +235,7 @@ void SetupObjectPatternStuff(
 
     InstallObjectPrimitives(theEnv);
 
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
     SetupObjectPatternsBload(theEnv);
 #endif
 }

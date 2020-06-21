@@ -71,7 +71,7 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 #include "ClassCommands.h"
@@ -420,7 +420,7 @@ void UndefmessageHandlerCommand(
     UDFValue theArg;
     Defclass *cls;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) {
         PrintErrorID(theEnv, "MSGCOM", 3, false);
         WriteString(theEnv, STDERR, "Unable to delete message-handlers.\n");
@@ -468,7 +468,7 @@ bool UndefmessageHandler(
     if (theDefclass == NULL) { theEnv = allEnv; }
     else { theEnv = theDefclass->header.env; }
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) {
         PrintErrorID(theEnv, "MSGCOM", 3, false);
         WriteString(theEnv, STDERR, "Unable to delete message-handlers.\n");

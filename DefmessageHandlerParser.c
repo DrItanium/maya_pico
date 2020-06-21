@@ -61,7 +61,7 @@
 
 #include <string.h>
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -142,7 +142,7 @@ bool ParseDefmessageHandler(
     SetIndentDepth(theEnv, 3);
     SavePPBuffer(theEnv, "(defmessage-handler ");
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv)) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "defmessage-handler");
         return true;

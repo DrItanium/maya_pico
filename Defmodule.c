@@ -58,7 +58,7 @@
 #include <string.h>
 
 #include "ArgumentAccess.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "DefmoduleBinarySaveLoad.h"
 #endif
@@ -104,12 +104,12 @@ static void DeallocateDefmoduleData(
     struct moduleItem *tmpMIPtr, *nextMIPtr;
     Defmodule *tmpDMPtr, *nextDMPtr;
     struct portConstructItem *tmpPCPtr, *nextPCPtr;
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     unsigned int i;
     size_t space;
 #endif
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     for (i = 0; i < DefmoduleData(theEnv)->BNumberOfDefmodules; i++) {
         if (DefmoduleData(theEnv)->DefmoduleArray[i].itemsArray != NULL) {
             rm(theEnv, DefmoduleData(theEnv)->DefmoduleArray[i].itemsArray,

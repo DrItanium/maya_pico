@@ -62,7 +62,7 @@
 #include "Watch.h"
 #include "DefModuleBasicCommands.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 

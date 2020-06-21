@@ -49,7 +49,7 @@
    ***************************************** */
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (BLOAD || BLOAD_AND_BSAVE)
+#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (BLOAD_AND_BSAVE)
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
@@ -152,11 +152,6 @@ void SetupObjectPatternsBload(
                   BloadStorageObjectPatterns, BloadObjectPatterns,
                   ClearBloadObjectPatterns);
 #endif
-#if BLOAD
-    AddBinaryItem(theEnv,"object patterns",0,NULL,NULL,NULL,NULL,
-                              BloadStorageObjectPatterns,BloadObjectPatterns,
-                              ClearBloadObjectPatterns);
-#endif
 }
 
 /***********************************************************/
@@ -165,7 +160,7 @@ void SetupObjectPatternsBload(
 /***********************************************************/
 static void DeallocateObjectReteBinaryData(
         Environment *theEnv) {
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     size_t space;
     unsigned long i;
 

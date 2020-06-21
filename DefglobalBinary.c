@@ -31,7 +31,7 @@
 
 #include "Setup.h"
 
-#if DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
+#if DEFGLOBAL_CONSTRUCT && (BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -69,7 +69,7 @@ static void DeallocateDefglobalBloadData(Environment *);
 void DefglobalBinarySetup(
         Environment *theEnv) {
     AllocateEnvironmentData(theEnv, GLOBLBIN_DATA, sizeof(struct defglobalBinaryData), DeallocateDefglobalBloadData);
-#if (BLOAD_AND_BSAVE || BLOAD)
+#if (BLOAD_AND_BSAVE)
     AddAfterBloadFunction(theEnv, "defglobal", ResetDefglobals, 50, NULL);
 #endif
 
@@ -80,11 +80,6 @@ void DefglobalBinarySetup(
                   ClearBload);
 #endif
 
-#if (BLOAD)
-    AddBinaryItem(theEnv,"defglobal",0,NULL,NULL,NULL,NULL,
-                              BloadStorageDefglobals,BloadBinaryItem,
-                              ClearBload);
-#endif
 }
 
 /*********************************************************/
@@ -93,7 +88,7 @@ void DefglobalBinarySetup(
 /*********************************************************/
 static void DeallocateDefglobalBloadData(
         Environment *theEnv) {
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     size_t space;
     unsigned long i;
 
@@ -436,7 +431,7 @@ void *BloadDefglobalModuleReference(
     return (void *) &DefglobalBinaryData(theEnv)->ModuleArray[theIndex];
 }
 
-#endif /* DEFGLOBAL_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
+#endif /* DEFGLOBAL_CONSTRUCT && (BLOAD_AND_BSAVE) */
 
 
 

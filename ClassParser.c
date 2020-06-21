@@ -60,7 +60,7 @@
    ***************************************** */
 #include "Setup.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -187,7 +187,7 @@ bool ParseDefclass(
     SetIndentDepth(theEnv, 3);
     SavePPBuffer(theEnv, "(defclass ");
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv)) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "defclass");
         return true;

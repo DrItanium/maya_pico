@@ -205,7 +205,7 @@ SaveCallFunctionItem *RemoveSaveFunctionFromCallList(Environment *, const char *
                                                      SaveCallFunctionItem *, bool *);
 void DeallocateSaveCallList(Environment *, SaveCallFunctionItem *);
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 
 struct bsaveConstructHeader {
     unsigned long name;

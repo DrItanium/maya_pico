@@ -33,7 +33,7 @@
 
 #include "Setup.h"
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
 
 #include "Constants.h"
 #include "Environment.h"
@@ -262,7 +262,7 @@ void ClearBloadedConstraints(
     }
 }
 
-#endif /* (BLOAD || BLOAD_AND_BSAVE)  */
+#endif /* (BLOAD_AND_BSAVE)  */
 
 
 

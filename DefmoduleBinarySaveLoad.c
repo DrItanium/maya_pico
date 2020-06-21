@@ -31,7 +31,7 @@
 
 #include "Setup.h"
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -76,11 +76,6 @@ void DefmoduleBinarySetup(
 
     AddAbortBloadFunction(theEnv, "defmodule", CreateMainModule, 0, NULL);
 
-#if (BLOAD)
-    AddBinaryItem(theEnv,"defmodule",0,NULL,NULL,NULL,NULL,
-                              BloadStorage,BloadBinaryItem,
-                              ClearBload);
-#endif
 }
 
 /**************************************************************/
@@ -543,6 +538,6 @@ static void ClearBload(
     DefmoduleData(theEnv)->MainModuleRedefinable = true;
 }
 
-#endif /*  (BLOAD || BLOAD_AND_BSAVE) */
+#endif /*  (BLOAD_AND_BSAVE) */
 
 

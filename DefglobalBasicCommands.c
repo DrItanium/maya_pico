@@ -64,7 +64,7 @@
 #include "Construct.h"
 #include "Environment.h"
 #include "ExternalFunctions.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "DefglobalBinary.h"
 #endif
 #include "DefglobalCommands.h"
@@ -103,7 +103,7 @@ void DefglobalBasicCommands(
     AddWatchItem(theEnv, "globals", 0, &DefglobalData(theEnv)->WatchGlobals, 0, DefglobalWatchAccess, DefglobalWatchPrint);
 #endif
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     DefglobalBinarySetup(theEnv);
 #endif
 

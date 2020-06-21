@@ -67,7 +67,7 @@
 
 #if OBJECT_SYSTEM
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -385,7 +385,7 @@ bool Undefclass(
     if (theDefclass == NULL) { theEnv = allEnv; }
     else { theEnv = theDefclass->header.env; }
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv))
         return false;
 #endif

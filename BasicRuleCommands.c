@@ -78,7 +78,7 @@
 #include "Defrule.h"
 #include "Watch.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "RuleBinarySaveLoad.h"
 #endif
 
@@ -119,7 +119,7 @@ void DefruleBasicCommands(
     AddUDF(theEnv, "ppdefrule", "vs", 1, 2, ";y;ldsyn", PPDefruleCommand, NULL);
 #endif
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if BLOAD_AND_BSAVE
     DefruleBinarySetup(theEnv);
 #endif
 

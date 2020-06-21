@@ -78,7 +78,7 @@
 #include "DeftemplateParser.h"
 #include "DeftemplateUtilities.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "DeftemplateBinarySaveLoad.h"
 #endif
@@ -146,7 +146,7 @@ static void DeallocateDeftemplateData(
         Environment *theEnv) {
     struct deftemplateModule *theModuleItem;
     Defmodule *theModule;
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 
@@ -190,7 +190,7 @@ static void InitializeDeftemplateModules(
     DeftemplateData(theEnv)->DeftemplateModuleIndex = RegisterModuleItem(theEnv, "deftemplate",
                                                                          AllocateModule,
                                                                          ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                                                          BloadDeftemplateModuleReference,
 #else
             NULL,

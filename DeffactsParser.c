@@ -43,7 +43,7 @@
 
 #if DEFFACTS_CONSTRUCT
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -90,7 +90,7 @@ bool ParseDeffacts(
     /* Deffacts can not be added when a binary image is loaded. */
     /*==========================================================*/
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "deffacts");
         return true;

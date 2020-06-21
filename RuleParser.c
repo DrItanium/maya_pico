@@ -89,7 +89,7 @@
 #include "DeftemplateFunctions.h"
 #endif
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -139,7 +139,7 @@ bool ParseDefrule(
     /* Rules cannot be loaded when a binary load is in effect. */
     /*=========================================================*/
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "defrule");
         return true;

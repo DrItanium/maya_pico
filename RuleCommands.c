@@ -99,7 +99,7 @@
 #include "Utility.h"
 #include "Watch.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "RuleBinarySaveLoad.h"
 #endif
 

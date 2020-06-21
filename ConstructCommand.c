@@ -82,7 +82,7 @@
 #include "CommandLine.h"
 #include "SystemDependency.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -133,7 +133,7 @@ bool DeleteNamedConstruct(
     /* while a bload is in effect. */
     /*=============================*/
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv) == true) return false;
 #endif
 
@@ -1602,17 +1602,15 @@ ConstructHeader *LookupConstruct(
 /***********************************************************/
 bool ConstructsDeletable(
         Environment *theEnv) {
-#if ((!BLOAD) && (!BLOAD_AND_BSAVE))
+#if (!BLOAD_AND_BSAVE)
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
 #endif
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv))
         return false;
-    return true;
-#else
     return true;
 #endif
 }

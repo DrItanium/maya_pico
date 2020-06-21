@@ -342,14 +342,9 @@
 #endif
 
 /*************************************************************************/
-/* BLOAD_ONLY:      Enables bload command and disables the load command. */
-/* BLOAD:           Enables bload command.                               */
 /* BLOAD_AND_BSAVE: Enables bload, and bsave commands.                   */
 /*************************************************************************/
 
-#ifndef BLOAD
-#define BLOAD 0
-#endif
 #ifndef BLOAD_AND_BSAVE
 #define BLOAD_AND_BSAVE 1
 #endif

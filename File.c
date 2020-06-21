@@ -77,7 +77,7 @@
 #include "Setup.h"
 
 #include "ArgumentAccess.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "BinarySave.h"
 #endif
@@ -119,7 +119,7 @@ void FileCommandDefinitions(
 #if BLOAD_AND_BSAVE
     AddUDF(theEnv, "bsave", "b", 1, 1, "sy", BsaveCommand, NULL);
 #endif
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     InitializeBsaveData(theEnv);
     InitializeBloadData(theEnv);
     AddUDF(theEnv, "bload", "b", 1, 1, "sy", BloadCommand, NULL);

@@ -39,7 +39,7 @@
 
 #define _H_dfinsbin
 
-#if DEFINSTANCES_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
+#if DEFINSTANCES_CONSTRUCT && (BLOAD_AND_BSAVE)
 
 #include "Definstances.h"
 
@@ -57,7 +57,7 @@ struct definstancesBinaryData {
 void SetupDefinstancesBload(Environment *);
 void *BloadDefinstancesModuleRef(Environment *, unsigned long);
 
-#endif /* DEFINSTANCES_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
+#endif /* DEFINSTANCES_CONSTRUCT && (BLOAD_AND_BSAVE) */
 
 #endif /* _H_dfinsbin */
 

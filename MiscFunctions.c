@@ -745,14 +745,10 @@ void OptionsCommand(
 #endif
 
     WriteString(theEnv, STDOUT, "Bload capability is ");
-#if BLOAD
-    WriteString(theEnv,STDOUT,"BLOAD");
-#endif
 #if BLOAD_AND_BSAVE
     WriteString(theEnv, STDOUT, "BLOAD AND BSAVE");
-#endif
-#if (!BLOAD) && (!BLOAD_AND_BSAVE)
-    WriteString(theEnv,STDOUT,"OFF ");
+#else
+    WriteString(theEnv, STDOUT, "OFF ");
 #endif
     WriteString(theEnv, STDOUT, "\n");
 

@@ -98,7 +98,7 @@
 #include "InstanceQuery.h"
 #endif
 
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "ObjectBinaryLoadSave.h"
 #endif
@@ -185,7 +185,7 @@ void SetupObjectSystem(
     SetupQuery(theEnv);
 #endif
 
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
     SetupObjectsBload(theEnv);
 #endif
 
@@ -206,7 +206,7 @@ static void DeallocateDefclassData(
     Defmodule *theModule;
     bool bloaded = false;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) bloaded = true;
 #endif
 
@@ -397,7 +397,7 @@ static void SetupDefclasses(
             RegisterModuleItem(theEnv, "defclass",
                                AllocateModule,
                                ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                BloadDefclassModuleReference,
 #else
                     NULL,

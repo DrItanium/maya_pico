@@ -167,7 +167,7 @@ struct symbolData {
     CLIPSInteger **IntegerTable;
     CLIPSBitMap **BitMapTable;
     CLIPSExternalAddress **ExternalAddressTable;
-#if BLOAD || BLOAD_AND_BSAVE || BLOAD_INSTANCES || BSAVE_INSTANCES
+#if BLOAD_AND_BSAVE_INSTANCES || BSAVE_INSTANCES
     unsigned long NumberOfSymbols;
     unsigned long NumberOfFloats;
     unsigned long NumberOfIntegers;

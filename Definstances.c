@@ -74,7 +74,7 @@
 
 #if DEFINSTANCES_CONSTRUCT
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "DefinstancesBinaryLoadSave.h"
 #endif
@@ -154,7 +154,7 @@ void SetupDefinstances(
             RegisterModuleItem(theEnv, "definstances",
                                AllocateModule,
                                ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                BloadDefinstancesModuleRef,
 #else
                     NULL,
@@ -189,7 +189,7 @@ void SetupDefinstances(
 
     AddResetFunction(theEnv, "definstances", ResetDefinstances, 0, NULL);
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     SetupDefinstancesBload(theEnv);
 #endif
 
@@ -204,7 +204,7 @@ static void DeallocateDefinstancesData(
     struct definstancesModule *theModuleItem;
     Defmodule *theModule;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 
@@ -487,7 +487,7 @@ static bool ParseDefinstances(
     SetIndentDepth(theEnv, 3);
     SavePPBuffer(theEnv, "(definstances ");
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv)) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "definstances");
         return true;

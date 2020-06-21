@@ -85,7 +85,7 @@
 #include "RuleParser.h"
 #include "RuleDelete.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #include "RuleBinarySaveLoad.h"
 #endif
@@ -161,7 +161,7 @@ static void DeallocateDefruleData(
     Activation *theActivation, *tmpActivation;
     struct salienceGroup *theGroup, *tmpGroup;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) { return; }
 #endif
 
@@ -224,7 +224,7 @@ static void InitializeDefruleModules(
     DefruleData(theEnv)->DefruleModuleIndex = RegisterModuleItem(theEnv, "defrule",
                                                                  AllocateModule,
                                                                  ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
                                                                  BloadDefruleModuleReference,
 #else
             NULL,
@@ -353,7 +353,7 @@ Defrule *GetNthDisjunct(
     return NULL;
 }
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 
 /**************************/
 /* AddBetaMemoriesToJoin: */
@@ -417,7 +417,7 @@ void AddBetaMemoriesToJoin(
     } else { theNode->rightMemory = NULL; }
 }
 
-#endif /* BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD_AND_BSAVE */
 
 /*##################################*/
 /* Additional Environment Functions */

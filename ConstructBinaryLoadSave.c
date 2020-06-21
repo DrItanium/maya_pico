@@ -28,7 +28,7 @@
 
 #include "Setup.h"
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 
 #include "BinaryLoad.h"
 #include "Environment.h"
@@ -165,5 +165,5 @@ void UnmarkConstructHeader(
     ReleaseLexeme(theEnv, theConstruct->name);
 }
 
-#endif /* BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD_AND_BSAVE */
 

@@ -51,7 +51,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 #include "Constants.h"
@@ -111,7 +111,7 @@ bool ParseDeftemplate(
     /* Deftemplates can not be added when a binary image is loaded. */
     /*==============================================================*/
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if ((Bloaded(theEnv) == true) && (!ConstructData(theEnv)->CheckSyntaxMode)) {
         CannotLoadWithBloadMessage(theEnv, "deftemplate");
         return true;

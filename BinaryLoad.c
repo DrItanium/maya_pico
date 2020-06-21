@@ -66,7 +66,7 @@
 
 #include "BinaryLoad.h"
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
@@ -789,7 +789,7 @@ void CannotLoadWithBloadMessage(
     WriteString(theEnv, STDERR, " construct with binary load in effect.\n");
 }
 
-#endif /* (BLOAD || BLOAD_AND_BSAVE) */
+#endif /* (BLOAD_AND_BSAVE) */
 
 /**************************************/
 /* BloadCommand: H/L access routine   */
@@ -799,7 +799,7 @@ void BloadCommand(
         Environment *theEnv,
         UDFContext *context,
         UDFValue *returnValue) {
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     const char *fileName;
 
     fileName = GetFileName(context);

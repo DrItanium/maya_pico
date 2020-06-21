@@ -38,7 +38,7 @@
 
 #include "Setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE)
+#if DEFTEMPLATE_CONSTRUCT && (BLOAD_AND_BSAVE)
 
 #include <stdio.h>
 
@@ -83,11 +83,6 @@ void DeftemplateBinarySetup(
                   BsaveStorage, BsaveBinaryItem,
                   BloadStorage, BloadBinaryItem,
                   ClearBload);
-#endif
-#if BLOAD
-    AddBinaryItem(theEnv,"deftemplate",0,NULL,NULL,NULL,NULL,
-                              BloadStorage,BloadBinaryItem,
-                              ClearBload);
 #endif
 }
 
@@ -575,6 +570,6 @@ void *BloadDeftemplateModuleReference(
     return ((void *) &DeftemplateBinaryData(theEnv)->ModuleArray[theIndex]);
 }
 
-#endif /* DEFTEMPLATE_CONSTRUCT && (BLOAD || BLOAD_AND_BSAVE) */
+#endif /* DEFTEMPLATE_CONSTRUCT && (BLOAD_AND_BSAVE) */
 
 

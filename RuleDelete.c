@@ -48,7 +48,7 @@
 #include <string.h>
 
 #include "Agenda.h"
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 #include "Construct.h"

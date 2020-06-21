@@ -62,7 +62,7 @@
 #if DEVELOPER
 #include "exprnops.h"
 #endif
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 #include "Constants.h"
@@ -251,7 +251,7 @@ static void DeallocateObjectReteData(
         Environment *theEnv) {
     OBJECT_PATTERN_NODE *theNetwork;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv)) return;
 #endif
 

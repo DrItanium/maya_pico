@@ -53,7 +53,7 @@
 
 #include "Setup.h"
 
-#if OBJECT_SYSTEM && (BLOAD || BLOAD_AND_BSAVE)
+#if OBJECT_SYSTEM && (BLOAD_AND_BSAVE)
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"
@@ -235,11 +235,6 @@ void SetupObjectsBload(
                   BloadStorageObjects, BloadObjects,
                   ClearBloadObjects);
 #endif
-#if BLOAD
-    AddBinaryItem(theEnv,"defclass",0,NULL,NULL,NULL,NULL,
-                              BloadStorageObjects,BloadObjects,
-                              ClearBloadObjects);
-#endif
 
 }
 
@@ -252,7 +247,7 @@ static void DeallocateObjectBinaryData(
     size_t space;
     unsigned long i;
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
 
     space = (sizeof(DEFCLASS_MODULE) * ObjectBinaryData(theEnv)->ModuleCount);
     if (space != 0) genfree(theEnv, ObjectBinaryData(theEnv)->ModuleArray, space);

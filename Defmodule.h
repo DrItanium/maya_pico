@@ -211,7 +211,7 @@ struct defmoduleData {
     struct portConstructItem *ListOfPortConstructItems;
     unsigned short NumberOfDefmodules;
     struct voidCallFunctionItem *AfterModuleDefinedFunctions;
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     unsigned long BNumberOfDefmodules;
     unsigned long NumberOfPortItems;
     struct portItem *PortItemArray;

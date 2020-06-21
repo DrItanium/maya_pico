@@ -107,7 +107,7 @@ struct expressionData {
     FunctionDefinition *PTR_NEQ;
     FunctionDefinition *PTR_NOT;
     EXPRESSION_HN **ExpressionHashTable;
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     unsigned long NumberOfExpressions;
     Expression *ExpressionArray;
     unsigned long ExpressionCount;
@@ -135,7 +135,7 @@ bool SetSequenceOperatorRecognition(Environment *, bool);
 bool GetSequenceOperatorRecognition(Environment *);
 Expression *AddHashedExpression(Environment *, Expression *);
 void RemoveHashedExpression(Environment *, Expression *);
-#if BLOAD_AND_BSAVE || BLOAD
+#if BLOAD_AND_BSAVE
 unsigned long HashedExpressionIndex(Environment *, Expression *);
 #endif
 #define ExpressionPointer(i) ((struct expr *) (((i) == ULONG_MAX) ? NULL : &ExpressionData(theEnv)->ExpressionArray[i]))

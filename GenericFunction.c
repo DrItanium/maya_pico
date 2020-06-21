@@ -65,7 +65,7 @@
 
 #if DEFGENERIC_CONSTRUCT
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
 
@@ -183,7 +183,7 @@ bool ClearDefmethods(
     Defgeneric *gfunc;
     bool success = true;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv) == true) return false;
 #endif
 
@@ -283,7 +283,7 @@ bool ClearDefgenerics(
     Defgeneric *gfunc, *gtmp;
     bool success = true;
 
-#if BLOAD || BLOAD_AND_BSAVE
+#if BLOAD_AND_BSAVE
     if (Bloaded(theEnv) == true) return false;
 #endif
 

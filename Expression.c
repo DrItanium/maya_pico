@@ -100,7 +100,7 @@ static void DeallocateExpressionData(
     int i;
     EXPRESSION_HN *tmpPtr, *nextPtr;
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     if (!Bloaded(theEnv))
 #endif
     {
@@ -118,7 +118,7 @@ static void DeallocateExpressionData(
     rm(theEnv, ExpressionData(theEnv)->ExpressionHashTable,
        sizeof(EXPRESSION_HN *) * EXPRESSION_HASH_SIZE);
 
-#if (BLOAD || BLOAD_AND_BSAVE)
+#if (BLOAD_AND_BSAVE)
     if ((ExpressionData(theEnv)->NumberOfExpressions != 0) && Bloaded(theEnv)) {
         genfree(theEnv, ExpressionData(theEnv)->ExpressionArray,
                 ExpressionData(theEnv)->NumberOfExpressions * sizeof(struct expr));
@@ -401,7 +401,7 @@ Expression *AddHashedExpression(
     return (exphash->exp);
 }
 
-#if (BLOAD_AND_BSAVE || BLOAD)
+#if (BLOAD_AND_BSAVE)
 
 /***************************************************
   NAME         : HashedExpressionIndex
@@ -424,7 +424,7 @@ unsigned long HashedExpressionIndex(
     return ((exphash != NULL) ? exphash->bsaveID : ULONG_MAX);
 }
 
-#endif /* (BLOAD_AND_BSAVE || BLOAD) */
+#endif /* (BLOAD_AND_BSAVE) */
 
 /********************************************************/
 /* SetSequenceOperatorRecognition: C access routine     */
