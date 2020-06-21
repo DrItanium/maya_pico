@@ -262,6 +262,7 @@ void InitializeNonportableFeatures(
 #if MAC_XCD
 #pragma unused(theEnv)
 #endif
+    // if you need to setup anything system or platform specific then you should put that code here
 }
 
 /**************************************/
@@ -345,6 +346,7 @@ int gensprintf(
 /* genrand: Generic random number generator function. */
 /******************************************************/
 int genrand() {
+    /// @todo migrate this to use C++11's new random functionality
     return (rand());
 }
 
@@ -363,7 +365,7 @@ void genseed(
 char *gengetcwd(
         char *buffer,
         int buflength) {
-#if MAC_XCD
+#if MAC_XCD || DARWIN || LINUX
     return(getcwd(buffer,buflength));
 #else
     if (buffer != NULL) { buffer[0] = 0; }
