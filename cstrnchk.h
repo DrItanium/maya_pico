@@ -79,10 +79,8 @@ typedef enum
                                                                   ConstraintViolationType,CONSTRAINT_RECORD *,bool);
    ConstraintViolationType        ConstraintCheckValue(Environment *,int,void *,CONSTRAINT_RECORD *);
    ConstraintViolationType        ConstraintCheckDataObject(Environment *,UDFValue *,CONSTRAINT_RECORD *);
-#if (! BLOAD_ONLY)
    ConstraintViolationType        ConstraintCheckExpression(Environment *,struct expr *,
                                                             CONSTRAINT_RECORD *);
-#endif
    bool                           UnmatchableConstraint(struct constraintRecord *);
 
 #endif /* _H_cstrnchk */

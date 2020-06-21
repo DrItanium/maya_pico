@@ -767,7 +767,6 @@ ConstraintViolationType ConstraintCheckExpressionChain(
    return NO_VIOLATION;
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************/
 /* ConstraintCheckExpression: Checks an expression */
@@ -797,7 +796,6 @@ ConstraintViolationType ConstraintCheckExpression(
    return rv;
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 /*****************************************************/
 /* UnmatchableConstraint: Determines if a constraint */

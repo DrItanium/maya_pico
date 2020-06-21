@@ -71,10 +71,8 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static void                     InstallConstraintRecord(Environment *,CONSTRAINT_RECORD *);
    static bool                     ConstraintCompare(struct constraintRecord *,struct constraintRecord *);
-#endif
    static void                     ReturnConstraintRecord(Environment *,CONSTRAINT_RECORD *);
    static void                     DeinstallConstraintRecord(Environment *,CONSTRAINT_RECORD *);
    static void                     DeallocateConstraintData(Environment *);
@@ -87,13 +85,10 @@
 void InitializeConstraints(
   Environment *theEnv)
   {
-#if (! BLOAD_ONLY)
    int i;
-#endif
 
    AllocateEnvironmentData(theEnv,CONSTRAINT_DATA,sizeof(struct constraintData),DeallocateConstraintData);
 
-#if (! BLOAD_ONLY)
 
     ConstraintData(theEnv)->ConstraintHashtable = (struct constraintRecord **)
                           gm2(theEnv,sizeof (struct constraintRecord *) *
@@ -102,7 +97,6 @@ void InitializeConstraints(
     if (ConstraintData(theEnv)->ConstraintHashtable == NULL) ExitRouter(theEnv,EXIT_FAILURE);
 
     for (i = 0; i < SIZE_CONSTRAINT_HASH; i++) ConstraintData(theEnv)->ConstraintHashtable[i] = NULL;
-#endif
 
    AddUDF(theEnv,"get-dynamic-constraint-checking","b",0,0,NULL,GDCCommand,"GDCCommand",NULL);
    AddUDF(theEnv,"set-dynamic-constraint-checking","b",1,1,NULL,SDCCommand,"SDCCommand",NULL);
@@ -253,7 +247,6 @@ void RemoveConstraint(
    return;
   }
 
-#if (! BLOAD_ONLY)
 
 /***********************************/
 /* HashConstraint: Returns a hash  */
@@ -487,7 +480,6 @@ static void InstallConstraintRecord(
      { InstallConstraintRecord(theEnv,constraints->multifield); }
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 /**********************************************/
 /* SDCCommand: H/L access routine for the     */

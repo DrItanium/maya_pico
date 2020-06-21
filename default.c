@@ -231,7 +231,6 @@ static void *FindDefaultValue(
    return(standardDefault);
   }
 
-#if (! BLOAD_ONLY)
 
 /**********************************************/
 /* ParseDefault: Parses a default value list. */
@@ -451,4 +450,3 @@ struct expr *ParseDefault(
    return(defaultList);
   }
 
-#endif /* (! BLOAD_ONLY) */

@@ -1129,7 +1129,6 @@ static struct expr *AddToUnionList(
    return(theHead);
   }
 
-#if (! BLOAD_ONLY)
 
 /****************************************************/
 /* RemoveConstantFromConstraint: Removes a constant */
@@ -1173,4 +1172,3 @@ void RemoveConstantFromConstraint(
    UpdateRestrictionFlags(theConstraint);
   }
 
-#endif /* (! BLOAD_ONLY) */

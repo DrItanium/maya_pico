@@ -782,16 +782,13 @@ WriteString(theEnv,STDOUT,"Text processing function package is ");
 #endif
 
 WriteString(theEnv,STDOUT,"Bload capability is ");
-#if BLOAD_ONLY
-  WriteString(theEnv,STDOUT,"BLOAD ONLY");
-#endif
 #if BLOAD
   WriteString(theEnv,STDOUT,"BLOAD");
 #endif
 #if BLOAD_AND_BSAVE
   WriteString(theEnv,STDOUT,"BLOAD AND BSAVE");
 #endif
-#if (! BLOAD_ONLY) && (! BLOAD) && (! BLOAD_AND_BSAVE)
+#if (! BLOAD) && (! BLOAD_AND_BSAVE)
   WriteString(theEnv,STDOUT,"OFF ");
 #endif
 WriteString(theEnv,STDOUT,"\n");
@@ -1079,16 +1076,12 @@ void SetSORCommand(
   UDFContext *context,
   UDFValue *returnValue)
   {
-#if (! BLOAD_ONLY)
    UDFValue theArg;
 
    if (! UDFFirstArgument(context,SYMBOL_BIT,&theArg))
      { return; }
 
    returnValue->lexemeValue = CreateBoolean(theEnv,SetSequenceOperatorRecognition(theEnv,theArg.value != FalseSymbol(theEnv)));
-#else
-   returnValue->lexemeValue = CreateBoolean(theEnv,ExpressionData(theEnv)->SequenceOpMode);
-#endif
   }
 
 /********************************************************************

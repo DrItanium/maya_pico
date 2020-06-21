@@ -78,7 +78,6 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static void                    MarkNetworkForIncrementalReset(Environment *,Defrule *,bool);
    static void                    MarkJoinsForIncrementalReset(Environment *,struct joinNode *,bool);
    static void                    CheckForPrimableJoins(Environment *,Defrule *,struct joinNode *);
@@ -86,7 +85,6 @@
    static void                    PrimeJoinFromRightMemory(Environment *,struct joinNode *);
    static void                    MarkPatternForIncrementalReset(Environment *,unsigned short,
                                                                  struct patternNodeHeader *,bool);
-#endif
 
 /**************************************************************/
 /* IncrementalReset: Incrementally resets the specified rule. */
@@ -95,7 +93,6 @@ void IncrementalReset(
   Environment *theEnv,
   Defrule *tempRule)
   {
-#if (! BLOAD_ONLY)
    Defrule *tempPtr;
    struct patternParser *theParser;
 
@@ -147,10 +144,8 @@ void IncrementalReset(
    /*====================================================*/
 
    MarkNetworkForIncrementalReset(theEnv,tempRule,false);
-#endif
   }
 
-#if (! BLOAD_ONLY)
 
 /**********************************************************************/
 /* MarkNetworkForIncrementalReset: Coordinates marking the initialize */
@@ -524,7 +519,5 @@ static void MarkPatternForIncrementalReset(
         { (*tempParser->markIRPatternFunction)(theEnv,theHeader,value); }
      }
   }
-
-#endif
 
 #endif /* DEFRULE_CONSTRUCT */

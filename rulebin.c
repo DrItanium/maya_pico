@@ -102,7 +102,7 @@ void DefruleBinarySetup(
                              BloadStorage,BloadBinaryItem,
                              ClearBload);
 #endif
-#if BLOAD || BLOAD_ONLY
+#if BLOAD
    AddBinaryItem(theEnv,"defrule",20,NULL,NULL,NULL,NULL,
                              BloadStorage,BloadBinaryItem,
                              ClearBload);

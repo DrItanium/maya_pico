@@ -97,9 +97,7 @@
 #include "prcdrfun.h"
 #include "prntutil.h"
 #include "router.h"
-#if (! BLOAD_ONLY)
 #include "scanner.h"
-#endif
 #include "utility.h"
 
 /**************/
@@ -121,11 +119,9 @@ typedef struct fieldVarStack
 #if MULTIFIELD_FUNCTIONS
    static bool                    MVRangeCheck(size_t,size_t,size_t *,unsigned int);
    static void                    MultifieldPrognDriver(UDFContext *,UDFValue *,const char *);
-#if (! BLOAD_ONLY)
    static struct expr            *MultifieldPrognParser(Environment *,struct expr *,const char *);
    static struct expr            *ForeachParser(Environment *,struct expr *,const char *);
    static void                    ReplaceMvPrognFieldVars(Environment *,CLIPSLexeme *,struct expr *,int);
-#endif /* (! BLOAD_ONLY) */
 #endif /* MULTIFIELD_FUNCTIONS */
    static void                    MVRangeErrorSizet(Environment *,size_t,size_t,size_t,const char *);
 #endif /* MULTIFIELD_FUNCTIONS || OBJECT_SYSTEM */
@@ -174,10 +170,8 @@ void MultifieldFunctionDefinitions(
    AddUDF(theEnv,"(get-progn$-field)","*",0,0,NULL,GetMvPrognField,"GetMvPrognField",NULL);
    AddUDF(theEnv,"(get-progn$-index)","l",0,0,NULL,GetMvPrognIndex,"GetMvPrognIndex",NULL);
 
-#if ! BLOAD_ONLY
    AddFunctionParser(theEnv,"progn$",MultifieldPrognParser);
    AddFunctionParser(theEnv,"foreach",ForeachParser);
-#endif
   }
 
 /****************************************/
@@ -1083,7 +1077,6 @@ static bool MVRangeCheck(
   return true;
 }
 
-#if (! BLOAD_ONLY)
 
 /******************************************************/
 /* MultifieldPrognParser: Parses the progn$ function. */
@@ -1335,7 +1328,6 @@ static void ReplaceMvPrognFieldVars(
      }
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 /*****************************************/
 /* MultifieldPrognFunction: H/L access   */

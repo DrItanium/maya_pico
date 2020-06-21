@@ -157,14 +157,11 @@ void FreeDefgenericModule(
   Environment *theEnv,
   void *theItem)
   {
-#if (! BLOAD_ONLY)
    FreeConstructHeaderModule(theEnv,(struct defmoduleItemHeader *) theItem,DefgenericData(theEnv)->DefgenericConstruct);
-#endif
    rtn_struct(theEnv,defgenericModule,theItem);
   }
 
 
-#if (! BLOAD_ONLY)
 
 /************************************************************
   NAME         : ClearDefmethods
@@ -455,7 +452,6 @@ bool MethodsExecuting(
    return false;
   }
 
-#endif
 
 #if ! OBJECT_SYSTEM
 

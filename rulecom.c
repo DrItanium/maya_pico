@@ -99,7 +99,7 @@
 #include "utility.h"
 #include "watch.h"
 
-#if BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY
+#if BLOAD || BLOAD_AND_BSAVE
 #include "rulebin.h"
 #endif
 
@@ -159,14 +159,14 @@ void DefruleCommands(
    AddUDF(theEnv,"get-strategy","y",0,0,NULL,GetStrategyCommand,"GetStrategyCommand",NULL);
    AddUDF(theEnv,"set-strategy","y",1,1,"y",SetStrategyCommand,"SetStrategyCommand",NULL);
 
-#if DEVELOPER && (! BLOAD_ONLY)
+#if DEVELOPER
    AddUDF(theEnv,"rule-complexity","l",1,1,"y",RuleComplexityCommand,"RuleComplexityCommand",NULL);
    AddUDF(theEnv,"show-joins","v",1,1,"y",ShowJoinsCommand,"ShowJoinsCommand",NULL);
    AddUDF(theEnv,"show-aht","v",0,0,NULL,ShowAlphaHashTable,"ShowAlphaHashTable",NULL);
 #if DEBUGGING_FUNCTIONS
    AddWatchItem(theEnv,"rule-analysis",0,&DefruleData(theEnv)->WatchRuleAnalysis,0,NULL,NULL);
 #endif
-#endif /* DEVELOPER && (! BLOAD_ONLY) */
+#endif /* DEVELOPER */
 
   }
 

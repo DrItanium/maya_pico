@@ -87,12 +87,10 @@ struct parseFunctionData
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static bool                    QueryErrorCaptureCallback(Environment *,const char *,void *);
    static void                    WriteErrorCaptureCallback(Environment *,const char *,const char *,void *);
    static void                    DeactivateErrorCapture(Environment *);
    static void                    SetErrorCaptureValues(Environment *,UDFValue *);
-#endif
 
 /*****************************************/
 /* ParseFunctionDefinitions: Initializes */
@@ -106,7 +104,6 @@ void ParseFunctionDefinitions(
    AddUDF(theEnv,"check-syntax","ym",1,1,"s",CheckSyntaxFunction,"CheckSyntaxFunction",NULL);
   }
 
-#if (! BLOAD_ONLY)
 /*******************************************/
 /* CheckSyntaxFunction: H/L access routine */
 /*   for the check-syntax function.        */
@@ -378,36 +375,5 @@ static void WriteErrorCaptureCallback(
      }
   }
 
-#else
-/****************************************************/
-/* CheckSyntaxFunction: This is the non-functional  */
-/*   stub provided for use with a run-time version. */
-/****************************************************/
-void CheckSyntaxFunction(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   PrintErrorID(theEnv,"PARSEFUN",1,false);
-   WriteString(theEnv,STDERR,"Function check-syntax does not work in run time modules.\n");
-   returnValue->value = TrueSymbol(theEnv);
-  }
-
-/************************************************/
-/* CheckSyntax: This is the non-functional stub */
-/*   provided for use with a run-time version.  */
-/************************************************/
-bool CheckSyntax(
-  Environment *theEnv,
-  const char *theString,
-  UDFValue *returnValue)
-  {
-   PrintErrorID(theEnv,"PARSEFUN",1,false);
-   WriteString(theEnv,STDERR,"Function check-syntax does not work in run time modules.\n");
-   returnValue->value = TrueSymbol(theEnv);
-   return true;
-  }
-
-#endif /* (! BLOAD_ONLY) */
 
 

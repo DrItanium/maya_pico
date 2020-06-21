@@ -46,7 +46,6 @@
 /*************************************************************/
 
 #include "setup.h"
-
 #if DEFTEMPLATE_CONSTRUCT
 
 #include <stdio.h>
@@ -83,12 +82,10 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static struct templateSlot    *SlotDeclarations(Environment *,const char *,struct token *);
    static struct templateSlot    *ParseSlot(Environment *,const char *,struct token *,struct templateSlot *);
    static struct templateSlot    *DefinedSlots(Environment *,const char *,CLIPSLexeme *,bool,struct token *);
    static bool                    ParseFacetAttribute(Environment *,const char *,struct templateSlot *,bool);
-#endif
 
 /*******************************************************/
 /* ParseDeftemplate: Parses the deftemplate construct. */
@@ -97,7 +94,6 @@ bool ParseDeftemplate(
   Environment *theEnv,
   const char *readSource)
   {
-#if (! BLOAD_ONLY)
    CLIPSLexeme *deftemplateName;
    Deftemplate *newDeftemplate;
    struct templateSlot *slots;
@@ -222,16 +218,10 @@ bool ParseDeftemplate(
 
    InstallDeftemplate(theEnv,newDeftemplate);
 
-#else
-#if MAC_XCD
-#pragma unused(theEnv)
-#endif
-#endif
 
    return false;
   }
 
-#if (! BLOAD_ONLY)
 
 /**************************************************************/
 /* InstallDeftemplate: Increments all occurrences in the hash */
@@ -812,7 +802,6 @@ static bool ParseFacetAttribute(
    return true;
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 

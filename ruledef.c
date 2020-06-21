@@ -85,7 +85,7 @@
 #include "rulepsr.h"
 #include "ruledlt.h"
 
-#if BLOAD || BLOAD_AND_BSAVE || BLOAD_ONLY
+#if BLOAD || BLOAD_AND_BSAVE
 #include "bload.h"
 #include "rulebin.h"
 #endif
@@ -233,7 +233,7 @@ static void InitializeDefruleModules(
    DefruleData(theEnv)->DefruleModuleIndex = RegisterModuleItem(theEnv,"defrule",
                                     AllocateModule,
                                     ReturnModule,
-#if BLOAD_AND_BSAVE || BLOAD || BLOAD_ONLY
+#if BLOAD_AND_BSAVE || BLOAD
                                     BloadDefruleModuleReference,
 #else
                                     NULL,
@@ -377,7 +377,7 @@ Defrule *GetNthDisjunct(
   }
 
 
-#if BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE
+#if BLOAD || BLOAD_AND_BSAVE
 
 /**************************/
 /* AddBetaMemoriesToJoin: */
@@ -458,7 +458,7 @@ void AddBetaMemoriesToJoin(
      { theNode->rightMemory = NULL; }
   }
 
-#endif /* BLOAD_ONLY || BLOAD || BLOAD_AND_BSAVE */
+#endif /* BLOAD || BLOAD_AND_BSAVE */
 
 /*##################################*/
 /* Additional Environment Functions */

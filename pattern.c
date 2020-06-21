@@ -62,12 +62,10 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static struct lhsParseNode            *ConjuctiveRestrictionParse(Environment *,const char *,struct token *,bool *);
    static struct lhsParseNode            *LiteralRestrictionParse(Environment *,const char *,struct token *,bool *);
    static bool                            CheckForVariableMixing(Environment *,struct lhsParseNode *);
    static void                            TallyFieldTypes(struct lhsParseNode *);
-#endif
    static void                            DeallocatePatternData(Environment *);
    static struct patternNodeHashEntry   **CreatePatternHashTable(Environment *,unsigned long);
 
@@ -501,7 +499,6 @@ struct patternParser *GetPatternParser(
   }
 
 
-#if (! BLOAD_ONLY)
 
 /****************************************************************/
 /* PostPatternAnalysis: Calls the post analysis routines for    */
@@ -1218,8 +1215,6 @@ static struct lhsParseNode *LiteralRestrictionParse(
 
    return topNode;
   }
-
-#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFRULE_CONSTRUCT */
 

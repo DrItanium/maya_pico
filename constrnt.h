@@ -119,10 +119,8 @@ struct constraintData
    void                           SDCCommand(Environment *,UDFContext *,UDFValue *);
    bool                           SetDynamicConstraintChecking(Environment *,bool);
    bool                           GetDynamicConstraintChecking(Environment *);
-#if (! BLOAD_ONLY)
    unsigned long                  HashConstraint(struct constraintRecord *);
    struct constraintRecord       *AddConstraint(Environment *,struct constraintRecord *);
-#endif
    void                           RemoveConstraint(Environment *,struct constraintRecord *);
 
 #endif

@@ -51,7 +51,7 @@
    ***************************************** */
 #include "setup.h"
 
-#if OBJECT_SYSTEM && (! BLOAD_ONLY)
+#if OBJECT_SYSTEM
 
 #include <string.h>
 

@@ -209,7 +209,6 @@ void SetAnyRestrictionFlags(
    theConstraint->instanceNameRestriction = flag2;
   }
 
-#if (! BLOAD_ONLY)
 
 /*****************************************************/
 /* SetConstraintType: Given a constraint type and a  */
@@ -302,7 +301,6 @@ bool SetConstraintType(
    return(rv);
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 /*************************************************************/
 /* CompareNumbers: Given two numbers (which can be integers, */

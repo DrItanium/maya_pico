@@ -91,7 +91,6 @@ void InitializeFactPatterns(
    newPtr->priority = 0;
    newPtr->entityType = &FactData(theEnv)->FactInfo;
 
-#if (! BLOAD_ONLY)
    newPtr->recognizeFunction = FactPatternParserFind;
    newPtr->parseFunction = FactPatternParse;
    newPtr->postAnalysisFunction = NULL;
@@ -107,32 +106,11 @@ void InitializeFactPatterns(
    newPtr->genComparePNValuesFunction = FactPNVariableComparison;
    newPtr->returnUserDataFunction = NULL;
    newPtr->copyUserDataFunction = NULL;
-#else
-   newPtr->recognizeFunction = NULL;
-   newPtr->parseFunction = NULL;
-   newPtr->postAnalysisFunction = NULL;
-   newPtr->addPatternFunction = NULL;
-   newPtr->removePatternFunction = NULL;
-   newPtr->genJNConstantFunction = NULL;
-   newPtr->replaceGetJNValueFunction = NULL;
-   newPtr->genGetJNValueFunction = NULL;
-   newPtr->genCompareJNValuesFunction = NULL;
-   newPtr->genPNConstantFunction = NULL;
-   newPtr->replaceGetPNValueFunction = NULL;
-   newPtr->genGetPNValueFunction = NULL;
-   newPtr->genComparePNValuesFunction = NULL;
-   newPtr->returnUserDataFunction = NULL;
-   newPtr->copyUserDataFunction = NULL;
-#endif
 
    newPtr->markIRPatternFunction = MarkFactPatternForIncrementalReset;
    newPtr->incrementalResetFunction = FactsIncrementalReset;
 
-#if (! BLOAD_ONLY)
    newPtr->codeReferenceFunction = NULL;
-#else
-   newPtr->codeReferenceFunction = NULL;
-#endif
 
    AddPatternParser(theEnv,newPtr);
 #endif

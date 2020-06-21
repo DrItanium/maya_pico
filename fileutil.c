@@ -796,14 +796,12 @@ bool RemoveBatch(
       FileCommandData(theEnv)->BatchMaximumPosition = 0;
       rv = false;
 
-#if (! BLOAD_ONLY)
       if (fileBatch)
         {
          SetParsingFileName(theEnv,FileCommandData(theEnv)->batchPriorParsingFile);
          DeleteString(theEnv,FileCommandData(theEnv)->batchPriorParsingFile);
          FileCommandData(theEnv)->batchPriorParsingFile = NULL;
         }
-#endif
      }
 
    /*===========================================*/
@@ -817,12 +815,10 @@ bool RemoveBatch(
       FileCommandData(theEnv)->BatchLogicalSource = FileCommandData(theEnv)->TopOfBatchList->logicalSource;
       FileCommandData(theEnv)->BatchCurrentPosition = 0;
       rv = true;
-#if (! BLOAD_ONLY)
       if (FileCommandData(theEnv)->TopOfBatchList->batchType == FILE_BATCH)
         { SetParsingFileName(theEnv,FileCommandData(theEnv)->TopOfBatchList->fileName); }
 
       SetLineCount(theEnv,FileCommandData(theEnv)->TopOfBatchList->lineNumber);
-#endif
      }
 
    /*====================================================*/

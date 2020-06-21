@@ -65,7 +65,6 @@
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static bool                    ParseRangeCardinalityAttribute(Environment *,
                                                                  const char *,CONSTRAINT_RECORD *,
                                                                  CONSTRAINT_PARSE_RECORD *,
@@ -82,7 +81,6 @@
    static void                    SetRestrictionFlag(int,CONSTRAINT_RECORD *,bool);
    static void                    SetParseFlag(CONSTRAINT_PARSE_RECORD *,const char *);
    static void                    NoConjunctiveUseError(Environment *,const char *,const char *);
-#endif
 
 /********************************************************************/
 /* CheckConstraintParseConflicts: Determines if a constraint record */
@@ -221,7 +219,6 @@ void AttributeConflictErrorMessage(
    WriteString(theEnv,STDERR,"' attribute.\n");
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************************************/
 /* InitializeConstraintParseRecord: Initializes the values of a constraint */
@@ -1387,5 +1384,4 @@ static void SetParseFlag(
      { parsedConstraints->allowedClasses = true; }
   }
 
-#endif /* (! BLOAD_ONLY) */
 

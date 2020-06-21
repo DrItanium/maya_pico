@@ -156,7 +156,7 @@ void SetupObjectPatternsBload(
                              BloadStorageObjectPatterns,BloadObjectPatterns,
                              ClearBloadObjectPatterns);
 #endif
-#if BLOAD || BLOAD_ONLY
+#if BLOAD
    AddBinaryItem(theEnv,"object patterns",0,NULL,NULL,NULL,NULL,
                              BloadStorageObjectPatterns,BloadObjectPatterns,
                              ClearBloadObjectPatterns);
@@ -692,9 +692,6 @@ static void ClearBloadObjectPatterns(
 
    SetObjectNetworkTerminalPointer(theEnv,NULL);
    SetObjectNetworkPointer(theEnv,NULL);
-#if BLOAD_ONLY
-   ResetObjectMatchTimeTags(theEnv);
-#endif
   }
 
 #endif

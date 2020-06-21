@@ -136,7 +136,7 @@ struct defruleData
     bool WatchRules;
     int DeletedRuleDebugFlags;
 #endif
-#if DEVELOPER && (! BLOAD_ONLY)
+#if DEVELOPER
     bool WatchRuleAnalysis;
 #endif
   };

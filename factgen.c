@@ -93,14 +93,12 @@ struct factgenData
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
 
-#if (! BLOAD_ONLY)
    static void                      *FactGetVarJN1(Environment *,struct lhsParseNode *,int);
    static void                      *FactGetVarJN2(Environment *,struct lhsParseNode *,int);
    static void                      *FactGetVarJN3(Environment *,struct lhsParseNode *,int);
    static void                      *FactGetVarPN1(Environment *,struct lhsParseNode *);
    static void                      *FactGetVarPN2(Environment *,struct lhsParseNode *);
    static void                      *FactGetVarPN3(Environment *,struct lhsParseNode *);
-#endif
 
 /*******************************************************************/
 /* InitializeFactReteFunctions: Installs the fact pattern matching */
@@ -224,7 +222,6 @@ void InitializeFactReteFunctions(
 #endif
   }
 
-#if (! BLOAD_ONLY)
 
 /******************************************************************/
 /* FactGenPNConstant: Generates an expression for use in the fact */
@@ -1298,7 +1295,6 @@ struct expr *FactJNVariableComparison(
    return(top);
   }
 
-#endif /* (! BLOAD_ONLY) */
 
 #endif /* DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT */
 

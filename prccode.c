@@ -116,12 +116,10 @@ typedef struct
    static void                    DeallocateProceduralPrimitiveData(Environment *);
    static void                    ReleaseProcParameters(Environment *);
 
-#if (! BLOAD_ONLY)
    static unsigned int            FindProcParameter(CLIPSLexeme *,Expression *,CLIPSLexeme *);
    static bool                    ReplaceProcBinds(Environment *,Expression *,
                                                    int (*)(Environment *,Expression *,void *),void *);
    static Expression             *CompactActions(Environment *,Expression *);
-#endif
 
 #if (! DEFFUNCTION_CONSTRUCT) || (! DEFGENERIC_CONSTRUCT)
    static bool                    EvaluateBadCall(Environment *,void *,UDFValue *);
@@ -228,7 +226,6 @@ static void DeallocateProceduralPrimitiveData(
    ReleaseProcParameters(theEnv);
   }
 
-#if (! BLOAD_ONLY)
 
 #if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
 
@@ -656,7 +653,6 @@ Expression *GenProcWildcardReference(
 
 #endif
 
-#endif
 
 /*******************************************************************
   NAME         : PushProcParameters
@@ -1299,7 +1295,6 @@ static bool RtnProcWild(
    return true;
   }
 
-#if (! BLOAD_ONLY)
 
 /***************************************************
   NAME         : FindProcParameter
@@ -1439,7 +1434,6 @@ static Expression *CompactActions(
    return(actions);
   }
 
-#endif
 
 #if (! DEFFUNCTION_CONSTRUCT) || (! DEFGENERIC_CONSTRUCT)
 

@@ -74,9 +74,7 @@
 #include "drive.h"
 #include "engine.h"
 #include "envrnmnt.h"
-#if (! BLOAD_ONLY)
 #include "incrrset.h"
-#endif
 #include "lgcldpnd.h"
 #include "multifld.h"
 #include "objrtfnx.h"
@@ -681,14 +679,12 @@ static void MarkObjectPatternNetwork(
          If an incremental reset is in progress, make sure that the
          pattern has been marked for initialization before proceeding.
          ============================================================= */
-#if (! BLOAD_ONLY)
       if (EngineData(theEnv)->IncrementalResetInProgress &&
           (alphaPtr->header.initialize == false))
         {
          current_alpha_link = current_alpha_link->next;
          continue;
         }
-#endif
 
       /* ===================================================
          If we are doing an assert, then we need to
