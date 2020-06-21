@@ -818,14 +818,11 @@ void SeekFunction(
 
     if (strcmp(seekCode, "seek-set") == 0) {
         returnValue->lexemeValue = CreateBoolean(theEnv, SeekFile(theEnv, logicalName, offset, SEEK_SET));
-    }
-    else if (strcmp(seekCode, "seek-cur") == 0) {
+    } else if (strcmp(seekCode, "seek-cur") == 0) {
         returnValue->lexemeValue = CreateBoolean(theEnv, SeekFile(theEnv, logicalName, offset, SEEK_CUR));
-    }
-    else if (strcmp(seekCode, "seek-end") == 0) {
+    } else if (strcmp(seekCode, "seek-end") == 0) {
         returnValue->lexemeValue = CreateBoolean(theEnv, SeekFile(theEnv, logicalName, offset, SEEK_END));
-    }
-    else {
+    } else {
         UDFInvalidArgumentMessage(context,
                                   "symbol with value seek-set, seek-cur, or seek-end");
         returnValue->lexemeValue = FalseSymbol(theEnv);

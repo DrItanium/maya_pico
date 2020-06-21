@@ -418,7 +418,8 @@ static void ClearBload(
     /* contained in the construct headers.         */
     /*=============================================*/
 
-    for (i = 0; i < DeffactsBinaryData(theEnv)->NumberOfDeffacts; i++) { UnmarkConstructHeader(theEnv, &DeffactsBinaryData(
+    for (i = 0; i < DeffactsBinaryData(theEnv)->NumberOfDeffacts; i++) {
+        UnmarkConstructHeader(theEnv, &DeffactsBinaryData(
                 theEnv)->DeffactsArray[i].header);
     }
 

@@ -217,8 +217,7 @@ void MakeInstanceCommand(
 
     if (CoreInitializeInstance(theEnv, ins, GetFirstArgument()->nextArg->nextArg) == true) {
         returnValue->value = GetFullInstanceName(theEnv, ins);
-    }
-    else
+    } else
         QuashInstance(theEnv, ins);
 }
 
@@ -1506,8 +1505,7 @@ PutSlotError IBPutSlot(
 
     if (slotValue->header->type == MULTIFIELD_TYPE) {
         theIB->ibValueArray[whichSlot].multifieldValue = CopyMultifield(theEnv, slotValue->multifieldValue);
-    }
-    else { theIB->ibValueArray[whichSlot].value = slotValue->value; }
+    } else { theIB->ibValueArray[whichSlot].value = slotValue->value; }
 
     Retain(theEnv, theIB->ibValueArray[whichSlot].header);
 
@@ -1551,11 +1549,9 @@ Instance *IBMake(
     if (theInstance == NULL) {
         if (InstanceData(theEnv)->makeInstanceError == MIE_COULD_NOT_CREATE_ERROR) {
             InstanceData(theEnv)->instanceBuilderError = IBE_COULD_NOT_CREATE_ERROR;
-        }
-        else if (InstanceData(theEnv)->makeInstanceError == MIE_RULE_NETWORK_ERROR) {
+        } else if (InstanceData(theEnv)->makeInstanceError == MIE_RULE_NETWORK_ERROR) {
             InstanceData(theEnv)->instanceBuilderError = IBE_RULE_NETWORK_ERROR;
-        }
-        else {
+        } else {
             SystemError(theEnv, "INSMNGR", 3);
             ExitRouter(theEnv, EXIT_FAILURE);
         }
@@ -2021,8 +2017,7 @@ PutSlotError IMPutSlot(
 
     if (slotValue->header->type == MULTIFIELD_TYPE) {
         theIM->imValueArray[whichSlot].multifieldValue = CopyMultifield(theIM->imEnv, slotValue->multifieldValue);
-    }
-    else { theIM->imValueArray[whichSlot].value = slotValue->value; }
+    } else { theIM->imValueArray[whichSlot].value = slotValue->value; }
 
     Retain(theIM->imEnv, theIM->imValueArray[whichSlot].header);
 
@@ -2066,12 +2061,10 @@ Instance *IMModify(
     if ((InstanceData(theEnv)->makeInstanceError == MIE_RULE_NETWORK_ERROR) ||
         (InstanceData(theEnv)->unmakeInstanceError == UIE_RULE_NETWORK_ERROR)) {
         InstanceData(theEnv)->instanceModifierError = IME_RULE_NETWORK_ERROR;
-    }
-    else if ((InstanceData(theEnv)->unmakeInstanceError == UIE_COULD_NOT_DELETE_ERROR) ||
-             (InstanceData(theEnv)->makeInstanceError == MIE_COULD_NOT_CREATE_ERROR)) {
+    } else if ((InstanceData(theEnv)->unmakeInstanceError == UIE_COULD_NOT_DELETE_ERROR) ||
+               (InstanceData(theEnv)->makeInstanceError == MIE_COULD_NOT_CREATE_ERROR)) {
         InstanceData(theEnv)->instanceModifierError = IME_COULD_NOT_MODIFY_ERROR;
-    }
-    else { InstanceData(theEnv)->instanceModifierError = IME_NO_ERROR; }
+    } else { InstanceData(theEnv)->instanceModifierError = IME_NO_ERROR; }
 
 #if DEFRULE_CONSTRUCT
     SetDelayObjectPatternMatching(theIM->imEnv, ov);

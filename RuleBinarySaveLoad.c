@@ -904,8 +904,7 @@ static void UpdateJoin(
 
     if (bj->joinFromTheRight == true) {
         DefruleBinaryData(theEnv)->JoinArray[obji].rightSideEntryStructure = (void *) BloadJoinPointer(bj->rightSideEntryStructure);
-    }
-    else { DefruleBinaryData(theEnv)->JoinArray[obji].rightSideEntryStructure = NULL; }
+    } else { DefruleBinaryData(theEnv)->JoinArray[obji].rightSideEntryStructure = NULL; }
 
     DefruleBinaryData(theEnv)->JoinArray[obji].rightMatchNode = BloadJoinPointer(bj->rightMatchNode);
     DefruleBinaryData(theEnv)->JoinArray[obji].ruleToActivate = BloadDefrulePointer(DefruleBinaryData(theEnv)->DefruleArray,

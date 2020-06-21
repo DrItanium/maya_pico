@@ -456,7 +456,8 @@ struct expr *GetAssertArgument(
         #if OBJECT_SYSTEM
         (theToken->tknType == INSTANCE_NAME_TOKEN) ||
         #endif
-        (theToken->tknType == FLOAT_TOKEN) || (theToken->tknType == INTEGER_TOKEN)) { return (GenConstant(theEnv, TokenTypeToType(
+        (theToken->tknType == FLOAT_TOKEN) || (theToken->tknType == INTEGER_TOKEN)) {
+        return (GenConstant(theEnv, TokenTypeToType(
                 theToken->tknType), theToken->value));
     }
 

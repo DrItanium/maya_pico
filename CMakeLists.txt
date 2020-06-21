@@ -10,37 +10,37 @@ add_library(clips
         BinaryLoad.c
         BasicMathFunctions.c
         BinarySave.c
-		ClassCommands.c
-		ClassExamination.c
-		ClassFunctions.c
-		ClassInfo.c
-		ClassInitialization.c
-		ClassParser.c
-		ClassSlotParser.c
+        ClassCommands.c
+        ClassExamination.c
+        ClassFunctions.c
+        ClassInfo.c
+        ClassInitialization.c
+        ClassParser.c
+        ClassSlotParser.c
         CommandLine.c
         Construct.c
         Constraint.c
         ConflictResolutionStrategy.c
-		ConstructBinaryLoadSave.c
-		ConstructCommand.c
-		ConstructParser.c
-		ConstraintBinaryLoadSave.c
-		ConstraintChecking.c
-		ConstraintOperations.c
-		ConstraintParser.c
-		ConstraintUtilities.c
+        ConstructBinaryLoadSave.c
+        ConstructCommand.c
+        ConstructParser.c
+        ConstraintBinaryLoadSave.c
+        ConstraintChecking.c
+        ConstraintOperations.c
+        ConstraintParser.c
+        ConstraintUtilities.c
         DefaultAttribute.c
         Definstances.c
         Developer.c
-		DeffactsBinarySaveLoad.c
-		DeffactsBasicCommands.c
-		Deffacts.c
-		DeffactsParser.c
-		DeffunctionBinaryLoadSave.c
-		DeffunctionExecution.c
-		Deffunction.c
-		DeffunctionParser.c
-		DefinstancesBinaryLoadSave.c
+        DeffactsBinarySaveLoad.c
+        DeffactsBasicCommands.c
+        Deffacts.c
+        DeffactsParser.c
+        DeffunctionBinaryLoadSave.c
+        DeffunctionExecution.c
+        Deffunction.c
+        DeffunctionParser.c
+        DefinstancesBinaryLoadSave.c
         Drive.c
         ExtendedMathFunctions.c
         Engine.c
@@ -52,74 +52,74 @@ add_library(clips
         ExpressionOperations.c
         ExpressionParser.c
         ExternalFunctions.c
-		FactBinarySaveLoad.c
-		FactBuild.c
-		FactCommands.c
-		FactLoadSaveRoutines.c
-		FactFunctions.c
-		FactReteFunctionGeneration.c
-		FactHashing.c
-		FactLHSPatternParsing.c
-		FactMatch.c
-		FactManager.c
-		FactRetePrintFunctions.c
-		FactSetQueriesParser.c
-		FactQuery.c
-		FactReteAccessFunctions.c
-		FactRHSPatternParser.c
+        FactBinarySaveLoad.c
+        FactBuild.c
+        FactCommands.c
+        FactLoadSaveRoutines.c
+        FactFunctions.c
+        FactReteFunctionGeneration.c
+        FactHashing.c
+        FactLHSPatternParsing.c
+        FactMatch.c
+        FactManager.c
+        FactRetePrintFunctions.c
+        FactSetQueriesParser.c
+        FactQuery.c
+        FactReteAccessFunctions.c
+        FactRHSPatternParser.c
         FileCommands.c
         FileRouter.c
         FileUtilities.c
         Generate.c
-		GenericFunctionBinaryLoadSave.c
-		GenericFunctionCommands.c
-		GenericFunctionExecution.c
-		GenericFunction.c
-		GenericFunctionParser.c
-		DefglobalBinary.c
-		DefglobalBasicCommands.c
-		DefglobalCommands.c
-		Defglobal.c
-		DefglobalParser.c
-		ImplicitSystemMethodsParsing.c
-		IncrementalReset.c
-		MultipleInheritanceParser.c
-		InstanceCommand.c
-		InstanceSaveLoadCommands.c
-		InstanceFunctions.c
-		InstanceManager.c
-		InstanceModifyAndDuplicate.c
-		InstanceMultifieldTypeSlot.c
-		InstanceParser.c
-		InstanceQuery.c
-		InstanceSetQueryParser.c
+        GenericFunctionBinaryLoadSave.c
+        GenericFunctionCommands.c
+        GenericFunctionExecution.c
+        GenericFunction.c
+        GenericFunctionParser.c
+        DefglobalBinary.c
+        DefglobalBasicCommands.c
+        DefglobalCommands.c
+        Defglobal.c
+        DefglobalParser.c
+        ImplicitSystemMethodsParsing.c
+        IncrementalReset.c
+        MultipleInheritanceParser.c
+        InstanceCommand.c
+        InstanceSaveLoadCommands.c
+        InstanceFunctions.c
+        InstanceManager.c
+        InstanceModifyAndDuplicate.c
+        InstanceMultifieldTypeSlot.c
+        InstanceParser.c
+        InstanceQuery.c
+        InstanceSetQueryParser.c
         IOFunctions.c
         LogicalDependencies.c
         MemoryAllocation.c
         MiscFunctions.c
-		DefmoduleBinarySaveLoad.c
-		DefModuleBasicCommands.c
-		Defmodule.c
-		DefmoduleParser.c
-		DefmoduleUtility.c
-		DefmessageHandlerCommands.c
-		DefmessageHandlerFunctions.c
-		DefmessageHandlerDispatch.c
-		DefmessageHandlerParser.c
+        DefmoduleBinarySaveLoad.c
+        DefModuleBasicCommands.c
+        Defmodule.c
+        DefmoduleParser.c
+        DefmoduleUtility.c
+        DefmessageHandlerCommands.c
+        DefmessageHandlerFunctions.c
+        DefmessageHandlerDispatch.c
+        DefmessageHandlerParser.c
         Multifield.c
         MultifieldFunctions.c
-		ObjectBinaryLoadSave.c
-		ObjectReteBinarySaveLoad.c
-		ObjectPatternMatcher.c
-		InferenceEngineObjectAccessRotuines.c
-		InferenceEngineObjectParsingRoutines.c
-		ObjectReteMatch.c
+        ObjectBinaryLoadSave.c
+        ObjectReteBinarySaveLoad.c
+        ObjectPatternMatcher.c
+        InferenceEngineObjectAccessRotuines.c
+        InferenceEngineObjectParsingRoutines.c
+        ObjectReteMatch.c
         ParsingFunctions.c
         Pattern.c
         PrettyPrint.c
-		ProceduralCodeSupportRoutines.c
-		ProceduralFunctions.c
-		ProceduralFunctionsParser.c
+        ProceduralCodeSupportRoutines.c
+        ProceduralFunctions.c
+        ProceduralFunctionsParser.c
         PredicateFunctions.c
         PrintUtility.c
         ConstructProfilingFunctions.c
@@ -127,15 +127,15 @@ add_library(clips
         ReteUtility.c
         Retract.c
         Router.c
-		RuleBinarySaveLoad.c
-		RuleBuild.c
-		BasicRuleCommands.c
-		RuleCommands.c
-		RuleConstraints.c
-		Defrule.c
-		RuleDelete.c
-		RuleLHSParsing.c
-		RuleParser.c
+        RuleBinarySaveLoad.c
+        RuleBuild.c
+        BasicRuleCommands.c
+        RuleCommands.c
+        RuleConstraints.c
+        Defrule.c
+        RuleDelete.c
+        RuleLHSParsing.c
+        RuleParser.c
         Scanner.c
         SortingFunctions.c
         StringFunctions.c
@@ -144,14 +144,14 @@ add_library(clips
         Symbol.c
         SystemDependency.c
         TextProcessing.c
-		DeftemplateBinarySaveLoad.c
-		DeftemplateBasicCommands.c
-		Deftemplate.c
-		DeftemplateFunctions.c
-		DeftemplateLHS.c
-		DeftemplateParser.c
-		DeftemplateRHSParsing.c
-		DeftemplateUtilities.c
+        DeftemplateBinarySaveLoad.c
+        DeftemplateBasicCommands.c
+        Deftemplate.c
+        DeftemplateFunctions.c
+        DeftemplateLHS.c
+        DeftemplateParser.c
+        DeftemplateRHSParsing.c
+        DeftemplateUtilities.c
         UserData.c
         UserFunctions.c
         Utility.c

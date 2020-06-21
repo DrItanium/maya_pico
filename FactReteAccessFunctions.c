@@ -504,11 +504,9 @@ bool FactJNGetVar2(
     else if (hack->rhs) { factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalRHSBinds, hack->whichPattern)->matchingItem; }
     else if (EngineData(theEnv)->GlobalRHSBinds == NULL) {
         factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalLHSBinds, hack->whichPattern)->matchingItem;
-    }
-    else if ((EngineData(theEnv)->GlobalJoin->depth - 1) == hack->whichPattern) {
+    } else if ((EngineData(theEnv)->GlobalJoin->depth - 1) == hack->whichPattern) {
         factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalRHSBinds, 0)->matchingItem;
-    }
-    else { factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalLHSBinds, hack->whichPattern)->matchingItem; }
+    } else { factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalLHSBinds, hack->whichPattern)->matchingItem; }
 
     /*============================================*/
     /* Extract the value from the specified slot. */
@@ -551,11 +549,9 @@ bool FactJNGetVar3(
     else if (hack->rhs) { factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalRHSBinds, hack->whichPattern)->matchingItem; }
     else if (EngineData(theEnv)->GlobalRHSBinds == NULL) {
         factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalLHSBinds, hack->whichPattern)->matchingItem;
-    }
-    else if ((EngineData(theEnv)->GlobalJoin->depth - 1) == hack->whichPattern) {
+    } else if ((EngineData(theEnv)->GlobalJoin->depth - 1) == hack->whichPattern) {
         factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalRHSBinds, 0)->matchingItem;
-    }
-    else { factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalLHSBinds, hack->whichPattern)->matchingItem; }
+    } else { factPtr = (Fact *) get_nth_pm_match(EngineData(theEnv)->GlobalLHSBinds, hack->whichPattern)->matchingItem; }
 
     /*============================================================*/
     /* Get the multifield value from which the data is retrieved. */

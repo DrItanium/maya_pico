@@ -516,23 +516,17 @@ void AssignErrorValue(
         BOOLEAN_BIT) { context->returnValue->lexemeValue = context->environment->FalseSymbol; }
     else if (context->theFunction->unknownReturnValueType & STRING_BIT) {
         context->returnValue->lexemeValue = CreateString(context->environment, "");
-    }
-    else if (context->theFunction->unknownReturnValueType & SYMBOL_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & SYMBOL_BIT) {
         context->returnValue->lexemeValue = CreateSymbol(context->environment, "nil");
-    }
-    else if (context->theFunction->unknownReturnValueType & INTEGER_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & INTEGER_BIT) {
         context->returnValue->integerValue = CreateInteger(context->environment, 0);
-    }
-    else if (context->theFunction->unknownReturnValueType & FLOAT_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & FLOAT_BIT) {
         context->returnValue->floatValue = CreateFloat(context->environment, 0.0);
-    }
-    else if (context->theFunction->unknownReturnValueType & MULTIFIELD_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & MULTIFIELD_BIT) {
         SetMultifieldErrorValue(context->environment, context->returnValue);
-    }
-    else if (context->theFunction->unknownReturnValueType & INSTANCE_NAME_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & INSTANCE_NAME_BIT) {
         context->returnValue->lexemeValue = CreateInstanceName(context->environment, "nil");
-    }
-    else if (context->theFunction->unknownReturnValueType & FACT_ADDRESS_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & FACT_ADDRESS_BIT) {
         context->returnValue->factValue = &FactData(context->environment)->DummyFact;
     }
 #if OBJECT_SYSTEM
@@ -542,8 +536,7 @@ void AssignErrorValue(
 #endif
     else if (context->theFunction->unknownReturnValueType & EXTERNAL_ADDRESS_BIT) {
         context->returnValue->value = CreateExternalAddress(context->environment, NULL, 0);
-    }
-    else { context->returnValue->value = context->environment->VoidConstant; }
+    } else { context->returnValue->value = context->environment->VoidConstant; }
 }
 
 /*********************/

@@ -440,13 +440,11 @@ static void UpdateDefmodule(
 
     if (bdp->importList != ULONG_MAX) {
         DefmoduleData(theEnv)->DefmoduleArray[obji].importList = (struct portItem *) &DefmoduleData(theEnv)->PortItemArray[bdp->importList];
-    }
-    else { DefmoduleData(theEnv)->DefmoduleArray[obji].importList = NULL; }
+    } else { DefmoduleData(theEnv)->DefmoduleArray[obji].importList = NULL; }
 
     if (bdp->exportList != ULONG_MAX) {
         DefmoduleData(theEnv)->DefmoduleArray[obji].exportList = (struct portItem *) &DefmoduleData(theEnv)->PortItemArray[bdp->exportList];
-    }
-    else { DefmoduleData(theEnv)->DefmoduleArray[obji].exportList = NULL; }
+    } else { DefmoduleData(theEnv)->DefmoduleArray[obji].exportList = NULL; }
     DefmoduleData(theEnv)->DefmoduleArray[obji].header.bsaveID = bdp->bsaveID;
 }
 
@@ -479,8 +477,7 @@ static void UpdatePortItem(
 
     if (bdp->next != ULONG_MAX) {
         DefmoduleData(theEnv)->PortItemArray[obji].next = (struct portItem *) &DefmoduleData(theEnv)->PortItemArray[bdp->next];
-    }
-    else { DefmoduleData(theEnv)->PortItemArray[obji].next = NULL; }
+    } else { DefmoduleData(theEnv)->PortItemArray[obji].next = NULL; }
 }
 
 /***************************************/

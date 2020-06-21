@@ -2077,12 +2077,12 @@ static struct expr *ModAndDupParse(
     SavePPBuffer(theEnv, " ");
     GetToken(theEnv, logicalName, &theToken);
 
-    if ((theToken.tknType == SF_VARIABLE_TOKEN) || (theToken.tknType == GBL_VARIABLE_TOKEN)) { nextOne = GenConstant(theEnv,
-                                                                                                                     TokenTypeToType(
-                                                                                                                             theToken.tknType),
-                                                                                                                     theToken.value);
-    }
-    else if (theToken.tknType == INTEGER_TOKEN) { nextOne = GenConstant(theEnv, INTEGER_TYPE, theToken.value); }
+    if ((theToken.tknType == SF_VARIABLE_TOKEN) || (theToken.tknType == GBL_VARIABLE_TOKEN)) {
+        nextOne = GenConstant(theEnv,
+                              TokenTypeToType(
+                                      theToken.tknType),
+                              theToken.value);
+    } else if (theToken.tknType == INTEGER_TOKEN) { nextOne = GenConstant(theEnv, INTEGER_TYPE, theToken.value); }
     else if (theToken.tknType == LEFT_PARENTHESIS_TOKEN) {
         nextOne = Function1Parse(theEnv, logicalName);
         if (nextOne == NULL) {

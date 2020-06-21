@@ -237,8 +237,7 @@ void FactPatternMatch(
 
             if (offsetSlot == patternPtr->whichSlot) {
                 ProcessMultifieldNode(theEnv, patternPtr, markers, endMark, offset, multifieldsProcessed);
-            }
-            else { ProcessMultifieldNode(theEnv, patternPtr, markers, endMark, 0, 0); }
+            } else { ProcessMultifieldNode(theEnv, patternPtr, markers, endMark, 0, 0); }
 
             /*===================================================*/
             /* Move on to the next pattern node. Since the lower */
@@ -680,8 +679,7 @@ static void PatternNetErrorMessage(
 
     if (FactData(theEnv)->CurrentPatternFact->whichDeftemplate->implied) {
         gensprintf(buffer, "   Problem resides in field #%d\n", patternPtr->whichField);
-    }
-    else {
+    } else {
         theSlots = FactData(theEnv)->CurrentPatternFact->whichDeftemplate->slotList;
         for (i = 0; i < patternPtr->whichSlot; i++) theSlots = theSlots->next;
         gensprintf(buffer, "   Problem resides in slot %s\n", theSlots->slotName->contents);

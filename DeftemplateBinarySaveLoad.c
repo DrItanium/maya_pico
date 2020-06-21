@@ -468,13 +468,11 @@ static void UpdateDeftemplate(
 
     if (bdtPtr->slotList != ULONG_MAX) {
         theDeftemplate->slotList = (struct templateSlot *) &DeftemplateBinaryData(theEnv)->SlotArray[bdtPtr->slotList];
-    }
-    else { theDeftemplate->slotList = NULL; }
+    } else { theDeftemplate->slotList = NULL; }
 
     if (bdtPtr->patternNetwork != ULONG_MAX) {
         theDeftemplate->patternNetwork = (struct factPatternNode *) BloadFactPatternPointer(bdtPtr->patternNetwork);
-    }
-    else { theDeftemplate->patternNetwork = NULL; }
+    } else { theDeftemplate->patternNetwork = NULL; }
 
     theDeftemplate->implied = bdtPtr->implied;
 #if DEBUGGING_FUNCTIONS

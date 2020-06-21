@@ -169,7 +169,8 @@ static void DeallocateObjectReteBinaryData(
     size_t space;
     unsigned long i;
 
-    for (i = 0; i < ObjectReteBinaryData(theEnv)->AlphaNodeCount; i++) { DestroyAlphaMemory(theEnv, &ObjectReteBinaryData(
+    for (i = 0; i < ObjectReteBinaryData(theEnv)->AlphaNodeCount; i++) {
+        DestroyAlphaMemory(theEnv, &ObjectReteBinaryData(
                 theEnv)->AlphaArray[i].header, false);
     }
 

@@ -246,8 +246,7 @@ void ProfileInfoCommand(
 
         if (ProfileFunctionData(theEnv)->LastProfileInfo == USER_FUNCTIONS) {
             WriteString(theEnv, STDOUT, "Function Name                            ");
-        }
-        else if (ProfileFunctionData(theEnv)->LastProfileInfo == CONSTRUCTS_CODE) {
+        } else if (ProfileFunctionData(theEnv)->LastProfileInfo == CONSTRUCTS_CODE) {
             WriteString(theEnv, STDOUT, "Construct Name                           ");
         }
 
@@ -255,8 +254,7 @@ void ProfileInfoCommand(
 
         if (ProfileFunctionData(theEnv)->LastProfileInfo == USER_FUNCTIONS) {
             WriteString(theEnv, STDOUT, "-------------                            ");
-        }
-        else if (ProfileFunctionData(theEnv)->LastProfileInfo == CONSTRUCTS_CODE) {
+        } else if (ProfileFunctionData(theEnv)->LastProfileInfo == CONSTRUCTS_CODE) {
             WriteString(theEnv, STDOUT, "--------------                           ");
         }
 

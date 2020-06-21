@@ -677,8 +677,7 @@ struct expr *ParseAtomOrExpression(
         #endif
         (thisToken->tknType == SF_VARIABLE_TOKEN) || (thisToken->tknType == MF_VARIABLE_TOKEN)) {
         rv = GenConstant(theEnv, TokenTypeToType(thisToken->tknType), thisToken->value);
-    }
-    else if (thisToken->tknType == LEFT_PARENTHESIS_TOKEN) {
+    } else if (thisToken->tknType == LEFT_PARENTHESIS_TOKEN) {
         rv = Function1Parse(theEnv, logicalName);
         if (rv == NULL) return NULL;
     } else {

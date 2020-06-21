@@ -279,7 +279,8 @@ void ClearBloadedExpressions(
             default:
                 if (EvaluationData(theEnv)->PrimitivesArray[ExpressionData(theEnv)->ExpressionArray[i].type] == NULL) break;
                 if (EvaluationData(theEnv)->PrimitivesArray[ExpressionData(
-                        theEnv)->ExpressionArray[i].type]->bitMap) { DecrementBitMapReferenceCount(theEnv, (CLIPSBitMap *) ExpressionData(
+                        theEnv)->ExpressionArray[i].type]->bitMap) {
+                    DecrementBitMapReferenceCount(theEnv, (CLIPSBitMap *) ExpressionData(
                             theEnv)->ExpressionArray[i].value);
                 }
                 break;

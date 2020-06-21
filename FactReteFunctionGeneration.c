@@ -1182,8 +1182,7 @@ struct expr *FactJNVariableComparison(
 
         if ((!nandJoin) && (selfNode->joinDepth == referringNode->joinDepth)) {
             top->argList->nextArg = FactGenGetvar(theEnv, referringNode, CLIPS_RHS);
-        }
-        else { top->argList->nextArg = FactGenGetvar(theEnv, referringNode, CLIPS_LHS); }
+        } else { top->argList->nextArg = FactGenGetvar(theEnv, referringNode, CLIPS_LHS); }
     }
 
     /*======================================*/

@@ -98,9 +98,10 @@ static void DeallocateDefglobalBloadData(
     unsigned long i;
 
     for (i = 0; i < DefglobalBinaryData(theEnv)->NumberOfDefglobals; i++) {
-        if (DefglobalBinaryData(theEnv)->DefglobalArray[i].current.header->type == MULTIFIELD_TYPE) { ReturnMultifield(theEnv,
-                                                                                                                       DefglobalBinaryData(
-                                                                                                                               theEnv)->DefglobalArray[i].current.multifieldValue);
+        if (DefglobalBinaryData(theEnv)->DefglobalArray[i].current.header->type == MULTIFIELD_TYPE) {
+            ReturnMultifield(theEnv,
+                             DefglobalBinaryData(
+                                     theEnv)->DefglobalArray[i].current.multifieldValue);
         }
     }
 
@@ -401,9 +402,10 @@ static void ClearBload(
         UnmarkConstructHeader(theEnv, &DefglobalBinaryData(theEnv)->DefglobalArray[i].header);
 
         Release(theEnv, DefglobalBinaryData(theEnv)->DefglobalArray[i].current.header);
-        if (DefglobalBinaryData(theEnv)->DefglobalArray[i].current.header->type == MULTIFIELD_TYPE) { ReturnMultifield(theEnv,
-                                                                                                                       DefglobalBinaryData(
-                                                                                                                               theEnv)->DefglobalArray[i].current.multifieldValue);
+        if (DefglobalBinaryData(theEnv)->DefglobalArray[i].current.header->type == MULTIFIELD_TYPE) {
+            ReturnMultifield(theEnv,
+                             DefglobalBinaryData(
+                                     theEnv)->DefglobalArray[i].current.multifieldValue);
         }
     }
 

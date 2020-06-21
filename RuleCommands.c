@@ -574,8 +574,7 @@ static void BetaJoinsDriver(
     if (theJoin->joinFromTheRight) {
         BetaJoinsDriver(theEnv, (struct joinNode *) theJoin->rightSideEntryStructure, betaIndex - 1, theJoinInfoArray, theJoin->rightMemory,
                         theJoin);
-    }
-    else if (theJoin->lastLevel != NULL) {
+    } else if (theJoin->lastLevel != NULL) {
         BetaJoinsDriver(theEnv, theJoin->lastLevel, betaIndex - 1, theJoinInfoArray, theJoin->leftMemory, theJoin);
     }
 

@@ -400,8 +400,7 @@ static struct templateSlot *ParseSlot(
 
     if ((newSlot->defaultPresent) || (newSlot->defaultDynamic)) {
         rv = ConstraintCheckExpressionChain(theEnv, newSlot->defaultList, newSlot->constraints);
-    }
-    else { rv = NO_VIOLATION; }
+    } else { rv = NO_VIOLATION; }
 
     if (rv != NO_VIOLATION) {
         const char *temp;

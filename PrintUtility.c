@@ -166,8 +166,7 @@ void PrintAtom(
         case STRING_TYPE:
             if (PrintUtilityData(theEnv)->PreserveEscapedCharacters) {
                 WriteString(theEnv, logicalName, StringPrintForm(theEnv, ((CLIPSLexeme *) value)->contents));
-            }
-            else {
+            } else {
                 WriteString(theEnv, logicalName, "\"");
                 WriteString(theEnv, logicalName, ((CLIPSLexeme *) value)->contents);
                 WriteString(theEnv, logicalName, "\"");
@@ -182,8 +181,7 @@ void PrintAtom(
             if ((EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type] != NULL) &&
                 (EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type]->longPrintFunction != NULL)) {
                 (*EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type]->longPrintFunction)(theEnv, logicalName, value);
-            }
-            else {
+            } else {
                 WriteString(theEnv, logicalName, "<Pointer-");
 
                 gensprintf(buffer, "%d-", theAddress->type);
@@ -599,8 +597,7 @@ const char *DataObjectToString(
             if ((EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type] != NULL) &&
                 (EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type]->longPrintFunction != NULL)) {
                 (*EvaluationData(theEnv)->ExternalAddressTypes[theAddress->type]->longPrintFunction)(theEnv, "DOTS", theAddress);
-            }
-            else {
+            } else {
                 WriteString(theEnv, "DOTS", "<Pointer-");
 
                 gensprintf(buffer, "%d-", theAddress->type);

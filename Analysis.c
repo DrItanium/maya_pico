@@ -321,8 +321,7 @@ static bool TestCEAnalysis(
     else if (secondary) {
         patternPtr->secondaryNetworkTest = CombineExpressions(theEnv, patternPtr->secondaryNetworkTest,
                                                               GetvarReplace(theEnv, theExpression, false, theNandFrames));
-    }
-    else {
+    } else {
         patternPtr->networkTest = CombineExpressions(theEnv, patternPtr->networkTest,
                                                      GetvarReplace(theEnv, theExpression, false, theNandFrames));
     }

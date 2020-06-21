@@ -637,8 +637,7 @@ static Expression *GenerateSlotComparisonTest(
 
         if ((!isNand) && (selfNode->joinDepth == referringNode->joinDepth)) {
             GenObjectGetVar(theEnv, joinTest, theExp->argList->nextArg, referringNode, CLIPS_RHS);
-        }
-        else { GenObjectGetVar(theEnv, joinTest, theExp->argList->nextArg, referringNode, CLIPS_LHS); }
+        } else { GenObjectGetVar(theEnv, joinTest, theExp->argList->nextArg, referringNode, CLIPS_LHS); }
     }
     return (theExp);
 }

@@ -1174,8 +1174,7 @@ bool PutFactSlot(
 
     if (theValue->header->type == MULTIFIELD_TYPE) {
         theFact->theProposition.contents[whichSlot].multifieldValue = CopyMultifield(theEnv, theValue->multifieldValue);
-    }
-    else { theFact->theProposition.contents[whichSlot].value = theValue->value; }
+    } else { theFact->theProposition.contents[whichSlot].value = theValue->value; }
 
     return true;
 }
@@ -2266,8 +2265,7 @@ PutSlotError FBPutSlot(
 
     if (slotValue->header->type == MULTIFIELD_TYPE) {
         theFB->fbValueArray[whichSlot].multifieldValue = CopyMultifield(theEnv, slotValue->multifieldValue);
-    }
-    else { theFB->fbValueArray[whichSlot].value = slotValue->value; }
+    } else { theFB->fbValueArray[whichSlot].value = slotValue->value; }
 
     Retain(theEnv, theFB->fbValueArray[whichSlot].header);
 
@@ -2766,8 +2764,7 @@ PutSlotError FMPutSlot(
 
     if (slotValue->header->type == MULTIFIELD_TYPE) {
         theFM->fmValueArray[whichSlot].multifieldValue = CopyMultifield(theFM->fmEnv, slotValue->multifieldValue);
-    }
-    else { theFM->fmValueArray[whichSlot].value = slotValue->value; }
+    } else { theFM->fmValueArray[whichSlot].value = slotValue->value; }
 
     Retain(theFM->fmEnv, theFM->fmValueArray[whichSlot].header);
 
@@ -2808,8 +2805,7 @@ Fact *FMModify(
     else if ((FactData(theEnv)->retractError == RE_COULD_NOT_RETRACT_ERROR) ||
              (FactData(theEnv)->assertError == AE_COULD_NOT_ASSERT_ERROR)) {
         FactData(theEnv)->factModifierError = FME_COULD_NOT_MODIFY_ERROR;
-    }
-    else { FactData(theEnv)->factModifierError = FME_NO_ERROR; }
+    } else { FactData(theEnv)->factModifierError = FME_NO_ERROR; }
 
     FMAbort(theFM);
 
