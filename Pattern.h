@@ -65,7 +65,7 @@
 #include "expressn.h"
 #endif
 #ifndef _H_match
-#include "match.h"
+#include "Match.h"
 #endif
 #ifndef _H_reorder
 #include "reorder.h"
