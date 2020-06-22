@@ -47,6 +47,38 @@ namespace maya {
         ::Environment& _env;
         ::FactBuilder* _contents = nullptr;
     };
+    class FactModifier {
+    public:
+        FactModifier(Environment& env, Fact* targetFact) : _env(env), _contents(CreateFactModifier(&_env, targetFact)) {}
+        ~FactModifier() noexcept { ::FMDispose(_contents); }
+        FactModifierError error() noexcept { return ::FMError(&_env); }
+        void abort() noexcept { ::FMAbort(_contents); }
+        FactModifierError setFact(Fact* fact) noexcept { return ::FMSetFact(_contents, fact); }
+        Fact* modify() noexcept { return ::FMModify(_contents); }
+#define X(kind, type) PutSlotError putSlot(const std::string& slotName, type value) noexcept { return FMPutSlot ## kind (_contents, slotName.c_str(), value); }
+        X(CLIPSInteger, CLIPSInteger*);
+        X(CLIPSFloat, CLIPSFloat*);
+        X(CLIPSLexeme, CLIPSLexeme*);
+        X(ExternalAddress, CLIPSExternalAddress *);
+        X(Integer, int64_t);
+        X(Float, double);
+        X(Fact, Fact*);
+        X(Instance, Instance*);
+        X(Multifield, Multifield*);
+#undef X
+#define X(kind) \
+    inline PutSlotError putSlot(const std::string& slotName, const std::string& value, TreatLexemeAs ## kind ) noexcept {  \
+        return FMPutSlot ## kind (_contents, slotName.c_str(), value.c_str()); \
+    }
+        X(Symbol);
+        X(String);
+        X(InstanceName);
+#undef X
+    private:
+        ::Environment& _env;
+        ::FactModifier* _contents = nullptr;
+
+    };
 
 } // end namespace maya
 
