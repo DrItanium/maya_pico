@@ -298,7 +298,7 @@ add_library(maya_extensions
 	BoostExtensions.h
 	FunctionalExtensions.cpp
 	FunctionalExtensions.h
-	MayaExtensions.c FactExtensions.cc FactExtensions.h InstanceExtensions.h)
+	MayaExtensions.c FactExtensions.h InstanceExtensions.h)
 # TODO express the configurable dependencies in setup.h using CMAKE instead
 add_executable(maya cmd/repl/main.c)
 target_link_libraries(maya PUBLIC
