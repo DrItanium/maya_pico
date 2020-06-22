@@ -9,10 +9,14 @@ extern "C" {
 }
 #include <optional>
 #include <string>
+#include "GenericView.h"
 namespace maya {
-    class FactView {
+    class FactView : public GenericView<fact> {
     public:
-        explicit FactView(::fact &value) : _raw(value) {}
+        using Self = FactView;
+        using Parent = GenericView<fact>;
+        using Optional = std::optional<Self>;
+        using Parent::Parent;
         [[nodiscard]] constexpr auto getFactIndex() const noexcept { return _raw.factIndex; }
         [[nodiscard]] constexpr auto getHashValue() const noexcept { return _raw.hashValue; }
         [[nodiscard]] constexpr bool isGarbage() const noexcept { return _raw.garbage; }
@@ -23,8 +27,6 @@ namespace maya {
         /// @todo implement basis slots after implementing MultifieldView
         /// @todo implement whichDeftemplate support
         Multifield &getTheProposition() noexcept { return _raw.theProposition; }
-    private:
-        ::fact &_raw;
     };
 } // end namespace maya
 #endif //MAYA_FACTVIEW_H
