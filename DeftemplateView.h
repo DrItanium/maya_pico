@@ -25,7 +25,7 @@ namespace maya {
         [[nodiscard]] constexpr bool defaultDynamic() const noexcept { return _raw.defaultDynamic; }
         /// @todo constraints
         /// @todo get defaultList and facetList
-        Optional getNext() noexcept;
+        [[nodiscard]] Optional getNext() noexcept;
     };
 
     class DeftemplateView : public GenericView<Deftemplate> {
@@ -35,7 +35,7 @@ namespace maya {
         using Optional = std::optional<Self>;
         explicit DeftemplateView(Deftemplate& v) : Parent(v) { }
         ConstructHeader& getHeader() noexcept { return _raw.header; }
-        TemplateSlotView::Optional getSlotList() const noexcept;
+        [[nodiscard]] TemplateSlotView::Optional getSlotList() const noexcept;
         [[nodiscard]] constexpr bool isImplied() const noexcept { return _raw.implied; }
         [[nodiscard]] constexpr bool watch() const noexcept { return _raw.watch; }
         [[nodiscard]] constexpr bool inScope() const noexcept { return _raw.inScope; }

@@ -20,4 +20,20 @@ namespace maya {
             return std::nullopt;
         }
     }
+    TemplateSlotView::Optional
+    DeftemplateView::getSlotList() const noexcept {
+        if (_raw.slotList) {
+            return TemplateSlotView(*_raw.slotList);
+        } else {
+            return std::nullopt;
+        }
+    }
+    TemplateSlotView::Optional
+    TemplateSlotView::getNext() noexcept {
+        if (_raw.next) {
+            return TemplateSlotView(*_raw.next);
+        } else {
+            return std::nullopt;
+        }
+    }
 }
