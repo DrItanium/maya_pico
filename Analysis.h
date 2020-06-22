@@ -40,6 +40,7 @@
 
 #define _H_analysis
 
+#include "Environment.h"
 #include "Expression.h"
 #include "Reorder.h"
 

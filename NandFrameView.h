@@ -5,7 +5,6 @@
 #ifndef MAYA_NANDFRAMEVIEW_H
 #define MAYA_NANDFRAMEVIEW_H
 extern "C" {
-#include "clips.h"
 #include "Analysis.h"
 }
 #include <optional>
