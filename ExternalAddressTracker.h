@@ -11,7 +11,7 @@ namespace maya {
          * @brief Track the type code generated from registering a type
          */
         template<typename T>
-        class ExternalAddressTracker {
+        class ExternalAddressTracker final {
             public:
             ExternalAddressTracker() = delete;
             ~ExternalAddressTracker() = delete;
