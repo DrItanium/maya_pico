@@ -19,6 +19,7 @@ namespace maya {
         using Parent::Parent;
         [[nodiscard]] constexpr auto getDepth() const noexcept { return _raw.depth; }
         [[nodiscard]] inline Optional getNext() noexcept;
+        ///@todo implement LHSParseNodeView
         //[[nodiscard]] std::optional<LHSParseNodeView> getNandCE() noexcept;
 
     };
