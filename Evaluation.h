@@ -190,7 +190,17 @@ void FCBReset(FunctionCallBuilder *);
 FunctionCallBuilderError FCBCall(FunctionCallBuilder *, const char *, CLIPSValue *);
 
 #define CVIsType(cv, cvType) (((1 << (((TypeHeader *) (cv)->value)->type)) & (cvType)) ? true : false)
-
+#define CVIsLexeme(cv) (CVIsType(cv, LEXEME_BITS))
+#define CVIsInstanceName(cv) (CVIsType(cv, INSTANCE_NAME_BIT))
+#define CVIsFloat(cv) (CVIsType(cv, FLOAT_BIT))
+#define CVIsInteger(cv) (CVIsType(cv, INTEGER_BIT))
+#define CVIsSymbol(cv) (CVIsType(cv, SYMBOL_BIT))
+#define CVIsFactAddress(cv) (CVIsType(cv, FACT_ADDRESS_BIT))
+#define CVIsInstanceAddress(cv) (CVIsType(cv, INSTANCE_ADDRESS_BIT))
+#define CVIsString(cv) (CVIsType(cv, STRING_BIT))
+#define CVIsNumber(cv) (CVIsType(cv, NUMBER_BITS))
+#define CVIsExternalAddress(cv) (CVIsType(cv, EXTERNAL_ADDRESS_BIT))
+#define CVIsMultifield(cv) (CVIsType(cv, MULTIFIELD_BIT))
 #define ValueIsType(value, vType) ((1 << (((TypeHeader *) value)->type)) & (vType))
 
 #define CVCoerceToFloat(cv) (((cv)->header->type == FLOAT_TYPE) ? \

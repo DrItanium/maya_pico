@@ -89,18 +89,18 @@ const char *GetLogicalName(
         UDFContext *context,
         const char *defaultLogicalName) {
     Environment *theEnv = context->environment;
-    const char *logicalName;
+    const char *logicalName = NULL;
     UDFValue theArg;
 
     if (!UDFNextArgument(context, ANY_TYPE_BITS, &theArg)) { return NULL; }
 
-    if (CVIsType(&theArg, LEXEME_BITS) ||
-        CVIsType(&theArg, INSTANCE_NAME_BIT)) {
+    if (CVIsLexeme(&theArg) ||
+        CVIsInstanceName(&theArg)) {
         logicalName = theArg.lexemeValue->contents;
         if ((strcmp(logicalName, "t") == 0) || (strcmp(logicalName, "T") == 0)) { logicalName = defaultLogicalName; }
-    } else if (CVIsType(&theArg, FLOAT_BIT)) {
+    } else if (CVIsFloat(&theArg)) {
         logicalName = CreateSymbol(theEnv, FloatToString(theEnv, theArg.floatValue->contents))->contents;
-    } else if (CVIsType(&theArg, INTEGER_BIT)) {
+    } else if (CVIsInteger(&theArg)) {
         logicalName = CreateSymbol(theEnv, LongIntegerToString(theEnv, theArg.integerValue->contents))->contents;
     } else { logicalName = NULL; }
 
@@ -200,7 +200,7 @@ const char *GetConstructName(
 
     if (!UDFFirstArgument(context, ANY_TYPE_BITS, &returnValue)) { return NULL; }
 
-    if (!CVIsType(&returnValue, SYMBOL_BIT)) {
+    if (!CVIsSymbol(&returnValue)) {
         UDFInvalidArgumentMessage(context, constructType);
         return NULL;
     }
