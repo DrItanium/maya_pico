@@ -25,6 +25,7 @@ Here is what is different (not exhaustive):
   - CLIPS is a wonderful scripting language but I have never seen the need to disable defrule. In fact, I feel that if all one
   needs is a scripting language but not defrules, templates, and facts then LUA is a much better target. Thus defrule is always
   available
+- The object system is now always active. The object system is another very cool aspect of CLIPS that I always like having access to.
 - Platform autodetection
   - In general, the OperatingSystemShim.h should do a relatively decent job of detecting what platform you are running
     on and automatically configure the appropriate macros in Setup.h.
