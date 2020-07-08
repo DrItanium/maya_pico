@@ -21,6 +21,10 @@ Here is what is different (not exhaustive):
   - TEXTPRO_COMMANDS do not seem to be used at all but even if it was I have never been able to figure out how it works fully (probably why it was removed by stock clips)
   - NOTE: This change _breaks_ compatibility with stock clips! I modified the signatures of AddUDF and various other functions
     as a side effect of removing the construct compiler
+- DEFRULE_CONSTRUCT option has been removed and is always active
+  - CLIPS is a wonderful scripting language but I have never seen the need to disable defrule. In fact, I feel that if all one
+  needs is a scripting language but not defrules, templates, and facts then LUA is a much better target. Thus defrule is always
+  available
 - Platform autodetection
   - In general, the OperatingSystemShim.h should do a relatively decent job of detecting what platform you are running
     on and automatically configure the appropriate macros in Setup.h.
