@@ -108,9 +108,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#if DEFRULE_CONSTRUCT
 #include "Drive.h"
-#endif
 
 #include "StringFunctions.h"
 
@@ -919,9 +917,7 @@ BuildError Build(
     /* No additions during defrule join network activity. */
     /*====================================================*/
 
-#if DEFRULE_CONSTRUCT
     if (EngineData(theEnv)->JoinOperationInProgress) return BE_COULD_NOT_BUILD_ERROR;
-#endif
 
     /*===========================================*/
     /* Create a string source router so that the */

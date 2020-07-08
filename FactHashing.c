@@ -239,9 +239,7 @@ size_t HandleFactDuplication(
         theFact->garbage = true;
     }
 
-#if DEFRULE_CONSTRUCT
     AddLogicalDependencies(theEnv, (struct patternEntity *) *duplicate, true);
-#endif
 
     return 0;
 }

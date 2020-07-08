@@ -49,7 +49,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "Agenda.h"
 #include "ArgumentAccess.h"
@@ -642,6 +641,4 @@ void FlushGarbagePartialMatches(
         EngineData(theEnv)->GarbagePartialMatches = pmPtr;
     }
 }
-
-#endif /* DEFRULE_CONSTRUCT */
 

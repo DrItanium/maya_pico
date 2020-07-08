@@ -1022,7 +1022,7 @@ static void *GetBinaryAtomValue(
             return ((void *) IntegerPointer(ba->value));
 
         case FACT_ADDRESS_TYPE:
-#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
             return ((void *) &FactData(theEnv)->DummyFact);
 #else
             return NULL;

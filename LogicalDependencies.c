@@ -44,7 +44,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "ArgumentAccess.h"
 #include "Engine.h"
@@ -572,11 +571,7 @@ void DependenciesCommand(
 
     if (ptr == NULL) return;
 
-#if DEFRULE_CONSTRUCT
     Dependencies(theEnv, (struct patternEntity *) ptr);
-#else
-    WriteString(theEnv,STDOUT,"None\n");
-#endif
 }
 
 /*******************************************/
@@ -594,14 +589,9 @@ void DependentsCommand(
 
     if (ptr == NULL) return;
 
-#if DEFRULE_CONSTRUCT
     Dependents(theEnv, (struct patternEntity *) ptr);
-#else
-    WriteString(theEnv,STDOUT,"None\n");
-#endif
 }
 
 #endif /* DEBUGGING_FUNCTIONS */
 
-#endif /* DEFRULE_CONSTRUCT */
 

@@ -36,7 +36,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 
@@ -799,4 +798,3 @@ static bool CheckArgumentForConstraintError(
     return (rv);
 }
 
-#endif /* DEFRULE_CONSTRUCT */

@@ -49,7 +49,7 @@
    ***************************************** */
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM && (BLOAD_AND_BSAVE)
+#if OBJECT_SYSTEM && (BLOAD_AND_BSAVE)
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"

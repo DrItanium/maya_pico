@@ -75,7 +75,6 @@ static void FindAndSetDeftemplatePatternNetwork(Environment *, struct factPatter
 /*********************************************************/
 void InitializeFactPatterns(
         Environment *theEnv) {
-#if DEFRULE_CONSTRUCT
     struct patternParser *newPtr;
 
     InitializeFactReteFunctions(theEnv);
@@ -108,7 +107,6 @@ void InitializeFactPatterns(
     newPtr->codeReferenceFunction = NULL;
 
     AddPatternParser(theEnv, newPtr);
-#endif
 }
 
 

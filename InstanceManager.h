@@ -60,7 +60,7 @@ Instance *BuildInstance(Environment *, CLIPSLexeme *, Defclass *, bool);
 void InitSlotsCommand(Environment *, UDFContext *, UDFValue *);
 UnmakeInstanceError QuashInstance(Environment *, Instance *);
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 void InactiveInitializeInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveMakeInstance(Environment *, UDFContext *, UDFValue *);
 #endif

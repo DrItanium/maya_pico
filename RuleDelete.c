@@ -42,7 +42,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 #include <string.h>
@@ -495,7 +494,6 @@ static void RemoveIntranetworkLink(
     if (patternPtr->entryJoin == NULL) { DetachPattern(theEnv, join->rhsType, patternPtr); }
 }
 
-#endif /* DEFRULE_CONSTRUCT */
 
 
 

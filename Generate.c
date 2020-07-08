@@ -47,7 +47,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
@@ -970,6 +969,5 @@ static bool AllVariablesInExpression(
     return true;
 }
 
-#endif /* DEFRULE_CONSTRUCT */
 
 

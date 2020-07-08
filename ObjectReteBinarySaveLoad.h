@@ -47,7 +47,7 @@
 
 #define _H_objrtbin
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 
 #define OBJECTRETEBIN_DATA 34
 

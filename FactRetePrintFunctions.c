@@ -40,7 +40,7 @@
 
 #include "Setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
 
 #include "Environment.h"
 #include "Fact.h"

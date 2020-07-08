@@ -59,7 +59,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 
@@ -1925,5 +1924,4 @@ static void PrintNodes(
   }
 */
 
-#endif
 

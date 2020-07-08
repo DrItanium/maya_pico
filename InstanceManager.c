@@ -67,13 +67,10 @@
 
 #if OBJECT_SYSTEM
 
-#if DEFRULE_CONSTRUCT
 #include "Network.h"
 #include "Drive.h"
 #include "ObjectReteMatch.h"
 #include "LogicalDependencies.h"
-#endif
-
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
 #include "ConstraintChecking.h"
@@ -282,7 +279,6 @@ Instance *BuildInstance(
 
     if (iname->header.type == SYMBOL_TYPE) { iname = CreateInstanceName(theEnv, iname->contents); }
 
-#if DEFRULE_CONSTRUCT
     if (EngineData(theEnv)->JoinOperationInProgress && cls->reactive) {
         PrintErrorID(theEnv, "INSMNGR", 10, false);
         WriteString(theEnv, STDERR, "Cannot create instances of reactive classes while ");
@@ -291,7 +287,6 @@ Instance *BuildInstance(
         InstanceData(theEnv)->makeInstanceError = MIE_COULD_NOT_CREATE_ERROR;
         return NULL;
     }
-#endif
     if (cls->abstract) {
         PrintErrorID(theEnv, "INSMNGR", 3, false);
         WriteString(theEnv, STDERR, "Cannot create instances of abstract class '");
@@ -365,7 +360,6 @@ Instance *BuildInstance(
        ============================================================= */
     InstanceData(theEnv)->CurrentInstance = NewInstance(theEnv);
 
-#if DEFRULE_CONSTRUCT
     /* ==============================================
        Add this new instance as a dependent to
        any currently active basis - if the partial
@@ -377,7 +371,6 @@ Instance *BuildInstance(
         InstanceData(theEnv)->CurrentInstance = NULL;
         return NULL;
     }
-#endif
 
     InstanceData(theEnv)->CurrentInstance->name = iname;
     InstanceData(theEnv)->CurrentInstance->cls = cls;
@@ -430,10 +423,9 @@ Instance *BuildInstance(
 
     if (InstanceData(theEnv)->MkInsMsgPass) { DirectMessage(theEnv, MessageHandlerData(theEnv)->CREATE_SYMBOL, ins, &temp, NULL); }
 
-#if DEFRULE_CONSTRUCT
-    if (ins->cls->reactive)
+    if (ins->cls->reactive) {
         ObjectNetworkAction(theEnv, OBJECT_ASSERT, ins, -1);
-#endif
+    }
 
     if (EvaluationData(theEnv)->EvaluationError) { InstanceData(theEnv)->makeInstanceError = MIE_RULE_NETWORK_ERROR; }
     else { InstanceData(theEnv)->makeInstanceError = MIE_NO_ERROR; }
@@ -495,7 +487,6 @@ UnmakeInstanceError QuashInstance(
     int iflag;
     IGARBAGE *gptr;
 
-#if DEFRULE_CONSTRUCT
     if (EngineData(theEnv)->JoinOperationInProgress && ins->cls->reactive) {
         PrintErrorID(theEnv, "INSMNGR", 12, false);
         WriteString(theEnv, STDERR, "Cannot delete instances of reactive classes while ");
@@ -504,7 +495,6 @@ UnmakeInstanceError QuashInstance(
         InstanceData(theEnv)->unmakeInstanceError = UIE_COULD_NOT_DELETE_ERROR;
         return UIE_COULD_NOT_DELETE_ERROR;
     }
-#endif
 
     if (ins->garbage == 1) {
         InstanceData(theEnv)->unmakeInstanceError = UIE_COULD_NOT_DELETE_ERROR;
@@ -526,7 +516,6 @@ UnmakeInstanceError QuashInstance(
         PrintInstanceWatch(theEnv, UNMAKE_TRACE, ins);
 #endif
 
-#if DEFRULE_CONSTRUCT
     RemoveEntityDependencies(theEnv, (struct patternEntity *) ins);
 
     if (ins->cls->reactive) {
@@ -534,7 +523,6 @@ UnmakeInstanceError QuashInstance(
         ObjectNetworkAction(theEnv, OBJECT_RETRACT, ins, -1);
         ins->garbage = 0;
     }
-#endif
 
     if (ins->prvHash != NULL)
         ins->prvHash->nxtHash = ins->nxtHash;
@@ -569,19 +557,13 @@ UnmakeInstanceError QuashInstance(
        rule, don't bother deleting its slots yet, for
        they may still be needed by pattern variables
        ============================================== */
-#if DEFRULE_CONSTRUCT
     if ((iflag == 1)
         && (ins->patternHeader.busyCount == 0))
-#else
-        if (iflag == 1)
-#endif
         RemoveInstanceData(theEnv, ins);
 
     if ((ins->busy == 0) &&
         (InstanceData(theEnv)->MaintainGarbageInstances == false)
-        #if DEFRULE_CONSTRUCT
         && (ins->patternHeader.busyCount == 0)
-#endif
             ) {
         ReleaseLexeme(theEnv, ins->name);
         rtn_struct(theEnv, instance, ins);
@@ -605,7 +587,6 @@ UnmakeInstanceError QuashInstance(
     return UIE_NO_ERROR;
 }
 
-#if DEFRULE_CONSTRUCT
 
 /****************************************************
   NAME         : InactiveInitializeInstance
@@ -676,7 +657,6 @@ static Instance *NewInstance(
     Instance *instance;
 
     instance = get_struct(theEnv, instance);
-#if DEFRULE_CONSTRUCT
     instance->patternHeader.theInfo = &InstanceData(theEnv)->InstanceInfo;
 
     instance->patternHeader.dependents = NULL;
@@ -686,7 +666,6 @@ static Instance *NewInstance(
     instance->partialMatchList = NULL;
     instance->basisSlots = NULL;
     instance->reteSynchronized = false;
-#endif
     instance->patternHeader.header.type = INSTANCE_ADDRESS_TYPE;
     instance->busy = 0;
     instance->installed = 0;
@@ -1523,9 +1502,7 @@ Instance *IBMake(
     CLIPSLexeme *instanceLexeme;
     UDFValue rv;
     unsigned int i;
-#if DEFRULE_CONSTRUCT
     bool ov;
-#endif
 
     if (theIB == NULL) return NULL;
     theEnv = theIB->ibEnv;
@@ -1540,9 +1517,7 @@ Instance *IBMake(
         instanceLexeme = CreateInstanceName(theEnv, rv.lexemeValue->contents);
     } else { instanceLexeme = CreateInstanceName(theEnv, instanceName); }
 
-#if DEFRULE_CONSTRUCT
     ov = SetDelayObjectPatternMatching(theEnv, true);
-#endif
 
     theInstance = BuildInstance(theEnv, instanceLexeme, theIB->ibDefclass, true);
 
@@ -1556,9 +1531,7 @@ Instance *IBMake(
             ExitRouter(theEnv, EXIT_FAILURE);
         }
 
-#if DEFRULE_CONSTRUCT
         SetDelayObjectPatternMatching(theEnv, ov);
-#endif
 
         return NULL;
     }
@@ -1566,15 +1539,11 @@ Instance *IBMake(
     if (CoreInitializeInstanceCV(theIB->ibEnv, theInstance, theIB->ibValueArray) == false) {
         InstanceData(theEnv)->instanceBuilderError = IBE_COULD_NOT_CREATE_ERROR;
         QuashInstance(theIB->ibEnv, theInstance);
-#if DEFRULE_CONSTRUCT
         SetDelayObjectPatternMatching(theEnv, ov);
-#endif
         return NULL;
     }
 
-#if DEFRULE_CONSTRUCT
     SetDelayObjectPatternMatching(theEnv, ov);
-#endif
 
     for (i = 0; i < theIB->ibDefclass->slotCount; i++) {
         if (theIB->ibValueArray[i].voidValue != VoidConstant(theEnv)) {
@@ -2030,9 +1999,7 @@ PutSlotError IMPutSlot(
 Instance *IMModify(
         InstanceModifier *theIM) {
     Environment *theEnv;
-#if DEFRULE_CONSTRUCT
     bool ov;
-#endif
 
     if (theIM == NULL) { return NULL; }
 
@@ -2052,9 +2019,7 @@ Instance *IMModify(
 
     if (!BitStringHasBitsSet(theIM->changeMap, CountToBitMapSize(theIM->imOldInstance->cls->slotCount))) { return theIM->imOldInstance; }
 
-#if DEFRULE_CONSTRUCT
     ov = SetDelayObjectPatternMatching(theIM->imEnv, true);
-#endif
 
     IMModifySlots(theIM->imEnv, theIM->imOldInstance, theIM->imValueArray);
 
@@ -2066,9 +2031,7 @@ Instance *IMModify(
         InstanceData(theEnv)->instanceModifierError = IME_COULD_NOT_MODIFY_ERROR;
     } else { InstanceData(theEnv)->instanceModifierError = IME_NO_ERROR; }
 
-#if DEFRULE_CONSTRUCT
     SetDelayObjectPatternMatching(theIM->imEnv, ov);
-#endif
 
     IMAbort(theIM);
 
@@ -2269,7 +2232,6 @@ InstanceModifierError IMError(
     return InstanceData(theEnv)->instanceModifierError;
 }
 
-#endif
 
 
 

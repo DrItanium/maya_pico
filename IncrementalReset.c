@@ -59,7 +59,6 @@
 
 #include <stdio.h>
 
-#if DEFRULE_CONSTRUCT
 
 #include "Agenda.h"
 #include "ArgumentAccess.h"
@@ -456,4 +455,3 @@ static void MarkPatternForIncrementalReset(
     }
 }
 
-#endif /* DEFRULE_CONSTRUCT */

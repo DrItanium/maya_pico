@@ -41,7 +41,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if DEFRULE_CONSTRUCT
 
 #include "Constants.h"
 #include "Constraint.h"
@@ -1103,7 +1102,6 @@ static struct lhsParseNode *LiteralRestrictionParse(
     return topNode;
 }
 
-#endif /* DEFRULE_CONSTRUCT */
 
 
 

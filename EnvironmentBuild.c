@@ -350,9 +350,7 @@ static void InitializeEnvironment(
     /* Initialize the defrule construct. */
     /*===================================*/
 
-#if DEFRULE_CONSTRUCT
     InitializeDefrules(theEnvironment);
-#endif
 
     /*====================================*/
     /* Initialize the deffacts construct. */

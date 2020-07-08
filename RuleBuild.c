@@ -48,7 +48,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1203,7 +1202,6 @@ static struct joinNode *CreateNewJoin(
     return (newJoin);
 }
 
-#endif
 
 
 

@@ -65,7 +65,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "Drive.h"
 #include "Engine.h"
@@ -1496,7 +1495,6 @@ static void TagNetworkTraverseJoins(
 
 #endif /* (BLOAD_AND_BSAVE) */
 
-#endif /* DEFRULE_CONSTRUCT */
 
 
 

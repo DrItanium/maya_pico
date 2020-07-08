@@ -39,7 +39,7 @@
 
 #define _H_objrtgen
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 
 #include "Expression.h"
 #include "Reorder.h"

@@ -155,7 +155,7 @@ void SetupInstances(
                                                 (EntityBusyCountFunction *) IncrementInstanceCallback,
                                                 NULL, NULL, NULL, NULL, NULL
                                                },
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
                                                (void (*)(Environment *, void *)) DecrementObjectBasisCount,
                                                (void (*)(Environment *, void *)) IncrementObjectBasisCount,
                                                (void (*)(Environment *, void *)) MatchObjectFunction,
@@ -181,7 +181,7 @@ void SetupInstances(
     InitializeInstanceTable(theEnv);
     InstallPrimitive(theEnv, (struct entityRecord *) &InstanceData(theEnv)->InstanceInfo, INSTANCE_ADDRESS_TYPE);
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
     AddUDF(theEnv, "initialize-instance", "bn", 0, UNBOUNDED, NULL, InactiveInitializeInstance, NULL);
     AddUDF(theEnv, "active-initialize-instance", "bn", 0, UNBOUNDED, NULL, InitializeInstanceCommand, NULL);
 
@@ -214,7 +214,7 @@ void SetupInstances(
     AddUDF(theEnv, "instance-existp", "b", 1, 1, "niy", InstanceExistPCommand, NULL);
     AddUDF(theEnv, "class", "*", 1, 1, NULL, ClassCommand, NULL);
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
     AddFunctionParser(theEnv, "active-initialize-instance", ParseInitializeInstance);
     AddFunctionParser(theEnv, "active-make-instance", ParseInitializeInstance);
 #endif
@@ -265,9 +265,7 @@ static void DeallocateInstanceData(
             theMatch = tmpMatch;
         }
 
-#if DEFRULE_CONSTRUCT
         ReturnEntityDependencies(theEnv, (struct patternEntity *) tmpIPtr);
-#endif
 
         for (i = 0; i < tmpIPtr->cls->instanceSlotCount; i++) {
             sp = tmpIPtr->slotAddresses[i];

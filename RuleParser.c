@@ -50,7 +50,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 #include <string.h>
@@ -977,5 +976,4 @@ void DumpRuleAnalysis(
   }
 #endif
 
-#endif /* DEFRULE_CONSTRUCT */
 

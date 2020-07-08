@@ -91,10 +91,8 @@
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
 #include "ConstraintChecking.h"
-#if DEFRULE_CONSTRUCT
 #include "Drive.h"
 #include "ObjectReteMatch.h"
-#endif
 #include "Engine.h"
 #include "Environment.h"
 #include "InstanceCommand.h"
@@ -123,9 +121,7 @@
 
 static Instance *FindImportedInstance(Environment *, Defmodule *, Defmodule *, Instance *);
 
-#if DEFRULE_CONSTRUCT
 static void NetworkModifyForSharedSlot(Environment *, int, Defclass *, SlotDescriptor *);
-#endif
 
 /* =========================================
    *****************************************
@@ -235,12 +231,8 @@ void CleanupInstances(
     gprv = NULL;
     gtmp = InstanceData(theEnv)->InstanceGarbageList;
     while (gtmp != NULL) {
-#if DEFRULE_CONSTRUCT
         if ((gtmp->ins->busy == 0)
             && (gtmp->ins->patternHeader.busyCount == 0))
-#else
-            if (gtmp->ins->busy == 0)
-#endif
         {
             ReleaseLexeme(theEnv, gtmp->ins->name);
             rtn_struct(theEnv, instance, gtmp->ins);
@@ -588,10 +580,8 @@ PutSlotError DirectPutSlotValue(
         UDFValue *val,
         UDFValue *setVal) {
     size_t i, j; /* 6.04 Bug Fix */
-#if DEFRULE_CONSTRUCT
     int sharedTraversalID;
     InstanceSlot *bsp, **spaddr;
-#endif
     UDFValue tmpVal;
 
     setVal->value = FalseSymbol(theEnv);
@@ -616,7 +606,6 @@ PutSlotError DirectPutSlotValue(
             return PSE_EVALUATION_ERROR;
         }
     }
-#if DEFRULE_CONSTRUCT
     if (EngineData(theEnv)->JoinOperationInProgress && sp->desc->reactive &&
         (ins->cls->reactive || sp->desc->shared)) {
         PrintErrorID(theEnv, "INSFUN", 5, false);
@@ -644,7 +633,6 @@ PutSlotError DirectPutSlotValue(
         }
     }
 
-#endif
     if (sp->desc->multiple == 0) {
         AtomDeinstall(theEnv, sp->type, sp->value);
 
@@ -710,7 +698,6 @@ PutSlotError DirectPutSlotValue(
 #endif
     InstanceData(theEnv)->ChangesToInstances = true;
 
-#if DEFRULE_CONSTRUCT
     if (ins->cls->reactive && sp->desc->reactive) {
         /* ============================================
            If we have changed a shared slot, we need to
@@ -734,7 +721,6 @@ PutSlotError DirectPutSlotValue(
         } else
             ObjectNetworkAction(theEnv, OBJECT_MODIFY, ins, (int) sp->desc->slotName->id);
     }
-#endif
 
     return PSE_NO_ERROR;
 }
@@ -1083,8 +1069,6 @@ void PrintInstanceLongForm(
     }
 }
 
-#if DEFRULE_CONSTRUCT
-
 /***************************************************
   NAME         : DecrementObjectBasisCount
   DESCRIPTION  : Decrements the basis count of an
@@ -1216,7 +1200,6 @@ bool InstanceIsDeleted(
 
     return theInstance->garbage;
 }
-#endif
 
 /* =========================================
    *****************************************
@@ -1279,7 +1262,6 @@ static Instance *FindImportedInstance(
     return NULL;
 }
 
-#if DEFRULE_CONSTRUCT
 
 /*****************************************************
   NAME         : NetworkModifyForSharedSlot
@@ -1333,7 +1315,6 @@ static void NetworkModifyForSharedSlot(
         NetworkModifyForSharedSlot(theEnv, sharedTraversalID, cls->directSubclasses.classArray[i], sd);
 }
 
-#endif /* DEFRULE_CONSTRUCT */
 
 #endif /* OBJECT_SYSTEM */
 

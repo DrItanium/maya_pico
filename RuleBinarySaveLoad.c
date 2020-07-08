@@ -42,7 +42,7 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT && (BLOAD_AND_BSAVE)
+#if BLOAD_AND_BSAVE
 
 #include <stdio.h>
 #include <string.h>
@@ -1053,6 +1053,6 @@ void *BloadDefruleModuleReference(
     return ((void *) &DefruleBinaryData(theEnv)->ModuleArray[theIndex]);
 }
 
-#endif /* DEFRULE_CONSTRUCT && (BLOAD_AND_BSAVE) */
+#endif /* BLOAD_AND_BSAVE */
 
 

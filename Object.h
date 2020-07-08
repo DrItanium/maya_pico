@@ -70,9 +70,7 @@ typedef struct instanceModifier InstanceModifier;
 #include "Symbol.h"
 #include "Match.h"
 
-#if DEFRULE_CONSTRUCT
 #include "ObjectReteMatch.h"
-#endif
 
 struct packedClassLinks {
     unsigned long classCount;
@@ -118,7 +116,7 @@ struct defclass {
      * iterate through every single terminal alpha for every single modification
      * to an instance of a defclass.
      */
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
     CLASS_ALPHA_LINK *relevant_terminal_alpha_nodes;
 #endif
 

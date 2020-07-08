@@ -638,11 +638,7 @@ bool SlotFacets(
         return false;
     }
 
-#if DEFRULE_CONSTRUCT
     returnValue->value = CreateMultifield(theEnv, 10L);
-#else
-    returnValue->value = CreateMultifield(theEnv,9L);
-#endif
 
     if (sp->multiple) { returnValue->multifieldValue->contents[0].lexemeValue = CreateSymbol(theEnv, "MLT"); }
     else { returnValue->multifieldValue->contents[0].lexemeValue = CreateSymbol(theEnv, "SGL"); }
@@ -671,7 +667,6 @@ bool SlotFacets(
     else
         returnValue->multifieldValue->contents[4].lexemeValue = CreateSymbol(theEnv, "LCL");
 
-#if DEFRULE_CONSTRUCT
     if (sp->reactive)
         returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv, "RCT");
     else
@@ -689,21 +684,6 @@ bool SlotFacets(
 
     returnValue->multifieldValue->contents[8].lexemeValue = CreateSymbol(theEnv, GetCreateAccessorString(sp));
     returnValue->multifieldValue->contents[9].lexemeValue = (sp->noWrite ? CreateSymbol(theEnv, "NIL") : sp->overrideMessage);
-#else
-    if (sp->composite)
-      returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"CMP");
-    else
-      returnValue->multifieldValue->contents[5].lexemeValue = CreateSymbol(theEnv,"EXC");
-
-    if (sp->publicVisibility)
-      returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"PUB");
-    else
-      returnValue->multifieldValue->contents[6].lexemeValue = CreateSymbol(theEnv,"PRV");
-
-    returnValue->multifieldValue->contents[7].lexemeValue = CreateSymbol(theEnv,GetCreateAccessorString(sp));
-    returnValue->multifieldValue->contents[8].lexemeValue = (sp->noWrite ? CreateSymbol(theEnv,"NIL") : sp->overrideMessage);
-#endif
-
     return true;
 }
 

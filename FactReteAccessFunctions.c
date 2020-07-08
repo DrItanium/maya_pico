@@ -43,7 +43,7 @@
 
 #include "Setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
 
 #include "Drive.h"
 #include "Engine.h"

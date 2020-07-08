@@ -165,15 +165,6 @@
 
 #define STD_SIZE size_t
 
-/*************************************************/
-/* DEFRULE_CONSTRUCT: Determines whether defrule */
-/*   construct is included.                      */
-/*************************************************/
-
-#ifndef DEFRULE_CONSTRUCT
-#define DEFRULE_CONSTRUCT 1
-#endif
-
 /************************************************/
 /* DEFMODULE_CONSTRUCT:  Determines whether the */
 /*   defmodule construct is included.           */
@@ -190,11 +181,6 @@
 
 #ifndef DEFTEMPLATE_CONSTRUCT
 #define DEFTEMPLATE_CONSTRUCT 1
-#endif
-
-#if !DEFRULE_CONSTRUCT
-#undef DEFTEMPLATE_CONSTRUCT
-#define DEFTEMPLATE_CONSTRUCT 0
 #endif
 
 /************************************************************/

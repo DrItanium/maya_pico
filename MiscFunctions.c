@@ -637,8 +637,9 @@ void OptionsCommand(
 #endif
     WriteString(theEnv, STDOUT, "\n");
 
+    // Defrule construct is always active now
     WriteString(theEnv, STDOUT, "Defrule construct is ");
-    emitOnOrOff(theEnv, DEFRULE_CONSTRUCT);
+    emitOnOrOff(theEnv, true);
     WriteString(theEnv, STDOUT, "Defmodule construct is ");
     emitOnOrOff(theEnv, DEFMODULE_CONSTRUCT);
     WriteString(theEnv, STDOUT, "Deftemplate construct is ");

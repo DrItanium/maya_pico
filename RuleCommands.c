@@ -76,7 +76,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "ArgumentAccess.h"
 #include "Constants.h"
@@ -1427,4 +1426,3 @@ void ShowAlphaHashTable(
 
 #endif /* DEVELOPER */
 
-#endif /* DEFRULE_CONSTRUCT */

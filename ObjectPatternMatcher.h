@@ -54,11 +54,11 @@
 
 #define _H_objrtbld
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 
 void SetupObjectPatternStuff(Environment *);
 
-#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
+#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_objrtbld */
 

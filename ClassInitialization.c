@@ -187,9 +187,7 @@ void SetupObjectSystem(
     SetupObjectsBload(theEnv);
 #endif
 
-#if DEFRULE_CONSTRUCT
     SetupObjectPatternStuff(theEnv);
-#endif
 }
 
 /***************************************************/

@@ -115,7 +115,7 @@ void PrintSlot(Environment *, const char *, SlotDescriptor *, Instance *, const 
 void PrintInstanceNameAndClass(Environment *, const char *, Instance *, bool);
 void PrintInstanceName(Environment *, const char *, Instance *);
 void PrintInstanceLongForm(Environment *, const char *, Instance *);
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 void DecrementObjectBasisCount(Environment *, Instance *);
 void IncrementObjectBasisCount(Environment *, Instance *);
 void MatchObjectFunction(Environment *, Instance *);

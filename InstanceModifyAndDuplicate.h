@@ -69,7 +69,7 @@ void MsgModifyInstance(Environment *, UDFContext *, UDFValue *);
 void DuplicateInstance(Environment *, UDFContext *, UDFValue *);
 void MsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 void InactiveModifyInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveMsgModifyInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveDuplicateInstance(Environment *, UDFContext *, UDFValue *);

@@ -36,7 +36,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 #include <string.h>
@@ -1111,6 +1110,5 @@ void PropagatePatternType(
     }
 }
 
-#endif /* DEFRULE_CONSTRUCT */
 
 

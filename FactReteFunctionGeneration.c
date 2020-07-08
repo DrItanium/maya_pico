@@ -41,7 +41,7 @@
 
 #include "Setup.h"
 
-#if DEFTEMPLATE_CONSTRUCT && DEFRULE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
 
 #include <stdio.h>
 
@@ -100,7 +100,6 @@ static void *FactGetVarPN3(Environment *, struct lhsParseNode *);
 /*******************************************************************/
 void InitializeFactReteFunctions(
         Environment *theEnv) {
-#if DEFRULE_CONSTRUCT
     struct entityRecord factJNGV1Info = {"FACT_JN_VAR1", FACT_JN_VAR1, 0, 1, 0,
                                          PrintFactJNGetVar1,
                                          PrintFactJNGetVar1, NULL,
@@ -212,7 +211,6 @@ void InitializeFactReteFunctions(
     InstallPrimitive(theEnv, &FactgenData(theEnv)->FactSlotLengthInfo, FACT_SLOT_LENGTH);
     InstallPrimitive(theEnv, &FactgenData(theEnv)->FactPNConstant1Info, FACT_PN_CONSTANT1);
     InstallPrimitive(theEnv, &FactgenData(theEnv)->FactPNConstant2Info, FACT_PN_CONSTANT2);
-#endif
 }
 
 

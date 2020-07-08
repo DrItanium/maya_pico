@@ -72,10 +72,8 @@
 #include "DefmessageHandlerCommands.h"
 #include "DefmessageHandlerFunctions.h"
 #include "DefmessageHandlerDispatch.h"
-#if DEFRULE_CONSTRUCT
 #include "Network.h"
 #include "ObjectReteMatch.h"
-#endif
 #include "ProceduralCodeSupportRoutines.h"
 #include "PrintUtility.h"
 #include "Router.h"
@@ -110,7 +108,6 @@ static void DuplicateMsgHandlerSupport(Environment *, UDFValue *, bool);
 void SetupInstanceModDupCommands(
         Environment *theEnv) {
 
-#if DEFRULE_CONSTRUCT
     AddUDF(theEnv, "modify-instance", "*", 0, UNBOUNDED, NULL, InactiveModifyInstance, NULL);
     AddUDF(theEnv, "active-modify-instance", "*", 0, UNBOUNDED, NULL, ModifyInstance, NULL);
     AddFunctionParser(theEnv, "active-modify-instance", ParseInitializeInstance);
@@ -124,25 +121,17 @@ void SetupInstanceModDupCommands(
     AddUDF(theEnv, "message-duplicate-instance", "*", 0, UNBOUNDED, NULL, InactiveMsgDuplicateInstance, NULL);
     AddUDF(theEnv, "active-message-duplicate-instance", "*", 0, UNBOUNDED, NULL, MsgDuplicateInstance, NULL);
     AddFunctionParser(theEnv, "active-message-duplicate-instance", ParseInitializeInstance);
-#else
-    AddUDF(theEnv,"modify-instance","*",0,UNBOUNDED,NULL,ModifyInstance,"ModifyInstance",NULL);
-    AddUDF(theEnv,"message-modify-instance","*",0,UNBOUNDED,NULL,MsgModifyInstance,"MsgModifyInstance",NULL);
-    AddUDF(theEnv,"duplicate-instance","*",0,UNBOUNDED,NULL,DuplicateInstance,"DuplicateInstance",NULL);
-    AddUDF(theEnv,"message-duplicate-instance","*",0,UNBOUNDED,NULL,MsgDuplicateInstance,"MsgDuplicateInstance",NULL);
-#endif
 
     AddUDF(theEnv, "(direct-modify)", "*", 0, UNBOUNDED, NULL, DirectModifyMsgHandler, NULL);
     AddUDF(theEnv, "(message-modify)", "*", 0, UNBOUNDED, NULL, MsgModifyMsgHandler, NULL);
     AddUDF(theEnv, "(direct-duplicate)", "*", 0, UNBOUNDED, NULL, DirectDuplicateMsgHandler, NULL);
     AddUDF(theEnv, "(message-duplicate)", "*", 0, UNBOUNDED, NULL, MsgDuplicateMsgHandler, NULL);
 
-#if DEFRULE_CONSTRUCT
     AddFunctionParser(theEnv, "active-modify-instance", ParseInitializeInstance);
     AddFunctionParser(theEnv, "active-message-modify-instance", ParseInitializeInstance);
 
     AddFunctionParser(theEnv, "active-duplicate-instance", ParseInitializeInstance);
     AddFunctionParser(theEnv, "active-message-duplicate-instance", ParseInitializeInstance);
-#endif
 
     AddFunctionParser(theEnv, "modify-instance", ParseInitializeInstance);
     AddFunctionParser(theEnv, "message-modify-instance", ParseInitializeInstance);
@@ -433,7 +422,6 @@ void MsgDuplicateInstance(
     DeleteSlotOverrideEvaluations(theEnv, overrides, overrideCount);
 }
 
-#if DEFRULE_CONSTRUCT
 
 /**************************************************************
   NAME         : InactiveModifyInstance
@@ -971,6 +959,5 @@ static void DuplicateMsgHandlerSupport(
     SetEvaluationError(theEnv, true);
 }
 
-#endif
 
 
