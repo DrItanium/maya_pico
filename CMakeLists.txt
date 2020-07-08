@@ -300,7 +300,7 @@ add_library(maya_extensions
 	FunctionalExtensions.h
 	MayaExtensions.c FactExtensions.h InstanceExtensions.h ExternalAddressTracker.h Problem.h DefruleView.cc DefruleView.h FactView.cc FactView.h DeftemplateView.cc DeftemplateView.h GenericView.h NandFrameView.h NandFrameView.cc)
 # TODO express the configurable dependencies in setup.h using CMAKE instead
-add_executable(maya cmd/repl/main.c)
+add_executable(maya cmd/repl/main.c DefclassView.cc DefclassView.h)
 target_link_libraries(maya PUBLIC
 	boost_system
 	boost_filesystem
