@@ -68,15 +68,15 @@
 #include "Evaluation.h"
 
 void DefruleBasicCommands(Environment *);
-void UndefruleCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void UndefruleCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool Undefrule(Defrule *, Environment *);
-void GetDefruleListFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void GetDefruleListFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void GetDefruleList(Environment *, CLIPSValue *, Defmodule *);
-void DefruleModuleFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void DefruleModuleFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 #if DEBUGGING_FUNCTIONS
-void PPDefruleCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void PPDefruleCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool PPDefrule(Environment *, const char *, const char *);
-void ListDefrulesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ListDefrulesCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void ListDefrules(Environment *, const char *, Defmodule *);
 bool DefruleGetWatchFirings(Defrule *);
 bool DefruleGetWatchActivations(Defrule *);

@@ -76,8 +76,8 @@ typedef enum {
 void PlaceActivation(Environment *, Activation **, Activation *, struct salienceGroup *);
 StrategyType SetStrategy(Environment *, StrategyType);
 StrategyType GetStrategy(Environment *);
-void SetStrategyCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void GetStrategyCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SetStrategyCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void GetStrategyCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_crstrtgy */
 

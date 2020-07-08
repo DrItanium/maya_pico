@@ -118,13 +118,13 @@ struct fileCommandData {
 #define FileCommandData(theEnv) ((struct fileCommandData *) GetEnvironmentData(theEnv,FILECOM_DATA))
 
 void FileCommandDefinitions(Environment *);
-void BatchCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void BatchStarCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void LoadCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void LoadStarCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void SaveCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void DribbleOnCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void DribbleOffCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void BatchCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void BatchStarCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void LoadCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void LoadStarCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void SaveCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DribbleOnCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DribbleOffCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 #define FILE_ROUTER_DATA 47
 

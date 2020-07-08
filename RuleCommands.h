@@ -88,22 +88,22 @@ typedef enum {
 
 bool GetBetaMemoryResizing(Environment *);
 bool SetBetaMemoryResizing(Environment *, bool);
-void GetBetaMemoryResizingCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void SetBetaMemoryResizingCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetBetaMemoryResizingCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void SetBetaMemoryResizingCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void Matches(Defrule *, Verbosity, CLIPSValue *);
 void JoinActivity(Environment *, Defrule *, int, UDFValue *);
 void DefruleCommands(Environment *);
-void MatchesCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void JoinActivityCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void TimetagFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void MatchesCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void JoinActivityCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void TimetagFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 unsigned short AlphaJoinCount(Environment *, Defrule *);
 unsigned short BetaJoinCount(Environment *, Defrule *);
 struct joinInformation *CreateJoinArray(Environment *, unsigned short);
 void FreeJoinArray(Environment *, struct joinInformation *, unsigned short);
 void AlphaJoins(Environment *, Defrule *, unsigned short, struct joinInformation *);
 void BetaJoins(Environment *, Defrule *, unsigned short, struct joinInformation *);
-void JoinActivityResetCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void GetFocusFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void JoinActivityResetCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void GetFocusFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 Defmodule *GetFocus(Environment *);
 #if DEVELOPER
 void                           ShowJoinsCommand(Environment *,UDFContext *,UDFValue *);

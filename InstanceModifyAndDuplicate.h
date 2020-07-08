@@ -62,20 +62,20 @@
 
 void SetupInstanceModDupCommands(Environment *);
 
-void ModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
-void MsgModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
-void DuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
-void MsgDuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void ModifyInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MsgModifyInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DuplicateInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MsgDuplicateInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
-void InactiveModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
-void InactiveMsgModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
-void InactiveDuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
-void InactiveMsgDuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void InactiveModifyInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void InactiveMsgModifyInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void InactiveDuplicateInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void InactiveMsgDuplicateInstance(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
-void DirectModifyMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
-void MsgModifyMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
-void DirectDuplicateMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
-void MsgDuplicateMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
+void DirectModifyMsgHandler(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MsgModifyMsgHandler(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DirectDuplicateMsgHandler(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MsgDuplicateMsgHandler(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_insmoddp */
 

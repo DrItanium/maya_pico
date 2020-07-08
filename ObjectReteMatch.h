@@ -135,7 +135,7 @@ typedef struct objectMatchAction {
     struct objectMatchAction *nxt;
 } OBJECT_MATCH_ACTION;
 
-void ObjectMatchDelay(Environment *env, UDFContext *context, UDFValue *ret);
+void ObjectMatchDelay(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SetDelayObjectPatternMatching(Environment *, bool);
 bool GetDelayObjectPatternMatching(Environment *);
 OBJECT_PATTERN_NODE *ObjectNetworkPointer(Environment *);

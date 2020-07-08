@@ -93,17 +93,17 @@ struct profileFunctionData {
 #define ProfileFunctionData(theEnv) ((struct profileFunctionData *) GetEnvironmentData(theEnv,PROFLFUN_DATA))
 
 void ConstructProfilingFunctionDefinitions(Environment *);
-void ProfileCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void ProfileInfoCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ProfileCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void ProfileInfoCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void StartProfile(Environment *, struct profileFrameInfo *,
                   struct userData **, bool);
 void EndProfile(Environment *, struct profileFrameInfo *);
-void ProfileResetCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ProfileResetCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void ResetProfileInfo(struct constructProfileInfo *);
 
-void SetProfilePercentThresholdCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SetProfilePercentThresholdCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 double SetProfilePercentThreshold(Environment *, double);
-void GetProfilePercentThresholdCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetProfilePercentThresholdCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 double GetProfilePercentThreshold(Environment *);
 bool Profile(Environment *, const char *);
 void DeleteProfileData(Environment *, void *);

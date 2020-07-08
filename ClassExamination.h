@@ -66,33 +66,33 @@
 
 #if DEBUGGING_FUNCTIONS
 
-void BrowseClassesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void BrowseClassesCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void BrowseClasses(Defclass *, const char *);
-void DescribeClassCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void DescribeClassCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void DescribeClass(Defclass *, const char *);
 
 #endif /* DEBUGGING_FUNCTIONS */
 
 const char *GetCreateAccessorString(SlotDescriptor *);
-void GetDefclassModuleCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void SuperclassPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetDefclassModuleCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void SuperclassPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SuperclassP(Defclass *, Defclass *);
-void SubclassPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SubclassPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SubclassP(Defclass *, Defclass *);
-void SlotExistPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotExistPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SlotExistP(Defclass *, const char *, bool);
-void MessageHandlerExistPCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void SlotWritablePCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void MessageHandlerExistPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void SlotWritablePCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SlotWritableP(Defclass *, const char *);
-void SlotInitablePCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotInitablePCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SlotInitableP(Defclass *, const char *);
-void SlotPublicPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotPublicPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SlotPublicP(Defclass *, const char *);
-void SlotDirectAccessPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotDirectAccessPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SlotDirectAccessP(Defclass *, const char *);
-void SlotDefaultValueCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotDefaultValueCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool SlotDefaultValue(Defclass *, const char *, CLIPSValue *);
-void ClassExistPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ClassExistPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 int SlotDefaultP(Environment *, Defclass *, const char *);
 
 #endif /* _H_classexm */

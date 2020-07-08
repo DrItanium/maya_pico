@@ -57,12 +57,12 @@ void UnboundMethodErr(Environment *, const char *);
 bool IsMethodApplicable(Environment *, Defmethod *);
 
 bool NextMethodP(Environment *);
-void NextMethodPCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void CallNextMethod(Environment *env, UDFContext *context, UDFValue *ret);
-void CallSpecificMethod(Environment *env, UDFContext *context, UDFValue *ret);
-void OverrideNextMethod(Environment *env, UDFContext *context, UDFValue *ret);
+void NextMethodPCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void CallNextMethod(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void CallSpecificMethod(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void OverrideNextMethod(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
-void GetGenericCurrentArgument(Environment *env, UDFContext *context, UDFValue *ret);
+void GetGenericCurrentArgument(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 #endif /* DEFGENERIC_CONSTRUCT */
 

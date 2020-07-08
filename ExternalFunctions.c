@@ -77,7 +77,7 @@ static void AddHashFunction(Environment *, struct functionDefinition *);
 static void InitializeFunctionHashTable(Environment *);
 static void DeallocateExternalFunctionData(Environment *);
 static bool RemoveHashFunction(Environment *, struct functionDefinition *);
-static AddUDFError DefineFunction(Environment *, const char *, unsigned, void (*)(Environment *env, UDFContext *context, UDFValue *ret),
+static AddUDFError DefineFunction(Environment *, const char *, unsigned, void (*)(Environment *theEnv, UDFContext *context, UDFValue *ret),
                                   unsigned short, unsigned short, const char *, void *);
 static void PrintType(Environment *, const char *, int, int *, const char *);
 static void AssignErrorValue(UDFContext *);
@@ -164,7 +164,7 @@ static AddUDFError DefineFunction(
         Environment *theEnv,
         const char *name,
         unsigned returnTypeBits,
-        void (*pointer)(Environment *env, UDFContext *context, UDFValue *ret),
+        void (*pointer)(Environment *theEnv, UDFContext *context, UDFValue *ret),
         unsigned short minArgs,
         unsigned short maxArgs,
         const char *restrictions,

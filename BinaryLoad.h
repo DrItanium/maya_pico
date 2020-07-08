@@ -78,7 +78,7 @@ struct bloadData {
 #define FunctionPointer(i) ((((i) == ULONG_MAX) ? NULL : BloadData(theEnv)->FunctionArray[i]))
 
 void InitializeBloadData(Environment *);
-void BloadCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void BloadCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool Bload(Environment *, const char *);
 void BloadandRefresh(Environment *, unsigned long, size_t, void (*)(Environment *, void *, unsigned long));
 bool Bloaded(Environment *);

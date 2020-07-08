@@ -97,13 +97,13 @@ Definstances *GetNextDefinstances(Environment *, Definstances *);
 bool DefinstancesIsDeletable(Definstances *);
 void SetDefinstancesPPForm(Environment *, Definstances *, const char *);
 bool Undefinstances(Definstances *, Environment *);
-void GetDefinstancesListFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void GetDefinstancesModuleCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetDefinstancesListFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void GetDefinstancesModuleCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void SetupDefinstances(Environment *);
-void UndefinstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void UndefinstancesCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 #if DEBUGGING_FUNCTIONS
-void PPDefinstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void ListDefinstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void PPDefinstancesCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void ListDefinstancesCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void ListDefinstances(Environment *, const char *, Defmodule *);
 #endif
 

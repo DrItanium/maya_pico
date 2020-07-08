@@ -65,7 +65,7 @@
 #include "Symbol.h"
 #include "UserData.h"
 
-typedef void UserDefinedFunction(Environment *env, UDFContext *context, UDFValue *ret);
+typedef void UserDefinedFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 typedef struct expr* UserDefinedFunctionParser(Environment*, struct expr*, const char*);
 
 struct functionDefinition {

@@ -48,16 +48,16 @@
 #include "Evaluation.h"
 
 void BasicMathFunctionDefinitions(Environment *);
-void AdditionFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void MultiplicationFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void SubtractionFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void DivisionFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void DivFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void IntegerFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void FloatFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void AbsFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void MinFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void MaxFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void AdditionFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MultiplicationFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void SubtractionFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DivisionFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DivFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void IntegerFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void FloatFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void AbsFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MinFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void MaxFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 #endif
 

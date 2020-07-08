@@ -113,11 +113,11 @@ bool AddWatchItem(Environment* theEnv,
                   WatchPrintFunction printFunc);
 const char *GetNthWatchName(Environment *, int);
 int GetNthWatchValue(Environment *, int);
-void WatchCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void UnwatchCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void ListWatchItemsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void WatchCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void UnwatchCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void ListWatchItemsCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void WatchFunctionDefinitions(Environment *);
-void GetWatchItemCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetWatchItemCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool GetWatchState(Environment *, WatchItem);
 void SetWatchState(Environment *, WatchItem, bool);
 

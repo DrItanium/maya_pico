@@ -70,15 +70,15 @@ struct procedureFunctionData {
 #define ProcedureFunctionData(theEnv) ((struct procedureFunctionData *) GetEnvironmentData(theEnv,PRCDRFUN_DATA))
 
 void ProceduralFunctionDefinitions(Environment *);
-void WhileFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void LoopForCountFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void GetLoopCount(Environment *env, UDFContext *context, UDFValue *ret);
-void IfFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void BindFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void PrognFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void ReturnFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void BreakFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void SwitchFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void WhileFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void LoopForCountFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void GetLoopCount(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void IfFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void BindFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void PrognFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void ReturnFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void BreakFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void SwitchFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool GetBoundVariable(Environment *, UDFValue *, CLIPSLexeme *);
 void FlushBindList(Environment *, void *);
 

@@ -99,7 +99,7 @@ struct bsaveData {
 #define BsaveData(theEnv) ((struct bsaveData *) GetEnvironmentData(theEnv,BSAVE_DATA))
 
 void InitializeBsaveData(Environment *);
-void BsaveCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void BsaveCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 #if BLOAD_AND_BSAVE
 bool Bsave(Environment *, const char *);
 void MarkNeededItems(Environment *, struct expr *);

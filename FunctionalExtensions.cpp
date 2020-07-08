@@ -31,16 +31,16 @@ extern "C" {
 using String = const std::string &;
 
 #if FUNCTIONAL_EXTENSIONS
-void MapFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void FilterFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void ExistsFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void NotExistsFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void MapFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void FilterFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void ExistsFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void NotExistsFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void FunctionError(Environment *, int, FunctionCallBuilderError, String) noexcept;
-void LeftShift(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
-void RightShift(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
-void BitwiseOr(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
-void BitwiseAnd(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
-void BitwiseNot(Environment *env, UDFContext *context, UDFValue *ret) noexcept;
+void LeftShift(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept;
+void RightShift(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept;
+void BitwiseOr(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept;
+void BitwiseAnd(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept;
+void BitwiseNot(Environment *theEnv, UDFContext *context, UDFValue *ret) noexcept;
 #endif
 
 extern "C" void InstallFunctionalExtensions(Environment *theEnv) {
@@ -149,24 +149,24 @@ FunctionError(Environment *theEnv, int code, FunctionCallBuilderError err, Strin
 
 }
 void
-MapFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+MapFunction(Environment *theEnv, UDFContext *context, UDFValue *ret) {
     UDFValue func, curr;
     if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-        ret->lexemeValue = FalseSymbol(env);
+        ret->lexemeValue = FalseSymbol(theEnv);
         return;
     } else {
-        maya::MultifieldBuilder mb(env);
+        maya::MultifieldBuilder mb(theEnv);
         while (UDFHasNextArgument(context)) {
             if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
-                ret->lexemeValue = FalseSymbol(env);
+                ret->lexemeValue = FalseSymbol(theEnv);
                 return;
             } else {
                 CLIPSValue tmp;
-                maya::FunctionCallBuilder fcb(env, 0);
+                maya::FunctionCallBuilder fcb(theEnv, 0);
                 fcb.append(&curr);
                 auto result = fcb.call(func.lexemeValue->contents, &tmp);
                 if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    FunctionError(theEnv, 1, result, func.lexemeValue->contents);
                     break;
                 }
                 mb.append(&tmp);
@@ -177,27 +177,27 @@ MapFunction(Environment *env, UDFContext *context, UDFValue *ret) {
 }
 
 void
-FilterFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+FilterFunction(Environment *theEnv, UDFContext *context, UDFValue *ret) {
     UDFValue func, curr;
     if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-        ret->lexemeValue = FalseSymbol(env);
+        ret->lexemeValue = FalseSymbol(theEnv);
         return;
     } else {
-        maya::MultifieldBuilder mb(env);
+        maya::MultifieldBuilder mb(theEnv);
         while (UDFHasNextArgument(context)) {
             if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
-                ret->lexemeValue = FalseSymbol(env);
+                ret->lexemeValue = FalseSymbol(theEnv);
                 return;
             } else {
                 CLIPSValue tmp;
-                maya::FunctionCallBuilder fcb(env, 0);
+                maya::FunctionCallBuilder fcb(theEnv, 0);
                 fcb.append(&curr);
                 auto result = fcb.call(func.lexemeValue->contents, &tmp);
                 if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    FunctionError(theEnv, 1, result, func.lexemeValue->contents);
                     break;
                 }
-                if (tmp.lexemeValue != FalseSymbol(env)) {
+                if (tmp.lexemeValue != FalseSymbol(theEnv)) {
                     mb.append(&curr);
                 }
             }
@@ -207,28 +207,28 @@ FilterFunction(Environment *env, UDFContext *context, UDFValue *ret) {
 }
 
 void
-ExistsFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+ExistsFunction(Environment *theEnv, UDFContext *context, UDFValue *ret) {
     UDFValue func, curr;
     if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-        ret->lexemeValue = FalseSymbol(env);
+        ret->lexemeValue = FalseSymbol(theEnv);
         return;
     } else {
-        ret->lexemeValue = FalseSymbol(env);
+        ret->lexemeValue = FalseSymbol(theEnv);
         while (UDFHasNextArgument(context)) {
             if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
-                ret->lexemeValue = FalseSymbol(env);
+                ret->lexemeValue = FalseSymbol(theEnv);
                 return;
             } else {
                 CLIPSValue tmp;
-                maya::FunctionCallBuilder fcb(env, 0);
+                maya::FunctionCallBuilder fcb(theEnv, 0);
                 fcb.append(&curr);
                 auto result = fcb.call(func.lexemeValue->contents, &tmp);
                 if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    FunctionError(theEnv, 1, result, func.lexemeValue->contents);
                     break;
                 }
-                if (tmp.lexemeValue != FalseSymbol(env)) {
-                    ret->lexemeValue = TrueSymbol(env);
+                if (tmp.lexemeValue != FalseSymbol(theEnv)) {
+                    ret->lexemeValue = TrueSymbol(theEnv);
                     return;
                 }
             }
@@ -237,28 +237,28 @@ ExistsFunction(Environment *env, UDFContext *context, UDFValue *ret) {
 }
 
 void
-NotExistsFunction(Environment *env, UDFContext *context, UDFValue *ret) {
+NotExistsFunction(Environment *theEnv, UDFContext *context, UDFValue *ret) {
     UDFValue func, curr;
     if (!UDFFirstArgument(context, LEXEME_BITS, &func)) {
-        ret->lexemeValue = FalseSymbol(env);
+        ret->lexemeValue = FalseSymbol(theEnv);
         return;
     } else {
-        ret->lexemeValue = TrueSymbol(env);
+        ret->lexemeValue = TrueSymbol(theEnv);
         while (UDFHasNextArgument(context)) {
             if (!UDFNextArgument(context, ANY_TYPE_BITS, &curr)) {
-                ret->lexemeValue = FalseSymbol(env);
+                ret->lexemeValue = FalseSymbol(theEnv);
                 return;
             } else {
                 CLIPSValue tmp;
-                maya::FunctionCallBuilder fcb(env, 0);
+                maya::FunctionCallBuilder fcb(theEnv, 0);
                 fcb.append(&curr);
                 auto result = fcb.call(func.lexemeValue->contents, &tmp);
                 if (result != FunctionCallBuilderError::FCBE_NO_ERROR) {
-                    FunctionError(env, 1, result, func.lexemeValue->contents);
+                    FunctionError(theEnv, 1, result, func.lexemeValue->contents);
                     break;
                 }
-                if (tmp.lexemeValue != FalseSymbol(env)) {
-                    ret->lexemeValue = FalseSymbol(env);
+                if (tmp.lexemeValue != FalseSymbol(theEnv)) {
+                    ret->lexemeValue = FalseSymbol(theEnv);
                     return;
                 }
             }

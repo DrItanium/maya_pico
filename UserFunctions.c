@@ -62,6 +62,6 @@ void UserFunctions(Environment *);
 /*   this function can be deleted from this file and     */
 /*   included in another file.                           */
 /*********************************************************/
-void UserFunctions(Environment *env) {
-    InstallMayaExtensions(env);
+void UserFunctions(Environment *theEnv) {
+    InstallMayaExtensions(theEnv);
 }

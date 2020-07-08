@@ -267,14 +267,14 @@ struct factQueryData {
 #define QUERY_DELIMITER_STRING     "(QDS)"
 
 void SetupFactQuery(Environment *);
-void GetQueryFact(Environment *env, UDFContext *context, UDFValue *ret);
-void GetQueryFactSlot(Environment *env, UDFContext *context, UDFValue *ret);
-void AnyFacts(Environment *env, UDFContext *context, UDFValue *ret);
-void QueryFindFact(Environment *env, UDFContext *context, UDFValue *ret);
-void QueryFindAllFacts(Environment *env, UDFContext *context, UDFValue *ret);
-void QueryDoForFact(Environment *env, UDFContext *context, UDFValue *ret);
-void QueryDoForAllFacts(Environment *env, UDFContext *context, UDFValue *ret);
-void DelayedQueryDoForAllFacts(Environment *env, UDFContext *context, UDFValue *ret);
+void GetQueryFact(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void GetQueryFactSlot(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void AnyFacts(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void QueryFindFact(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void QueryFindAllFacts(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void QueryDoForFact(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void QueryDoForAllFacts(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void DelayedQueryDoForAllFacts(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 Expression *FactParseQueryNoAction(Environment *, Expression *, const char *);
 Expression *FactParseQueryAction(Environment *, Expression *, const char *);
@@ -353,26 +353,26 @@ void DestroyFactPatternNetwork(Environment *, struct factPatternNode *);
 #if DEFTEMPLATE_CONSTRUCT
 
 void FactCommandDefinitions(Environment *);
-void AssertCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void RetractCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void AssertStringFunction(Environment *env, UDFContext *context, UDFValue *ret);
-void FactsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void AssertCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void RetractCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void AssertStringFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void FactsCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void Facts(Environment *, const char *, Defmodule *, long long, long long, long long);
-void SetFactDuplicationCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void GetFactDuplicationCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void FactIndexFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void SetFactDuplicationCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void GetFactDuplicationCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void FactIndexFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 #endif /* DEFTEMPLATE_CONSTRUCT */
 
 void FactFileCommandDefinitions(Environment *);
-void SaveFactsCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void LoadFactsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SaveFactsCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void LoadFactsCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 long SaveFacts(Environment *, const char *, SaveScope);
 long SaveFactsDriver(Environment *, const char *, SaveScope, struct expr *);
 long LoadFacts(Environment *, const char *);
 long LoadFactsFromString(Environment *, const char *, size_t);
-void BinarySaveFactsCommand(Environment *env, UDFContext *context, UDFValue *ret);
-void BinaryLoadFactsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void BinarySaveFactsCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
+void BinaryLoadFactsCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 long BinarySaveFacts(Environment *, const char *, SaveScope);
 long BinarySaveFactsDriver(Environment *, const char *, SaveScope, Expression *);
 long BinaryLoadFacts(Environment *, const char *);
@@ -551,21 +551,21 @@ struct expr *FactGenGetfield(Environment *, struct lhsParseNode *);
 struct expr *FactGenGetvar(Environment *, struct lhsParseNode *, int);
 struct expr *FactGenCheckLength(Environment *, struct lhsParseNode *);
 struct expr *FactGenCheckZeroLength(Environment *, unsigned short);
-void FactRelationFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FactRelationFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 CLIPSLexeme *FactRelation(Fact *);
 Deftemplate *FactDeftemplate(Fact *);
-void FactExistpFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FactExistpFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 bool FactExistp(Fact *);
-void FactSlotValueFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FactSlotValueFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void FactSlotValue(Environment *, Fact *, const char *, CLIPSValue *);
-void FactSlotNamesFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FactSlotNamesFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void FactSlotNames(Fact *, CLIPSValue *);
-void GetFactListFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void GetFactListFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void GetFactList(Environment *, CLIPSValue *, Defmodule *);
-void PPFactFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void PPFactFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 void PPFact(Fact *, const char *, bool);
 Fact *GetFactAddressOrIndexArgument(UDFContext *, bool);
-void FactAddresspFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FactAddresspFunction(Environment *theEnv, UDFContext *context, UDFValue *ret);
 
 struct factHashEntry {
     Fact *theFact;
@@ -580,7 +580,7 @@ size_t HandleFactDuplication(Environment *, Fact *, Fact **, long long);
 bool GetFactDuplication(Environment *);
 bool SetFactDuplication(Environment *, bool);
 void InitializeFactHashTable(Environment *);
-void ShowFactHashTableCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ShowFactHashTableCommand(Environment *theEnv, UDFContext *context, UDFValue *ret);
 size_t HashFact(Fact *);
 bool FactWillBeAsserted(Environment *, Fact *);
 
