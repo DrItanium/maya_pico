@@ -1385,7 +1385,7 @@ void UnmakeInstanceCommand(
                 returnValue->lexemeValue = FalseSymbol(theEnv);
                 return;
             }
-        } else if (CVIsType(&theArg, INSTANCE_ADDRESS_BIT)) {
+        } else if (CVIsInstanceAddress(&theArg)) {
             ins = theArg.instanceValue;
             if (ins->garbage) {
                 StaleInstanceAddress(theEnv, "unmake-instance", 0);
@@ -1531,7 +1531,7 @@ void InstanceNameCommand(
     returnValue->lexemeValue = FalseSymbol(theEnv);
     if (!UDFFirstArgument(context, INSTANCE_BITS | SYMBOL_BIT, &theArg)) { return; }
 
-    if (CVIsType(&theArg, INSTANCE_ADDRESS_BIT)) {
+    if (CVIsInstanceAddress(&theArg)) {
         ins = theArg.instanceValue;
         if (ins->garbage == 1) {
             StaleInstanceAddress(theEnv, "instance-name", 0);
@@ -1585,7 +1585,7 @@ void InstanceNamePCommand(
 
     if (!UDFFirstArgument(context, ANY_TYPE_BITS, &theArg)) { return; }
 
-    returnValue->lexemeValue = CreateBoolean(theEnv, CVIsType(&theArg, INSTANCE_NAME_BIT));
+    returnValue->lexemeValue = CreateBoolean(theEnv, CVIsInstanceName(&theArg));
 }
 
 /*****************************************************************
@@ -1625,7 +1625,7 @@ void InstanceExistPCommand(
 
     if (!UDFFirstArgument(context, ANY_TYPE_BITS, &theArg)) { return; }
 
-    if (CVIsType(&theArg, INSTANCE_ADDRESS_BIT)) {
+    if (CVIsInstanceAddress(&theArg)) {
         returnValue->lexemeValue = CreateBoolean(theEnv, (theArg.instanceValue->garbage == 0) ? true : false);
         return;
     }

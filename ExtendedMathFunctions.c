@@ -910,8 +910,8 @@ void ModFunction(
     /* Check for divide by zero. */
     /*===========================*/
 
-    if ((CVIsType(&item2, INTEGER_BIT) ? (item2.integerValue->contents == 0L) : false) ||
-        (CVIsType(&item2, FLOAT_BIT) ? (item2.floatValue->contents == 0.0) : false)) {
+    if ((CVIsInteger(&item2) ? (item2.integerValue->contents == 0L) : false) ||
+        (CVIsFloat(&item2) ? (item2.floatValue->contents == 0.0) : false)) {
         DivideByZeroErrorMessage(theEnv, "mod");
         SetEvaluationError(theEnv, true);
         returnValue->integerValue = CreateInteger(theEnv, 0);
@@ -922,7 +922,7 @@ void ModFunction(
     /* Compute the return value. */
     /*===========================*/
 
-    if (CVIsType(&item1, FLOAT_BIT) || CVIsType(&item2, FLOAT_BIT)) {
+    if (CVIsFloat(&item1) || CVIsFloat(&item2)) {
         fnum1 = CVCoerceToFloat(&item1);
         fnum2 = CVCoerceToFloat(&item2);
         returnValue->floatValue = CreateFloat(theEnv, fnum1 - (dtrunc(fnum1 / fnum2) * fnum2));
@@ -1022,7 +1022,7 @@ void RoundFunction(
     /* Round float type to integer. */
     /*==============================*/
 
-    if (CVIsType(returnValue, FLOAT_BIT)) {
+    if (CVIsFloat(returnValue)) {
         returnValue->integerValue = CreateInteger(theEnv, (long long) round(returnValue->floatValue->contents));
     }
 }

@@ -104,7 +104,7 @@ void AdditionFunction(
 
         if (useFloatTotal) { ftotal += CVCoerceToFloat(&theArg); }
         else {
-            if (CVIsType(&theArg, INTEGER_BIT)) { ltotal += theArg.integerValue->contents; }
+            if (CVIsInteger(&theArg)) { ltotal += theArg.integerValue->contents; }
             else {
                 ftotal = (double) ltotal + CVCoerceToFloat(&theArg);
                 useFloatTotal = true;
@@ -146,7 +146,7 @@ void MultiplicationFunction(
 
         if (useFloatTotal) { ftotal *= CVCoerceToFloat(&theArg); }
         else {
-            if (CVIsType(&theArg, INTEGER_BIT)) { ltotal *= theArg.integerValue->contents; }
+            if (CVIsInteger(&theArg)) { ltotal *= theArg.integerValue->contents; }
             else {
                 ftotal = (double) ltotal * CVCoerceToFloat(&theArg);
                 useFloatTotal = true;
@@ -184,7 +184,7 @@ void SubtractionFunction(
 
     if (!UDFFirstArgument(context, NUMBER_BITS, &theArg)) { return; }
 
-    if (CVIsType(&theArg, INTEGER_BIT)) { ltotal = theArg.integerValue->contents; }
+    if (CVIsInteger(&theArg)) { ltotal = theArg.integerValue->contents; }
     else {
         ftotal = CVCoerceToFloat(&theArg);
         useFloatTotal = true;
@@ -202,7 +202,7 @@ void SubtractionFunction(
 
         if (useFloatTotal) { ftotal -= CVCoerceToFloat(&theArg); }
         else {
-            if (CVIsType(&theArg, INTEGER_BIT)) { ltotal -= theArg.integerValue->contents; }
+            if (CVIsInteger(&theArg)) { ltotal -= theArg.integerValue->contents; }
             else {
                 ftotal = (double) ltotal - theArg.floatValue->contents;
                 useFloatTotal = true;
@@ -350,7 +350,7 @@ void IntegerFunction(
     /* return the argument unchanged.             */
     /*============================================*/
 
-    if (CVIsType(returnValue, FLOAT_BIT)) { returnValue->integerValue = CreateInteger(theEnv, CVCoerceToInteger(returnValue)); }
+    if (CVIsFloat(returnValue)) { returnValue->integerValue = CreateInteger(theEnv, CVCoerceToInteger(returnValue)); }
 }
 
 /***************************************/
@@ -372,7 +372,7 @@ void FloatFunction(
     /* return the argument unchanged.              */
     /*=============================================*/
 
-    if (CVIsType(returnValue, INTEGER_BIT)) { returnValue->floatValue = CreateFloat(theEnv, CVCoerceToFloat(returnValue)); }
+    if (CVIsInteger(returnValue)) { returnValue->floatValue = CreateFloat(theEnv, CVCoerceToFloat(returnValue)); }
 }
 
 /*************************************/
@@ -393,7 +393,7 @@ void AbsFunction(
     /* Return the absolute value of the number. */
     /*==========================================*/
 
-    if (CVIsType(returnValue, INTEGER_BIT)) {
+    if (CVIsInteger(returnValue)) {
         long long lv = returnValue->integerValue->contents;
         if (lv < 0L) { returnValue->integerValue = CreateInteger(theEnv, -lv); }
     } else {
@@ -433,7 +433,7 @@ void MinFunction(
         /* to floats. Otherwise compare two integers.  */
         /*=============================================*/
 
-        if (CVIsType(returnValue, FLOAT_BIT) || CVIsType(&nextPossible, FLOAT_BIT)) {
+        if (CVIsFloat(returnValue) || CVIsFloat(&nextPossible)) {
             if (CVCoerceToFloat(returnValue) > CVCoerceToFloat(&nextPossible)) { returnValue->value = nextPossible.value; }
         } else {
             if (returnValue->integerValue->contents > nextPossible.integerValue->contents) { returnValue->value = nextPossible.value; }
@@ -472,7 +472,7 @@ void MaxFunction(
         /* to floats. Otherwise compare two integers.  */
         /*=============================================*/
 
-        if (CVIsType(returnValue, FLOAT_BIT) || CVIsType(&nextPossible, FLOAT_BIT)) {
+        if (CVIsFloat(returnValue) || CVIsFloat(&nextPossible)) {
             if (CVCoerceToFloat(returnValue) < CVCoerceToFloat(&nextPossible)) { returnValue->value = nextPossible.value; }
         } else {
             if (returnValue->integerValue->contents < nextPossible.integerValue->contents) { returnValue->value = nextPossible.value; }

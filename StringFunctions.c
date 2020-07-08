@@ -338,8 +338,8 @@ void UpcaseFunction(
     /* up the temporary memory used.          */
     /*========================================*/
 
-    if (CVIsType(&theArg, SYMBOL_BIT)) { returnValue->value = CreateSymbol(theEnv, nsptr); }
-    else if (CVIsType(&theArg, INSTANCE_NAME_BIT)) { returnValue->value = CreateInstanceName(theEnv, nsptr); }
+    if (CVIsSymbol(&theArg)) { returnValue->value = CreateSymbol(theEnv, nsptr); }
+    else if (CVIsInstanceName(&theArg)) { returnValue->value = CreateInstanceName(theEnv, nsptr); }
     else { returnValue->value = CreateString(theEnv, nsptr); }
     rm(theEnv, nsptr, slen);
 }
@@ -384,8 +384,8 @@ void LowcaseFunction(
     /* up the temporary memory used.          */
     /*========================================*/
 
-    if (CVIsType(&theArg, SYMBOL_BIT)) { returnValue->value = CreateSymbol(theEnv, nsptr); }
-    else if (CVIsType(&theArg, INSTANCE_NAME_BIT)) { returnValue->value = CreateInstanceName(theEnv, nsptr); }
+    if (CVIsSymbol(&theArg)) { returnValue->value = CreateSymbol(theEnv, nsptr); }
+    else if (CVIsInstanceName(&theArg)) { returnValue->value = CreateInstanceName(theEnv, nsptr); }
     else { returnValue->value = CreateString(theEnv, nsptr); }
     rm(theEnv, nsptr, slen);
 }

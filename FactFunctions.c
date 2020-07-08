@@ -210,7 +210,7 @@ void FactAddresspFunction(
 
     if (!UDFFirstArgument(context, ANY_TYPE_BITS, &item)) { return; }
 
-    if (CVIsType(&item, FACT_ADDRESS_BIT)) { returnValue->lexemeValue = TrueSymbol(theEnv); }
+    if (CVIsFactAddress(&item)) { returnValue->lexemeValue = TrueSymbol(theEnv); }
     else { returnValue->lexemeValue = FalseSymbol(theEnv); }
 }
 

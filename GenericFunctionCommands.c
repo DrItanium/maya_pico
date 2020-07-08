@@ -550,14 +550,14 @@ void UndefmethodCommand(
 
     if (!UDFNextArgument(context, ANY_TYPE_BITS, &theArg)) return;
 
-    if (CVIsType(&theArg, SYMBOL_BIT)) {
+    if (CVIsSymbol(&theArg)) {
         if (strcmp(theArg.lexemeValue->contents, "*") != 0) {
             PrintErrorID(theEnv, "GENRCCOM", 2, false);
             WriteString(theEnv, STDERR, "Expected a valid method index in function undefmethod.\n");
             return;
         }
         mi = 0;
-    } else if (CVIsType(&theArg, INTEGER_BIT)) {
+    } else if (CVIsInteger(&theArg)) {
         mi = (unsigned short) theArg.integerValue->contents;
         if (mi == 0) {
             PrintErrorID(theEnv, "GENRCCOM", 2, false);

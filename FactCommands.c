@@ -281,7 +281,7 @@ void RetractCommand(
         /* address, we can directly retract it. */
         /*======================================*/
 
-        if (CVIsType(&theArg, FACT_ADDRESS_BIT)) { Retract(theArg.factValue); }
+        if (CVIsFactAddress(&theArg)) { Retract(theArg.factValue); }
 
             /*===============================================*/
             /* If the argument evaluates to an integer, then */
@@ -289,7 +289,7 @@ void RetractCommand(
             /* to be retracted.                              */
             /*===============================================*/
 
-        else if (CVIsType(&theArg, INTEGER_BIT)) {
+        else if (CVIsInteger(&theArg)) {
             /*==========================================*/
             /* A fact index must be a positive integer. */
             /*==========================================*/
@@ -324,7 +324,7 @@ void RetractCommand(
             /* symbol *, then all facts are retracted.    */
             /*============================================*/
 
-        else if ((CVIsType(&theArg, SYMBOL_BIT)) ?
+        else if ((CVIsSymbol(&theArg)) ?
                  (strcmp(theArg.lexemeValue->contents, "*") == 0) : false) {
             RetractAllFacts(theEnv);
             return;
@@ -457,7 +457,7 @@ void FactsCommand(
     /* to see that a valid module was specified.     */
     /*===============================================*/
 
-    if (CVIsType(&theArg, SYMBOL_BIT)) {
+    if (CVIsSymbol(&theArg)) {
         theModule = FindDefmodule(theEnv, theArg.lexemeValue->contents);
         if ((theModule == NULL) && (strcmp(theArg.lexemeValue->contents, "*") != 0)) {
             SetEvaluationError(theEnv, true);
@@ -473,7 +473,7 @@ void FactsCommand(
         /* check to see that a valid index was specified. */
         /*================================================*/
 
-    else if (CVIsType(&theArg, INTEGER_BIT)) {
+    else if (CVIsInteger(&theArg)) {
         start = theArg.integerValue->contents;
         if (start < 0) {
             ExpectedTypeError1(theEnv, "facts", 1, "symbol or 'positive number'");

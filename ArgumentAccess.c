@@ -396,8 +396,7 @@ void *GetFactOrInstanceArgument(
     /*==================================================*/
     /* Fact and instance addresses are valid arguments. */
     /*==================================================*/
-
-    if (CVIsType(item, FACT_ADDRESS_BIT)) {
+    if (CVIsFactAddress(item)) {
         if (item->factValue == &FactData(theEnv)->DummyFact) {
             CantFindItemErrorMessage(theEnv, "fact", "<Dummy Fact>", false);
             return NULL;
@@ -407,7 +406,7 @@ void *GetFactOrInstanceArgument(
         }
 
         return item->value;
-    } else if (CVIsType(item, INSTANCE_ADDRESS_BIT)) {
+    } else if (CVIsInstanceAddress(item)) {
         if (item->instanceValue == &InstanceData(theEnv)->DummyInstance) {
             CantFindItemErrorMessage(theEnv, "instance", "<Dummy Instance>", false);
             return NULL;
