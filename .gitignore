@@ -8,6 +8,15 @@ obj/
 libs/
 *.class
 *.obj
+test_suite/Temp/*.tmp
+test_suite/Temp/*.bin
+test_suite/Temp/*.bins
+test_suite/Temp/*.fct
+test_suite/Temp/*.sav
+test_suite/Temp/*.dat
+test_suite/Temp/*.clp
+test_suite/Results/*.rsl
+test_suite/Actual/*.out
 
 cmake-build-debug
 cmake-build-release
