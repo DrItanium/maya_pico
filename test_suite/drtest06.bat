@@ -96,9 +96,6 @@
 (deftemplate foo (field x))        ; DR0522
 (assert (foo (x (1 2))))           ; DR0522 - Error
 (facts)                            ; DR0522 - None
-(print-region 1 1)                 ; DR0524 - Error
-(print-region 3 "foo.lis" ROOT SUBTOPIC)    
-(print-region t 3 ROOT SUBTOPIC)   ; DR0524 - Error
 (deffunction mftest ()             ; DR0525
    (bind ?result (create$))
    (bind ?i 140)

@@ -177,7 +177,6 @@
 (defclass A (is-a USER) (role abstract) (slot x (create-accessor read-write)))  ; DR0647
 (defclass B (is-a A))              ; DR0647
 (describe-class B)                 ; DR0647
-(constructs-to-c bug 1 Temp/)      ; DR0647
 (describe-class B)                 ; DR0647
 (clear)                            ; DR0648
 (bsave "Temp//none.bin")           ; DR0648
@@ -304,9 +303,6 @@
 (delete-instance 0)       ; DR0678
 (init-slots 0)
 (ppinstance 0)
-(clear)
-(print-region 1 2 3)      ; DR0679
-(print-region t 2 3)
 (clear)
 (defclass A (is-a USER))  ; DR0680
 (class-superclasses A inherit)
