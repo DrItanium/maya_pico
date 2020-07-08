@@ -61,8 +61,8 @@ void RemoveLogicalSupport(Environment *, PartialMatch *);
 void ForceLogicalRetractions(Environment *);
 void Dependencies(Environment *, PatternEntity *);
 void Dependents(Environment *, PatternEntity *);
-void DependenciesCommand(Environment *, UDFContext *, UDFValue *);
-void DependentsCommand(Environment *, UDFContext *, UDFValue *);
+void DependenciesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void DependentsCommand(Environment *env, UDFContext *context, UDFValue *ret);
 void ReturnEntityDependencies(Environment *, PatternEntity *);
 PartialMatch *FindLogicalBind(struct joinNode *, PartialMatch *);
 

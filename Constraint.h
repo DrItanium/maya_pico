@@ -113,8 +113,8 @@ struct constraintData {
 #define ConstraintData(theEnv) ((struct constraintData *) GetEnvironmentData(theEnv,CONSTRAINT_DATA))
 
 void InitializeConstraints(Environment *);
-void GDCCommand(Environment *, UDFContext *, UDFValue *);
-void SDCCommand(Environment *, UDFContext *, UDFValue *);
+void GDCCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SDCCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool SetDynamicConstraintChecking(Environment *, bool);
 bool GetDynamicConstraintChecking(Environment *);
 unsigned long HashConstraint(struct constraintRecord *);

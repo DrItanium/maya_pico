@@ -147,13 +147,13 @@ void RefreshAllAgendas(Environment *);
 void ReorderAgenda(Defmodule *);
 void ReorderAllAgendas(Environment *);
 void InitializeAgenda(Environment *);
-void SetSalienceEvaluationCommand(Environment *, UDFContext *, UDFValue *);
-void GetSalienceEvaluationCommand(Environment *, UDFContext *, UDFValue *);
-void RefreshAgendaCommand(Environment *, UDFContext *, UDFValue *);
-void RefreshCommand(Environment *, UDFContext *, UDFValue *);
+void SetSalienceEvaluationCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetSalienceEvaluationCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void RefreshAgendaCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void RefreshCommand(Environment *env, UDFContext *context, UDFValue *ret);
 void Refresh(Defrule *);
 #if DEBUGGING_FUNCTIONS
-void AgendaCommand(Environment *, UDFContext *, UDFValue *);
+void AgendaCommand(Environment *env, UDFContext *context, UDFValue *ret);
 #endif
 
 #endif

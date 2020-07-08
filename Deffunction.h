@@ -122,19 +122,19 @@ Deffunction *GetNextDeffunction(Environment *, Deffunction *);
 bool DeffunctionIsDeletable(Deffunction *);
 void SetDeffunctionPPForm(Environment *, Deffunction *, const char *);
 bool Undeffunction(Deffunction *, Environment *);
-void GetDeffunctionListFunction(Environment *, UDFContext *, UDFValue *);
-void GetDeffunctionModuleCommand(Environment *, UDFContext *, UDFValue *);
+void GetDeffunctionListFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void GetDeffunctionModuleCommand(Environment *env, UDFContext *context, UDFValue *ret);
 Deffunction *LookupDeffunctionByMdlOrScope(Environment *, const char *);
 Deffunction *LookupDeffunctionInScope(Environment *, const char *);
 void RemoveDeffunction(Environment *, Deffunction *);
 void SetupDeffunctions(Environment *);
-void UndeffunctionCommand(Environment *, UDFContext *, UDFValue *);
+void UndeffunctionCommand(Environment *env, UDFContext *context, UDFValue *ret);
 #if DEBUGGING_FUNCTIONS
 bool DeffunctionGetWatch(Deffunction *);
 void ListDeffunctions(Environment *, const char *, Defmodule *);
 void DeffunctionSetWatch(Deffunction *, bool);
-void ListDeffunctionsCommand(Environment *, UDFContext *, UDFValue *);
-void PPDeffunctionCommand(Environment *, UDFContext *, UDFValue *);
+void ListDeffunctionsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void PPDeffunctionCommand(Environment *env, UDFContext *context, UDFValue *ret);
 #endif
 
 #endif /* _H_dffnxfun */

@@ -130,8 +130,8 @@ UnmakeInstanceError UnmakeInstance(Instance *);
 bool UnmakeInstanceCallback(Instance *, Environment *);
 UnmakeInstanceError UnmakeAllInstances(Environment *);
 #if DEBUGGING_FUNCTIONS
-void InstancesCommand(Environment *, UDFContext *, UDFValue *);
-void PPInstanceCommand(Environment *, UDFContext *, UDFValue *);
+void InstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void PPInstanceCommand(Environment *env, UDFContext *context, UDFValue *ret);
 void Instances(Environment *, const char *, Defmodule *, const char *, bool);
 #endif
 Instance *MakeInstance(Environment *, const char *);
@@ -161,17 +161,17 @@ Instance *GetNextInstanceInScope(Environment *, Instance *);
 Instance *GetNextInstanceInClass(Defclass *, Instance *);
 Instance *GetNextInstanceInClassAndSubclasses(Defclass **, Instance *, UDFValue *);
 void InstancePPForm(Instance *, StringBuilder *);
-void ClassCommand(Environment *, UDFContext *, UDFValue *);
-void DeleteInstanceCommand(Environment *, UDFContext *, UDFValue *);
-void UnmakeInstanceCommand(Environment *, UDFContext *, UDFValue *);
-void SymbolToInstanceNameFunction(Environment *, UDFContext *, UDFValue *);
-void InstanceNameToSymbolFunction(Environment *, UDFContext *, UDFValue *);
-void InstanceAddressCommand(Environment *, UDFContext *, UDFValue *);
-void InstanceNameCommand(Environment *, UDFContext *, UDFValue *);
-void InstanceAddressPCommand(Environment *, UDFContext *, UDFValue *);
-void InstanceNamePCommand(Environment *, UDFContext *, UDFValue *);
-void InstancePCommand(Environment *, UDFContext *, UDFValue *);
-void InstanceExistPCommand(Environment *, UDFContext *, UDFValue *);
-void CreateInstanceHandler(Environment *, UDFContext *, UDFValue *);
+void ClassCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void DeleteInstanceCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void UnmakeInstanceCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SymbolToInstanceNameFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceNameToSymbolFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceAddressCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceNameCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceAddressPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceNamePCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void InstancePCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceExistPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void CreateInstanceHandler(Environment *env, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_inscom */

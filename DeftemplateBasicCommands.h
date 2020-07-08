@@ -66,15 +66,15 @@
 #include "Deftemplate.h"
 
 void DeftemplateBasicCommands(Environment *);
-void UndeftemplateCommand(Environment *, UDFContext *, UDFValue *);
+void UndeftemplateCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool Undeftemplate(Deftemplate *, Environment *);
-void GetDeftemplateListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDeftemplateListFunction(Environment *env, UDFContext *context, UDFValue *ret);
 void GetDeftemplateList(Environment *, CLIPSValue *, Defmodule *);
-void DeftemplateModuleFunction(Environment *, UDFContext *, UDFValue *);
+void DeftemplateModuleFunction(Environment *env, UDFContext *context, UDFValue *ret);
 #if DEBUGGING_FUNCTIONS
-void PPDeftemplateCommand(Environment *, UDFContext *, UDFValue *);
+void PPDeftemplateCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool PPDeftemplate(Environment *, const char *, const char *);
-void ListDeftemplatesCommand(Environment *, UDFContext *, UDFValue *);
+void ListDeftemplatesCommand(Environment *env, UDFContext *context, UDFValue *ret);
 void ListDeftemplates(Environment *, const char *, Defmodule *);
 bool DeftemplateGetWatch(Deftemplate *);
 void DeftemplateSetWatch(Deftemplate *, bool);

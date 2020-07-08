@@ -37,8 +37,8 @@
 #if !MAYA_EXTENSIONS
 void InstallMayaExtensions(void* environment) { }
 #else
-static void EmptyFunction(Environment *, UDFContext *, UDFValue *);
-static void Functionp(Environment *, UDFContext *, UDFValue *);
+static void EmptyFunction(Environment *env, UDFContext *context, UDFValue *ret);
+static void Functionp(Environment *env, UDFContext *context, UDFValue *ret);
 //static void NextToken(Environment*, UDFContext* context, UDFValue* ret);
 static void LastFunction(Environment *, UDFContext *context, UDFValue *ret);
 

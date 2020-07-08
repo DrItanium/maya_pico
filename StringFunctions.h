@@ -77,18 +77,18 @@ typedef enum {
 BuildError Build(Environment *, const char *);
 EvalError Eval(Environment *, const char *, CLIPSValue *);
 void StringFunctionDefinitions(Environment *);
-void StrCatFunction(Environment *, UDFContext *, UDFValue *);
-void SymCatFunction(Environment *, UDFContext *, UDFValue *);
-void StrLengthFunction(Environment *, UDFContext *, UDFValue *);
-void UpcaseFunction(Environment *, UDFContext *, UDFValue *);
-void LowcaseFunction(Environment *, UDFContext *, UDFValue *);
-void StrCompareFunction(Environment *, UDFContext *, UDFValue *);
-void SubStringFunction(Environment *, UDFContext *, UDFValue *);
-void StrIndexFunction(Environment *, UDFContext *, UDFValue *);
-void EvalFunction(Environment *, UDFContext *, UDFValue *);
-void BuildFunction(Environment *, UDFContext *, UDFValue *);
-void StringToFieldFunction(Environment *, UDFContext *, UDFValue *);
+void StrCatFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void SymCatFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void StrLengthFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void UpcaseFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void LowcaseFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void StrCompareFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void SubStringFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void StrIndexFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void EvalFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void BuildFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void StringToFieldFunction(Environment *env, UDFContext *context, UDFValue *ret);
 void StringToField(Environment *, const char *, UDFValue *);
-void StrReplaceFunction(Environment *, UDFContext *, UDFValue *);
+void StrReplaceFunction(Environment *env, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_strngfun */

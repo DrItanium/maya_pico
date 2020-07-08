@@ -63,14 +63,14 @@
 #include "Defglobal.h"
 
 void DefglobalBasicCommands(Environment *);
-void UndefglobalCommand(Environment *, UDFContext *, UDFValue *);
+void UndefglobalCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool Undefglobal(Defglobal *, Environment *);
-void GetDefglobalListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDefglobalListFunction(Environment *env, UDFContext *context, UDFValue *ret);
 void GetDefglobalList(Environment *, CLIPSValue *, Defmodule *);
-void DefglobalModuleFunction(Environment *, UDFContext *, UDFValue *);
-void PPDefglobalCommand(Environment *, UDFContext *, UDFValue *);
+void DefglobalModuleFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void PPDefglobalCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool PPDefglobal(Environment *, const char *, const char *);
-void ListDefglobalsCommand(Environment *, UDFContext *, UDFValue *);
+void ListDefglobalsCommand(Environment *env, UDFContext *context, UDFValue *ret);
 #if DEBUGGING_FUNCTIONS
 bool DefglobalGetWatch(Defglobal *);
 void ListDefglobals(Environment *, const char *, Defmodule *);

@@ -82,15 +82,15 @@ bool DefclassInScope(Environment *, Defclass *, Defmodule *);
 Defclass *GetNextDefclass(Environment *, Defclass *);
 bool DefclassIsDeletable(Defclass *);
 
-void UndefclassCommand(Environment *, UDFContext *, UDFValue *);
+void UndefclassCommand(Environment *env, UDFContext *context, UDFValue *ret);
 ClassDefaultsMode SetClassDefaultsMode(Environment *, ClassDefaultsMode);
 ClassDefaultsMode GetClassDefaultsMode(Environment *);
-void GetClassDefaultsModeCommand(Environment *, UDFContext *, UDFValue *);
-void SetClassDefaultsModeCommand(Environment *, UDFContext *, UDFValue *);
+void GetClassDefaultsModeCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SetClassDefaultsModeCommand(Environment *env, UDFContext *context, UDFValue *ret);
 
 #if DEBUGGING_FUNCTIONS
-void PPDefclassCommand(Environment *, UDFContext *, UDFValue *);
-void ListDefclassesCommand(Environment *, UDFContext *, UDFValue *);
+void PPDefclassCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ListDefclassesCommand(Environment *env, UDFContext *context, UDFValue *ret);
 void ListDefclasses(Environment *, const char *, Defmodule *);
 bool DefclassGetWatchInstances(Defclass *);
 void DefclassSetWatchInstances(Defclass *, bool);
@@ -100,7 +100,7 @@ bool DefclassWatchAccess(Environment *, int, bool, Expression *);
 bool DefclassWatchPrint(Environment *, const char *, int, Expression *);
 #endif
 
-void GetDefclassListFunction(Environment *, UDFContext *, UDFValue *);
+void GetDefclassListFunction(Environment *env, UDFContext *context, UDFValue *ret);
 void GetDefclassList(Environment *, CLIPSValue *, Defmodule *);
 bool Undefclass(Defclass *, Environment *);
 bool HasSuperclass(Defclass *, Defclass *);

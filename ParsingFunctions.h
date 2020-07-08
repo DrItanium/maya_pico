@@ -56,7 +56,7 @@
 #include "Evaluation.h"
 
 void ParseFunctionDefinitions(Environment *);
-void CheckSyntaxFunction(Environment *, UDFContext *, UDFValue *);
+void CheckSyntaxFunction(Environment *env, UDFContext *context, UDFValue *ret);
 bool CheckSyntax(Environment *, const char *, UDFValue *);
 
 #endif /* _H_parsefun */

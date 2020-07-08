@@ -70,18 +70,18 @@ struct instanceFileData {
 #endif /* BLOAD_INSTANCES || BSAVE_INSTANCES */
 
 void SetupInstanceFileCommands(Environment *);
-void SaveInstancesCommand(Environment *, UDFContext *, UDFValue *);
-void LoadInstancesCommand(Environment *, UDFContext *, UDFValue *);
-void RestoreInstancesCommand(Environment *, UDFContext *, UDFValue *);
+void SaveInstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void LoadInstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void RestoreInstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
 long SaveInstancesDriver(Environment *, const char *, SaveScope, Expression *, bool);
 long SaveInstances(Environment *, const char *, SaveScope);
 #if BSAVE_INSTANCES
-void BinarySaveInstancesCommand(Environment *, UDFContext *, UDFValue *);
+void BinarySaveInstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
 long BinarySaveInstancesDriver(Environment *, const char *, SaveScope, Expression *, bool);
 long BinarySaveInstances(Environment *, const char *, SaveScope);
 #endif
 #if BLOAD_INSTANCES
-void BinaryLoadInstancesCommand(Environment *, UDFContext *, UDFValue *);
+void BinaryLoadInstancesCommand(Environment *env, UDFContext *context, UDFValue *ret);
 long BinaryLoadInstances(Environment *, const char *);
 #endif
 long LoadInstances(Environment *, const char *);

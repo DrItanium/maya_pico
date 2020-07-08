@@ -53,20 +53,20 @@
 
 #include "Evaluation.h"
 
-void ClassAbstractPCommand(Environment *, UDFContext *, UDFValue *);
-void ClassReactivePCommand(Environment *, UDFContext *, UDFValue *);
+void ClassAbstractPCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ClassReactivePCommand(Environment *env, UDFContext *context, UDFValue *ret);
 Defclass *ClassInfoFnxArgs(UDFContext *, const char *, bool *);
-void ClassSlotsCommand(Environment *, UDFContext *, UDFValue *);
-void ClassSuperclassesCommand(Environment *, UDFContext *, UDFValue *);
-void ClassSubclassesCommand(Environment *, UDFContext *, UDFValue *);
-void GetDefmessageHandlersListCmd(Environment *, UDFContext *, UDFValue *);
-void SlotFacetsCommand(Environment *, UDFContext *, UDFValue *);
-void SlotSourcesCommand(Environment *, UDFContext *, UDFValue *);
-void SlotTypesCommand(Environment *, UDFContext *, UDFValue *);
-void SlotAllowedValuesCommand(Environment *, UDFContext *, UDFValue *);
-void SlotAllowedClassesCommand(Environment *, UDFContext *, UDFValue *);
-void SlotRangeCommand(Environment *, UDFContext *, UDFValue *);
-void SlotCardinalityCommand(Environment *, UDFContext *, UDFValue *);
+void ClassSlotsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ClassSuperclassesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ClassSubclassesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void GetDefmessageHandlersListCmd(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotFacetsCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotSourcesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotTypesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotAllowedValuesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotAllowedClassesCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotRangeCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void SlotCardinalityCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool ClassAbstractP(Defclass *);
 bool ClassReactiveP(Defclass *);
 void ClassSlots(Defclass *, CLIPSValue *, bool);

@@ -62,20 +62,20 @@
 
 void SetupInstanceModDupCommands(Environment *);
 
-void ModifyInstance(Environment *, UDFContext *, UDFValue *);
-void MsgModifyInstance(Environment *, UDFContext *, UDFValue *);
-void DuplicateInstance(Environment *, UDFContext *, UDFValue *);
-void MsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
+void ModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void MsgModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void DuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void MsgDuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
 
-void InactiveModifyInstance(Environment *, UDFContext *, UDFValue *);
-void InactiveMsgModifyInstance(Environment *, UDFContext *, UDFValue *);
-void InactiveDuplicateInstance(Environment *, UDFContext *, UDFValue *);
-void InactiveMsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
+void InactiveModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void InactiveMsgModifyInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void InactiveDuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void InactiveMsgDuplicateInstance(Environment *env, UDFContext *context, UDFValue *ret);
 
-void DirectModifyMsgHandler(Environment *, UDFContext *, UDFValue *);
-void MsgModifyMsgHandler(Environment *, UDFContext *, UDFValue *);
-void DirectDuplicateMsgHandler(Environment *, UDFContext *, UDFValue *);
-void MsgDuplicateMsgHandler(Environment *, UDFContext *, UDFValue *);
+void DirectModifyMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
+void MsgModifyMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
+void DirectDuplicateMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
+void MsgDuplicateMsgHandler(Environment *env, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_insmoddp */
 

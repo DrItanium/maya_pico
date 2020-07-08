@@ -72,12 +72,12 @@ bool DirectMessage(Environment *, CLIPSLexeme *, Instance *,
                    UDFValue *, Expression *);
 void Send(Environment *, CLIPSValue *, const char *, const char *, CLIPSValue *);
 void DestroyHandlerLinks(Environment *, HANDLER_LINK *);
-void SendCommand(Environment *, UDFContext *, UDFValue *);
+void SendCommand(Environment *env, UDFContext *context, UDFValue *ret);
 UDFValue *GetNthMessageArgument(Environment *, int);
 
 bool NextHandlerAvailable(Environment *);
-void NextHandlerAvailableFunction(Environment *, UDFContext *, UDFValue *);
-void CallNextHandler(Environment *, UDFContext *, UDFValue *);
+void NextHandlerAvailableFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void CallNextHandler(Environment *env, UDFContext *context, UDFValue *ret);
 void FindApplicableOfName(Environment *, Defclass *, HANDLER_LINK *[],
                           HANDLER_LINK *[], CLIPSLexeme *);
 HANDLER_LINK *JoinHandlerLinks(Environment *, HANDLER_LINK *[], HANDLER_LINK *[], CLIPSLexeme *);
@@ -86,8 +86,8 @@ void PrintHandlerSlotGetFunction(Environment *, const char *, void *);
 bool HandlerSlotGetFunction(Environment *, void *, UDFValue *);
 void PrintHandlerSlotPutFunction(Environment *, const char *, void *);
 bool HandlerSlotPutFunction(Environment *, void *, UDFValue *);
-void DynamicHandlerGetSlot(Environment *, UDFContext *, UDFValue *);
-void DynamicHandlerPutSlot(Environment *, UDFContext *, UDFValue *);
+void DynamicHandlerGetSlot(Environment *env, UDFContext *context, UDFValue *ret);
+void DynamicHandlerPutSlot(Environment *env, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_object */
 

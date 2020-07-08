@@ -104,12 +104,12 @@ void DefmessageHandlerSetWatch(Defclass *, unsigned, bool);
 #endif
 unsigned FindDefmessageHandler(Defclass *, const char *, const char *);
 bool DefmessageHandlerIsDeletable(Defclass *, unsigned);
-void UndefmessageHandlerCommand(Environment *, UDFContext *, UDFValue *);
+void UndefmessageHandlerCommand(Environment *env, UDFContext *context, UDFValue *ret);
 bool UndefmessageHandler(Defclass *, unsigned, Environment *);
 #if DEBUGGING_FUNCTIONS
-void PPDefmessageHandlerCommand(Environment *, UDFContext *, UDFValue *);
-void ListDefmessageHandlersCommand(Environment *, UDFContext *, UDFValue *);
-void PreviewSendCommand(Environment *, UDFContext *, UDFValue *);
+void PPDefmessageHandlerCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ListDefmessageHandlersCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void PreviewSendCommand(Environment *env, UDFContext *context, UDFValue *ret);
 const char *DefmessageHandlerPPForm(Defclass *, unsigned);
 void ListDefmessageHandlers(Environment *, Defclass *, const char *, bool);
 void PreviewSend(Defclass *, const char *, const char *);

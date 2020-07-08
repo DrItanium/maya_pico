@@ -45,20 +45,20 @@ using boost::filesystem::is_regular_file;
 using boost::filesystem::is_directory;
 using boost::starts_with;
 using boost::ends_with;
-void HasPrefix(Environment *, UDFContext *, UDFValue *);
-void HasSuffix(Environment *, UDFContext *, UDFValue *);
-void TrimString(Environment *, UDFContext *, UDFValue *);
-void TrimStringFront(Environment *, UDFContext *, UDFValue *);
-void TrimStringBack(Environment *, UDFContext *, UDFValue *);
-void NewUUID(Environment *, UDFContext *, UDFValue *);
-void gcdFunction(Environment *, UDFContext *, UDFValue *);
-void lcmFunction(Environment *, UDFContext *, UDFValue *);
-void FileExists(Environment *, UDFContext *, UDFValue *);
-void IsDirectory(Environment *, UDFContext *, UDFValue *);
-void IsRegularFile(Environment *, UDFContext *, UDFValue *);
-void ClampValue(Environment *, UDFContext *, UDFValue *);
-void GetDirectoryContents(Environment *, UDFContext *, UDFValue *);
-void GetFileExtension(Environment *, UDFContext *, UDFValue *);
+void HasPrefix(Environment *env, UDFContext *context, UDFValue *ret);
+void HasSuffix(Environment *env, UDFContext *context, UDFValue *ret);
+void TrimString(Environment *env, UDFContext *context, UDFValue *ret);
+void TrimStringFront(Environment *env, UDFContext *context, UDFValue *ret);
+void TrimStringBack(Environment *env, UDFContext *context, UDFValue *ret);
+void NewUUID(Environment *env, UDFContext *context, UDFValue *ret);
+void gcdFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void lcmFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FileExists(Environment *env, UDFContext *context, UDFValue *ret);
+void IsDirectory(Environment *env, UDFContext *context, UDFValue *ret);
+void IsRegularFile(Environment *env, UDFContext *context, UDFValue *ret);
+void ClampValue(Environment *env, UDFContext *context, UDFValue *ret);
+void GetDirectoryContents(Environment *env, UDFContext *context, UDFValue *ret);
+void GetFileExtension(Environment *env, UDFContext *context, UDFValue *ret);
 #endif
 
 extern "C" void InstallBoostExtensions(Environment *theEnv) {

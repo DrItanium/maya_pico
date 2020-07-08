@@ -149,7 +149,7 @@ unsigned short FindMethodByIndex(Defgeneric *, unsigned short);
 void PrintMethod(Environment *, Defmethod *, StringBuilder *);
 #endif
 #if DEBUGGING_FUNCTIONS
-void PreviewGeneric(Environment *, UDFContext *, UDFValue *);
+void PreviewGeneric(Environment *env, UDFContext *context, UDFValue *ret);
 #endif
 Defgeneric *CheckGenericExists(Environment *, const char *, const char *);
 unsigned short CheckMethodExists(Environment *, const char *, Defgeneric *, unsigned short);

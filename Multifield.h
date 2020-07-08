@@ -128,23 +128,23 @@ void MBAppendUDFValue(MultifieldBuilder *theMB, UDFValue *);
 
 void MultifieldFunctionDefinitions(Environment *);
 #if MULTIFIELD_FUNCTIONS
-void DeleteFunction(Environment *, UDFContext *, UDFValue *);
-void ReplaceFunction(Environment *, UDFContext *, UDFValue *);
-void DeleteMemberFunction(Environment *, UDFContext *, UDFValue *);
-void ReplaceMemberFunction(Environment *, UDFContext *, UDFValue *);
-void InsertFunction(Environment *, UDFContext *, UDFValue *);
-void ExplodeFunction(Environment *, UDFContext *, UDFValue *);
-void ImplodeFunction(Environment *, UDFContext *, UDFValue *);
-void SubseqFunction(Environment *, UDFContext *, UDFValue *);
-void FirstFunction(Environment *, UDFContext *, UDFValue *);
-void RestFunction(Environment *, UDFContext *, UDFValue *);
-void NthFunction(Environment *, UDFContext *, UDFValue *);
-void SubsetpFunction(Environment *, UDFContext *, UDFValue *);
-void MemberFunction(Environment *, UDFContext *, UDFValue *);
-void MultifieldPrognFunction(Environment *, UDFContext *, UDFValue *);
-void ForeachFunction(Environment *, UDFContext *, UDFValue *);
-void GetMvPrognField(Environment *, UDFContext *, UDFValue *);
-void GetMvPrognIndex(Environment *, UDFContext *, UDFValue *);
+void DeleteFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void ReplaceFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void DeleteMemberFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void ReplaceMemberFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void InsertFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void ExplodeFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void ImplodeFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void SubseqFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void FirstFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void RestFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void NthFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void SubsetpFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void MemberFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void MultifieldPrognFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void ForeachFunction(Environment *env, UDFContext *context, UDFValue *ret);
+void GetMvPrognField(Environment *env, UDFContext *context, UDFValue *ret);
+void GetMvPrognIndex(Environment *env, UDFContext *context, UDFValue *ret);
 bool FindDOsInSegment(UDFValue *, unsigned int, UDFValue *,
                       size_t *, size_t *, size_t *, unsigned int);
 #endif

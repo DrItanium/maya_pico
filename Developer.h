@@ -47,16 +47,16 @@
 #define _H_developr
 
 void DeveloperCommands(Environment *);
-void PrimitiveTablesInfoCommand(Environment *, UDFContext *, UDFValue *);
-void PrimitiveTablesUsageCommand(Environment *, UDFContext *, UDFValue *);
+void PrimitiveTablesInfoCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void PrimitiveTablesUsageCommand(Environment *env, UDFContext *context, UDFValue *ret);
 
 #if DEFTEMPLATE_CONSTRUCT
-void ShowFactPatternNetworkCommand(Environment *, UDFContext *, UDFValue *);
-void ValidateFactIntegrityCommand(Environment *, UDFContext *, UDFValue *);
+void ShowFactPatternNetworkCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ValidateFactIntegrityCommand(Environment *env, UDFContext *context, UDFValue *ret);
 #endif
-void PrintObjectPatternNetworkCommand(Environment *, UDFContext *, UDFValue *);
-void InstanceTableUsageCommand(Environment *, UDFContext *, UDFValue *);
-void ValidateBetaMemoriesCommand(Environment *, UDFContext *, UDFValue *);
+void PrintObjectPatternNetworkCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void InstanceTableUsageCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void ValidateBetaMemoriesCommand(Environment *env, UDFContext *context, UDFValue *ret);
 
 #endif /* _H_developr */
 

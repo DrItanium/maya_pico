@@ -53,15 +53,15 @@
 #include "Object.h"
 #include "InstanceCommand.h"
 
-void InitializeInstanceCommand(Environment *, UDFContext *, UDFValue *);
-void MakeInstanceCommand(Environment *, UDFContext *, UDFValue *);
+void InitializeInstanceCommand(Environment *env, UDFContext *context, UDFValue *ret);
+void MakeInstanceCommand(Environment *env, UDFContext *context, UDFValue *ret);
 CLIPSLexeme *GetFullInstanceName(Environment *, Instance *);
 Instance *BuildInstance(Environment *, CLIPSLexeme *, Defclass *, bool);
-void InitSlotsCommand(Environment *, UDFContext *, UDFValue *);
+void InitSlotsCommand(Environment *env, UDFContext *context, UDFValue *ret);
 UnmakeInstanceError QuashInstance(Environment *, Instance *);
 
-void InactiveInitializeInstance(Environment *, UDFContext *, UDFValue *);
-void InactiveMakeInstance(Environment *, UDFContext *, UDFValue *);
+void InactiveInitializeInstance(Environment *env, UDFContext *context, UDFValue *ret);
+void InactiveMakeInstance(Environment *env, UDFContext *context, UDFValue *ret);
 
 InstanceBuilder *CreateInstanceBuilder(Environment *, const char *);
 PutSlotError IBPutSlot(InstanceBuilder *, const char *, CLIPSValue *);
