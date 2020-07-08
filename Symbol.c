@@ -283,7 +283,7 @@ static void DeallocateSymbolData(
     /* Remove binary symbol tables. */
     /*==============================*/
 
-#if BLOAD_AND_BSAVE_INSTANCES || BSAVE_INSTANCES
+#if BSAVE_INSTANCES
     if (SymbolData(theEnv)->SymbolArray != NULL)
         rm(theEnv, SymbolData(theEnv)->SymbolArray, sizeof(CLIPSLexeme *) * SymbolData(theEnv)->NumberOfSymbols);
     if (SymbolData(theEnv)->FloatArray != NULL)

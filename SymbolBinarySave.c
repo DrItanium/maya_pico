@@ -33,7 +33,7 @@
 
 #include "Setup.h"
 
-#if BLOAD_AND_BSAVE_INSTANCES || BSAVE_INSTANCES
+#if BSAVE_INSTANCES
 
 #include "ArgumentAccess.h"
 #include "BinaryLoad.h"
@@ -591,4 +591,4 @@ void FreeAtomicValueStorage(
     SymbolData(theEnv)->NumberOfBitMaps = 0;
 }
 
-#endif /* BLOAD_AND_BSAVE_INSTANCES || BSAVE_INSTANCES */
+#endif /* BSAVE_INSTANCES */
