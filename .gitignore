@@ -17,6 +17,7 @@ test_suite/Temp/*.dat
 test_suite/Temp/*.clp
 test_suite/Results/*.rsl
 test_suite/Actual/*.out
+exe/
 
 cmake-build-debug
 cmake-build-release
