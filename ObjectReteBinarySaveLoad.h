@@ -47,7 +47,6 @@
 
 #define _H_objrtbin
 
-#if OBJECT_SYSTEM
 
 #define OBJECTRETEBIN_DATA 34
 
@@ -67,8 +66,6 @@ struct objectReteBinaryData {
 #define ClassAlphaPointer(i)   ((i == ULONG_MAX) ? NULL : (CLASS_ALPHA_LINK *) &ObjectReteBinaryData(theEnv)->AlphaLinkArray[i])
 
 void SetupObjectPatternsBload(Environment *);
-
-#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 
 #endif /* _H_objrtbin */
 

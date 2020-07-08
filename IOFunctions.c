@@ -383,9 +383,7 @@ void ReadFunction(
     /*====================================================*/
 
     if ((theToken.tknType == FLOAT_TOKEN) || (theToken.tknType == STRING_TOKEN) ||
-        #if OBJECT_SYSTEM
         (theToken.tknType == INSTANCE_NAME_TOKEN) ||
-        #endif
         (theToken.tknType == SYMBOL_TOKEN) || (theToken.tknType == INTEGER_TOKEN)) { returnValue->value = theToken.value; }
     else if (theToken.tknType == STOP_TOKEN) {
         SetErrorValue(theEnv, &CreateSymbol(theEnv, "EOF")->header);
@@ -1677,9 +1675,7 @@ void ReadNumberFunction(
     /*====================================================*/
 
     if ((theToken.tknType == FLOAT_TOKEN) || (theToken.tknType == STRING_TOKEN) ||
-        #if OBJECT_SYSTEM
         (theToken.tknType == INSTANCE_NAME_TOKEN) ||
-        #endif
         (theToken.tknType == SYMBOL_TOKEN) || (theToken.tknType == INTEGER_TOKEN)) { returnValue->value = theToken.value; }
     else if (theToken.tknType == STOP_TOKEN) { returnValue->value = CreateSymbol(theEnv, "EOF"); }
     else if (theToken.tknType == UNKNOWN_VALUE_TOKEN) { returnValue->lexemeValue = FalseSymbol(theEnv); }

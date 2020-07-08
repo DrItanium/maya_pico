@@ -50,11 +50,7 @@
 #include "GenericFunctionCommands.h"
 #include "MemoryAllocation.h"
 #include "DefmoduleBinarySaveLoad.h"
-#if OBJECT_SYSTEM
 #include "ObjectBinaryLoadSave.h"
-#else
-#include "prntutil.h"
-#endif
 #include "Router.h"
 
 #include "GenericFunctionBinaryLoadSave.h"
@@ -592,11 +588,7 @@ static void BsaveRestrictionTypes(
         for (j = 0; j < gfunc->methods[i].restrictionCount; j++) {
             rptr = &gfunc->methods[i].restrictions[j];
             for (k = 0; k < rptr->tcnt; k++) {
-#if OBJECT_SYSTEM
                 dummy_type = DefclassIndex(rptr->types[k]);
-#else
-                dummy_type = (unsigned long) ((CLIPSInteger *) rptr->types[k])->contents;
-#endif
                 GenWrite(&dummy_type, sizeof(unsigned long), (FILE *) userBuffer);
             }
         }
@@ -764,20 +756,7 @@ static void UpdateType(
         Environment *theEnv,
         void *buf,
         unsigned long obji) {
-#if OBJECT_SYSTEM
     DefgenericBinaryData(theEnv)->TypeArray[obji] = DefclassPointer(*(unsigned long *) buf);
-#else
-    if ((* (long *) buf) > INSTANCE_TYPE_CODE)
-      {
-       PrintWarningID(theEnv,"GENRCBIN",1,false);
-       WriteString(theEnv,STDWRN,"COOL not installed!  User-defined class\n");
-       WriteString(theEnv,STDWRN,"  in method restriction substituted with OBJECT.\n");
-       DefgenericBinaryData(theEnv)->TypeArray[obji] = CreateInteger(theEnv,OBJECT_TYPE_CODE);
-      }
-    else
-      DefgenericBinaryData(theEnv)->TypeArray[obji] = CreateInteger(theEnv,* (long *) buf);
-    IncrementIntegerCount((CLIPSInteger *) DefgenericBinaryData(theEnv)->TypeArray[obji]);
-#endif
 }
 
 /***************************************************************
@@ -826,10 +805,6 @@ static void ClearBloadGenerics(
     DefgenericBinaryData(theEnv)->RestrictionArray = NULL;
     DefgenericBinaryData(theEnv)->RestrictionCount = 0L;
 
-#if !OBJECT_SYSTEM
-    for (i = 0 ; i < DefgenericBinaryData(theEnv)->TypeCount ; i++)
-      ReleaseInteger(theEnv,(CLIPSInteger *) DefgenericBinaryData(theEnv)->TypeArray[i]);
-#endif
     space = (sizeof(void *) * DefgenericBinaryData(theEnv)->TypeCount);
     if (space == 0L)
         return;

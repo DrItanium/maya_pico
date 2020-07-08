@@ -66,20 +66,16 @@
 #include "Deftemplate.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
 #include "ObjectReteMatch.h"
 #include "InstanceFunctions.h"
-#endif
 
 #include "Developer.h"
 
 #if DEVELOPER
 
-#if OBJECT_SYSTEM
 static void                    PrintOPNLevel(Environment *,OBJECT_PATTERN_NODE *,char *,int);
-#endif
 
 /**************************************************/
 /* DeveloperCommands: Sets up developer commands. */
@@ -97,13 +93,9 @@ AddUDF(theEnv,"show-fpn","v",1,1,"y",ShowFactPatternNetworkCommand,"ShowFactPatt
 AddUDF(theEnv,"show-fht","v",0,0,NULL,ShowFactHashTableCommand,"ShowFactHashTableCommand",NULL);
 #endif
 
-#if OBJECT_SYSTEM
 AddUDF(theEnv,"show-opn","v",0,0,NULL,PrintObjectPatternNetworkCommand,"PrintObjectPatternNetworkCommand",NULL);
-#endif
 
-#if OBJECT_SYSTEM
 AddUDF(theEnv,"instance-table-usage","v",0,0,NULL,InstanceTableUsageCommand,"InstanceTableUsageCommand",NULL);
-#endif
 
 }
 
@@ -420,7 +412,6 @@ while (patternPtr != NULL)
 
 #endif
 
-#if OBJECT_SYSTEM
 
 /***************************************************
 NAME         : PrintObjectPatternNetworkCommand
@@ -530,9 +521,7 @@ while (pptr != NULL)
   }
 }
 
-#endif
 
-#if OBJECT_SYSTEM
 
 /*******************************************************/
 /* InstanceTableUsageCommand: Prints information about */
@@ -586,7 +575,6 @@ for (i = 0; i < COUNT_SIZE; i++)
   }
 }
 
-#endif
 
 
 /******************/

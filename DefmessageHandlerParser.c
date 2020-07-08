@@ -57,7 +57,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <string.h>
 
@@ -653,4 +652,3 @@ static void GenHandlerSlotReference(
                               sizeof(HANDLER_SLOT_REFERENCE));
 }
 
-#endif

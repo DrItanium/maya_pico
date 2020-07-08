@@ -1063,12 +1063,10 @@ size_t ItemHashValue(
         unsigned short theType,
         void *theValue,
         size_t theRange) {
-#if OBJECT_SYSTEM
     union {
         void *vv;
         unsigned uv;
     } fis;
-#endif
 
     switch (theType) {
         case FLOAT_TYPE:
@@ -1079,9 +1077,7 @@ size_t ItemHashValue(
 
         case SYMBOL_TYPE:
         case STRING_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
             return HashSymbol(((CLIPSLexeme *) theValue)->contents, theRange);
 
         case MULTIFIELD_TYPE:
@@ -1095,12 +1091,10 @@ size_t ItemHashValue(
         case EXTERNAL_ADDRESS_TYPE:
             return HashExternalAddress(((CLIPSExternalAddress *) theValue)->contents, theRange);
 
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             fis.uv = 0;
             fis.vv = theValue;
             return (fis.uv % theRange);
-#endif
     }
 
     SystemError(theEnv, "UTILITY", 1);

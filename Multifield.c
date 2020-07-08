@@ -70,9 +70,7 @@
 #include "Evaluation.h"
 #include "Expression.h"
 #include "MemoryAllocation.h"
-#if OBJECT_SYSTEM
 #include "Object.h"
-#endif
 #include "Scanner.h"
 #include "PrintUtility.h"
 #include "Router.h"
@@ -743,9 +741,7 @@ size_t HashMultifield(
                 break;
 
             case FACT_ADDRESS_TYPE:
-#if OBJECT_SYSTEM
             case INSTANCE_ADDRESS_TYPE:
-#endif
                 fis.liv = 0;
                 fis.vv = fieldPtr[i].value;
                 count += fis.liv * (i + 29);
@@ -759,9 +755,7 @@ size_t HashMultifield(
 
             case SYMBOL_TYPE:
             case STRING_TYPE:
-#if OBJECT_SYSTEM
             case INSTANCE_NAME_TYPE:
-#endif
                 tvalue = HashSymbol(fieldPtr[i].lexemeValue->contents, theRange);
                 count += tvalue * (i + 29);
                 break;

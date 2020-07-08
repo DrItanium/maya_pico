@@ -1408,11 +1408,7 @@ bool DeftemplateSlotTypes(
 
     if ((theDeftemplate->implied) ||
         ((theSlot->constraints != NULL) ? theSlot->constraints->anyAllowed : true)) {
-#if OBJECT_SYSTEM
         numTypes = 8;
-#else
-        numTypes = 6;
-#endif
         allTypes = true;
     }
 
@@ -1463,7 +1459,6 @@ bool DeftemplateSlotTypes(
         returnValue->multifieldValue->contents[i++].lexemeValue = CreateSymbol(theEnv, "FACT-ADDRESS");
     }
 
-#if OBJECT_SYSTEM
     if (allTypes || theSlot->constraints->instanceAddressesAllowed) {
         returnValue->multifieldValue->contents[i++].lexemeValue = CreateSymbol(theEnv, "INSTANCE-ADDRESS");
     }
@@ -1471,7 +1466,6 @@ bool DeftemplateSlotTypes(
     if (allTypes || theSlot->constraints->instanceNamesAllowed) {
         returnValue->multifieldValue->contents[i++].lexemeValue = CreateSymbol(theEnv, "INSTANCE-NAME");
     }
-#endif
 
     return true;
 }

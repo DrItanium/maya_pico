@@ -105,7 +105,6 @@
 #include "GenericFunction.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassExamination.h"
 #include "ClassFunctions.h"
@@ -120,6 +119,5 @@
 #include "DefmessageHandlerCommands.h"
 #include "DefmessageHandlerDispatch.h"
 #include "ObjectReteMatch.h"
-#endif
 
 #endif /* _H_CLIPS_API */

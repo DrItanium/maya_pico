@@ -80,9 +80,7 @@
 #endif
 #include "Expression.h"
 #include "Multifield.h"
-#if OBJECT_SYSTEM
 #include "Object.h"
-#endif
 #include "PrettyPrint.h"
 #include "ProceduralFunctionsParser.h"
 #include "PrintUtility.h"
@@ -223,7 +221,6 @@ static void DeallocateProceduralPrimitiveData(
     ReleaseProcParameters(theEnv);
 }
 
-#if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
 
 /************************************************************
   NAME         : ParseProcParameters
@@ -321,8 +318,6 @@ Expression *ParseProcParameters(
     *max = (*wildcard != NULL) ? PARAMETERS_UNBOUNDED : *min;
     return (parameterList);
 }
-
-#endif
 
 /*************************************************************************
   NAME         : ParseProcActions

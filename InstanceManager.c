@@ -65,7 +65,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "Network.h"
 #include "Drive.h"
@@ -635,8 +634,6 @@ void InactiveMakeInstance(
     MakeInstanceCommand(theEnv, context, returnValue);
     SetDelayObjectPatternMatching(theEnv, ov);
 }
-
-#endif
 
 /* =========================================
    *****************************************

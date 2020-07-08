@@ -60,10 +60,8 @@ Instance *BuildInstance(Environment *, CLIPSLexeme *, Defclass *, bool);
 void InitSlotsCommand(Environment *, UDFContext *, UDFValue *);
 UnmakeInstanceError QuashInstance(Environment *, Instance *);
 
-#if OBJECT_SYSTEM
 void InactiveInitializeInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveMakeInstance(Environment *, UDFContext *, UDFValue *);
-#endif
 
 InstanceBuilder *CreateInstanceBuilder(Environment *, const char *);
 PutSlotError IBPutSlot(InstanceBuilder *, const char *, CLIPSValue *);

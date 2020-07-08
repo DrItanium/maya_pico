@@ -39,7 +39,6 @@
 
 #define _H_objrtgen
 
-#if OBJECT_SYSTEM
 
 #include "Expression.h"
 #include "Reorder.h"
@@ -54,7 +53,6 @@ Expression *ObjectPNVariableComparison(Environment *, struct lhsParseNode *, str
 void GenObjectLengthTest(Environment *, struct lhsParseNode *);
 void GenObjectZeroLengthTest(Environment *, struct lhsParseNode *);
 
-#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 
 #endif /* _H_objrtgen */
 

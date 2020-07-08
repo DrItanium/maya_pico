@@ -71,9 +71,7 @@
 #include "Deftemplate.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ClassInitialization.h"
-#endif
 
 #if DEVELOPER
 #include "developr.h"
@@ -396,9 +394,7 @@ static void InitializeEnvironment(
     /* Initialize COOL constructs. */
     /*=============================*/
 
-#if OBJECT_SYSTEM
     SetupObjectSystem(theEnvironment);
-#endif
 
     /*=====================================*/
     /* Initialize the defmodule construct. */

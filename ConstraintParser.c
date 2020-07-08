@@ -641,7 +641,6 @@ static bool ParseAllowedValuesAttribute(
                 genType = SYMBOL_TYPE;
                 break;
 
-#if OBJECT_SYSTEM
             case INSTANCE_NAME_TOKEN:
                 if ((expectedType != UNKNOWN_VALUE) &&
                     (expectedType != INSTANCE_NAME_TYPE))
@@ -649,7 +648,6 @@ static bool ParseAllowedValuesAttribute(
                 constantParsed = true;
                 genType = INSTANCE_NAME_TYPE;
                 break;
-#endif
 
             case SF_VARIABLE_TOKEN:
                 if (strcmp(inputToken.printForm, "?VARIABLE") == 0) {

@@ -763,9 +763,7 @@ unsigned long BetaMemoryHashValue(
                 break;
 
             case FACT_ADDRESS_TYPE:
-#if OBJECT_SYSTEM
             case INSTANCE_ADDRESS_TYPE:
-#endif
                 fis.liv = 0;
                 fis.vv = theResult.value;
                 hashValue += fis.liv * multiplier;

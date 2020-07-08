@@ -56,11 +56,9 @@
 
 #include <string.h>
 
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
 #include "InstanceFunctions.h"
-#endif
 
 #include "ArgumentAccess.h"
 #include "Construct.h"
@@ -97,9 +95,7 @@ static void WatchGeneric(Environment *, const char *);
 static void WatchMethod(Environment *, const char *);
 #endif
 
-#if OBJECT_SYSTEM
 static Defclass *DetermineRestrictionClass(Environment *, UDFValue *);
-#endif
 
 /* =========================================
    *****************************************
@@ -290,11 +286,7 @@ bool IsMethodApplicable(
     UDFValue temp;
     unsigned int i, j, k;
     RESTRICTION *rp;
-#if OBJECT_SYSTEM
     Defclass *type;
-#else
-    int type;
-#endif
 
     if (((ProceduralPrimitiveData(theEnv)->ProcParamArraySize < meth->minRestrictions) &&
          (meth->minRestrictions != RESTRICTIONS_UNBOUNDED)) ||
@@ -304,7 +296,6 @@ bool IsMethodApplicable(
     for (i = 0, k = 0; i < ProceduralPrimitiveData(theEnv)->ProcParamArraySize; i++) {
         rp = &meth->restrictions[k];
         if (rp->tcnt != 0) {
-#if OBJECT_SYSTEM
             type = DetermineRestrictionClass(theEnv, &ProceduralPrimitiveData(theEnv)->ProcParamArray[i]);
             if (type == NULL)
                 return false;
@@ -326,16 +317,6 @@ bool IsMethodApplicable(
                         break;
                 }
             }
-#else
-            type = ProceduralPrimitiveData(theEnv)->ProcParamArray[i].header->type;
-            for (j = 0 ; j < rp->tcnt ; j++)
-              {
-               if (type == ((CLIPSInteger *) (rp->types[j]))->contents)
-                 break;
-               if (SubsumeType(type,((CLIPSInteger *) (rp->types[j]))->contents))
-                 break;
-              }
-#endif
             if (j == rp->tcnt)
                 return false;
         }
@@ -644,7 +625,6 @@ static void WatchMethod(
 
 #endif
 
-#if OBJECT_SYSTEM
 
 /***************************************************
   NAME         : DetermineRestrictionClass
@@ -680,8 +660,6 @@ static Defclass *DetermineRestrictionClass(
     }
     return (cls);
 }
-
-#endif
 
 #endif
 

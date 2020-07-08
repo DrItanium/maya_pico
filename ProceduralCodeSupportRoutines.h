@@ -109,11 +109,9 @@ struct proceduralPrimitiveData {
 
 void InstallProcedurePrimitives(Environment *);
 
-#if DEFFUNCTION_CONSTRUCT || OBJECT_SYSTEM
 Expression *ParseProcParameters(Environment *, const char *, struct token *, Expression *,
                                 CLIPSLexeme **, unsigned short *, unsigned short *, bool *,
                                 bool (*)(Environment *, const char *));
-#endif
 Expression *ParseProcActions(Environment *, const char *, const char *, struct token *, Expression *, CLIPSLexeme *,
                              int (*)(Environment *, Expression *, void *),
                              int (*)(Environment *, Expression *, void *),

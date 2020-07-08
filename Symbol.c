@@ -1203,9 +1203,7 @@ void EphemerateValue(
     switch (((TypeHeader *) theValue)->type) {
         case SYMBOL_TYPE:
         case STRING_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
             theSymbol = (CLIPSLexeme *) theValue;
             if (theSymbol->markedEphemeral) return;
             AddEphemeralHashNode(theEnv, (GENERIC_HN *) theValue,

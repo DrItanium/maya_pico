@@ -57,10 +57,8 @@
 
 #include <stdlib.h>
 
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#endif
 #include "ConstraintUtilities.h"
 #include "Environment.h"
 #include "Expression.h"
@@ -384,26 +382,15 @@ static Expression *GenTypeExpression(
         int nonCOOLCode,
         int primitiveCode,
         const char *COOLName) {
-#if OBJECT_SYSTEM
 #if MAC_XCD
 #pragma unused(nonCOOLCode)
 #endif
-#else
-#if MAC_XCD
-#pragma unused(primitiveCode)
-#pragma unused(COOLName)
-#endif
-#endif
     Expression *tmp;
 
-#if OBJECT_SYSTEM
     if (primitiveCode != -1)
         tmp = GenConstant(theEnv, 0, DefclassData(theEnv)->PrimitiveClassMap[primitiveCode]);
     else
         tmp = GenConstant(theEnv, 0, LookupDefclassByMdlOrScope(theEnv, COOLName));
-#else
-    tmp = GenConstant(theEnv,0,CreateInteger(theEnv,nonCOOLCode));
-#endif
     tmp->nextArg = top;
     return (tmp);
 }

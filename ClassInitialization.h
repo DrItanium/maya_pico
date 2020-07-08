@@ -55,12 +55,9 @@
 #include "Construct.h"
 #include "Object.h"
 
-#if OBJECT_SYSTEM
 
 void SetupObjectSystem(Environment *);
 void CreateSystemClasses(Environment *, void *);
-
-#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_classini */
 

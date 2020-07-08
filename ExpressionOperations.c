@@ -119,9 +119,7 @@ bool ConstantExpression(
         struct expr *testPtr) {
     while (testPtr != NULL) {
         if ((testPtr->type != SYMBOL_TYPE) && (testPtr->type != STRING_TYPE) &&
-            #if OBJECT_SYSTEM
             (testPtr->type != INSTANCE_NAME_TYPE) && (testPtr->type != INSTANCE_ADDRESS_TYPE) &&
-            #endif
             (testPtr->type != INTEGER_TYPE) && (testPtr->type != FLOAT_TYPE)) { return false; }
         testPtr = testPtr->nextArg;
     }
@@ -140,10 +138,8 @@ bool ConstantType(
         case STRING_TYPE:
         case INTEGER_TYPE:
         case FLOAT_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
         case INSTANCE_ADDRESS_TYPE:
-#endif
             return true;
     }
 

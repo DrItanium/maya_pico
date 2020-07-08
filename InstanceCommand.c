@@ -79,7 +79,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
 #include "ClassCommands.h"
@@ -155,15 +154,11 @@ void SetupInstances(
                                                 (EntityBusyCountFunction *) IncrementInstanceCallback,
                                                 NULL, NULL, NULL, NULL, NULL
                                                },
-#if OBJECT_SYSTEM
                                                (void (*)(Environment *, void *)) DecrementObjectBasisCount,
                                                (void (*)(Environment *, void *)) IncrementObjectBasisCount,
                                                (void (*)(Environment *, void *)) MatchObjectFunction,
                                                (bool (*)(Environment *, void *)) NetworkSynchronized,
                                                (bool (*)(Environment *, void *)) InstanceIsDeleted
-#else
-            NULL,NULL,NULL,NULL,NULL
-#endif
     };
 
     Instance dummyInstance = {{{{INSTANCE_ADDRESS_TYPE}, NULL, NULL, 0, 0L}},
@@ -181,17 +176,12 @@ void SetupInstances(
     InitializeInstanceTable(theEnv);
     InstallPrimitive(theEnv, (struct entityRecord *) &InstanceData(theEnv)->InstanceInfo, INSTANCE_ADDRESS_TYPE);
 
-#if OBJECT_SYSTEM
     AddUDF(theEnv, "initialize-instance", "bn", 0, UNBOUNDED, NULL, InactiveInitializeInstance, NULL);
     AddUDF(theEnv, "active-initialize-instance", "bn", 0, UNBOUNDED, NULL, InitializeInstanceCommand, NULL);
 
     AddUDF(theEnv, "make-instance", "bn", 0, UNBOUNDED, NULL, InactiveMakeInstance, NULL);
     AddUDF(theEnv, "active-make-instance", "bn", 0, UNBOUNDED, NULL, MakeInstanceCommand, NULL);
 
-#else
-    AddUDF(theEnv,"initialize-instance","bn",0,UNBOUNDED,NULL,InitializeInstanceCommand,"InitializeInstanceCommand",NULL);
-    AddUDF(theEnv,"make-instance","bn",0,UNBOUNDED,NULL,MakeInstanceCommand,"MakeInstanceCommand",NULL);
-#endif
 
     AddUDF(theEnv, "init-slots", "*", 0, 0, NULL, InitSlotsCommand, NULL);
 
@@ -214,10 +204,8 @@ void SetupInstances(
     AddUDF(theEnv, "instance-existp", "b", 1, 1, "niy", InstanceExistPCommand, NULL);
     AddUDF(theEnv, "class", "*", 1, 1, NULL, ClassCommand, NULL);
 
-#if OBJECT_SYSTEM
     AddFunctionParser(theEnv, "active-initialize-instance", ParseInitializeInstance);
     AddFunctionParser(theEnv, "active-make-instance", ParseInitializeInstance);
-#endif
     AddFunctionParser(theEnv, "initialize-instance", ParseInitializeInstance);
     AddFunctionParser(theEnv, "make-instance", ParseInitializeInstance);
 
@@ -1840,5 +1828,4 @@ static InstanceSlot *FindISlotByName(
     return FindInstanceSlot(theEnv, theInstance, ssym);
 }
 
-#endif /* OBJECT_SYSTEM */
 

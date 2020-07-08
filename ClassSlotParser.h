@@ -45,7 +45,6 @@
 
 #define _H_clsltpsr
 
-#if OBJECT_SYSTEM
 
 #define MATCH_RLN            "pattern-match"
 #define REACTIVE_RLN         "reactive"
@@ -60,8 +59,6 @@ typedef struct tempSlotLink {
 
 TEMP_SLOT_LINK *ParseSlot(Environment *, const char *, const char *, TEMP_SLOT_LINK *, PACKED_CLASS_LINKS *, bool);
 void DeleteSlots(Environment *, TEMP_SLOT_LINK *);
-
-#endif
 
 #endif
 

@@ -51,7 +51,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <stdio.h>
 #include <string.h>
@@ -1223,5 +1222,4 @@ static void GetInsMultiSlotField(
     }
 }
 
-#endif
 

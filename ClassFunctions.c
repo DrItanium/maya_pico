@@ -72,7 +72,6 @@
 
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
@@ -1246,4 +1245,3 @@ static void DeassignClassID(
     }
 }
 
-#endif

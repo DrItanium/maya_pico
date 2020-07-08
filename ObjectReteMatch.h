@@ -63,7 +63,6 @@
 
 #define _H_objrtmch
 
-#if OBJECT_SYSTEM
 
 typedef struct objectAlphaNode OBJECT_ALPHA_NODE;
 typedef struct classAlphaLink CLASS_ALPHA_LINK;
@@ -145,8 +144,6 @@ void SetObjectNetworkPointer(Environment *, OBJECT_PATTERN_NODE *);
 void SetObjectNetworkTerminalPointer(Environment *, OBJECT_ALPHA_NODE *);
 void ObjectNetworkAction(Environment *, int, Instance *, int);
 void ResetObjectMatchTimeTags(Environment *);
-
-#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_objrtmch */
 

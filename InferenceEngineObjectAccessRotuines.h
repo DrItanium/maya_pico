@@ -51,7 +51,6 @@
 
 #define _H_objrtfnx
 
-#if OBJECT_SYSTEM
 
 #include "Evaluation.h"
 #include "Match.h"
@@ -195,8 +194,6 @@ struct objectReteData {
 
 void InstallObjectPrimitives(Environment *);
 bool ObjectCmpConstantFunction(Environment *, void *, UDFValue *);
-
-#endif /* DEFRULE_CONSTRUCT && OBJECT_SYSTEM */
 
 #endif /* _H_objrtfnx */
 

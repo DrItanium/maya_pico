@@ -624,9 +624,7 @@ struct expr *ArgumentParse(
         (theToken.tknType == GBL_VARIABLE_TOKEN) ||
         (theToken.tknType == MF_GBL_VARIABLE_TOKEN) ||
         #endif
-        #if OBJECT_SYSTEM
         (theToken.tknType == INSTANCE_NAME_TOKEN) ||
-        #endif
         (theToken.tknType == FLOAT_TOKEN) || (theToken.tknType == INTEGER_TOKEN)) {
         return (GenConstant(theEnv, TokenTypeToType(theToken.tknType), theToken.value));
     }
@@ -666,9 +664,7 @@ struct expr *ParseAtomOrExpression(
 
     if ((thisToken->tknType == SYMBOL_TOKEN) || (thisToken->tknType == STRING_TOKEN) ||
         (thisToken->tknType == INTEGER_TOKEN) || (thisToken->tknType == FLOAT_TOKEN) ||
-        #if OBJECT_SYSTEM
         (thisToken->tknType == INSTANCE_NAME_TOKEN) ||
-        #endif
         #if DEFGLOBAL_CONSTRUCT
         (thisToken->tknType == GBL_VARIABLE_TOKEN) ||
         (thisToken->tknType == MF_GBL_VARIABLE_TOKEN) ||
@@ -752,9 +748,7 @@ struct expr *GroupActions(
                  (theToken->tknType == GBL_VARIABLE_TOKEN) ||
                  (theToken->tknType == MF_GBL_VARIABLE_TOKEN) ||
                  #endif
-                 #if OBJECT_SYSTEM
                  (theToken->tknType == INSTANCE_NAME_TOKEN) ||
-                 #endif
                  (theToken->tknType == SF_VARIABLE_TOKEN) || (theToken->tknType == MF_VARIABLE_TOKEN)) {
             nextOne = GenConstant(theEnv, TokenTypeToType(theToken->tknType), theToken->value);
         }

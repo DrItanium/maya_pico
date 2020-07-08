@@ -67,7 +67,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ClassFunctions.h"
 #include "MemoryAllocation.h"
@@ -1377,5 +1376,4 @@ static void TraceErrorToObjectPattern(
 
 }
 
-#endif
 

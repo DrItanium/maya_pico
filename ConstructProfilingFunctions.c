@@ -412,11 +412,9 @@ void ProfileResetCommand(
     unsigned short methodIndex;
     Defmethod *theMethod;
 #endif
-#if OBJECT_SYSTEM
     Defclass *theDefclass;
     DefmessageHandler *theHandler;
     unsigned handlerIndex;
-#endif
 
     ProfileFunctionData(theEnv)->ProfileStartTime = 0.0;
     ProfileFunctionData(theEnv)->ProfileEndTime = 0.0;
@@ -471,7 +469,6 @@ void ProfileResetCommand(
     }
 #endif
 
-#if OBJECT_SYSTEM
     for (theDefclass = GetNextDefclass(theEnv, NULL);
          theDefclass != NULL;
          theDefclass = GetNextDefclass(theEnv, theDefclass)) {
@@ -485,8 +482,6 @@ void ProfileResetCommand(
                                      TestUserData(ProfileFunctionData(theEnv)->ProfileDataID, theHandler->header.usrData));
         }
     }
-#endif
-
 }
 
 /*************************************************/
@@ -548,14 +543,10 @@ static void OutputConstructsCodeInfo(
     unsigned short methodIndex;
     StringBuilder *theSB;
 #endif
-#if OBJECT_SYSTEM
     Defclass *theDefclass;
     DefmessageHandler *theHandler;
     unsigned handlerIndex;
-#endif
-#if DEFGENERIC_CONSTRUCT || OBJECT_SYSTEM
     const char *prefix, *prefixBefore, *prefixAfter;
-#endif
     const char *banner;
 
     banner = "\n*** Deffunctions ***\n\n";
@@ -601,7 +592,6 @@ static void OutputConstructsCodeInfo(
 #endif
 
     banner = "\n*** Defclasses ***\n";
-#if OBJECT_SYSTEM
     for (theDefclass = GetNextDefclass(theEnv, NULL);
          theDefclass != NULL;
          theDefclass = GetNextDefclass(theEnv, theDefclass)) {
@@ -625,7 +615,6 @@ static void OutputConstructsCodeInfo(
         }
 
     }
-#endif
 
     banner = "\n*** Defrules ***\n\n";
 

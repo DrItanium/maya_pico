@@ -201,9 +201,7 @@ static void StrOrSymCatFunction(
 
         switch (theArg.header->type) {
             case STRING_TYPE:
-#if OBJECT_SYSTEM
             case INSTANCE_NAME_TYPE:
-#endif
             case SYMBOL_TYPE:
                 hashPtr = theArg.lexemeValue;
                 arrayOfStrings[i - 1] = hashPtr;
@@ -600,9 +598,7 @@ void StringToField(
     /*====================================================*/
 
     if ((theToken.tknType == FLOAT_TOKEN) || (theToken.tknType == STRING_TOKEN) ||
-        #if OBJECT_SYSTEM
         (theToken.tknType == INSTANCE_NAME_TOKEN) ||
-        #endif
         (theToken.tknType == SYMBOL_TOKEN) || (theToken.tknType == INTEGER_TOKEN)) { returnValue->value = theToken.value; }
     else if (theToken.tknType == STOP_TOKEN) {
         SetErrorValue(theEnv, &CreateSymbol(theEnv, "EOF")->header);

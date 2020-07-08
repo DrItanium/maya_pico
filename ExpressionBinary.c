@@ -61,11 +61,9 @@
 #include "DefglobalBinary.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ObjectBinaryLoadSave.h"
 #include "InstanceFunctions.h"
 #include "InstanceCommand.h"
-#endif
 
 #include "Expression.h"
 
@@ -155,11 +153,7 @@ static void UpdateExpression(
             break;
 
         case DEFCLASS_PTR:
-#if OBJECT_SYSTEM
             ExpressionData(theEnv)->ExpressionArray[obji].value = DefclassPointer(bexp->value);
-#else
-            ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
-#endif
             break;
 
         case DEFGLOBAL_PTR:
@@ -182,9 +176,6 @@ static void UpdateExpression(
             break;
 
         case INSTANCE_NAME_TYPE:
-#if !OBJECT_SYSTEM
-            ExpressionData(theEnv)->ExpressionArray[obji].type = SYMBOL_TYPE;
-#endif
         case GBL_VARIABLE:
         case SYMBOL_TYPE:
         case STRING_TYPE:
@@ -199,12 +190,10 @@ static void UpdateExpression(
             break;
 #endif
 
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             ExpressionData(theEnv)->ExpressionArray[obji].value = &InstanceData(theEnv)->DummyInstance;
             RetainInstance((Instance *) ExpressionData(theEnv)->ExpressionArray[obji].value);
             break;
-#endif
 
         case EXTERNAL_ADDRESS_TYPE:
             ExpressionData(theEnv)->ExpressionArray[obji].value = NULL;
@@ -265,12 +254,9 @@ void ClearBloadedExpressions(
                 break;
 #endif
 
-#if OBJECT_SYSTEM
             case INSTANCE_ADDRESS_TYPE :
                 ReleaseInstance((Instance *) ExpressionData(theEnv)->ExpressionArray[i].value);
                 break;
-#endif
-
             case VOID_TYPE:
                 break;
 
@@ -437,11 +423,9 @@ void BsaveExpression(
                 break;
 
             case DEFCLASS_PTR:
-#if OBJECT_SYSTEM
                 if (testPtr->value != NULL)
                     newTest.value = testPtr->constructValue->bsaveID;
                 else
-#endif
                     newTest.value = ULONG_MAX;
                 break;
 
@@ -454,9 +438,7 @@ void BsaveExpression(
                     newTest.value = ULONG_MAX;
                 break;
 
-#if OBJECT_SYSTEM
             case INSTANCE_NAME_TYPE:
-#endif
             case SYMBOL_TYPE:
             case GBL_VARIABLE:
             case STRING_TYPE:

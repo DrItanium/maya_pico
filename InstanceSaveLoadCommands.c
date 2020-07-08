@@ -90,7 +90,6 @@
 
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
 #include "ClassCommands.h"
@@ -1640,4 +1639,3 @@ static void *GetBinaryAtomValue(
 
 #endif /* BLOAD_INSTANCES */
 
-#endif /* OBJECT_SYSTEM */

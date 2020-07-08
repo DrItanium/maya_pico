@@ -67,7 +67,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1327,6 +1326,4 @@ static void EarlySlotBindError(
     PrintClassName(theEnv, STDERR, theInstance->cls, true, false);
     WriteString(theEnv, STDERR, ".\n");
 }
-
-#endif /* OBJECT_SYSTEM */
 

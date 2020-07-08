@@ -66,7 +66,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <string.h>
 
@@ -1075,5 +1074,4 @@ static void PrintHandlerWatchFlag(
 
 #endif /* DEBUGGING_FUNCTIONS */
 
-#endif /* OBJECT_SYSTEM */
 

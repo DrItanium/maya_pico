@@ -98,7 +98,6 @@
 #define DIRECT               0
 #define INHERIT              1
 
-#if OBJECT_SYSTEM
 
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
@@ -824,9 +823,8 @@ static void CreatePublicSlotMessageHandlers(
         theDefclass->handlers[i].system = true;
 }
 
-#endif
 
-#if DEFMODULE_CONSTRUCT && OBJECT_SYSTEM
+#if DEFMODULE_CONSTRUCT
 
 /********************************************************
   NAME         : CreateClassScopeMap

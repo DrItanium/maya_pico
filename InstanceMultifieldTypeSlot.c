@@ -52,7 +52,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
 #include "Environment.h"
@@ -739,4 +738,3 @@ static void AssignSlotToDataObject(
     theDataObject->range = theSlot->multifieldValue->length;
 }
 
-#endif

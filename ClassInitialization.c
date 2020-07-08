@@ -70,7 +70,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <stdio.h>
 
@@ -606,4 +605,3 @@ static void UpdateDefclassesScope(
 
 #endif
 
-#endif

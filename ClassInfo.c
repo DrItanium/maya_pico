@@ -62,7 +62,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <stdio.h>
 #include <string.h>
@@ -1092,4 +1091,3 @@ static SlotDescriptor *SlotInfoSlot(
     return cls->instanceTemplate[i];
 }
 
-#endif

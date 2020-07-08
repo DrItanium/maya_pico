@@ -58,7 +58,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
 #include "Environment.h"
@@ -516,7 +515,6 @@ void InactiveMsgDuplicateInstance(
     SetDelayObjectPatternMatching(theEnv, ov);
 }
 
-#endif
 
 /*****************************************************
   NAME         : DirectDuplicateMsgHandler

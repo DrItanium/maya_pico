@@ -169,9 +169,7 @@ long long Run(
 #if DEFTEMPLATE_CONSTRUCT
     unsigned long maxFacts = 0, sumFacts = 0;
 #endif
-#if OBJECT_SYSTEM
     unsigned long maxInstances = 0, sumInstances = 0;
-#endif
 #if (!GENERIC)
     double endTime, startTime = 0.0;
 #endif
@@ -213,10 +211,8 @@ long long Run(
         maxFacts = GetNumberOfFacts(theEnv);
         sumFacts = maxFacts;
 #endif
-#if OBJECT_SYSTEM
         maxInstances = GetGlobalNumberOfInstances(theEnv);
         sumInstances = maxInstances;
-#endif
         maxActivations = GetNumberOfActivations(theEnv);
         sumActivations = maxActivations;
 #if (!GENERIC)
@@ -469,11 +465,9 @@ long long Run(
             if (tempValue > maxFacts) maxFacts = tempValue;
             sumFacts += tempValue;
 #endif
-#if OBJECT_SYSTEM
             tempValue = GetGlobalNumberOfInstances(theEnv);
             if (tempValue > maxInstances) maxInstances = tempValue;
             sumInstances += tempValue;
-#endif
             tempValue = GetNumberOfActivations(theEnv);
             if (tempValue > maxActivations) maxActivations = tempValue;
             sumActivations += tempValue;
@@ -547,9 +541,7 @@ long long Run(
 
 #if DEBUGGING_FUNCTIONS
     if (EngineData(theEnv)->WatchStatistics) {
-#if DEFTEMPLATE_CONSTRUCT || OBJECT_SYSTEM || DEVELOPER
         char printSpace[60];
-#endif
 #if (!GENERIC)
         endTime = gentime();
 #endif
@@ -576,12 +568,10 @@ long long Run(
         WriteString(theEnv, STDOUT, printSpace);
 #endif
 
-#if OBJECT_SYSTEM
         gensprintf(printSpace, "%ld mean number of instances (%ld maximum).\n",
                    (long) (((double) sumInstances / (rulesFired + 1)) + 0.5),
                    maxInstances);
         WriteString(theEnv, STDOUT, printSpace);
-#endif
 
         gensprintf(printSpace, "%ld mean number of activations (%ld maximum).\n",
                    (long) (((double) sumActivations / (rulesFired + 1)) + 0.5),

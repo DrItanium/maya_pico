@@ -69,10 +69,8 @@
 #include "BinaryLoad.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
-#endif
 
 #include "ArgumentAccess.h"
 #include "Construct.h"
@@ -350,11 +348,7 @@ void DeleteMethodInfo(
         rptr = &meth->restrictions[j];
 
         for (k = 0; k < rptr->tcnt; k++)
-#if OBJECT_SYSTEM
                 DecrementDefclassBusyCount(theEnv, (Defclass *) rptr->types[k]);
-#else
-        ReleaseInteger(theEnv,(CLIPSInteger *) rptr->types[k]);
-#endif
 
         if (rptr->types != NULL)
             rm(theEnv, rptr->types, (sizeof(void *) * rptr->tcnt));
@@ -427,40 +421,6 @@ bool MethodsExecuting(
     return false;
 }
 
-#if !OBJECT_SYSTEM
-
-/**************************************************************
-  NAME         : SubsumeType
-  DESCRIPTION  : Determines if the second type subsumes
-                 the first type
-                 (e.g. INTEGER_TYPE is subsumed by NUMBER_TYPE_CODE)
-  INPUTS       : Two type codes
-  RETURNS      : True if type 2 subsumes type 1, false
-                 otherwise
-  SIDE EFFECTS : None
-  NOTES        : Used only when COOL is not present
- **************************************************************/
-bool SubsumeType(
-  long long t1,
-  long long t2)
-  {
-   if ((t2 == OBJECT_TYPE_CODE) || (t2 == PRIMITIVE_TYPE_CODE))
-     return true;
-   if ((t2 == NUMBER_TYPE_CODE) && ((t1 == INTEGER_TYPE) || (t1 == FLOAT_TYPE)))
-     return true;
-   if ((t2 == LEXEME_TYPE_CODE) && ((t1 == STRING_TYPE) || (t1 == SYMBOL_TYPE)))
-     return true;
-   if ((t2 == ADDRESS_TYPE_CODE) && ((t1 == EXTERNAL_ADDRESS_TYPE) ||
-       (t1 == FACT_ADDRESS_TYPE) || (t1 == INSTANCE_ADDRESS_TYPE)))
-     return true;
-   if ((t2 == LEXEME_TYPE_CODE) &&
-       ((t1 == INSTANCE_NAME_TYPE) || (t1 == INSTANCE_ADDRESS_TYPE)))
-     return true;
-   return false;
-  }
-
-#endif
-
 /*****************************************************
   NAME         : FindMethodByIndex
   DESCRIPTION  : Finds a generic function method of
@@ -524,11 +484,7 @@ void PrintMethod(
         } else
             SBAppend(theSB, "(");
         for (k = 0; k < rptr->tcnt; k++) {
-#if OBJECT_SYSTEM
             SBAppend(theSB, DefclassName((Defclass *) rptr->types[k]));
-#else
-            SBAppend(theSB,TypeName(theEnv,((CLIPSInteger *) rptr->types[k])->contents));
-#endif
             if ((k + 1) < rptr->tcnt)
                 SBAppend(theSB, " ");
         }
@@ -671,51 +627,6 @@ unsigned short CheckMethodExists(
     }
     return fi;
 }
-
-#if !OBJECT_SYSTEM
-
-/*******************************************************
-  NAME         : TypeName
-  DESCRIPTION  : Given an integer type code, this
-                 function returns the string name of
-                 the type
-  INPUTS       : The type code
-  RETURNS      : The name-string of the type, or
-                 "<???UNKNOWN-TYPE???>" for unrecognized
-                 types
-  SIDE EFFECTS : EvaluationError set and error message
-                 printed for unrecognized types
-  NOTES        : Used only when COOL is not present
- *******************************************************/
-const char *TypeName(
-  Environment *theEnv,
-  long long tcode)
-  {
-   switch (tcode)
-     {
-      case INTEGER_TYPE             : return(INTEGER_TYPE_NAME);
-      case FLOAT_TYPE               : return(FLOAT_TYPE_NAME);
-      case SYMBOL_TYPE              : return(SYMBOL_TYPE_NAME);
-      case STRING_TYPE              : return(STRING_TYPE_NAME);
-      case MULTIFIELD_TYPE          : return(MULTIFIELD_TYPE_NAME);
-      case EXTERNAL_ADDRESS_TYPE    : return(EXTERNAL_ADDRESS_TYPE_NAME);
-      case FACT_ADDRESS_TYPE        : return(FACT_ADDRESS_TYPE_NAME);
-      case INSTANCE_ADDRESS_TYPE    : return(INSTANCE_ADDRESS_TYPE_NAME);
-      case INSTANCE_NAME_TYPE       : return(INSTANCE_NAME_TYPE_NAME);
-      case OBJECT_TYPE_CODE    : return(OBJECT_TYPE_NAME);
-      case PRIMITIVE_TYPE_CODE : return(PRIMITIVE_TYPE_NAME);
-      case NUMBER_TYPE_CODE    : return(NUMBER_TYPE_NAME);
-      case LEXEME_TYPE_CODE    : return(LEXEME_TYPE_NAME);
-      case ADDRESS_TYPE_CODE   : return(ADDRESS_TYPE_NAME);
-      case INSTANCE_TYPE_CODE  : return(INSTANCE_TYPE_NAME);
-      default                  : PrintErrorID(theEnv,"INSCOM",1,false);
-                                 WriteString(theEnv,STDERR,"Undefined type in function 'type'.\n");
-                                 SetEvaluationError(theEnv,true);
-                                 return("<UNKNOWN-TYPE>");
-     }
-  }
-
-#endif
 
 /******************************************************
   NAME         : PrintGenericName

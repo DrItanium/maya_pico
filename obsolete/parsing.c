@@ -97,9 +97,7 @@ void NextTokenFunction(
 
    returnValue->type = theToken.type;
    if ((theToken.type == FLOAT) || (theToken.type == STRING) ||
-#if OBJECT_SYSTEM
        (theToken.type == INSTANCE_NAME) ||
-#endif
        (theToken.type == SYMBOL) || (theToken.type == INTEGER))
      { returnValue->value = theToken.value; }
    else if (theToken.type == UNKNOWN_VALUE)

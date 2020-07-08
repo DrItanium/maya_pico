@@ -367,9 +367,7 @@ static CLIPSLexeme *ScanSymbol(
         int count,
         TokenType *type) {
     int inchar;
-#if OBJECT_SYSTEM
     CLIPSLexeme *symbol;
-#endif
 
     /*=====================================*/
     /* Scan characters and add them to the */
@@ -407,7 +405,6 @@ static CLIPSLexeme *ScanSymbol(
     /* returned is INSTANCE_NAME_TYPE rather than SYMBOL_TYPE.      */
     /*====================================================*/
 
-#if OBJECT_SYSTEM
     if (count > 2) {
         if ((ScannerData(theEnv)->GlobalString[0] == '[') ? (ScannerData(theEnv)->GlobalString[count - 1] == ']') : false) {
             *type = INSTANCE_NAME_TOKEN;
@@ -424,10 +421,6 @@ static CLIPSLexeme *ScanSymbol(
         *type = SYMBOL_TOKEN;
         return CreateSymbol(theEnv, ScannerData(theEnv)->GlobalString);
     }
-#else
-    *type = SYMBOL_TOKEN;
-    return CreateSymbol(theEnv,ScannerData(theEnv)->GlobalString);
-#endif
 }
 
 /*************************************/

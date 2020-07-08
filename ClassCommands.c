@@ -65,7 +65,6 @@
 
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
@@ -889,4 +888,3 @@ void SetDefclassPPForm(
     SetConstructPPForm(theEnv, &theClass->header, thePPForm);
 }
 
-#endif /* OBJECT_SYSTEM */

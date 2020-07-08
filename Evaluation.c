@@ -100,10 +100,8 @@
 #include "GenericFunctionCommands.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "Object.h"
 #include "InstanceCommand.h"
-#endif
 
 #include "Evaluation.h"
 
@@ -173,10 +171,8 @@ bool EvaluateExpression(
         case SYMBOL_TYPE:
         case FLOAT_TYPE:
         case INTEGER_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
         case INSTANCE_ADDRESS_TYPE:
-#endif
         case FACT_ADDRESS_TYPE:
         case EXTERNAL_ADDRESS_TYPE:
             returnValue->value = problem->value;
@@ -390,10 +386,8 @@ void WriteCLIPSValue(
         case FLOAT_TYPE:
         case EXTERNAL_ADDRESS_TYPE:
         case FACT_ADDRESS_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
         case INSTANCE_ADDRESS_TYPE:
-#endif
             PrintAtom(theEnv, fileid, argPtr->header->type, argPtr->value);
             break;
 
@@ -428,10 +422,8 @@ void WriteUDFValue(
         case FLOAT_TYPE:
         case EXTERNAL_ADDRESS_TYPE:
         case FACT_ADDRESS_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
         case INSTANCE_ADDRESS_TYPE:
-#endif
             PrintAtom(theEnv, fileid, argPtr->header->type, argPtr->value);
             break;
 
@@ -516,9 +508,7 @@ void Retain(
     switch (th->type) {
         case SYMBOL_TYPE:
         case STRING_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
             IncrementLexemeCount(th);
             break;
 
@@ -538,11 +528,9 @@ void Retain(
             RetainMultifield(theEnv, (Multifield *) th);
             break;
 
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             RetainInstance((Instance *) th);
             break;
-#endif
 
 #if DEFTEMPLATE_CONSTRUCT
         case FACT_ADDRESS_TYPE:
@@ -570,9 +558,7 @@ void Release(
     switch (th->type) {
         case SYMBOL_TYPE:
         case STRING_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
             ReleaseLexeme(theEnv, (CLIPSLexeme *) th);
             break;
 
@@ -592,11 +578,9 @@ void Release(
             ReleaseMultifield(theEnv, (Multifield *) th);
             break;
 
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             ReleaseInstance((Instance *) th);
             break;
-#endif
 
 #if DEFTEMPLATE_CONSTRUCT
         case FACT_ADDRESS_TYPE:
@@ -628,9 +612,7 @@ void AtomInstall(
 #if DEFGLOBAL_CONSTRUCT
         case GBL_VARIABLE:
 #endif
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
             IncrementLexemeCount(vPtr);
             break;
 
@@ -677,9 +659,7 @@ void AtomDeinstall(
 #if DEFGLOBAL_CONSTRUCT
         case GBL_VARIABLE:
 #endif
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
             ReleaseLexeme(theEnv, (CLIPSLexeme *) vPtr);
             break;
 
@@ -804,18 +784,14 @@ unsigned long GetAtomicHashValue(
             break;
 
         case FACT_ADDRESS_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
-#endif
             fis.liv = 0;
             fis.vv = value;
             tvalue = fis.liv;
             break;
 
         case STRING_TYPE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
-#endif
         case SYMBOL_TYPE:
             tvalue = ((CLIPSLexeme *) value)->bucket;
             break;

@@ -73,11 +73,8 @@
 #include "Deffunction.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ClassFunctions.h"
 #include "ClassCommands.h"
-#endif
-
 #include "Construct.h"
 #include "Construct.h"
 #include "Environment.h"
@@ -507,11 +504,7 @@ Defmethod *AddMethod(
         }
         ExpressionInstall(theEnv, rptr->query);
         for (j = 0; j < rptr->tcnt; j++)
-#if OBJECT_SYSTEM
                 IncrementDefclassBusyCount(theEnv, (Defclass *) rptr->types[j]);
-#else
-        IncrementIntegerCount((CLIPSInteger *) rptr->types[j]);
-#endif
         params = params->nextArg;
     }
     RestoreBusyCount(gfunc);
@@ -949,11 +942,7 @@ static RESTRICTION *ParseRestriction(
                     for (tmp2 = new_types; tmp2 != NULL; tmp2 = tmp2->nextArg) {
                         if (tmp->value == tmp2->value) {
                             PrintErrorID(theEnv, "GENRCPSR", 11, false);
-#if OBJECT_SYSTEM
                             WriteString(theEnv, STDERR, "Duplicate classes not allowed in parameter restriction.\n");
-#else
-                            WriteString(theEnv,STDERR,"Duplicate types not allowed in parameter restriction.\n");
-#endif
                             ReturnExpression(theEnv, query);
                             ReturnExpression(theEnv, types);
                             ReturnExpression(theEnv, new_types);
@@ -990,11 +979,7 @@ static RESTRICTION *ParseRestriction(
 #endif
         else {
             PrintErrorID(theEnv, "GENRCPSR", 13, false);
-#if OBJECT_SYSTEM
             WriteString(theEnv, STDERR, "Expected a valid class name or query.\n");
-#else
-            WriteString(theEnv,STDERR,"Expected a valid type name or query.\n");
-#endif
             ReturnExpression(theEnv, query);
             ReturnExpression(theEnv, types);
             return NULL;
@@ -1007,11 +992,7 @@ static RESTRICTION *ParseRestriction(
     SavePPBuffer(theEnv, ")");
     if ((types == NULL) && (query == NULL)) {
         PrintErrorID(theEnv, "GENRCPSR", 13, false);
-#if OBJECT_SYSTEM
         WriteString(theEnv, STDERR, "Expected a valid class name or query.\n");
-#else
-        WriteString(theEnv,STDERR,"Expected a valid type name or query.\n");
-#endif
         return NULL;
     }
     rptr = get_struct(theEnv, restriction);
@@ -1125,7 +1106,6 @@ static Expression *AddParameter(
 static Expression *ValidType(
         Environment *theEnv,
         CLIPSLexeme *tname) {
-#if OBJECT_SYSTEM
     Defclass *cls;
 
     if (FindModuleSeparator(tname->contents))
@@ -1139,41 +1119,6 @@ static Expression *ValidType(
         }
         return (GenConstant(theEnv, DEFCLASS_PTR, cls));
     }
-#else
-    if (strcmp(tname->contents,INTEGER_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,INTEGER_TYPE)));
-    if (strcmp(tname->contents,FLOAT_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,FLOAT_TYPE)));
-    if (strcmp(tname->contents,SYMBOL_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,SYMBOL_TYPE)));
-    if (strcmp(tname->contents,STRING_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,STRING_TYPE)));
-    if (strcmp(tname->contents,MULTIFIELD_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,MULTIFIELD_TYPE)));
-    if (strcmp(tname->contents,EXTERNAL_ADDRESS_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,EXTERNAL_ADDRESS_TYPE)));
-    if (strcmp(tname->contents,FACT_ADDRESS_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,FACT_ADDRESS_TYPE)));
-    if (strcmp(tname->contents,NUMBER_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,NUMBER_TYPE_CODE)));
-    if (strcmp(tname->contents,LEXEME_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,LEXEME_TYPE_CODE)));
-    if (strcmp(tname->contents,ADDRESS_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,ADDRESS_TYPE_CODE)));
-    if (strcmp(tname->contents,PRIMITIVE_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,PRIMITIVE_TYPE_CODE)));
-    if (strcmp(tname->contents,OBJECT_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,OBJECT_TYPE_CODE)));
-    if (strcmp(tname->contents,INSTANCE_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,INSTANCE_TYPE_CODE)));
-    if (strcmp(tname->contents,INSTANCE_NAME_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,INSTANCE_NAME_TYPE)));
-    if (strcmp(tname->contents,INSTANCE_ADDRESS_TYPE_NAME) == 0)
-      return(GenConstant(theEnv,INTEGER_TYPE,CreateInteger(theEnv,INSTANCE_ADDRESS_TYPE)));
-
-    PrintErrorID(theEnv,"GENRCPSR",14,false);
-    WriteString(theEnv,STDERR,"Unknown type in method.\n");
-#endif
     return NULL;
 }
 
@@ -1194,17 +1139,10 @@ static bool RedundantClasses(
         void *c2) {
     const char *tname;
 
-#if OBJECT_SYSTEM
     if (HasSuperclass((Defclass *) c1, (Defclass *) c2))
         tname = DefclassName((Defclass *) c1);
     else if (HasSuperclass((Defclass *) c2, (Defclass *) c1))
         tname = DefclassName((Defclass *) c2);
-#else
-        if (SubsumeType(((CLIPSInteger *) c1)->contents,((CLIPSInteger *) c2)->contents))
-          tname = TypeName(theEnv,((CLIPSInteger *) c1)->contents);
-        else if (SubsumeType(((CLIPSInteger *) c2)->contents,((CLIPSInteger *) c1)->contents))
-          tname = TypeName(theEnv,((CLIPSInteger *) c2)->contents);
-#endif
     else
         return false;
     PrintErrorID(theEnv, "GENRCPSR", 15, false);
@@ -1434,17 +1372,10 @@ static int TypeListCompare(
     for (i = 0; (i < r1->tcnt) && (i < r2->tcnt); i++) {
         if (r1->types[i] != r2->types[i]) {
             diff = true;
-#if OBJECT_SYSTEM
             if (HasSuperclass((Defclass *) r1->types[i], (Defclass *) r2->types[i]))
                 return (HIGHER_PRECEDENCE);
             if (HasSuperclass((Defclass *) r2->types[i], (Defclass *) r1->types[i]))
                 return (LOWER_PRECEDENCE);
-#else
-            if (SubsumeType(((CLIPSInteger *) r1->types[i])->contents,((CLIPSInteger *) r2->types[i])->contents))
-              return(HIGHER_PRECEDENCE);
-            if (SubsumeType(((CLIPSInteger *) r2->types[i])->contents,((CLIPSInteger *) r1->types[i])->contents))
-              return(LOWER_PRECEDENCE);
-#endif
         }
     }
     if (r1->tcnt < r2->tcnt)

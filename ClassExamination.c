@@ -71,7 +71,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <string.h>
 
@@ -1272,5 +1271,4 @@ static const char *ConstraintCode(
 
 #endif
 
-#endif
 

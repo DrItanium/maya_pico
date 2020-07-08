@@ -110,9 +110,7 @@
 #include "Deftemplate.h"
 #endif
 
-#if OBJECT_SYSTEM
 #include "ClassInitialization.h"
-#endif
 
 #if DEVELOPER
 #include "developr.h"

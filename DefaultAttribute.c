@@ -110,11 +110,9 @@ void DeriveDefaultFromConstraints(
     else if (constraints->integersAllowed) { theValue = FindDefaultValue(theEnv, INTEGER_TYPE, constraints, CreateInteger(theEnv, 0LL)); }
 
     else if (constraints->floatsAllowed) { theValue = FindDefaultValue(theEnv, FLOAT_TYPE, constraints, CreateFloat(theEnv, 0.0)); }
-#if OBJECT_SYSTEM
     else if (constraints->instanceNamesAllowed) {
         theValue = FindDefaultValue(theEnv, INSTANCE_NAME_TYPE, constraints, CreateInstanceName(theEnv, "nil"));
     } else if (constraints->instanceAddressesAllowed) { theValue = &InstanceData(theEnv)->DummyInstance; }
-#endif
 #if DEFTEMPLATE_CONSTRUCT
     else if (constraints->factAddressesAllowed) { theValue = &FactData(theEnv)->DummyFact; }
 #endif

@@ -65,7 +65,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <string.h>
 #include <stdlib.h>
@@ -2094,8 +2093,6 @@ static struct lhsParseNode *RemoveSlotExistenceTests(
        ==================================== */
     return (head);
 }
-
-#endif
 
 /**************************************************************
   NAME         : ObjectMatchDelayParse

@@ -239,27 +239,12 @@
 #endif
 
 /*****************************************************************/
-/* OBJECT_SYSTEM:  Determines whether object system is included. */
-/*   The MULTIFIELD_FUNCTIONS flag should also be on if you want */
-/*   to be able to manipulate multi-field slots.                 */
-/*****************************************************************/
-
-#ifndef OBJECT_SYSTEM
-#define OBJECT_SYSTEM 1
-#endif
-
-/*****************************************************************/
 /* DEFINSTANCES_CONSTRUCT: Determines whether the definstances   */
 /*   construct is enabled.                                       */
 /*****************************************************************/
 
 #ifndef DEFINSTANCES_CONSTRUCT
 #define DEFINSTANCES_CONSTRUCT      1
-#endif
-
-#if !OBJECT_SYSTEM
-#undef DEFINSTANCES_CONSTRUCT
-#define DEFINSTANCES_CONSTRUCT      0
 #endif
 
 /********************************************************************/
@@ -269,20 +254,6 @@
 
 #ifndef INSTANCE_SET_QUERIES
 #define INSTANCE_SET_QUERIES 1
-#endif
-
-#if !OBJECT_SYSTEM
-#undef INSTANCE_SET_QUERIES
-#define INSTANCE_SET_QUERIES        0
-#endif
-
-/******************************************************************/
-/* Check for consistencies associated with the defrule construct. */
-/******************************************************************/
-
-#if (!DEFTEMPLATE_CONSTRUCT) && (!OBJECT_SYSTEM)
-#undef DEFRULE_CONSTRUCT
-#define DEFRULE_CONSTRUCT 0
 #endif
 
 /*******************************************************************/
@@ -296,13 +267,6 @@
 #endif
 #ifndef BSAVE_INSTANCES
 #define BSAVE_INSTANCES 1
-#endif
-
-#if !OBJECT_SYSTEM
-#undef BLOAD_INSTANCES
-#undef BSAVE_INSTANCES
-#define BLOAD_INSTANCES             0
-#define BSAVE_INSTANCES             0
 #endif
 
 /****************************************************************/

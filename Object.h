@@ -116,9 +116,7 @@ struct defclass {
      * iterate through every single terminal alpha for every single modification
      * to an instance of a defclass.
      */
-#if OBJECT_SYSTEM
     CLASS_ALPHA_LINK *relevant_terminal_alpha_nodes;
-#endif
 
     char traversalRecord[TRAVERSAL_BYTES];
 };

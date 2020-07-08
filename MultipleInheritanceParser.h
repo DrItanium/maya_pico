@@ -36,15 +36,12 @@
 
 #define _H_inherpsr
 
-#if OBJECT_SYSTEM
 
 #include "Object.h"
 
 PACKED_CLASS_LINKS *ParseSuperclasses(Environment *, const char *, CLIPSLexeme *);
 PACKED_CLASS_LINKS *FindPrecedenceList(Environment *, Defclass *, PACKED_CLASS_LINKS *);
 void PackClassLinks(Environment *, PACKED_CLASS_LINKS *, CLASS_LINK *);
-
-#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_inherpsr */
 

@@ -383,9 +383,7 @@ void *GetFactOrInstanceArgument(
         unsigned int thePosition,
         UDFValue *item) {
     Environment *theEnv = context->environment;
-#if DEFTEMPLATE_CONSTRUCT || OBJECT_SYSTEM
     void *ptr;
-#endif
 
     /*==============================*/
     /* Retrieve the first argument. */
@@ -439,14 +437,12 @@ void *GetFactOrInstanceArgument(
         /* if they correspond to an existing instance.    */
         /*================================================*/
 
-#if OBJECT_SYSTEM
     else if (CVIsType(item, INSTANCE_NAME_BIT | SYMBOL_BIT)) {
         if ((ptr = (void *) FindInstanceBySymbol(theEnv, item->lexemeValue)) == NULL) {
             CantFindItemErrorMessage(theEnv, "instance", item->lexemeValue->contents, false);
         }
         return ptr;
     }
-#endif
 
     /*========================================*/
     /* Any other type is an invalid argument. */

@@ -66,10 +66,7 @@
 #include "MemoryAllocation.h"
 #include "Router.h"
 
-#if OBJECT_SYSTEM
 #include "InstanceCommand.h"
-#endif
-
 #include "ExternalFunctions.h"
 
 /***************************************/
@@ -528,13 +525,9 @@ void AssignErrorValue(
         context->returnValue->lexemeValue = CreateInstanceName(context->environment, "nil");
     } else if (context->theFunction->unknownReturnValueType & FACT_ADDRESS_BIT) {
         context->returnValue->factValue = &FactData(context->environment)->DummyFact;
-    }
-#if OBJECT_SYSTEM
-    else if (context->theFunction->unknownReturnValueType & INSTANCE_ADDRESS_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & INSTANCE_ADDRESS_BIT) {
         context->returnValue->value = &InstanceData(context->environment)->DummyInstance;
-    }
-#endif
-    else if (context->theFunction->unknownReturnValueType & EXTERNAL_ADDRESS_BIT) {
+    } else if (context->theFunction->unknownReturnValueType & EXTERNAL_ADDRESS_BIT) {
         context->returnValue->value = CreateExternalAddress(context->environment, NULL, 0);
     } else { context->returnValue->value = context->environment->VoidConstant; }
 }

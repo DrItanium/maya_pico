@@ -51,7 +51,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <string.h>
 
@@ -830,6 +829,4 @@ static bool EvaluateSlotDefaultValue(
     }
     return true;
 }
-
-#endif
 

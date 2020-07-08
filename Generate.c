@@ -372,9 +372,7 @@ static void ExtractFieldTest(
     /*==========================================================*/
 
     if ((theField->pnType == STRING_NODE) || (theField->pnType == SYMBOL_NODE) ||
-        #if OBJECT_SYSTEM
         (theField->pnType == INSTANCE_NAME_NODE) ||
-        #endif
         (theField->pnType == FLOAT_NODE) || (theField->pnType == INTEGER_NODE)) {
         if (testInPatternNetwork == true) {
             *patternNetTest = GenPNConstant(theEnv, theField);

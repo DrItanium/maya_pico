@@ -85,7 +85,6 @@
 
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ArgumentAccess.h"
 #include "ClassCommands.h"
@@ -1316,6 +1315,5 @@ static void NetworkModifyForSharedSlot(
 }
 
 
-#endif /* OBJECT_SYSTEM */
 
 

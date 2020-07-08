@@ -79,9 +79,6 @@ void UndefmethodCommand(Environment *, UDFContext *, UDFValue *);
 Defmethod *GetDefmethodPointer(Defgeneric *, long);
 bool Undefgeneric(Defgeneric *, Environment *);
 bool Undefmethod(Defgeneric *, unsigned short, Environment *);
-#if !OBJECT_SYSTEM
-void                           TypeCommand(Environment *,UDFContext *,UDFValue *);
-#endif
 #if DEBUGGING_FUNCTIONS || PROFILING_FUNCTIONS
 void DefmethodDescription(Defgeneric *, unsigned short, StringBuilder *);
 #endif

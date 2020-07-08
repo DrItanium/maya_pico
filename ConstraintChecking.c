@@ -63,13 +63,10 @@
 #include "Multifield.h"
 #include "PrintUtility.h"
 #include "Router.h"
-
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassExamination.h"
 #include "InstanceCommand.h"
 #include "InstanceFunctions.h"
-#endif
 
 #include "ConstraintChecking.h"
 
@@ -141,11 +138,9 @@ static bool CheckTypeConstraint(
 
     if ((type == INTEGER_TYPE) && (constraints->integersAllowed != true)) { return false; }
 
-#if OBJECT_SYSTEM
     if ((type == INSTANCE_NAME_TYPE) && (constraints->instanceNamesAllowed != true)) { return false; }
 
     if ((type == INSTANCE_ADDRESS_TYPE) && (constraints->instanceAddressesAllowed != true)) { return false; }
-#endif
 
     if ((type == EXTERNAL_ADDRESS_TYPE) && (constraints->externalAddressesAllowed != true)) { return false; }
 
@@ -285,12 +280,10 @@ bool CheckAllowedValuesConstraint(
                 (constraints->anyRestriction == false)) { return true; }
             break;
 
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
             if ((constraints->instanceNameRestriction == false) &&
                 (constraints->anyRestriction == false)) { return true; }
             break;
-#endif
 
         case STRING_TYPE:
             if ((constraints->stringRestriction == false) &&
@@ -341,7 +334,6 @@ bool CheckAllowedClassesConstraint(
         int type,
         void *vPtr,
         CONSTRAINT_RECORD *constraints) {
-#if OBJECT_SYSTEM
     struct expr *tmpPtr;
     Instance *ins;
     Defclass *insClass, *cmpClass;
@@ -398,17 +390,6 @@ bool CheckAllowedClassesConstraint(
     /*=========================================================*/
 
     return false;
-#else
-
-#if MAC_XCD
-#pragma unused(theEnv)
-#pragma unused(type)
-#pragma unused(vPtr)
-#pragma unused(constraints)
-#endif
-
-    return true;
-#endif
 }
 
 /*************************************************************/

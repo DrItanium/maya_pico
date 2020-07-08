@@ -78,7 +78,6 @@
 
 #include "Setup.h"
 
-#if MULTIFIELD_FUNCTIONS || OBJECT_SYSTEM
 
 #include <stdio.h>
 #include <string.h>
@@ -88,9 +87,7 @@
 #include "Expression.h"
 #include "MemoryAllocation.h"
 #include "Multifield.h"
-#if OBJECT_SYSTEM
 #include "Object.h"
-#endif
 #include "PrettyPrint.h"
 #include "ProceduralFunctionsParser.h"
 #include "ProceduralFunctions.h"
@@ -122,7 +119,6 @@ static struct expr *ForeachParser(Environment *, struct expr *, const char *);
 static void ReplaceMvPrognFieldVars(Environment *, CLIPSLexeme *, struct expr *, int);
 #endif /* MULTIFIELD_FUNCTIONS */
 static void MVRangeErrorSizet(Environment *, size_t, size_t, size_t, const char *);
-#endif /* MULTIFIELD_FUNCTIONS || OBJECT_SYSTEM */
 
 /***************************************/
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
@@ -1335,7 +1331,6 @@ void GetMvPrognIndex(
 
 #endif /* MULTIFIELD_FUNCTIONS */
 
-#if OBJECT_SYSTEM || MULTIFIELD_FUNCTIONS
 
 bool ReplaceMultiValueFieldSizet(
         Environment *theEnv,
@@ -1534,4 +1529,3 @@ static void MVRangeErrorSizet(
     WriteString(theEnv, STDERR, ".\n");
 }
 
-#endif /* OBJECT_SYSTEM || MULTIFIELD_FUNCTIONS */

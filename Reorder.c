@@ -1267,11 +1267,8 @@ bool ConstantNode(
         case STRING_NODE:
         case INTEGER_NODE:
         case FLOAT_NODE:
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_NODE:
-#endif
             return true;
-
         default:
             return false;
     }

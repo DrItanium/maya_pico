@@ -53,7 +53,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
@@ -984,5 +983,4 @@ static void PrintPreviewHandler(
 
 #endif
 
-#endif
 

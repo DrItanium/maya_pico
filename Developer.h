@@ -54,12 +54,8 @@ void PrimitiveTablesUsageCommand(Environment *, UDFContext *, UDFValue *);
 void ShowFactPatternNetworkCommand(Environment *, UDFContext *, UDFValue *);
 void ValidateFactIntegrityCommand(Environment *, UDFContext *, UDFValue *);
 #endif
-#if OBJECT_SYSTEM
 void PrintObjectPatternNetworkCommand(Environment *, UDFContext *, UDFValue *);
-#endif
-#if OBJECT_SYSTEM
 void InstanceTableUsageCommand(Environment *, UDFContext *, UDFValue *);
-#endif
 void ValidateBetaMemoriesCommand(Environment *, UDFContext *, UDFValue *);
 
 #endif /* _H_developr */

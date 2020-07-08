@@ -54,15 +54,12 @@
 
 #define _H_classpsr
 
-#if OBJECT_SYSTEM
 
 bool ParseDefclass(Environment *, const char *);
 
 #if DEFMODULE_CONSTRUCT
 void *CreateClassScopeMap(Environment *, Defclass *);
 #endif
-
-#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_classpsr */
 

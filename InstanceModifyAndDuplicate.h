@@ -58,9 +58,7 @@
 #define DIRECT_DUPLICATE_STRING "direct-duplicate"
 #define MSG_DUPLICATE_STRING    "message-duplicate"
 
-#ifndef _H_evaluatn
-#include "evaluatn.h"
-#endif
+#include "Evaluation.h"
 
 void SetupInstanceModDupCommands(Environment *);
 
@@ -69,12 +67,10 @@ void MsgModifyInstance(Environment *, UDFContext *, UDFValue *);
 void DuplicateInstance(Environment *, UDFContext *, UDFValue *);
 void MsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
 
-#if OBJECT_SYSTEM
 void InactiveModifyInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveMsgModifyInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveDuplicateInstance(Environment *, UDFContext *, UDFValue *);
 void InactiveMsgDuplicateInstance(Environment *, UDFContext *, UDFValue *);
-#endif
 
 void DirectModifyMsgHandler(Environment *, UDFContext *, UDFValue *);
 void MsgModifyMsgHandler(Environment *, UDFContext *, UDFValue *);

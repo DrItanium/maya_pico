@@ -115,13 +115,11 @@ void PrintSlot(Environment *, const char *, SlotDescriptor *, Instance *, const 
 void PrintInstanceNameAndClass(Environment *, const char *, Instance *, bool);
 void PrintInstanceName(Environment *, const char *, Instance *);
 void PrintInstanceLongForm(Environment *, const char *, Instance *);
-#if OBJECT_SYSTEM
 void DecrementObjectBasisCount(Environment *, Instance *);
 void IncrementObjectBasisCount(Environment *, Instance *);
 void MatchObjectFunction(Environment *, Instance *);
 bool NetworkSynchronized(Environment *, Instance *);
 bool InstanceIsDeleted(Environment *, Instance *);
-#endif
 
 #endif /* _H_insfun */
 

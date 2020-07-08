@@ -54,11 +54,7 @@
 
 #define _H_objrtbld
 
-#if OBJECT_SYSTEM
-
 void SetupObjectPatternStuff(Environment *);
-
-#endif /* OBJECT_SYSTEM */
 
 #endif /* _H_objrtbld */
 

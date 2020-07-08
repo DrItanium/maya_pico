@@ -47,7 +47,6 @@
    ***************************************** */
 #include "Setup.h"
 
-#if OBJECT_SYSTEM
 
 #include <stdio.h>
 
@@ -642,13 +641,3 @@ static Expression *GenerateSlotComparisonTest(
     return (theExp);
 }
 
-#endif
-
-/***************************************************
-  NAME         :
-  DESCRIPTION  :
-  INPUTS       :
-  RETURNS      :
-  SIDE EFFECTS :
-  NOTES        :
- ***************************************************/

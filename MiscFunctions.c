@@ -659,8 +659,7 @@ void OptionsCommand(
     emitOnOrOff(theEnv, DEFGENERIC_CONSTRUCT);
 
     WriteString(theEnv, STDOUT, "Object System is ");
-    emitOnOrOff(theEnv, OBJECT_SYSTEM);
-#if OBJECT_SYSTEM
+    emitOnOrOff(theEnv, true);
     WriteString(theEnv, STDOUT, "  Definstances construct is ");
     emitOnOrOff(theEnv, DEFINSTANCES_CONSTRUCT);
     WriteString(theEnv, STDOUT, "  Instance-set queries are ");
@@ -669,7 +668,6 @@ void OptionsCommand(
     emitOnOrOff(theEnv, BLOAD_INSTANCES);
     WriteString(theEnv, STDOUT, "  Binary saving of instances is ");
     emitOnOrOff(theEnv, BSAVE_INSTANCES);
-#endif
 
     WriteString(theEnv, STDOUT, "Extended math function package is ");
     emitOnOrOff(theEnv, EXTENDED_MATH_FUNCTIONS);

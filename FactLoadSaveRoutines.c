@@ -1357,11 +1357,9 @@ static void MarkNeededAtom(
         case INTEGER_TYPE:
             theValue->integerValue->neededInteger = true;
             break;
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             GetFullInstanceName(theEnv, theValue->instanceValue)->neededSymbol = true;
             break;
-#endif
     }
 }
 
@@ -1584,12 +1582,10 @@ static void SaveAtomBinary(
         case INTEGER_TYPE:
             bsa.value = theValue->integerValue->bucket;
             break;
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             bsa.type = INSTANCE_NAME_TYPE;
             bsa.value = GetFullInstanceName(theEnv, theValue->instanceValue)->bucket;
             break;
-#endif
         default:
             bsa.value = ULONG_MAX;
     }

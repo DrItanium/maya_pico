@@ -143,9 +143,6 @@ void MethodAlterError(Environment *, Defgeneric *);
 void DeleteMethodInfo(Environment *, Defgeneric *, Defmethod *);
 void DestroyMethodInfo(Environment *, Defgeneric *, Defmethod *);
 bool MethodsExecuting(Defgeneric *);
-#if !OBJECT_SYSTEM
-bool                           SubsumeType(long long,long long);
-#endif
 
 unsigned short FindMethodByIndex(Defgeneric *, unsigned short);
 #if DEBUGGING_FUNCTIONS || PROFILING_FUNCTIONS
@@ -156,10 +153,6 @@ void PreviewGeneric(Environment *, UDFContext *, UDFValue *);
 #endif
 Defgeneric *CheckGenericExists(Environment *, const char *, const char *);
 unsigned short CheckMethodExists(Environment *, const char *, Defgeneric *, unsigned short);
-
-#if !OBJECT_SYSTEM
-const char                    *TypeName(Environment *,long long);
-#endif
 
 void PrintGenericName(Environment *, const char *, Defgeneric *);
 

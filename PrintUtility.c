@@ -195,13 +195,11 @@ void PrintAtom(
             if (PrintUtilityData(theEnv)->AddressesToStrings) WriteString(theEnv, logicalName, "\"");
             break;
 
-#if OBJECT_SYSTEM
         case INSTANCE_NAME_TYPE:
             WriteString(theEnv, logicalName, "[");
             WriteString(theEnv, logicalName, ((CLIPSLexeme *) value)->contents);
             WriteString(theEnv, logicalName, "]");
             break;
-#endif
 
         case VOID_TYPE:
             break;
@@ -570,7 +568,6 @@ const char *DataObjectToString(
         case VOID_TYPE:
             return ("");
 
-#if OBJECT_SYSTEM
         case INSTANCE_ADDRESS_TYPE:
             if (theDO->instanceValue == &InstanceData(theEnv)->DummyInstance) { return ("<Dummy Instance>"); }
 
@@ -585,8 +582,6 @@ const char *DataObjectToString(
             }
 
             break;
-#endif
-
         case EXTERNAL_ADDRESS_TYPE:
             theAddress = theDO->externalAddressValue;
 

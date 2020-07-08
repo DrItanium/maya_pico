@@ -53,7 +53,7 @@
 
 #include "Setup.h"
 
-#if OBJECT_SYSTEM && (BLOAD_AND_BSAVE)
+#if BLOAD_AND_BSAVE
 
 #include "BinaryLoad.h"
 #include "BinarySave.h"

@@ -88,10 +88,8 @@
 #if BLOAD_AND_BSAVE
 #include "BinaryLoad.h"
 #endif
-#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "InstanceCommand.h"
-#endif
 #include "Construct.h"
 #include "Construct.h"
 #include "Construct.h"
@@ -252,11 +250,7 @@ void SetupGenericFunctions(
     AddUDF(theEnv, "get-method-restrictions", "m", 2, 2, "l;y", GetMethodRestrictionsCommand, NULL);
     AddUDF(theEnv, "defgeneric-module", "y", 1, 1, "y", GetDefgenericModuleCommand, NULL);
 
-#if OBJECT_SYSTEM
     AddUDF(theEnv, "type", "*", 1, 1, "*", ClassCommand, NULL);
-#else
-    AddUDF(theEnv,"type","*",1,1,"*",TypeCommand,"TypeCommand",NULL);
-#endif
 
 #if DEBUGGING_FUNCTIONS
     AddWatchItem(theEnv, "generic-functions", 0, &DefgenericData(theEnv)->WatchGenerics, 34,
@@ -1203,11 +1197,7 @@ void GetMethodRestrictions(
         theList->contents[roffset++].lexemeValue = (rptr->query != NULL) ? TrueSymbol(theEnv) : FalseSymbol(theEnv);
         theList->contents[roffset++].integerValue = CreateInteger(theEnv, (long long) rptr->tcnt);
         for (j = 0; j < rptr->tcnt; j++) {
-#if OBJECT_SYSTEM
             theList->contents[roffset++].lexemeValue = CreateSymbol(theEnv, DefclassName((Defclass *) rptr->types[j]));
-#else
-            theList->contents[roffset++].lexemeValue = CreateSymbol(theEnv,TypeName(theEnv,((CLIPSInteger *) rptr->types[j])->contents));
-#endif
         }
     }
 }
@@ -1705,30 +1695,6 @@ static void PrintMethodWatchFlag(
 
     SBDispose(theSB);
 }
-
-#endif
-
-#if !OBJECT_SYSTEM
-
-/***************************************************
-  NAME         : TypeCommand
-  DESCRIPTION  : Works like "class" in COOL
-  INPUTS       : None
-  RETURNS      : Nothing useful
-  SIDE EFFECTS : None
-  NOTES        : H/L Syntax: (type <primitive>)
- ***************************************************/
-void TypeCommand(
-  Environment *theEnv,
-  UDFContext *context,
-  UDFValue *returnValue)
-  {
-   UDFValue result;
-   
-   EvaluateExpression(theEnv,GetFirstArgument(),&result);
-
-   returnValue->lexemeValue = CreateSymbol(theEnv,TypeName(theEnv,result.header->type));
-  }
 
 #endif
 
