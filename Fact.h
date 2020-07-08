@@ -124,10 +124,8 @@ struct factsData {
     struct factHashEntry **FactHashTable;
     unsigned long FactHashTableSize;
     bool FactDuplication;
-#if DEFRULE_CONSTRUCT
     Fact *CurrentPatternFact;
     struct multifieldMarker *CurrentPatternMarks;
-#endif
     long LastModuleIndex;
     RetractError retractError;
     AssertError assertError;

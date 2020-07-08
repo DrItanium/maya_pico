@@ -62,9 +62,6 @@
 #include <string.h>
 
 #include "Setup.h"
-
-#if DEFRULE_CONSTRUCT
-
 #include "ArgumentAccess.h"
 #include "Constants.h"
 #include "ConflictResolutionStrategy.h"
@@ -1246,5 +1243,4 @@ void AgendaCommand(
 
 #endif /* DEBUGGING_FUNCTIONS */
 
-#endif /* DEFRULE_CONSTRUCT */
 

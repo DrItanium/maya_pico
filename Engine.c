@@ -92,7 +92,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "Agenda.h"
 #include "ArgumentAccess.h"
@@ -1445,6 +1444,4 @@ bool GetHaltRules(
         Environment *theEnv) {
     return (EngineData(theEnv)->HaltRules);
 }
-
-#endif /* DEFRULE_CONSTRUCT */
 

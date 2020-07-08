@@ -103,11 +103,9 @@
 #include "ObjectBinaryLoadSave.h"
 #endif
 
-#if DEFRULE_CONSTRUCT
 #include "ObjectPatternMatcher.h"
 #include "InferenceEngineObjectAccessRotuines.h"
 #include "ObjectReteMatch.h"
-#endif
 
 #include "ClassInitialization.h"
 
@@ -442,9 +440,7 @@ static void SetupDefclasses(
     AddUDF(theEnv, "class-existp", "b", 1, 1, "y", ClassExistPCommand, NULL);
     AddUDF(theEnv, "message-handler-existp", "b", 2, 3, "y", MessageHandlerExistPCommand, NULL);
     AddUDF(theEnv, "class-abstractp", "b", 1, 1, "y", ClassAbstractPCommand, NULL);
-#if DEFRULE_CONSTRUCT
     AddUDF(theEnv, "class-reactivep", "b", 1, 1, "y", ClassReactivePCommand, NULL);
-#endif
     AddUDF(theEnv, "class-slots", "m", 1, 2, "y", ClassSlotsCommand, NULL);
     AddUDF(theEnv, "class-superclasses", "m", 1, 2, "y", ClassSuperclassesCommand, NULL);
     AddUDF(theEnv, "class-subclasses", "m", 1, 2, "y", ClassSubclassesCommand, NULL);
@@ -499,9 +495,7 @@ static Defclass *AddSystemClass(
 
     sys = NewClass(theEnv, CreateSymbol(theEnv, name));
     sys->abstract = 1;
-#if DEFRULE_CONSTRUCT
     sys->reactive = 0;
-#endif
     IncrementLexemeCount(sys->header.name);
     sys->installed = 1;
     sys->system = 1;

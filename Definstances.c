@@ -501,14 +501,10 @@ static bool ParseDefinstances(
     InitializeConstructHeader(theEnv, "definstances", DEFINSTANCES, &dobj->header, dname);
     dobj->busy = 0;
     dobj->mkinstance = NULL;
-#if DEFRULE_CONSTRUCT
     if (active)
         mkinsfcall = FindFunction(theEnv, "active-make-instance");
     else
         mkinsfcall = FindFunction(theEnv, "make-instance");
-#else
-    mkinsfcall = FindFunction(theEnv,"make-instance");
-#endif
     while (DefclassData(theEnv)->ObjectParseToken.tknType == LEFT_PARENTHESIS_TOKEN) {
         mkinstance = GenConstant(theEnv, UNKNOWN_VALUE, mkinsfcall);
         mkinstance = ParseInitializeInstance(theEnv, mkinstance, readSource);
@@ -594,7 +590,6 @@ static CLIPSLexeme *ParseDefinstancesName(
     if (dname == NULL)
         return NULL;
 
-#if DEFRULE_CONSTRUCT
     if ((DefclassData(theEnv)->ObjectParseToken.tknType != SYMBOL_TOKEN) ? false :
         (strcmp(DefclassData(theEnv)->ObjectParseToken.lexemeValue->contents, ACTIVE_RLN) == 0)) {
         PPBackup(theEnv);
@@ -605,7 +600,6 @@ static CLIPSLexeme *ParseDefinstancesName(
         GetToken(theEnv, readSource, &DefclassData(theEnv)->ObjectParseToken);
         *active = true;
     }
-#endif
     if (DefclassData(theEnv)->ObjectParseToken.tknType == STRING_TOKEN) {
         PPBackup(theEnv);
         PPBackup(theEnv);

@@ -42,9 +42,7 @@
 #include "MemoryAllocation.h"
 #include "Defmodule.h"
 
-#if DEFRULE_CONSTRUCT
 #include "Network.h"
-#endif
 
 #if DEFGENERIC_CONSTRUCT
 #include "GenericFunctionBinaryLoadSave.h"

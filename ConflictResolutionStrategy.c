@@ -57,7 +57,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "Agenda.h"
 #include "ArgumentAccess.h"
@@ -915,6 +914,4 @@ static const char *GetStrategyName(
 
     return (sname);
 }
-
-#endif /* DEFRULE_CONSTRUCT */
 

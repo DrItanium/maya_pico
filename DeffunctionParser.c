@@ -66,9 +66,7 @@
 #include "BinaryLoad.h"
 #endif
 
-#if DEFRULE_CONSTRUCT
 #include "Network.h"
-#endif
 
 #if DEFGENERIC_CONSTRUCT
 #include "GenericFunctionCommands.h"

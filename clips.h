@@ -70,7 +70,6 @@
 #include "BinarySave.h"
 #endif
 
-#if DEFRULE_CONSTRUCT
 #include "Defrule.h"
 #include "BasicRuleCommands.h"
 #include "Engine.h"
@@ -78,7 +77,6 @@
 #include "IncrementalReset.h"
 #include "RuleCommands.h"
 #include "ConflictResolutionStrategy.h"
-#endif
 
 #if DEFFACTS_CONSTRUCT
 #include "Deffacts.h"

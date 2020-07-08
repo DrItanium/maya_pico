@@ -118,7 +118,6 @@ void ClassAbstractPCommand(
     returnValue->lexemeValue = CreateBoolean(theEnv, (ClassAbstractP(cls)));
 }
 
-#if DEFRULE_CONSTRUCT
 
 /*****************************************************************
   NAME         : ClassReactivePCommand
@@ -149,7 +148,6 @@ void ClassReactivePCommand(
     returnValue->lexemeValue = CreateBoolean(theEnv, ClassReactiveP(cls));
 }
 
-#endif
 
 /***********************************************************
   NAME         : ClassInfoFnxArgs
@@ -376,7 +374,6 @@ bool ClassAbstractP(
     return theDefclass->abstract;
 }
 
-#if DEFRULE_CONSTRUCT
 
 /********************************************************************
   NAME         : ClassReactiveP
@@ -391,7 +388,6 @@ bool ClassReactiveP(
     return theDefclass->reactive;
 }
 
-#endif
 
 /********************************************************************
   NAME         : ClassSlots

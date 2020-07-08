@@ -62,8 +62,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
-
 #include <stdio.h>
 
 #include "ArgumentAccess.h"
@@ -461,4 +459,3 @@ bool DefruleWatchPrint(
 
 #endif /* DEBUGGING_FUNCTIONS */
 
-#endif /* DEFTEMPLATE_CONSTRUCT */

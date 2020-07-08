@@ -64,9 +64,7 @@
 #include "SystemDependency.h"
 #include "Utility.h"
 
-#if DEFRULE_CONSTRUCT
 #include "LogicalDependencies.h"
-#endif
 
 
 /***************************************/

@@ -406,9 +406,7 @@ void ProfileResetCommand(
 #if DEFFUNCTION_CONSTRUCT
     Deffunction *theDeffunction;
 #endif
-#if DEFRULE_CONSTRUCT
     Defrule *theDefrule;
-#endif
 #if DEFGENERIC_CONSTRUCT
     Defgeneric *theDefgeneric;
     unsigned short methodIndex;
@@ -449,14 +447,12 @@ void ProfileResetCommand(
     }
 #endif
 
-#if DEFRULE_CONSTRUCT
     for (theDefrule = GetNextDefrule(theEnv, NULL);
          theDefrule != NULL;
          theDefrule = GetNextDefrule(theEnv, theDefrule)) {
         ResetProfileInfo((struct constructProfileInfo *)
                                  TestUserData(ProfileFunctionData(theEnv)->ProfileDataID, theDefrule->header.usrData));
     }
-#endif
 
 #if DEFGENERIC_CONSTRUCT
     for (theDefgeneric = GetNextDefgeneric(theEnv, NULL);
@@ -542,15 +538,10 @@ static void OutputUserFunctionsInfo(
 /*****************************/
 static void OutputConstructsCodeInfo(
         Environment *theEnv) {
-#if (!DEFFUNCTION_CONSTRUCT) && (!DEFGENERIC_CONSTRUCT) && (!OBJECT_SYSTEM) && (!DEFRULE_CONSTRUCT)
-#pragma unused(theEnv)
-#endif
 #if DEFFUNCTION_CONSTRUCT
     Deffunction *theDeffunction;
 #endif
-#if DEFRULE_CONSTRUCT
     Defrule *theDefrule;
-#endif
 #if DEFGENERIC_CONSTRUCT
     Defgeneric *theDefgeneric;
     Defmethod *theMethod;
@@ -638,7 +629,6 @@ static void OutputConstructsCodeInfo(
 
     banner = "\n*** Defrules ***\n\n";
 
-#if DEFRULE_CONSTRUCT
     for (theDefrule = GetNextDefrule(theEnv, NULL);
          theDefrule != NULL;
          theDefrule = GetNextDefrule(theEnv, theDefrule)) {
@@ -647,7 +637,6 @@ static void OutputConstructsCodeInfo(
                                   TestUserData(ProfileFunctionData(theEnv)->ProfileDataID, theDefrule->header.usrData),
                           NULL, NULL, NULL, &banner);
     }
-#endif
 
 }
 

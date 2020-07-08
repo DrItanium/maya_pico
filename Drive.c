@@ -54,7 +54,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include "Agenda.h"
 #include "Constants.h"
@@ -1067,5 +1066,3 @@ static void JoinNetErrorMessage(
     TraceErrorToRule(theEnv, joinPtr, "      ");
     WriteString(theEnv, STDERR, "\n");
 }
-
-#endif /* DEFRULE_CONSTRUCT */

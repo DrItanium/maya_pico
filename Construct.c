@@ -658,10 +658,8 @@ bool Clear(
 
     ConstructData(theEnv)->ClearInProgress = false;
 
-#if DEFRULE_CONSTRUCT
     if ((DefruleData(theEnv)->RightPrimeJoins != NULL) ||
         (DefruleData(theEnv)->LeftPrimeJoins != NULL)) { SystemError(theEnv, "CONSTRCT", 1); }
-#endif
 
     /*============================*/
     /* Perform reset after clear. */

@@ -53,9 +53,7 @@
 #include "Deffacts.h"
 #endif
 
-#if DEFRULE_CONSTRUCT
 #include "Defrule.h"
-#endif
 
 #if DEFGENERIC_CONSTRUCT
 #include "GenericFunctionCommands.h"

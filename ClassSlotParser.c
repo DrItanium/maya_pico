@@ -262,7 +262,6 @@ TEMP_SLOT_LINK *ParseSlot(
                 goto ParseSlotError;
             slot->composite = (rtnCode == 0) ? false : true;
         }
-#if DEFRULE_CONSTRUCT
         else if (strcmp(DefclassData(theEnv)->ObjectParseToken.lexemeValue->contents, MATCH_FACET) == 0) {
             rtnCode = ParseSimpleFacet(theEnv, readSource, slot, specbits, MATCH_FACET, MATCH_BIT,
                                        SLOT_NONREACTIVE_RLN, SLOT_REACTIVE_RLN, NULL, NULL, NULL);
@@ -270,7 +269,6 @@ TEMP_SLOT_LINK *ParseSlot(
                 goto ParseSlotError;
             slot->reactive = (rtnCode == 0) ? false : true;
         }
-#endif
         else if (strcmp(DefclassData(theEnv)->ObjectParseToken.lexemeValue->contents, VISIBILITY_FACET) == 0) {
             rtnCode = ParseSimpleFacet(theEnv, readSource, slot, specbits, VISIBILITY_FACET, VISIBILITY_BIT,
                                        SLOT_PRIVATE_RLN, SLOT_PUBLIC_RLN, NULL, NULL, NULL);
@@ -401,9 +399,7 @@ static SlotDescriptor *NewSlot(
     slot->dynamicDefault = 1;
     slot->defaultSpecified = 0;
     slot->noDefault = 0;
-#if DEFRULE_CONSTRUCT
     slot->reactive = 1;
-#endif
     slot->noInherit = 0;
     slot->noWrite = 0;
     slot->initializeOnly = 0;
@@ -690,10 +686,8 @@ static void BuildCompositeFacets(
             sd->noWrite = compslot->noWrite;
             sd->initializeOnly = compslot->initializeOnly;
         }
-#if DEFRULE_CONSTRUCT
         if (!TestBitMap(specbits, MATCH_BIT))
             sd->reactive = compslot->reactive;
-#endif
         if (!TestBitMap(specbits, VISIBILITY_BIT))
             sd->publicVisibility = compslot->publicVisibility;
         if (!TestBitMap(specbits, CREATE_ACCESSOR_BIT)) {

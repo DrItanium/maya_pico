@@ -89,9 +89,7 @@
 #include "Scanner.h"
 #include "StringRouter.h"
 
-#if DEFRULE_CONSTRUCT
 #include "Network.h"
-#endif
 
 #if DEFGENERIC_CONSTRUCT
 #include "GenericFunctionCommands.h"

@@ -538,9 +538,7 @@ Defclass *NewClass(
     cls->nxtHash = NULL;
     cls->scopeMap = NULL;
     ClearBitString(cls->traversalRecord, TRAVERSAL_BYTES);
-#if DEFRULE_CONSTRUCT
     cls->relevant_terminal_alpha_nodes = NULL;
-#endif
     return (cls);
 }
 
@@ -707,10 +705,8 @@ void RemoveDefclass(
         Defclass *cls) {
     DefmessageHandler *hnd;
     unsigned long i;
-#if DEFRULE_CONSTRUCT
     CLASS_ALPHA_LINK *currentAlphaLink;
     CLASS_ALPHA_LINK *nextAlphaLink;
-#endif
 
     /* ====================================================
        Remove all of this class's superclasses' links to it
@@ -768,7 +764,6 @@ void RemoveDefclass(
         rm(theEnv, cls->handlerOrderMap, (sizeof(unsigned) * cls->handlerCount));
     }
 
-#if DEFRULE_CONSTRUCT
     currentAlphaLink = cls->relevant_terminal_alpha_nodes;
     while (currentAlphaLink != NULL) {
         nextAlphaLink = currentAlphaLink->next;
@@ -776,7 +771,6 @@ void RemoveDefclass(
         currentAlphaLink = nextAlphaLink;
     }
     cls->relevant_terminal_alpha_nodes = NULL;
-#endif
 
     SetDefclassPPForm(theEnv, cls, NULL);
     DeassignClassID(theEnv, cls->id);
@@ -796,10 +790,8 @@ void DestroyDefclass(
         Environment *theEnv,
         Defclass *cls) {
     long i;
-#if DEFRULE_CONSTRUCT
     CLASS_ALPHA_LINK *currentAlphaLink;
     CLASS_ALPHA_LINK *nextAlphaLink;
-#endif
 
     DefmessageHandler *hnd;
     DeletePackedClassLinks(theEnv, &cls->directSuperclasses, false);
@@ -843,7 +835,6 @@ void DestroyDefclass(
         rm(theEnv, cls->handlerOrderMap, (sizeof(unsigned) * cls->handlerCount));
     }
 
-#if DEFRULE_CONSTRUCT
     currentAlphaLink = cls->relevant_terminal_alpha_nodes;
     while (currentAlphaLink != NULL) {
         nextAlphaLink = currentAlphaLink->next;
@@ -851,7 +842,6 @@ void DestroyDefclass(
         currentAlphaLink = nextAlphaLink;
     }
     cls->relevant_terminal_alpha_nodes = NULL;
-#endif
 
     DestroyConstructHeader(theEnv, &cls->header);
 

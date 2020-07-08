@@ -227,14 +227,10 @@ void DescribeClass(
         WriteString(theEnv, logicalName, "Abstract: direct instances of this class cannot be created.\n\n");
     else {
         WriteString(theEnv, logicalName, "Concrete: direct instances of this class can be created.\n");
-#if DEFRULE_CONSTRUCT
         if (theDefclass->reactive)
             WriteString(theEnv, logicalName, "Reactive: direct instances of this class can match defrule patterns.\n\n");
         else
             WriteString(theEnv, logicalName, "Non-reactive: direct instances of this class cannot match defrule patterns.\n\n");
-#else
-        WriteString(theEnv,logicalName,"\n");
-#endif
     }
     PrintPackedClassLinks(theEnv, logicalName, "Direct Superclasses:", &theDefclass->directSuperclasses);
     PrintPackedClassLinks(theEnv, logicalName, "Inheritance Precedence:", &theDefclass->allSuperclasses);
@@ -1088,11 +1084,7 @@ static void DisplaySlotBasicInfo(
     const char *createString;
 
     gensprintf(buf, slotNamePrintFormat, "SLOTS");
-#if DEFRULE_CONSTRUCT
     genstrcat(buf, "FLD DEF PRP ACC STO MCH SRC VIS CRT ");
-#else
-    genstrcat(buf,"FLD DEF PRP ACC STO SRC VIS CRT ");
-#endif
     WriteString(theEnv, logicalName, buf);
     gensprintf(buf, overrideMessagePrintFormat, "OVRD-MSG");
     WriteString(theEnv, logicalName, buf);
@@ -1113,9 +1105,7 @@ static void DisplaySlotBasicInfo(
         else
             genstrcat(buf, "RW  ");
         genstrcat(buf, sp->shared ? "SHR " : "LCL ");
-#if DEFRULE_CONSTRUCT
         genstrcat(buf, sp->reactive ? "RCT " : "NIL ");
-#endif
         genstrcat(buf, sp->composite ? "CMP " : "EXC ");
         genstrcat(buf, sp->publicVisibility ? "PUB " : "PRV ");
         createString = GetCreateAccessorString(sp);

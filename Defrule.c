@@ -68,7 +68,6 @@
 
 #include "Setup.h"
 
-#if DEFRULE_CONSTRUCT
 
 #include <stdio.h>
 
@@ -437,7 +436,5 @@ const char *DefrulePPForm(
         Defrule *theDefrule) {
     return GetConstructPPForm(&theDefrule->header);
 }
-
-#endif /* DEFRULE_CONSTRUCT */
 
 

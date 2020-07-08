@@ -177,10 +177,8 @@ bool ParseDefclass(
     TEMP_SLOT_LINK *slots = NULL;
     bool parseError;
     bool roleSpecified = false, abstract = false;
-#if DEFRULE_CONSTRUCT
     bool patternMatchSpecified = false;
     bool reactive = true;
-#endif
 
     SetPPBufferStatus(theEnv, true);
     FlushPPBuffer(theEnv);
@@ -235,7 +233,6 @@ bool ParseDefclass(
                 break;
             }
         }
-#if DEFRULE_CONSTRUCT
         else if (strcmp(DefclassData(theEnv)->ObjectParseToken.lexemeValue->contents, MATCH_RLN) == 0) {
             if (ParseSimpleQualifier(theEnv, readSource, MATCH_RLN, NONREACTIVE_RLN, REACTIVE_RLN,
                                      &patternMatchSpecified, &reactive) == false) {
@@ -243,7 +240,6 @@ bool ParseDefclass(
                 break;
             }
         }
-#endif
         else if (strcmp(DefclassData(theEnv)->ObjectParseToken.lexemeValue->contents, SLOT_RLN) == 0) {
             slots = ParseSlot(theEnv, readSource, cname->contents, slots, preclist, false);
             if (slots == NULL) {
@@ -287,7 +283,6 @@ bool ParseDefclass(
         { abstract = false; }                                            /* classes to be concrete. */
         else { abstract = preclist->classArray[1]->abstract; }
     }
-#if DEFRULE_CONSTRUCT
     if (patternMatchSpecified == false) {
         if ((preclist->classArray[1]->system) &&                           /* Change to cause       */
             (!abstract) &&                                                /* default pattern-match */
@@ -310,8 +305,6 @@ bool ParseDefclass(
         return true;
     }
 
-#endif
-
     /* =======================================================
        If we're only checking syntax, don't add the
        successfully parsed defclass to the KB.
@@ -326,9 +319,7 @@ bool ParseDefclass(
 
     cls = NewClass(theEnv, cname);
     cls->abstract = abstract;
-#if DEFRULE_CONSTRUCT
     cls->reactive = reactive;
-#endif
     cls->directSuperclasses.classCount = sclasses->classCount;
     cls->directSuperclasses.classArray = sclasses->classArray;
 

@@ -62,16 +62,14 @@
 #include "Utility.h"
 #include "Fact.h"
 
-#if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
 #include "Deftemplate.h"
 #endif
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 #include "ClassCommands.h"
 #include "ClassFunctions.h"
 #include "ObjectReteMatch.h"
-#endif
-#if OBJECT_SYSTEM
 #include "InstanceFunctions.h"
 #endif
 
@@ -79,7 +77,7 @@
 
 #if DEVELOPER
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 static void                    PrintOPNLevel(Environment *,OBJECT_PATTERN_NODE *,char *,int);
 #endif
 
@@ -92,14 +90,14 @@ Environment *theEnv)
 AddUDF(theEnv,"primitives-info","v",0,0,NULL,PrimitiveTablesInfoCommand,"PrimitiveTablesInfoCommand",NULL);
 AddUDF(theEnv,"primitives-usage","v",0,0,NULL,PrimitiveTablesUsageCommand,"PrimitiveTablesUsageCommand",NULL);
 
-#if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
 AddUDF(theEnv,"validate-fact-integrity","b", 0,0,NULL,ValidateFactIntegrityCommand,"ValidateFactIntegrityCommand",NULL);
 
 AddUDF(theEnv,"show-fpn","v",1,1,"y",ShowFactPatternNetworkCommand,"ShowFactPatternNetworkCommand",NULL);
 AddUDF(theEnv,"show-fht","v",0,0,NULL,ShowFactHashTableCommand,"ShowFactHashTableCommand",NULL);
 #endif
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 AddUDF(theEnv,"show-opn","v",0,0,NULL,PrintObjectPatternNetworkCommand,"PrintObjectPatternNetworkCommand",NULL);
 #endif
 
@@ -280,7 +278,7 @@ for (i = 0; i < COUNT_SIZE; i++)
 
 }
 
-#if DEFRULE_CONSTRUCT && DEFTEMPLATE_CONSTRUCT
+#if DEFTEMPLATE_CONSTRUCT
 
 /******************************************************/
 /* ValidateFactIntegrityCommand: Command for checking */
@@ -422,7 +420,7 @@ while (patternPtr != NULL)
 
 #endif
 
-#if DEFRULE_CONSTRUCT && OBJECT_SYSTEM
+#if OBJECT_SYSTEM
 
 /***************************************************
 NAME         : PrintObjectPatternNetworkCommand
@@ -590,7 +588,6 @@ for (i = 0; i < COUNT_SIZE; i++)
 
 #endif
 
-#if DEFRULE_CONSTRUCT
 
 /******************/
 /* ExamineMemory: */
@@ -665,8 +662,6 @@ UDFValue *returnValue)
 WriteString(theEnv,STDOUT,"ValidateBetaMemories");
 DoForAllConstructs(theEnv,ValidateRuleBetaMemoriesAction,DefruleData(theEnv)->DefruleModuleIndex,false,NULL);
 }
-
-#endif
 
 #endif
 

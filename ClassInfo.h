@@ -54,9 +54,7 @@
 #include "Evaluation.h"
 
 void ClassAbstractPCommand(Environment *, UDFContext *, UDFValue *);
-#if DEFRULE_CONSTRUCT
 void ClassReactivePCommand(Environment *, UDFContext *, UDFValue *);
-#endif
 Defclass *ClassInfoFnxArgs(UDFContext *, const char *, bool *);
 void ClassSlotsCommand(Environment *, UDFContext *, UDFValue *);
 void ClassSuperclassesCommand(Environment *, UDFContext *, UDFValue *);
@@ -70,9 +68,7 @@ void SlotAllowedClassesCommand(Environment *, UDFContext *, UDFValue *);
 void SlotRangeCommand(Environment *, UDFContext *, UDFValue *);
 void SlotCardinalityCommand(Environment *, UDFContext *, UDFValue *);
 bool ClassAbstractP(Defclass *);
-#if DEFRULE_CONSTRUCT
 bool ClassReactiveP(Defclass *);
-#endif
 void ClassSlots(Defclass *, CLIPSValue *, bool);
 void GetDefmessageHandlerList(Environment *, Defclass *, CLIPSValue *, bool);
 void ClassSuperclasses(Defclass *, CLIPSValue *, bool);
