@@ -249,11 +249,4 @@ typedef enum {
 #define SYMBOL_OR_STRING              181
 #define INSTANCE_OR_INSTANCE_NAME     182
 
-/*************************/
-/* Macintosh Definitions */
-/*************************/
-
-#define CREATOR_STRING "CLIS"
-#define CREATOR_CODE   'CLIS'
-
 #endif
