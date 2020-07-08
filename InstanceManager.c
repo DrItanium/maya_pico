@@ -1582,7 +1582,7 @@ void IBDispose(
 /************/
 void IBAbort(
         InstanceBuilder *theIB) {
-    Environment *theEnv = theIB->ibEnv;
+    Environment *theEnv;
     unsigned int i;
 
     if (theIB == NULL) return;

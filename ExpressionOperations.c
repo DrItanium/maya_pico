@@ -341,7 +341,6 @@ void PrintExpression(
         if (theExpression != NULL) WriteString(theEnv, fileid, " ");
     }
 
-    return;
 }
 
 /*************************************************************************/

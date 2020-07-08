@@ -217,11 +217,9 @@ struct bsaveConstructHeader {
     unsigned long next;
 };
 
-#if BLOAD_AND_BSAVE
 void MarkConstructHeaderNeededItems(ConstructHeader *, unsigned long);
 void AssignBsaveConstructHeaderVals(struct bsaveConstructHeader *,
                                     ConstructHeader *);
-#endif
 
 void UpdateConstructHeader(Environment *, struct bsaveConstructHeader *,
                            ConstructHeader *, ConstructType, size_t, void *, size_t, void *);

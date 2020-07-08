@@ -9,10 +9,13 @@ extern "C" {
 }
 #include <optional>
 #include <string>
+#include "GenericView.h"
 namespace maya {
-    class DefclassView {
+    class DefclassView : public GenericView<defclass> {
     public:
-        explicit DefclassView(defclass& val) : _raw(val) { }
+        using Parent = GenericView<defclass>;
+    public:
+        using Parent::Parent;
         std::string getName() const noexcept { return DefclassName(&_raw); }
         std::string getPPForm() const noexcept { return DefclassPPForm(&_raw); }
         std::string getModuleName() const noexcept { return DefclassModule(&_raw); };
@@ -26,8 +29,6 @@ namespace maya {
         bool slotInitable(const std::string& slotName) const noexcept;
         bool slotPublic(const std::string& slotName) const noexcept;
         bool slotDirectAccess(const std::string& slotName) const noexcept;
-    private:
-        defclass& _raw;
     };
 }
 

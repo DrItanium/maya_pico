@@ -8,10 +8,13 @@ extern "C" {
 #include "clips.h"
 }
 #include <optional>
+#include "GenericView.h"
 namespace maya {
-    class DefruleView {
+    class DefruleView : public GenericView<defrule> {
     public:
-        explicit DefruleView(defrule& val) : _raw(val) { }
+        using Parent = GenericView<defrule>;
+    public:
+        using Parent::Parent;
         [[nodiscard]] constexpr auto getSalience() const noexcept { return _raw.salience; }
         [[nodiscard]] constexpr auto getLocalVariableCount() const noexcept { return _raw.localVarCnt; }
         [[nodiscard]] constexpr auto getComplexity() const noexcept { return _raw.complexity; }
@@ -25,8 +28,6 @@ namespace maya {
         joinNode* getLogicalJoin() noexcept;
         joinNode* getLastJoin() noexcept;
         std::optional<DefruleView> disjunct() noexcept;
-    private:
-        defrule& _raw;
     };
 } // end namespace maya
 #endif //MAYA_DEFRULEVIEW_H
