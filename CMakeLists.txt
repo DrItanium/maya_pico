@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(maya VERSION 6.40)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+find_package(Boost REQUIRED COMPONENTS filesystem system)
 add_library(clips
 	Agenda.h
 	Analysis.h
@@ -302,8 +303,10 @@ add_library(maya_extensions
 # TODO express the configurable dependencies in setup.h using CMAKE instead
 add_executable(maya cmd/repl/main.c DefclassView.cc DefclassView.h)
 target_link_libraries(maya PUBLIC
-	boost_system
-	boost_filesystem
 	clips
-	maya_extensions)
+	maya_extensions
+	boost_system
+	boost_filesystem)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
+
+install(TARGETS maya DESTINATION bin)
