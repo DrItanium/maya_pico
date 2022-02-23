@@ -231,14 +231,14 @@ template<>
 std::string
 extractData<std::string>(Environment& env, Value* dobj)
 {
-    return std::string(dobj->lexemeValue->contents);
+    return {dobj->lexemeValue->contents};
 }
 
 template<>
 Neutron::Path
 extractData(Environment& env, Value* dobj)
 {
-    return Neutron::Path(dobj->lexemeValue->contents);
+    return {dobj->lexemeValue->contents};
 }
 
 template<>
