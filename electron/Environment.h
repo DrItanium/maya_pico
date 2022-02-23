@@ -909,13 +909,6 @@ public:
     void addToIncludePathBack(const Neutron::Path& path);
 
 
-    /**
-     * Add the ucode directory located in the resources directory to the include path at the back
-     * @param resourcesBase the base of the resources directory
-     * @throw Neutron::Exception this environment is not registered with the IncludePathCache
-     */
-    void addUcodeDirectory(const Neutron::Path& resourcesBase);
-
     using IncludePathList = std::list<Neutron::Path>;
     const IncludePathList& getIncludePathList() const noexcept { return _path; }
     bool evaluationErrorOccurred() const noexcept { return ::GetEvaluationError(_env); }
@@ -926,12 +919,12 @@ public:
      * Snapshot the current environment as a binary image to disk.
      * @param saveLocation Where to save the target to disk
      */
-    void compileMicrocodeToFile(const Neutron::Path& saveLocation) noexcept;
+    void compileToBinaryFile(const Neutron::Path& saveLocation) noexcept;
     /**
-     * Load a binary microcode image from disk into this environment
+     * Load a binary image from disk into this environment
      * @param location Where the binary image is located
      */
-    void loadMicrocodeImage(const Neutron::Path& location) noexcept;
+    void loadBinaryImage(const Neutron::Path& location) noexcept;
 
     /**
      * Try to get the first argument during the invocation of a UDF

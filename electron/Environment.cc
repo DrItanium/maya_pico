@@ -249,14 +249,14 @@ Environment::extractValue<bool>(Value* data)
 }
 
 void
-Environment::compileMicrocodeToFile(const Neutron::Path& loc) noexcept
+Environment::compileToBinaryFile(const Neutron::Path &loc) noexcept
 {
     ::SetDynamicConstraintChecking(_env, true);
     ::Bsave(_env, loc.string().c_str());
     ::SetDynamicConstraintChecking(_env, false);
 }
 void
-Environment::loadMicrocodeImage(const Neutron::Path& location) noexcept
+Environment::loadBinaryImage(const Neutron::Path& location) noexcept
 {
     ::Bload(_env, location.string().c_str());
 }
