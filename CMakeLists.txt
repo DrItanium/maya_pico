@@ -5,308 +5,353 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 add_library(clips
-	Agenda.h
-	Analysis.h
-	ArgumentAccess.h
-	BasicMathFunctions.h
-	BasicRuleCommands.h
-	BinaryLoad.h
-	BinarySave.h
-	ClassCommands.h
-	ClassExamination.h
-	ClassFunctions.h
-	ClassInfo.h
-	ClassInitialization.h
-	ClassParser.h
-	ClassSlotParser.h
-	clips.h
-	CommandLine.h
-	ConflictResolutionStrategy.h
-	Constants.h
-	ConstraintBinaryLoadSave.h
-	ConstraintChecking.h
-	Constraint.h
-	ConstraintOperations.h
-	ConstraintParser.h
-	ConstraintUtilities.h
-	Construct.h
-	ConstructProfilingFunctions.h
-	DefaultAttribute.h
-	DeffactsBasicCommands.h
-	DeffactsBinarySaveLoad.h
-	Deffacts.h
-	DeffactsParser.h
-	DeffunctionBinaryLoadSave.h
-	DeffunctionExecution.h
-	Deffunction.h
-	DeffunctionParser.h
-	DefglobalBasicCommands.h
-	DefglobalBinary.h
-	DefglobalCommands.h
-	Defglobal.h
-	DefglobalParser.h
-	DefinstancesBinaryLoadSave.h
-	Definstances.h
-	DefmessageHandlerCommands.h
-	DefmessageHandlerDispatch.h
-	DefmessageHandlerFunctions.h
-	DefmessageHandlerParser.h
-	DefModuleBasicCommands.h
-	DefmoduleBinarySaveLoad.h
-	Defmodule.h
-	DefmoduleParser.h
-	DefmoduleUtility.h
-	Defrule.h
-	DeftemplateBasicCommands.h
-	DeftemplateBinarySaveLoad.h
-	DeftemplateFunctions.h
-	Deftemplate.h
-	DeftemplateLHS.h
-	DeftemplateParser.h
-	DeftemplateRHSParsing.h
-	DeftemplateUtilities.h
-	Developer.h
-	Drive.h
-	Engine.h
-	Entities.h
-	Environment.h
-	Evaluation.h
-	Expression.h
-	ExtendedMathFunctions.h
-	ExternalFunctions.h
-	FactExtensions.h
-	Fact.h
-	File.h
-	Generate.h
-	GenericFunctionBinaryLoadSave.h
-	GenericFunctionCommands.h
-	GenericFunctionExecution.h
-	GenericFunction.h
-	GenericFunctionParser.h
-	ImplicitSystemMethodsParsing.h
-	IncrementalReset.h
-	InferenceEngineObjectAccessRotuines.h
-	InferenceEngineObjectParsingRoutines.h
-	InstanceCommand.h
-	InstanceFunctions.h
-	InstanceManager.h
-	InstanceModifyAndDuplicate.h
-	InstanceMultifieldTypeSlot.h
-	InstanceParser.h
-	InstanceQuery.h
-	InstanceSaveLoadCommands.h
-	InstanceSetQueryParser.h
-	IOFunctions.h
-	LogicalDependencies.h
-	Match.h
-	MayaExtensions.h
-	MayaSetup.h
-	MemoryAllocation.h
-	MiscFunctions.h
-	Multifield.h
-	MultipleInheritanceParser.h
-	Network.h
-	ObjectBinaryLoadSave.h
-	Object.h
-	ObjectPatternMatcher.h
-	ObjectReteBinarySaveLoad.h
-	ObjectReteMatch.h
-	OperatingSystemShim.h
-	ParsingFunctions.h
-	Pattern.h
-	Platform.h
-	PredicateFunctions.h
-	PrettyPrint.h
-	PrintUtility.h
-	ProceduralCodeSupportRoutines.h
-	ProceduralFunctions.h
-	ProceduralFunctionsParser.h
-	Reorder.h
-	ReteUtility.h
-	Retract.h
-	Router.h
-	RuleBinarySaveLoad.h
-	RuleBuild.h
-	RuleCommands.h
-	RuleConstraints.h
-	RuleDelete.h
-	RuleLHSParsing.h
-	RuleParser.h
-	Scanner.h
-	Setup.h
-	SortingFunctions.h
-	StringFunctions.h
-	StringRouter.h
-	Symbol.h
-	SystemDependency.h
-	UserData.h
-	UserSetup.h
-	Utility.h
-	Watch.h
-	Agenda.c
-	Analysis.c
-	ArgumentAccess.c
-	BinaryLoad.c
-	BasicMathFunctions.c
-	BinarySave.c
-	ClassCommands.c
-	ClassExamination.c
-	ClassFunctions.c
-	ClassInfo.c
-	ClassInitialization.c
-	ClassParser.c
-	ClassSlotParser.c
-	CommandLine.c
-	Construct.c
-	Constraint.c
-	ConflictResolutionStrategy.c
-	ConstructBinaryLoadSave.c
-	ConstructCommand.c
-	ConstructParser.c
-	ConstraintBinaryLoadSave.c
-	ConstraintChecking.c
-	ConstraintOperations.c
-	ConstraintParser.c
-	ConstraintUtilities.c
-	DefaultAttribute.c
-	Definstances.c
-	Developer.c
-	DeffactsBinarySaveLoad.c
-	DeffactsBasicCommands.c
-	Deffacts.c
-	DeffactsParser.c
-	DeffunctionBinaryLoadSave.c
-	DeffunctionExecution.c
-	Deffunction.c
-	DeffunctionParser.c
-	DefinstancesBinaryLoadSave.c
-	Drive.c
-	ExtendedMathFunctions.c
-	Engine.c
-	Environment.c
-	EnvironmentBuild.c
-	Evaluation.c
-	Expression.c
-	ExpressionBinary.c
-	ExpressionOperations.c
-	ExpressionParser.c
-	ExternalFunctions.c
-	FactBinarySaveLoad.c
-	FactBuild.c
-	FactCommands.c
-	FactLoadSaveRoutines.c
-	FactFunctions.c
-	FactReteFunctionGeneration.c
-	FactHashing.c
-	FactLHSPatternParsing.c
-	FactMatch.c
-	FactManager.c
-	FactRetePrintFunctions.c
-	FactSetQueriesParser.c
-	FactQuery.c
-	FactReteAccessFunctions.c
-	FactRHSPatternParser.c
-	File.c
-	FileRouter.c
-	FileUtilities.c
-	Generate.c
-	GenericFunctionBinaryLoadSave.c
-	GenericFunctionCommands.c
-	GenericFunctionExecution.c
-	GenericFunction.c
-	GenericFunctionParser.c
-	DefglobalBinary.c
-	DefglobalBasicCommands.c
-	DefglobalCommands.c
-	Defglobal.c
-	DefglobalParser.c
-	ImplicitSystemMethodsParsing.c
-	IncrementalReset.c
-	MultipleInheritanceParser.c
-	InstanceCommand.c
-	InstanceSaveLoadCommands.c
-	InstanceFunctions.c
-	InstanceManager.c
-	InstanceModifyAndDuplicate.c
-	InstanceMultifieldTypeSlot.c
-	InstanceParser.c
-	InstanceQuery.c
-	InstanceSetQueryParser.c
-	IOFunctions.c
-	LogicalDependencies.c
-	MemoryAllocation.c
-	MiscFunctions.c
-	DefmoduleBinarySaveLoad.c
-	DefModuleBasicCommands.c
-	Defmodule.c
-	DefmoduleParser.c
-	DefmoduleUtility.c
-	DefmessageHandlerCommands.c
-	DefmessageHandlerFunctions.c
-	DefmessageHandlerDispatch.c
-	DefmessageHandlerParser.c
-	Multifield.c
-	MultifieldFunctions.c
-	ObjectBinaryLoadSave.c
-	ObjectReteBinarySaveLoad.c
-	ObjectPatternMatcher.c
-	InferenceEngineObjectAccessRotuines.c
-	InferenceEngineObjectParsingRoutines.c
-	ObjectReteMatch.c
-	ParsingFunctions.c
-	Pattern.c
-	PrettyPrint.c
-	ProceduralCodeSupportRoutines.c
-	ProceduralFunctions.c
-	ProceduralFunctionsParser.c
-	PredicateFunctions.c
-	PrintUtility.c
-	ConstructProfilingFunctions.c
-	Reorder.c
-	ReteUtility.c
-	Retract.c
-	Router.c
-	RuleBinarySaveLoad.c
-	RuleBuild.c
-	BasicRuleCommands.c
-	RuleCommands.c
-	RuleConstraints.c
-	Defrule.c
-	RuleDelete.c
-	RuleLHSParsing.c
-	RuleParser.c
-	Scanner.c
-	SortingFunctions.c
-	StringFunctions.c
-	StringRouter.c
-	SymbolBinarySave.c
-	Symbol.c
-	SystemDependency.c
-	DeftemplateBinarySaveLoad.c
-	DeftemplateBasicCommands.c
-	Deftemplate.c
-	DeftemplateFunctions.c
-	DeftemplateLHS.c
-	DeftemplateParser.c
-	DeftemplateRHSParsing.c
-	DeftemplateUtilities.c
-	UserData.c
-	UserFunctions.c
-	Utility.c
-	Watch.c)
-add_library(maya_extensions 
-	BoostExtensions.cc
-	BoostExtensions.h
-	FunctionalExtensions.cpp
-	FunctionalExtensions.h
-	MayaExtensions.c FactExtensions.h InstanceExtensions.h ExternalAddressTracker.h Problem.h DefruleView.cc DefruleView.h FactView.cc FactView.h DeftemplateView.cc DeftemplateView.h GenericView.h NandFrameView.h NandFrameView.cc)
-# TODO express the configurable dependencies in setup.h using CMAKE instead
-add_executable(maya cmd/repl/main.c DefclassView.cc DefclassView.h)
+
+agenda.c
+analysis.c
+argacces.c
+bload.c
+bmathfun.c
+bsave.c
+classcom.c
+classexm.c
+classfun.c
+classinf.c
+classini.c
+classpsr.c
+clsltpsr.c
+commline.c
+conscomp.c
+constrct.c
+constrnt.c
+crstrtgy.c
+cstrcbin.c
+cstrccom.c
+cstrcpsr.c
+cstrnbin.c
+cstrnchk.c
+cstrncmp.c
+cstrnops.c
+cstrnpsr.c
+cstrnutl.c
+default.c
+defins.c
+developr.c
+dffctbin.c
+dffctbsc.c
+dffctcmp.c
+dffctdef.c
+dffctpsr.c
+dffnxbin.c
+dffnxcmp.c
+dffnxexe.c
+dffnxfun.c
+dffnxpsr.c
+dfinsbin.c
+dfinscmp.c
+drive.c
+emathfun.c
+engine.c
+envrnbld.c
+envrnmnt.c
+evaluatn.c
+expressn.c
+exprnbin.c
+exprnops.c
+exprnpsr.c
+extnfunc.c
+factbin.c
+factbld.c
+factcmp.c
+factcom.c
+factfile.c
+factfun.c
+factgen.c
+facthsh.c
+factlhs.c
+factmch.c
+factmngr.c
+factprt.c
+factqpsr.c
+factqury.c
+factrete.c
+factrhs.c
+filecom.c
+filertr.c
+fileutil.c
+generate.c
+genrcbin.c
+genrccmp.c
+genrccom.c
+genrcexe.c
+genrcfun.c
+genrcpsr.c
+globlbin.c
+globlbsc.c
+globlcmp.c
+globlcom.c
+globldef.c
+globlpsr.c
+immthpsr.c
+incrrset.c
+inherpsr.c
+inscom.c
+insfile.c
+insfun.c
+insmngr.c
+insmoddp.c
+insmult.c
+inspsr.c
+insquery.c
+insqypsr.c
+iofun.c
+lgcldpnd.c
+main.c
+memalloc.c
+miscfun.c
+modulbin.c
+modulbsc.c
+modulcmp.c
+moduldef.c
+modulpsr.c
+modulutl.c
+msgcom.c
+msgfun.c
+msgpass.c
+msgpsr.c
+multifld.c
+multifun.c
+objbin.c
+objcmp.c
+objrtbin.c
+objrtbld.c
+objrtcmp.c
+objrtfnx.c
+objrtgen.c
+objrtmch.c
+parsefun.c
+pattern.c
+pprint.c
+prccode.c
+prcdrfun.c
+prcdrpsr.c
+prdctfun.c
+prntutil.c
+proflfun.c
+reorder.c
+reteutil.c
+retract.c
+router.c
+rulebin.c
+rulebld.c
+rulebsc.c
+rulecmp.c
+rulecom.c
+rulecstr.c
+ruledef.c
+ruledlt.c
+rulelhs.c
+rulepsr.c
+scanner.c
+sortfun.c
+strngfun.c
+strngrtr.c
+symblbin.c
+symblcmp.c
+symbol.c
+sysdep.c
+textpro.c
+tmpltbin.c
+tmpltbsc.c
+tmpltcmp.c
+tmpltdef.c
+tmpltfun.c
+tmpltlhs.c
+tmpltpsr.c
+tmpltrhs.c
+tmpltutl.c
+userdata.c
+userfunctions.c
+utility.c
+watch.c
+
+agenda.h
+analysis.h
+argacces.h
+bload.h
+bmathfun.h
+bsave.h
+classcom.h
+classexm.h
+classfun.h
+classinf.h
+classini.h
+classpsr.h
+clips.h
+clsltpsr.h
+commline.h
+conscomp.h
+constant.h
+constrct.h
+constrnt.h
+crstrtgy.h
+cstrcbin.h
+cstrccmp.h
+cstrccom.h
+cstrcpsr.h
+cstrnbin.h
+cstrnchk.h
+cstrncmp.h
+cstrnops.h
+cstrnpsr.h
+cstrnutl.h
+default.h
+defins.h
+developr.h
+dffctbin.h
+dffctbsc.h
+dffctcmp.h
+dffctdef.h
+dffctpsr.h
+dffnxbin.h
+dffnxcmp.h
+dffnxexe.h
+dffnxfun.h
+dffnxpsr.h
+dfinsbin.h
+dfinscmp.h
+drive.h
+emathfun.h
+engine.h
+entities.h
+envrnbld.h
+envrnmnt.h
+evaluatn.h
+expressn.h
+exprnbin.h
+exprnops.h
+exprnpsr.h
+extnfunc.h
+factbin.h
+factbld.h
+factcmp.h
+factcom.h
+factfile.h
+factfun.h
+factgen.h
+facthsh.h
+factlhs.h
+factmch.h
+factmngr.h
+factprt.h
+factqpsr.h
+factqury.h
+factrete.h
+factrhs.h
+filecom.h
+filertr.h
+fileutil.h
+generate.h
+genrcbin.h
+genrccmp.h
+genrccom.h
+genrcexe.h
+genrcfun.h
+genrcpsr.h
+globlbin.h
+globlbsc.h
+globlcmp.h
+globlcom.h
+globldef.h
+globlpsr.h
+immthpsr.h
+incrrset.h
+inherpsr.h
+inscom.h
+insfile.h
+insfun.h
+insmngr.h
+insmoddp.h
+insmult.h
+inspsr.h
+insquery.h
+insqypsr.h
+iofun.h
+lgcldpnd.h
+match.h
+memalloc.h
+miscfun.h
+modulbin.h
+modulbsc.h
+modulcmp.h
+moduldef.h
+modulpsr.h
+modulutl.h
+msgcom.h
+msgfun.h
+msgpass.h
+msgpsr.h
+multifld.h
+multifun.h
+network.h
+objbin.h
+objcmp.h
+object.h
+objrtbin.h
+objrtbld.h
+objrtcmp.h
+objrtfnx.h
+objrtgen.h
+objrtmch.h
+parsefun.h
+pattern.h
+pprint.h
+prccode.h
+prcdrfun.h
+prcdrpsr.h
+prdctfun.h
+prntutil.h
+proflfun.h
+reorder.h
+reteutil.h
+retract.h
+router.h
+rulebin.h
+rulebld.h
+rulebsc.h
+rulecmp.h
+rulecom.h
+rulecstr.h
+ruledef.h
+ruledlt.h
+rulelhs.h
+rulepsr.h
+scanner.h
+setup.h
+sortfun.h
+strngfun.h
+strngrtr.h
+symblbin.h
+symblcmp.h
+symbol.h
+sysdep.h
+textpro.h
+tmpltbin.h
+tmpltbsc.h
+tmpltcmp.h
+tmpltdef.h
+tmpltfun.h
+tmpltlhs.h
+tmpltpsr.h
+tmpltrhs.h
+tmpltutl.h
+userdata.h
+usrsetup.h
+utility.h
+watch.h
+	)
+add_executable(maya main.c)
 target_link_libraries(maya PUBLIC
-	clips
-	maya_extensions
-	boost_system
-	boost_filesystem)
+	clips)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
 
 install(TARGETS maya DESTINATION bin)
