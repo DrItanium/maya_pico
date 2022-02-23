@@ -16,8 +16,18 @@ Since then it has evolved into providing more features like:
 - Making it simple to install and keep track of external address types automatically
 - Allow CLIPS environments to be used as normal C++ objects
 - Hide CLIPS API changes to the rest of our code
-- Make it possible to have C-style include directives
+- Make it possible to have C-style include directives in CLIPS source code
 - Expose features of boost to CLIPS
 - Do not need to constantly update userfunctions.c to add new functionality
 - Simplify per environment customization
+
+
+Updating CLIPS
+-------
+We designed Electron specifically so that we could easily update our version of CLIPS without requiring a massive rewrite
+to any of the tools that use it. When we want to update CLIPS we just unpack a new version to the clips directory, 
+make a small change to setup.h to introduce platform autodetect (not included here). After that point we run tests to 
+make sure that the API has remained stable and executes as we expect.
+
+The wrapper is meant for the CLIPS 64x series. 
 
