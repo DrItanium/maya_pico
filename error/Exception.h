@@ -34,13 +34,6 @@
 namespace Neutron {
 
 /**
- * @defgroup errors Error Handling
- * classes for handling errors which will be thrown/caught.
- */
-
-class LogMsg;
-
-/**
  * A base exception using the "here" mechanism.  This way we can capture
  * The file, line and function where the exception was thrown.
  * @ingroup errors
