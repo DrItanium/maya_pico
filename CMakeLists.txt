@@ -400,17 +400,15 @@ add_library(electron
 	electron/MultifieldBuilder.h)
 add_executable(maya cmd/maya/main.cc)
 target_link_libraries(maya PUBLIC
-	clips
-	neutron
-	clips
-	electron
-	neutron
-	clips
-	boost_regex
-	boost_filesystem
-	boost_system
-	m)
+		electron
+		neutron
+		clips
+		boost_regex
+		boost_filesystem
+		boost_system
+	)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}")
+target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}")
 install(TARGETS maya DESTINATION bin)
