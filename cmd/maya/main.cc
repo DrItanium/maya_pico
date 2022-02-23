@@ -82,8 +82,8 @@ int main(
    signal(SIGINT,CatchCtrlC);
 #endif
 
-   RerouteStdin(mainEnv.getRawEnvironment(), argc, argv);
-   CommandLoop(mainEnv.getRawEnvironment());
+   RerouteStdin(mainEnv, argc, argv);
+   CommandLoop(mainEnv);
 
    // unlike normal CLIPS, the environment will automatically clean itself up
 
