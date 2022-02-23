@@ -155,8 +155,6 @@ class TreatLexemeAsSymbol { };
 class TreatLexemeAsInstanceName { };
 
 class Environment;
-template<typename T>
-void CallInstallExtensions(Environment*) noexcept;
 /**
  * A special function building class that is useful when funcall is evaluating
  * arguments and it shouldn't be.
@@ -1151,12 +1149,14 @@ public:
      }
 public:
      /**
-      * Given a provided class, call its corresponding InstallExtensions static method.
+      * Given a provided class, call its corresponding InstallExtensions static method. A compile time error
+      * will happen if the method in question does not have the apropriate method implemented!
+      * @tparam T The class that has an InstallExtensions method to be invoked
       */
      template<typename T>
      void installExtensionsFromType() noexcept {
          using K = std::decay_t<T>;
-         Electron::CallInstallExtensions<K>(this);
+         K::InstallExtensions(this);
      }
 public:
      /**
@@ -1522,13 +1522,6 @@ bool defaultDiscardFunction(RawEnvironment* ptr, void* thingToDelete)
         delete ptr;
         return true;
     }
-}
-
-template<typename T>
-void CallInstallExtensions(Environment* env) noexcept
-{
-    using K = std::decay_t<T>;
-    K::InstallExtensions(env);
 }
 
 /**
