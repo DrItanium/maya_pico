@@ -45,7 +45,7 @@
 /* OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.          */
 /*                                                                         */
 /***************************************************************************/
-
+#include "platform/os.h"
 extern "C" {
     #include "clips/clips.h"
 }
