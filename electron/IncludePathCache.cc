@@ -206,12 +206,6 @@ Environment::addToIncludePathFront(const Neutron::Path& path)
 }
 
 void
-Environment::addUcodeDirectory(const Neutron::Path& resourcesBase)
-{
-    addToIncludePathBack(resourcesBase / "ucode");
-
-}
-void
 Environment::addPathToIncludedFileSet(const Neutron::Path& p) {
     _includedFiles.emplace(p);
 }
