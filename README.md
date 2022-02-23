@@ -18,5 +18,6 @@ Since then it has evolved into providing more features like:
 - Hide CLIPS API changes to the rest of our code
 - Make it possible to have C-style include directives
 - Expose features of boost to CLIPS
-
+- Do not need to constantly update userfunctions.c to add new functionality
+- Simplify per environment customization
 
