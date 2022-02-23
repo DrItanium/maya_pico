@@ -1,6 +1,6 @@
 /**
  * @file
- * Platform autodetect features (rewrite of Parasoft platform/os.h by hand). Include this before clips.h to have it get auto configured
+ * Platform autodetect features
  * @copyright
  * maya
  * Copyright (c) 2012-2022, Joshua Scoggins
