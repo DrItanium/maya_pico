@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(maya VERSION 6.40)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-find_package(Boost REQUIRED COMPONENTS filesystem system)
+find_package(Boost REQUIRED COMPONENTS filesystem system regex)
 add_library(clips
 clips/agenda.c
 clips/analysis.c
@@ -345,9 +345,64 @@ clips/userdata.h
 clips/usrsetup.h
 clips/utility.h
 clips/watch.h)
+add_library(neutron INTERFACE
+	debug/here.h
+	regex/regex.h
+	features/dependent_false.h
+	features/observer_ptr.h
+	features/overloaded.h
+	features/type_traits.h
+	features/cpp17/optional.h
+	string/aliases.h
+	string/join.h
+	string/predicate.h
+	string/replace.h
+	string/split.h
+	string/tokenizer.h
+	string/trim.h
+	platform/types.h
+	bugfix/fix_lhs_rhs_conflicts_begin.h
+	bugfix/fix_lhs_rhs_conflicts_end.h
+	)
+
+add_library(electron
+	electron/Aliases.h
+	electron/api.h
+	electron/DefglobalInspector.h
+	electron/DefruleInspector.cc
+	electron/DefruleInspector.h
+	electron/DeftemplateInspector.cc
+	electron/DeftemplateInspector.h
+	electron/Environment.cc
+	electron/Environment.h
+	electron/FactBuilder.cc
+	electron/FactBuilder.h
+	electron/FactModifier.cc
+	electron/FactModifier.h
+	electron/FileSystemExtensions.cc
+	electron/FileSystemExtensions.h
+	electron/FunctionCallBuilder.cc
+	electron/GCLocker.h
+	electron/IncludePathCache.cc
+	electron/InstanceBuilder.cc
+	electron/InstanceBuilder.h
+	electron/InstanceInspector.cc
+	electron/InstanceInspector.h
+	electron/InstanceModifier.cc
+	electron/InstanceModifier.h
+	electron/IORouter.cc
+	electron/IORouter.h
+	electron/MultifieldBuilder.cc
+	electron/MultifieldBuilder.h)
 add_executable(maya cmd/maya/main.c)
 target_link_libraries(maya PUBLIC
 	clips
+	neutron
+	electron
+	boost_regex
+	boost_filesystem
+	boost_system
 	m)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
+target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
 install(TARGETS maya DESTINATION bin)
