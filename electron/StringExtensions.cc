@@ -99,7 +99,7 @@ hasPrefix(UDF_ARGS__)
     }
     std::string str(arg0.lexemeValue->contents);
     std::string prefix(arg1.lexemeValue->contents);
-    out->lexemeValue = theEnv.createBool(Electron::hasPrefix(str, prefix));
+    out->lexemeValue = theEnv.createBool(Neutron::hasPrefix(str, prefix));
 }
 
 void

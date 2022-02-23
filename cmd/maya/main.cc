@@ -46,7 +46,10 @@
 /*                                                                         */
 /***************************************************************************/
 
-#include "clips/clips.h"
+extern "C" {
+    #include "clips/clips.h"
+}
+#include "electron/Environment.h"
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>
@@ -64,7 +67,7 @@
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
 
-   static Environment            *mainEnv;
+Electron::Environment mainEnv;
 
 /****************************************/
 /* main: Starts execution of the expert */
@@ -74,26 +77,15 @@ int main(
   int argc,
   char *argv[])
   {
-   mainEnv = CreateEnvironment();
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
    signal(SIGINT,CatchCtrlC);
 #endif
 
-   RerouteStdin(mainEnv,argc,argv);
-   CommandLoop(mainEnv);
+   RerouteStdin(mainEnv.getRawEnvironment(), argc, argv);
+   CommandLoop(mainEnv.getRawEnvironment());
 
-   /*==================================================================*/
-   /* Control does not normally return from the CommandLoop function.  */
-   /* However if you are embedding CLIPS, have replaced CommandLoop    */
-   /* with your own embedded calls that will return to this point, and */
-   /* are running software that helps detect memory leaks, you need to */
-   /* add function calls here to deallocate memory still being used by */
-   /* CLIPS. If you have a multi-threaded application, no environments */
-   /* can be currently executing.                                      */
-   /*==================================================================*/
-
-   DestroyEnvironment(mainEnv);
+   // unlike normal CLIPS, the environment will automatically clean itself up
 
    return -1;
   }

@@ -345,7 +345,9 @@ clips/userdata.h
 clips/usrsetup.h
 clips/utility.h
 clips/watch.h)
-add_library(neutron INTERFACE
+add_library(neutron 
+	error/Exception.cc
+	error/Exception.h
 	debug/here.h
 	regex/regex.h
 	features/dependent_false.h
@@ -392,17 +394,23 @@ add_library(electron
 	electron/InstanceModifier.h
 	electron/IORouter.cc
 	electron/IORouter.h
+	electron/StringExtensions.h
+	electron/StringExtensions.cc
 	electron/MultifieldBuilder.cc
 	electron/MultifieldBuilder.h)
-add_executable(maya cmd/maya/main.c)
+add_executable(maya cmd/maya/main.cc)
 target_link_libraries(maya PUBLIC
 	clips
 	neutron
+	clips
 	electron
+	neutron
+	clips
 	boost_regex
 	boost_filesystem
 	boost_system
 	m)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
+target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}")
 install(TARGETS maya DESTINATION bin)
