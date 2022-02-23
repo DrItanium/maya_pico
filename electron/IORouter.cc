@@ -24,8 +24,6 @@
 #include "electron/Environment.h"
 #include "electron/IORouter.h"
 #include "error/Exception.h"
-#include "electron/StringExtensions.h"
-#include "electron/FileSystemExtensions.h"
 extern "C" {
 #include "clips/clips.h"
 #include "clips/factfile.h"

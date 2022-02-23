@@ -22,7 +22,6 @@
  *
  */
 #include "electron/FactBuilder.h"
-#include "error/Exception.h"
 extern "C" {
 #include "clips/clips.h"
 }

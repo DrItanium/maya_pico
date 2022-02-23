@@ -38,7 +38,7 @@ class InstanceInspector
 public:
     using ErrorCode = ::GetSlotError;
 public:
-    InstanceInspector(Instance& i);
+    explicit InstanceInspector(Instance& i);
     std::string getName() const noexcept;
     //ErrorCode getSlot(const std::string& name, Value* value) const noexcept;
     ErrorCode getSlot(const std::string& name, Value& value) const noexcept; 
