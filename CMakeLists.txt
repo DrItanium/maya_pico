@@ -351,7 +351,9 @@ watch.h
 	)
 add_executable(maya main.c)
 target_link_libraries(maya PUBLIC
-	clips)
+	clips
+	m
+	)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
 
 install(TARGETS maya DESTINATION bin)
