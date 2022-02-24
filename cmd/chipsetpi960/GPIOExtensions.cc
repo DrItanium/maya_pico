@@ -268,7 +268,7 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.addFunction("gpio-pin",
                        returnsOptionalExternalAddress,
                        2, 2,
-                       Electron::makeArgumentList(SingleArgument{ArgType::Any},
+                       Electron::makeArgumentList(SingleArgument{ArgType::ExternalAddress},
                                                   SingleArgument{ArgType::ExternalAddress},
                                                   SingleArgument{ArgType::Integer}),
                        doGPIOLine,
