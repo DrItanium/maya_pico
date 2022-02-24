@@ -36,12 +36,14 @@
 #include <type_traits>
 #include <sstream>
 #include <tuple>
+#include "electron/Aliases.h"
 namespace Electron
 {
     /**
      * @brief Mapping of CLIPS argument characters to an enum
      */
     enum class ArgumentTypes : char {
+        Error = '\0',
         Any = '*',
         Integer = 'l',
         Float = 'd',
