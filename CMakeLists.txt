@@ -397,7 +397,7 @@ add_library(electron
 	electron/StringExtensions.h
 	electron/StringExtensions.cc
 	electron/MultifieldBuilder.cc
-	electron/MultifieldBuilder.h)
+	electron/MultifieldBuilder.h electron/ArgumentConstructor.h)
 add_executable(maya cmd/maya/main.cc)
 add_executable(chipsetpi960 cmd/chipsetpi960/main.cc cmd/chipsetpi960/GPIOExtensions.h cmd/chipsetpi960/GPIOExtensions.cc)
 target_link_libraries(maya PUBLIC
