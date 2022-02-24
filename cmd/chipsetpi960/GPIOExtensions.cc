@@ -53,8 +53,8 @@ namespace {
         }
         std::string path(arg0.lexemeValue->contents);
         try {
-            primaryChip_.open(path);
-            out->lexemeValue = theEnv.createBool(static_cast<bool>(primaryChip_));
+            GPIOChipPtr thePtr = std::make_shared<GPIOChip>(path);
+            out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(thePtr);
         } catch(std::system_error&) {
             // by default we get a thrown exception
             out->lexemeValue = theEnv.createBool(false);
@@ -62,40 +62,76 @@ namespace {
     }
     void
     doGPIOClose(UDF_ARGS__) {
-        primaryChip_.reset();
-    }
-    void
-    doGPIOActive(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
-        out->lexemeValue = theEnv.createBool(static_cast<bool>(primaryChip_));
+        UDFValue arg0;
+        out->lexemeValue = theEnv.createBool(false);
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOChipPtr>(arg0)) {
+            return;
+        }
+        theEnv.fromExternalAddressAsRef<GPIOChipPtr>(arg0)->reset();
+        out->lexemeValue = theEnv.createBool(true);
     }
     void
     doGPIOName(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
-        out->lexemeValue = theEnv.createString(primaryChip_.name());
+        UDFValue arg0;
+        out->lexemeValue = theEnv.createBool(false);
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOChipPtr>(arg0)) {
+            return;
+        }
+        out->lexemeValue = theEnv.createString(theEnv.fromExternalAddressAsRef<GPIOChipPtr>(arg0)->name());
     }
     void
     doGPIOLabel(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
-        out->lexemeValue = theEnv.createString(primaryChip_.label());
+        UDFValue arg0;
+        out->lexemeValue = theEnv.createBool(false);
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOChipPtr>(arg0)) {
+            return;
+        }
+        out->lexemeValue = theEnv.createString(theEnv.fromExternalAddressAsRef<GPIOChipPtr>(arg0)->label());
     }
     void
     doGPIOLength(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
-        out->integerValue = theEnv.createInteger(primaryChip_.num_lines());
+        UDFValue arg0;
+        out->lexemeValue = theEnv.createBool(false);
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOChipPtr>(arg0)) {
+            return;
+        }
+        out->integerValue = theEnv.createInteger(theEnv.fromExternalAddressAsRef<GPIOChipPtr>(arg0)->num_lines());
     }
     void
     doGPIOLine(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
-        UDFValue arg0;
-        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &arg0)) {
+        UDFValue arg0, arg1;
+        out->lexemeValue = theEnv.createBool(false);
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        } else if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg1)) {
             out->lexemeValue = theEnv.falseSymbol();
             return;
         }
-        auto theOffset = arg0.integerValue->contents;
+        if (!theEnv.externalAddressIsOfType<GPIOChipPtr>(arg0)) {
+            return;
+        }
+        auto thePtr = theEnv.fromExternalAddressAsRef<GPIOChipPtr>(arg0);
+        auto theOffset = arg1.integerValue->contents;
         try {
-            auto thePtr = std::make_shared<GPIOPin>(primaryChip_.get_line(theOffset));
-            out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(thePtr);
+            auto outputPtr = std::make_shared<GPIOPin>(thePtr->get_line(theOffset));
+            out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(outputPtr);
         } catch (std::out_of_range&) {
             // swallow the error and just return false
             out->lexemeValue = theEnv.falseSymbol();
@@ -173,30 +209,47 @@ namespace {
     DefBoolFunction(pinIsOpenSource, is_open_source);
     DefBoolFunction(pinIsRequested, is_requested);
 #undef DefBoolFunction
+    template<typename T>
+    bool discardSharedPtr(Electron::Environment& theEnv, std::shared_ptr<T>& theThing) noexcept {
+        // free the pointer to make sure it doesn't stick around
+        theThing.reset();
+        return true;
+    }
+    template<typename T>
+    bool rawDiscardSharedPtr(Electron::RawEnvironment* theEnv, void* thePtr) noexcept {
+        if (auto& ref = Electron::Environment::fromRaw(theEnv); thePtr) {
+            return discardSharedPtr<T>(ref, *reinterpret_cast<std::shared_ptr<T>*>(thePtr));
+        } else {
+            return false;
+        }
+    }
 }
 void
 installGPIOExtensions(Electron::Environment& theEnv) {
-    /// @todo add support for gpiod::chip as an external address type
-    theEnv.addFunction("gpio-open", "b", 1, 1, "sy;sy", doGPIOOpen, "doGPIOOpen");
-    theEnv.addFunction("gpio-close", "v", 0, 0, "", doGPIOClose, "doGPIOClose");
-    theEnv.addFunction("gpio-active", "b", 0, 0, "", doGPIOActive, "doGPIOActive");
-    theEnv.addFunction("gpio-name", "sy", 0, 0, "", doGPIOName, "doGPIOName");
-    theEnv.addFunction("gpio-label", "sy", 0, 0, "", doGPIOLabel, "doGPIOLabel");
-    theEnv.addFunction("gpio-count", "l", 0, 0, "", doGPIOLength, "doGPIOLength");
-    theEnv.addFunction("gpio-pin", "eb", 1, 1, "l", doGPIOLine, "doGPIOLine");
+    // go with the simplest registration by forcing type checks in each setup
+    // perhaps we'll go to using the call operation at some point but not now
+    theEnv.registerExternalAddressType<GPIOChipPtr>(nullptr,
+                                                    nullptr,
+                                                    rawDiscardSharedPtr<typename GPIOChipPtr::element_type>);
+    theEnv.addFunction("gpio-open", "eb", 1, 1, "sy;sy", doGPIOOpen, "doGPIOOpen");
+    theEnv.addFunction("gpio-close", "b", 1, 1, "e;e", doGPIOClose, "doGPIOClose");
+    theEnv.addFunction("gpio-name", "sy", 1, 1, "e;e", doGPIOName, "doGPIOName");
+    theEnv.addFunction("gpio-label", "sy", 1, 1, "e;e", doGPIOLabel, "doGPIOLabel");
+    theEnv.addFunction("gpio-count", "l", 1, 1, "e;e", doGPIOLength, "doGPIOLength");
+    theEnv.addFunction("gpio-pin", "eb", 2, 2, "*;e;l", doGPIOLine, "doGPIOLine");
     // make sure we use a std::shared_ptr to be on the safe side
     theEnv.registerExternalAddressType<GPIOPinPtr>(nullptr, // cannot create lines from the ether, must come from a chip
                                                    nullptr, // the call mechanism is something that I still need to flesh out, it can be very slow
-                                                   nullptr);
-    theEnv.addFunction("pin-name", "sb", 1, 1, "e", getPinName, "getPinName");
-    theEnv.addFunction("pin-offset", "lb", 1, 1, "e", getPinOffset, "getPinOffset");
-    theEnv.addFunction("pin-consumer", "sb", 1, 1, "e", getPinConsumer, "getPinConsumer");
-    theEnv.addFunction("pin-direction", "lb", 1, 1, "e", getPinDirection, "getPinDirection");
-    theEnv.addFunction("pin-is-used", "b", 1, 1, "e", pinIsUsed, "pinIsUsed");
-    theEnv.addFunction("pin-is-open-source", "b", 1, 1, "e", pinIsOpenSource, "pinIsOpenSource");
-    theEnv.addFunction("pin-is-open-drain", "b", 1, 1, "e", pinIsOpenDrain, "pinIsOpenDrain");
-    theEnv.addFunction("pin-is-requested", "b", 1, 1, "e", pinIsRequested, "pinIsRequested");
-    theEnv.addFunction("pin-value", "lb", 1, 1, "e", getPinValue, "getPinValue");
+                                                   rawDiscardSharedPtr<typename GPIOPinPtr::element_type>);
+    theEnv.addFunction("pin-name", "sb", 1, 1, "e;e", getPinName, "getPinName");
+    theEnv.addFunction("pin-offset", "lb", 1, 1, "e;e", getPinOffset, "getPinOffset");
+    theEnv.addFunction("pin-consumer", "sb", 1, 1, "e;e", getPinConsumer, "getPinConsumer");
+    theEnv.addFunction("pin-direction", "lb", 1, 1, "e;e", getPinDirection, "getPinDirection");
+    theEnv.addFunction("pin-is-used", "b", 1, 1, "e;e", pinIsUsed, "pinIsUsed");
+    theEnv.addFunction("pin-is-open-source", "b", 1, 1, "e;e", pinIsOpenSource, "pinIsOpenSource");
+    theEnv.addFunction("pin-is-open-drain", "b", 1, 1, "e;e", pinIsOpenDrain, "pinIsOpenDrain");
+    theEnv.addFunction("pin-is-requested", "b", 1, 1, "e;e", pinIsRequested, "pinIsRequested");
+    theEnv.addFunction("pin-value", "lb", 1, 1, "e;e", getPinValue, "getPinValue");
     // for now I will just be using direct access functions instead
 
 }
