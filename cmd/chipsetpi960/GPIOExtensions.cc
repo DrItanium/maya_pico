@@ -120,8 +120,8 @@ namespace {
         out->lexemeValue = theEnv.createBool(false);
         if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
             return;
-        } else if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg1)) {
-            out->lexemeValue = theEnv.falseSymbol();
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg1)) {
             return;
         }
         if (!theEnv.externalAddressIsOfType<GPIOChipPtr>(arg0)) {
