@@ -59,27 +59,28 @@ int main(
   int argc,
   char *argv[])
   {
+      installGPIOExtensions(mainEnv);
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
+    signal(SIGINT,CatchCtrlC);
 #endif
 
-   RerouteStdin(mainEnv, argc, argv);
-   CommandLoop(mainEnv);
+    RerouteStdin(mainEnv, argc, argv);
+    CommandLoop(mainEnv);
 
-   // unlike normal CLIPS, the environment will automatically clean itself up
+    // unlike normal CLIPS, the environment will automatically clean itself up
 
-   return -1;
-  }
+    return -1;
+}
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
 /***************/
 /* CatchCtrlC: */
 /***************/
 static void CatchCtrlC(
-  int sgnl)
-  {
-   SetHaltExecution(mainEnv,true);
-   CloseAllBatchSources(mainEnv);
-   signal(SIGINT,CatchCtrlC);
-  }
+        int sgnl)
+{
+    SetHaltExecution(mainEnv,true);
+    CloseAllBatchSources(mainEnv);
+    signal(SIGINT,CatchCtrlC);
+}
 #endif
