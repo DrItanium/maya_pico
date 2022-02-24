@@ -31,10 +31,13 @@
 #include <gpiod.hpp>
 #include <memory>
 
+using GPIOChip = gpiod::chip;
+using GPIOChipPtr = std::shared_ptr<GPIOChip>;
 using GPIOPin = gpiod::line;
 using GPIOPinPtr = std::shared_ptr<GPIOPin>;
 namespace Electron
 {
+    DefWrapperSymbolicName(GPIOChipPtr, "gpio-chip")
     DefWrapperSymbolicName(GPIOPinPtr, "gpio-pin")
 }
 namespace {
@@ -90,8 +93,13 @@ namespace {
             return;
         }
         auto theOffset = arg0.integerValue->contents;
-        auto thePtr = std::make_shared<GPIOPin>(primaryChip_.get_line(theOffset));
-        out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(thePtr);
+        try {
+            auto thePtr = std::make_shared<GPIOPin>(primaryChip_.get_line(theOffset));
+            out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(thePtr);
+        } catch (std::out_of_range&) {
+            // swallow the error and just return false
+            out->lexemeValue = theEnv.falseSymbol();
+        }
     }
     void
     getPinName(UDF_ARGS__) {
