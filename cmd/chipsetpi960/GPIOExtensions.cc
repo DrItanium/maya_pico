@@ -33,6 +33,7 @@ namespace {
     gpiod::chip primaryChip_;
     void
     doGPIOOpen(UDF_ARGS__) {
+        // fromRaw acts as a safe way to re-encapsulate the raw environment pointer back into the correct reference
         auto& theEnv = Electron::Environment::fromRaw(env);
         UDFValue arg0;
         if (!theEnv.firstArgument(context, Electron::ArgumentBits::Lexeme, &arg0)) {
@@ -47,9 +48,34 @@ namespace {
     doGPIOClose(UDF_ARGS__) {
         primaryChip_.reset();
     }
+    void
+    doGPIOActive(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->lexemeValue = theEnv.createBool(static_cast<bool>(primaryChip_));
+    }
+    void
+    doGPIOName(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->lexemeValue = theEnv.createString(primaryChip_.name());
+    }
+    void
+    doGPIOLabel(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->lexemeValue = theEnv.createString(primaryChip_.label());
+    }
+    void
+    doGPIOLength(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->integerValue = theEnv.createInteger(primaryChip_.num_lines());
+    }
 }
 void
 installGPIOExtensions(Electron::Environment& theEnv) {
-    theEnv.addFunction("open-gpio", "b", 1, 1, "sy;sy", doGPIOOpen, "doGPIOOpen");
-    theEnv.addFunction("close-gpio", "v", 0, 0, "", doGPIOClose, "doGPIOClose");
+    /// @todo add support for gpiod::chip as an external address type
+    theEnv.addFunction("gpio-open", "b", 1, 1, "sy;sy", doGPIOOpen, "doGPIOOpen");
+    theEnv.addFunction("gpio-close", "v", 0, 0, "", doGPIOClose, "doGPIOClose");
+    theEnv.addFunction("gpio-active", "b", 0, 0, "", doGPIOActive, "doGPIOActive");
+    theEnv.addFunction("gpio-name", "sy", 0, 0, "", doGPIOName, "doGPIOName");
+    theEnv.addFunction("gpio-label", "sy", 0, 0, "", doGPIOLabel, "doGPIOLabel");
+    theEnv.addFunction("gpio-count", "l", 0, 0, "", doGPIOLength, "doGPIOLength");
 }
