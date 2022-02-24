@@ -59,7 +59,7 @@ namespace {
                 out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(search->second);
             } else {
                 // emplace and then put that into the output result
-                auto [iter, pass] = openedChips_.try_emplace(path, path);
+                auto [iter, pass] = openedChips_.try_emplace(path, std::make_shared<GPIOChip>(path));
                 out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(iter->second);
             }
         } catch(std::system_error&) {
