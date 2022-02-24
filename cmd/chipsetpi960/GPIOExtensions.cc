@@ -150,17 +150,6 @@ namespace {
             // swallow the error and just return false
             out->lexemeValue = theEnv.falseSymbol();
         }
-#if 0
-        if (auto search = openedChips_.find(path); search != openedChips_.end()) {
-            out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(search->second);
-        } else {
-            // emplace and then put that into the output result
-            auto theChip = std::make_shared<GPIOChip>(path);
-            auto [iter, _] = openedChips_.try_emplace(theChip->name(), theChip);
-            out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(iter->second);
-            chipToPinMapping_.try_emplace(iter->second->name(), IndexToPinMapping {});
-        }
-#endif
     }
     void
     getPinName(UDF_ARGS__) {
