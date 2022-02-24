@@ -1,6 +1,6 @@
 /**
  * @file
- * Code to make it easy for a given device to act as chipset for an i960
+ * Add gpio manipulation functionality to maya
  * @copyright
  * maya
  * Copyright (c) 2012-2022, Joshua Scoggins
@@ -26,60 +26,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "platform/os.h"
-extern "C" {
-    #include "clips/clips.h"
-}
 #include "electron/Environment.h"
 #include "GPIOExtensions.h"
-
-#if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-#include <signal.h>
-#endif
-
-/***************************************/
-/* LOCAL INTERNAL FUNCTION DEFINITIONS */
-/***************************************/
-
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   static void                    CatchCtrlC(int);
-#endif
-
-/***************************************/
-/* LOCAL INTERNAL VARIABLE DEFINITIONS */
-/***************************************/
-
-Electron::Environment mainEnv;
-
-/****************************************/
-/* main: Starts execution of the expert */
-/*   system development environment.    */
-/****************************************/
-int main(
-  int argc,
-  char *argv[])
-  {
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
-#endif
-
-   RerouteStdin(mainEnv, argc, argv);
-   CommandLoop(mainEnv);
-
-   // unlike normal CLIPS, the environment will automatically clean itself up
-
-   return -1;
-  }
-
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
-/***************/
-/* CatchCtrlC: */
-/***************/
-static void CatchCtrlC(
-  int sgnl)
-  {
-   SetHaltExecution(mainEnv,true);
-   CloseAllBatchSources(mainEnv);
-   signal(SIGINT,CatchCtrlC);
-  }
-#endif
+#include <gpiod.hpp>
+namespace {
+    gpiod::chip primaryChip_;
+    void
+    doGPIOOpen(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0;
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Lexeme, &arg0)) {
+            out->lexemeValue = theEnv.falseSymbol();
+            return;
+        }
+        std::string path(arg0.lexemeValue->contents);
+        primaryChip_.open(path);
+        out->lexemeValue = theEnv.createBool(static_cast<bool>(primaryChip_));
+    }
+    void
+    doGPIOClose(UDF_ARGS__) {
+        primaryChip_.reset();
+    }
+}
+void
+installGPIOExtensions(Electron::Environment& theEnv) {
+    theEnv.addFunction("open-gpio", "b", 1, 1, "sy;sy", doGPIOOpen, "doGPIOOpen");
+    theEnv.addFunction("close-gpio", "v", 0, 0, "", doGPIOClose, "doGPIOClose");
+}
