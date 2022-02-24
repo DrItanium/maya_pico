@@ -132,12 +132,35 @@ namespace {
         auto thePtr = theEnv.fromExternalAddressAsRef<GPIOChipPtr>(arg0);
         auto theOffset = arg1.integerValue->contents;
         try {
-            auto outputPtr = std::make_shared<GPIOPin>(thePtr->get_line(theOffset));
-            out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(outputPtr);
+            if (auto search = chipToPinMapping_.find(thePtr->name()); search != chipToPinMapping_.end()) {
+                if (auto find2 = search->second.find(theOffset); find2 != search->second.end()) {
+                    // we got a hit so return that
+                    out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(find2->second);
+                } else {
+                    // no hit, so install it
+                    auto outputPtr = std::make_shared<GPIOPin>(thePtr->get_line(theOffset));
+                    auto [result, _] = search->second.try_emplace(theOffset, outputPtr);
+                    out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(result->second);
+                }
+            } else {
+                out->lexemeValue = theEnv.falseSymbol();
+            }
+
         } catch (std::out_of_range&) {
             // swallow the error and just return false
             out->lexemeValue = theEnv.falseSymbol();
         }
+#if 0
+        if (auto search = openedChips_.find(path); search != openedChips_.end()) {
+            out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(search->second);
+        } else {
+            // emplace and then put that into the output result
+            auto theChip = std::make_shared<GPIOChip>(path);
+            auto [iter, _] = openedChips_.try_emplace(theChip->name(), theChip);
+            out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(iter->second);
+            chipToPinMapping_.try_emplace(iter->second->name(), IndexToPinMapping {});
+        }
+#endif
     }
     void
     getPinName(UDF_ARGS__) {
