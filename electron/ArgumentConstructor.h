@@ -35,7 +35,6 @@
 #include <list>
 #include <type_traits>
 #include <sstream>
-#include "string/join.h"
 namespace Electron
 {
     /**
@@ -134,6 +133,23 @@ namespace Electron
     private:
         std::list<SingleArgument> args_;
     };
+    template<typename ... T>
+    std::string makeReturnType(T&&... args) noexcept {
+        if (sizeof...(T) == 0) {
+            return "";
+        } else {
+            return SingleArgument::make(std::forward(args...)).str();
+        }
+    }
+    template<typename ... T>
+    std::string makeArgumentList(T&&... args) noexcept {
+        if (sizeof...(T) == 0) {
+            return "";
+        } else {
+            return MultiArgument::make(std::forward(args...)).str();
+        }
+    }
+
 } // end namespace Electron
 
 #endif //MAYA_ARGUMENTCONSTRUCTOR_H

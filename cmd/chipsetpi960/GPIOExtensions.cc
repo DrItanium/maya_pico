@@ -27,6 +27,7 @@
  *
  */
 #include "electron/Environment.h"
+#include "electron/ArgumentConstructor.h"
 #include "GPIOExtensions.h"
 #include <gpiod.hpp>
 #include <memory>
