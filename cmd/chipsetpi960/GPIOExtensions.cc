@@ -45,6 +45,50 @@ namespace Electron
     DefWrapperSymbolicName(GPIOPinPtr, "gpio-pin")
 }
 namespace {
+    // use Arduino Naming and concepts to accelerate understanding
+
+    enum class PinDirection {
+        Input,
+        Output,
+        InputPullup,
+    };
+    void
+    pinMode(GPIOPinPtr ptr, PinDirection direction) noexcept {
+        switch (direction) {
+            case PinDirection::Input:
+                ptr->request({
+                                     ptr->consumer(),
+                                     gpiod::line_request::DIRECTION_INPUT,
+                                     gpiod::line_request::FLAG_BIAS_DISABLE,
+                             });
+                break;
+            case PinDirection::Output:
+                ptr->request({
+                                     ptr->consumer(),
+                                     gpiod::line_request::DIRECTION_OUTPUT,
+                                     0
+                             });
+                break;
+            case PinDirection::InputPullup:
+                ptr->request({
+                                     ptr->consumer(),
+                                     gpiod::line_request::DIRECTION_INPUT,
+                                     gpiod::line_request::FLAG_BIAS_PULL_UP,
+                             });
+                break;
+            default:
+                // do nothing
+                break;
+        }
+    }
+    void
+    digitalWrite(const GPIOPinPtr& thePin, int value) noexcept {
+        thePin->set_value(value != 0 ? 1 : 0);
+    }
+    int
+    digitalRead(const GPIOPinPtr& thePin) noexcept {
+        return thePin->get_value();
+    }
     OpenGPIOChipTracking openedChips_;
     /**
      * @brief Maps an open GPIOChip to a corresponding set of pins
@@ -201,7 +245,6 @@ namespace {
     DefIntegerFunction(getPinDirection, direction);
     DefIntegerFunction(getPinOffset, offset);
     DefIntegerFunction(getPinActiveState, active_state);
-    DefIntegerFunction(getPinValue, get_value);
 #undef DefIntegerFunction
 #define DefBoolFunction(name, operation) \
     void \
@@ -236,6 +279,37 @@ namespace {
         } else {
             return false;
         }
+    }
+    void
+    getPinValue(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) {
+            return;
+        }
+        out->integerValue = theEnv.createInteger(digitalRead(theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0)));
+    }
+    void
+    setPinValue(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0, arg1;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg1)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) {
+            return;
+        }
+        auto thePin = theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0);
+        auto value = arg1.integerValue->contents;
+        digitalWrite(thePin, value);
     }
 }
 void
@@ -320,7 +394,15 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.addFunction("pin-is-open-source", returnsBoolean, 1, 1, externalAddressesOnly, pinIsOpenSource, "pinIsOpenSource");
     theEnv.addFunction("pin-is-open-drain", returnsBoolean, 1, 1, externalAddressesOnly, pinIsOpenDrain, "pinIsOpenDrain");
     theEnv.addFunction("pin-is-requested", returnsBoolean, 1, 1, externalAddressesOnly, pinIsRequested, "pinIsRequested");
-    theEnv.addFunction("pin-value", returnsOptionalInteger, 1, 1, externalAddressesOnly, getPinValue, "getPinValue");
+    theEnv.addFunction("pin-read", returnsOptionalInteger, 1, 1, externalAddressesOnly, getPinValue, "getPinValue");
+    theEnv.addFunction("pin-write",
+                       Electron::returnsNothing.str(),
+                       2, 2,
+                       Electron::makeArgumentList(SingleArgument{ArgType::ExternalAddress},
+                                                  SingleArgument{ArgType::ExternalAddress},
+                                                  SingleArgument{ArgType::Integer}),
+                       setPinValue,
+                       "setPinValue");
     // for now I will just be using direct access functions instead
 
 }
