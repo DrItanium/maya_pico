@@ -143,6 +143,12 @@ namespace Electron
     private:
         std::list<SingleArgument> args_;
     };
+    /**
+     * @brief Construct a type definition for a function return type
+     * @tparam T The list of types (generally the ArgumentTypes enum) that will make up this function (duplicates accepted)
+     * @param args The ArgumentTypes that will be accepted
+     * @return the string representation of the valid types that can be returned from a given function
+     */
     template<typename ... T>
     std::string makeReturnType(T&&... args) noexcept {
         if (sizeof...(T) == 0) {
@@ -151,6 +157,12 @@ namespace Electron
             return SingleArgument::make(args...).str();
         }
     }
+    /**
+     * @brief Provide a list of single argument objects to make a multiargument string. Keep in mind, that this does nothing to help with the implicit default
+     * @tparam T The list of types that the multi argument will hold (generally SingleArgument objects)
+     * @param args The list of single argument objects to make the argument string out of
+     * @return The final string representation of all these arguments or empty string if no arguments provided
+     */
     template<typename ... T>
     std::string makeArgumentList(T&&... args) noexcept {
         if (sizeof...(T) == 0) {
@@ -159,6 +171,18 @@ namespace Electron
             return MultiArgument::make(args...).str();
         }
     }
+    /**
+     * @brief Add a boolean return type (meant to return false) to the list of available returns to make it optional.
+     * CLIPS returns false when something fails and the result isn't supposed to be a boolean.
+     * @tparam T The list of types that are supposed to be returned by the function
+     * @param args The types that are supposed to be returned by the function on success
+     * @return A return type string with boolean added into the mix
+     */
+    template<typename ... T>
+    std::string optionalReturnType(T&&... args) noexcept {
+        return makeReturnType(ArgumentTypes::Boolean, args...);
+    }
+    static inline const SingleArgument returnsNothing {ArgumentTypes::Void};
 
 } // end namespace Electron
 
