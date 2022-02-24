@@ -96,8 +96,19 @@ namespace Electron
      */
     class MultiArgument final {
     public:
+        template<typename ... T>
+        static MultiArgument make(T&&... args) noexcept {
+            MultiArgument arg;
+            arg.addMany(std::forward(args...));
+            return arg;
+        }
+    public:
         void add(const SingleArgument& argument) noexcept {
             args_.emplace_back(argument);
+        }
+        template<typename ... T>
+        void addMany(T&&... args) noexcept {
+            (add(args), ...);
         }
         [[nodiscard]] bool empty() const noexcept {
             return args_.empty();
