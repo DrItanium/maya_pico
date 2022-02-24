@@ -29,9 +29,18 @@
 
 #ifndef MAYA_ARGUMENTCONSTRUCTOR_H
 #define MAYA_ARGUMENTCONSTRUCTOR_H
+#include <functional>
 #include <string>
+#include <set>
+#include <list>
+#include <type_traits>
+#include <sstream>
+#include "string/join.h"
 namespace Electron
 {
+    /**
+     * @brief Mapping of CLIPS argument characters to an enum
+     */
     enum class ArgumentTypes : char {
         Any = '*',
         Integer = 'l',
@@ -44,6 +53,75 @@ namespace Electron
         InstanceAddress = 'i',
         ExternalAddress = 'e',
         Void = 'v',
+    };
+
+    /**
+     * @brief Defines the types acceptible by a single argument in a CLIPS output or input argument
+     */
+    class SingleArgument final {
+    public:
+        template<typename ... T>
+        static SingleArgument make(T&&... types) noexcept {
+            SingleArgument arg;
+            arg.addMany(std::forward(types...)) ;
+            return arg;
+        }
+    public:
+        void add(ArgumentTypes type) noexcept {
+            args_.emplace(type);
+        }
+        template<typename ... T>
+        void addMany(T&&... types) noexcept {
+            (add(types), ...);
+        }
+        [[nodiscard]] std::string str() const noexcept {
+            std::ostringstream stream;
+            for (const auto& a : args_) {
+                stream << static_cast<std::underlying_type_t<ArgumentTypes>>(a);
+            }
+            // make sure that we don't have issues with temporaries
+            auto newStr = stream.str();
+            return newStr;
+        }
+        [[nodiscard]] bool empty() const noexcept {
+            return args_.empty();
+        }
+        [[nodiscard]] auto size() const noexcept { return args_.size(); }
+    private:
+        std::set<ArgumentTypes> args_;
+    };
+
+    /**
+     * @brief manages multiple single arguments at a time
+     */
+    class MultiArgument final {
+    public:
+        void add(const SingleArgument& argument) noexcept {
+            args_.emplace_back(argument);
+        }
+        [[nodiscard]] bool empty() const noexcept {
+            return args_.empty();
+        }
+        [[nodiscard]] std::string str() const noexcept {
+            if (args_.empty()) {
+                return "";
+            }
+            std::ostringstream stream;
+            // a simple flag to make sure that we don't add ; to the front of the first element
+            bool start = true;
+            for (const auto& a : args_) {
+                if (auto theStr = a.str(); start)  {
+                    start = false;
+                    stream << theStr;
+                } else {
+                    stream << ';' << theStr;
+                }
+            }
+            auto outcome = stream.str();
+            return outcome;
+        }
+    private:
+        std::list<SingleArgument> args_;
     };
 } // end namespace Electron
 
