@@ -103,11 +103,15 @@ namespace Electron
     public:
         template<typename ... T>
         static MultiArgument make(T&&... args) noexcept {
-            MultiArgument arg;
-            arg.addMany(args...);
-            return arg;
+            return MultiArgument {args...};
         }
     public:
+        MultiArgument() = default;
+        template<typename ... T>
+        explicit MultiArgument(T&&... args) noexcept {
+            addMany(args...);
+        }
+
         void add(const SingleArgument& argument) noexcept {
             args_.emplace_back(argument);
         }
