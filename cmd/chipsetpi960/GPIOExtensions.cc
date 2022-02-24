@@ -29,6 +29,7 @@
 #include "electron/Environment.h"
 #include "electron/ArgumentConstructor.h"
 #include "GPIOExtensions.h"
+#include <boost/algorithm/string/case_conv.hpp>
 #include <gpiod.hpp>
 #include <memory>
 #include <map>
@@ -48,12 +49,13 @@ namespace {
     // use Arduino Naming and concepts to accelerate understanding
 
     enum class PinDirection {
+        None,
         Input,
         Output,
         InputPullup,
     };
     void
-    pinMode(GPIOPinPtr ptr, PinDirection direction) noexcept {
+    pinMode(const GPIOPinPtr& ptr, PinDirection direction) noexcept {
         switch (direction) {
             case PinDirection::Input:
                 ptr->request({
@@ -311,6 +313,32 @@ namespace {
         auto value = arg1.integerValue->contents;
         digitalWrite(thePin, value);
     }
+    void
+    doPinMode(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0, arg1;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Lexeme, &arg1)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) {
+            return;
+        }
+        auto thePin = theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0);
+        auto theAction = PinDirection::None;
+        if (std::string locaseValue(boost::algorithm::to_lower_copy(std::string(arg1.lexemeValue->contents))); locaseValue == "input") {
+            theAction = PinDirection::Input;
+        } else if (locaseValue == "output") {
+            theAction = PinDirection::Output;
+        } else if (locaseValue == "input-pullup") {
+            theAction = PinDirection::InputPullup;
+        }
+        pinMode(thePin, theAction);
+        out->lexemeValue = theEnv.createBool(theAction != PinDirection::None);
+    }
 }
 void
 installGPIOExtensions(Electron::Environment& theEnv) {
@@ -403,6 +431,14 @@ installGPIOExtensions(Electron::Environment& theEnv) {
                                                   SingleArgument{ArgType::Integer}),
                        setPinValue,
                        "setPinValue");
+    theEnv.addFunction("pin-mode",
+                       Electron::makeReturnType(ArgType::Boolean),
+                       2, 2,
+                       Electron::makeArgumentList(SingleArgument{ArgType::ExternalAddress},
+                                                  SingleArgument{ArgType::ExternalAddress},
+                                                  symbolOrString),
+                       doPinMode,
+                       "doPinMode");
     // for now I will just be using direct access functions instead
 
 }
