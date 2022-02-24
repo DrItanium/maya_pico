@@ -236,11 +236,10 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     using ArgType = Electron::ArgumentTypes;
     using SingleArgument = Electron::SingleArgument;
     SingleArgument symbolOrString(ArgType::Symbol, ArgType::String);
-    SingleArgument externalAddressOrFalse(ArgType::ExternalAddress, ArgType::Boolean);
     auto externalAddressesOnly = Electron::makeArgumentList(SingleArgument{ArgType::ExternalAddress},
                                                             SingleArgument{ArgType::ExternalAddress});
     auto returnsSymbolOrString = symbolOrString.str();
-    auto returnsOptionalExternalAddress = externalAddressOrFalse.str();
+    auto returnsOptionalExternalAddress = Electron::optionalReturnType(ArgType::ExternalAddress);
     theEnv.addFunction("gpio-open",
                        returnsSymbolOrString,
                        1,1,
@@ -278,8 +277,8 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.registerExternalAddressType<GPIOPinPtr>(nullptr, // cannot create lines from the ether, must come from a chip
                                                    nullptr, // the call mechanism is something that I still need to flesh out, it can be very slow
                                                    nullptr);
-    auto returnsOptionalString = Electron::makeReturnType(ArgType::String, ArgType::Boolean);
-    auto returnsOptionalInteger = Electron::makeReturnType(ArgType::Integer, ArgType::Boolean);
+    auto returnsOptionalString = Electron::optionalReturnType(ArgType::String);
+    auto returnsOptionalInteger = Electron::optionalReturnType(ArgType::Integer);
     auto returnsBoolean = Electron::makeReturnType(ArgType::Boolean);
     theEnv.addFunction("pin-name",
                        returnsOptionalString,

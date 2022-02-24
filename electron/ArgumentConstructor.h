@@ -35,6 +35,7 @@
 #include <list>
 #include <type_traits>
 #include <sstream>
+#include <tuple>
 namespace Electron
 {
     /**
@@ -183,7 +184,32 @@ namespace Electron
         return makeReturnType(ArgumentTypes::Boolean, args...);
     }
     static inline const SingleArgument returnsNothing {ArgumentTypes::Void};
+    /**
+     * @brief Prototype concept for simplifying construction of argument lists
+     */
+    class FunctionArgumentsDeclaration final {
+    public:
+    public:
+        FunctionArgumentsDeclaration() = default;
+        template<typename ... ParameterTypes>
+        FunctionArgumentsDeclaration(SingleArgument returnType, uint16_t minArgCount, uint16_t maxArgCount, ParameterTypes&&... params) noexcept :
+        return_(std::move(returnType)),
+        minArgCount_(minArgCount),
+        maxArgCount_(maxArgCount),
+        parameters_{params...}
+        {
 
+        }
+        [[nodiscard]] const SingleArgument& getReturnType() const noexcept { return return_; }
+        [[nodiscard]] constexpr auto getMinArgCount() const noexcept { return minArgCount_; }
+        [[nodiscard]] constexpr auto getMaxArgCount() const noexcept { return maxArgCount_; }
+        [[nodiscard]] const MultiArgument& getParameters() const noexcept { return parameters_; }
+    private:
+        SingleArgument return_ {returnsNothing};
+        uint16_t minArgCount_ = 0;
+        uint16_t maxArgCount_ = 0;
+        MultiArgument parameters_;
+    };
 } // end namespace Electron
 
 #endif //MAYA_ARGUMENTCONSTRUCTOR_H

@@ -44,6 +44,7 @@
 #include "features/dependent_false.h"
 #include "features/type_traits.h"
 #include <unordered_map>
+#include "electron/ArgumentConstructor.h"
 
 extern "C" {
     #include "clips/clips.h"
