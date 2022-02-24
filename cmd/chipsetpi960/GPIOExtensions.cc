@@ -41,8 +41,13 @@ namespace {
             return;
         }
         std::string path(arg0.lexemeValue->contents);
-        primaryChip_.open(path);
-        out->lexemeValue = theEnv.createBool(static_cast<bool>(primaryChip_));
+        try {
+            primaryChip_.open(path);
+            out->lexemeValue = theEnv.createBool(static_cast<bool>(primaryChip_));
+        } catch(std::system_error&) {
+            // by default we get a thrown exception
+            out->lexemeValue = theEnv.createBool(false);
+        }
     }
     void
     doGPIOClose(UDF_ARGS__) {
