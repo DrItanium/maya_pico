@@ -233,11 +233,28 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.registerExternalAddressType<GPIOChipPtr>(nullptr,
                                                     nullptr,
                                                     nullptr);
-    theEnv.addFunction("gpio-open", "eb", 1, 1, "sy;sy", doGPIOOpen, "doGPIOOpen");
+    using ArgType = Electron::ArgumentTypes;
+    using SingleArgument = Electron::SingleArgument;
+    SingleArgument symbolOrString(ArgType::Symbol, ArgType::String);
+    SingleArgument externalAddressOrFalse(ArgType::ExternalAddress, ArgType::Boolean);
+    theEnv.addFunction("gpio-open",
+                       externalAddressOrFalse.str(),
+                       1,1,
+                       Electron::makeArgumentList(symbolOrString,
+                                                  symbolOrString),
+                       doGPIOOpen,
+                       "doGPIOOpen");
     theEnv.addFunction("gpio-name", "sy", 1, 1, "e;e", doGPIOName, "doGPIOName");
     theEnv.addFunction("gpio-label", "sy", 1, 1, "e;e", doGPIOLabel, "doGPIOLabel");
     theEnv.addFunction("gpio-count", "l", 1, 1, "e;e", doGPIOLength, "doGPIOLength");
-    theEnv.addFunction("gpio-pin", "eb", 2, 2, "*;e;l", doGPIOLine, "doGPIOLine");
+    theEnv.addFunction("gpio-pin",
+                       externalAddressOrFalse.str(),
+                       2, 2,
+                       Electron::makeArgumentList(SingleArgument{ArgType::Any},
+                                                  SingleArgument{ArgType::ExternalAddress},
+                                                  SingleArgument{ArgType::Integer}),
+                       doGPIOLine,
+                       "doGPIOLine");
     // make sure we use a std::shared_ptr to be on the safe side
     theEnv.registerExternalAddressType<GPIOPinPtr>(nullptr, // cannot create lines from the ether, must come from a chip
                                                    nullptr, // the call mechanism is something that I still need to flesh out, it can be very slow

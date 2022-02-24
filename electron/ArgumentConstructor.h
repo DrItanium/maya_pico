@@ -51,6 +51,7 @@ namespace Electron
         FactAddress = 'f',
         InstanceAddress = 'i',
         ExternalAddress = 'e',
+        Boolean = 'b',
         Void = 'v',
     };
 
@@ -62,10 +63,15 @@ namespace Electron
         template<typename ... T>
         static SingleArgument make(T&&... types) noexcept {
             SingleArgument arg;
-            arg.addMany(std::forward(types...)) ;
+            arg.addMany(types...) ;
             return arg;
         }
     public:
+        SingleArgument() = default;
+        template<typename ... T>
+        explicit SingleArgument(T&&... args) noexcept {
+            addMany(args...);
+        }
         void add(ArgumentTypes type) noexcept {
             args_.emplace(type);
         }
@@ -98,7 +104,7 @@ namespace Electron
         template<typename ... T>
         static MultiArgument make(T&&... args) noexcept {
             MultiArgument arg;
-            arg.addMany(std::forward(args...));
+            arg.addMany(args...);
             return arg;
         }
     public:
@@ -138,7 +144,7 @@ namespace Electron
         if (sizeof...(T) == 0) {
             return "";
         } else {
-            return SingleArgument::make(std::forward(args...)).str();
+            return SingleArgument::make(args...).str();
         }
     }
     template<typename ... T>
@@ -146,7 +152,7 @@ namespace Electron
         if (sizeof...(T) == 0) {
             return "";
         } else {
-            return MultiArgument::make(std::forward(args...)).str();
+            return MultiArgument::make(args...).str();
         }
     }
 
