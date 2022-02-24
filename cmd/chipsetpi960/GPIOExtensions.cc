@@ -84,7 +84,6 @@ namespace {
     void
     doGPIOLine(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
-        out->lexemeValue = theEnv.createBool(false);
         UDFValue arg0;
         if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &arg0)) {
             out->lexemeValue = theEnv.falseSymbol();
@@ -94,6 +93,78 @@ namespace {
         auto thePtr = std::make_shared<GPIOPin>(primaryChip_.get_line(theOffset));
         out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(thePtr);
     }
+    void
+    getPinName(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) {
+            return;
+        }
+        // okay so we have the right type, get it out of there and work with it
+        auto thePin = theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0);
+        out->lexemeValue = theEnv.createString(thePin->name());
+    }
+
+    void
+    getPinConsumer(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) {
+            return;
+        }
+        // okay so we have the right type, get it out of there and work with it
+        auto thePin = theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0);
+        out->lexemeValue = theEnv.createString(thePin->consumer());
+    }
+
+#define DefIntegerFunction(name, operation) \
+    void \
+    name (UDF_ARGS__) { \
+        auto& theEnv = Electron::Environment::fromRaw(env); \
+        UDFValue arg0; \
+        out->lexemeValue = theEnv.falseSymbol(); \
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) { \
+            return; \
+        } \
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) { \
+            return; \
+        } \
+        auto thePin = theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0); \
+        out->integerValue = theEnv.createInteger(thePin-> operation ()); \
+    }
+    DefIntegerFunction(getPinDirection, direction);
+    DefIntegerFunction(getPinOffset, offset);
+    DefIntegerFunction(getPinActiveState, active_state);
+    DefIntegerFunction(getPinValue, get_value);
+#undef DefIntegerFunction
+#define DefBoolFunction(name, operation) \
+    void \
+    name (UDF_ARGS__) { \
+        auto& theEnv = Electron::Environment::fromRaw(env); \
+        UDFValue arg0; \
+        out->lexemeValue = theEnv.falseSymbol(); \
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) { \
+            return; \
+        } \
+        if (!theEnv.externalAddressIsOfType<GPIOPinPtr>(arg0)) { \
+            return; \
+        } \
+        auto thePin = theEnv.fromExternalAddressAsRef<GPIOPinPtr>(arg0); \
+        out->lexemeValue = theEnv.createBool(thePin-> operation ()); \
+    }
+    DefBoolFunction(pinIsUsed, is_used);
+    DefBoolFunction(pinIsOpenDrain, is_open_drain);
+    DefBoolFunction(pinIsOpenSource, is_open_source);
+    DefBoolFunction(pinIsRequested, is_requested);
+#undef DefBoolFunction
 }
 void
 installGPIOExtensions(Electron::Environment& theEnv) {
@@ -106,10 +177,18 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.addFunction("gpio-count", "l", 0, 0, "", doGPIOLength, "doGPIOLength");
     theEnv.addFunction("gpio-pin", "eb", 1, 1, "l", doGPIOLine, "doGPIOLine");
     // make sure we use a std::shared_ptr to be on the safe side
-    theEnv.registerExternalAddressType<GPIOPinPtr>("gpio-line",
-                                                   nullptr, // cannot create lines from the ether, must come from a chip
+    theEnv.registerExternalAddressType<GPIOPinPtr>(nullptr, // cannot create lines from the ether, must come from a chip
                                                    nullptr, // the call mechanism is something that I still need to flesh out, it can be very slow
                                                    nullptr);
+    theEnv.addFunction("pin-name", "sb", 1, 1, "e", getPinName, "getPinName");
+    theEnv.addFunction("pin-offset", "lb", 1, 1, "e", getPinOffset, "getPinOffset");
+    theEnv.addFunction("pin-consumer", "sb", 1, 1, "e", getPinConsumer, "getPinConsumer");
+    theEnv.addFunction("pin-direction", "lb", 1, 1, "e", getPinDirection, "getPinDirection");
+    theEnv.addFunction("pin-is-used", "b", 1, 1, "e", pinIsUsed, "pinIsUsed");
+    theEnv.addFunction("pin-is-open-source", "b", 1, 1, "e", pinIsOpenSource, "pinIsOpenSource");
+    theEnv.addFunction("pin-is-open-drain", "b", 1, 1, "e", pinIsOpenDrain, "pinIsOpenDrain");
+    theEnv.addFunction("pin-is-requested", "b", 1, 1, "e", pinIsRequested, "pinIsRequested");
+    theEnv.addFunction("pin-value", "lb", 1, 1, "e", getPinValue, "getPinValue");
     // for now I will just be using direct access functions instead
 
 }
