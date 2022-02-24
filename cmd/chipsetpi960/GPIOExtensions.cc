@@ -30,6 +30,7 @@
 #include "GPIOExtensions.h"
 #include <gpiod.hpp>
 #include <memory>
+#include <map>
 
 using GPIOChip = gpiod::chip;
 using GPIOChipPtr = std::shared_ptr<GPIOChip>;
@@ -41,7 +42,7 @@ namespace Electron
     DefWrapperSymbolicName(GPIOPinPtr, "gpio-pin")
 }
 namespace {
-    gpiod::chip primaryChip_;
+    std::map<std::string, GPIOChipPtr> openedChips_;
     void
     doGPIOOpen(UDF_ARGS__) {
         // fromRaw acts as a safe way to re-encapsulate the raw environment pointer back into the correct reference
@@ -53,8 +54,14 @@ namespace {
         }
         std::string path(arg0.lexemeValue->contents);
         try {
-            GPIOChipPtr thePtr = std::make_shared<GPIOChip>(path);
-            out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(thePtr);
+
+            if (auto search = openedChips_.find(path); search != openedChips_.end()) {
+                out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(search->second);
+            } else {
+                // emplace and then put that into the output result
+                auto [iter, pass] = openedChips_.try_emplace(path, path);
+                out->externalAddressValue = theEnv.createExternalAddress<GPIOChipPtr>(iter->second);
+            }
         } catch(std::system_error&) {
             // by default we get a thrown exception
             out->lexemeValue = theEnv.createBool(false);
