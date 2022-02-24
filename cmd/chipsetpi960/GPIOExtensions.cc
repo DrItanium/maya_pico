@@ -29,6 +29,14 @@
 #include "electron/Environment.h"
 #include "GPIOExtensions.h"
 #include <gpiod.hpp>
+#include <memory>
+
+using GPIOPin = gpiod::line;
+using GPIOPinPtr = std::shared_ptr<GPIOPin>;
+namespace Electron
+{
+    DefWrapperSymbolicName(GPIOPinPtr, "gpio-pin")
+}
 namespace {
     gpiod::chip primaryChip_;
     void
@@ -73,6 +81,19 @@ namespace {
         auto& theEnv = Electron::Environment::fromRaw(env);
         out->integerValue = theEnv.createInteger(primaryChip_.num_lines());
     }
+    void
+    doGPIOLine(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->lexemeValue = theEnv.createBool(false);
+        UDFValue arg0;
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &arg0)) {
+            out->lexemeValue = theEnv.falseSymbol();
+            return;
+        }
+        auto theOffset = arg0.integerValue->contents;
+        auto thePtr = std::make_shared<GPIOPin>(primaryChip_.get_line(theOffset));
+        out->externalAddressValue = theEnv.createExternalAddress<GPIOPinPtr>(thePtr);
+    }
 }
 void
 installGPIOExtensions(Electron::Environment& theEnv) {
@@ -83,4 +104,12 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.addFunction("gpio-name", "sy", 0, 0, "", doGPIOName, "doGPIOName");
     theEnv.addFunction("gpio-label", "sy", 0, 0, "", doGPIOLabel, "doGPIOLabel");
     theEnv.addFunction("gpio-count", "l", 0, 0, "", doGPIOLength, "doGPIOLength");
+    theEnv.addFunction("gpio-pin", "eb", 1, 1, "l", doGPIOLine, "doGPIOLine");
+    // make sure we use a std::shared_ptr to be on the safe side
+    theEnv.registerExternalAddressType<GPIOPinPtr>("gpio-line",
+                                                   nullptr, // cannot create lines from the ether, must come from a chip
+                                                   nullptr, // the call mechanism is something that I still need to flesh out, it can be very slow
+                                                   nullptr);
+    // for now I will just be using direct access functions instead
+
 }
