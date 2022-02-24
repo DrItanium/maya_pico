@@ -237,18 +237,37 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     using SingleArgument = Electron::SingleArgument;
     SingleArgument symbolOrString(ArgType::Symbol, ArgType::String);
     SingleArgument externalAddressOrFalse(ArgType::ExternalAddress, ArgType::Boolean);
+    auto externalAddressesOnly = Electron::makeArgumentList(SingleArgument{ArgType::ExternalAddress},
+                                                            SingleArgument{ArgType::ExternalAddress});
+    auto returnsSymbolOrString = symbolOrString.str();
+    auto returnsOptionalExternalAddress = externalAddressOrFalse.str();
     theEnv.addFunction("gpio-open",
-                       externalAddressOrFalse.str(),
+                       returnsSymbolOrString,
                        1,1,
                        Electron::makeArgumentList(symbolOrString,
                                                   symbolOrString),
                        doGPIOOpen,
                        "doGPIOOpen");
-    theEnv.addFunction("gpio-name", "sy", 1, 1, "e;e", doGPIOName, "doGPIOName");
-    theEnv.addFunction("gpio-label", "sy", 1, 1, "e;e", doGPIOLabel, "doGPIOLabel");
-    theEnv.addFunction("gpio-count", "l", 1, 1, "e;e", doGPIOLength, "doGPIOLength");
+    theEnv.addFunction("gpio-name",
+                       returnsSymbolOrString,
+                       1, 1,
+                       externalAddressesOnly,
+                       doGPIOName,
+                       "doGPIOName");
+    theEnv.addFunction("gpio-label",
+                       returnsSymbolOrString,
+                       1, 1,
+                       externalAddressesOnly,
+                       doGPIOLabel,
+                       "doGPIOLabel");
+    theEnv.addFunction("gpio-count",
+                       Electron::makeReturnType(ArgType::Integer),
+                       1, 1,
+                       externalAddressesOnly,
+                       doGPIOLength,
+                       "doGPIOLength");
     theEnv.addFunction("gpio-pin",
-                       externalAddressOrFalse.str(),
+                       returnsOptionalExternalAddress,
                        2, 2,
                        Electron::makeArgumentList(SingleArgument{ArgType::Any},
                                                   SingleArgument{ArgType::ExternalAddress},
@@ -259,15 +278,38 @@ installGPIOExtensions(Electron::Environment& theEnv) {
     theEnv.registerExternalAddressType<GPIOPinPtr>(nullptr, // cannot create lines from the ether, must come from a chip
                                                    nullptr, // the call mechanism is something that I still need to flesh out, it can be very slow
                                                    nullptr);
-    theEnv.addFunction("pin-name", "sb", 1, 1, "e;e", getPinName, "getPinName");
-    theEnv.addFunction("pin-offset", "lb", 1, 1, "e;e", getPinOffset, "getPinOffset");
-    theEnv.addFunction("pin-consumer", "sb", 1, 1, "e;e", getPinConsumer, "getPinConsumer");
-    theEnv.addFunction("pin-direction", "lb", 1, 1, "e;e", getPinDirection, "getPinDirection");
-    theEnv.addFunction("pin-is-used", "b", 1, 1, "e;e", pinIsUsed, "pinIsUsed");
-    theEnv.addFunction("pin-is-open-source", "b", 1, 1, "e;e", pinIsOpenSource, "pinIsOpenSource");
-    theEnv.addFunction("pin-is-open-drain", "b", 1, 1, "e;e", pinIsOpenDrain, "pinIsOpenDrain");
-    theEnv.addFunction("pin-is-requested", "b", 1, 1, "e;e", pinIsRequested, "pinIsRequested");
-    theEnv.addFunction("pin-value", "lb", 1, 1, "e;e", getPinValue, "getPinValue");
+    auto returnsOptionalString = Electron::makeReturnType(ArgType::String, ArgType::Boolean);
+    auto returnsOptionalInteger = Electron::makeReturnType(ArgType::Integer, ArgType::Boolean);
+    auto returnsBoolean = Electron::makeReturnType(ArgType::Boolean);
+    theEnv.addFunction("pin-name",
+                       returnsOptionalString,
+                       1, 1,
+                       externalAddressesOnly,
+                       getPinName,
+                       "getPinName");
+    theEnv.addFunction("pin-offset",
+                       returnsOptionalInteger,
+                       1, 1,
+                       externalAddressesOnly,
+                       getPinOffset,
+                       "getPinOffset");
+    theEnv.addFunction("pin-consumer",
+                       returnsOptionalString,
+                       1, 1,
+                       externalAddressesOnly,
+                       getPinConsumer,
+                       "getPinConsumer");
+    theEnv.addFunction("pin-direction",
+                       returnsOptionalInteger,
+                       1, 1,
+                       externalAddressesOnly,
+                       getPinDirection,
+                       "getPinDirection");
+    theEnv.addFunction("pin-is-used", returnsBoolean, 1, 1, externalAddressesOnly, pinIsUsed, "pinIsUsed");
+    theEnv.addFunction("pin-is-open-source", returnsBoolean, 1, 1, externalAddressesOnly, pinIsOpenSource, "pinIsOpenSource");
+    theEnv.addFunction("pin-is-open-drain", returnsBoolean, 1, 1, externalAddressesOnly, pinIsOpenDrain, "pinIsOpenDrain");
+    theEnv.addFunction("pin-is-requested", returnsBoolean, 1, 1, externalAddressesOnly, pinIsRequested, "pinIsRequested");
+    theEnv.addFunction("pin-value", returnsOptionalInteger, 1, 1, externalAddressesOnly, getPinValue, "getPinValue");
     // for now I will just be using direct access functions instead
 
 }
