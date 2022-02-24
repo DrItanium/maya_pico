@@ -399,6 +399,7 @@ add_library(electron
 	electron/MultifieldBuilder.cc
 	electron/MultifieldBuilder.h)
 add_executable(maya cmd/maya/main.cc)
+add_executable(chipsetpi960 cmd/chipsetpi960/main.cc)
 target_link_libraries(maya PUBLIC
 		electron
 		neutron
@@ -407,8 +408,18 @@ target_link_libraries(maya PUBLIC
 		boost_filesystem
 		boost_system
 	)
+target_link_libraries(chipsetpi960 PUBLIC
+		electron
+		neutron
+		clips
+		boost_regex
+		boost_filesystem
+		boost_system
+		)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
+target_include_directories(chipsetpi960 PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}")
 install(TARGETS maya DESTINATION bin)
+install(TARGETS chipsetpi960 DESTINATION bin)
