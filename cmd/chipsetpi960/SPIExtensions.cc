@@ -33,8 +33,7 @@
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
-#include <cstdio>
-#include <type_traits>
+#include <memory>
 #include <optional>
 extern "C" {
 #include <sys/stat.h>
@@ -44,6 +43,8 @@ extern "C" {
 #include "SPIExtensions.h"
 class SPIDevice {
 public:
+    using Self = SPIDevice;
+    using Ptr = std::shared_ptr<Self>;
     enum class Mode {
         Zero = SPI_MODE_0,
         One = SPI_MODE_1,
@@ -108,7 +109,7 @@ private:
     int fd_;
 };
 namespace {
-    std::map<std::string, int> openDeviceList_;
+    std::map<std::string, SPIDevice::Ptr> openDeviceList_;
 }
 void
 installSPIExtensions(Electron::Environment& theEnv) {
