@@ -35,6 +35,7 @@
 #include <linux/spi/spidev.h>
 #include <memory>
 #include <optional>
+#include <vector>
 extern "C" {
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -108,9 +109,83 @@ private:
     std::string path_;
     int fd_;
 };
+namespace Electron
+{
+    DefWrapperSymbolicName(SPIDevice::Ptr, "spidevice")
+}
 namespace {
     std::map<std::string, SPIDevice::Ptr> openDeviceList_;
+    void
+    openSPIDevice(UDF_ARGS__) noexcept {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->lexemeValue = theEnv.falseSymbol();
+        UDFValue arg0;
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Lexeme, &arg0)) {
+            return;
+        }
+    }
+    void
+    doSPITransfer(UDF_ARGS__) noexcept {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        out->lexemeValue = theEnv.falseSymbol();
+        UDFValue arg0, arg1, arg2, arg3;
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::ExternalAddress, &arg0)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Multifield, &arg1)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg2)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg3)) {
+            return;
+        }
+        if (!theEnv.externalAddressIsOfType<SPIDevice::Ptr>(arg0)) {
+            return;
+        }
+        auto theDevice = theEnv.fromExternalAddressAsRef<SPIDevice::Ptr>(arg0);
+        auto theMultifield = arg1.multifieldValue->contents;
+        auto end = arg1.begin + arg1.range;
+        std::vector<char> multifieldUnpack;
+        for (size_t i = arg1.begin; i < end; ++i) {
+            auto& currentValue = theMultifield[i];
+            if (Electron::isInteger(currentValue)) {
+                // force convert to a byte if it is a number
+                multifieldUnpack.emplace_back(static_cast<byte>(currentValue.integerValue->contents));
+            }
+        }
+        // perform the transfer itself
+        auto err = theDevice->transfer(static_cast<uint32_t>(arg2.integerValue->contents),
+                                       multifieldUnpack.data(),
+                                       multifieldUnpack.size(),
+                                       static_cast<uint32_t>(arg3.integerValue->contents));
+        /// @todo check error code and also unpack container back into MultifieldBuilder
+
+    }
 }
 void
 installSPIExtensions(Electron::Environment& theEnv) {
+    theEnv.registerExternalAddressType<SPIDevice::Ptr>(nullptr,
+                                                       nullptr,
+                                                       nullptr);
+    using ArgType = Electron::ArgumentTypes;
+    theEnv.addFunction("spi-open",
+                       Electron::optionalReturnType(ArgType::ExternalAddress),
+                       1, 1,
+                       Electron::makeArgumentList(Electron::SingleArgument{ArgType::Symbol, ArgType::String}),
+                       openSPIDevice,
+                       "openSPIDevice");
+
+    theEnv.addFunction("spi-transfer",
+                       Electron::optionalReturnType(ArgType::Multifield),
+                       4, 4,
+                       Electron::makeArgumentList(
+                               Electron::SingleArgument{ArgType::ExternalAddress},
+                               Electron::SingleArgument{ArgType::ExternalAddress},
+                               Electron::SingleArgument{ArgType::Multifield},
+                               Electron::SingleArgument{ArgType::Integer},
+                               Electron::SingleArgument{ArgType::Integer}),
+                       doSPITransfer,
+                       "doSPITransfer");
 }
