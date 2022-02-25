@@ -32,6 +32,7 @@ extern "C" {
 }
 #include "electron/Environment.h"
 #include "GPIOExtensions.h"
+#include "SPIExtensions.h"
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>
