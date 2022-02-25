@@ -28,6 +28,7 @@
  */
 
 #include "electron/Environment.h"
+#include "electron/MultifieldBuilder.h"
 #include <map>
 #include <string>
 #include <sys/ioctl.h>
@@ -155,12 +156,22 @@ namespace {
                 multifieldUnpack.emplace_back(static_cast<byte>(currentValue.integerValue->contents));
             }
         }
+        std::unique_ptr<char[]> receiveBuffer = std::make_unique<char[]>(multifieldUnpack.size());
         // perform the transfer itself
-        auto err = theDevice->transfer(static_cast<uint32_t>(arg2.integerValue->contents),
+        if (auto err = theDevice->transfer(static_cast<uint32_t>(arg2.integerValue->contents),
                                        multifieldUnpack.data(),
+                                       receiveBuffer.get(),
                                        multifieldUnpack.size(),
-                                       static_cast<uint32_t>(arg3.integerValue->contents));
-        /// @todo check error code and also unpack container back into MultifieldBuilder
+                                       static_cast<uint32_t>(arg3.integerValue->contents)); err == 0) {
+            Electron::MultifieldBuilder mb(theEnv);
+            for (size_t i = 0;i < multifieldUnpack.size(); ++i) {
+                mb.append(static_cast<int64_t>(receiveBuffer[i]));
+            }
+            out->multifieldValue = mb.create();
+        } else {
+            /// @todo maybe check error code?
+            out->lexemeValue = theEnv.falseSymbol();
+        }
 
     }
 }
