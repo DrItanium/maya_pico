@@ -60,6 +60,7 @@ int main(
   char *argv[])
   {
       installGPIOExtensions(mainEnv);
+      installSPIExtensions(mainEnv);
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
 #endif
