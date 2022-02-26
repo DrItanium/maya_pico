@@ -79,7 +79,6 @@ namespace Neutron::GPIO {
         X(38, 20);
         X(40, 21);
 #undef X
-
         /**
          * @brief Compile time constant that allows one to figure out if the given physical pin index maps to a valid pin
          * @tparam index The physical pin index to check

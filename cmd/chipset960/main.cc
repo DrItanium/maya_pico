@@ -53,34 +53,25 @@ extern "C" {
 
 Electron::Environment mainEnv;
 Neutron::GPIO::Chip primaryChip_;
-constexpr auto boardToBCMPinout(uint8_t value) noexcept {
-    switch (value) {
-        case 7:
-        case 29:
-            case
-        default:
-            return value;
-    }
-}
 enum class Pinout {
-    BootSuccessful = 7,
-    Ready = 29,
-    WR = 31,
-    BE0 = 32,
-    BE1 = 33,
-    InTransaction = 8,
-    DoCycle = 10,
-    Blast = 36,
-    MeReset = 11,
-    WaitBoot960 = 12,
-    IoExpander_Int0 = 35,
-    IoExpander_Int1 = 38,
-    IoExpander_Int2 = 40,
-    IoExpander_Int3 = 15,
-    IoExpander_Int4 = 16,
-    IoExpander_Int5 = 18,
-    IoExpander_Int6 = 22,
-    IoExpander_Int7 = 37,
+    BootSuccessful = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<7>,
+    Ready = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<29>,
+    WR = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<31>,
+    BE0 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<32>,
+    BE1 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<33>,
+    InTransaction = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<8>,
+    DoCycle = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<10>,
+    Blast = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<36>,
+    MeReset = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<11>,
+    WaitBoot960 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<12>,
+    IoExpander_Int0 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<35>,
+    IoExpander_Int1 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<38>,
+    IoExpander_Int2 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<40>,
+    IoExpander_Int3 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<15>,
+    IoExpander_Int4 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<16>,
+    IoExpander_Int5 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<18>,
+    IoExpander_Int6 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<22>,
+    IoExpander_Int7 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<37>,
 };
 
 int main(int argc, char *argv[]) {
