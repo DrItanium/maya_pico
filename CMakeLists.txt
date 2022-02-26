@@ -399,7 +399,12 @@ add_library(electron
 	electron/MultifieldBuilder.cc
 	electron/MultifieldBuilder.h electron/ArgumentConstructor.h)
 add_executable(maya cmd/maya/main.cc)
-add_executable(chipsetpi960 cmd/chipsetpi960/main.cc cmd/chipsetpi960/GPIOExtensions.h cmd/chipsetpi960/GPIOExtensions.cc cmd/chipsetpi960/SPIExtensions.h cmd/chipsetpi960/SPIExtensions.cc)
+add_executable(gpio-example
+		cmd/gpio-example/main.cc
+		cmd/gpio-example/GPIOExtensions.h
+		cmd/gpio-example/GPIOExtensions.cc
+		cmd/gpio-example/SPIExtensions.h
+		cmd/gpio-example/SPIExtensions.cc)
 target_link_libraries(maya PUBLIC
 		electron
 		neutron
@@ -408,7 +413,7 @@ target_link_libraries(maya PUBLIC
 		boost_filesystem
 		boost_system
 	)
-target_link_libraries(chipsetpi960 PUBLIC
+target_link_libraries(gpio-example PUBLIC
 		electron
 		neutron
 		clips
@@ -418,9 +423,8 @@ target_link_libraries(chipsetpi960 PUBLIC
 		gpiodcxx
 		)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
-target_include_directories(chipsetpi960 PUBLIC "${PROJECT_SRC_DIR}")
+target_include_directories(gpio-example PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}")
 install(TARGETS maya DESTINATION bin)
-install(TARGETS chipsetpi960 DESTINATION bin)

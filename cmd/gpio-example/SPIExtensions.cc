@@ -124,6 +124,7 @@ namespace {
         if (!theEnv.firstArgument(context, Electron::ArgumentBits::Lexeme, &arg0)) {
             return;
         }
+        std::string path(arg0.lexemeValue->contents);
     }
     void
     doSPITransfer(UDF_ARGS__) noexcept {
