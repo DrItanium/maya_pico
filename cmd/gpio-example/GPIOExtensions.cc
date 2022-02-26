@@ -46,14 +46,9 @@ namespace Electron
     DefWrapperSymbolicName(GPIOPinPtr, "gpio-pin")
 }
 namespace {
+    using PinDirection = Neutron::GPIO::PinDirection;
     // use Arduino Naming and concepts to accelerate understanding
 
-    enum class PinDirection {
-        None,
-        Input,
-        Output,
-        InputPullup,
-    };
     void
     pinMode(const GPIOPinPtr& ptr, PinDirection direction) noexcept {
         switch (direction) {

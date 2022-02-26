@@ -73,6 +73,93 @@ enum class Pinout {
     IoExpander_Int6 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<22>,
     IoExpander_Int7 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<37>,
 };
+using PinDirection = Neutron::GPIO::PinDirection;
+using PinValue = Neutron::GPIO::PinValue;
+void pinMode(Pinout pin, PinDirection direction);
+void digitalWrite(Pinout pin, PinValue value);
+PinValue digitalRead(Pinout pin);
+struct PinConfiguration {
+    constexpr PinConfiguration(Pinout pin, PinDirection direction, PinValue asserted = PinValue::Low, PinValue deasserted = PinValue::High) noexcept : pin_(pin), direction_(direction), asserted_(asserted), deasserted_(deasserted) {}
+    [[nodiscard]] constexpr auto getPinValue() const noexcept { return static_cast<std::underlying_type_t<Pinout>>(pin_); }
+    [[nodiscard]] constexpr auto getPin() const noexcept { return pin_; }
+    [[nodiscard]] constexpr auto getDirection() const noexcept { return direction_; }
+    [[nodiscard]] constexpr auto getAssertedState() const noexcept { return asserted_; }
+    [[nodiscard]] constexpr auto getDeassertedState() const noexcept { return deasserted_; }
+
+    [[nodiscard]] constexpr auto isOutputPin() const noexcept { return getDirection() == PinDirection::Output; }
+    [[nodiscard]] constexpr auto isInputPin() const noexcept { return getDirection() == PinDirection::Input; }
+    [[nodiscard]] constexpr auto isInputPullupPin() const noexcept { return getDirection() == PinDirection::InputPullup; }
+    inline void digitalWrite(PinValue value) {
+        /// @todo emulate arduino behavior?
+        ::digitalWrite(getPin(), value);
+    }
+    inline PinValue digitalRead() {
+        return ::digitalRead(getPin());
+    }
+    void deassertPin() { digitalWrite(getDeassertedState()); }
+    void assertPin() { digitalWrite(getAssertedState()); }
+    /**
+     * @brief Set the pin's mode and even deassert it if it is an output
+     */
+    void configure() {
+        pinMode(getPin(), getDirection());
+        if (isOutputPin()) {
+            // make sure we deassert the pin if it is an output
+            deassertPin();
+        }
+    }
+private:
+    Pinout pin_;
+    PinDirection direction_;
+    PinValue asserted_, deasserted_;
+};
+constexpr PinConfiguration BootSuccessful {Pinout::BootSuccessful, PinDirection::Input, PinValue::High, PinValue::Low};
+constexpr PinConfiguration Ready {Pinout::Ready, PinDirection::Output };
+constexpr PinConfiguration WR {Pinout::WR, PinDirection::Input};
+constexpr PinConfiguration BE0 {Pinout::BE0, PinDirection::Input};
+constexpr PinConfiguration BE1 {Pinout::BE1, PinDirection::Input};
+constexpr PinConfiguration InTransaction {Pinout::InTransaction, PinDirection::Input};
+constexpr PinConfiguration DoCycle {Pinout::InTransaction, PinDirection::Input};
+constexpr PinConfiguration Blast{Pinout::InTransaction, PinDirection::Input, PinValue::High, PinValue::Low};
+constexpr PinConfiguration ManagementEngineReset { Pinout::MeReset, PinDirection::Output};
+constexpr PinConfiguration WaitBoot960 { Pinout::WaitBoot960, PinDirection::Output};
+constexpr PinConfiguration IOEXP_INT0 { Pinout::IoExpander_Int0, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT1 { Pinout::IoExpander_Int1, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT2 { Pinout::IoExpander_Int2, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT3 { Pinout::IoExpander_Int3, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT4 { Pinout::IoExpander_Int4, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT5 { Pinout::IoExpander_Int5, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT6 { Pinout::IoExpander_Int6, PinDirection::Input};
+constexpr PinConfiguration IOEXP_INT7 { Pinout::IoExpander_Int7, PinDirection::Input};
+
+void
+pinMode(Pinout pin, PinDirection direction) {
+        switch (auto thePin = primaryChip_.get_line(static_cast<unsigned int>(pin)); direction) {
+            case PinDirection::Input:
+                thePin.request({
+                                    thePin.consumer(),
+                                    Neutron::GPIO::PinRequest::DIRECTION_INPUT,
+                                    Neutron::GPIO::PinRequest::FLAG_BIAS_DISABLE
+                            });
+                break;
+            case PinDirection::InputPullup:
+                thePin.request({
+                                    thePin.consumer(),
+                                    Neutron::GPIO::PinRequest::DIRECTION_INPUT,
+                                    Neutron::GPIO::PinRequest::FLAG_BIAS_PULL_UP
+                            });
+                break;
+            case PinDirection::Output:
+                thePin.request({
+                                    thePin.consumer(),
+                                    Neutron::GPIO::PinRequest::DIRECTION_OUTPUT,
+                                    0
+                            });
+                break;
+            default:
+                break;
+        }
+}
 
 int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC

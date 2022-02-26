@@ -40,6 +40,16 @@ namespace Neutron::GPIO {
     using PinRequest = gpiod::line_request;
     using PinEvent = gpiod::line_event;
     using PinBulk = gpiod::line_bulk;
+    enum class PinDirection {
+        None,
+        Input,
+        Output,
+        InputPullup,
+    };
+    enum class PinValue {
+        Low = 0,
+        High = 1,
+    };
     /**
      * @brief GPIO information specific to the raspberry pi
      */
