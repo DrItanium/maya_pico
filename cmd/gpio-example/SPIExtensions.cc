@@ -115,6 +115,11 @@ namespace Electron
     DefWrapperSymbolicName(SPIDevice::Ptr, "spidevice")
 }
 namespace {
+    /**
+     * @brief Maintains a global list of opened spi devices, this is done to make sure that there is a safe area to get the underlying spi device from
+     * should we introduce functionality to access this device again. It ties the opened path to the underlying device.
+     * This can have some problems but normally it isn't one if you're careful.
+     */
     std::map<std::string, SPIDevice::Ptr> openDeviceList_;
     void
     openSPIDevice(UDF_ARGS__) noexcept {
@@ -125,6 +130,22 @@ namespace {
             return;
         }
         std::string path(arg0.lexemeValue->contents);
+        if (auto search = openDeviceList_.find(path); search != openDeviceList_.end()) {
+            out->externalAddressValue = theEnv.createExternalAddress<SPIDevice::Ptr>(search->second);
+        } else {
+            // emplace and then put that into the output result
+            auto theChip = std::make_shared<SPIDevice>(path);
+            auto [iter, _] = openDeviceList_.try_emplace(path, theChip);
+            // then make sure we stash the _emplaced_ copy into the return cell, this is very important to prevent
+            // errors at runtime that are very very very hard to debug
+            if (iter->second->valid()) {
+                out->externalAddressValue = theEnv.createExternalAddress<SPIDevice::Ptr>(iter->second);
+            } else {
+                // after all of that we were not successful in opening the device for whatever reason
+                // this is why the function return is considered "optional" in this case.
+                out->lexemeValue = theEnv.falseSymbol();
+            }
+        }
     }
     void
     doSPITransfer(UDF_ARGS__) noexcept {
