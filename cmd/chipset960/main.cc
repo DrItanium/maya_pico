@@ -30,6 +30,7 @@
 extern "C" {
     #include "clips/clips.h"
 }
+#include <iostream>
 #include "electron/Environment.h"
 #include "interface/spi.h"
 #include "interface/gpio.h"
@@ -52,37 +53,64 @@ extern "C" {
 
 Electron::Environment mainEnv;
 Neutron::GPIO::Chip primaryChip_;
+constexpr auto boardToBCMPinout(uint8_t value) noexcept {
+    switch (value) {
+        case 7:
+        case 29:
+            case
+        default:
+            return value;
+    }
+}
+enum class Pinout {
+    BootSuccessful = 7,
+    Ready = 29,
+    WR = 31,
+    BE0 = 32,
+    BE1 = 33,
+    InTransaction = 8,
+    DoCycle = 10,
+    Blast = 36,
+    MeReset = 11,
+    WaitBoot960 = 12,
+    IoExpander_Int0 = 35,
+    IoExpander_Int1 = 38,
+    IoExpander_Int2 = 40,
+    IoExpander_Int3 = 15,
+    IoExpander_Int4 = 16,
+    IoExpander_Int5 = 18,
+    IoExpander_Int6 = 22,
+    IoExpander_Int7 = 37,
+};
 
-/****************************************/
-/* main: Starts execution of the expert */
-/*   system development environment.    */
-/****************************************/
-int main(
-  int argc,
-  char *argv[])
-  {
-
+int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
+    signal(SIGINT,CatchCtrlC);
 #endif
+    try {
+        // hardcode this for the raspberry pi for now
+        primaryChip_.open("/dev/gpiochip0");
+    } catch (std::system_error& err) {
+        std::cout << "ERROR OPENING /dev/gpiochip0: " << err.what() << std::endl;
+        return 1;
+    }
 
-   RerouteStdin(mainEnv, argc, argv);
-   CommandLoop(mainEnv);
+    RerouteStdin(mainEnv, argc, argv);
+    CommandLoop(mainEnv);
 
-   // unlike normal CLIPS, the environment will automatically clean itself up
+    // unlike normal CLIPS, the environment will automatically clean itself up
 
-   return -1;
-  }
+    return -1;
+}
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
 /***************/
 /* CatchCtrlC: */
 /***************/
-static void CatchCtrlC(
-  int sgnl)
-  {
-   SetHaltExecution(mainEnv,true);
-   CloseAllBatchSources(mainEnv);
-   signal(SIGINT,CatchCtrlC);
-  }
+void CatchCtrlC(int sgnl)
+{
+    SetHaltExecution(mainEnv,true);
+    CloseAllBatchSources(mainEnv);
+    signal(SIGINT,CatchCtrlC);
+}
 #endif
