@@ -31,6 +31,8 @@ extern "C" {
     #include "clips/clips.h"
 }
 #include "electron/Environment.h"
+#include <gpiod.hpp>
+#include "interface/spi.h"
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>

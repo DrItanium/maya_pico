@@ -365,7 +365,7 @@ add_library(neutron
 	platform/types.h
 	bugfix/fix_lhs_rhs_conflicts_begin.h
 	bugfix/fix_lhs_rhs_conflicts_end.h
-        platform/os.h)
+        platform/os.h interface/spi.h)
 
 add_library(electron
 	electron/Aliases.h
