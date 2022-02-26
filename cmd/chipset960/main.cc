@@ -31,13 +31,13 @@ extern "C" {
     #include "clips/clips.h"
 }
 #include "electron/Environment.h"
-#include <gpiod.hpp>
 #include "interface/spi.h"
-
+#include "interface/gpio.h"
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-#include <signal.h>
+extern "C" {
+    #include <signal.h>
+}
 #endif
-
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
@@ -51,6 +51,7 @@ extern "C" {
 /***************************************/
 
 Electron::Environment mainEnv;
+Neutron::GPIO::Chip primaryChip_;
 
 /****************************************/
 /* main: Starts execution of the expert */

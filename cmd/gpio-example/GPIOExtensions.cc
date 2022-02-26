@@ -26,18 +26,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "electron/Environment.h"
-#include "electron/ArgumentConstructor.h"
-#include "GPIOExtensions.h"
 #include <boost/algorithm/string/case_conv.hpp>
-#include <gpiod.hpp>
 #include <memory>
 #include <map>
+#include "electron/Environment.h"
+#include "electron/ArgumentConstructor.h"
+#include "interface/gpio.h"
+#include "GPIOExtensions.h"
 
-using GPIOChip = gpiod::chip;
-using GPIOChipPtr = std::shared_ptr<GPIOChip>;
-using GPIOPin = gpiod::line;
-using GPIOPinPtr = std::shared_ptr<GPIOPin>;
+using GPIOChip = Neutron::GPIO::Chip;
+using GPIOChipPtr = Neutron::GPIO::ChipPtr;
+using GPIOPin = Neutron::GPIO::Pin;
+using GPIOPinPtr = Neutron::GPIO::PinPtr;
 using OpenGPIOChipTracking = std::map<std::string, GPIOChipPtr>;
 using IndexToPinMapping = std::map<size_t, GPIOPinPtr>;
 namespace Electron
