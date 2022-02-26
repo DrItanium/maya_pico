@@ -399,6 +399,7 @@ add_library(electron
 	electron/MultifieldBuilder.cc
 	electron/MultifieldBuilder.h electron/ArgumentConstructor.h)
 add_executable(maya cmd/maya/main.cc)
+add_executable(chipset960 cmd/chipset960/main.cc)
 add_executable(gpio-example
 		cmd/gpio-example/main.cc
 		cmd/gpio-example/GPIOExtensions.h
@@ -422,8 +423,19 @@ target_link_libraries(gpio-example PUBLIC
 		boost_system
 		gpiodcxx
 		)
+
+target_link_libraries(chipset960 PUBLIC
+		electron
+		neutron
+		clips
+		boost_regex
+		boost_filesystem
+		boost_system
+		gpiodcxx
+		)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(gpio-example PUBLIC "${PROJECT_SRC_DIR}")
+target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}")
