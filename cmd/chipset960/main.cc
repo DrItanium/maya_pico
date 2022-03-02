@@ -28,7 +28,7 @@
  */
 #include "platform/os.h"
 extern "C" {
-    #include "clips/clips.h"
+#include "clips/clips.h"
 }
 #include <iostream>
 #include "electron/Environment.h"
@@ -36,7 +36,7 @@ extern "C" {
 #include "interface/gpio.h"
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 extern "C" {
-    #include <signal.h>
+#include <signal.h>
 }
 #endif
 /***************************************/
@@ -44,7 +44,7 @@ extern "C" {
 /***************************************/
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   static void                    CatchCtrlC(int);
+static void                    CatchCtrlC(int);
 #endif
 
 /***************************************/
@@ -75,9 +75,9 @@ enum class Pinout {
 };
 using PinDirection = Neutron::GPIO::PinDirection;
 using PinValue = Neutron::GPIO::PinValue;
-void pinMode(Pinout pin, PinDirection direction);
 void digitalWrite(Pinout pin, PinValue value);
 PinValue digitalRead(Pinout pin);
+void pinMode(Pinout pin, PinDirection direction) noexcept;
 struct PinConfiguration {
     constexpr PinConfiguration(Pinout pin, PinDirection direction, PinValue asserted = PinValue::Low, PinValue deasserted = PinValue::High) noexcept : pin_(pin), direction_(direction), asserted_(asserted), deasserted_(deasserted) {}
     [[nodiscard]] constexpr auto getPinValue() const noexcept { return static_cast<std::underlying_type_t<Pinout>>(pin_); }
@@ -89,19 +89,19 @@ struct PinConfiguration {
     [[nodiscard]] constexpr auto isOutputPin() const noexcept { return getDirection() == PinDirection::Output; }
     [[nodiscard]] constexpr auto isInputPin() const noexcept { return getDirection() == PinDirection::Input; }
     [[nodiscard]] constexpr auto isInputPullupPin() const noexcept { return getDirection() == PinDirection::InputPullup; }
-    inline void digitalWrite(PinValue value) {
+    inline void digitalWrite(PinValue value) const {
         /// @todo emulate arduino behavior?
         ::digitalWrite(getPin(), value);
     }
-    inline PinValue digitalRead() {
+    inline PinValue digitalRead() const {
         return ::digitalRead(getPin());
     }
-    void deassertPin() { digitalWrite(getDeassertedState()); }
-    void assertPin() { digitalWrite(getAssertedState()); }
+    void deassertPin() const { digitalWrite(getDeassertedState()); }
+    void assertPin() const { digitalWrite(getAssertedState()); }
     /**
      * @brief Set the pin's mode and even deassert it if it is an output
      */
-    void configure() {
+    void configure() const {
         pinMode(getPin(), getDirection());
         if (isOutputPin()) {
             // make sure we deassert the pin if it is an output
@@ -131,34 +131,10 @@ constexpr PinConfiguration IOEXP_INT4 { Pinout::IoExpander_Int4, PinDirection::I
 constexpr PinConfiguration IOEXP_INT5 { Pinout::IoExpander_Int5, PinDirection::Input};
 constexpr PinConfiguration IOEXP_INT6 { Pinout::IoExpander_Int6, PinDirection::Input};
 constexpr PinConfiguration IOEXP_INT7 { Pinout::IoExpander_Int7, PinDirection::Input};
-
+template<typename ... T>
 void
-pinMode(Pinout pin, PinDirection direction) {
-        switch (auto thePin = primaryChip_.get_line(static_cast<unsigned int>(pin)); direction) {
-            case PinDirection::Input:
-                thePin.request({
-                                    thePin.consumer(),
-                                    Neutron::GPIO::PinRequest::DIRECTION_INPUT,
-                                    Neutron::GPIO::PinRequest::FLAG_BIAS_DISABLE
-                            });
-                break;
-            case PinDirection::InputPullup:
-                thePin.request({
-                                    thePin.consumer(),
-                                    Neutron::GPIO::PinRequest::DIRECTION_INPUT,
-                                    Neutron::GPIO::PinRequest::FLAG_BIAS_PULL_UP
-                            });
-                break;
-            case PinDirection::Output:
-                thePin.request({
-                                    thePin.consumer(),
-                                    Neutron::GPIO::PinRequest::DIRECTION_OUTPUT,
-                                    0
-                            });
-                break;
-            default:
-                break;
-        }
+configurePinBlock(T&& ... pins) noexcept {
+    (pins.configure(), ...);
 }
 
 int main(int argc, char *argv[]) {
@@ -168,6 +144,7 @@ int main(int argc, char *argv[]) {
     try {
         // hardcode this for the raspberry pi for now
         primaryChip_.open("/dev/gpiochip0");
+        configurePinBlock(Ready, BootSuccessful, WR);
     } catch (std::system_error& err) {
         std::cout << "ERROR OPENING /dev/gpiochip0: " << err.what() << std::endl;
         return 1;
@@ -180,6 +157,46 @@ int main(int argc, char *argv[]) {
 
     return -1;
 }
+
+void
+digitalWrite(Pinout pin, PinValue value) {
+    primaryChip_.get_line(static_cast<int>(pin)).set_value(value == PinValue::Low ? 0 : 1);
+
+}
+PinValue
+digitalRead(Pinout pin) {
+    return static_cast<PinValue>(primaryChip_.get_line(static_cast<int>(pin)).get_value());
+}
+void
+pinMode(Pinout pin, PinDirection direction) noexcept {
+    switch (auto ptr = primaryChip_.get_line(static_cast<int>(pin)); direction) {
+        case PinDirection::Input:
+            ptr.request({
+                                 ptr.consumer(),
+                                 gpiod::line_request::DIRECTION_INPUT,
+                                 gpiod::line_request::FLAG_BIAS_DISABLE,
+                         });
+            break;
+        case PinDirection::Output:
+            ptr.request({
+                                 ptr.consumer(),
+                                 gpiod::line_request::DIRECTION_OUTPUT,
+                                 0
+                         });
+            break;
+        case PinDirection::InputPullup:
+            ptr.request({
+                                 ptr.consumer(),
+                                 gpiod::line_request::DIRECTION_INPUT,
+                                 gpiod::line_request::FLAG_BIAS_PULL_UP,
+                         });
+            break;
+        default:
+            // do nothing
+            break;
+    }
+}
+
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
 /***************/

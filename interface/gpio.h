@@ -95,7 +95,6 @@ namespace Neutron::GPIO {
          */
         template<int index>
         constexpr bool PhysicalPinIndexIsValid_v = PhysicalToBCMTranslation_v<index> != -1;
-
     } // end namespace Neutron::GPIO::RaspberryPi
 } // end namespace Neutron::GPIO
 
