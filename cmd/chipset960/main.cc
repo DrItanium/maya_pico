@@ -89,15 +89,12 @@ struct PinConfiguration {
     [[nodiscard]] constexpr auto isOutputPin() const noexcept { return getDirection() == PinDirection::Output; }
     [[nodiscard]] constexpr auto isInputPin() const noexcept { return getDirection() == PinDirection::Input; }
     [[nodiscard]] constexpr auto isInputPullupPin() const noexcept { return getDirection() == PinDirection::InputPullup; }
-    inline void digitalWrite(PinValue value) const {
-        /// @todo emulate arduino behavior?
-        ::digitalWrite(getPin(), value);
-    }
-    inline PinValue digitalRead() const {
-        return ::digitalRead(getPin());
-    }
-    void deassertPin() const { digitalWrite(getDeassertedState()); }
-    void assertPin() const { digitalWrite(getAssertedState()); }
+    inline void digitalWrite(PinValue value) const { ::digitalWrite(getPin(), value); }
+    [[nodiscard]] inline PinValue digitalRead() const { return ::digitalRead(getPin()); }
+    [[nodiscard]] inline bool isAsserted() const noexcept { return digitalRead() == getAssertedState(); }
+    [[nodiscard]] inline bool isDeasserted() const noexcept { return digitalRead() == getDeassertedState(); }
+    inline void deassertPin() const { digitalWrite(getDeassertedState()); }
+    inline void assertPin() const { digitalWrite(getAssertedState()); }
     /**
      * @brief Set the pin's mode and even deassert it if it is an output
      */
@@ -136,7 +133,39 @@ void
 configurePinBlock(T&& ... pins) noexcept {
     (pins.configure(), ...);
 }
+enum class LoadStoreStyle : byte {
+    None,
+    Lower8,
+    Upper8,
+    Full16,
+};
 
+bool
+isReadOperation() noexcept {
+    return WR.isAsserted();
+}
+
+bool
+isWriteOperation() noexcept {
+    return WR.isDeasserted();
+}
+
+LoadStoreStyle
+getStyle() noexcept {
+    if (BE0.isAsserted()) {
+        if (BE1.isAsserted())  {
+            return LoadStoreStyle::Full16;
+        } else {
+            return LoadStoreStyle::Lower8;
+        }
+    } else {
+        if (BE1.isAsserted()) {
+            return LoadStoreStyle::Upper8;
+        } else {
+            return LoadStoreStyle::None;
+        }
+    }
+}
 int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
@@ -144,7 +173,29 @@ int main(int argc, char *argv[]) {
     try {
         // hardcode this for the raspberry pi for now
         primaryChip_.open("/dev/gpiochip0");
-        configurePinBlock(Ready, BootSuccessful, WR);
+        // configure the pins of the raspberry pi
+        configurePinBlock(Ready,
+                          BootSuccessful,
+                          WR,
+                          BE0,
+                          BE1,
+                          InTransaction,
+                          DoCycle,
+                          Blast,
+                          ManagementEngineReset,
+                          WaitBoot960,
+                          IOEXP_INT0,
+                          IOEXP_INT1,
+                          IOEXP_INT2,
+                          IOEXP_INT3,
+                          IOEXP_INT4,
+                          IOEXP_INT5,
+                          IOEXP_INT6,
+                          IOEXP_INT7);
+        ManagementEngineReset.assertPin();
+        WaitBoot960.assertPin();
+        /// @todo introduce a delay?
+        ManagementEngineReset.deassertPin();
     } catch (std::system_error& err) {
         std::cout << "ERROR OPENING /dev/gpiochip0: " << err.what() << std::endl;
         return 1;
@@ -204,8 +255,18 @@ pinMode(Pinout pin, PinDirection direction) noexcept {
 /***************/
 void CatchCtrlC(int sgnl)
 {
+#if 0
     SetHaltExecution(mainEnv,true);
     CloseAllBatchSources(mainEnv);
     signal(SIGINT,CatchCtrlC);
+#else
+    SetHaltExecution(mainEnv,true);
+    CloseAllBatchSources(mainEnv);
+    ManagementEngineReset.assertPin();
+    WaitBoot960.assertPin();
+    ManagementEngineReset.deassertPin();
+    // exit at this point
+    exit(1);
+#endif
 }
 #endif
