@@ -29,6 +29,8 @@
 
 #ifndef MAYA_GPIO_H
 #define MAYA_GPIO_H
+// platform/config.h is found in the binary directory
+#include "platform/config.h"
 #ifdef HAVE_GPIOD_HPP
 #include <gpiod.hpp>
 #endif
