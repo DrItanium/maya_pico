@@ -44,4 +44,32 @@
 #if defined(__MINGW32__)
 #define WIN_GCC 1
 #endif
+constexpr bool onLinux() noexcept {
+#ifdef __linux__
+    return true;
+#else
+    return false;
+#endif
+}
+constexpr bool onWindows() noexcept {
+#if defined(_WIN32) || defined(_WIN64) || defined(__MINGW32__)
+    return true;
+#else
+    return false;
+#endif
+}
+constexpr bool onBSD() noexcept {
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__DragonFlyBSD__)
+    return true;
+#else
+    return false;
+#endif
+}
+constexpr bool onMacOS() noexcept {
+#ifdef __APPLE__
+    return true;
+#else
+    return false;
+#endif
+}
 #endif //MAYA_OS_H

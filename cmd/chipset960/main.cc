@@ -31,14 +31,13 @@ extern "C" {
 #include "clips/clips.h"
 }
 #include <iostream>
+#include <array>
 #include "electron/Environment.h"
 #include "interface/spi.h"
 #include "interface/gpio.h"
-#if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 extern "C" {
 #include <signal.h>
 }
-#endif
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
@@ -139,6 +138,18 @@ enum class LoadStoreStyle : byte {
     Upper8,
     Full16,
 };
+void waitForCycleUnlock() noexcept;
+void waitForBootSignal() noexcept;
+void systemSetup() noexcept;
+void setupDataLinesForRead() noexcept;
+bool isReadOpeation() noexcept;
+bool isWriteOperation() noexcept;
+LoadStoreStyle getStyle() noexcept;
+uint32_t getAddress() noexcept;
+void performReadTransaction() noexcept;
+void performWriteTransaction() noexcept;
+void newDataCycle() noexcept;
+void waitForTransactionStart() noexcept;
 
 bool
 isReadOperation() noexcept {
@@ -166,6 +177,58 @@ getStyle() noexcept {
         }
     }
 }
+uint32_t
+getAddress() noexcept {
+    /// @todo implement
+    return 0;
+}
+void
+performReadTransaction() noexcept {
+
+}
+void
+performWriteTransaction() noexcept {
+
+}
+void
+newDataCycle() noexcept {
+    auto address = getAddress();
+    if (isReadOperation()) {
+        performReadTransaction();
+    } else {
+        performWriteTransaction();
+    }
+}
+void
+waitForTransactionStart() noexcept {
+    while (InTransaction.isDeasserted());
+}
+void
+setupDataLinesForRead() noexcept {
+    /// @todo implement
+}
+void
+systemSetup() noexcept {
+    /// @todo implement
+}
+void
+waitForBootSignal() noexcept {
+    while (BootSuccessful.digitalRead() == PinValue::Low);
+    /// @todo add interrupt to BootSuccessful pin
+}
+union MemoryCell {
+    uint16_t word;
+    uint8_t bytes[2];
+};
+constexpr uint32_t MemorySize = 64 * 1024 * 1024;
+constexpr auto NumberOfCells = MemorySize / sizeof(MemoryCell);
+Electron::SingleArgument returnsVoid{Electron::ArgumentTypes::Void};
+Electron::SingleArgument returnsInteger{Electron::ArgumentTypes::Integer};
+std::unique_ptr<MemoryCell[]> ram;
+void doSetWord(UDF_ARGS__) noexcept;
+void doSetUpper8(UDF_ARGS__) noexcept;
+void doSetLower8(UDF_ARGS__) noexcept;
+void doGetWord(UDF_ARGS__) noexcept;
 int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
@@ -173,36 +236,80 @@ int main(int argc, char *argv[]) {
     try {
         // hardcode this for the raspberry pi for now
         primaryChip_.open("/dev/gpiochip0");
-        // configure the pins of the raspberry pi
-        configurePinBlock(Ready,
-                          BootSuccessful,
-                          WR,
-                          BE0,
-                          BE1,
-                          InTransaction,
-                          DoCycle,
-                          Blast,
-                          ManagementEngineReset,
-                          WaitBoot960,
-                          IOEXP_INT0,
-                          IOEXP_INT1,
-                          IOEXP_INT2,
-                          IOEXP_INT3,
-                          IOEXP_INT4,
-                          IOEXP_INT5,
-                          IOEXP_INT6,
-                          IOEXP_INT7);
-        ManagementEngineReset.assertPin();
-        WaitBoot960.assertPin();
-        /// @todo introduce a delay?
-        ManagementEngineReset.deassertPin();
+
     } catch (std::system_error& err) {
         std::cout << "ERROR OPENING /dev/gpiochip0: " << err.what() << std::endl;
         return 1;
     }
 
-    RerouteStdin(mainEnv, argc, argv);
-    CommandLoop(mainEnv);
+    // configure the pins of the raspberry pi
+    configurePinBlock(Ready,
+                      BootSuccessful,
+                      WR,
+                      BE0,
+                      BE1,
+                      InTransaction,
+                      DoCycle,
+                      Blast,
+                      ManagementEngineReset,
+                      WaitBoot960,
+                      IOEXP_INT0,
+                      IOEXP_INT1,
+                      IOEXP_INT2,
+                      IOEXP_INT3,
+                      IOEXP_INT4,
+                      IOEXP_INT5,
+                      IOEXP_INT6,
+                      IOEXP_INT7);
+    ManagementEngineReset.assertPin();
+    WaitBoot960.assertPin();
+    mainEnv.addFunction("ram:set-word",
+                        returnsVoid.str(),
+                        2, 2,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        doSetWord,
+                        "doSetWord");
+    mainEnv.addFunction("ram:set-upper8",
+                        returnsVoid.str(),
+                        2, 2,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        doSetUpper8,
+                        "doSetUpper8");
+    mainEnv.addFunction("ram:set-lower8",
+                        returnsVoid.str(),
+                        2, 2,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        doSetLower8,
+                        "doSetLower8");
+    mainEnv.addFunction("ram:get-word",
+                        returnsInteger.str(),
+                        1, 1,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                   Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        doGetWord,
+                        "doGetWord");
+    ram = std::make_unique<MemoryCell[]>(NumberOfCells);
+    for (uint32_t i = 0; i < NumberOfCells; ++i) {
+        ram[i].word = 0;
+    }
+    /// @todo introduce a delay?
+    ManagementEngineReset.deassertPin();
+    systemSetup();
+    setupDataLinesForRead();
+    WaitBoot960.deassertPin();
+    waitForBootSignal();
+    while (true) {
+        waitForTransactionStart();
+        newDataCycle();
+    }
+    //RerouteStdin(mainEnv, argc, argv);
+    //CommandLoop(mainEnv);
 
     // unlike normal CLIPS, the environment will automatically clean itself up
 
@@ -270,3 +377,20 @@ void CatchCtrlC(int sgnl)
 #endif
 }
 #endif
+void
+doSetWord(UDF_ARGS__) noexcept {
+
+}
+void
+doSetLower8(UDF_ARGS__) noexcept {
+
+}
+void
+doSetUpper8(UDF_ARGS__) noexcept {
+
+}
+
+void
+doGetWord(UDF_ARGS__) noexcept {
+
+}
