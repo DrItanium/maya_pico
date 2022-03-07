@@ -9,7 +9,7 @@ find_package(Boost REQUIRED COMPONENTS filesystem system regex)
 check_include_files(wiringPi.h HAVE_WIRING_PI_H)
 check_include_file_cxx(gpiod.hpp HAVE_GPIOD_HPP)
 check_include_files(gpiod.h HAVE_GPIOD_H)
-check_include_files(spidev.h HAVE_LINUX_SPIDEV_H)
+check_include_files(linux/spi/spidev.h HAVE_LINUX_SPIDEV_H)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/platform/config.h)
 add_library(clips
 clips/agenda.c
