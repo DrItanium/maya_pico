@@ -44,12 +44,12 @@ extern "C" {
 #include <memory>
 #include <optional>
 #include <string>
-namespace Neutron
+namespace Neutron::SPI
 {
-    class SPIDevice
+    class Device
     {
     public:
-        using Self = SPIDevice;
+        using Self = Device;
         using Ptr = std::shared_ptr<Self>;
         enum class Mode
         {
@@ -63,9 +63,9 @@ namespace Neutron
             MSBFirst = 0,
             LSBFirst,
         };
-        explicit SPIDevice(const std::string &path) : path_(path), fd_(::open(path.c_str(), O_RDWR)) {
+        explicit Device(const std::string &path) : path_(path), fd_(::open(path.c_str(), O_RDWR)) {
         }
-        ~SPIDevice() noexcept {
+        ~Device() noexcept {
             if (fd_) {
                 ::close(fd_);
             }
@@ -118,6 +118,6 @@ namespace Neutron
         std::string path_;
         int fd_;
     };
-} // end namespace Neutron
+} // end namespace Neutron::SPI
 #endif
 #endif //MAYA_LINUXSPIDEV_H

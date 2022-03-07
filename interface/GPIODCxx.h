@@ -33,6 +33,7 @@
 #ifndef MAYA_GPIODCXX_H
 #define MAYA_GPIODCXX_H
 #include "platform/config.h"
+#ifndef HAVE_WIRING_PI_H
 #ifdef HAVE_GPIOD_HPP
 #include <gpiod.hpp>
 #include <memory>
@@ -102,5 +103,6 @@ namespace Neutron::GPIO {
         constexpr bool PhysicalPinIndexIsValid_v = PhysicalToBCMTranslation_v<index> != -1;
     } // end namespace Neutron::GPIO::RaspberryPi
 } // end namespace Neutron::GPIO
-#endif
+#endif // end defined HAVE_GPIOD_HPP
+#endif // end !defined HAVE_WIRING_PI_H
 #endif //MAYA_GPIODCXX_H

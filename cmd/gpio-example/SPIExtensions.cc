@@ -34,7 +34,7 @@
 #include <vector>
 #include "SPIExtensions.h"
 #include "interface/spi.h"
-using SPIDevice = Neutron::SPIDevice;
+using SPIDevice = Neutron::SPI::Device;
 namespace Electron
 {
     DefWrapperSymbolicName(SPIDevice::Ptr, "spidevice")
