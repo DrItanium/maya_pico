@@ -74,7 +74,7 @@ namespace Neutron::SPI {
 
     }
     void
-    transfer(int channel, uint8_t* data, int count) {
+    transfer(int channel, char* data, int count) {
 #ifdef HAVE_WIRING_PI_H
         WiringPi::Implementation::transfer(channel, data, count);
 #elif defined(HAVE_LINUX_SPIDEV_H)

@@ -419,8 +419,7 @@ add_executable(gpio-example
 		cmd/gpio-example/main.cc
 		cmd/gpio-example/GPIOExtensions.h
 		cmd/gpio-example/GPIOExtensions.cc
-		cmd/gpio-example/SPIExtensions.h
-		cmd/gpio-example/SPIExtensions.cc)
+		)
 target_link_libraries(gpio-example PUBLIC
 		electron
 		neutron

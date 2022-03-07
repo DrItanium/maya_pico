@@ -32,7 +32,7 @@ extern "C" {
 }
 #include "electron/Environment.h"
 #include "GPIOExtensions.h"
-#include "SPIExtensions.h"
+#include "interface/spi.h"
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>
@@ -61,7 +61,7 @@ int main(
   char *argv[])
   {
       installGPIOExtensions(mainEnv);
-      installSPIExtensions(mainEnv);
+      Neutron::SPI::installExtensions(mainEnv);
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
 #endif

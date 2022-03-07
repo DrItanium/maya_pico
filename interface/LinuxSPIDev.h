@@ -120,7 +120,7 @@ namespace Neutron::SPI::SPIDEV::Implementation
     bool begin(int channel, int speed);
     bool beginTransaction(int channel, int speed, int mode);
     bool endTransaction(int channel);
-    void transfer(int channel, uint8_t* data, int count);
+    void transfer(int channel, char* data, int count);
 } // end namespace Neutron::SPI::SPIDEV::Implementation
 #endif
 #endif //MAYA_LINUXSPIDEV_H

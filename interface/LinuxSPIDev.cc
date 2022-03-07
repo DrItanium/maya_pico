@@ -79,10 +79,10 @@ namespace Neutron::SPI::SPIDEV::Implementation
         return true;
     }
     void
-    transfer(int channel, uint8_t *data, int count) {
+    transfer(int channel, char *data, int count) {
         if (auto result = getDevice(channel); result->valid()) {
             if (auto speed = result->getMaxSpeed(); speed) {
-                result->transfer(speed.value_or(0), reinterpret_cast<char*>(data), count);
+                result->transfer(speed.value_or(0), data, count);
 
             }
         }
