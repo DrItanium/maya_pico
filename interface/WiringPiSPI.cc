@@ -39,7 +39,7 @@ namespace Neutron::SPI::WiringPi::Implementation {
     beginTransaction(int channel, int speed, int mode) noexcept { return wiringPiSPISetupMode(channel, speed, mode); }
 
     bool
-    endTransaction(int channel) noexcept { return true }
+    endTransaction(int channel) noexcept { return true; }
 
     bool
     begin(int channel, int speed) noexcept { return wiringPiSPISetup(channel, speed); }
