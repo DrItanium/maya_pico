@@ -58,6 +58,10 @@ namespace Neutron::GPIO::WiringPi::Implementation {
                 break;
         }
     }
+    bool begin() {
+        wiringPiSetup();
+        return true;
+    }
     PinValue digitalRead(int targetPin) { return static_cast<PinValue>(::digitalRead(targetPin)); }
     void digitalWrite(int targetPin, PinValue value) { ::digitalWrite(targetPin, static_cast<int>(value)); }
     bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function) {

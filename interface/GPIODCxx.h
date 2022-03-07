@@ -37,7 +37,7 @@ namespace Neutron::GPIO::GPIOD::Implementation {
     PinValue digitalRead(int targetPin);
     void digitalWrite(int targetPin, PinValue value);
     bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function);
-    void begin();
+    bool begin();
 } // end namespace Neutron::GPIO::GPIOD::Implementation
 #endif // end defined HAVE_GPIOD_HPP
 #endif // end !defined HAVE_WIRING_PI_H

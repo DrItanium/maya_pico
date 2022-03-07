@@ -46,17 +46,21 @@ namespace Neutron::GPIO::GPIOD::Implementation {
     using IndexToPinMapping = std::map<size_t, PinPtr>;
     namespace
     {
-        OpenGPIOChipTracking tracking_;
+        OpenGPIOChipTracking openedChips_;
+        /**
+         * @brief Maps an open GPIOChip to a corresponding set of pins
+         */
+        std::map<std::string, IndexToPinMapping> chipToPinMapping_;
         void
-        digitalWrite(const PinPtr &thePin, int value) noexcept {
-            thePin->set_value(value != 0 ? 1 : 0);
+        digitalWrite(const PinPtr &thePin, PinValue value) noexcept {
+            thePin->set_value(static_cast<int>(value));
         }
         int
         digitalRead(const PinPtr &thePin) noexcept {
             return thePin->get_value();
         }
         void
-        pinMode(const PinPtr &ptr, PinMode direction) {
+        configurePin(const PinPtr &ptr, PinMode direction) {
             switch (direction) {
                 case PinMode::Input:
                     ptr->request({
@@ -97,23 +101,76 @@ namespace Neutron::GPIO::GPIOD::Implementation {
             builder << "/dev/gpiochip" << channel;
             return builder.str(); /// @todo should we give this a name or will eliding the temporary work safely?
         }
+        ChipPtr
+        getDevice(int channel) noexcept {
+            auto path = makeDevicePath(channel) ;
+            try {
+                if (auto search = openedChips_.find(path); search != openedChips_.end()) {
+                    return search->second;
+                } else {
+                    // emplace and then put that into the output result
+                    auto theChip = std::make_shared<Chip>(path);
+                    auto [iter, _] = openedChips_.try_emplace(path, theChip);
+                    chipToPinMapping_.try_emplace(theChip->name(), IndexToPinMapping {});
+                    return iter->second;
+                }
+            } catch(std::system_error&) {
+                // by default we get a thrown exception
+                return nullptr;
+            }
+        }
+        PinPtr
+        getPin(int channel, int pin) noexcept {
+            if (auto theDevice = getDevice(channel); theDevice) {
+                try {
+                    if (auto search = chipToPinMapping_.find(theDevice->name()); search != chipToPinMapping_.end()) {
+                        if (auto find2 = search->second.find(pin); find2 != search->second.end()) {
+                            // we got a hit so return that
+                            return find2->second;
+                        } else {
+                            // no hit, so install it
+                            auto outputPtr = std::make_shared<Pin>(theDevice->get_line(pin));
+                            auto [result, _] = search->second.try_emplace(pin, outputPtr);
+                            return result->second;
+                        }
+                    } else {
+                        return nullptr;
+                    }
+
+                } catch (std::out_of_range&) {
+                    // swallow the error and just return false
+                    return nullptr;
+                }
+            } else {
+                return nullptr;
+            }
+        }
+
     }
     void
     pinMode(int targetPin, PinMode direction) {
-
+        if (auto thePin = getPin(0, targetPin); thePin) {
+            configurePin(thePin, direction);
+        }
     }
     PinValue digitalRead(int targetPin) {
-        return PinValue::Low;
+        if (auto thePin = getPin(0, targetPin); thePin) {
+            return static_cast<PinValue>(digitalRead(thePin));
+        } else {
+            return PinValue::Low;
+        }
     }
     void digitalWrite(int targetPin, PinValue value) {
-
+        if (auto thePin = getPin(0, targetPin); thePin) {
+            digitalWrite(thePin, value);
+        }
     }
     bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function) {
         return false;
     }
-    void
+    bool
     begin() {
-
+        return getDevice(0).operator bool();
     }
 }
 #endif // end HAVE_GPIOD_HPP

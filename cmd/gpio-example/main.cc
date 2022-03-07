@@ -31,7 +31,7 @@ extern "C" {
     #include "clips/clips.h"
 }
 #include "electron/Environment.h"
-#include "GPIOExtensions.h"
+#include "interface/gpio.h"
 #include "interface/spi.h"
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
@@ -60,7 +60,7 @@ int main(
   int argc,
   char *argv[])
   {
-      installGPIOExtensions(mainEnv);
+      Neutron::GPIO::installExtensions(mainEnv);
       Neutron::SPI::installExtensions(mainEnv);
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);

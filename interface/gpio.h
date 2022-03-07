@@ -32,6 +32,7 @@
 #include "electron/Environment.h"
 namespace Neutron::GPIO {
     enum class PinMode {
+        None,
         Input,
         Output,
         InputPullup,
@@ -52,7 +53,7 @@ namespace Neutron::GPIO {
      * @brief The function to invoke when
      */
     using ISRFunction = void (*)();
-    void begin();
+    bool begin();
     void pinMode(int targetPin, PinMode direction);
     PinValue digitalRead(int targetPin);
     void digitalWrite(int targetPin, PinValue value);

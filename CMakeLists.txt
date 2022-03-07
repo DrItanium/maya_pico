@@ -424,11 +424,14 @@ target_link_libraries(maya PUBLIC
 		boost_filesystem
 		boost_system
 	)
-if(HAVE_GPIOD_HPP)
+if (HAVE_WIRING_PI_H)
+	set(WIRING_PI_LIBS wiringPi wiringPiDev)
+endif()
+if (HAVE_GPIOD_HPP)
+	set(GPIODCXX_LIBS gpiodcxx)
+endif()
 add_executable(gpio-example
 		cmd/gpio-example/main.cc
-		cmd/gpio-example/GPIOExtensions.h
-		cmd/gpio-example/GPIOExtensions.cc
 		)
 target_link_libraries(gpio-example PUBLIC
 		electron
@@ -437,18 +440,11 @@ target_link_libraries(gpio-example PUBLIC
 		boost_regex
 		boost_filesystem
 		boost_system
-		if (HAVE_WIRING_PI_H)
-		wiringPi
-		wiringPiDev
-		endif()
-		if (HAVE_GPIOD_HPP)
-		gpiodcxx
-		endif()
-		)
+		${WIRING_PI_LIBS}
+		${GPIODCXX_LIBS})
 target_include_directories(gpio-example PUBLIC
 		"${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
-endif()
 
 
 add_executable(chipset960 cmd/chipset960/main.cc)
@@ -459,15 +455,8 @@ target_link_libraries(chipset960 PUBLIC
 		boost_regex
 		boost_filesystem
 		boost_system
-		if (HAVE_WIRING_PI_H)
-		wiringPi
-		wiringPiDev
-		endif()
-		if (HAVE_GPIOD_HPP)
-		gpiodcxx
-		endif()
-
-		)
+		${WIRING_PI_LIBS}
+		${GPIODCXX_LIBS})
 target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"

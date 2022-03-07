@@ -35,7 +35,6 @@
 #include "platform/config.h"
 #ifdef HAVE_WIRING_PI_H
 namespace Neutron::SPI::WiringPi::Implementation {
-    void begin() { wiringPiSetup(); }
     bool beginTransaction(int channel, int speed, int mode) noexcept;
     bool endTransaction(int channel) noexcept;
     bool begin(int channel, int speed) noexcept;

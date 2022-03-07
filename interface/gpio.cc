@@ -29,6 +29,7 @@
 #include "platform/config.h"
 #include "interface/gpio.h"
 #include "interface/GPIODCxx.h"
+#include <boost/algorithm/string/case_conv.hpp>
 namespace Neutron::GPIO
 {
     void pinMode(int targetPin, PinMode direction) {
@@ -65,13 +66,92 @@ namespace Neutron::GPIO
         return false;
 #endif
     }
-    void
+    bool
     begin() {
 #ifdef HAVE_WIRING_PI_H
-        WiringPi::Implementation::begin();
+        return WiringPi::Implementation::begin();
 #elif defined(HAVE_GPIOD_HPP)
-        GPIOD::Implementation::begin();
+        return GPIOD::Implementation::begin();
 #endif
 
+    }
+    void
+    doDigitalRead(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &arg0)) {
+            return;
+        }
+        out->integerValue = theEnv.createInteger(static_cast<int>(digitalRead(static_cast<int>(arg0.integerValue->contents))));
+    }
+    void
+    doDigitalWrite(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0, arg1;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &arg0)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &arg1)) {
+            return;
+        }
+        auto thePin = static_cast<int>(arg0.integerValue->contents);
+        auto theAction = PinMode::None;
+        auto theValue = arg1.integerValue->contents != 0 ? PinValue::High : PinValue::Low;
+        digitalWrite(thePin, theValue);
+        out->lexemeValue = theEnv.trueSymbol();
+    }
+    void
+    doPinMode(UDF_ARGS__) {
+        auto& theEnv = Electron::Environment::fromRaw(env);
+        UDFValue arg0, arg1;
+        out->lexemeValue = theEnv.falseSymbol();
+        if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &arg0)) {
+            return;
+        }
+        if (!theEnv.nextArgument(context, Electron::ArgumentBits::Lexeme, &arg1)) {
+            return;
+        }
+        auto thePin = static_cast<int>(arg0.integerValue->contents);
+        auto theAction = PinMode::None;
+        if (std::string locaseValue(boost::algorithm::to_lower_copy(std::string(arg1.lexemeValue->contents))); locaseValue == "input") {
+            theAction = PinMode::Input;
+        } else if (locaseValue == "output") {
+            theAction = PinMode::Output;
+        } else if (locaseValue == "input-pullup") {
+            theAction = PinMode::InputPullup;
+        } else if (locaseValue == "input-pulldown") {
+            theAction = PinMode::InputPulldown;
+        }
+        pinMode(thePin, theAction);
+        out->lexemeValue = theEnv.createBool(theAction != PinMode::None);
+    }
+    void
+    installExtensions(Electron::Environment& theEnv) {
+        theEnv.addFunction("digital-read",
+                           Electron::makeReturnType(Electron::ArgumentTypes::Boolean, Electron::ArgumentTypes::Integer),
+                           1, 1,
+                           Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                           doDigitalRead,
+                           "doDigitalRead");
+
+        theEnv.addFunction("digital-write",
+                           Electron::returnsNothing.str(),
+                           2, 2,
+                           Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Boolean}),
+                           doDigitalWrite,
+                           "doDigitalWrite");
+        theEnv.addFunction("pin-mode",
+                           Electron::makeReturnType(Electron::ArgumentTypes::Boolean),
+                           2, 2,
+                           Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Symbol,
+                                                                               Electron::ArgumentTypes::String}),
+                           doPinMode,
+                           "doPinMode");
     }
 }
