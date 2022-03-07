@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
+include(CheckIncludeFiles)
+include(CheckIncludeFileCXX)
 project(maya VERSION 6.40)
+check_include_files(wiringPi.h HAVE_WIRING_PI_H)
+check_include_file_cxx(gpiod.hpp HAVE_GPIOD_HPP)
+check_include_files(gpiod.h HAVE_GPIOD_H)
+
+check_include_files(linux/spi/spidev.h HAVE_LINUX_SPIDEV_H)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(Boost REQUIRED COMPONENTS filesystem system regex)
@@ -399,13 +406,6 @@ add_library(electron
 	electron/MultifieldBuilder.cc
 	electron/MultifieldBuilder.h electron/ArgumentConstructor.h)
 add_executable(maya cmd/maya/main.cc)
-add_executable(chipset960 cmd/chipset960/main.cc)
-add_executable(gpio-example
-		cmd/gpio-example/main.cc
-		cmd/gpio-example/GPIOExtensions.h
-		cmd/gpio-example/GPIOExtensions.cc
-		cmd/gpio-example/SPIExtensions.h
-		cmd/gpio-example/SPIExtensions.cc)
 target_link_libraries(maya PUBLIC
 		electron
 		neutron
@@ -414,6 +414,13 @@ target_link_libraries(maya PUBLIC
 		boost_filesystem
 		boost_system
 	)
+if(HAVE_GPIOD_HPP)
+add_executable(gpio-example
+		cmd/gpio-example/main.cc
+		cmd/gpio-example/GPIOExtensions.h
+		cmd/gpio-example/GPIOExtensions.cc
+		cmd/gpio-example/SPIExtensions.h
+		cmd/gpio-example/SPIExtensions.cc)
 target_link_libraries(gpio-example PUBLIC
 		electron
 		neutron
@@ -423,7 +430,12 @@ target_link_libraries(gpio-example PUBLIC
 		boost_system
 		gpiodcxx
 		)
+target_include_directories(gpio-example PUBLIC "${PROJECT_SRC_DIR}")
+endif()
 
+
+if(HAVE_WIRING_PI_H)
+	add_executable(chipset960 cmd/chipset960/main.cc)
 target_link_libraries(chipset960 PUBLIC
 		electron
 		neutron
@@ -431,11 +443,12 @@ target_link_libraries(chipset960 PUBLIC
 		boost_regex
 		boost_filesystem
 		boost_system
-		gpiodcxx
+		wiringPi
+		wiringPiDev
 		)
+	target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}")
+endif()
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}")
-target_include_directories(gpio-example PUBLIC "${PROJECT_SRC_DIR}")
-target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}")
