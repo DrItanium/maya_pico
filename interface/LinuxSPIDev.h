@@ -118,6 +118,7 @@ namespace Neutron::SPI
         std::string path_;
         int fd_;
     };
+
 } // end namespace Neutron::SPI
 #endif
 #endif //MAYA_LINUXSPIDEV_H

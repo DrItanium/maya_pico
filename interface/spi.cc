@@ -1,6 +1,6 @@
 /**
  * @file
- * Generalized interface for handling SPI devices, this is not CLIPS specific nor is it target specific
+ * Cross-platform SPI implementation
  * @copyright
  * maya
  * Copyright (c) 2012-2022, Joshua Scoggins
@@ -26,26 +26,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-//
-// Created by jwscoggins on 2/25/22.
-//
 
-#ifndef MAYA_SPI_H
-#define MAYA_SPI_H
-#include "platform/os.h"
+//
+// Created by jwscoggins on 3/6/22.
+//
 #include "platform/config.h"
-#include "platform/types.h"
-#include "electron/Environment.h"
-namespace Neutron::SPI {
-    bool begin(int channel, int speed);
-    bool beginTransaction(int channel, int speed, int mode);
-    bool endTransaction(int channel);
-    int transfer(int channel, uint8_t* data, int count);
-    /**
-     * @brief General wrapper around the very simple features that make up this gpio device
-     * @param theEnv The environment to install the gpio devices into
-     */
-    void installExtensions(Electron::Environment& theEnv);
-} // end namespace Neutron::SPI
+#include "interface/spi.h"
+#include "LinuxSPIDev.h"
+#include "WiringPiSPI.h"
 
-#endif //MAYA_SPI_H
+namespace Neutron::SPI {
+    bool
+    begin(int channel, int speed) {
+#ifdef HAVE_WIRING_PI_H
+#elif defined(HAVE_LINUX_SPIDEV_H)
+#else
+        return false;
+#endif
+    }
+    bool
+    beginTransaction(int channel, int speed, int mode) {
+#ifdef HAVE_WIRING_PI_H
+#elif defined(HAVE_LINUX_SPIDEV_H)
+#else
+        return false;
+#endif
+
+    }
+    bool
+    endTransaction(int channel) {
+
+#ifdef HAVE_WIRING_PI_H
+#elif defined(HAVE_LINUX_SPIDEV_H)
+#else
+        return false;
+#endif
+    }
+    int
+    transfer(int channel, uint8_t* data, int count) {
+#ifdef HAVE_WIRING_PI_H
+#elif defined(HAVE_LINUX_SPIDEV_H)
+#else
+        return 0;
+#endif
+
+    }
+} // end namespace Neutron::SPI

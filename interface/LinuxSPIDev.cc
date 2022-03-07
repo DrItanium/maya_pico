@@ -1,6 +1,6 @@
 /**
  * @file
- * Generalized interface for handling SPI devices, this is not CLIPS specific nor is it target specific
+ * Linux SPIDev backend tracking
  * @copyright
  * maya
  * Copyright (c) 2012-2022, Joshua Scoggins
@@ -27,25 +27,6 @@
  *
  */
 //
-// Created by jwscoggins on 2/25/22.
+// Created by jwscoggins on 3/6/22.
 //
 
-#ifndef MAYA_SPI_H
-#define MAYA_SPI_H
-#include "platform/os.h"
-#include "platform/config.h"
-#include "platform/types.h"
-#include "electron/Environment.h"
-namespace Neutron::SPI {
-    bool begin(int channel, int speed);
-    bool beginTransaction(int channel, int speed, int mode);
-    bool endTransaction(int channel);
-    int transfer(int channel, uint8_t* data, int count);
-    /**
-     * @brief General wrapper around the very simple features that make up this gpio device
-     * @param theEnv The environment to install the gpio devices into
-     */
-    void installExtensions(Electron::Environment& theEnv);
-} // end namespace Neutron::SPI
-
-#endif //MAYA_SPI_H
