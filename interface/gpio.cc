@@ -29,6 +29,7 @@
 #include "platform/config.h"
 #include "interface/gpio.h"
 #include "interface/GPIODCxx.h"
+#include "interface/WiringPiGPIO.h"
 #include <boost/algorithm/string/case_conv.hpp>
 namespace Neutron::GPIO
 {
