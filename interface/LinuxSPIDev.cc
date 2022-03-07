@@ -44,7 +44,7 @@ namespace Neutron::SPI::SPIDEV::Implementation
         std::string
         makeDevicePath(int channel) noexcept {
             std::stringstream builder;
-            builder << "/dev/gpiochip" << channel;
+            builder << "/dev/spidev0." << channel;
             return builder.str(); /// @todo should we give this a name or will eliding the temporary work safely?
         }
         SPIDevice::Ptr

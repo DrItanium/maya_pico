@@ -29,5 +29,80 @@
 
 #ifndef MAYA_GPIO_H
 #define MAYA_GPIO_H
-#include "GPIODCxx.h"
+#include "electron/Environment.h"
+namespace Neutron::GPIO {
+    enum class PinMode {
+        Input,
+        Output,
+        InputPullup,
+        InputPulldown,
+    };
+    enum class InterruptMode {
+        None,
+        Falling,
+        Rising,
+        Both,
+    };
+    enum class PinValue {
+        Low = 0,
+        High = 1,
+    };
+    /// @todo reimplement as a virtual class in the backend
+    /**
+     * @brief The function to invoke when
+     */
+    using ISRFunction = void (*)();
+    void begin();
+    void pinMode(int targetPin, PinMode direction);
+    PinValue digitalRead(int targetPin);
+    void digitalWrite(int targetPin, PinValue value);
+    bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function);
+    void installExtensions(Electron::Environment& theEnv);
+    /**
+     * @brief GPIO information specific to the raspberry pi
+     */
+    namespace RaspberryPi {
+        /**
+         * @brief Translates the physical pin id to its internal broadcom pin id
+         * @tparam index
+         */
+        template<int index>
+        constexpr auto PhysicalToBCMTranslation_v = -1;
+#define X(from, to) template<> constexpr auto PhysicalToBCMTranslation_v < from > = to
+        X(3,2);
+        X(5,3);
+        X(7, 4);
+        X(8, 14);
+        X(10, 15);
+        X(11, 17);
+        X(12, 18);
+        X(13, 27);
+        X(15, 22);
+        X(16, 23);
+        X(18, 24);
+        X(19, 10);
+        X(21, 9);
+        X(22, 25);
+        X(23, 11);
+        X(24, 8);
+        X(26, 7);
+        // do not include the EEPROM i2c pins to be on the safe side
+        X(29, 5);
+        X(31, 6);
+        X(32, 12);
+        X(33, 13);
+        X(35, 19);
+        X(36, 16);
+        X(37, 26);
+        X(38, 20);
+        X(40, 21);
+#undef X
+        /**
+         * @brief Compile time constant that allows one to figure out if the given physical pin index maps to a valid pin
+         * @tparam index The physical pin index to check
+         */
+        template<int index>
+        constexpr bool PhysicalPinIndexIsValid_v = PhysicalToBCMTranslation_v<index> != -1;
+    } // end namespace Neutron::GPIO::RaspberryPi
+} // end namespace Neutron::GPIO
 #endif //MAYA_GPIO_H

@@ -372,7 +372,17 @@ add_library(neutron
 	platform/types.h
 	bugfix/fix_lhs_rhs_conflicts_begin.h
 	bugfix/fix_lhs_rhs_conflicts_end.h
-        platform/os.h interface/spi.h interface/gpio.h interface/LinuxSPIDev.h interface/GPIODCxx.h interface/WiringPiGPIO.h interface/WiringPiSPI.h interface/spi.cc interface/LinuxSPIDev.cc interface/SPIExtensions.cc interface/WiringPiSPI.cc)
+	platform/os.h
+	interface/spi.h
+	interface/gpio.h
+	interface/LinuxSPIDev.h
+	interface/GPIODCxx.h
+	interface/WiringPiGPIO.h
+	interface/WiringPiSPI.h
+	interface/spi.cc
+	interface/LinuxSPIDev.cc
+	interface/SPIExtensions.cc
+	interface/WiringPiSPI.cc interface/gpio.cc interface/GPIODCxx.cc)
 
 add_library(electron
 	electron/Aliases.h
@@ -427,7 +437,13 @@ target_link_libraries(gpio-example PUBLIC
 		boost_regex
 		boost_filesystem
 		boost_system
+		if (HAVE_WIRING_PI_H)
+		wiringPi
+		wiringPiDev
+		endif()
+		if (HAVE_GPIOD_HPP)
 		gpiodcxx
+		endif()
 		)
 target_include_directories(gpio-example PUBLIC
 		"${PROJECT_SRC_DIR}"
@@ -435,8 +451,7 @@ target_include_directories(gpio-example PUBLIC
 endif()
 
 
-if(HAVE_WIRING_PI_H)
-	add_executable(chipset960 cmd/chipset960/main.cc)
+add_executable(chipset960 cmd/chipset960/main.cc)
 target_link_libraries(chipset960 PUBLIC
 		electron
 		neutron
@@ -444,12 +459,17 @@ target_link_libraries(chipset960 PUBLIC
 		boost_regex
 		boost_filesystem
 		boost_system
+		if (HAVE_WIRING_PI_H)
 		wiringPi
 		wiringPiDev
+		endif()
+		if (HAVE_GPIOD_HPP)
+		gpiodcxx
+		endif()
+
 		)
-	target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}"
-			"${CMAKE_CURRENT_BINARY_DIR}")
-endif()
+target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}"
+		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}"

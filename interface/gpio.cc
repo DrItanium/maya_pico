@@ -1,6 +1,6 @@
 /**
  * @file
- * Linux GPIODCXX basic interface
+ * Generic GPIO interface
  * @copyright
  * maya
  * Copyright (c) 2012-2022, Joshua Scoggins
@@ -26,19 +26,52 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
-#ifndef MAYA_GPIODCXX_H
-#define MAYA_GPIODCXX_H
 #include "platform/config.h"
-#ifndef HAVE_WIRING_PI_H
-#ifdef HAVE_GPIOD_HPP
-namespace Neutron::GPIO::GPIOD::Implementation {
-    void pinMode(int targetPin, PinMode direction);
-    PinValue digitalRead(int targetPin);
-    void digitalWrite(int targetPin, PinValue value);
-    bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function);
-    void begin();
-} // end namespace Neutron::GPIO::GPIOD::Implementation
-#endif // end defined HAVE_GPIOD_HPP
-#endif // end !defined HAVE_WIRING_PI_H
-#endif //MAYA_GPIODCXX_H
+#include "interface/gpio.h"
+#include "interface/GPIODCxx.h"
+namespace Neutron::GPIO
+{
+    void pinMode(int targetPin, PinMode direction) {
+#ifdef HAVE_WIRING_PI_H
+        WiringPi::Implementation::pinMode(targetPin, direction);
+#elif defined(HAVE_GPIOD_HPP)
+        GPIOD::Implementation::pinMode(targetPin, direction);
+#endif
+
+    }
+    PinValue digitalRead(int targetPin) {
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::digitalRead(targetPin);
+#elif defined(HAVE_GPIOD_HPP)
+        return GPIOD::Implementation::digitalRead(targetPin);
+#else
+        return PinValue::Low;
+#endif
+
+    }
+    void digitalWrite(int targetPin, PinValue value) {
+#ifdef HAVE_WIRING_PI_H
+        WiringPi::Implementation::digitalWrite(targetPin, value);
+#elif defined(HAVE_GPIOD_HPP)
+        GPIOD::Implementation::digitalWrite(targetPin, value);
+#endif
+    }
+    bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function) {
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::attachInterrupt(targetPin, mode, function);
+#elif defined(HAVE_GPIOD_HPP)
+        return GPIOD::Implementation::attachInterrupt(targetPin, mode, function);
+#else
+        return false;
+#endif
+    }
+    void
+    begin() {
+#ifdef HAVE_WIRING_PI_H
+        WiringPi::Implementation::begin();
+#elif defined(HAVE_GPIOD_HPP)
+        GPIOD::Implementation::begin();
+#endif
+
+    }
+}

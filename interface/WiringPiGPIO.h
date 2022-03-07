@@ -35,12 +35,43 @@
 #include "platform/config.h"
 #ifdef HAVE_WIRING_PI_H
 #include <wiringPi.h>
-namespace Neutron::GPIO {
-    using ::digitalWrite;
-    using ::digitalRead;
-    using ::pinMode;
-    using ISRFunction = void (*)();
-    inline int attachInterrupt(int pin, int mode, ISRFunction function) { return wiringPiISR(pin, mode, function); }
+namespace Neutron::GPIO::WiringPi::Implementation {
+    inline void pinMode(int targetPin, PinMode direction) {
+        switch (direction) {
+            case PinMode::Input:
+                ::pinMode(targetPin, INPUT);
+                ::pullUpDnControl(targetPin, PUD_OFF);
+                break;
+            case PinMode::Output:
+                ::pinMode(targetPin, OUTPUT);
+                ::pullUpDnControl(targetPin, PUD_OFF);
+                break;
+            case PinMode::InputPullup:
+                ::pinMode(targetPin, INPUT);
+                ::pullUpDnControl(targetPin, PUD_UP);
+                break;
+            case PinMode::InputPulldown:
+                ::pinMode(targetPin, INPUT);
+                ::pullUpDnControl(targetPin, PUD_UP);
+                break;
+            default:
+                break;
+        }
+    }
+    PinValue digitalRead(int targetPin) { return static_cast<PinValue>(::digitalRead(targetPin)); }
+    void digitalWrite(int targetPin, PinValue value) { ::digitalWrite(targetPin, static_cast<int>(value)); }
+    bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function) {
+        switch (mode) {
+            case InterruptMode::Both:
+                return wiringPiISR(targetPin, INT_EDGE_BOTH, function);
+            case InterruptMode::Falling:
+                return wiringPiISR(targetPin, INT_EDGE_FALLING, function);
+            case InterruptMode::Rising:
+                return wiringPiISR(targetPin, INT_EDGE_RISING, function);
+            default:
+                return wiringPiISR(targetPin, INT_EDGE_SETUP, function);
+        }
+    }
 } // end namesapce Neutron::GPIO
 #endif
 
