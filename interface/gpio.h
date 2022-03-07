@@ -29,7 +29,9 @@
 
 #ifndef MAYA_GPIO_H
 #define MAYA_GPIO_H
+#ifdef HAVE_GPIOD_HPP
 #include <gpiod.hpp>
+#endif
 #include <memory>
 #include "platform/types.h"
 namespace Neutron::GPIO {
