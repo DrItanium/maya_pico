@@ -45,6 +45,6 @@ namespace Neutron::SPI::WiringPi::Implementation {
     begin(int channel, int speed) noexcept { return wiringPiSPISetup(channel, speed); }
 
     void
-    transfer(int channel, char* data, int len) noexcept { wiringPiSPIDataRW(channel, data, len); }
+    transfer(int channel, char* data, int len) noexcept { wiringPiSPIDataRW(channel, reinterpret_cast<unsigned char*>(data), len); }
 }
 #endif
