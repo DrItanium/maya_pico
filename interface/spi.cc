@@ -43,11 +43,20 @@ namespace Neutron::SPI {
 #else
         return false;
 #endif
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::begin(channel, speed);
+#elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::begin(channel, speed);
+#else
+        return false;
+#endif
     }
     bool
     beginTransaction(int channel, int speed, int mode) {
 #ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::beginTransaction(channel, speed, mode);
 #elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::beginTransaction(channel, speed, mode);
 #else
         return false;
 #endif
@@ -55,20 +64,21 @@ namespace Neutron::SPI {
     }
     bool
     endTransaction(int channel) {
-
 #ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::endTransaction(channel);
 #elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::endTransaction(channel);
 #else
         return false;
 #endif
+
     }
-    int
+    void
     transfer(int channel, uint8_t* data, int count) {
 #ifdef HAVE_WIRING_PI_H
+        WiringPi::Implementation::transfer(channel, data, count);
 #elif defined(HAVE_LINUX_SPIDEV_H)
-#else
-        return 0;
+        SPIDEV::Implementation::transfer(channel, data, count);
 #endif
-
     }
 } // end namespace Neutron::SPI

@@ -372,7 +372,7 @@ add_library(neutron
 	platform/types.h
 	bugfix/fix_lhs_rhs_conflicts_begin.h
 	bugfix/fix_lhs_rhs_conflicts_end.h
-        platform/os.h interface/spi.h interface/gpio.h interface/LinuxSPIDev.h interface/GPIODCxx.h interface/WiringPiGPIO.h interface/WiringPiSPI.h interface/spi.cc interface/LinuxSPIDev.cc)
+        platform/os.h interface/spi.h interface/gpio.h interface/LinuxSPIDev.h interface/GPIODCxx.h interface/WiringPiGPIO.h interface/WiringPiSPI.h interface/spi.cc interface/LinuxSPIDev.cc interface/SPIExtensions.cc)
 
 add_library(electron
 	electron/Aliases.h

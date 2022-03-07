@@ -1,6 +1,6 @@
 /**
  * @file
- * Thin wrapper over wiring pi spi features
+ * Cross-platform SPI implementation
  * @copyright
  * maya
  * Copyright (c) 2012-2022, Joshua Scoggins
@@ -29,19 +29,11 @@
 //
 // Created by jwscoggins on 3/6/22.
 //
+#include "interface/spi.h"
 
-#ifndef MAYA_WIRINGPISPI_H
-#define MAYA_WIRINGPISPI_H
-#include "platform/config.h"
-#ifdef HAVE_WIRING_PI_H
-#include <cstdint>
-#include <wiringPi.h>
-#include <wiringPiSPI.h>
-namespace Neutron::SPI::WiringPi::Implementation {
-    bool beginTransaction(int channel, int speed, int mode) noexcept { return wiringPiSPISetupMode(channel, speed, mode); }
-    bool endTransaction(int channel) noexcept { return true }
-    bool begin(int channel, int speed) noexcept { return wiringPiSPISetup(channel, speed); }
-    void transfer(int channel, uint8_t* data, int len) noexcept { return wiringPiSPIDataRW(channel, data, len); }
-}
-#endif
-#endif //MAYA_WIRINGPISPI_H
+namespace Neutron::SPI {
+    void
+    installExtensions(Electron::Environment& theEnv) noexcept {
+        /// @todo implement
+    }
+} // end namespace Neutron::SPI

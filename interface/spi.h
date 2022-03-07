@@ -40,12 +40,12 @@ namespace Neutron::SPI {
     bool begin(int channel, int speed);
     bool beginTransaction(int channel, int speed, int mode);
     bool endTransaction(int channel);
-    int transfer(int channel, uint8_t* data, int count);
+    void transfer(int channel, uint8_t* data, int count);
     /**
      * @brief General wrapper around the very simple features that make up this gpio device
      * @param theEnv The environment to install the gpio devices into
      */
-    void installExtensions(Electron::Environment& theEnv);
+    void installExtensions(Electron::Environment& theEnv) noexcept;
 } // end namespace Neutron::SPI
 
 #endif //MAYA_SPI_H

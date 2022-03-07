@@ -30,3 +30,67 @@
 // Created by jwscoggins on 3/6/22.
 //
 
+#include "platform/config.h"
+#ifdef HAVE_LINUX_SPIDEV_H
+#include "interface/LinuxSPIDev.h"
+#include <map>
+#include <memory>
+#include <sstream>
+namespace Neutron::SPI::SPIDEV::Implementation
+{
+    namespace {
+        using SPIDevice = Device;
+        std::map<std::string, SPIDevice::Ptr> openDeviceList_;
+        std::string
+        makeDevicePath(int channel) noexcept {
+            std::stringstream builder;
+            builder << "/dev/gpiochip" << channel;
+            return builder.str(); /// @todo should we give this a name or will eliding the temporary work safely?
+        }
+        SPIDevice::Ptr
+        getDevice(int channel) noexcept {
+            auto path = makeDevicePath(channel);
+            if (auto search = openDeviceList_.find(path); search != openDeviceList_.end()) {
+                return search->second;
+            } else {
+                auto theChip = std::make_shared<SPIDevice>(path);
+                auto [iter, _] = openDeviceList_.try_emplace(path, theChip);
+                return iter->second;
+            }
+        }
+    }
+    bool
+    begin(int channel, int speed) {
+        // unlike the first generation spi interface, this one abstracts the underlying implementation
+        auto result = getDevice(channel);
+        result->setMaxSpeed(speed);
+        return result->valid();
+    }
+    bool
+    beginTransaction(int channel, int speed, int mode) {
+        auto result = getDevice(channel);
+        result->setMode(static_cast<Device::Mode>(mode));
+        result->setMaxSpeed(speed);
+        return result->valid();
+    }
+    bool
+    endTransaction(int) {
+        // do nothing
+        return true;
+    }
+    void
+    transfer(int channel, uint8_t *data, int count) {
+        if (auto result = getDevice(channel); result->valid()) {
+            if (auto speed = result->getMaxSpeed(); speed) {
+                result->transfer(speed.value_or(0), reinterpret_cast<char*>(data), count);
+
+            }
+        }
+    }
+    Device::~Device() noexcept {
+        if (fd_) {
+            ::close(fd_);
+        }
+    }
+}
+#endif // end HAVE_LINUX_SPIDEV_H
