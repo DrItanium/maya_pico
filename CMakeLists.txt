@@ -9,7 +9,7 @@ find_package(Boost REQUIRED COMPONENTS filesystem system regex)
 check_include_files(wiringPi.h HAVE_WIRING_PI_H)
 check_include_file_cxx(gpiod.hpp HAVE_GPIOD_HPP)
 check_include_files(gpiod.h HAVE_GPIOD_H)
-check_include_files(linux/spi/spidev.h HAVE_LINUX_SPIDEV_H)
+check_include_files(spidev.h HAVE_LINUX_SPIDEV_H)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/platform/config.h)
 add_library(clips
 clips/agenda.c
@@ -372,7 +372,7 @@ add_library(neutron
 	platform/types.h
 	bugfix/fix_lhs_rhs_conflicts_begin.h
 	bugfix/fix_lhs_rhs_conflicts_end.h
-        platform/os.h interface/spi.h interface/gpio.h)
+        platform/os.h interface/spi.h interface/gpio.h interface/LinuxSPIDev.h)
 
 add_library(electron
 	electron/Aliases.h

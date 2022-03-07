@@ -30,4 +30,4 @@
  #cmakedefine HAVE_GPIOD_HPP 1
  #cmakedefine HAVE_GPIOD_H 1
  #cmakedefine HAVE_WIRING_PI_H 1
- #cmakedefine HAVE_LINUX_SPI_DEV_H 1
+ #cmakedefine HAVE_LINUX_SPIDEV_H 1
