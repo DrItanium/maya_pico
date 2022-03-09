@@ -51,7 +51,6 @@ static void                    CatchCtrlC(int);
 /***************************************/
 
 Electron::Environment mainEnv;
-Neutron::GPIO::Chip primaryChip_;
 enum class Pinout {
     BootSuccessful = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<7>,
     Ready = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<29>,
@@ -72,7 +71,7 @@ enum class Pinout {
     IoExpander_Int6 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<22>,
     IoExpander_Int7 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<37>,
 };
-using PinDirection = Neutron::GPIO::PinDirection;
+using PinDirection = Neutron::GPIO::PinMode;
 using PinValue = Neutron::GPIO::PinValue;
 void digitalWrite(Pinout pin, PinValue value);
 PinValue digitalRead(Pinout pin);
@@ -234,11 +233,10 @@ int main(int argc, char *argv[]) {
     signal(SIGINT,CatchCtrlC);
 #endif
     try {
-        // hardcode this for the raspberry pi for now
-        primaryChip_.open("/dev/gpiochip0");
-
+        Neutron::GPIO::begin();
+        Neutron::SPI::begin(0, 10 * 1024 * 1024);
     } catch (std::system_error& err) {
-        std::cout << "ERROR OPENING /dev/gpiochip0: " << err.what() << std::endl;
+        std::cout << "Error starting up: " << err.what() << std::endl;
         return 1;
     }
 
@@ -318,41 +316,16 @@ int main(int argc, char *argv[]) {
 
 void
 digitalWrite(Pinout pin, PinValue value) {
-    primaryChip_.get_line(static_cast<int>(pin)).set_value(value == PinValue::Low ? 0 : 1);
+    Neutron::GPIO::digitalWrite(static_cast<int>(pin), value) ;
 
 }
 PinValue
 digitalRead(Pinout pin) {
-    return static_cast<PinValue>(primaryChip_.get_line(static_cast<int>(pin)).get_value());
+    return Neutron::GPIO::digitalRead(static_cast<int>(pin));
 }
 void
 pinMode(Pinout pin, PinDirection direction) noexcept {
-    switch (auto ptr = primaryChip_.get_line(static_cast<int>(pin)); direction) {
-        case PinDirection::Input:
-            ptr.request({
-                                 ptr.consumer(),
-                                 gpiod::line_request::DIRECTION_INPUT,
-                                 gpiod::line_request::FLAG_BIAS_DISABLE,
-                         });
-            break;
-        case PinDirection::Output:
-            ptr.request({
-                                 ptr.consumer(),
-                                 gpiod::line_request::DIRECTION_OUTPUT,
-                                 0
-                         });
-            break;
-        case PinDirection::InputPullup:
-            ptr.request({
-                                 ptr.consumer(),
-                                 gpiod::line_request::DIRECTION_INPUT,
-                                 gpiod::line_request::FLAG_BIAS_PULL_UP,
-                         });
-            break;
-        default:
-            // do nothing
-            break;
-    }
+    Neutron::GPIO::pinMode(static_cast<int>(pin), direction);
 }
 
 
