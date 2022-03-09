@@ -125,6 +125,7 @@ namespace i960 {
     }
     void
     ChipsetInterface::shutdown(const std::string& str) noexcept {
+        std::cout << "SHUTDOWN: " << str << std::endl;
         SetHaltExecution(getRawEnvironment(),true);
         CloseAllBatchSources(getRawEnvironment());
         ManagementEngineReset.assertPin();
