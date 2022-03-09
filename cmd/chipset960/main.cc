@@ -32,7 +32,6 @@ extern "C" {
 }
 #include <iostream>
 #include <array>
-#include "electron/Environment.h"
 #include "interface/spi.h"
 #include "interface/gpio.h"
 #include "ChipsetInterface.h"
@@ -51,7 +50,6 @@ static void                    CatchCtrlC(int);
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
 
-Electron::Environment mainEnv;
 int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
@@ -65,7 +63,7 @@ int main(int argc, char *argv[]) {
     }
     auto& theChipset = i960::ChipsetInterface::get();
     theChipset.begin();
-    theChipset.run();
+    theChipset.invoke();
     theChipset.shutdown("Strange Termination!");
     return -1;
     // configure the pins of the raspberry pi
