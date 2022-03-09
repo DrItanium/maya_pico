@@ -31,5 +31,62 @@
 //
 #include "ChipsetInterface.h"
 namespace i960 {
+    namespace {
+        Electron::SingleArgument returnsVoid{Electron::ArgumentTypes::Void};
+        Electron::SingleArgument returnsInteger{Electron::ArgumentTypes::Integer};
+    }
+    void
+    ChipsetInterface::installProcessorExtensions() noexcept {
+        if (!extensionsInstalled_) {
+            extensionsInstalled_ = true;
+            addFunction("ram:set-word",
+                               returnsVoid.str(),
+                               2, 2,
+                               Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                               doSetWord,
+                               "doSetWord");
+            addFunction("ram:set-upper8",
+                               returnsVoid.str(),
+                               2, 2,
+                               Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                               doSetUpper8,
+                               "doSetUpper8");
+            addFunction("ram:set-lower8",
+                               returnsVoid.str(),
+                               2, 2,
+                               Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                               doSetLower8,
+                               "doSetLower8");
+            addFunction("ram:get-word",
+                               returnsInteger.str(),
+                               1, 1,
+                               Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                          Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                               doGetWord,
+                               "doGetWord");
+        }
+    }
+        void
+        ChipsetInterface::doSetWord(UDF_ARGS__) noexcept {
 
+        }
+        void
+        ChipsetInterface::doSetLower8(UDF_ARGS__) noexcept {
+
+        }
+        void
+        ChipsetInterface::doSetUpper8(UDF_ARGS__) noexcept {
+
+        }
+
+        void
+        ChipsetInterface::doGetWord(UDF_ARGS__) noexcept {
+
+        }
 }

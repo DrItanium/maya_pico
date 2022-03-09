@@ -36,6 +36,7 @@
 #include "electron/Environment.h"
 #include "interface/spi.h"
 #include "interface/gpio.h"
+#include <memory>
 namespace i960 {
     enum class Pinout {
         BootSuccessful = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<7>,
@@ -118,19 +119,63 @@ namespace i960 {
         Upper8,
         Full16,
     };
-    void waitForCycleUnlock() noexcept;
-    void waitForBootSignal() noexcept;
-    void systemSetup() noexcept;
-    void setupDataLinesForRead() noexcept;
-    bool isReadOpeation() noexcept;
-    bool isWriteOperation() noexcept;
-    LoadStoreStyle getStyle() noexcept;
-    uint32_t getAddress() noexcept;
-    void performReadTransaction() noexcept;
-    void performWriteTransaction() noexcept;
-    void newDataCycle() noexcept;
-    void waitForTransactionStart() noexcept;
     void shutdown(const std::string &message) noexcept;
-    void installExtensions(Electron::Environment &theEnv);
+
+    union MemoryCell {
+        uint16_t word;
+        uint8_t bytes[2];
+    };
+    class ChipsetInterface : public Electron::Environment
+    {
+    public:
+        static constexpr uint32_t MemorySize = 64 * 1024 * 1024;
+        static constexpr auto NumberOfCells = MemorySize / sizeof(MemoryCell);
+        using Parent = Electron::Environment;
+        using Address = uint32_t;
+    private:
+        ChipsetInterface();
+    public:
+        ~ChipsetInterface() override = default;
+        ChipsetInterface(const ChipsetInterface&) = delete;
+        ChipsetInterface(ChipsetInterface&&) = delete;
+        ChipsetInterface& operator=(const ChipsetInterface&) = delete;
+        ChipsetInterface& operator=(ChipsetInterface&&) = delete;
+        static ChipsetInterface& get() noexcept {
+            static ChipsetInterface theInterface;
+            return theInterface;
+        }
+        void begin();
+        void invoke();
+        void shutdown(const std::string& reason) noexcept;
+    private:
+        bool isReadOperation() noexcept;
+        bool isWriteOperation() noexcept;
+        uint32_t getAddress() noexcept;
+        void waitForCycleUnlock() noexcept;
+        void waitForBootSignal() noexcept;
+        LoadStoreStyle getStyle() noexcept;
+        void waitForTransactionStart() noexcept;
+        void performReadTransaction() noexcept;
+        void performWriteTransaction() noexcept;
+        void newDataCycle() noexcept;
+        void setupPins() noexcept;
+    private:
+        void setupRam() noexcept;
+        void systemSetup() noexcept;
+        void setupDataLines() noexcept;
+        void setupDataLinesForRead() noexcept;
+        void installProcessorExtensions() noexcept;
+        void setWord(Address address, uint16_t value) noexcept;
+        uint16_t getWord(Address address) noexcept;
+        void setLower8(Address address, uint8_t value) noexcept;
+        void setUpper8(Address address, uint8_t value) noexcept;
+        static void doSetWord(UDF_ARGS__) noexcept;
+        static void doSetUpper8(UDF_ARGS__) noexcept;
+        static void doSetLower8(UDF_ARGS__) noexcept;
+        static void doGetWord(UDF_ARGS__) noexcept;
+    private:
+        bool extensionsInstalled_ = false;
+        std::unique_ptr<MemoryCell[]> ram_;
+    };
 }
 #endif //MAYA_CHIPSETINTERFACE_H

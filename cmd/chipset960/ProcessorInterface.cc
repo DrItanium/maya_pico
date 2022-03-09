@@ -39,19 +39,32 @@ namespace i960 {
     configurePinBlock(T&& ... pins) noexcept {
         (pins.configure(), ...);
     }
+    void
+    digitalWrite(Pinout pin, PinValue value) {
+        Neutron::GPIO::digitalWrite(static_cast<int>(pin), value) ;
+
+    }
+    PinValue
+    digitalRead(Pinout pin) {
+        return Neutron::GPIO::digitalRead(static_cast<int>(pin));
+    }
+    void
+    pinMode(Pinout pin, PinDirection direction) noexcept {
+        Neutron::GPIO::pinMode(static_cast<int>(pin), direction);
+    }
 
     bool
-    isReadOperation() noexcept {
+    ChipsetInterface::isReadOperation() noexcept {
         return WR.isAsserted();
     }
 
     bool
-    isWriteOperation() noexcept {
+    ChipsetInterface::isWriteOperation() noexcept {
         return WR.isDeasserted();
     }
 
     LoadStoreStyle
-    getStyle() noexcept {
+    ChipsetInterface::getStyle() noexcept {
         if (BE0.isAsserted()) {
             if (BE1.isAsserted())  {
                 return LoadStoreStyle::Full16;
@@ -67,20 +80,20 @@ namespace i960 {
         }
     }
     uint32_t
-    getAddress() noexcept {
+    ChipsetInterface::getAddress() noexcept {
         /// @todo implement
         return 0;
     }
     void
-    performReadTransaction() noexcept {
+    ChipsetInterface::performReadTransaction() noexcept {
 
     }
     void
-    performWriteTransaction() noexcept {
+    ChipsetInterface::performWriteTransaction() noexcept {
 
     }
     void
-    newDataCycle() noexcept {
+    ChipsetInterface::newDataCycle() noexcept {
         auto address = getAddress();
         if (isReadOperation()) {
             performReadTransaction();
@@ -89,25 +102,95 @@ namespace i960 {
         }
     }
     void
-    waitForTransactionStart() noexcept {
+    ChipsetInterface::waitForTransactionStart() noexcept {
         while (InTransaction.isDeasserted());
     }
     void
-    setupDataLinesForRead() noexcept {
+    ChipsetInterface::setupDataLinesForRead() noexcept {
         std::cout << "Setting up Data Lines" << std::endl;
         /// @todo implement
     }
     void
-    systemSetup() noexcept {
+    ChipsetInterface::systemSetup() noexcept {
         std::cout << "Performing System Setup" << std::endl;
         /// @todo implement
     }
     void
-    waitForBootSignal() noexcept {
+    ChipsetInterface::waitForBootSignal() noexcept {
         while (BootSuccessful.digitalRead() == PinValue::Low);
         /// @todo add interrupt to BootSuccessful pin
         Neutron::GPIO::attachInterrupt(static_cast<int>(Pinout::BootSuccessful),
                                        Neutron::GPIO::InterruptMode::Falling,
-                                       []() { shutdown("CHECKSUM FAILURE"); });
+                                       []() { i960::shutdown("CHECKSUM FAILURE"); });
+    }
+    void
+    ChipsetInterface::shutdown(const std::string& str) noexcept {
+        SetHaltExecution(getRawEnvironment(),true);
+        CloseAllBatchSources(getRawEnvironment());
+        ManagementEngineReset.assertPin();
+        WaitBoot960.assertPin();
+        ManagementEngineReset.deassertPin();
+        // exit at this point
+        exit(1);
+    }
+    ChipsetInterface::ChipsetInterface() : ChipsetInterface::Parent() {
+        // setup the extra extensions as needed
+        installProcessorExtensions();
+    }
+    void
+    ChipsetInterface::setupRam() noexcept {
+        ram_ = std::make_unique<MemoryCell[]>(NumberOfCells);
+        for (uint32_t i = 0; i < NumberOfCells; ++i) {
+            ram_[i].word = 0;
+        }
+    }
+    void
+    ChipsetInterface::setupPins() noexcept {
+        i960::configurePinBlock(Ready,
+                                BootSuccessful,
+                                WR,
+                                BE0,
+                                BE1,
+                                InTransaction,
+                                DoCycle,
+                                Blast,
+                                ManagementEngineReset,
+                                WaitBoot960,
+                                IOEXP_INT0,
+                                IOEXP_INT1,
+                                IOEXP_INT2,
+                                IOEXP_INT3,
+                                IOEXP_INT4,
+                                IOEXP_INT5,
+                                IOEXP_INT6,
+                                IOEXP_INT7);
+        std::cout << "Pulling Management Engine into Reset and starting configuration" << std::endl;
+    }
+    void
+    shutdown(const std::string& msg) noexcept {
+        ChipsetInterface::get().shutdown(msg);
+    }
+    void
+    ChipsetInterface::begin() {
+        setupPins();
+        ManagementEngineReset.assertPin();
+        WaitBoot960.assertPin();
+        setupRam();
+        installProcessorExtensions();
+        /// @todo introduce a delay?
+        ManagementEngineReset.deassertPin();
+        std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
+        systemSetup();
+        setupDataLinesForRead();
+        WaitBoot960.deassertPin();
+        waitForBootSignal();
+        std::cout << "i960 Successfully Booted!" << std::endl;
+    }
+    void
+    ChipsetInterface::invoke() {
+        while (true) {
+            waitForTransactionStart();
+            newDataCycle();
+        }
     }
 }
