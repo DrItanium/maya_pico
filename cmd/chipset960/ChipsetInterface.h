@@ -166,10 +166,10 @@ namespace i960 {
         void newDataCycle() noexcept;
         void setupDataLines() noexcept;
         enum class IOExpanderAddress : uint8_t {
-            Lower16Lines= 0b0000,
-            Upper16Lines = 0b0010,
-            DataLines = 0b0100,
-            Extras = 0b0110,
+            Lower16Lines= 0,
+            Upper16Lines,
+            DataLines,
+            Extras,
 
         };
         enum class MCP23x17Registers : uint8_t {
@@ -215,8 +215,8 @@ namespace i960 {
     private:
         void doSPITransaction(uint8_t* storage, int count);
     private:
-        static constexpr uint8_t generateReadOpcode(IOExpanderAddress address) noexcept { return 0b0100'0001 | static_cast<uint8_t>(address); }
-        static constexpr uint8_t generateWriteOpcode(IOExpanderAddress address) noexcept { return 0b0100'0000 | static_cast<uint8_t>(address); }
+        static constexpr uint8_t generateReadOpcode(IOExpanderAddress address) noexcept { return 0b0100'0001 | (static_cast<uint8_t>(address) << 1); }
+        static constexpr uint8_t generateWriteOpcode(IOExpanderAddress address) noexcept { return 0b0100'0000 | (static_cast<uint8_t>(address) << 1); }
     private:
         bool extensionsInstalled_ = false;
         uint16_t currentGPIO4Status_ = 0b00000000'10010010;
