@@ -276,6 +276,27 @@ namespace i960 {
             std::string theStr(message.lexemeValue->contents);
             theEnv.shutdown(theStr);
         }
+        /**
+         * @brief CLIPS interface function to convert a lexeme in HEX form to
+         */
+        void
+        doHexConversion(UDF_ARGS__) noexcept {
+            auto& theEnv = reinterpret_cast<ChipsetInterface&>(Electron::Environment::fromRaw(env));
+            UDFValue value;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Lexeme, &value)) {
+                out->lexemeValue = theEnv.falseSymbol();
+                return;
+            }
+            std::string theStr(value.lexemeValue->contents);
+            if (theStr.length() <= 2) {
+                out->lexemeValue = theEnv.falseSymbol();
+            } else {
+                uint32_t resultantAddress = 0;
+                std::istringstream iss(theStr);
+                iss >> std::hex >> resultantAddress;
+                out->integerValue = theEnv.createInteger(static_cast<long long>(resultantAddress));
+            }
+        }
     }
     void
     ChipsetInterface::installExtensions() noexcept {
@@ -287,6 +308,13 @@ namespace i960 {
                                                                                   Electron::ArgumentTypes::String}),
                         doChipsetShutdown,
                         "doChipsetShutdown");
+            addFunction("hex32->number",
+                        Electron::optionalReturnType(Electron::ArgumentTypes::Integer),
+                        1, 1,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Symbol, Electron::ArgumentTypes::String}),
+                        doHexConversion,
+                        "doHexConversion");
+
         }
     }
 }
