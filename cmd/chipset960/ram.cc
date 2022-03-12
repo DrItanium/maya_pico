@@ -154,7 +154,14 @@ namespace i960 {
             }
 
         }
+        void
+        performRAMSize(UDF_ARGS__) {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            out->integerValue = theEnv.createInteger(RAMSize);
+        }
     }
+
+
     void
     installRAMExtensions(Electron::Environment& theEnv) noexcept {
         setupRAM();
@@ -185,6 +192,9 @@ namespace i960 {
                                                       Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
                            performStoreByte,
                            "performStoreByte");
-
+        theEnv.addFunctionNoArgs("ram:size",
+                                 Electron::makeReturnType(Electron::ArgumentTypes::Integer),
+                                 performRAMSize,
+                                 "performRAMSize");
     }
 }
