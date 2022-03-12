@@ -36,27 +36,28 @@
 #include "electron/Environment.h"
 #include "interface/spi.h"
 #include "interface/gpio.h"
+#include "platform/config.h"
 #include <memory>
 namespace i960 {
     enum class Pinout {
-        BootSuccessful = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<7>,
-        Ready = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<29>,
-        WR = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<31>,
-        BE0 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<32>,
-        BE1 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<33>,
-        InTransaction = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<8>,
-        DoCycle = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<10>,
-        Blast = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<36>,
-        MeReset = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<11>,
-        WaitBoot960 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<12>,
-        IoExpander_Int0 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<35>,
-        IoExpander_Int1 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<38>,
-        IoExpander_Int2 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<40>,
-        IoExpander_Int3 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<15>,
-        IoExpander_Int4 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<16>,
-        IoExpander_Int5 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<18>,
-        IoExpander_Int6 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<22>,
-        IoExpander_Int7 = Neutron::GPIO::RaspberryPi::PhysicalToBCMTranslation_v<37>,
+        BootSuccessful = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<7>,
+        Ready = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<29>,
+        WR = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<31>,
+        BE0 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<32>,
+        BE1 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<33>,
+        InTransaction = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<8>,
+        DoCycle = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<10>,
+        Blast = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<36>,
+        MeReset = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<11>,
+        WaitBoot960 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<12>,
+        IoExpander_Int0 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<35>,
+        IoExpander_Int1 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<38>,
+        IoExpander_Int2 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<40>,
+        IoExpander_Int3 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<15>,
+        IoExpander_Int4 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<16>,
+        IoExpander_Int5 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<18>,
+        IoExpander_Int6 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<22>,
+        IoExpander_Int7 = Neutron::GPIO::RaspberryPi::PhysicalPinToGPIOIndex_v<37>,
     };
     using PinDirection = Neutron::GPIO::PinMode;
     using PinValue = Neutron::GPIO::PinValue;

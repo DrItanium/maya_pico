@@ -36,7 +36,9 @@
 #include <wiringPiSPI.h>
 namespace Neutron::SPI::WiringPi::Implementation {
     bool
-    beginTransaction(int channel, int speed, int mode) noexcept { return wiringPiSPISetupMode(channel, speed, mode); }
+    beginTransaction(int channel, int speed, int mode) noexcept {
+        return wiringPiSPISetupMode(channel, speed, mode);
+    }
 
     bool
     endTransaction(int channel) noexcept { return true; }

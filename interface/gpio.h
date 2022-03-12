@@ -29,6 +29,7 @@
 
 #ifndef MAYA_GPIO_H
 #define MAYA_GPIO_H
+#include "platform/config.h"
 #include "electron/Environment.h"
 namespace Neutron::GPIO {
     enum class PinMode {
@@ -98,12 +99,59 @@ namespace Neutron::GPIO {
         X(38, 20);
         X(40, 21);
 #undef X
+
+        template<int index>
+        constexpr auto PhysicalToWiringPiTranslation_v = -1;
+#define X(from, to) template<> constexpr auto PhysicalToWiringPiTranslation_v < from > = to
+        X(11, 0);
+        X(12, 1);
+        X(13, 2);
+        X(15, 3);
+        X(16, 4);
+        X(18, 5);
+        X(22, 6);
+        X(7, 7);
+        X(3, 8);
+        X(5, 9);
+        X(24, 10);
+        X(26, 11);
+        X(19, 12);
+        X(21, 13);
+        X(23, 14);
+        X(8, 15);
+        X(10, 16);
+        X(29, 21);
+        X(31, 22);
+        X(33, 23);
+        X(35, 24);
+        X(37, 25);
+        X(32, 26);
+        X(36, 27);
+        X(38, 28);
+        X(40, 29);
+        X(27, 30);
+        X(28, 31);
+#undef X
+        /**
+         * @brief An abstract way to translate a raspberry pi physical pin index to an underlying implementation (BCM, WiringPi, etc)
+         * @tparam index The physical pin index
+         */
+#ifdef HAVE_WIRING_PI_H
+        template<int index>
+        constexpr auto PhysicalPinToGPIOIndex_v = PhysicalToWiringPiTranslation_v<index>;
+#elif defined(HAVE_GPIOD_HPP)
+        template<int index>
+        constexpr auto PhysicalPinToGPIOIndex_v = PhysicalToBCMTranslation_v<index>;
+#else
+        template<int index>
+        constexpr auto PhysicalPinToGPIOIndex_v = -1;
+#endif
         /**
          * @brief Compile time constant that allows one to figure out if the given physical pin index maps to a valid pin
          * @tparam index The physical pin index to check
          */
         template<int index>
-        constexpr bool PhysicalPinIndexIsValid_v = PhysicalToBCMTranslation_v<index> != -1;
+        constexpr bool PhysicalPinIndexIsValid_v = PhysicalPinToGPIOIndex_v<index> != -1;
     } // end namespace Neutron::GPIO::RaspberryPi
 } // end namespace Neutron::GPIO
 #endif //MAYA_GPIO_H
