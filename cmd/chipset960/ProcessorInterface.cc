@@ -111,10 +111,11 @@ namespace i960 {
     };
     void
     ChipsetInterface::write8(IOExpanderAddress address, MCP23x17Registers target, uint8_t value) {
-        uint8_t command[3] {
-                generateWriteOpcode(address) ,
+        uint8_t command[4] {
+                generateWriteOpcode(address),
                 static_cast<uint8_t>(target),
-                value
+                value,
+                0,
         };
         doSPITransaction(command, 3);
     }
@@ -136,6 +137,9 @@ namespace i960 {
                 0,
         };
         doSPITransaction(command, 3);
+        for (int i = 0; i < 3; ++i) {
+            std::cout << "command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
+        }
         return command[2];
     }
     uint16_t
