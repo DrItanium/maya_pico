@@ -56,21 +56,26 @@ int main(int argc, char *argv[]) {
 #endif
     try {
         Neutron::GPIO::begin();
-        if (!Neutron::SPI::begin(0, 1 * 1000 * 1000)) {
+        if (!Neutron::SPI::begin(0, 10 * 1000 * 1000)) {
             i960::shutdown("Could not open SPI Bus!");
         }
     } catch (std::system_error& err) {
         std::cout << "Error starting up: " << err.what() << std::endl;
         return 1;
     }
+    constexpr bool BypassMicrocodeLoading = true;
     auto& theChipset = i960::ChipsetInterface::get();
     theChipset.setupPins();
     theChipset.putManagementEngineInReset();
     theChipset.setupDataLines();
     std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
     theChipset.pullManagementEngineOutOfReset();
-    /// @todo insert calls to add extended clips functionality here
-    theChipset.loadMicrocode();
+    if constexpr (BypassMicrocodeLoading) {
+        std::cout << "Bypassing Microcode Loading. Disable flag and recompile!";
+    } else {
+        /// @todo insert calls to add extended clips functionality here
+        theChipset.loadMicrocode();
+    }
     std::cout << "Pulling the i960 out of reset!" << std::endl;
     theChipset.pull960OutOfReset();
     theChipset.waitForBootSignal();
