@@ -140,7 +140,7 @@
   ((?address INTEGER)
    (?value INTEGER)
    (?style SYMBOL))
-  (format t "(perform-write 0x%x 0x%x %d)%n" ?address ?value ?style)
+  (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
   (bind ?the-transaction 
         (make-instance of transaction-request
                        (address ?address)
