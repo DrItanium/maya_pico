@@ -199,10 +199,8 @@
                (+ ?address 1)))
   (printout t crlf "Finished installing boot.sys!" crlf)
   (close ?boot-sys-handle)
-  (bind ?init-phase-fact
-        (assert (ucode-setup)))
+  (assert (ucode-setup))
   (run)
-  (retract ?init-phase-fact)
   ; TODO: setup any other things necessary
   )
 (deffacts MAIN::fixed-address-declarations
@@ -275,6 +273,12 @@
                  (lookup-table-entry (base (+ ?base 1))
                                      (style upper8)
                                      (value (word16-upper-half ?value)))))
+
+(defrule MAIN::ucode-setup-done
+         (declare (salience -10000))
+         ?f <- (ucode-setup)
+         => 
+         (retract ?f))
 
 ; glue logic for dispatching to different peripherals, this is just for the ones that make sense as objects
 
