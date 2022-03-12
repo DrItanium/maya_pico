@@ -80,23 +80,6 @@ namespace i960 {
         }
     }
     void
-    ChipsetInterface::performReadTransaction() noexcept {
-
-    }
-    void
-    ChipsetInterface::performWriteTransaction() noexcept {
-
-    }
-    void
-    ChipsetInterface::newDataCycle() noexcept {
-        auto address = getAddress();
-        if (isReadOperation()) {
-            performReadTransaction();
-        } else {
-            performWriteTransaction();
-        }
-    }
-    void
     ChipsetInterface::waitForTransactionStart() noexcept {
         while (InTransaction.isDeasserted());
     }
@@ -254,5 +237,30 @@ namespace i960 {
     void
     ChipsetInterface::waitForCycleUnlock() noexcept {
         while (DoCycle.isDeasserted());
+    }
+    uint16_t
+    ChipsetInterface::getDataLines() noexcept {
+        return readGPIO16<IOExpanderAddress::DataLines>();
+    }
+
+    void
+    ChipsetInterface::setDataLines(uint16_t value) noexcept {
+        writeGPIO16<IOExpanderAddress::DataLines>(value);
+    }
+    void
+    ChipsetInterface::setupDataLinesForWrite() noexcept {
+        // input
+        if (!currentDataLineDirection_) {
+            currentDataLineDirection_ = ~currentDataLineDirection_;
+            setDirection<IOExpanderAddress::DataLines>(currentDataLineDirection_);
+        }
+    }
+    void
+    ChipsetInterface::setupDataLinesForRead() noexcept {
+        // output
+        if (currentDataLineDirection_) {
+            currentDataLineDirection_ = ~currentDataLineDirection_;
+            setDirection<IOExpanderAddress::DataLines>(currentDataLineDirection_);
+        }
     }
 }

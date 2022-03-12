@@ -83,13 +83,26 @@ int main(int argc, char *argv[]) {
     /// @todo expand to actually be a proper chipset handler
     while (true) {
        theChipset.waitForTransactionStart();
-       auto address = theChipset.getAddress();
-       while (true) {
-           theChipset.waitForCycleUnlock();
-           if (theChipset.signalCPU()) {
-               break;
+       if (auto baseAddress = theChipset.getAddress(); theChipset.isReadOperation()) {
+           theChipset.setupDataLinesForRead();
+           while (true) {
+               theChipset.waitForCycleUnlock();
+               if (theChipset.signalCPU()) {
+                   break;
+               }
+               baseAddress += 2;
            }
-           address += 2;
+       } else {
+           theChipset.setupDataLinesForWrite();
+           // write operation
+           while (true) {
+               theChipset.waitForCycleUnlock();
+               if (theChipset.signalCPU()) {
+                   break;
+               }
+               baseAddress += 2;
+           }
+
        }
     }
 

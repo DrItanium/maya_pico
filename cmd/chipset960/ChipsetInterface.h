@@ -161,9 +161,10 @@ namespace i960 {
         void waitForBootSignal() noexcept;
         LoadStoreStyle getStyle() noexcept;
         void waitForTransactionStart() noexcept;
-        void performReadTransaction() noexcept;
-        void performWriteTransaction() noexcept;
-        void newDataCycle() noexcept;
+        void setupDataLinesForRead() noexcept;
+        void setupDataLinesForWrite() noexcept;
+        void setDataLines(uint16_t value) noexcept;
+        uint16_t getDataLines() noexcept;
         void setupDataLines() noexcept;
         enum class IOExpanderAddress : uint8_t {
             Lower16Lines= 0,
