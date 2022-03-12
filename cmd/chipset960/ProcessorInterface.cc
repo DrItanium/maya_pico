@@ -105,10 +105,6 @@ namespace i960 {
     ChipsetInterface::waitForTransactionStart() noexcept {
         while (InTransaction.isDeasserted());
     }
-    union IOExpanderCommand {
-        uint32_t raw;
-        uint8_t bytes[sizeof(uint32_t)];
-    };
     void
     ChipsetInterface::write8(IOExpanderAddress address, MCP23x17Registers target, uint8_t value) {
         uint8_t command[4] {
@@ -131,9 +127,10 @@ namespace i960 {
     }
     uint8_t
     ChipsetInterface::read8(IOExpanderAddress address, MCP23x17Registers target) {
-        uint8_t command[3] {
+        uint8_t command[4] {
                 generateReadOpcode(address) ,
                 static_cast<uint8_t>(target),
+                0,
                 0,
         };
         doSPITransaction(command, 3);
