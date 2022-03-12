@@ -101,8 +101,8 @@ namespace i960 {
     constexpr PinConfiguration BE0 {Pinout::BE0, PinDirection::Input};
     constexpr PinConfiguration BE1 {Pinout::BE1, PinDirection::Input};
     constexpr PinConfiguration InTransaction {Pinout::InTransaction, PinDirection::Input};
-    constexpr PinConfiguration DoCycle {Pinout::InTransaction, PinDirection::Input};
-    constexpr PinConfiguration Blast{Pinout::InTransaction, PinDirection::Input, PinValue::High, PinValue::Low};
+    constexpr PinConfiguration DoCycle {Pinout::DoCycle, PinDirection::Input};
+    constexpr PinConfiguration Blast{Pinout::Blast, PinDirection::Input, PinValue::High, PinValue::Low};
     constexpr PinConfiguration ManagementEngineReset { Pinout::MeReset, PinDirection::Output};
     constexpr PinConfiguration WaitBoot960 { Pinout::WaitBoot960, PinDirection::Output};
     constexpr PinConfiguration IOEXP_INT0 { Pinout::IoExpander_Int0, PinDirection::Input};

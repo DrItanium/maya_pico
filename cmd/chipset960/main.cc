@@ -64,10 +64,9 @@ int main(int argc, char *argv[]) {
     auto& theChipset = i960::ChipsetInterface::get();
     theChipset.setupPins();
     theChipset.putManagementEngineInReset();
-
+    theChipset.setupDataLines();
     std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
     theChipset.pullManagementEngineOutOfReset();
-    theChipset.setupDataLines();
     /// @todo insert calls to add extended clips functionality here
     theChipset.loadMicrocode();
     std::cout << "Pulling the i960 out of reset!" << std::endl;
