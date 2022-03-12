@@ -44,20 +44,20 @@ extern "C" {
 void
 loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
     auto& theChipset = i960::ChipsetInterface::get();
-    // do a sanity check ahead of time to stop if we run into illegal load store styles
-    // otherwise just install it as a number. We want to eliminate the overhead from doing integer -> symbol and symbol -> integer
-    // since this is going into the microcode, it is okay to need to update the microcode if we change the communication protocol
-    //
-    // Ideally, the microcode is designed in such a way to make such changes only require one area to be updated. The rest of the
-    // microcode should be unaware of the change
+    // give the microcode an abstract representation of the load store style by making them symbols
     switch (auto theStyle = theChipset.getStyle(); theStyle) {
         case i960::LoadStoreStyle::Full16:
+            builder->add(Electron::FunctionBuilder::symbol("full16"));
+            break;
         case i960::LoadStoreStyle::Lower8:
+            builder->add(Electron::FunctionBuilder::symbol("lower8"));
+            break;
         case i960::LoadStoreStyle::Upper8:
-            builder->add(static_cast<std::underlying_type_t<decltype(theStyle)>>(theStyle));
+            builder->add(Electron::FunctionBuilder::symbol("upper8"));
             break;
         default:
-            theChipset.shutdown("Illegal load store style!");
+            /// let the microcode do error handling as it is increases flexibility
+            builder->add(Electron::FunctionBuilder::symbol("none"));
             break;
     }
 }
