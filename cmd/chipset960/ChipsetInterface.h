@@ -259,6 +259,7 @@ namespace i960 {
         bool signalCPU() noexcept;
     private:
         void doSPITransaction(uint8_t* storage, int count);
+        void installExtensions() noexcept;
     private:
         static constexpr uint8_t generateReadOpcode(IOExpanderAddress address) noexcept { return 0b0100'0001 | (static_cast<uint8_t>(address) << 1); }
         static constexpr uint8_t generateWriteOpcode(IOExpanderAddress address) noexcept { return 0b0100'0000 | (static_cast<uint8_t>(address) << 1); }

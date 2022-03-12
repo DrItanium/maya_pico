@@ -181,7 +181,9 @@ namespace i960 {
         // exit at this point
         exit(1);
     }
-    ChipsetInterface::ChipsetInterface() : ChipsetInterface::Parent() { }
+    ChipsetInterface::ChipsetInterface() : ChipsetInterface::Parent() {
+        installExtensions();
+    }
     void
     ChipsetInterface::setupPins() noexcept {
         i960::configurePinBlock(Ready,
@@ -261,6 +263,32 @@ namespace i960 {
         if (currentDataLineDirection_) {
             currentDataLineDirection_ = ~currentDataLineDirection_;
             setDirection<IOExpanderAddress::DataLines>(currentDataLineDirection_);
+        }
+    }
+    namespace {
+        void
+        doChipsetShutdown(UDF_ARGS__) noexcept {
+            auto& theEnv = reinterpret_cast<ChipsetInterface&>(Electron::Environment::fromRaw(env));
+            UDFValue message;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Lexeme, &message)) {
+                out->lexemeValue = theEnv.falseSymbol();
+                return;
+            }
+            out->lexemeValue = theEnv.trueSymbol();
+            std::string theStr(message.lexemeValue->contents);
+            theEnv.shutdown(theStr);
+        }
+    }
+    void
+    ChipsetInterface::installExtensions() noexcept {
+        if (!extensionsInstalled_) {
+            extensionsInstalled_ = true;
+            addFunction("shutdown960",
+                        Electron::makeReturnType(Electron::ArgumentTypes::Boolean),
+                        1, 1, Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Symbol,
+                                                                                  Electron::ArgumentTypes::String}),
+                        doChipsetShutdown,
+                        "doChipsetShutdown");
         }
     }
 }
