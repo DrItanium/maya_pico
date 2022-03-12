@@ -233,7 +233,7 @@
          (retract ?f)
          (send ?md 
                perform-write
-               ?address
+               ?addr
                ?value
                ?style)
          (modify-instance ?tr 
