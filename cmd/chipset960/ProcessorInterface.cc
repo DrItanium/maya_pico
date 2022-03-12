@@ -154,11 +154,11 @@ namespace i960 {
     ChipsetInterface::doSPITransaction(uint8_t *command, int count) {
         //Neutron::SPI::beginTransaction(0, 10 * 1000 * 1000, Neutron::SPI::mode0());
         std::cout << "doSPITransaction{" << std::endl;
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < count; ++i) {
             std::cout << "before command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
         }
         Neutron::SPI::transfer(0, reinterpret_cast<char*>(command), count);
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < count; ++i) {
             std::cout << "after command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
         }
         //Neutron::SPI::endTransaction(0);
