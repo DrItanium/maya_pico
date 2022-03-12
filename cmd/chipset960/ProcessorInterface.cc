@@ -136,9 +136,12 @@ namespace i960 {
                 static_cast<uint8_t>(target),
                 0,
         };
+        for (int i = 0; i < 3; ++i) {
+            std::cout << "before command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
+        }
         doSPITransaction(command, 3);
         for (int i = 0; i < 3; ++i) {
-            std::cout << "command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
+            std::cout << "after command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
         }
         return command[2];
     }
