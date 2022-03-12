@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 #endif
     try {
         Neutron::GPIO::begin();
-        Neutron::SPI::begin(0, 10 * 1024 * 1024);
+        Neutron::SPI::begin(0, 10 * 1000 * 1000);
     } catch (std::system_error& err) {
         std::cout << "Error starting up: " << err.what() << std::endl;
         return 1;
