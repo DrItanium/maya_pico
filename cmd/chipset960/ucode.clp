@@ -30,36 +30,126 @@
             "Request by the i960 to store a value to some device (including ram)")
 (defgeneric ucode-init
             "First function called after loading microcode, meant to set everything up")
+(defclass MAIN::mapped-device
+  (is-a USER)
+  (role abstract)
+  (pattern-match non-reactive)
+  (slot start-address
+        (type INTEGER)
+        (range 0 ?VARIABLE)
+        (visibility public)
+        (storage local)
+        (default-dynamic ?NONE))
+  (slot end-address
+        (type INTEGER)
+        (range 0 ?VARIABLE)
+        (visibility public)
+        (storage local)
+        (default-dynamic ?NONE))
+  (slot kind
+        (type LEXEME)
+        (visibility public)
+        (storage shared)
+        (default UNDEFINED))
+  (message-handler responds-to primary)
+  (message-handler perform-read primary)
+  (message-handler perform-write primary))
+(defmessage-handler MAIN::mapped-device responds-to primary
+                    (?address)
+                    (and (< ?address ?self:end-address)
+                         (>= ?address ?self:start-address)))
+(defclass MAIN::ram-device
+  (is-a mapped-device)
+  (role concrete)
+  (pattern-match reactive)
+  (slot kind
+        (source composite)
+        (default ram))
+  (message-handler perform-read primary)
+  (message-handler perform-write primary))
 
-(defmethod perform-read
-  ((?address INTEGER)
-   (?style INTEGER))
-  (format t "(perform-read 0x%x %d)%n" ?address ?style)
-  0)
-(defmethod perform-read
-  ((?address INTEGER)
-   (?style LEXEME))
-  (format t "(perform-read 0x%x %s)%n" ?address ?style)
-  0)
+(defmessage-handler MAIN::ram-device perform-read primary
+                    (?address)
+                    (ram:load ?address))
+(defmessage-handler MAIN::ram-device perform-write primary
+                    (?address ?value ?style)
+                    (ram:store ?address
+                               ?value
+                               ?style))
+
+
+
+(defclass MAIN::transaction-request
+  (is-a USER)
+  (slot address
+        (type INTEGER)
+        (range 0 ?VARIABLE)
+        (visibility public)
+        (storage local)
+        (default-dynamic ?NONE))
+  (slot style
+        (type SYMBOL)
+        (allowed-symbols FALSE ; never set
+                         none ; error state
+                         full16 
+                         lower8
+                         upper8)
+        (visibility public)
+        (storage local)
+        (default-dynamic FALSE))
+  (slot kind
+        (type SYMBOL)
+        (visibility public)
+        (storage local)
+        (allowed-symbols READ 
+                         WRITE)
+        (default-dynamic ?NONE))
+  (slot value
+        (type INTEGER)
+        (visibility public)
+        (storage local)
+        (default-dynamic 0))
+  (slot serviced
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (visibility public)
+        (storage local)))
 
 (defmethod perform-read
   ((?address INTEGER))
-  (format t "(perform-read 0x%x)%n" ?address)
-  0)
+  ; kind of unsafe since we are relying that the transaction fact never gets 
+  ; retracted during fact execution
+  (bind ?the-transaction
+        (make-instance of transaction-request
+                       (address ?address)
+                       (kind READ)
+                       (style full16)))
+  (run)
+  (bind ?result 
+        (send ?the-transaction
+              get-value))
+  (unmake-instance ?the-transaction)
+  (format t 
+          "(perform-read 0x%x) => 0x%x%n" 
+          ?address 
+          ?result)
+  ?result)
 
 (defmethod perform-write
   ((?address INTEGER)
    (?value INTEGER)
-   (?style INTEGER))
+   (?style SYMBOL))
   (format t "(perform-write 0x%x 0x%x %d)%n" ?address ?value ?style)
-  )
+  (bind ?the-transaction 
+        (make-instance of transaction-request
+                       (address ?address)
+                       (style ?style)
+                       (kind WRITE)
+                       (value ?value)))
+  (run)
+  (unmake-instance ?the-transaction))
 
-(defmethod perform-write
-  ((?address INTEGER)
-   (?value INTEGER)
-   (?style LEXEME))
-  (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
-  )
 
 (defmethod ucode-init
   ()
@@ -80,5 +170,72 @@
                (+ ?address 1)))
   (printout t crlf "Finished installing boot.sys!" crlf)
   (close ?boot-sys-handle)
+  (bind ?init-phase-fact
+        (assert (ucode-setup)))
+  (run)
+  (retract ?init-phase-fact)
   ; TODO: setup any other things necessary
   )
+(deffacts MAIN::configuration-space-mappings
+          (definstances MAIN::devices
+                        (of ram-device 
+                            (start-address 0)
+                            (end-address (ram:size)))))
+; glue logic for dispatching to different peripherals, this is just for the ones that make sense as objects
+
+(defrule MAIN::device-responds-to-address
+         (object (is-a transaction-request)
+                 (name ?r)
+                 (address ?addr0))
+         (object (is-a mapped-device)
+                 (start-address ?sa&:(>= ?addr0 ?sa))
+                 (end-address ?ea&:(< ?addr0 ?ea))
+                 (name ?d))
+         =>
+         (assert (handle-request ?d
+                                 ?r)))
+(defrule MAIN::address-is-unmapped
+         "nothing matched!"
+         (declare (salience -10000))
+         ?tr <- (object (is-a transaction-request)
+                        (serviced FALSE))
+         =>
+         (modify ?tr 
+                 (serviced TRUE)))
+(defrule MAIN::carry-out-read-request
+         ?f <- (handle-request ?d ?r)
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (kind READ)
+                        (serviced FALSE)
+                        (address ?addr))
+         ?md <- (mapped-device (name ?d))
+         =>
+         (retract ?f)
+         (modify-instance ?tr 
+                          (value (send ?md 
+                                       perform-read
+                                       ?addr))
+                          (serviced TRUE)))
+
+
+
+(defrule MAIN::carry-out-write-request
+         ?f <- (handle-request ?d ?r)
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (kind WRITE)
+                        (serviced FALSE)
+                        (address ?addr)
+                        (style ?style)
+                        (value ?value))
+         ?md <- (mapped-device (name ?d))
+         =>
+         (retract ?f)
+         (send ?md 
+               perform-write
+               ?address
+               ?value
+               ?style)
+         (modify-instance ?tr 
+                          (serviced TRUE)))
