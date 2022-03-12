@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 #endif
     try {
         Neutron::GPIO::begin();
-        if (!Neutron::SPI::begin(0, 10 * 1000 * 1000)) {
+        if (!Neutron::SPI::begin(0, 1 * 1000 * 1000)) {
             i960::shutdown("Could not open SPI Bus!");
         }
     } catch (std::system_error& err) {
