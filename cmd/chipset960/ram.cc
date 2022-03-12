@@ -110,7 +110,7 @@ namespace i960 {
                 return;
             }
             auto address = static_cast<uint32_t>(theAddress.integerValue->contents);
-            auto value = static_cast<uint8_t>(theAddress.integerValue->contents);
+            auto value = static_cast<uint8_t>(theValue.integerValue->contents);
             storeByte(address, value);
             out->lexemeValue = theEnv.trueSymbol();
         }
@@ -132,8 +132,8 @@ namespace i960 {
                 return;
             }
             auto address = static_cast<uint32_t>(theAddress.integerValue->contents);
-            auto value = static_cast<uint16_t>(theAddress.integerValue->contents);
-            std::string style(theAddress.lexemeValue->contents);
+            auto value = static_cast<uint16_t>(theValue.integerValue->contents);
+            std::string style(theStyle.lexemeValue->contents);
             // assume that we are looking at the i960Sx processor.
             out->lexemeValue = theEnv.trueSymbol();
             if (style == "full16") {
