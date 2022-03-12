@@ -163,7 +163,7 @@ namespace i960 {
         write8(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IOCON, 0b0100'1000);
         write8(IOExpanderAddress::DataLines, MCP23x17Registers::IOCON, 0b0000'1000);
         write8(IOExpanderAddress::Extras, MCP23x17Registers::IOCON, 0b0000'1000);
-        auto result = read8(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IOCON);
+        int result = read8(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IOCON);
         std::cout << "\tLower16Lines.IOCON = 0x" << std::hex << result << std::endl;
         result = read8(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IOCON);
         std::cout << "\tUpper16Lines.IOCON = 0x" << std::hex << result << std::endl;
