@@ -304,9 +304,9 @@
                         (style ?style)
                         (kind READ)
                         (matched FALSE))
-         (lookup-table-entry base: ?addr0
-                             style: ?style
-                             value ?value)
+         (lookup-table-entry (base ?addr0)
+                             (style ?style)
+                             (value ?value))
          =>
          (modify-instance ?tr
                           (matched TRUE)
