@@ -86,9 +86,80 @@ namespace i960 {
         storeWord(uint32_t byteAddress, uint16_t value) noexcept {
             ram_[getWordAddress(byteAddress)].setValue(value);
         }
+        void
+        performLoad(UDF_ARGS__) {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            out->lexemeValue = theEnv.falseSymbol();
+            UDFValue theAddress;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &theAddress)) {
+                return;
+            }
+            auto address = static_cast<uint32_t>(theAddress.integerValue->contents);
+            out->integerValue = theEnv.createInteger(loadWord(address));
+        }
+        void
+        performStore(UDF_ARGS__) {
+
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            out->lexemeValue = theEnv.falseSymbol();
+            UDFValue theAddress,
+                     theValue,
+                     theStyle;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &theAddress)) {
+                return;
+            }
+            if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &theValue)) {
+                return;
+            }
+            if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &theStyle)) {
+                return;
+            }
+            auto address = static_cast<uint32_t>(theAddress.integerValue->contents);
+            auto value = static_cast<uint16_t>(theAddress.integerValue->contents);
+            auto style = static_cast<LoadStoreStyle>(theAddress.integerValue->contents);
+            // assume that we are looking at the i960Sx processor.
+            switch (style) {
+                case LoadStoreStyle::Full16:
+                    out->lexemeValue = theEnv.trueSymbol();
+                    storeWord(address, value);
+                    break;
+                case LoadStoreStyle::Lower8:
+                    out->lexemeValue = theEnv.trueSymbol();
+                    storeByte(address, value);
+                    break;
+                case LoadStoreStyle::Upper8:
+                    out->lexemeValue = theEnv.trueSymbol();
+                    storeByte(address + 1, value);
+                    break;
+                default:
+                    out->lexemeValue = theEnv.falseSymbol();
+                    break;
+            }
+
+        }
     }
     void
     installRAMExtensions(Electron::Environment& theEnv) noexcept {
         setupRAM();
+        // only provide two separate functions for loading and storing. The load store style should be kept to the underlying native code
+        // On loads, this is very simple, we just do full loads and let the processor choose what parts to care about
+        //
+        // Stores are more involved, we have to determine which parts to update
+        theEnv.addFunction("ram:load",
+                           Electron::makeReturnType(Electron::ArgumentTypes::Integer, Electron::ArgumentTypes::Boolean),
+                           1, 1,
+                           Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                           performLoad,
+                           "performLoad");
+        theEnv.addFunction("ram:store",
+                           Electron::makeReturnType(Electron::ArgumentTypes::Boolean),
+                           3, 3,
+                           Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                           performStore,
+                           "performStore");
+
     }
 }
