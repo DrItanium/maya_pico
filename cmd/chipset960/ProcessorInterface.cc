@@ -136,13 +136,7 @@ namespace i960 {
                 static_cast<uint8_t>(target),
                 0,
         };
-        for (int i = 0; i < 3; ++i) {
-            std::cout << "before command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
-        }
         doSPITransaction(command, 3);
-        for (int i = 0; i < 3; ++i) {
-            std::cout << "after command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
-        }
         return command[2];
     }
     uint16_t
@@ -157,10 +151,18 @@ namespace i960 {
         return static_cast<uint16_t>(command[2]) | (static_cast<uint16_t>(command[3]) << 8);
     }
     void
-    ChipsetInterface::doSPITransaction(uint8_t *storage, int count) {
+    ChipsetInterface::doSPITransaction(uint8_t *command, int count) {
         //Neutron::SPI::beginTransaction(0, 10 * 1000 * 1000, Neutron::SPI::mode0());
-        Neutron::SPI::transfer(0, reinterpret_cast<char*>(storage), count);
+        std::cout << "doSPITransaction{" << std::endl;
+        for (int i = 0; i < 3; ++i) {
+            std::cout << "before command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
+        }
+        Neutron::SPI::transfer(0, reinterpret_cast<char*>(command), count);
+        for (int i = 0; i < 3; ++i) {
+            std::cout << "after command[" << i << "] = " << static_cast<int>(command[i]) << std::endl;
+        }
         //Neutron::SPI::endTransaction(0);
+        std::cout << "}" << std::endl;
     }
     void
     ChipsetInterface::setupDataLines() noexcept {
