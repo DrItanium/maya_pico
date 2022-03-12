@@ -178,10 +178,36 @@
   (retract ?init-phase-fact)
   ; TODO: setup any other things necessary
   )
+(deffacts MAIN::fixed-address-declarations
+          (declare-lookup-table base: (hex32->number 0xFE000000)
+                                word32: (hex32->number 0xFB000000)
+                                word32: (hex32->number 0xFD000000)
+                                word32: (+ (hex32->number 0xFD000000)
+                                           (hex32->number 0x100))
+                                word32: (hex32->number 0xFC000000)
+                                word32: (+ (hex32->number 0xFC000000)
+                                           (hex32->number 0x100))
+                                word32: (hex32->number 0xFA000000)))
+
 (definstances MAIN::devices
               (of ram-device 
                   (start-address 0)
-                  (end-address (ram:size)))))
+                  (end-address (ram:size))))
+(defrule MAIN::setup-lookup-table
+         (ucode-setup)
+         ?f <- (declare-lookup-table base: ?base
+                                     word32: ?value
+                                     $?rest)
+         =>
+         (retract ?f)
+         (assert (declare-lookup-table-entry base: ?base word32: ?value)
+                 (declare-lookup-table base: ?base $?rest)))
+(defrule MAIN::retract-empty-lookup-table
+         (ucode-setup)
+         ?f <- (declare-lookup-table base: ?)
+         =>
+         (retract ?f))
+
 ; glue logic for dispatching to different peripherals, this is just for the ones that make sense as objects
 
 (defrule MAIN::device-responds-to-address

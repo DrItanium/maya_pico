@@ -297,6 +297,50 @@ namespace i960 {
                 out->integerValue = theEnv.createInteger(static_cast<long long>(resultantAddress));
             }
         }
+        void
+        performGetLowerHalfOfAddress(UDF_ARGS__) noexcept {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            UDFValue value;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &value)) {
+                out->lexemeValue = theEnv.falseSymbol();
+                return;
+            }
+            auto address = static_cast<uint32_t>(value.integerValue->contents);
+            out->integerValue = theEnv.createInteger(static_cast<uint16_t>(address));
+        }
+        void
+        performGetUpperHalfOfAddress(UDF_ARGS__) noexcept {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            UDFValue value;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &value)) {
+                out->lexemeValue = theEnv.falseSymbol();
+                return;
+            }
+            auto address = static_cast<uint32_t>(value.integerValue->contents);
+            out->integerValue = theEnv.createInteger(static_cast<uint16_t>(address >> 16));
+        }
+        void
+        performGetLowerHalfOfWord(UDF_ARGS__) noexcept {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            UDFValue value;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &value)) {
+                out->lexemeValue = theEnv.falseSymbol();
+                return;
+            }
+            auto address = static_cast<uint16_t>(value.integerValue->contents);
+            out->integerValue = theEnv.createInteger(static_cast<uint8_t>(address));
+        }
+        void
+        performGetUpperHalfOfWord(UDF_ARGS__) noexcept {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            UDFValue value;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &value)) {
+                out->lexemeValue = theEnv.falseSymbol();
+                return;
+            }
+            auto address = static_cast<uint16_t>(value.integerValue->contents);
+            out->integerValue = theEnv.createInteger(static_cast<uint8_t>(address >> 8));
+        }
     }
     void
     ChipsetInterface::installExtensions() noexcept {
@@ -314,6 +358,30 @@ namespace i960 {
                         Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Symbol, Electron::ArgumentTypes::String}),
                         doHexConversion,
                         "doHexConversion");
+            addFunction("word32-lower-half",
+                        Electron::makeReturnType(Electron::ArgumentTypes::Integer),
+                        1, 1,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        performGetLowerHalfOfAddress,
+                        "getLowerHalfOfAddress");
+            addFunction("word32-upper-half",
+                        Electron::makeReturnType(Electron::ArgumentTypes::Integer),
+                        1, 1,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        performGetUpperHalfOfAddress,
+                        "getUpperHalfOfAddress");
+            addFunction("word16-lower-half",
+                        Electron::makeReturnType(Electron::ArgumentTypes::Integer),
+                        1, 1,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        performGetLowerHalfOfWord,
+                        "getLowerHalfOfWord");
+            addFunction("word16-upper-half",
+                        Electron::makeReturnType(Electron::ArgumentTypes::Integer),
+                        1, 1,
+                        Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                        performGetUpperHalfOfWord,
+                        "getUpperHalfOfWord");
 
         }
     }
