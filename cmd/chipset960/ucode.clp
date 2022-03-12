@@ -24,4 +24,19 @@
 ; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+(defgeneric perform-read)
+(defgeneric perform-write)
+
+(defmethod perform-read
+((?address INTEGER)
+ (?style SYMBOL))
+ (printout t "(perform-read " ?address " " ?style ")" crlf)
+ 0)
+
+(defmethod perform-write
+((?address INTEGER)
+ (?value INTEGER)
+ (?style SYMBOL))
+ (printout t "(perform-write " ?address " " ?value " " ?style ")" crlf)
+ )
 
