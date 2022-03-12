@@ -79,11 +79,6 @@ namespace i960 {
             }
         }
     }
-    uint32_t
-    ChipsetInterface::getAddress() noexcept {
-        /// @todo implement
-        return 0;
-    }
     void
     ChipsetInterface::performReadTransaction() noexcept {
 
@@ -165,26 +160,29 @@ namespace i960 {
     ChipsetInterface::setupDataLines() noexcept {
         std::cout << "Setting up Data Lines" << std::endl;
         /// setup HAEN
-        write8(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IOCON, 0b0000'1000);
-        write8(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IOCON, 0b0000'1000);
-        write8(IOExpanderAddress::DataLines, MCP23x17Registers::IOCON, 0b0000'1000);
-        write8(IOExpanderAddress::Extras, MCP23x17Registers::IOCON, 0b0000'1000);
-        int result = read16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IODIR);
-        std::cout << "\tLower16Lines.IODIR = 0x" << std::hex << result << std::endl;
-        result = read16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IOCON);
-        std::cout << "\tUpper16Lines.IOCON= 0x" << std::hex << result << std::endl;
-        write16(IOExpanderAddress::Extras, MCP23x17Registers::IODIR, currentGPIO4Direction_);
-        write16(IOExpanderAddress::Extras, MCP23x17Registers::GPIO, currentGPIO4Status_);
-        write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IODIR, 0xFFFF); // input
-        write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IODIR, 0xFFFF); // input
-        write16(IOExpanderAddress::DataLines, MCP23x17Registers::IODIR, currentDataLineDirection_); // input
+        static constexpr uint8_t ioconDefault = 0b0000'1000;
+        setIOCON<IOExpanderAddress::Lower16Lines>(ioconDefault);
+        setIOCON<IOExpanderAddress::Upper16Lines>(ioconDefault);
+        setIOCON<IOExpanderAddress::DataLines>(ioconDefault);
+        setIOCON<IOExpanderAddress::Backplane>(ioconDefault);
+        if (auto result = getIOCON<IOExpanderAddress::Lower16Lines>(); result != ioconDefault) {
+            if (result == 0) {
+                shutdown("Unable to communicate with the IO Expanders! There is probably a lock open on the SPI device! Reboot the Raspberry Pi!");
+            } else {
+                shutdown("Outcome from ioexpander is not what is expected but is not zero! Double check the code!");
+            }
+        }
+        setDirection<IOExpanderAddress::Backplane>(backplaneGPIODirection_);
+        writeGPIO16<IOExpanderAddress::Backplane>(backplaneGPIOStatus_);
+        setDirection<IOExpanderAddress::Lower16Lines>(0xFFFF);
+        setDirection<IOExpanderAddress::Upper16Lines>(0xFFFF);
+        setDirection<IOExpanderAddress::DataLines>(currentDataLineDirection_);
         write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPINTEN, 0xFFFF);
         write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::INTCON, 0);
         write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPINTEN, 0xFFFF);
         write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::INTCON, 0);
         write16(IOExpanderAddress::DataLines, MCP23x17Registers::GPINTEN, 0xFFFF);
         write16(IOExpanderAddress::DataLines, MCP23x17Registers::INTCON, 0);
-
         write16(IOExpanderAddress::DataLines, MCP23x17Registers::OLAT, latchedDataOutput_);
     }
     void
@@ -203,6 +201,7 @@ namespace i960 {
         ManagementEngineReset.assertPin();
         WaitBoot960.assertPin();
         ManagementEngineReset.deassertPin();
+        /// @todo insert GPIO release command here
         // exit at this point
         exit(1);
     }
@@ -227,7 +226,6 @@ namespace i960 {
                                 IOEXP_INT5,
                                 IOEXP_INT6,
                                 IOEXP_INT7);
-        std::cout << "Pulling Management Engine into Reset and starting configuration" << std::endl;
     }
     void
     shutdown(const std::string& msg) noexcept {
@@ -252,21 +250,4 @@ namespace i960 {
     ChipsetInterface::pull960OutOfReset() noexcept {
         WaitBoot960.deassertPin();
     }
-    /*
-    void
-    ChipsetInterface::begin() {
-        setupPins();
-        putManagementEngineInReset();
-        loadMicrocode();
-        // pull the management engine into reset
-        /// @todo introduce a delay?
-        std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
-        pullManagementEngineOutOfReset();
-        systemSetup();
-        setupDataLinesForRead();
-        pull960OutOfReset();
-        waitForBootSignal();
-        std::cout << "i960 Successfully Booted!" << std::endl;
-    }
-    */
 }

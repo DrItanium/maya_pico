@@ -157,7 +157,6 @@ namespace i960 {
         void shutdown(const std::string& reason) noexcept;
         bool isReadOperation() noexcept;
         bool isWriteOperation() noexcept;
-        uint32_t getAddress() noexcept;
         void waitForCycleUnlock() noexcept;
         void waitForBootSignal() noexcept;
         LoadStoreStyle getStyle() noexcept;
@@ -170,7 +169,7 @@ namespace i960 {
             Lower16Lines= 0,
             Upper16Lines,
             DataLines,
-            Extras,
+            Backplane,
 
         };
         enum class MCP23x17Registers : uint8_t {
@@ -212,6 +211,50 @@ namespace i960 {
         uint8_t read8(IOExpanderAddress address, MCP23x17Registers target);
         void write16(IOExpanderAddress address, MCP23x17Registers target, uint16_t value);
         void write8(IOExpanderAddress address, MCP23x17Registers target, uint8_t value);
+        template<IOExpanderAddress address, MCP23x17Registers target>
+        void write16(uint16_t value) noexcept {
+            write16(address, target, value);
+        }
+        template<IOExpanderAddress address, MCP23x17Registers target>
+        void write8(uint8_t value) noexcept {
+            write8(address, target, value);
+        }
+        template<IOExpanderAddress address, MCP23x17Registers target>
+        uint8_t read8() noexcept {
+            return read8(address, target);
+        }
+        template<IOExpanderAddress address, MCP23x17Registers target>
+        uint16_t read16() noexcept {
+            return read16(address, target);
+        }
+        [[nodiscard]] inline uint16_t readGPIO16(IOExpanderAddress address) { return read16(address, MCP23x17Registers::GPIO); }
+        template<IOExpanderAddress address>
+        [[nodiscard]] inline uint16_t readGPIO16() {
+            return read16<address, MCP23x17Registers::GPIO>();
+        }
+        inline void writeGPIO16(IOExpanderAddress address, uint16_t value) { write16(address, MCP23x17Registers::GPIO, value); }
+        template<IOExpanderAddress address>
+        inline void writeGPIO16(uint16_t value) {
+            write16<address, MCP23x17Registers::GPIO>(value);
+        }
+
+        template<IOExpanderAddress address>
+        inline void setDirection(uint16_t direction) {
+            write16<address, MCP23x17Registers::IODIR>(direction);
+        }
+        template<IOExpanderAddress address>
+        inline void setIOCON(uint8_t iocon) {
+            write8<address, MCP23x17Registers::IOCON>(iocon);
+        }
+        template<IOExpanderAddress address>
+        [[nodiscard]] inline uint8_t getIOCON() {
+            return read8<address, MCP23x17Registers::IOCON>();
+        }
+        [[nodiscard]] inline uint32_t getAddress() {
+            auto lowerHalf = readGPIO16<IOExpanderAddress::Lower16Lines>();
+            auto upperHalf = readGPIO16<IOExpanderAddress::Upper16Lines>();
+            return (static_cast<uint32_t>(upperHalf) << 16) | static_cast<uint32_t>(lowerHalf);
+        }
 
     private:
         void doSPITransaction(uint8_t* storage, int count);
@@ -220,8 +263,8 @@ namespace i960 {
         static constexpr uint8_t generateWriteOpcode(IOExpanderAddress address) noexcept { return 0b0100'0000 | (static_cast<uint8_t>(address) << 1); }
     private:
         bool extensionsInstalled_ = false;
-        uint16_t currentGPIO4Status_ = 0b00000000'10010010;
-        uint16_t currentGPIO4Direction_ = 0b00000000'00100000;
+        uint16_t backplaneGPIOStatus_ = 0x0000;
+        uint16_t backplaneGPIODirection_ = 0x0000;
         uint16_t currentDataLineDirection_ = 0xFFFF;
         uint16_t latchedDataOutput_ = 0;
     };
