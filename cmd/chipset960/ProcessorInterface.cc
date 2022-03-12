@@ -179,6 +179,7 @@ namespace i960 {
     }
     void
     ChipsetInterface::waitForBootSignal() noexcept {
+        std::cout << "Waiting for boot signal" << std::endl;
         while (BootSuccessful.digitalRead() == PinValue::Low);
         /// @todo add interrupt to BootSuccessful pin
         Neutron::GPIO::attachInterrupt(static_cast<int>(Pinout::BootSuccessful),

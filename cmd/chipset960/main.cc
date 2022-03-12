@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
     theChipset.pullManagementEngineOutOfReset();
     if constexpr (BypassMicrocodeLoading) {
-        std::cout << "Bypassing Microcode Loading. Disable flag and recompile!";
+        std::cout << "Bypassing Microcode Loading. Disable flag and recompile!" << std::endl;
     } else {
         /// @todo insert calls to add extended clips functionality here
         theChipset.loadMicrocode();
@@ -79,6 +79,8 @@ int main(int argc, char *argv[]) {
     std::cout << "Pulling the i960 out of reset!" << std::endl;
     theChipset.pull960OutOfReset();
     theChipset.waitForBootSignal();
+    std::cout << "Successfully booted the i960!" << std::endl;
+    /// @todo expand to actually be a proper chipset handler
     while (true) {
        theChipset.waitForTransactionStart();
        auto address = theChipset.getAddress();
