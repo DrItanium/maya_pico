@@ -127,9 +127,7 @@ namespace i960 {
     }
     void
     ChipsetInterface::doSPITransaction(uint8_t *command, int count) {
-        Neutron::SPI::beginTransaction(0, 10 * 1000 * 1000, Neutron::SPI::mode0());
         Neutron::SPI::transfer(0, reinterpret_cast<char*>(command), count);
-        Neutron::SPI::endTransaction(0);
     }
     void
     ChipsetInterface::setupDataLines() noexcept {
