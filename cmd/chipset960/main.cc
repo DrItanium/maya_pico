@@ -38,6 +38,25 @@ extern "C" {
 extern "C" {
 #include <signal.h>
 }
+
+void
+loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
+    auto& theChipset = i960::ChipsetInterface::get();
+    switch (theChipset.getStyle()) {
+        case i960::LoadStoreStyle::Full16:
+            builder->add(Electron::FunctionBuilder::symbol("full16"));
+            break;
+        case i960::LoadStoreStyle::Lower8:
+            builder->add(Electron::FunctionBuilder::symbol("lower8"));
+            break;
+        case i960::LoadStoreStyle::Upper8:
+            builder->add(Electron::FunctionBuilder::symbol("upper8"));
+            break;
+        default:
+            theChipset.shutdown("Illegal load store style!");
+            break;
+    }
+}
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
@@ -63,7 +82,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Error starting up: " << err.what() << std::endl;
         return 1;
     }
-    constexpr bool BypassMicrocodeLoading = true;
+    constexpr bool BypassMicrocodeLoading = false;
     auto& theChipset = i960::ChipsetInterface::get();
     theChipset.setupPins();
     theChipset.putManagementEngineInReset();
@@ -87,6 +106,7 @@ int main(int argc, char *argv[]) {
            theChipset.setupDataLinesForRead();
            while (true) {
                theChipset.waitForCycleUnlock();
+               theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
                if (theChipset.signalCPU()) {
                    break;
                }
@@ -97,6 +117,12 @@ int main(int argc, char *argv[]) {
            // write operation
            while (true) {
                theChipset.waitForCycleUnlock();
+               Electron::Value returnNothing;
+               theChipset.call("perform-write",
+                               &returnNothing,
+                               baseAddress,
+                               theChipset.getDataLines(),
+                               [](auto* builder) { loadStoreStyle(builder); });
                if (theChipset.signalCPU()) {
                    break;
                }
