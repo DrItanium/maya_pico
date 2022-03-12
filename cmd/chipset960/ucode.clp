@@ -39,13 +39,13 @@
         (range 0 ?VARIABLE)
         (visibility public)
         (storage local)
-        (default-dynamic ?NONE))
+        (default ?NONE))
   (slot end-address
         (type INTEGER)
         (range 0 ?VARIABLE)
         (visibility public)
         (storage local)
-        (default-dynamic ?NONE))
+        (default ?NONE))
   (slot kind
         (type LEXEME)
         (visibility public)
@@ -86,7 +86,7 @@
         (range 0 ?VARIABLE)
         (visibility public)
         (storage local)
-        (default-dynamic ?NONE))
+        (default ?NONE))
   (slot style
         (type SYMBOL)
         (allowed-symbols FALSE ; never set
@@ -103,7 +103,7 @@
         (storage local)
         (allowed-symbols READ 
                          WRITE)
-        (default-dynamic ?NONE))
+        (default ?NONE))
   (slot value
         (type INTEGER)
         (visibility public)
@@ -176,11 +176,10 @@
   (retract ?init-phase-fact)
   ; TODO: setup any other things necessary
   )
-(deffacts MAIN::configuration-space-mappings
-          (definstances MAIN::devices
-                        (of ram-device 
-                            (start-address 0)
-                            (end-address (ram:size)))))
+(definstances MAIN::devices
+              (of ram-device 
+                  (start-address 0)
+                  (end-address (ram:size)))))
 ; glue logic for dispatching to different peripherals, this is just for the ones that make sense as objects
 
 (defrule MAIN::device-responds-to-address
@@ -209,7 +208,7 @@
                         (kind READ)
                         (serviced FALSE)
                         (address ?addr))
-         ?md <- (mapped-device (name ?d))
+         ?md <- (object (is-a mapped-device) (name ?d))
          =>
          (retract ?f)
          (modify-instance ?tr 
@@ -229,7 +228,7 @@
                         (address ?addr)
                         (style ?style)
                         (value ?value))
-         ?md <- (mapped-device (name ?d))
+         ?md <- (object (is-a mapped-device) (name ?d))
          =>
          (retract ?f)
          (send ?md 
