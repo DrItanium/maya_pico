@@ -34,6 +34,7 @@ extern "C" {
 #include <array>
 #include "interface/spi.h"
 #include "interface/gpio.h"
+#include "ram.h"
 #include "ChipsetInterface.h"
 extern "C" {
 #include <signal.h>
@@ -82,19 +83,15 @@ int main(int argc, char *argv[]) {
         i960::shutdown(err.what());
         return -1;
     }
-    constexpr bool BypassMicrocodeLoading = false;
     auto& theChipset = i960::ChipsetInterface::get();
     theChipset.setupPins();
     theChipset.putManagementEngineInReset();
     theChipset.setupDataLines();
     std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
     theChipset.pullManagementEngineOutOfReset();
-    if constexpr (BypassMicrocodeLoading) {
-        std::cout << "Bypassing Microcode Loading. Disable flag and recompile!" << std::endl;
-    } else {
-        /// @todo insert calls to add extended clips functionality here
-        theChipset.loadMicrocode();
-    }
+    /// @todo insert calls to add extended clips functionality here
+    i960::installRAMExtensions(theChipset);
+    theChipset.loadMicrocode();
     std::cout << "Pulling the i960 out of reset!" << std::endl;
     theChipset.pull960OutOfReset();
     theChipset.waitForBootSignal();
