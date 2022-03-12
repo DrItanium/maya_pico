@@ -105,10 +105,77 @@ namespace i960 {
     ChipsetInterface::waitForTransactionStart() noexcept {
         while (InTransaction.isDeasserted());
     }
+    union IOExpanderCommand {
+        uint32_t raw;
+        uint8_t bytes[sizeof(uint32_t)];
+    };
+    void
+    ChipsetInterface::write8(IOExpanderAddress address, MCP23x17Registers target, uint8_t value) {
+        uint8_t command[3] {
+                generateWriteOpcode(address) ,
+                static_cast<uint8_t>(target),
+                value
+        };
+        doSPITransaction(command, 3);
+    }
+    void
+    ChipsetInterface::write16(IOExpanderAddress address, MCP23x17Registers target, uint16_t value) {
+        uint8_t command[4] {
+                generateWriteOpcode(address) ,
+                static_cast<uint8_t>(target),
+                static_cast<uint8_t>(value),
+                static_cast<uint8_t>(value >> 8),
+        };
+        doSPITransaction(command, 4);
+    }
+    uint8_t
+    ChipsetInterface::read8(IOExpanderAddress address, MCP23x17Registers target) {
+        uint8_t command[3] {
+                generateReadOpcode(address) ,
+                static_cast<uint8_t>(target),
+                0,
+        };
+        doSPITransaction(command, 3);
+        return command[2];
+    }
+    uint16_t
+    ChipsetInterface::read16(IOExpanderAddress address, MCP23x17Registers target) {
+        uint8_t command[4] {
+                generateReadOpcode(address) ,
+                static_cast<uint8_t>(target),
+                0,
+                0,
+        };
+        doSPITransaction(command, 4);
+        return static_cast<uint16_t>(command[2]) | (static_cast<uint16_t>(command[3]) << 8);
+    }
+    void
+    ChipsetInterface::doSPITransaction(uint8_t *storage, int count) {
+        Neutron::SPI::beginTransaction(0, 10 * 1000 * 1000, Neutron::SPI::mode0());
+        Neutron::SPI::transfer(0, reinterpret_cast<char*>(storage), count);
+        Neutron::SPI::endTransaction(0);
+    }
     void
     ChipsetInterface::setupDataLines() noexcept {
         std::cout << "Setting up Data Lines" << std::endl;
-        /// @todo implement
+        /// setup HAEN
+        write8(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IOCON, 0b0000'1000);
+        write8(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IOCON, 0b0000'1000);
+        write8(IOExpanderAddress::DataLines, MCP23x17Registers::IOCON, 0b0000'1000);
+        write8(IOExpanderAddress::Extras, MCP23x17Registers::IOCON, 0b0000'1000);
+        write16(IOExpanderAddress::Extras, MCP23x17Registers::IODIR, currentGPIO4Direction_);
+        write16(IOExpanderAddress::Extras, MCP23x17Registers::GPIO, currentGPIO4Status_);
+        write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::IODIR, 0xFFFF); // input
+        write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::IODIR, 0xFFFF); // input
+        write16(IOExpanderAddress::DataLines, MCP23x17Registers::IODIR, currentDataLineDirection_); // input
+        write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPINTEN, 0xFFFF);
+        write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::INTCON, 0);
+        write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPINTEN, 0xFFFF);
+        write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::INTCON, 0);
+        write16(IOExpanderAddress::DataLines, MCP23x17Registers::GPINTEN, 0xFFFF);
+        write16(IOExpanderAddress::DataLines, MCP23x17Registers::INTCON, 0);
+
+        write16(IOExpanderAddress::DataLines, MCP23x17Registers::OLAT, latchedDataOutput_);
     }
     void
     ChipsetInterface::waitForBootSignal() noexcept {

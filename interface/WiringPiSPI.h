@@ -39,6 +39,10 @@ namespace Neutron::SPI::WiringPi::Implementation {
     bool endTransaction(int channel) noexcept;
     bool begin(int channel, int speed) noexcept;
     void transfer(int channel, char* data, int len) noexcept;
+    [[nodiscard]] constexpr int mode0() noexcept { return 0; }
+    [[nodiscard]] constexpr int mode1() noexcept { return 1; }
+    [[nodiscard]] constexpr int mode2() noexcept { return 2; }
+    [[nodiscard]] constexpr int mode3() noexcept { return 3; }
 }
 #endif
 #endif //MAYA_WIRINGPISPI_H

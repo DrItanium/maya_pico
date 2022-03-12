@@ -121,6 +121,10 @@ namespace Neutron::SPI::SPIDEV::Implementation
     bool beginTransaction(int channel, int speed, int mode);
     bool endTransaction(int channel);
     void transfer(int channel, char* data, int count);
+    [[nodiscard]] constexpr int mode0() noexcept { return static_cast<int>(Device::Mode::Zero); }
+    [[nodiscard]] constexpr int mode1() noexcept { return static_cast<int>(Device::Mode::One); }
+    [[nodiscard]] constexpr int mode2() noexcept { return static_cast<int>(Device::Mode::Two); }
+    [[nodiscard]] constexpr int mode3() noexcept { return static_cast<int>(Device::Mode::Three); }
 } // end namespace Neutron::SPI::SPIDEV::Implementation
 #endif
 #endif //MAYA_LINUXSPIDEV_H

@@ -81,4 +81,44 @@ namespace Neutron::SPI {
         SPIDEV::Implementation::transfer(channel, data, count);
 #endif
     }
+    int
+    mode0() noexcept {
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::mode0();
+#elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::mode0();
+#else
+        return 0;
+#endif
+    }
+    int
+    mode1() noexcept {
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::mode1();
+#elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::mode1();
+#else
+        return 1;
+#endif
+    }
+    int
+    mode2() noexcept {
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::mode2();
+#elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::mode2();
+#else
+        return 2;
+#endif
+    }
+    int
+    mode3() noexcept {
+#ifdef HAVE_WIRING_PI_H
+        return WiringPi::Implementation::mode3();
+#elif defined(HAVE_LINUX_SPIDEV_H)
+        return SPIDEV::Implementation::mode3();
+#else
+        return 3;
+#endif
+    }
 } // end namespace Neutron::SPI

@@ -46,6 +46,11 @@ namespace Neutron::SPI {
      * @param theEnv The environment to install the gpio devices into
      */
     void installExtensions(Electron::Environment& theEnv) noexcept;
+
+    [[nodiscard]] int mode0() noexcept;
+    [[nodiscard]] int mode1() noexcept;
+    [[nodiscard]] int mode2() noexcept;
+    [[nodiscard]] int mode3() noexcept;
 } // end namespace Neutron::SPI
 
 #endif //MAYA_SPI_H

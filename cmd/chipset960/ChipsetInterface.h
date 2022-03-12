@@ -165,8 +165,64 @@ namespace i960 {
         void performWriteTransaction() noexcept;
         void newDataCycle() noexcept;
         void setupDataLines() noexcept;
+        enum class IOExpanderAddress : uint8_t {
+            Lower16Lines= 0b0000,
+            Upper16Lines = 0b0010,
+            DataLines = 0b0100,
+            Extras = 0b0110,
+
+        };
+        enum class MCP23x17Registers : uint8_t {
+            IODIRA = 0,
+            IODIRB,
+            IPOLA,
+            IPOLB,
+            GPINTENA,
+            GPINTENB,
+            DEFVALA,
+            DEFVALB,
+            INTCONA,
+            INTCONB,
+            _IOCONA,
+            _IOCONB,
+            GPPUA,
+            GPPUB,
+            INTFA,
+            INTFB,
+            INTCAPA,
+            INTCAPB,
+            GPIOA,
+            GPIOB,
+            OLATA,
+            OLATB,
+            OLAT = OLATA,
+            GPIO = GPIOA,
+            IOCON = _IOCONA,
+            IODIR = IODIRA,
+            INTCAP = INTCAPA,
+            INTF = INTFA,
+            GPPU = GPPUA,
+            INTCON = INTCONA,
+            DEFVAL = DEFVALA,
+            GPINTEN = GPINTENA,
+            IPOL = IPOLA,
+        };
+        uint16_t read16(IOExpanderAddress address, MCP23x17Registers target);
+        uint8_t read8(IOExpanderAddress address, MCP23x17Registers target);
+        void write16(IOExpanderAddress address, MCP23x17Registers target, uint16_t value);
+        void write8(IOExpanderAddress address, MCP23x17Registers target, uint8_t value);
+
+    private:
+        void doSPITransaction(uint8_t* storage, int count);
+    private:
+        static constexpr uint8_t generateReadOpcode(IOExpanderAddress address) noexcept { return 0b0100'0001 | static_cast<uint8_t>(address); }
+        static constexpr uint8_t generateWriteOpcode(IOExpanderAddress address) noexcept { return 0b0100'0000 | static_cast<uint8_t>(address); }
     private:
         bool extensionsInstalled_ = false;
+        uint16_t currentGPIO4Status_ = 0b00000000'10010010;
+        uint16_t currentGPIO4Direction_ = 0b00000000'00100000;
+        uint16_t currentDataLineDirection_ = 0xFFFF;
+        uint16_t latchedDataOutput_ = 0;
     };
 }
 #endif //MAYA_CHIPSETINTERFACE_H
