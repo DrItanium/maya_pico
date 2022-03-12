@@ -30,18 +30,18 @@
 (defmethod perform-read
 ((?address INTEGER)
  (?style SYMBOL))
- (printout t "(perform-read " ?address " " ?style ")" crlf)
+ (format t "(perform-read 0x%x %s)%n" ?address ?style)
  0)
 
 (defmethod perform-read
 ((?address INTEGER))
- (printout t "(perform-read " ?address ")" crlf)
+ (format t "(perform-read 0x%x)%n" ?address)
  0)
 
 (defmethod perform-write
 ((?address INTEGER)
  (?value INTEGER)
  (?style SYMBOL))
- (printout t "(perform-write " ?address " " ?value " " ?style ")" crlf)
+ (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
  )
 
