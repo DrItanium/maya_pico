@@ -242,4 +242,16 @@ namespace i960 {
     ChipsetInterface::pull960OutOfReset() noexcept {
         WaitBoot960.deassertPin();
     }
+    bool
+    ChipsetInterface::signalCPU() noexcept {
+        Ready.assertPin();
+        while (InTransaction.isAsserted() && Blast.isDeasserted());
+        auto outcome = InTransaction.isDeasserted();
+        Ready.deassertPin();
+        return outcome;
+    }
+    void
+    ChipsetInterface::waitForCycleUnlock() noexcept {
+        while (DoCycle.isDeasserted());
+    }
 }

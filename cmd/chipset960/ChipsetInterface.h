@@ -255,7 +255,7 @@ namespace i960 {
             auto upperHalf = readGPIO16<IOExpanderAddress::Upper16Lines>();
             return (static_cast<uint32_t>(upperHalf) << 16) | static_cast<uint32_t>(lowerHalf);
         }
-
+        bool signalCPU() noexcept;
     private:
         void doSPITransaction(uint8_t* storage, int count);
     private:

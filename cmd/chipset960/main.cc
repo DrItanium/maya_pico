@@ -81,7 +81,14 @@ int main(int argc, char *argv[]) {
     theChipset.waitForBootSignal();
     while (true) {
        theChipset.waitForTransactionStart();
-       theChipset.newDataCycle();
+       auto address = theChipset.getAddress();
+       while (true) {
+           theChipset.waitForCycleUnlock();
+           if (theChipset.signalCPU()) {
+               break;
+           }
+           address += 2;
+       }
     }
 
     theChipset.shutdown("Strange Termination!");
