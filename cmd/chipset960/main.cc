@@ -79,8 +79,8 @@ int main(int argc, char *argv[]) {
             i960::shutdown("Could not open SPI Bus!");
         }
     } catch (std::system_error& err) {
-        std::cout << "Error starting up: " << err.what() << std::endl;
-        return 1;
+        i960::shutdown(err.what());
+        return -1;
     }
     constexpr bool BypassMicrocodeLoading = false;
     auto& theChipset = i960::ChipsetInterface::get();
