@@ -29,7 +29,12 @@
 
 (defmethod perform-read
 ((?address INTEGER)
- (?style SYMBOL))
+ (?style INTEGER))
+ (format t "(perform-read 0x%x %d)%n" ?address ?style)
+ 0)
+(defmethod perform-read
+((?address INTEGER)
+ (?style LEXEME))
  (format t "(perform-read 0x%x %s)%n" ?address ?style)
  0)
 
@@ -41,7 +46,13 @@
 (defmethod perform-write
 ((?address INTEGER)
  (?value INTEGER)
- (?style SYMBOL))
- (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
+ (?style INTEGER))
+ (format t "(perform-write 0x%x 0x%x %d)%n" ?address ?value ?style)
  )
 
+(defmethod perform-write
+((?address INTEGER)
+ (?value INTEGER)
+ (?style LEXEME))
+ (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
+ )
