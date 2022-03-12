@@ -33,6 +33,11 @@
  (printout t "(perform-read " ?address " " ?style ")" crlf)
  0)
 
+(defmethod perform-read
+((?address INTEGER))
+ (printout t "(perform-read " ?address ")" crlf)
+ 0)
+
 (defmethod perform-write
 ((?address INTEGER)
  (?value INTEGER)
