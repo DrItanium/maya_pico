@@ -98,6 +98,23 @@ namespace i960 {
             out->integerValue = theEnv.createInteger(loadWord(address));
         }
         void
+        performStoreByte(UDF_ARGS__) {
+            auto& theEnv = Electron::Environment::fromRaw(env);
+            out->lexemeValue = theEnv.falseSymbol();
+            UDFValue theAddress,
+                    theValue;
+            if (!theEnv.firstArgument(context, Electron::ArgumentBits::Integer, &theAddress)) {
+                return;
+            }
+            if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &theValue)) {
+                return;
+            }
+            auto address = static_cast<uint32_t>(theAddress.integerValue->contents);
+            auto value = static_cast<uint8_t>(theAddress.integerValue->contents);
+            storeByte(address, value);
+            out->lexemeValue = theEnv.trueSymbol();
+        }
+        void
         performStore(UDF_ARGS__) {
 
             auto& theEnv = Electron::Environment::fromRaw(env);
@@ -160,6 +177,14 @@ namespace i960 {
                                                       Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
                            performStore,
                            "performStore");
+        theEnv.addFunction("ram:store-byte",
+                           Electron::makeReturnType(Electron::ArgumentTypes::Boolean),
+                           2, 2,
+                           Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer},
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                           performStoreByte,
+                           "performStoreByte");
 
     }
 }
