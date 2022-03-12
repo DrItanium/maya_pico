@@ -24,8 +24,12 @@
 ; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(defgeneric perform-read)
-(defgeneric perform-write)
+(defgeneric perform-read
+            "Request by the i960 for a piece of data from some device (including ram)")
+(defgeneric perform-write
+            "Request by the i960 to store a value to some device (including ram)")
+(defgeneric ucode-init
+            "First function called after loading microcode, meant to set everything up")
 
 (defmethod perform-read
 ((?address INTEGER)
@@ -56,3 +60,9 @@
  (?style LEXEME))
  (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
  )
+
+(defmethod ucode-init
+()
+; TODO: load boot.sys here
+; TODO: setup any other things necessary
+)

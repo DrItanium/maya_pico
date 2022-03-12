@@ -95,11 +95,16 @@ int main(int argc, char *argv[]) {
     /// @todo insert calls to add extended clips functionality here
     i960::installRAMExtensions(theChipset);
     theChipset.loadMicrocode();
+    theChipset.reset(); // (reset)
+    theChipset.call("ucode-init"); // setup the ucode before we pull the i960 out of reset
+    // we are not actually going to do (run) at this point, it is up to the native code here to call into the ucode
     std::cout << "Pulling the i960 out of reset!" << std::endl;
     theChipset.pull960OutOfReset();
     theChipset.waitForBootSignal();
     std::cout << "Successfully booted the i960!" << std::endl;
-    /// @todo expand to actually be a proper chipset handler
+    // This is the state machine for handling the i960 that has a management engine attached to it!
+    // With the microcontroller based designs, there is a lot of extra code surrounding having onboard caches to accelerate
+    // performance. Hopefully, the raspberry pi offsets any potential bottlenecks by being exponentially faster than those designs.
     while (true) {
        theChipset.waitForTransactionStart();
        if (auto baseAddress = theChipset.getAddress(); theChipset.isReadOperation()) {
