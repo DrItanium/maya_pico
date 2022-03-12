@@ -106,13 +106,8 @@ namespace i960 {
         while (InTransaction.isDeasserted());
     }
     void
-    ChipsetInterface::setupDataLinesForRead() noexcept {
+    ChipsetInterface::setupDataLines() noexcept {
         std::cout << "Setting up Data Lines" << std::endl;
-        /// @todo implement
-    }
-    void
-    ChipsetInterface::systemSetup() noexcept {
-        std::cout << "Performing System Setup" << std::endl;
         /// @todo implement
     }
     void
@@ -134,17 +129,7 @@ namespace i960 {
         // exit at this point
         exit(1);
     }
-    ChipsetInterface::ChipsetInterface() : ChipsetInterface::Parent() {
-        // setup the extra extensions as needed
-        installProcessorExtensions();
-    }
-    void
-    ChipsetInterface::setupRam() noexcept {
-        ram_ = std::make_unique<MemoryCell[]>(NumberOfCells);
-        for (uint32_t i = 0; i < NumberOfCells; ++i) {
-            ram_[i].word = 0;
-        }
-    }
+    ChipsetInterface::ChipsetInterface() : ChipsetInterface::Parent() { }
     void
     ChipsetInterface::setupPins() noexcept {
         i960::configurePinBlock(Ready,
@@ -172,26 +157,39 @@ namespace i960 {
         ChipsetInterface::get().shutdown(msg);
     }
     void
-    ChipsetInterface::begin() {
-        setupPins();
+    ChipsetInterface::putManagementEngineInReset() noexcept {
         ManagementEngineReset.assertPin();
         WaitBoot960.assertPin();
-        setupRam();
-        installProcessorExtensions();
-        /// @todo introduce a delay?
+    }
+    void
+    ChipsetInterface::pullManagementEngineOutOfReset() noexcept {
         ManagementEngineReset.deassertPin();
+    }
+    void
+    ChipsetInterface::loadMicrocode() noexcept {
+        if (!batchFile("ucode.clp")) {
+            shutdown("Cannot find ucode.clp!");
+        }
+    }
+    void
+    ChipsetInterface::pull960OutOfReset() noexcept {
+        WaitBoot960.deassertPin();
+    }
+    /*
+    void
+    ChipsetInterface::begin() {
+        setupPins();
+        putManagementEngineInReset();
+        loadMicrocode();
+        // pull the management engine into reset
+        /// @todo introduce a delay?
         std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
+        pullManagementEngineOutOfReset();
         systemSetup();
         setupDataLinesForRead();
-        WaitBoot960.deassertPin();
+        pull960OutOfReset();
         waitForBootSignal();
         std::cout << "i960 Successfully Booted!" << std::endl;
     }
-    void
-    ChipsetInterface::invoke() {
-        while (true) {
-            waitForTransactionStart();
-            newDataCycle();
-        }
-    }
+    */
 }

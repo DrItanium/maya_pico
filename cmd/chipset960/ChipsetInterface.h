@@ -144,10 +144,16 @@ namespace i960 {
             static ChipsetInterface theInterface;
             return theInterface;
         }
+        void setupPins() noexcept;
+        void putManagementEngineInReset() noexcept;
+        void pullManagementEngineOutOfReset() noexcept;
+        /**
+         * @brief Deasserts WaitBoot960
+         */
+        void pull960OutOfReset() noexcept;
+        void loadMicrocode() noexcept;
         void begin();
-        void invoke();
         void shutdown(const std::string& reason) noexcept;
-    private:
         bool isReadOperation() noexcept;
         bool isWriteOperation() noexcept;
         uint32_t getAddress() noexcept;
@@ -158,24 +164,9 @@ namespace i960 {
         void performReadTransaction() noexcept;
         void performWriteTransaction() noexcept;
         void newDataCycle() noexcept;
-        void setupPins() noexcept;
-    private:
-        void setupRam() noexcept;
-        void systemSetup() noexcept;
         void setupDataLines() noexcept;
-        void setupDataLinesForRead() noexcept;
-        void installProcessorExtensions() noexcept;
-        void setWord(Address address, uint16_t value) noexcept;
-        uint16_t getWord(Address address) noexcept;
-        void setLower8(Address address, uint8_t value) noexcept;
-        void setUpper8(Address address, uint8_t value) noexcept;
-        static void doSetWord(UDF_ARGS__) noexcept;
-        static void doSetUpper8(UDF_ARGS__) noexcept;
-        static void doSetLower8(UDF_ARGS__) noexcept;
-        static void doGetWord(UDF_ARGS__) noexcept;
     private:
         bool extensionsInstalled_ = false;
-        std::unique_ptr<MemoryCell[]> ram_;
     };
 }
 #endif //MAYA_CHIPSETINTERFACE_H

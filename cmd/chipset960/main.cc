@@ -62,8 +62,22 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     auto& theChipset = i960::ChipsetInterface::get();
-    theChipset.begin();
-    theChipset.invoke();
+    theChipset.setupPins();
+    theChipset.putManagementEngineInReset();
+    /// @todo insert calls to add extended clips functionality here
+    theChipset.loadMicrocode();
+
+    std::cout << "Keeping the i960 In Reset but the Management Engine active" << std::endl;
+    theChipset.pullManagementEngineOutOfReset();
+    theChipset.setupDataLines();
+    std::cout << "Pulling the i960 out of reset!" << std::endl;
+    theChipset.pull960OutOfReset();
+    theChipset.waitForBootSignal();
+    while (true) {
+       theChipset.waitForTransactionStart();
+       theChipset.newDataCycle();
+    }
+
     theChipset.shutdown("Strange Termination!");
     return -1;
     // configure the pins of the raspberry pi
