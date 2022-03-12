@@ -111,12 +111,39 @@
         (visibility public)
         (storage local)
         (default-dynamic 0))
+  (slot matched
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (visibility public)
+        (storage local))
   (slot serviced
         (type SYMBOL)
         (allowed-symbols FALSE
                          TRUE)
         (visibility public)
         (storage local)))
+
+(deftemplate declare-lookup-table-action
+             (slot word
+                   (type SYMBOL)
+                   (default ?NONE))
+             (slot advance-address
+                   (type INTEGER)
+                   (range 1 ?VARIABLE)
+                   (default ?NONE)))
+(deftemplate lookup-table-entry
+             (slot base
+                   (type INTEGER)
+                   (range 0 ?VARIABLE)
+                   (default ?NONE))
+             (slot style
+                   (type SYMBOL)
+                   (default ?NONE))
+             (slot value
+                   (type INTEGER)
+                   (range 0 ?VARIABLE)
+                   (default ?NONE)))
 
 (defmethod perform-read
   ((?address INTEGER))
@@ -179,6 +206,12 @@
   ; TODO: setup any other things necessary
   )
 (deffacts MAIN::fixed-address-declarations
+          (declare-lookup-table-action (word word32:)
+                                       (advance-address 4))
+          (declare-lookup-table-action (word word16:)
+                                       (advance-address 2))
+          (declare-lookup-table-action (word word8:)
+                                       (advance-address 1))
           (declare-lookup-table base: (hex32->number 0xFE000000)
                                 word32: (hex32->number 0xFB000000)
                                 word32: (hex32->number 0xFD000000)
@@ -196,35 +229,90 @@
 (defrule MAIN::setup-lookup-table
          (ucode-setup)
          ?f <- (declare-lookup-table base: ?base
-                                     word32: ?value
+                                     ?kind ?value
                                      $?rest)
+         (declare-lookup-table-action (word ?kind)
+                                      (advance-address ?adv))
          =>
          (retract ?f)
-         (assert (declare-lookup-table-entry base: ?base word32: ?value)
-                 (declare-lookup-table base: ?base $?rest)))
+         (assert (declare-lookup-table-entry base: ?base 
+                                             kind: ?value)
+                 (declare-lookup-table base: (+ ?base 
+                                                ?adv) 
+                                       $?rest)))
+
 (defrule MAIN::retract-empty-lookup-table
          (ucode-setup)
          ?f <- (declare-lookup-table base: ?)
          =>
          (retract ?f))
 
+(defrule MAIN::unpack-word32-entry
+         (ucode-setup)
+         ?f <- (declare-lookup-table-entry base: ?base 
+                                           word32: ?value)
+         =>
+         (retract ?f)
+         (assert (declare-lookup-table-entry base: ?base
+                                             word16: (word32-lower-half ?value))
+                 (declare-lookup-table-entry base: (+ ?base 2)
+                                             word16: (word32-upper-half ?value))
+                 (lookup-table-entry (base ?base)
+                                     (style full32)
+                                     (value ?value))))
+(defrule MAIN::unpack-word16-entry
+         (ucode-setup)
+         ?f <- (declare-lookup-table-entry base: ?base
+                                           word16: ?value)
+         =>
+         (retract ?f)
+         (assert (lookup-table-entry (base ?base)
+                                     (style full16)
+                                     (value ?value))
+                 (lookup-table-entry (base ?base)
+                                     (style lower8)
+                                     (value (word16-lower-half ?value)))
+                 (lookup-table-entry (base (+ ?base 1))
+                                     (style upper8)
+                                     (value (word16-upper-half ?value)))))
+
 ; glue logic for dispatching to different peripherals, this is just for the ones that make sense as objects
 
 (defrule MAIN::device-responds-to-address
-         (object (is-a transaction-request)
-                 (name ?r)
-                 (address ?addr0))
+         (declare (salience 1))
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (address ?addr0)
+                        (matched FALSE))
          (object (is-a mapped-device)
                  (start-address ?sa&:(>= ?addr0 ?sa))
                  (end-address ?ea&:(< ?addr0 ?ea))
                  (name ?d))
          =>
+         (modify-instance ?tr (matched TRUE))
          (assert (handle-request ?d
                                  ?r)))
+
+(defrule MAIN::device-responds-to-read-lookup-table-entry
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (address ?addr0)
+                        (style ?style)
+                        (kind READ)
+                        (matched FALSE))
+         (lookup-table-entry base: ?addr0
+                             style: ?style
+                             value ?value)
+         =>
+         (modify-instance ?tr
+                          (matched TRUE)
+                          (serviced TRUE)
+                          (value ?value)))
 (defrule MAIN::address-is-unmapped
          "nothing matched!"
          (declare (salience -10000))
          ?tr <- (object (is-a transaction-request)
+                        (matched FALSE)
                         (serviced FALSE))
          =>
          (modify-instance ?tr 
@@ -235,6 +323,7 @@
          ?tr <- (object (is-a transaction-request)
                         (name ?r)
                         (kind READ)
+                        (matched TRUE)
                         (serviced FALSE)
                         (address ?addr))
          ?md <- (object (is-a mapped-device) (name ?d))
@@ -254,6 +343,7 @@
                         (name ?r)
                         (kind WRITE)
                         (serviced FALSE)
+                        (matched TRUE)
                         (address ?addr)
                         (style ?style)
                         (value ?value))
