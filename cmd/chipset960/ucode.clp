@@ -70,10 +70,12 @@
 
 (defmessage-handler MAIN::ram-device perform-read primary
                     (?address)
-                    (ram:load ?address))
+                    (ram:load (- ?address
+                                 ?self:start-address)))
 (defmessage-handler MAIN::ram-device perform-write primary
                     (?address ?value ?style)
-                    (ram:store ?address
+                    (ram:store (- ?address
+                                  ?self:start-address)
                                ?value
                                ?style))
 
@@ -199,8 +201,9 @@
          ?tr <- (object (is-a transaction-request)
                         (serviced FALSE))
          =>
-         (modify ?tr 
-                 (serviced TRUE)))
+         (modify-instance ?tr 
+                          (serviced TRUE)
+                          (value 0)))
 (defrule MAIN::carry-out-read-request
          ?f <- (handle-request ?d ?r)
          ?tr <- (object (is-a transaction-request)
