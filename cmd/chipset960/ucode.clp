@@ -32,37 +32,53 @@
             "First function called after loading microcode, meant to set everything up")
 
 (defmethod perform-read
-((?address INTEGER)
- (?style INTEGER))
- (format t "(perform-read 0x%x %d)%n" ?address ?style)
- 0)
+  ((?address INTEGER)
+   (?style INTEGER))
+  (format t "(perform-read 0x%x %d)%n" ?address ?style)
+  0)
 (defmethod perform-read
-((?address INTEGER)
- (?style LEXEME))
- (format t "(perform-read 0x%x %s)%n" ?address ?style)
- 0)
+  ((?address INTEGER)
+   (?style LEXEME))
+  (format t "(perform-read 0x%x %s)%n" ?address ?style)
+  0)
 
 (defmethod perform-read
-((?address INTEGER))
- (format t "(perform-read 0x%x)%n" ?address)
- 0)
+  ((?address INTEGER))
+  (format t "(perform-read 0x%x)%n" ?address)
+  0)
 
 (defmethod perform-write
-((?address INTEGER)
- (?value INTEGER)
- (?style INTEGER))
- (format t "(perform-write 0x%x 0x%x %d)%n" ?address ?value ?style)
- )
+  ((?address INTEGER)
+   (?value INTEGER)
+   (?style INTEGER))
+  (format t "(perform-write 0x%x 0x%x %d)%n" ?address ?value ?style)
+  )
 
 (defmethod perform-write
-((?address INTEGER)
- (?value INTEGER)
- (?style LEXEME))
- (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
- )
+  ((?address INTEGER)
+   (?value INTEGER)
+   (?style LEXEME))
+  (format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
+  )
 
 (defmethod ucode-init
-()
-; TODO: load boot.sys here
-; TODO: setup any other things necessary
-)
+  ()
+  (bind ?boot-sys-handle
+        (gensym*))
+  (if (not (open "boot.sys" ?boot-sys-handle "r")) then
+    (shutdown960 "Unable to open boot.sys!"))
+  (printout t "Installing boot.sys!" crlf)
+  (bind ?address
+        0)
+  (while (>= (bind ?current-character
+                   (get-char ?boot-sys-handle)) 0) do
+         (ram:store-byte ?address
+                         ?current-character)
+         (if (= (mod ?address 4096) 0) then
+           (printout t "."))
+         (bind ?address 
+               (+ ?address 1)))
+  (printout t crlf "Finished installing boot.sys!" crlf)
+  (close ?boot-sys-handle)
+  ; TODO: setup any other things necessary
+  )
