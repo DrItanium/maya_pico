@@ -128,31 +128,23 @@ namespace i960 {
             if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &theValue)) {
                 return;
             }
-            if (!theEnv.nextArgument(context, Electron::ArgumentBits::Integer, &theStyle)) {
+            if (!theEnv.nextArgument(context, Electron::ArgumentBits::Lexeme, &theStyle)) {
                 return;
             }
             auto address = static_cast<uint32_t>(theAddress.integerValue->contents);
             auto value = static_cast<uint16_t>(theAddress.integerValue->contents);
-            auto style = static_cast<LoadStoreStyle>(theAddress.integerValue->contents);
+            std::string style(theAddress.lexemeValue->contents);
             // assume that we are looking at the i960Sx processor.
-            switch (style) {
-                case LoadStoreStyle::Full16:
-                    out->lexemeValue = theEnv.trueSymbol();
-                    storeWord(address, value);
-                    break;
-                case LoadStoreStyle::Lower8:
-                    out->lexemeValue = theEnv.trueSymbol();
-                    storeByte(address, value);
-                    break;
-                case LoadStoreStyle::Upper8:
-                    out->lexemeValue = theEnv.trueSymbol();
-                    storeByte(address + 1, value);
-                    break;
-                default:
-                    out->lexemeValue = theEnv.falseSymbol();
-                    break;
+            out->lexemeValue = theEnv.trueSymbol();
+            if (style == "full16") {
+                storeWord(address, value);
+            } else if (style == "lower8") {
+                storeByte(address, value);
+            } else if (style == "upper8") {
+                storeByte(address + 1, value);
+            } else {
+                out->lexemeValue = theEnv.falseSymbol();
             }
-
         }
         void
         performRAMSize(UDF_ARGS__) {
@@ -181,7 +173,7 @@ namespace i960 {
                            Electron::makeArgumentList(Electron::SingleArgument{Electron::ArgumentTypes::Integer},
                                                       Electron::SingleArgument{Electron::ArgumentTypes::Integer},
                                                       Electron::SingleArgument{Electron::ArgumentTypes::Integer},
-                                                      Electron::SingleArgument{Electron::ArgumentTypes::Integer}),
+                                                      Electron::SingleArgument{Electron::ArgumentTypes::Symbol, Electron::ArgumentTypes::String}),
                            performStore,
                            "performStore");
         theEnv.addFunction("ram:store-byte",
