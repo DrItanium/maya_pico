@@ -449,7 +449,7 @@
   (any-instancep ((?ins mapped-device))
                  (and (send ?ins 
                             responds-to 
-                            ?address
-                            (send ?ins 
-                                  get-cacheable)))))
-      
+                            ?address)
+                      (send ?ins 
+                            get-cacheable))))
+
