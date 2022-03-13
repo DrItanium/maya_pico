@@ -111,7 +111,6 @@ int main(int argc, char *argv[]) {
            theChipset.setupDataLinesForRead();
            while (true) {
                theChipset.waitForCycleUnlock();
-               Neutron::GPIO::delayMicroseconds(1);
                {
                    // just in case the compiler is getting cute
                    theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
@@ -126,7 +125,6 @@ int main(int argc, char *argv[]) {
            // write operation
            while (true) {
                theChipset.waitForCycleUnlock();
-               Neutron::GPIO::delayMicroseconds(1);
                {
                    // just in case the compiler is getting cute
                    Electron::Value returnNothing;
