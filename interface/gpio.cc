@@ -77,6 +77,22 @@ namespace Neutron::GPIO
 
     }
     void
+    delay(unsigned int amount) {
+#ifdef HAVE_WIRING_PI_H
+        WiringPi::Implementation::delay(amount);
+#elif defined(HAVE_GPIOD_HPP)
+        GPIOD::Implementation::delay(amount);
+#endif
+    }
+    void
+    delayMicroseconds(unsigned int amount) {
+#ifdef HAVE_WIRING_PI_H
+        WiringPi::Implementation::delayMicroseconds(amount);
+#elif defined(HAVE_GPIOD_HPP)
+        GPIOD::Implementation::delayMicroseconds(amount);
+#endif
+    }
+    void
     doDigitalRead(UDF_ARGS__) {
         auto& theEnv = Electron::Environment::fromRaw(env);
         UDFValue arg0;

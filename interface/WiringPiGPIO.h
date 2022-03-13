@@ -76,6 +76,8 @@ namespace Neutron::GPIO::WiringPi::Implementation {
                 return wiringPiISR(targetPin, INT_EDGE_SETUP, function);
         }
     }
+    void delay(unsigned int amount) { ::delay(amount); }
+    void delayMicroseconds(unsigned int amount) { ::delayMicroseconds(amount); }
 } // end namesapce Neutron::GPIO
 #endif
 

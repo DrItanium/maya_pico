@@ -172,5 +172,13 @@ namespace Neutron::GPIO::GPIOD::Implementation {
     begin() {
         return getDevice(0).operator bool();
     }
+    void
+    delay(unsigned int amount) noexcept {
+        // do nothing
+    }
+    void
+    delayMicroseconds(unsigned int amount) noexcept {
+
+    }
 }
 #endif // end HAVE_GPIOD_HPP

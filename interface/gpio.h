@@ -59,6 +59,8 @@ namespace Neutron::GPIO {
     PinValue digitalRead(int targetPin);
     void digitalWrite(int targetPin, PinValue value);
     bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function);
+    void delay(unsigned int amount);
+    void delayMicroseconds(unsigned int amount);
     void installExtensions(Electron::Environment& theEnv);
     /**
      * @brief GPIO information specific to the raspberry pi

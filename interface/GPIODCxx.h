@@ -38,6 +38,8 @@ namespace Neutron::GPIO::GPIOD::Implementation {
     void digitalWrite(int targetPin, PinValue value);
     bool attachInterrupt(int targetPin, InterruptMode mode, ISRFunction function);
     bool begin();
+    void delay(unsigned int amount);
+    void delayMicroseconds(unsigned int amount);
 } // end namespace Neutron::GPIO::GPIOD::Implementation
 #endif // end defined HAVE_GPIOD_HPP
 #endif // end !defined HAVE_WIRING_PI_H
