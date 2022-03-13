@@ -141,7 +141,7 @@ namespace i960 {
             } else if (style == "lower8") {
                 storeByte(address, value);
             } else if (style == "upper8") {
-                storeByte(address + 1, value);
+                storeByte(address + 1, static_cast<uint8_t>(value >> 8));
             } else {
                 out->lexemeValue = theEnv.falseSymbol();
             }
