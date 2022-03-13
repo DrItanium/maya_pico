@@ -111,7 +111,10 @@ int main(int argc, char *argv[]) {
            theChipset.setupDataLinesForRead();
            while (true) {
                theChipset.waitForCycleUnlock();
-               theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+               {
+                   // just in case the compiler is getting cute
+                   theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+               }
                if (theChipset.signalCPU()) {
                    break;
                }
@@ -122,12 +125,15 @@ int main(int argc, char *argv[]) {
            // write operation
            while (true) {
                theChipset.waitForCycleUnlock();
-               Electron::Value returnNothing;
-               theChipset.call("perform-write",
-                               &returnNothing,
-                               baseAddress,
-                               theChipset.getDataLines(),
-                               [](auto* builder) { loadStoreStyle(builder); });
+               {
+                   // just in case the compiler is getting cute
+                   Electron::Value returnNothing;
+                   theChipset.call("perform-write",
+                                   &returnNothing,
+                                   baseAddress,
+                                   theChipset.getDataLines(),
+                                   [](auto *builder) { loadStoreStyle(builder); });
+               }
                if (theChipset.signalCPU()) {
                    break;
                }
