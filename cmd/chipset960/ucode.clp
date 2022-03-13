@@ -144,6 +144,21 @@
                    (type INTEGER)
                    (range 0 ?VARIABLE)
                    (default ?NONE)))
+(deftemplate single-peripheral-mapping
+             (slot base
+                   (type INTEGER)
+                   (range 0 ?VARIABLE)
+                   (default ?NONE))
+             (slot style
+                   (type SYMBOL)
+                   (default ?NONE))
+             (slot on-read
+                   (type SYMBOL)
+                   (default ?NONE))
+             (slot on-write 
+                   (type SYMBOL)
+                   (default ?NONE)))
+
 
 (defmethod perform-read
   ((?address INTEGER))
@@ -203,6 +218,20 @@
   (run)
   ; TODO: setup any other things necessary
   )
+(defglobal MAIN
+           ?*next-page* = (hex32->number 0x100)
+           ?*configuration-space-base* = (hex32->number 0xFE000000)
+           ?*rtc-space-base* = (hex32->number 0xFA000000)
+           ?*serial-space-base* = (hex32->number 0xFB000000)
+           ?*sd-space-base* = (hex32->number 0xFD000000)
+           ?*sd-files-base* = (+ ?*sd-space-base* 
+                                 ?*next-page*)
+           ?*display-space-base* = (hex32->number 0xFC000000))
+(deffunction MAIN::serial-read-character () (get-char stdin))
+(deffunction MAIN::serial-write-character (?character) (put-char stdout ?character))
+(defgeneric MAIN::perform-flush)
+(defmethod MAIN::perform-flush () (flush stdout))
+(defmethod MAIN::perform-flush (?value) (flush stdout))
 (deffacts MAIN::fixed-address-declarations
           (declare-lookup-table-action (word word32:)
                                        (advance-address 4))
@@ -210,15 +239,22 @@
                                        (advance-address 2))
           (declare-lookup-table-action (word word8:)
                                        (advance-address 1))
-          (declare-lookup-table base: (hex32->number 0xFE000000)
-                                word32: (hex32->number 0xFB000000)
-                                word32: (hex32->number 0xFD000000)
-                                word32: (+ (hex32->number 0xFD000000)
-                                           (hex32->number 0x100))
-                                word32: (hex32->number 0xFC000000)
-                                word32: (+ (hex32->number 0xFC000000)
-                                           (hex32->number 0x100))
-                                word32: (hex32->number 0xFA000000)))
+          (declare-lookup-table base: ?*configuration-space-base*
+                                word32: ?*serial-space-base*
+                                word32: ?*sd-space-base*
+                                word32: ?*sd-files-base*
+                                word32: ?*display-space-base*
+                                word32: (+ ?*display-space-base*
+                                           ?*next-page*)
+                                word32: ?*rtc-space-base*)
+          (single-peripheral-mapping (base ?*serial-space-base*)
+                                     (style full16)
+                                     (on-read serial-read-character)
+                                     (on-write serial-write-character))
+          (single-peripheral-mapping (base (+ ?*serial-space-base* 2))
+                                     (style full16)
+                                     (on-read perform-flush)
+                                     (on-write perform-flush)))
 
 (definstances MAIN::devices
               (of ram-device 
@@ -297,21 +333,6 @@
          (assert (handle-request ?d
                                  ?r)))
 
-(defrule MAIN::device-responds-to-read-lookup-table-entry
-         ?tr <- (object (is-a transaction-request)
-                        (name ?r)
-                        (address ?addr0)
-                        (style ?style)
-                        (kind READ)
-                        (matched FALSE))
-         (lookup-table-entry (base ?addr0)
-                             (style ?style)
-                             (value ?value))
-         =>
-         (modify-instance ?tr
-                          (matched TRUE)
-                          (serviced TRUE)
-                          (value ?value)))
 (defrule MAIN::address-is-unmapped
          "nothing matched!"
          (declare (salience -10000))
@@ -361,3 +382,53 @@
                ?style)
          (modify-instance ?tr 
                           (serviced TRUE)))
+
+(defrule MAIN::device-responds-to-read-lookup-table-entry
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (address ?addr0)
+                        (style ?style)
+                        (kind READ)
+                        (matched FALSE))
+         (lookup-table-entry (base ?addr0)
+                             (style ?style)
+                             (value ?value))
+         =>
+         (modify-instance ?tr
+                          (matched TRUE)
+                          (serviced TRUE)
+                          (value ?value)))
+
+(defrule MAIN::map-read-to-single-peripheral-device
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (address ?addr0)
+                        (style ?style)
+                        (kind READ)
+                        (matched FALSE))
+         (single-peripheral-mapping (base ?addr0)
+                                    (style ?style)
+                                    (on-read ?read-action))
+         =>
+         (modify-instance ?tr 
+                          (matched TRUE)
+                          (serviced TRUE)
+                          (value (funcall ?read-action))))
+
+(defrule MAIN::map-write-to-single-peripheral-device
+         ?tr <- (object (is-a transaction-request)
+                        (name ?r)
+                        (address ?addr0)
+                        (style ?style)
+                        (kind WRITE)
+                        (value ?value)
+                        (matched FALSE))
+         (single-peripheral-mapping (base ?addr0)
+                                    (style ?style)
+                                    (on-write ?action))
+         =>
+         (modify-instance ?tr 
+                          (matched TRUE)
+                          (serviced TRUE)
+                          (value (funcall ?action 
+                                          ?value))))
