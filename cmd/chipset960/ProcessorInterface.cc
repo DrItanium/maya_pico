@@ -245,7 +245,10 @@ namespace i960 {
 
     void
     ChipsetInterface::setDataLines(uint16_t value) noexcept {
-        writeGPIO16<IOExpanderAddress::DataLines>(value);
+        if (value != latchedDataOutput_) {
+            latchedDataOutput_ = value;
+            writeGPIO16<IOExpanderAddress::DataLines>(latchedDataOutput_);
+        }
     }
     void
     ChipsetInterface::setupDataLinesForWrite() noexcept {
