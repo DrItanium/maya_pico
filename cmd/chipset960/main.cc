@@ -105,20 +105,39 @@ int main(int argc, char *argv[]) {
     // This is the state machine for handling the i960 that has a management engine attached to it!
     // With the microcontroller based designs, there is a lot of extra code surrounding having onboard caches to accelerate
     // performance. Hopefully, the raspberry pi offsets any potential bottlenecks by being exponentially faster than those designs.
+    std::array<uint16_t, 8> readStorage;
     while (true) {
        theChipset.waitForTransactionStart();
        if (auto baseAddress = theChipset.getAddress(); theChipset.isReadOperation()) {
            theChipset.setupDataLinesForRead();
-           while (true) {
-               theChipset.waitForCycleUnlock();
-               {
-                   // just in case the compiler is getting cute
-                   theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+           // mask the address to be the current 16-byte chunk and then load all 16-bytes
+           constexpr uint32_t addressMask = ~0b1111;
+           if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
+               // if the span is cacheable then load a 16-byte span ahead of time, hold onto this cache for the lifetime of the
+               // current transaction only. Implementing a data cache later on may make more sense too
+               for (int i = 0;i < 8; ++i, maskedAddress += 2) {
+                   readStorage[i] = theChipset.call<uint16_t>("perform-read", maskedAddress);
                }
-               if (theChipset.signalCPU()) {
-                   break;
+               uint32_t spanOffset = (baseAddress & 0b1111) >> 1;
+               for (auto i = spanOffset; i < 8; ++i) {
+                   theChipset.waitForCycleUnlock();
+                   theChipset.setDataLines(readStorage[i]);
+                   if (theChipset.signalCPU()) {
+                       break;
+                   }
                }
-               baseAddress += 2;
+           } else {
+               while (true) {
+                   theChipset.waitForCycleUnlock();
+                   {
+                       // just in case the compiler is getting cute
+                       theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+                   }
+                   if (theChipset.signalCPU()) {
+                       break;
+                   }
+                   baseAddress += 2;
+               }
            }
        } else {
            theChipset.setupDataLinesForWrite();

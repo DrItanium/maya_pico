@@ -30,10 +30,18 @@
             "Request by the i960 to store a value to some device (including ram)")
 (defgeneric ucode-init
             "First function called after loading microcode, meant to set everything up")
+(defgeneric span-is-cacheable
+            "Return true if the given 16-byte span is cacheable")
 (defclass MAIN::mapped-device
   (is-a USER)
   (role abstract)
   (pattern-match non-reactive)
+  (slot cacheable
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (visibility public)
+        (storage local))
   (slot start-address
         (type INTEGER)
         (range 0 ?VARIABLE)
@@ -62,6 +70,9 @@
   (is-a mapped-device)
   (role concrete)
   (pattern-match reactive)
+  (slot cacheable
+        (source composite)
+        (default-dynamic TRUE))
   (slot kind
         (source composite)
         (default ram))
@@ -433,3 +444,12 @@
          (modify-instance ?tr 
                           (matched TRUE)
                           (serviced TRUE)))
+(defmethod span-is-cacheable
+  ((?address INTEGER))
+  (any-instancep ((?ins mapped-device))
+                 (and (send ?ins 
+                            responds-to 
+                            ?address
+                            (send ?ins 
+                                  get-cacheable)))))
+      
