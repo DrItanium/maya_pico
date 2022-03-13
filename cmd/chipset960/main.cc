@@ -32,6 +32,7 @@ extern "C" {
 }
 #include <iostream>
 #include <array>
+#include <list>
 #include <type_traits>
 #include "interface/spi.h"
 #include "interface/gpio.h"
@@ -42,10 +43,9 @@ extern "C" {
 }
 
 void
-loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
-    auto& theChipset = i960::ChipsetInterface::get();
+loadStoreStyle(Electron::FunctionBuilder* builder, i960::LoadStoreStyle theStyle) noexcept {
     // give the microcode an abstract representation of the load store style by making them symbols
-    switch (auto theStyle = theChipset.getStyle(); theStyle) {
+    switch (theStyle) {
         case i960::LoadStoreStyle::Full16:
             builder->add(Electron::FunctionBuilder::symbol("full16"));
             break;
@@ -61,6 +61,10 @@ loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
             break;
     }
 }
+void
+loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
+    loadStoreStyle(builder, i960::ChipsetInterface::get().getStyle());
+}
 /***************************************/
 /* LOCAL INTERNAL FUNCTION DEFINITIONS */
 /***************************************/
@@ -72,7 +76,12 @@ static void                    CatchCtrlC(int);
 /***************************************/
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
-
+struct WriteTransaction {
+    i960::LoadStoreStyle style_;
+    uint32_t address_;
+    uint16_t value_;
+    WriteTransaction(uint32_t address, uint16_t value, i960::LoadStoreStyle style) : address_(address), value_(value), style_(style) { }
+};
 int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
@@ -106,60 +115,80 @@ int main(int argc, char *argv[]) {
     // With the microcontroller based designs, there is a lot of extra code surrounding having onboard caches to accelerate
     // performance. Hopefully, the raspberry pi offsets any potential bottlenecks by being exponentially faster than those designs.
     std::array<uint16_t, 8> readStorage;
+    std::list<WriteTransaction> writeTransactionStorage;
     while (true) {
-       theChipset.waitForTransactionStart();
-       if (auto baseAddress = theChipset.getAddress(); theChipset.isReadOperation()) {
-           theChipset.setupDataLinesForRead();
-           // mask the address to be the current 16-byte chunk and then load all 16-bytes
-           constexpr uint32_t addressMask = ~0b1111;
-           if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
-               // if the span is cacheable then load a 16-byte span ahead of time, hold onto this cache for the lifetime of the
-               // current transaction only. Implementing a data cache later on may make more sense too
-               for (int i = 0;i < 8; ++i, maskedAddress += 2) {
-                   readStorage[i] = theChipset.call<uint16_t>("perform-read", maskedAddress);
-               }
-               uint32_t spanOffset = (baseAddress & 0b1111) >> 1;
-               for (auto i = spanOffset; i < 8; ++i) {
-                   theChipset.waitForCycleUnlock();
-                   theChipset.setDataLines(readStorage[i]);
-                   if (theChipset.signalCPU()) {
-                       break;
-                   }
-               }
-           } else {
-               while (true) {
-                   theChipset.waitForCycleUnlock();
-                   {
-                       // just in case the compiler is getting cute
-                       theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
-                   }
-                   if (theChipset.signalCPU()) {
-                       break;
-                   }
-                   baseAddress += 2;
-               }
-           }
-       } else {
-           theChipset.setupDataLinesForWrite();
-           // write operation
-           while (true) {
-               theChipset.waitForCycleUnlock();
-               {
-                   // just in case the compiler is getting cute
-                   Electron::Value returnNothing;
-                   theChipset.call("perform-write",
-                                   &returnNothing,
-                                   baseAddress,
-                                   theChipset.getDataLines(),
-                                   [](auto *builder) { loadStoreStyle(builder); });
-               }
-               if (theChipset.signalCPU()) {
-                   break;
-               }
-               baseAddress += 2;
-           }
+        theChipset.waitForTransactionStart();
+        constexpr uint32_t addressMask = ~0b1111;
+        if (auto baseAddress = theChipset.getAddress(); theChipset.isReadOperation()) {
+            theChipset.setupDataLinesForRead();
+            // mask the address to be the current 16-byte chunk and then load all 16-bytes
+            if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
+                // if the span is cacheable then load a 16-byte span ahead of time, hold onto this cache for the lifetime of the
+                // current transaction only. Implementing a data cache later on may make more sense too
+                for (int i = 0;i < 8; ++i, maskedAddress += 2) {
+                    readStorage[i] = theChipset.call<uint16_t>("perform-read", maskedAddress);
+                }
+                uint32_t spanOffset = (baseAddress & 0b1111) >> 1;
+                for (auto i = spanOffset; i < 8; ++i) {
+                    theChipset.waitForCycleUnlock();
+                    theChipset.setDataLines(readStorage[i]);
+                    if (theChipset.signalCPU()) {
+                        break;
+                    }
+                }
+            } else {
+                while (true) {
+                    theChipset.waitForCycleUnlock();
+                    {
+                        // just in case the compiler is getting cute
+                        theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+                    }
+                    if (theChipset.signalCPU()) {
+                        break;
+                    }
+                    baseAddress += 2;
+                }
+            }
+        } else {
+            theChipset.setupDataLinesForWrite();
+            // write operation
+            if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
+                writeTransactionStorage.clear();
+                while (true) {
+                    theChipset.waitForCycleUnlock();
+                    writeTransactionStorage.emplace_back(baseAddress,
+                                                         theChipset.getDataLines(),
+                                                         theChipset.getStyle());
+                    if (theChipset.signalCPU()) {
+                        break;
+                    }
+                    baseAddress += 2;
+                }
+                for (auto& a : writeTransactionStorage) {
+                    Electron::Value returnNothing;
+                    theChipset.call("perform-write",
+                                    &returnNothing,
+                                    a.address_,
+                                    a.value_,
+                                    [style = a.style_](auto *builder) { loadStoreStyle(builder, style); });
+                }
+            } else {
+                while (true) {
+                    theChipset.waitForCycleUnlock();
+                    Electron::Value returnNothing;
+                    theChipset.call("perform-write",
+                                    &returnNothing,
+                                    baseAddress,
+                                    theChipset.getDataLines(),
+                                    [](auto *builder) { loadStoreStyle(builder); });
+                    if (theChipset.signalCPU()) {
+                        break;
+                    }
+                    baseAddress += 2;
+                }
+            }
 
-       }
+        }
     }
 
     theChipset.shutdown("Strange Termination!");
