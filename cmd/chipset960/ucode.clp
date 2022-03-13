@@ -225,7 +225,11 @@
                                  ?*next-page*)
            ?*display-space-base* = (hex32->number 0xFC000000))
 (deffunction MAIN::serial-read-character () (get-char stdin))
-(deffunction MAIN::serial-write-character (?character) (put-char stdout ?character))
+(deffunction MAIN::serial-write-character 
+             (?character) 
+             (put-char stdout 
+                       ?character)
+             (flush stdout))
 (defgeneric MAIN::perform-flush)
 (defmethod MAIN::perform-flush () (flush stdout))
 (defmethod MAIN::perform-flush (?value) (flush stdout))
@@ -267,7 +271,7 @@
          =>
          (retract ?f)
          (assert (declare-lookup-table-entry base: ?base 
-                                             kind: ?value)
+                                             ?kind ?value)
                  (declare-lookup-table base: (+ ?base 
                                                 ?adv) 
                                        $?rest)))
@@ -424,8 +428,8 @@
                                     (style ?style)
                                     (on-write ?action))
          =>
+         (funcall ?action 
+                  ?value)
          (modify-instance ?tr 
                           (matched TRUE)
-                          (serviced TRUE)
-                          (value (funcall ?action 
-                                          ?value))))
+                          (serviced TRUE)))
