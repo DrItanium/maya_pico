@@ -115,11 +115,14 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         }
         auto startTime = std::chrono::system_clock::now();
         for (auto& a : writeTransactionStorage) {
+            auto startTime2 = std::chrono::system_clock::now();
             theChipset.call("perform-write",
                             &returnNothing,
                             a.address_,
                             a.value_,
                             [style = a.style_](auto *builder) { loadStoreStyle(builder, style); });
+            auto endTime2 = std::chrono::system_clock::now();
+            std::cout << "\t\tIndividual Write of 16-bits to Memory (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime2 - startTime2).count() << " microseconds" << std::endl;
         }
         auto endTime = std::chrono::system_clock::now();
         std::cout << "\tBurst Commit Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
