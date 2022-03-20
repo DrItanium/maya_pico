@@ -183,7 +183,6 @@ int main(int argc, char *argv[]) {
                 auto end = start + 8;
                 for (auto i = start; i < end; ++i) {
                     theChipset.waitForCycleUnlock();
-                    std::cout << "setDataLines to 0x" << std::hex << theLine.get(i) << " @ offset 0x" << i << std::endl;
                     theChipset.setDataLines(theLine.get(i));
                     if (theChipset.signalCPU()) {
                         break;
