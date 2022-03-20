@@ -163,12 +163,12 @@ int main(int argc, char *argv[]) {
             if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
                 // if the span is cacheable then load a 16-byte span ahead of time, hold onto this cache for the lifetime of the
                 // current transaction only. Implementing a data cache later on may make more sense too
-                auto startTime = std::chrono::system_clock::now();
+                //auto startTime = std::chrono::system_clock::now();
                 for (int i = 0;i < 8; ++i, maskedAddress += 2) {
                     readStorage[i] = theChipset.call<uint16_t>("perform-read", maskedAddress);
                 }
-                auto endTime = std::chrono::system_clock::now();
-                std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+                //auto endTime = std::chrono::system_clock::now();
+                //std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
                 uint32_t spanOffset = (baseAddress & 0b1111) >> 1;
                 for (auto i = spanOffset; i < 8; ++i) {
                     theChipset.waitForCycleUnlock();
