@@ -148,9 +148,13 @@ doReadOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexce
         //std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
         auto start = addr.getOffset() >> 1;
         auto end = start + 8;
-        for (auto i = start; i < end; ++i) {
+        uint16_t storage[8];
+        for (auto i = 0u, j = start; i < 8; ++i, ++j) {
+            storage[i] = theLine.get(j);
+        }
+        for (auto a : storage) {
             theChipset.waitForCycleUnlock();
-            theChipset.setDataLines(theLine.get(i));
+            theChipset.setDataLines(a);
             if (theChipset.signalCPU()) {
                 break;
             }
