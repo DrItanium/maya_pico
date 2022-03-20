@@ -393,6 +393,7 @@ namespace i960 {
         auto& theChipset = get();
         for (int i = 0; i < length; ++i, address += 2) {
             storage[i] = theChipset.call<uint16_t>("perform-read", address);
+            std::cout << "\tstorage[" << i << "] = " << storage[i] << std::endl;
         }
         return length;
     }
