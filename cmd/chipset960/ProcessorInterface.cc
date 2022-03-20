@@ -388,4 +388,27 @@ namespace i960 {
 
         }
     }
+    size_t
+    ChipsetInterface::read(uint32_t address, uint16_t* storage, size_t length) {
+        auto& theChipset = get();
+        for (int i = 0; i < length; ++i, address += 2) {
+            storage[i] = theChipset.call<uint16_t>("perform-read", address);
+        }
+        return length;
+    }
+    size_t
+    ChipsetInterface::write(uint32_t address, uint16_t* storage, size_t length) {
+        auto& theChipset = get();
+        Electron::Value returnsNothing;
+        // this implementation is _not_ safe if one is not using uint16_t values
+        for (int i = 0; i < length; ++i, address += 2) {
+            theChipset.call("perform-write",
+                            &returnsNothing,
+                            address,
+                            storage[i],
+                            Electron::FunctionBuilder::symbol("full16"));
+        }
+        theChipset.run(-1L);
+        return length;
+    }
 }

@@ -29,8 +29,7 @@
 
 #ifndef SXCHIPSET_DIRECTMAPPEDCACHEWAY_H
 #define SXCHIPSET_DIRECTMAPPEDCACHEWAY_H
-#include "MCUPlatform.h"
-#include "Pinout.h"
+#include "Common.h"
 #include "TaggedCacheAddress.h"
 #include "CacheEntry.h"
 

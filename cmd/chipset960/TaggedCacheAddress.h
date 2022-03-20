@@ -30,7 +30,7 @@
 #ifndef SXCHIPSET_TAGGEDCACHEADDRESS_H
 #define SXCHIPSET_TAGGEDCACHEADDRESS_H
 //#include "MCUPlatform.h"
-#include <cstdint>
+#include "Common.h"
 /**
  * @brief A wrapper around a 32-bit i960Sx address broken up into four components [unused, key, tag, offset] in order from most significant bit to least.
  * The unused portion is the most significant bits of the value which are beyond the totalBits template parameter (it cannot be accessed and is only logically a part of it).
@@ -125,6 +125,6 @@ private:
         TagType tagIndex : NumTagBits;
         RestType rest : NumRestBits;
     };
-    byte bytes_[sizeof(Address)];
+    uint8_t bytes_[sizeof(Address)];
 };
 #endif //SXCHIPSET_TAGGEDCACHEADDRESS_H

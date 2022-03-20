@@ -29,8 +29,9 @@
 
 #ifndef SXCHIPSET_CACHEENTRY_H
 #define SXCHIPSET_CACHEENTRY_H
+#include "Common.h"
 #include "TaggedCacheAddress.h"
-#include "i960SxChipset.h"
+#include "ChipsetInterface.h"
 /**
  * @brief Describes a single cache line which holds onto a customizable number of words which are some multiple of 8 bit bytes
  * @tparam numTagBits The number of bits in a given address devoted to the index of the cache line
@@ -39,15 +40,16 @@
  * @tparam T The type of the backing memory storage (SDCard, PSRAM, etc)
  * @tparam useSpecificTypeSizes When true, use the smallest type for each field in the address type used by this cache line. When false, use uint32_t. Should only be false on ARM platforms
  */
-template<byte numTagBits, byte maxAddressBits, byte numLowestBits, typename T, bool useSpecificTypeSizes = true>
+template<uint8_t numTagBits, uint8_t maxAddressBits, uint8_t numLowestBits, typename T, bool useSpecificTypeSizes = true>
 class CacheEntry final {
 public:
+    using LoadStoreStyle = i960::LoadStoreStyle;
     /**
-     * @brief Divides the bytes that make up this cache line to this type
+     * @brief Divides the uint8_ts that make up this cache line to this type
      */
     using Word = SplitWord16;
     /**
-     * @brief The number of bytes cached by this line
+     * @brief The number of uint8_ts cached by this line
      */
     static constexpr size_t NumBytesCached = pow2(numLowestBits);
     /**
@@ -57,11 +59,11 @@ public:
     /**
      * @brief A bitmask of the word types
      */
-    static constexpr byte CacheEntryMask = NumWordsCached - 1;
+    static constexpr uint8_t CacheEntryMask = NumWordsCached - 1;
     /**
      * @brief The number of positions to shift the offset component by when computing the entry offset
      */
-    static constexpr byte CacheEntryShiftAmount = numberOfBitsForCount(sizeof(Word));
+    static constexpr uint8_t CacheEntryShiftAmount = numberOfBitsForCount(sizeof(Word));
     static_assert(CacheEntryShiftAmount != 0, "Defined word type must be a power of 2");
     static_assert(CacheEntryShiftAmount < numLowestBits, "The words that make up a cache line need to be smaller than the entire storage in the cache line itself");
     /**
@@ -93,17 +95,17 @@ public:
         // no match so pull the data in from main memory
         if (isDirty()) {
             // we compute the overall range as we go through this stuff
-            byte end = ((highestUpdated_ - dirty_) + 1);
+            uint8_t end = ((highestUpdated_ - dirty_) + 1);
             (void)T::write(TaggedAddress{key_, newTag.getTagIndex()}.getAddress() + (dirty_ * sizeof(Word)),
-                           reinterpret_cast<byte *>(data + dirty_),
-                           sizeof(Word) * end);
+                           data + dirty_,
+                           end);
         }
         dirty_ = CleanCacheLineState;
         highestUpdated_ = 0;
         // since we have called reset, now align the new address internally
         key_ = newTag.getRest();
         // this is a _very_ expensive operation
-        (void)T::read(newTag.aligned().getAddress(), reinterpret_cast<byte*>(data), NumBytesCached);
+        (void)T::read(newTag.aligned().getAddress(), data, NumWordsCached);
     }
     /**
      * @brief Clear the entry without saving what was previously in it, necessary if the memory was reused for a different purpose
@@ -125,7 +127,7 @@ public:
     [[nodiscard]] constexpr bool matches(TaggedAddress addr) const noexcept { return isValid() && (addr.getRest() == key_); }
     /**
      * @brief Return the word at a given offset; NOTE THERE IS NO CHECKS TO MAKE SURE YOU DIDN'T GO OUT OF BOUNDS!
-     * @param offset The offset into the line in word form (it is not a byte offset)
+     * @param offset The offset into the line in word form (it is not a uint8_t offset)
      * @return The word itself at the given position (a copy!)
      */
     [[nodiscard]] constexpr auto get(OffsetType offset) const noexcept { return data[offset].getWholeValue(); }
@@ -135,8 +137,7 @@ public:
      * @param style Is this a Full 16-bit update, lower8 update, or upper8 update? Chipset halt on anything else
      * @param value The new value to update the target word in the line with
      */
-    [[gnu::always_inline]]
-    inline void set(OffsetType offset, LoadStoreStyle style, Word value) noexcept {
+    inline void set(OffsetType offset, LoadStoreStyle style, Word value) {
         /// @todo add support for Words which are larger than bus width
         // while unsafe, assume it is correct because we only get this from the ProcessorSerializer, perhaps directly grab it?
         auto &target = data[offset];
@@ -146,13 +147,13 @@ public:
                     target = value;
                     break;
                 case LoadStoreStyle::Lower8:
-                    target.bytes[0] = value.bytes[0];
+                    target.uint8_ts[0] = value.bytes[0];
                     break;
                 case LoadStoreStyle::Upper8:
-                    target.bytes[1] = value.bytes[1];
+                    target.uint8_ts[1] = value.bytes[1];
                     break;
                 default:
-                    signalHaltState(F("BAD LOAD STORE STYLE FOR SETTING A CACHE LINE"));
+                    throw std::runtime_error("BAD LOAD STORE STYLE FOR SETTING A CACHE LINE");
             }
             // do a comparison at the end to see if we actually changed anything
             // the idea is that if the values don't change don't mark the cache line as dirty again
@@ -186,7 +187,7 @@ public:
      */
     [[nodiscard]] constexpr bool isClean() const noexcept { return dirty_ == CleanCacheLineState; }
 private:
-    Word data[NumWordsCached]; // 16 bytes
+    Word data[NumWordsCached]; // 16 uint8_ts
     KeyType key_ = 0;
     /**
      * @brief Describes lowest dirty word in a valid cache line; also denotes if the cache line is valid or not

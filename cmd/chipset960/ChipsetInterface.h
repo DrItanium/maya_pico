@@ -263,6 +263,9 @@ namespace i960 {
     private:
         static constexpr uint8_t generateReadOpcode(IOExpanderAddress address) noexcept { return 0b0100'0001 | (static_cast<uint8_t>(address) << 1); }
         static constexpr uint8_t generateWriteOpcode(IOExpanderAddress address) noexcept { return 0b0100'0000 | (static_cast<uint8_t>(address) << 1); }
+    public:
+        static size_t read(uint32_t address, uint16_t* storage, size_t length);
+        static size_t write(uint32_t address, uint16_t* storage, size_t length);
     private:
         bool extensionsInstalled_ = false;
         uint16_t backplaneGPIOStatus_ = 0x0000;
