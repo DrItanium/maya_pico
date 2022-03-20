@@ -77,12 +77,6 @@ static void                    CatchCtrlC(int);
 /***************************************/
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
-struct WriteTransaction {
-    i960::LoadStoreStyle style_;
-    uint32_t address_;
-    uint16_t value_;
-    WriteTransaction(uint32_t address, uint16_t value, i960::LoadStoreStyle style) : address_(address), value_(value), style_(style) { }
-};
 template<uint32_t addressMask>
 void
 doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexcept {
@@ -90,7 +84,6 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
     theChipset.setupDataLinesForWrite();
     // write operation
     if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
-        writeTransactionStorage.clear();
         while (true) {
             theChipset.waitForCycleUnlock();
             auto startTime = std::chrono::system_clock::now();
