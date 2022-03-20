@@ -447,7 +447,7 @@ target_include_directories(gpio-example PUBLIC
 		"${CMAKE_CURRENT_BINARY_DIR}")
 
 
-add_executable(chipset960 cmd/chipset960/main.cc cmd/chipset960/ChipsetInterface.h cmd/chipset960/ProcessorInterface.cc cmd/chipset960/ram.h cmd/chipset960/ram.cc cmd/chipset960/Common.h cmd/chipset960/DirectMappedCacheWay.h cmd/chipset960/CacheEntry.h cmd/chipset960/TaggedCacheAddress.h)
+add_executable(chipset960 cmd/chipset960/main.cc cmd/chipset960/ChipsetInterface.h cmd/chipset960/ProcessorInterface.cc cmd/chipset960/ram.h cmd/chipset960/ram.cc cmd/chipset960/Common.h cmd/chipset960/DirectMappedCacheWay.h cmd/chipset960/CacheEntry.h cmd/chipset960/TaggedCacheAddress.h cmd/chipset960/SinglePoolCache.h)
 target_link_libraries(chipset960 PUBLIC
 		electron
 		neutron

@@ -52,6 +52,7 @@ union TaggedAddress {
      * @brief The number of bits allocated to the tag component
      */
     static constexpr auto NumTagBits = tagBits;
+    static_assert(NumTagBits != 0, "Tag bits has been set to zero somehow...");
     /**
      * @brief The number of bits allocated to the key component
      */

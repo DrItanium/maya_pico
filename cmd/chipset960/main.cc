@@ -39,6 +39,9 @@ extern "C" {
 #include "interface/gpio.h"
 #include "ram.h"
 #include "ChipsetInterface.h"
+#include "SinglePoolCache.h"
+#include "DirectMappedCacheWay.h"
+#include "CacheEntry.h"
 extern "C" {
 #include <signal.h>
 }
@@ -73,12 +76,12 @@ loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 static void                    CatchCtrlC(int);
 #endif
-struct CacheSpan {
-    uint16_t storage_[32];
-    uint32_t key_ = 0;
-    bool modified_ = false;
-    bool valid_ = false;
-};
+CacheInstance_t<DirectMappedCacheWay,
+        16 * 1024 * 1024,
+        32,
+        6,
+        i960::ChipsetInterface,
+        false> theCache;
 /***************************************/
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
