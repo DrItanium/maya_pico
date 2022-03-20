@@ -34,6 +34,7 @@ extern "C" {
 #include <array>
 #include <list>
 #include <type_traits>
+#include <chrono>
 #include "interface/spi.h"
 #include "interface/gpio.h"
 #include "ram.h"
@@ -92,18 +93,18 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         writeTransactionStorage.clear();
         while (true) {
             theChipset.waitForCycleUnlock();
-            auto startTime = time(nullptr);
+            auto startTime = std::chrono::system_clock::now();
             writeTransactionStorage.emplace_back(baseAddress,
                                                  theChipset.getDataLines(),
                                                  theChipset.getStyle());
-            auto endTime = time(nullptr);
-            std::cout << "\tStore Write Request Into Buffer Time: " << (endTime - startTime) << std::endl;
+            auto endTime = std::chrono::system_clock::now();
+            std::cout << "\tStore Write Request Into Buffer Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
             baseAddress += 2;
         }
-        auto startTime = time(nullptr);
+        auto startTime = std::chrono::system_clock::now();
         for (auto& a : writeTransactionStorage) {
             Electron::Value returnNothing;
             theChipset.call("perform-write",
@@ -112,20 +113,20 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
                             a.value_,
                             [style = a.style_](auto *builder) { loadStoreStyle(builder, style); });
         }
-        auto endTime = time(nullptr);
-        std::cout << "\tBurst Commit Time: " << (endTime - startTime) << std::endl;
+        auto endTime = std::chrono::system_clock::now();
+        std::cout << "\tBurst Commit Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << std::endl;
     } else {
         while (true) {
             theChipset.waitForCycleUnlock();
             Electron::Value returnNothing;
-            auto startTime = time(nullptr);
+            auto startTime = std::chrono::system_clock::now();
             theChipset.call("perform-write",
                             &returnNothing,
                             baseAddress,
                             theChipset.getDataLines(),
                             [](auto *builder) { loadStoreStyle(builder); });
-            auto endTime = time(nullptr);
-            std::cout << "\tLinear Write Time: " << (endTime - startTime) << std::endl;
+            auto endTime = std::chrono::system_clock::now();
+            std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
