@@ -422,15 +422,55 @@ namespace i960 {
         // for now we only care about the upper and lower halves for testing purposes
         /// @todo implement 8-bit reads
         switch (actionType & 0b1111) {
-            case 0b1100:
-            case 0b1101:
-            case 0b1110:
-                address_.halves[0] = readGPIO16<IOExpanderAddress::Lower16Lines>();
+            case 0b0001:
+                address_.halves[1] = readGPIO16<IOExpanderAddress::Upper16Lines>();
+                address_.bytes[1] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b0010:
+                address_.halves[1] = readGPIO16<IOExpanderAddress::Upper16Lines>();
+                address_.bytes[0] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOA>();
                 break;
             case 0b0011:
-            case 0b1011:
-            case 0b0111:
                 address_.halves[1] = readGPIO16<IOExpanderAddress::Upper16Lines>();
+                break;
+            case 0b0100:
+                address_.halves[0] = readGPIO16<IOExpanderAddress::Lower16Lines>();
+                address_.bytes[3] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b0101:
+                address_.bytes[3] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOB>();
+                address_.bytes[1] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b0110:
+                address_.bytes[3] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOB>();
+                address_.bytes[0] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOA>();
+                break;
+            case 0b0111:
+                address_.bytes[3] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b1000:
+                address_.halves[0] = readGPIO16<IOExpanderAddress::Lower16Lines>();
+                address_.bytes[2] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOA>();
+                break;
+            case 0b1001:
+                address_.bytes[2] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOA>();
+                address_.bytes[1] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b1010:
+                address_.bytes[2] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOA>();
+                address_.bytes[0] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOA>();
+                break;
+            case 0b1011:
+                address_.bytes[2] = read8<IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPIOA>();
+                break;
+            case 0b1100:
+                address_.halves[0] = readGPIO16<IOExpanderAddress::Lower16Lines>();
+                break;
+            case 0b1101:
+                address_.bytes[1] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b1110:
+                address_.bytes[0] = read8<IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPIOA>();
                 break;
             case 0b1111:
                 break;
