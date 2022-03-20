@@ -160,10 +160,12 @@ doReadOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexce
             }
         }
     } else {
+        // we can actually go ahead and pull the data ahead of the cycle unlock on a read
         while (true) {
+            theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
             theChipset.waitForCycleUnlock();
             // just in case the compiler is getting cute
-            theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+            //theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
             if (theChipset.signalCPU()) {
                 break;
             }
