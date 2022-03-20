@@ -87,22 +87,14 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         while (true) {
             theChipset.waitForCycleUnlock();
             auto startTime = std::chrono::system_clock::now();
-            auto dataLines = theChipset.getDataLines();
-            auto endTime = std::chrono::system_clock::now();
-            std::cout << "\tData Lines Grab Time (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
-            startTime = std::chrono::system_clock::now();
-            auto theStyle = theChipset.getStyle();
-            endTime = std::chrono::system_clock::now();
-            std::cout << "\tLoadStoreStyle Grab Time (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
-            startTime = std::chrono::system_clock::now();
             // load the data into the expert system to be processed later on when finished
             theChipset.call("perform-write",
                             &returnNothing,
                             baseAddress,
-                            dataLines,
-                            [style = theStyle](auto *builder) { loadStoreStyle(builder, style); });
-            endTime = std::chrono::system_clock::now();
-            std::cout << "\tAssert Write Request Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+                            theChipset.getDataLines(),
+                            [style = theChipset.getStyle()](auto *builder) { loadStoreStyle(builder, style); });
+            auto endTime = std::chrono::system_clock::now();
+            std::cout << "\t\tAssert Write Request Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
