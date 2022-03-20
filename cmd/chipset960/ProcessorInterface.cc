@@ -157,7 +157,7 @@ namespace i960 {
         write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::INTCON, 0);
         write16(IOExpanderAddress::DataLines, MCP23x17Registers::GPINTEN, 0xFFFF);
         write16(IOExpanderAddress::DataLines, MCP23x17Registers::INTCON, 0);
-        write16(IOExpanderAddress::DataLines, MCP23x17Registers::OLAT, latchedDataOutput_);
+        write16(IOExpanderAddress::DataLines, MCP23x17Registers::OLAT, latchedDataOutput_.getWholeValue());
     }
     void
     ChipsetInterface::waitForBootSignal() noexcept {
@@ -246,9 +246,18 @@ namespace i960 {
 
     void
     ChipsetInterface::setDataLines(uint16_t value) noexcept {
-        if (value != latchedDataOutput_) {
-            latchedDataOutput_ = value;
-            writeGPIO16<IOExpanderAddress::DataLines>(latchedDataOutput_);
+
+        if (SplitWord16 wrap(value); wrap.getWholeValue() != latchedDataOutput_.getWholeValue()) {
+            if (wrap.getLowerHalf() == latchedDataOutput_.getLowerHalf()) {
+                // okay it is the upper half that is not the same
+                write8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOA>(wrap.getLowerHalf());
+            } else if (wrap.getUpperHalf() == latchedDataOutput_.getUpperHalf()) {
+                write8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOB>(wrap.getUpperHalf());
+            } else {
+                writeGPIO16<IOExpanderAddress::DataLines>(wrap.getWholeValue());
+            }
+            // then update the latch
+            latchedDataOutput_ = wrap;
         }
     }
     void
