@@ -97,7 +97,7 @@ public:
             // we compute the overall range as we go through this stuff
             uint8_t end = ((highestUpdated_ - dirty_) + 1);
             (void)T::write(TaggedAddress{key_, newTag.getTagIndex()}.getAddress() + (dirty_ * sizeof(Word)),
-                           data + dirty_,
+                           reinterpret_cast<uint16_t*>(data + dirty_),
                            end);
         }
         dirty_ = CleanCacheLineState;
@@ -105,7 +105,7 @@ public:
         // since we have called reset, now align the new address internally
         key_ = newTag.getRest();
         // this is a _very_ expensive operation
-        (void)T::read(newTag.aligned().getAddress(), data, NumWordsCached);
+        (void)T::read(newTag.aligned().getAddress(), reinterpret_cast<uint16_t*>(data), NumWordsCached);
     }
     /**
      * @brief Clear the entry without saving what was previously in it, necessary if the memory was reused for a different purpose

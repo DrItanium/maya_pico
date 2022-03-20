@@ -32,7 +32,6 @@ extern "C" {
 }
 #include <iostream>
 #include <array>
-#include <list>
 #include <type_traits>
 #include <chrono>
 #include "interface/spi.h"
@@ -41,7 +40,6 @@ extern "C" {
 #include "ChipsetInterface.h"
 #include "SinglePoolCache.h"
 #include "DirectMappedCacheWay.h"
-#include "CacheEntry.h"
 extern "C" {
 #include <signal.h>
 }
@@ -92,6 +90,9 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
     theChipset.setupDataLinesForWrite();
     // write operation
     if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
+        using TaggedAddress = decltype(theCache)::TaggedAddress;
+        SplitWord32 addr(maskedAddress);
+        auto& theLine = theCache.getLine(addr);
         while (true) {
             theChipset.waitForCycleUnlock();
             // load the data into the expert system to be processed later on when finished
@@ -133,6 +134,7 @@ int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
 #endif
+    theCache.begin();
     try {
         Neutron::GPIO::begin();
         if (!Neutron::SPI::begin(0, 10 * 1000 * 1000)) {
