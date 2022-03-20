@@ -131,7 +131,41 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
             baseAddress += 2;
         }
     }
-
+}
+template<uint32_t addressMask>
+void
+doReadOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexcept {
+    theChipset.setupDataLinesForRead();
+    // mask the address to be the current 16-byte chunk and then load all 16-bytes
+    if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
+        using TaggedAddress = decltype(theCache)::TaggedAddress;
+        TaggedAddress addr(baseAddress);
+        auto& theLine = theCache.getLine(addr);
+        // if the span is cacheable then load a 16-byte span ahead of time, hold onto this cache for the lifetime of the
+        // current transaction only. Implementing a data cache later on may make more sense too
+        //auto startTime = std::chrono::system_clock::now();
+        //auto endTime = std::chrono::system_clock::now();
+        //std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+        auto start = addr.getOffset() >> 1;
+        auto end = start + 8;
+        for (auto i = start; i < end; ++i) {
+            theChipset.waitForCycleUnlock();
+            theChipset.setDataLines(theLine.get(i));
+            if (theChipset.signalCPU()) {
+                break;
+            }
+        }
+    } else {
+        while (true) {
+            theChipset.waitForCycleUnlock();
+            // just in case the compiler is getting cute
+            theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
+            if (theChipset.signalCPU()) {
+                break;
+            }
+            baseAddress += 2;
+        }
+    }
 }
 int main(int argc, char *argv[]) {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
@@ -170,40 +204,9 @@ int main(int argc, char *argv[]) {
         theChipset.waitForTransactionStart();
         constexpr uint32_t addressMask = ~0b1111;
         if (auto baseAddress = theChipset.getAddress(); theChipset.isReadOperation()) {
-            theChipset.setupDataLinesForRead();
-            // mask the address to be the current 16-byte chunk and then load all 16-bytes
-            if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
-                using TaggedAddress = decltype(theCache)::TaggedAddress;
-                TaggedAddress addr(baseAddress);
-                auto& theLine = theCache.getLine(addr);
-                // if the span is cacheable then load a 16-byte span ahead of time, hold onto this cache for the lifetime of the
-                // current transaction only. Implementing a data cache later on may make more sense too
-                //auto startTime = std::chrono::system_clock::now();
-                //auto endTime = std::chrono::system_clock::now();
-                //std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
-                auto start = addr.getOffset() >> 1;
-                auto end = start + 8;
-                for (auto i = start; i < end; ++i) {
-                    theChipset.waitForCycleUnlock();
-                    theChipset.setDataLines(theLine.get(i));
-                    if (theChipset.signalCPU()) {
-                        break;
-                    }
-                }
-            } else {
-                while (true) {
-                    theChipset.waitForCycleUnlock();
-                    // just in case the compiler is getting cute
-                    theChipset.setDataLines(theChipset.call<uint16_t>("perform-read", baseAddress));
-                    if (theChipset.signalCPU()) {
-                        break;
-                    }
-                    baseAddress += 2;
-                }
-            }
+            doReadOperation<addressMask>(theChipset, baseAddress);
         } else {
             doWriteOperation<addressMask>(theChipset, baseAddress);
-
         }
     }
 
