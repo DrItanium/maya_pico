@@ -73,7 +73,12 @@ loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 static void                    CatchCtrlC(int);
 #endif
-
+struct CacheSpan {
+    uint16_t storage_[32];
+    uint32_t key_ = 0;
+    bool modified_ = false;
+    bool valid_ = false;
+};
 /***************************************/
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
@@ -102,7 +107,7 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
     } else {
         while (true) {
             theChipset.waitForCycleUnlock();
-            auto startTime = std::chrono::system_clock::now();
+            //auto startTime = std::chrono::system_clock::now();
             theChipset.call("perform-write",
                             &returnNothing,
                             baseAddress,
@@ -111,8 +116,8 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
             // okay we've made the transaction
             // now do a run on it
             theChipset.run(-1);
-            auto endTime = std::chrono::system_clock::now();
-            std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+            //auto endTime = std::chrono::system_clock::now();
+            //std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
