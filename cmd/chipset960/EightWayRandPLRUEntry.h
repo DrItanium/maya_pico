@@ -54,22 +54,22 @@ public:
     CacheEntry& getLine(const TaggedAddress& theAddress) noexcept {
         uint8_t targetIndex = 0xFF;
         for (uint8_t i = 0; i < NumberOfWays; ++i) {
-            if (ways_[i]->matches(theAddress)) {
+            if (ways_[i].matches(theAddress)) {
                 updateFlags(i);
-                return *ways_[i];
-            } else if ((targetIndex >= NumberOfWays) && !ways_[i]->isValid()) {
+                return ways_[i];
+            } else if ((targetIndex >= NumberOfWays) && !ways_[i].isValid()) {
                 targetIndex = i;
             }
         }
 
         auto index = (targetIndex < NumberOfWays) ? targetIndex : getLeastRecentlyUsed();
         updateFlags(index);
-        ways_[index]->reset(theAddress);
-        return *ways_[index];
+        ways_[index].reset(theAddress);
+        return ways_[index];
     }
     void clear() noexcept {
         for (auto& way : ways_) {
-            way->clear();
+            way.clear();
         }
         bits_ = 0;
     }
@@ -131,7 +131,7 @@ private:
     }
 private:
     // This is RandPLRU Tree so we need to organize things correctly, I'm going to try four groups of two
-    CacheEntry* ways_[NumberOfWays] = { nullptr };
+    CacheEntry ways_[NumberOfWays];
     uint8_t bits_ = 0;
 };
 
