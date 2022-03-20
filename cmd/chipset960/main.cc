@@ -92,14 +92,18 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         writeTransactionStorage.clear();
         while (true) {
             theChipset.waitForCycleUnlock();
+            auto startTime = time(nullptr);
             writeTransactionStorage.emplace_back(baseAddress,
                                                  theChipset.getDataLines(),
                                                  theChipset.getStyle());
+            auto endTime = time(nullptr);
+            std::cout << "\tStore Write Request Into Buffer Time: " << (endTime - startTime) << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
             baseAddress += 2;
         }
+        auto startTime = time(nullptr);
         for (auto& a : writeTransactionStorage) {
             Electron::Value returnNothing;
             theChipset.call("perform-write",
@@ -108,15 +112,20 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
                             a.value_,
                             [style = a.style_](auto *builder) { loadStoreStyle(builder, style); });
         }
+        auto endTime = time(nullptr);
+        std::cout << "\tBurst Commit Time: " << (endTime - startTime) << std::endl;
     } else {
         while (true) {
             theChipset.waitForCycleUnlock();
             Electron::Value returnNothing;
+            auto startTime = time(nullptr);
             theChipset.call("perform-write",
                             &returnNothing,
                             baseAddress,
                             theChipset.getDataLines(),
                             [](auto *builder) { loadStoreStyle(builder); });
+            auto endTime = time(nullptr);
+            std::cout << "\tLinear Write Time: " << (endTime - startTime) << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
