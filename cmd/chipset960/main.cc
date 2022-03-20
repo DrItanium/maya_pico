@@ -40,6 +40,7 @@ extern "C" {
 #include "ChipsetInterface.h"
 #include "SinglePoolCache.h"
 #include "DirectMappedCacheWay.h"
+#include "EightWayRandPLRUEntry.h"
 extern "C" {
 #include <signal.h>
 }
@@ -74,7 +75,7 @@ loadStoreStyle(Electron::FunctionBuilder* builder) noexcept {
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 static void                    CatchCtrlC(int);
 #endif
-CacheInstance_t<DirectMappedCacheWay,
+CacheInstance_t<EightWayRandPLRUCacheSet,
         16 * 1024 * 1024,
         32,
         6,
