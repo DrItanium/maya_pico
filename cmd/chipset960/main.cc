@@ -98,7 +98,6 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         auto end = start + 8;
         for (auto i = start; i < end; ++i) {
             theChipset.waitForCycleUnlock();
-            // load the data into the expert system to be processed later on when finished
             theLine.set(i,
                         theChipset.getStyle(),
                         SplitWord16{theChipset.getDataLines()});
@@ -108,7 +107,6 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
             baseAddress += 2;
         }
         // have the expert system handle processing
-        theChipset.run(-1L);
     } else {
         while (true) {
             theChipset.waitForCycleUnlock();
