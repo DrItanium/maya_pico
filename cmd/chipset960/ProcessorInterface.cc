@@ -250,10 +250,12 @@ namespace i960 {
         if (SplitWord16 wrap(value); wrap.getWholeValue() != latchedDataOutput_.getWholeValue()) {
             if (wrap.getLowerHalf() == latchedDataOutput_.getLowerHalf()) {
                 // okay it is the upper half that is not the same
-                write8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOA>(wrap.getLowerHalf());
-            } else if (wrap.getUpperHalf() == latchedDataOutput_.getUpperHalf()) {
                 write8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOB>(wrap.getUpperHalf());
+            } else if (wrap.getUpperHalf() == latchedDataOutput_.getUpperHalf()) {
+                // okay so it is the lower half that is different.
+                write8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOA>(wrap.getLowerHalf());
             } else {
+                // both the upper and lower halves are different
                 writeGPIO16<IOExpanderAddress::DataLines>(wrap.getWholeValue());
             }
             // then update the latch
