@@ -147,10 +147,10 @@ public:
                     target = value;
                     break;
                 case LoadStoreStyle::Lower8:
-                    target.uint8_ts[0] = value.bytes[0];
+                    target.bytes[0] = value.bytes[0];
                     break;
                 case LoadStoreStyle::Upper8:
-                    target.uint8_ts[1] = value.bytes[1];
+                    target.bytes[1] = value.bytes[1];
                     break;
                 default:
                     throw std::runtime_error("BAD LOAD STORE STYLE FOR SETTING A CACHE LINE");

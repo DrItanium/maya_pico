@@ -91,16 +91,14 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
     // write operation
     if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
         using TaggedAddress = decltype(theCache)::TaggedAddress;
-        SplitWord32 addr(maskedAddress);
+        TaggedAddress addr(baseAddress);
         auto& theLine = theCache.getLine(addr);
         while (true) {
             theChipset.waitForCycleUnlock();
             // load the data into the expert system to be processed later on when finished
-            theChipset.call("perform-write",
-                            &returnNothing,
-                            baseAddress,
-                            theChipset.getDataLines(),
-                            [style = theChipset.getStyle()](auto *builder) { loadStoreStyle(builder, style); });
+            theLine.set(addr.getOffset(),
+                        theChipset.getStyle(),
+                        SplitWord16{theChipset.getDataLines()});
             if (theChipset.signalCPU()) {
                 break;
             }
