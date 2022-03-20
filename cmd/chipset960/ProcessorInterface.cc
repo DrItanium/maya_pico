@@ -241,7 +241,22 @@ namespace i960 {
     }
     uint16_t
     ChipsetInterface::getDataLines() noexcept {
-        return readGPIO16<IOExpanderAddress::DataLines>();
+        uint8_t actionType = digitalRead(Pinout::IoExpander_Int4) == PinValue::High ? 0b0001 : 0;
+        actionType |= digitalRead(Pinout::IoExpander_Int5) == PinValue::High ? 0b0010 : 0;
+        switch (actionType & 0b11) {
+            case 0b00:
+                latchedDataInput_.wholeValue_ = readGPIO16<IOExpanderAddress::DataLines>();
+                break;
+            case 0b01:
+                latchedDataInput_.bytes[1] = read8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOB>();
+                break;
+            case 0b10:
+                latchedDataInput_.bytes[0] = read8<IOExpanderAddress::DataLines, MCP23x17Registers::GPIOA>();
+                break;
+            case 0b11:
+                break;
+        }
+        return latchedDataInput_.getWholeValue();
     }
 
     void

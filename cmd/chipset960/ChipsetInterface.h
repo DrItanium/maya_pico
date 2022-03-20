@@ -269,6 +269,7 @@ namespace i960 {
         uint16_t backplaneGPIODirection_ = 0x0000;
         uint16_t currentDataLineDirection_ = 0xFFFF;
         SplitWord16 latchedDataOutput_ { 0 };
+        SplitWord16 latchedDataInput_ { 0 };
         SplitWord32 address_{0};
     };
 }
