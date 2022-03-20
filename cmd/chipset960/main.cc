@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
                 //std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
                 for (auto i = addr.getOffset(); i < addr.getOffset() + 8; ++i) {
                     theChipset.waitForCycleUnlock();
-                    std::cout << "setDataLines to 0x" << std::hex << theLine.get(i) << std::endl;
+                    std::cout << "setDataLines to 0x" << std::hex << theLine.get(i) << " @ offset 0x" << i << std::endl;
                     theChipset.setDataLines(theLine.get(i));
                     if (theChipset.signalCPU()) {
                         break;
