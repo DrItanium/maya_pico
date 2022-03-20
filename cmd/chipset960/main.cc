@@ -86,7 +86,6 @@ struct WriteTransaction {
 template<uint32_t addressMask>
 void
 doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexcept {
-    static std::list<WriteTransaction> writeTransactionStorage;
     static Electron::Value returnNothing;
     theChipset.setupDataLinesForWrite();
     // write operation
@@ -103,27 +102,22 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
             endTime = std::chrono::system_clock::now();
             std::cout << "\tLoadStoreStyle Grab Time (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             startTime = std::chrono::system_clock::now();
-            writeTransactionStorage.emplace_back(baseAddress,
-                                                 dataLines,
-                                                 theStyle);
+            // load the data into the expert system to be processed later on when finished
+            theChipset.call("perform-write",
+                            &returnNothing,
+                            baseAddress,
+                            dataLines,
+                            [style = theStyle](auto *builder) { loadStoreStyle(builder, style); });
             endTime = std::chrono::system_clock::now();
-            std::cout << "\tStore Write Request Into Buffer Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+            std::cout << "\tAssert Write Request Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
             baseAddress += 2;
         }
         auto startTime = std::chrono::system_clock::now();
-        for (auto& a : writeTransactionStorage) {
-            auto startTime2 = std::chrono::system_clock::now();
-            theChipset.call("perform-write",
-                            &returnNothing,
-                            a.address_,
-                            a.value_,
-                            [style = a.style_](auto *builder) { loadStoreStyle(builder, style); });
-            auto endTime2 = std::chrono::system_clock::now();
-            std::cout << "\t\tIndividual Write of 16-bits to Memory (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime2 - startTime2).count() << " microseconds" << std::endl;
-        }
+        // have the expert system handle processing
+        theChipset.run(-1L);
         auto endTime = std::chrono::system_clock::now();
         std::cout << "\tBurst Commit Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
     } else {
@@ -135,6 +129,9 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
                             baseAddress,
                             theChipset.getDataLines(),
                             [](auto *builder) { loadStoreStyle(builder); });
+            // okay we've made the transaction
+            // now do a run on it
+            theChipset.run(-1);
             auto endTime = std::chrono::system_clock::now();
             std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {

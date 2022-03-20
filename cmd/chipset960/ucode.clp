@@ -192,15 +192,11 @@
   ((?address INTEGER)
    (?value INTEGER)
    (?style SYMBOL))
-  ;(format t "(perform-write 0x%x 0x%x %s)%n" ?address ?value ?style)
-  (bind ?the-transaction 
-        (make-instance of transaction-request
-                       (address ?address)
-                       (style ?style)
-                       (kind WRITE)
-                       (value ?value)))
-  (run)
-  (unmake-instance ?the-transaction))
+  (make-instance of transaction-request
+                 (address ?address)
+                 (style ?style)
+                 (kind WRITE)
+                 (value ?value)))
 
 
 (defmethod ucode-init
@@ -452,4 +448,15 @@
                             ?address)
                       (send ?ins 
                             get-cacheable))))
+
+
+(defrule MAIN::destroy-write-memory-request
+         "Make sure that we destroy write requests after we are done with them"
+         (declare (salience -10000))
+         ?obj <- (object (is-a transaction-request)
+                         (matched TRUE)
+                         (serviced TRUE)
+                         (kind WRITE))
+         =>
+         (unmake-instance ?obj))
 
