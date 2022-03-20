@@ -119,7 +119,11 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
                             theChipset.getDataLines(),
                             [](auto *builder) { loadStoreStyle(builder); });
             // okay we've made the transaction
-            // now do a run on it
+            // now do a run on it, if we were really cool then it would make even more sense to introduce a time stamp to make sure
+            // that we maintain ordering. It would also allow us to delay committing the operation until after we are done with the transaction
+            // in question.
+
+            // The other way to solve this would be to have the microcode return the function to invoke but for now, this is just fine.
             theChipset.run(-1);
             //auto endTime = std::chrono::system_clock::now();
             //std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
@@ -164,7 +168,6 @@ int main(int argc, char *argv[]) {
     // This is the state machine for handling the i960 that has a management engine attached to it!
     // With the microcontroller based designs, there is a lot of extra code surrounding having onboard caches to accelerate
     // performance. Hopefully, the raspberry pi offsets any potential bottlenecks by being exponentially faster than those designs.
-    std::array<uint16_t, 8> readStorage;
     while (true) {
         theChipset.waitForTransactionStart();
         constexpr uint32_t addressMask = ~0b1111;
