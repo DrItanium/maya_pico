@@ -86,12 +86,12 @@ union SplitWord32 {
      * @brief Constexpr method meant to get the target page byte (which is made up of bits 8-15)
      * @return The target page as an 8-bit value
      */
-    [[nodiscard]] constexpr auto getTargetPage() const noexcept { return static_cast<byte>(wholeValue_ >> 8); }
+    [[nodiscard]] constexpr auto getTargetPage() const noexcept { return static_cast<uint8_t>(wholeValue_ >> 8); }
     /**
      * @brief Constexpr method meant to allow one to get the most significant byte.
      * @return The most significant byte
      */
-    [[nodiscard]] constexpr auto getMostSignificantByte() const noexcept { return static_cast<byte>(wholeValue_ >> 24); }
+    [[nodiscard]] constexpr auto getMostSignificantByte() const noexcept { return static_cast<uint8_t>(wholeValue_ >> 24); }
     /**
      * @brief Get the lower 16-bits as a raw 16-bit number
      * @return The lower half as a plain 16-bit number
@@ -148,7 +148,7 @@ static_assert(std::is_same_v<ClosestBitValue_t<4>, uint8_t>);
 static_assert(std::is_same_v<ClosestBitValue_t<10>, uint16_t>);
 static_assert(!std::is_same_v<ClosestBitValue_t<10>, ClosestBitValue_t<4>>);
 
-static constexpr byte numberOfBitsForCount(uint64_t count) noexcept {
+static constexpr uint8_t numberOfBitsForCount(uint64_t count) noexcept {
     switch (count) {
 #define X(offset) case pow2(offset): return offset
         X(1);
@@ -218,6 +218,6 @@ static constexpr byte numberOfBitsForCount(uint64_t count) noexcept {
         default: return 0;
     }
 }
-static constexpr byte getNumberOfBitsForNumberOfEntries(uint64_t count) noexcept { return numberOfBitsForCount(count); }
+static constexpr uint8_t getNumberOfBitsForNumberOfEntries(uint64_t count) noexcept { return numberOfBitsForCount(count); }
 
 #endif //MAYA_COMMON_H

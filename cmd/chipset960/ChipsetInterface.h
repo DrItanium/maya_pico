@@ -32,6 +32,7 @@
 
 #ifndef MAYA_CHIPSETINTERFACE_H
 #define MAYA_CHIPSETINTERFACE_H
+#include "Common.h"
 #include "platform/os.h"
 #include "electron/Environment.h"
 #include "interface/spi.h"
@@ -251,11 +252,7 @@ namespace i960 {
         [[nodiscard]] inline uint8_t getIOCON() {
             return read8<address, MCP23x17Registers::IOCON>();
         }
-        [[nodiscard]] inline uint32_t getAddress() {
-            auto lowerHalf = readGPIO16<IOExpanderAddress::Lower16Lines>();
-            auto upperHalf = readGPIO16<IOExpanderAddress::Upper16Lines>();
-            return (static_cast<uint32_t>(upperHalf) << 16) | static_cast<uint32_t>(lowerHalf);
-        }
+        [[nodiscard]] uint32_t getAddress();
         bool signalCPU() noexcept;
     private:
         void doSPITransaction(uint8_t* storage, int count);
@@ -272,6 +269,7 @@ namespace i960 {
         uint16_t backplaneGPIODirection_ = 0x0000;
         uint16_t currentDataLineDirection_ = 0xFFFF;
         uint16_t latchedDataOutput_ = 0;
+        SplitWord32 address_{0};
     };
 }
 #endif //MAYA_CHIPSETINTERFACE_H

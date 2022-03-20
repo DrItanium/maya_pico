@@ -150,6 +150,7 @@ namespace i960 {
         setDirection<IOExpanderAddress::Lower16Lines>(0xFFFF);
         setDirection<IOExpanderAddress::Upper16Lines>(0xFFFF);
         setDirection<IOExpanderAddress::DataLines>(currentDataLineDirection_);
+        // setup interrupts to accelerate performance of address reads
         write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::GPINTEN, 0xFFFF);
         write16(IOExpanderAddress::Lower16Lines, MCP23x17Registers::INTCON, 0);
         write16(IOExpanderAddress::Upper16Lines, MCP23x17Registers::GPINTEN, 0xFFFF);
@@ -410,5 +411,35 @@ namespace i960 {
         }
         theChipset.run(-1L);
         return length;
+    }
+    uint32_t
+    ChipsetInterface::getAddress() {
+        // read the interrupts for the address lines
+        uint8_t actionType = digitalRead(Pinout::IoExpander_Int0) == PinValue::High ? 0b0001 : 0;
+        actionType |= digitalRead(Pinout::IoExpander_Int1) == PinValue::High ? 0b0010 : 0;
+        actionType |= digitalRead(Pinout::IoExpander_Int2) == PinValue::High ? 0b0100 : 0;
+        actionType |= digitalRead(Pinout::IoExpander_Int3) == PinValue::High ? 0b1000 : 0;
+        // for now we only care about the upper and lower halves for testing purposes
+        /// @todo implement 8-bit reads
+        switch (actionType & 0b1111) {
+            case 0b1100:
+            case 0b1101:
+            case 0b1110:
+                address_.halves[0] = readGPIO16<IOExpanderAddress::Lower16Lines>();
+                break;
+            case 0b0011:
+            case 0b1011:
+            case 0b0111:
+                address_.halves[1] = readGPIO16<IOExpanderAddress::Upper16Lines>();
+                break;
+            case 0b1111:
+                break;
+            default:
+                // all are zero or the zeros span upper and lower halves
+               address_.halves[0] = readGPIO16<IOExpanderAddress::Lower16Lines>();
+               address_.halves[1] = readGPIO16<IOExpanderAddress::Upper16Lines>();
+               break;
+        }
+        return address_.getWholeValue();
     }
 }
