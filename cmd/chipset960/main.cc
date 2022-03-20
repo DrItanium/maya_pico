@@ -87,6 +87,7 @@ template<uint32_t addressMask>
 void
 doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexcept {
     static std::list<WriteTransaction> writeTransactionStorage;
+    static Electron::Value returnNothing;
     theChipset.setupDataLinesForWrite();
     // write operation
     if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
@@ -94,11 +95,19 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         while (true) {
             theChipset.waitForCycleUnlock();
             auto startTime = std::chrono::system_clock::now();
-            writeTransactionStorage.emplace_back(baseAddress,
-                                                 theChipset.getDataLines(),
-                                                 theChipset.getStyle());
+            auto dataLines = theChipset.getDataLines();
             auto endTime = std::chrono::system_clock::now();
-            std::cout << "\tStore Write Request Into Buffer Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << std::endl;
+            std::cout << "\tData Lines Grab Time (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+            startTime = std::chrono::system_clock::now();
+            auto theStyle = theChipset.getStyle();
+            endTime = std::chrono::system_clock::now();
+            std::cout << "\tLoadStoreStyle Grab Time (Cacheable): " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
+            startTime = std::chrono::system_clock::now();
+            writeTransactionStorage.emplace_back(baseAddress,
+                                                 dataLines,
+                                                 theStyle);
+            endTime = std::chrono::system_clock::now();
+            std::cout << "\tStore Write Request Into Buffer Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
@@ -106,7 +115,6 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         }
         auto startTime = std::chrono::system_clock::now();
         for (auto& a : writeTransactionStorage) {
-            Electron::Value returnNothing;
             theChipset.call("perform-write",
                             &returnNothing,
                             a.address_,
@@ -114,11 +122,10 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
                             [style = a.style_](auto *builder) { loadStoreStyle(builder, style); });
         }
         auto endTime = std::chrono::system_clock::now();
-        std::cout << "\tBurst Commit Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << std::endl;
+        std::cout << "\tBurst Commit Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
     } else {
         while (true) {
             theChipset.waitForCycleUnlock();
-            Electron::Value returnNothing;
             auto startTime = std::chrono::system_clock::now();
             theChipset.call("perform-write",
                             &returnNothing,
@@ -126,7 +133,7 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
                             theChipset.getDataLines(),
                             [](auto *builder) { loadStoreStyle(builder); });
             auto endTime = std::chrono::system_clock::now();
-            std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << std::endl;
+            std::cout << "\tLinear Write Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
