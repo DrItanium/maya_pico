@@ -86,25 +86,19 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
     if (auto maskedAddress = baseAddress & (addressMask); theChipset.call<bool>("span-is-cacheable", maskedAddress)) {
         while (true) {
             theChipset.waitForCycleUnlock();
-            auto startTime = std::chrono::system_clock::now();
             // load the data into the expert system to be processed later on when finished
             theChipset.call("perform-write",
                             &returnNothing,
                             baseAddress,
                             theChipset.getDataLines(),
                             [style = theChipset.getStyle()](auto *builder) { loadStoreStyle(builder, style); });
-            auto endTime = std::chrono::system_clock::now();
-            std::cout << "\t\tAssert Write Request Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
             if (theChipset.signalCPU()) {
                 break;
             }
             baseAddress += 2;
         }
-        auto startTime = std::chrono::system_clock::now();
         // have the expert system handle processing
         theChipset.run(-1L);
-        auto endTime = std::chrono::system_clock::now();
-        std::cout << "\tBurst Commit Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
     } else {
         while (true) {
             theChipset.waitForCycleUnlock();
