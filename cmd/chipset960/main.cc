@@ -93,10 +93,12 @@ doWriteOperation(i960::ChipsetInterface& theChipset, uint32_t baseAddress) noexc
         using TaggedAddress = decltype(theCache)::TaggedAddress;
         TaggedAddress addr(baseAddress);
         auto& theLine = theCache.getLine(addr);
-        while (true) {
+        auto start = addr.getOffset() >> 1;
+        auto end = start + 8;
+        for (auto i = start; i < end; ++i) {
             theChipset.waitForCycleUnlock();
             // load the data into the expert system to be processed later on when finished
-            theLine.set(addr.getOffset(),
+            theLine.set(i,
                         theChipset.getStyle(),
                         SplitWord16{theChipset.getDataLines()});
             if (theChipset.signalCPU()) {
@@ -177,7 +179,9 @@ int main(int argc, char *argv[]) {
                 //auto startTime = std::chrono::system_clock::now();
                 //auto endTime = std::chrono::system_clock::now();
                 //std::cout << "\tTotal Burst Read Time: " << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count() << " microseconds" << std::endl;
-                for (auto i = addr.getOffset(); i < addr.getOffset() + 8; ++i) {
+                auto start = addr.getOffset() >> 1;
+                auto end = start + 8;
+                for (auto i = start; i < end; ++i) {
                     theChipset.waitForCycleUnlock();
                     std::cout << "setDataLines to 0x" << std::hex << theLine.get(i) << " @ offset 0x" << i << std::endl;
                     theChipset.setDataLines(theLine.get(i));
