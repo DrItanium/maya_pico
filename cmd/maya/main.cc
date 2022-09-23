@@ -67,7 +67,7 @@ extern "C" {
 /* LOCAL INTERNAL VARIABLE DEFINITIONS */
 /***************************************/
 
-Electron::Environment mainEnv;
+Electron::Environment* mainEnv = nullptr;
 
 /****************************************/
 /* main: Starts execution of the expert */
@@ -77,16 +77,17 @@ int main(
   int argc,
   char *argv[])
   {
-
+      // need to allocate and destroy it ahead of time to make sure we don't
+      // have dangling memory references
+    mainEnv = new Electron::Environment();
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
    signal(SIGINT,CatchCtrlC);
 #endif
 
-   RerouteStdin(mainEnv, argc, argv);
-   CommandLoop(mainEnv);
+   RerouteStdin(*mainEnv, argc, argv);
+   CommandLoop(*mainEnv);
 
-   // unlike normal CLIPS, the environment will automatically clean itself up
-
+    delete mainEnv;
    return -1;
   }
 
@@ -97,8 +98,8 @@ int main(
 static void CatchCtrlC(
   int sgnl)
   {
-   SetHaltExecution(mainEnv,true);
-   CloseAllBatchSources(mainEnv);
+   SetHaltExecution(*mainEnv,true);
+   CloseAllBatchSources(*mainEnv);
    signal(SIGINT,CatchCtrlC);
   }
 #endif
