@@ -457,6 +457,15 @@ target_link_libraries(chipset960 PUBLIC
 		boost_system
 		${WIRING_PI_LIBS}
 		${GPIODCXX_LIBS})
+add_executable(galclp cmd/galclp/main.cc)
+target_link_libraries(galclp PUBLIC
+electron
+neutron
+clips
+boost_regex
+boost_filesystem
+boost_system
+)
 target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"
@@ -466,5 +475,7 @@ target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}"
 target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}"
+		"${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(galclp PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 install(TARGETS maya DESTINATION bin)
