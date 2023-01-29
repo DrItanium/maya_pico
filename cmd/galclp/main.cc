@@ -1,9 +1,9 @@
 /**
  * @file
- * Code to make it easy for a given device to act as chipset for an i960
+ * Frontend to my galclp library
  * @copyright
- * maya
- * Copyright (c) 2012-2022, Joshua Scoggins
+ * galclp
+ * Copyright (c) 2012-2023, Joshua Scoggins
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,9 @@ extern "C" {
     #include "clips/clips.h"
 }
 #include "electron/Environment.h"
-#include "interface/gpio.h"
-#include "interface/spi.h"
+#include <string>
+#include <list>
+#include <boost/program_options.hpp>
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>
@@ -51,7 +52,16 @@ extern "C" {
 /***************************************/
 
 Electron::Environment mainEnv;
-
+/**
+ * @brief Storage container that we stash the results from the expert system call in
+ */
+struct PLD {
+    std::string title_;
+    std::string chip_;
+    std::string configuration_;
+    std::list<std::string> equations_;
+    std::string description_;
+};
 /****************************************/
 /* main: Starts execution of the expert */
 /*   system development environment.    */
@@ -64,7 +74,7 @@ int main(
     signal(SIGINT,CatchCtrlC);
 #endif
 
-    RerouteStdin(mainEnv, argc, argv);
+    //RerouteStdin(mainEnv, argc, argv);
     CommandLoop(mainEnv);
 
     // unlike normal CLIPS, the environment will automatically clean itself up
