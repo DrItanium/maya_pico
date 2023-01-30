@@ -31,6 +31,12 @@ extern "C" {
     #include "clips/clips.h"
 }
 #include "electron/Environment.h"
+#include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <list>
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>
@@ -57,16 +63,31 @@ int main(
   int argc,
   char *argv[])
   {
+    boost::program_options::options_description desc{"Options"};
+    desc.add_options()
+            ("help,h", "Help screen")
+            ("batch,f", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch")
+            ("batch-star,f2", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
+            ("load,l", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to load")
+            ;
+    boost::program_options::variables_map vm;
+    boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
     signal(SIGINT,CatchCtrlC);
 #endif
+      if (!mainEnv.batchFile("init.clp")) {
+          std::cerr << "Could not find init.clp in current directory" << std::endl;
+          return 1;
+      } else {
 
-    RerouteStdin(mainEnv, argc, argv);
-    CommandLoop(mainEnv);
+      }
+
+    //RerouteStdin(mainEnv, argc, argv);
+    //CommandLoop(mainEnv);
 
     // unlike normal CLIPS, the environment will automatically clean itself up
 
-    return -1;
+    return 0;
 }
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN

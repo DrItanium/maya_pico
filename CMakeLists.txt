@@ -465,6 +465,7 @@ clips
 boost_regex
 boost_filesystem
 boost_system
+		boost_program_options
 )
 target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
