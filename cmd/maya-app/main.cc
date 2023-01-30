@@ -97,11 +97,11 @@ int main(
         mainEnv.addToIncludePathFront(value);
         Neutron::Path initLocation{value / "init.clp"};
         if (!Neutron::exists(initLocation)) {
-            std::cerr << "ERROR: \"" << initLocation << "\" does not exist!" << std::endl;
+            std::cerr << "ERROR: " << initLocation << " does not exist!" << std::endl;
             return 1;
         }
         if (!mainEnv.batchFile(initLocation)) {
-            std::cerr << "ERROR: Failed to batch \"" << initLocation << "\"" << std::endl;
+            std::cerr << "ERROR: Failed to batch " << initLocation << std::endl;
             return 1;
         }
         // okay so we have loaded the init.clp
