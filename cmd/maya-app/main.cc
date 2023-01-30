@@ -1,8 +1,8 @@
 /**
  * @file
- * Frontend to my galclp library
+ * Frontend to my maya-app library
  * @copyright
- * galclp
+ * maya-app
  * Copyright (c) 2012-2023, Joshua Scoggins
  * All rights reserved.
  *
