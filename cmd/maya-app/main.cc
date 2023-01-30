@@ -131,13 +131,8 @@ int main(
             }
         }
         if (vm.count("load")) {
-            try {
-                for (const auto& path : vm["load"].as<std::vector<Neutron::Path>>()) {
-                    mainEnv.loadFile(path);
-                }
-            } catch (const Neutron::Exception& ex) {
-                std::cerr << ex.message() << std::endl;
-                return 1;
+            for (const auto& path : vm["load"].as<std::vector<Neutron::Path>>()) {
+                mainEnv.loadFile(path);
             }
         }
         bool enableRepl = vm["repl"].as<bool>();
