@@ -459,14 +459,14 @@ target_link_libraries(chipset960 PUBLIC
 		${GPIODCXX_LIBS})
 add_executable(maya-app cmd/maya-app/main.cc)
 target_link_libraries(maya-app PUBLIC
-electron
-neutron
-clips
-boost_regex
-boost_filesystem
-boost_system
+		electron
+		neutron
+		clips
+		boost_regex
+		boost_filesystem
+		boost_system
 		boost_program_options
-)
+		)
 target_include_directories(chipset960 PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"
@@ -480,3 +480,4 @@ target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}"
 target_include_directories(maya-app PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 install(TARGETS maya DESTINATION bin)
+install(TARGETS maya-app DESTINATION bin)
