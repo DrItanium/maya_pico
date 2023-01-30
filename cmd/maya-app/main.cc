@@ -68,11 +68,13 @@ int main(
 #endif
     try {
         boost::program_options::options_description desc{"Options"};
+        //clang-format off
         desc.add_options()
                 ("help,h", "Help screen")
+                ("include,i", boost::program_options::value<std::vector<boost::filesystem::path>>(), "add the given path to the back of include path")
                 ("working-dir,w", boost::program_options::value<boost::filesystem::path>()->default_value("."),
                  "Set the root of this application")
-                ("repl,r", boost::program_options::value<bool>()->default_value(false),
+                ("repl,r", boost::program_options::bool_switch()->default_value(false),
                  "Enter into the repl instead of invoking the standard design loop")
                 ("batch,f", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch")
                 ("batch-star", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
@@ -81,9 +83,23 @@ int main(
         boost::program_options::variables_map vm;
         boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
         boost::program_options::notify(vm);
+        // clang-format on
         if (vm.count("help")) {
             std::cout << desc << std::endl;
             return 1;
+        }
+        if (vm.count("include")) {
+            for (const auto& path : vm["include"].as<std::vector<boost::filesystem::path>>()) {
+                mainEnv.addToIncludePathBack(path);
+            }
+        }
+        bool enableRepl = vm["repl"].as<bool>();
+
+        if (enableRepl) {
+            CommandLoop(mainEnv);
+            return -1;
+        } else {
+
         }
         //mainEnv.addToIncludePathFront()
         //if (!mainEnv.batchFile("init.clp")) {
