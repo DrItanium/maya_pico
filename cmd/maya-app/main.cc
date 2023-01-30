@@ -32,7 +32,7 @@ extern "C" {
 }
 #include "electron/Environment.h"
 #include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
+#include "fs/path.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -71,15 +71,15 @@ int main(
         //clang-format off
         desc.add_options()
                 ("help,h", "Help screen")
-                ("include,I", boost::program_options::value<std::vector<boost::filesystem::path>>(), "add the given path to the back of include path")
-                ("working-dir,w", boost::program_options::value<boost::filesystem::path>()->default_value("."),
+                ("include,I", boost::program_options::value<std::vector<Neutron::Path>>(), "add the given path to the back of include path")
+                ("working-dir,w", boost::program_options::value<Neutron::Path>()->default_value("."),
                  "Set the root of this application")
                 ("repl,r", boost::program_options::bool_switch()->default_value(false),
                  "Enter into the repl instead of invoking the standard design loop")
-                ("batch,f", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch")
-                ("batch-star", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
-                ("f2", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
-                ("load,l", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to load");
+                ("batch,f", boost::program_options::value<std::vector<Neutron::Path>>(), "files to batch")
+                ("batch-star", boost::program_options::value<std::vector<Neutron::Path>>(), "files to batch*")
+                ("f2", boost::program_options::value<std::vector<Neutron::Path>>(), "files to batch*")
+                ("load,l", boost::program_options::value<std::vector<Neutron::Path>>(), "files to load");
         boost::program_options::variables_map vm;
         boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
         boost::program_options::notify(vm);
@@ -89,38 +89,43 @@ int main(
             return 1;
         }
         if (vm.count("include")) {
-            for (const auto& path : vm["include"].as<std::vector<boost::filesystem::path>>()) {
+            for (const auto &path: vm["include"].as<std::vector<Neutron::Path>>()) {
                 mainEnv.addToIncludePathBack(path);
             }
         }
-        auto value = vm["working-dir"].as<boost::filesystem::path>();
+        auto value = vm["working-dir"].as<Neutron::Path>();
         mainEnv.addToIncludePathFront(value);
-        boost::filesystem::path initLocation{value / "init.clp"};
-        if (!boost::filesystem::exists(initLocation)) {
+        Neutron::Path initLocation{value / "init.clp"};
+        if (!Neutron::exists(initLocation)) {
             std::cerr << "ERROR: \"" << initLocation << "\" does not exist!" << std::endl;
             return 1;
         }
+        if (!mainEnv.batchFile(initLocation)) {
+            std::cerr << "ERROR: Failed to batch \"" << initLocation << "\"" << std::endl;
+            return 1;
+        }
+        // okay so we have loaded the init.clp
+
         bool enableRepl = vm["repl"].as<bool>();
 
         if (enableRepl) {
             CommandLoop(mainEnv);
             return -1;
         } else {
-
+            mainEnv.call("begin");
+            mainEnv.call("before-reset");
+            mainEnv.reset();
+            mainEnv.call("after-reset");
+            mainEnv.call("before-run");
+            mainEnv.run(-1);
+            mainEnv.call("after-run");
+            mainEnv.call("on-exit");
         }
-        //mainEnv.addToIncludePathFront()
-        //if (!mainEnv.batchFile("init.clp")) {
-        //    std::cerr << "Could not find init.clp in current directory" << std::endl;
-        //    return 1;
-        //} else {
-
-        //}
-
-        //RerouteStdin(mainEnv, argc, argv);
-        //CommandLoop(mainEnv);
-
         // unlike normal CLIPS, the environment will automatically clean itself up
         return 0;
+    } catch (const Neutron::Exception& ex) {
+        std::cerr << ex.what() << std::endl;
+        return 1;
     } catch (const boost::program_options::error& ex) {
         std::cerr << ex.what() << std::endl;
         return 1;
