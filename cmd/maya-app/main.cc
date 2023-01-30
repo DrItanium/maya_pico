@@ -63,31 +63,45 @@ int main(
   int argc,
   char *argv[])
   {
-    boost::program_options::options_description desc{"Options"};
-    desc.add_options()
-            ("help,h", "Help screen")
-            ("batch,f", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch")
-            ("batch-star,f2", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
-            ("load,l", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to load")
-            ;
-    boost::program_options::variables_map vm;
-    boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-    signal(SIGINT,CatchCtrlC);
+    signal(SIGINT, CatchCtrlC);
 #endif
-      if (!mainEnv.batchFile("init.clp")) {
-          std::cerr << "Could not find init.clp in current directory" << std::endl;
-          return 1;
-      } else {
+    try {
+        boost::program_options::options_description desc{"Options"};
+        desc.add_options()
+                ("help,h", "Help screen")
+                ("working-dir,w", boost::program_options::value<boost::filesystem::path>()->default_value("."),
+                 "Set the root of this application")
+                ("repl,r", boost::program_options::value<bool>()->default_value(false),
+                 "Enter into the repl instead of invoking the standard design loop")
+                ("batch,f", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch")
+                ("batch-star", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
+                ("f2", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to batch*")
+                ("load,l", boost::program_options::value<std::vector<boost::filesystem::path>>(), "files to load");
+        boost::program_options::variables_map vm;
+        boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
+        boost::program_options::notify(vm);
+        if (vm.count("help")) {
+            std::cout << desc << std::endl;
+            return 1;
+        }
+        //mainEnv.addToIncludePathFront()
+        //if (!mainEnv.batchFile("init.clp")) {
+        //    std::cerr << "Could not find init.clp in current directory" << std::endl;
+        //    return 1;
+        //} else {
 
-      }
+        //}
 
-    //RerouteStdin(mainEnv, argc, argv);
-    //CommandLoop(mainEnv);
+        //RerouteStdin(mainEnv, argc, argv);
+        //CommandLoop(mainEnv);
 
-    // unlike normal CLIPS, the environment will automatically clean itself up
-
-    return 0;
+        // unlike normal CLIPS, the environment will automatically clean itself up
+        return 0;
+    } catch (const boost::program_options::error& ex) {
+        std::cerr << ex.what() << std::endl;
+        return 1;
+    }
 }
 
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
