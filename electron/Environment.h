@@ -951,7 +951,7 @@ public:
     uint32 getArgumentCount(UDFContext* context) noexcept;
 
     /// Batches the file (load as a script) into the given clips environment
-    bool batchFile(const Neutron::Path& path);
+    bool batchFile(const Neutron::Path& path, bool silent = true);
 
     using RawVoidCallFunction = void(*)(RawEnvironment*, void*);
     /**

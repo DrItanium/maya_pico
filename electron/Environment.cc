@@ -515,9 +515,13 @@ Environment::build(const std::string& construct)
 }
 
 bool
-Environment::batchFile(const Neutron::Path& path)
+Environment::batchFile(const Neutron::Path& path, bool silent)
 {
-    return ::BatchStar(_env, path.string().c_str());
+    if (silent)  {
+        return ::BatchStar(_env, path.string().c_str());
+    } else {
+        return ::Batch(_env, path.string().c_str());
+    }
 }
 
 } // end namespace Electron

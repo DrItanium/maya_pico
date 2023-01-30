@@ -106,20 +106,46 @@ int main(
         }
         // okay so we have loaded the init.clp
 
+        if (vm.count("batch")) {
+            for (const auto &path: vm["batch"].as<std::vector<Neutron::Path>>()) {
+                if (!mainEnv.batchFile(path, false)) {
+                    std::cerr << "couldn't batch "  << path << std::endl;
+                    return 1;
+                }
+            }
+        }
+        if (vm.count("batch-star")) {
+            for (const auto &path: vm["batch-star"].as<std::vector<Neutron::Path>>()) {
+                if (!mainEnv.batchFile(path)) {
+                    std::cerr << "couldn't batch* " << path <<  std::endl;
+                    return 1;
+                }
+            }
+        }
+        if (vm.count("f2")) {
+            for (const auto &path: vm["f2"].as<std::vector<Neutron::Path>>()) {
+                if (!mainEnv.batchFile(path)) {
+                    std::cerr << "couldn't batch* " << path <<  std::endl;
+                    return 1;
+                }
+            }
+        }
+        if (vm.count("load")) {
+            for (const auto& path : vm["load"].as<std::vector<Neutron::Path>()) {
+                if (!mainEnv.loadFile(path)) {
+                    std::cerr << "couldn't load " << path <<  std::endl;
+                    return 1;
+                }
+            }
+        }
         bool enableRepl = vm["repl"].as<bool>();
-
         if (enableRepl) {
             CommandLoop(mainEnv);
             return -1;
         } else {
             mainEnv.call("begin");
-            mainEnv.call("before-reset");
             mainEnv.reset();
-            mainEnv.call("after-reset");
-            mainEnv.call("before-run");
             mainEnv.run(-1);
-            mainEnv.call("after-run");
-            mainEnv.call("on-exit");
         }
         // unlike normal CLIPS, the environment will automatically clean itself up
         return 0;
