@@ -71,7 +71,7 @@ int main(
         //clang-format off
         desc.add_options()
                 ("help,h", "Help screen")
-                ("include,i", boost::program_options::value<std::vector<boost::filesystem::path>>(), "add the given path to the back of include path")
+                ("include,I", boost::program_options::value<std::vector<boost::filesystem::path>>(), "add the given path to the back of include path")
                 ("working-dir,w", boost::program_options::value<boost::filesystem::path>()->default_value("."),
                  "Set the root of this application")
                 ("repl,r", boost::program_options::bool_switch()->default_value(false),
@@ -85,7 +85,7 @@ int main(
         boost::program_options::notify(vm);
         // clang-format on
         if (vm.count("help")) {
-            std::cout << desc << std::endl;
+            std::cerr << desc << std::endl;
             return 1;
         }
         if (vm.count("include")) {
@@ -95,6 +95,11 @@ int main(
         }
         auto value = vm["working-dir"].as<boost::filesystem::path>();
         mainEnv.addToIncludePathFront(value);
+        boost::filesystem::path initLocation{value / "init.clp"};
+        if (!boost::filesystem::exists(initLocation)) {
+            std::cerr << "ERROR: \"" << initLocation << "\" does not exist!" << std::endl;
+            return 1;
+        }
         bool enableRepl = vm["repl"].as<bool>();
 
         if (enableRepl) {
