@@ -93,6 +93,8 @@ int main(
                 mainEnv.addToIncludePathBack(path);
             }
         }
+        auto value = vm["working-dir"].as<boost::filesystem::path>();
+        mainEnv.addToIncludePathFront(value);
         bool enableRepl = vm["repl"].as<bool>();
 
         if (enableRepl) {
