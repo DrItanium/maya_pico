@@ -122,3 +122,17 @@ cc_library(
     srcs = glob(["electron/**.cc"]),
 )
 
+
+cc_binary(
+    name = "maya",
+    deps = [ "//:electron", "//:clips", "//:neutron" ],
+    srcs = [ "cmd/maya/main.cc" ],
+    linker_flags = [ "-lboost_system", "-lboost_regex", "-lboost_filesystem" ],
+)
+
+cc_binary(
+    name = "maya-app",
+    deps = [ "//:electron", "//:clips", "//:neutron" ],
+    srcs = [ "cmd/maya-app/main.cc" ],
+    linker_flags = [ "-lboost_system", "-lboost_regex", "-lboost_filesystem", "-lboost_program_options" ],
+)
