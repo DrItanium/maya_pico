@@ -7,3 +7,9 @@
 ; when you change it all users will automatically get updated.
 ; [please]
 ; version = 16.27.2
+
+[Cpp]
+DefaultOptCflags = -Wno-error --std=c99
+DefaultOptCppflags = -Wno-error --std=c++17
+DefaultDbgCflags = -Wno-error --std=c99
+DefaultDbgCppflags = -Wno-error --std=c++17
