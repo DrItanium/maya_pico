@@ -123,16 +123,17 @@ cc_library(
 )
 
 
+boost_deps = [ "-lboost_filesystem", "-lboost_regex", "-lboost_system", "-lboost_program_options" ]
 cc_binary(
     name = "maya",
     deps = [ "//:electron", "//:clips", "//:neutron" ],
     srcs = [ "cmd/maya/main.cc" ],
-    linker_flags = [ "-lboost_system", "-lboost_regex", "-lboost_filesystem" ],
+    linker_flags = boost_deps
 )
 
 cc_binary(
     name = "maya-app",
     deps = [ "//:electron", "//:clips", "//:neutron" ],
     srcs = [ "cmd/maya-app/main.cc" ],
-    linker_flags = [ "-lboost_system", "-lboost_regex", "-lboost_filesystem", "-lboost_program_options" ],
+    linker_flags = boost_deps,
 )
