@@ -25,6 +25,8 @@
 #include "error/Exception.h"
 #include "electron/StringExtensions.h"
 #include "electron/FileSystemExtensions.h"
+#include "electron/ParsingExtensions.h"
+
 extern "C" {
 #include "clips/clips.h"
 #include "clips/factfile.h"
@@ -45,6 +47,7 @@ Environment::Environment() : _env(::CreateEnvironment())
     installIncludePathFunctions();
     InitializeStringExtensions(_env);
     InitializeFilesystemExtensions(_env);
+    InitializeParsingExtensions(_env);
 }
 
 Environment::~Environment()

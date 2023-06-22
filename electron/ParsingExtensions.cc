@@ -38,7 +38,7 @@ namespace Electron
 static void nextTokenFunction(UDF_ARGS__);
 
 void
-InitializeFilesystemExtensions(RawEnvironment* env)
+InitializeParsingExtensions(RawEnvironment* env)
 {
     auto& theEnv = Environment::fromRaw(env);
     theEnv.addFunction("next-token", "synldfie", 1, 1, "y", nextTokenFunction, "nextTokenFunction");

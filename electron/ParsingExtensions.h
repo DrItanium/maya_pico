@@ -31,7 +31,7 @@ namespace Electron
 * @brief Provides functions for parsing clips code from within clips
 * @param env The environment to install the functions into
 */
-void InitializeParserExtensions(RawEnvironment* env);
+void InitializeParsingExtensions(RawEnvironment* env);
 } // end namespace Electron
 
 
