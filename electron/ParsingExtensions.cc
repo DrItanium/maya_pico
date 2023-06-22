@@ -48,8 +48,18 @@ nextTokenFunction(UDF_ARGS__) {
     auto& theEnv = Environment::fromRaw(env);
     auto logicalName = ::GetLogicalName(context, STDIN);
     if (!logicalName) {
-        IllegalLogicalNameMessage(theEnv.getRawEnvironment(), "next-token");
+        theEnv.illegalLogicalNameMessage("next-token");
+        theEnv.setHaltExecution(true);
+        theEnv.setEvaluationError(true);
+        out->lexemeValue = theEnv.createString("*** READ ERROR ***");
     }
+    if (!theEnv.queryRouters(logicalName)) {
+        theEnv.unrecognizedRouterMessage(logicalName);
+        theEnv.setHaltExecution(true);
+        theEnv.setEvaluationError(true);
+        out->lexemeValue = theEnv.createString("*** READ ERROR ***");
+    }
+    auto theToken = theEnv.getToken(logicalName);
 }
 
 } // end namespace Electron

@@ -1002,6 +1002,13 @@ public:
      */
     void getToken(const char* name, Token* tok);
     void getToken(const char* name, Token& tok);
+    inline void getToken(const std::string& name, Token* tok) noexcept { getToken(name.c_str(), tok); }
+    inline void getToken(const std::string& name, Token& tok) noexcept { getToken(name.c_str(), tok); }
+    inline Token getToken(const std::string& name) noexcept {
+        Token tok;
+        getToken(name, tok);
+        return tok;
+    }
     void syntaxErrorMessage(const std::string& name);
     /**
      * A generalized method for reporting errors during file open operations
@@ -1197,16 +1204,27 @@ public:
     }
     void destroy();
 public:
-    inline void setHaltExecution(bool value) noexcept {
+    void setHaltExecution(bool value) noexcept {
         ::SetHaltExecution(_env, value);
     }
-    inline void setEvaluationError(bool value) noexcept {
+    void setEvaluationError(bool value) noexcept {
         ::SetEvaluationError(_env, value);
     }
-    inline void illegalLogicalNameMessage(const std::string& function) noexcept {
-        IllegalLogicalNameMessage(_env, function.c_str());
+    void illegalLogicalNameMessage(const std::string& function) noexcept {
+        ::IllegalLogicalNameMessage(_env, function.c_str());
     }
-
+    void unrecognizedRouterMessage(const std::string& function) noexcept {
+        ::UnrecognizedRouterMessage(_env, function.c_str());
+    }
+    bool queryRouters(const std::string& logicalName) noexcept {
+        return ::QueryRouters(_env, logicalName.c_str());
+    }
+    RouterDataModule& routerData() {
+        return *RouterData(_env);
+    }
+    const RouterDataModule& routerData() const noexcept {
+        return *RouterData(_env);
+    }
 private:
     using IncludedFilesSet = std::set<Neutron::Path>;
     RawEnvironment* _env;

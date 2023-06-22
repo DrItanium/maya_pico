@@ -322,6 +322,12 @@ Environment::getToken(const char* name, Token* tok)
 }
 
 void
+Environment::getToken(const char* name, Token& tok)
+{
+    getToken(name, &tok);
+}
+
+void
 Environment::syntaxErrorMessage(const std::string& name)
 {
     ::SyntaxErrorMessage(_env, name.c_str());
@@ -425,11 +431,6 @@ bool
 Environment::removeClearFunction(const std::string& name) noexcept
 {
     return removeClearFunction(name.c_str());
-}
-void
-Environment::getToken(const char* name, Token& tok)
-{
-    getToken(name, &tok);
 }
 
 Fact*
