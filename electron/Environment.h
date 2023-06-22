@@ -1196,6 +1196,16 @@ public:
         return getInstance(&value);
     }
     void destroy();
+public:
+    inline void setHaltExecution(bool value) noexcept {
+        ::SetHaltExecution(_env, value);
+    }
+    inline void setEvaluationError(bool value) noexcept {
+        ::SetEvaluationError(_env, value);
+    }
+    inline void illegalLogicalNameMessage(const std::string& function) noexcept {
+        IllegalLogicalNameMessage(_env, function.c_str());
+    }
 
 private:
     using IncludedFilesSet = std::set<Neutron::Path>;

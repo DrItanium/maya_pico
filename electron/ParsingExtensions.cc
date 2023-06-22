@@ -46,6 +46,10 @@ InitializeFilesystemExtensions(RawEnvironment* env)
 void
 nextTokenFunction(UDF_ARGS__) {
     auto& theEnv = Environment::fromRaw(env);
+    auto logicalName = ::GetLogicalName(context, STDIN);
+    if (!logicalName) {
+        IllegalLogicalNameMessage(theEnv.getRawEnvironment(), "next-token");
+    }
 }
 
 } // end namespace Electron
