@@ -41,6 +41,8 @@ void
 InitializeParsingExtensions(RawEnvironment* env)
 {
     auto& theEnv = Environment::fromRaw(env);
+    // this function is useful if you want to parse CLIPS syntax as is, if you want to use clips for general parsing
+    // then you will need to use get-char and pray
     theEnv.addFunction("next-token", "synldfie", 1, 1, "y", nextTokenFunction, "nextTokenFunction");
 }
 
