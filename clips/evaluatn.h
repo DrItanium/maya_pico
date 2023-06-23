@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*             CLIPS Version 6.40  11/17/17            */
+   /*             CLIPS Version 6.41  11/05/22            */
    /*                                                     */
    /*               EVALUATION HEADER FILE                */
    /*******************************************************/
@@ -62,6 +62,8 @@
 /*                                                           */
 /*            Removed DATA_OBJECT_ARRAY primitive type.      */
 /*                                                           */
+/*      6.41: Added FCBPopArgument function.                 */
+/*                                                           */
 /*************************************************************/
 
 #ifndef _H_evaluatn
@@ -117,7 +119,7 @@ struct externalAddressType
 #define GetNextArgument(ep)          (ep->nextArg)
 
 #define MAXIMUM_PRIMITIVES 150
-#define MAXIMUM_EXTERNAL_ADDRESS_TYPES 64
+#define MAXIMUM_EXTERNAL_ADDRESS_TYPES 10
 
 #define BITS_PER_BYTE    8
 
@@ -189,6 +191,7 @@ struct evaluationData
    void                           FCBAppendFact(FunctionCallBuilder *,Fact *);
    void                           FCBAppendInstance(FunctionCallBuilder *,Instance *);
    void                           FCBAppendMultifield(FunctionCallBuilder *,Multifield *);
+   void                           FCBPopArgument(FunctionCallBuilder *);
    void                           FCBDispose(FunctionCallBuilder *);
    void                           FCBReset(FunctionCallBuilder *);
    FunctionCallBuilderError       FCBCall(FunctionCallBuilder *,const char *,CLIPSValue *);

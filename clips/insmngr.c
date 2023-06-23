@@ -1,7 +1,7 @@
    /*******************************************************/
    /*      "C" Language Integrated Production System      */
    /*                                                     */
-   /*            CLIPS Version 6.41  01/07/22             */
+   /*            CLIPS Version 6.41  03/11/23             */
    /*                                                     */
    /*          INSTANCE PRIMITIVE SUPPORT MODULE          */
    /*******************************************************/
@@ -62,6 +62,12 @@
 /*                                                           */
 /*      6.41: Instance builders and modifiers were not       */
 /*            allocating storage for inherited slots.        */
+/*                                                           */
+/*            Removed unnecessary variable initialization    */
+/*            in IBAbort.                                     */
+/*                                                           */
+/*            Calling IMPutSlot with empty multifield to     */
+/*            multifield slot did not assign value.          */
 /*                                                           */
 /*************************************************************/
 
@@ -1783,7 +1789,7 @@ void IBDispose(
 void IBAbort(
   InstanceBuilder *theIB)
   {
-   Environment *theEnv = theIB->ibEnv;
+   Environment *theEnv;
    unsigned int i;
    
    if (theIB == NULL) return;
@@ -2218,7 +2224,8 @@ PutSlotError IMPutSlot(
          return PSE_NO_ERROR;
         }
 
-      if (MultifieldsEqual(oldValue.multifieldValue,slotValue->multifieldValue))
+      if ((oldValue.header->type == MULTIFIELD_TYPE) &&
+          MultifieldsEqual(oldValue.multifieldValue,slotValue->multifieldValue))
         { return PSE_NO_ERROR; }
      }
    else
