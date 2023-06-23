@@ -61,25 +61,42 @@ nextTokenFunction(UDF_ARGS__) {
         out->lexemeValue = theEnv.createString("*** READ ERROR ***");
     }
     auto theToken = theEnv.getToken(logicalName);
-    auto& rtrData = theEnv.routerData();
-    rtrData.CommandBufferInputCount = 0;
-    rtrData.AwaitingInput = false;
     switch(theToken.tknType) {
-        case TokenType::SYMBOL_TOKEN:
-            out->lexemeValue = theToken.lexemeValue;
+        case TokenType::SYMBOL_TOKEN: {
+            MultifieldBuilder bldr(theEnv, 2);
+            bldr.append("SYMBOL", TreatLexemeAsSymbol{});
+            bldr.append(theToken.lexemeValue);
+            out->multifieldValue = bldr.create();
             break;
-        case TokenType::STRING_TOKEN:
-            out->lexemeValue = theToken.lexemeValue;
+        }
+        case TokenType::STRING_TOKEN: {
+            MultifieldBuilder bldr(theEnv, 2);
+            bldr.append("STRING", TreatLexemeAsSymbol{});
+            bldr.append(theToken.lexemeValue);
+            out->multifieldValue = bldr.create();
             break;
-        case TokenType::INSTANCE_NAME_TOKEN:
-            out->lexemeValue = theToken.lexemeValue;
+        }
+        case TokenType::INSTANCE_NAME_TOKEN: {
+            MultifieldBuilder bldr(theEnv, 2);
+            bldr.append("INSTANCE_NAME", TreatLexemeAsSymbol{});
+            bldr.append(theToken.lexemeValue);
+            out->multifieldValue = bldr.create();
             break;
-        case TokenType::FLOAT_TOKEN:
-            out->floatValue = theToken.floatValue;
+        }
+        case TokenType::FLOAT_TOKEN: {
+            MultifieldBuilder bldr(theEnv, 2);
+            bldr.append("FLOAT", TreatLexemeAsSymbol{});
+            bldr.append(theToken.floatValue);
+            out->multifieldValue = bldr.create();
             break;
-        case TokenType::INTEGER_TOKEN:
-            out->integerValue = theToken.integerValue;
+    }
+        case TokenType::INTEGER_TOKEN: {
+            MultifieldBuilder bldr(theEnv, 2);
+            bldr.append("INTEGER", TreatLexemeAsSymbol{});
+            bldr.append(theToken.integerValue);
+            out->multifieldValue = bldr.create();
             break;
+        }
         case TokenType::LEFT_PARENTHESIS_TOKEN:
         {
             MultifieldBuilder bldr(theEnv, 2);
