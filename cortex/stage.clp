@@ -20,3 +20,19 @@
 ;ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(deftemplate stage
+  (slot current
+    (type SYMBOL)
+    (default ?NONE))
+  (multislot rest
+    (type SYMBOL)
+    (default ?NONE)))
+
+(defrule next-stage
+  (declare (salience -10000))
+  ?f <- (stage (next ?next $?rest))
+  =>
+  (modify ?f
+    (current ?next)
+    (rest ?rest)))
