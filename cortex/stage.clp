@@ -22,17 +22,14 @@
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 (deftemplate stage
-  (slot current
-    (type SYMBOL)
-    (default ?NONE))
-  (multislot rest
-    (type SYMBOL)
-    (default ?NONE)))
+             (slot current (type SYMBOL)
+                           (default ?NONE))
+             (multislot rest (type SYMBOL)
+                              (default ?NONE)))
 
 (defrule next-stage
-  (declare (salience -10000))
-  ?f <- (stage (next ?next $?rest))
-  =>
-  (modify ?f
-    (current ?next)
-    (rest ?rest)))
+         (declare (salience -10000))
+         ?f <- (stage (next ?next $?rest))
+         =>
+         (modify ?f (current ?next)
+                    (rest ?rest)))
