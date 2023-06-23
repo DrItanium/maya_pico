@@ -48,157 +48,104 @@ void
 nextTokenFunction(UDF_ARGS__) {
     auto& theEnv = Environment::fromRaw(env);
     auto logicalName = ::GetLogicalName(context, STDIN);
+    MultifieldBuilder bldr(theEnv, 2);
     if (!logicalName) {
         theEnv.illegalLogicalNameMessage("next-token");
         theEnv.setHaltExecution(true);
         theEnv.setEvaluationError(true);
-        out->lexemeValue = theEnv.createString("*** READ ERROR ***");
-    }
-    if (!theEnv.queryRouters(logicalName)) {
+        bldr.append("ERROR", TreatLexemeAsSymbol{});
+        bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+    } else if (!theEnv.queryRouters(logicalName)) {
         theEnv.unrecognizedRouterMessage(logicalName);
         theEnv.setHaltExecution(true);
         theEnv.setEvaluationError(true);
-        out->lexemeValue = theEnv.createString("*** READ ERROR ***");
+        bldr.append("ERROR", TreatLexemeAsSymbol{});
+        bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+    } else {
+        auto theToken = theEnv.getToken(logicalName);
+        auto &rdat = theEnv.routerData();
+        rdat.AwaitingInput = false;
+        rdat.CommandBufferInputCount = 0;
+        switch (theToken.tknType) {
+            case TokenType::SYMBOL_TOKEN:
+                bldr.append("SYMBOL", TreatLexemeAsSymbol{});
+                bldr.append(theToken.lexemeValue);
+                break;
+            case TokenType::STRING_TOKEN:
+                bldr.append("STRING", TreatLexemeAsSymbol{});
+                bldr.append(theToken.lexemeValue);
+                break;
+            case TokenType::INSTANCE_NAME_TOKEN:
+                bldr.append("INSTANCE_NAME", TreatLexemeAsSymbol{});
+                bldr.append(theToken.lexemeValue);
+                break;
+            case TokenType::FLOAT_TOKEN:
+                bldr.append("FLOAT", TreatLexemeAsSymbol{});
+                bldr.append(theToken.floatValue);
+                break;
+            case TokenType::INTEGER_TOKEN:
+                bldr.append("INTEGER", TreatLexemeAsSymbol{});
+                bldr.append(theToken.integerValue);
+                break;
+            case TokenType::LEFT_PARENTHESIS_TOKEN:
+                bldr.append("LEFT_PARENTHESIS", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::RIGHT_PARENTHESIS_TOKEN:
+                bldr.append("RIGHT_PARENTHESIS", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::SF_VARIABLE_TOKEN:
+                bldr.append("SF_VARIABLE", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::MF_VARIABLE_TOKEN:
+                bldr.append("MF_VARIABLE", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::GBL_VARIABLE_TOKEN:
+                bldr.append("GBL_VARIABLE", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::SF_WILDCARD_TOKEN:
+                bldr.append("SF_WILDCARD", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::MF_WILDCARD_TOKEN:
+                bldr.append("MF_WILDCARD", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::MF_GBL_VARIABLE_TOKEN:
+                bldr.append("MF_GBL_WILDCARD", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::NOT_CONSTRAINT_TOKEN:
+                bldr.append("NOT_CONSTRAINT", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::AND_CONSTRAINT_TOKEN:
+                bldr.append("AND_CONSTRAINT", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::OR_CONSTRAINT_TOKEN:
+                bldr.append("OR_CONSTRAINT", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::STOP_TOKEN:
+                bldr.append("STOP", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
+                break;
+            case TokenType::UNKNOWN_VALUE_TOKEN:
+                bldr.append("UNKNOWN_VALUE", TreatLexemeAsSymbol{});
+                bldr.append(theToken.printForm, TreatLexemeAsString{});
+                break;
+            default:
+                bldr.append("ERROR", TreatLexemeAsSymbol{});
+                bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+                break;
+        }
     }
-    auto theToken = theEnv.getToken(logicalName);
-    switch(theToken.tknType) {
-        case TokenType::SYMBOL_TOKEN: {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("SYMBOL", TreatLexemeAsSymbol{});
-            bldr.append(theToken.lexemeValue);
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::STRING_TOKEN: {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("STRING", TreatLexemeAsSymbol{});
-            bldr.append(theToken.lexemeValue);
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::INSTANCE_NAME_TOKEN: {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("INSTANCE_NAME", TreatLexemeAsSymbol{});
-            bldr.append(theToken.lexemeValue);
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::FLOAT_TOKEN: {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("FLOAT", TreatLexemeAsSymbol{});
-            bldr.append(theToken.floatValue);
-            out->multifieldValue = bldr.create();
-            break;
-    }
-        case TokenType::INTEGER_TOKEN: {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("INTEGER", TreatLexemeAsSymbol{});
-            bldr.append(theToken.integerValue);
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::LEFT_PARENTHESIS_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("LEFT_PARENTHESIS", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::RIGHT_PARENTHESIS_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("RIGHT_PARENTHESIS", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::SF_VARIABLE_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("SF_VARIABLE", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::MF_VARIABLE_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("MF_VARIABLE", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::GBL_VARIABLE_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("GBL_VARIABLE", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::SF_WILDCARD_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("SF_WILDCARD", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::MF_WILDCARD_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("MF_WILDCARD", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::MF_GBL_VARIABLE_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("MF_GBL_WILDCARD", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::NOT_CONSTRAINT_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("NOT_CONSTRAINT", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::AND_CONSTRAINT_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("AND_CONSTRAINT", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::OR_CONSTRAINT_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("OR_CONSTRAINT", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::STOP_TOKEN:
-        {
-            MultifieldBuilder bldr(theEnv, 2);
-            bldr.append("STOP", TreatLexemeAsSymbol{});
-            bldr.append(theToken.printForm, TreatLexemeAsSymbol{});
-            out->multifieldValue = bldr.create();
-            break;
-        }
-        case TokenType::UNKNOWN_VALUE_TOKEN:
-        default:
-            out->lexemeValue = theEnv.createString("*** READ ERROR ***");
-            break;
-    }
-
+    out->multifieldValue = bldr.create();
 }
 
 } // end namespace Electron
