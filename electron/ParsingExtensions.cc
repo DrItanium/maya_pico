@@ -49,18 +49,21 @@ nextTokenFunction(UDF_ARGS__) {
     auto& theEnv = Environment::fromRaw(env);
     auto logicalName = ::GetLogicalName(context, STDIN);
     MultifieldBuilder bldr(theEnv, 2);
+    auto readErrorMultifield = [&bldr]() {
+        bldr.append("ERROR", TreatLexemeAsSymbol{});
+        bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+    };
+    auto generateReadError = [&theEnv, readErrorMultifield](){
+        theEnv.setHaltExecution(true);
+        theEnv.setEvaluationError(true);
+        readErrorMultifield();
+    };
     if (!logicalName) {
         theEnv.illegalLogicalNameMessage("next-token");
-        theEnv.setHaltExecution(true);
-        theEnv.setEvaluationError(true);
-        bldr.append("ERROR", TreatLexemeAsSymbol{});
-        bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+        generateReadError();
     } else if (!theEnv.queryRouters(logicalName)) {
         theEnv.unrecognizedRouterMessage(logicalName);
-        theEnv.setHaltExecution(true);
-        theEnv.setEvaluationError(true);
-        bldr.append("ERROR", TreatLexemeAsSymbol{});
-        bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+        generateReadError();
     } else {
         auto theToken = theEnv.getToken(logicalName);
         auto &rdat = theEnv.routerData();
@@ -140,8 +143,7 @@ nextTokenFunction(UDF_ARGS__) {
                 bldr.append(theToken.printForm, TreatLexemeAsString{});
                 break;
             default:
-                bldr.append("ERROR", TreatLexemeAsSymbol{});
-                bldr.append("*** READ ERROR ***", TreatLexemeAsString{});
+                readErrorMultifield();
                 break;
         }
     }
