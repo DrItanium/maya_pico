@@ -140,10 +140,10 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
             if (!theEnv.fileAlreadyIncluded(targetPrefix)) {
                 // preserve the old fast ptr result since CLIPS tramples it inside
                 // Load. Our include command supports embedding includes as constructs
-                auto oldParsingConstruct = ConstructData(env)->ParsingConstruct;
+                auto oldParsingConstruct = theEnv.constructData().ParsingConstruct;
                 auto oldParsedBindNames = ::GetParsedBindNames(env);
-                auto oldReturnContext = ExpressionData(env)->ReturnContext;
-                auto oldBreakContext = ExpressionData(env)->BreakContext;
+                auto oldReturnContext = theEnv.expressionData().ReturnContext;
+                auto oldBreakContext = theEnv.expressionData().BreakContext;
                 auto oldFastPtr = ::GetFastLoad(env);
                 auto lip = ::GetLoadInProgress(env);
                 auto oldWarningFileName = ::CopyString(env, ::GetWarningFileName(env));
@@ -151,7 +151,7 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
                 auto oldHaltExecution = ::GetHaltExecution(env);
                 ::ClearParsedBindNames(env);
                 auto result = ::Load(env, targetPrefix.string().c_str());
-                ::SetHaltExecution(env, oldHaltExecution);
+                theEnv.setHaltExecution(oldHaltExecution);
                 ::SetFastLoad(env, oldFastPtr);
                 ::SetLoadInProgress(env, lip);
                 ::SetWarningFileName(env, oldWarningFileName);
@@ -159,9 +159,9 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
                 ::SetParsedBindNames(env, oldParsedBindNames);
                 ::DeleteString(env, oldWarningFileName);
                 ::DeleteString(env, oldErrorFileName);
-                ConstructData(env)->ParsingConstruct = oldParsingConstruct;
-                ExpressionData(env)->ReturnContext = oldReturnContext;
-                ExpressionData(env)->BreakContext = oldBreakContext;
+                theEnv.constructData().ParsingConstruct = oldParsingConstruct;
+                theEnv.expressionData().ReturnContext = oldReturnContext;
+                theEnv.expressionData().BreakContext = oldBreakContext;
                 switch (result) {
                     case ::LoadError::LE_PARSING_ERROR:
                         theEnv.syntaxErrorMessage("include");

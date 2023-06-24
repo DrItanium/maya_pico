@@ -1219,12 +1219,12 @@ public:
     bool queryRouters(const std::string& logicalName) noexcept {
         return ::QueryRouters(_env, logicalName.c_str());
     }
-    RouterDataModule& routerData() {
-        return *RouterData(_env);
-    }
-    const RouterDataModule& routerData() const noexcept {
-        return *RouterData(_env);
-    }
+    RouterDataModule& routerData() { return *RouterData(_env); }
+    const RouterDataModule& routerData() const noexcept { return *RouterData(_env); }
+    ExpressionDataModule& expressionData() { return *ExpressionData(_env); }
+    const ExpressionDataModule& expressionData() const noexcept { return *ExpressionData(_env); }
+    ConstructDataModule& constructData() { return *ConstructData(_env); }
+    const ConstructDataModule& constructData() const noexcept { return *ConstructData(_env); }
 private:
     using IncludedFilesSet = std::set<Neutron::Path>;
     RawEnvironment* _env;

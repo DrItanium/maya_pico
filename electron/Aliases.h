@@ -56,6 +56,8 @@ using Token = ::token;
 using TokenType = decltype(Token::tknType);
 using Defglobal = ::Defglobal;
 using RouterDataModule = ::routerData;
+using ExpressionDataModule = ::expressionData;
+using ConstructDataModule = ::constructData;
 } // end namespace Electron
 
 #define UDF_ARGS__ Electron::RawEnvironment* env, Electron::UDFContext* context, Electron::UDFValue* out
