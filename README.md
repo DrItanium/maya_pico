@@ -23,7 +23,7 @@ Since then it has evolved into providing more features like:
 
 
 Updating CLIPS
--------
+--------------
 We designed Electron specifically so that we could easily update our version of CLIPS without requiring a massive rewrite
 to any of the tools that use it. When we want to update CLIPS we just unpack a new version to the clips directory, 
 make a small change to setup.h to introduce platform autodetect (not included here). After that point we run tests to 
