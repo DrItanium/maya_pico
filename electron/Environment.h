@@ -1226,7 +1226,10 @@ public:
     ConstructDataModule& constructData() { return *ConstructData(_env); }
     const ConstructDataModule& constructData() const noexcept { return *ConstructData(_env); }
 public:
-    RawActivation* getFirstActivation() noexcept;
+    [[nodiscard]] inline RawActivation* getFirstActivation() noexcept { return ::GetNextActivation(_env, nullptr); }
+    [[nodiscard]] inline bool agendaChanged() const noexcept { return ::GetAgendaChanged(_env); }
+    inline void setAgendaChanged(bool value = true) noexcept { ::SetAgendaChanged(_env, value); }
+    [[nodiscard]] inline auto numberOfActivations() const noexcept { return ::GetNumberOfActivations(_env); }
 private:
     using IncludedFilesSet = std::set<Neutron::Path>;
     RawEnvironment* _env;

@@ -528,11 +528,6 @@ Environment::batchFile(const Neutron::Path& path, bool silent)
     }
 }
 
-RawActivation*
-Environment::getFirstActivation() noexcept {
-    return ::GetNextActivation(_env, nullptr);
-}
-
 } // end namespace Electron
 
 
