@@ -1225,6 +1225,8 @@ public:
     const ExpressionDataModule& expressionData() const noexcept { return *ExpressionData(_env); }
     ConstructDataModule& constructData() { return *ConstructData(_env); }
     const ConstructDataModule& constructData() const noexcept { return *ConstructData(_env); }
+public:
+    RawActivation* getFirstActivation() noexcept;
 private:
     using IncludedFilesSet = std::set<Neutron::Path>;
     RawEnvironment* _env;
