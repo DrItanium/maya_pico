@@ -40,7 +40,6 @@ using PutSlotError = ::PutSlotError;
 using GetSlotError = ::GetSlotError;
 using Fact = ::Fact;
 using Expression = ::Expression;
-using FunctionReference = ::Expression;
 using ExternalAddress = ::CLIPSExternalAddress;
 using Multifield = ::Multifield;
 using RawEnvironment = ::Environment;
@@ -58,6 +57,13 @@ using Defglobal = ::Defglobal;
 using RouterDataModule = ::routerData;
 using ExpressionDataModule = ::expressionData;
 using ConstructDataModule = ::constructData;
+using Activation = ::Activation;
+using SalienceGroup = ::salienceGroup;
+using AgendaDataModule = ::agendaData;
+using PartialMatch = ::PartialMatch;
+using GenericMatch = ::genericMatch;
+using AlphaMatch = ::alphaMatch;
+using PatternMatch = ::patternMatch;
 } // end namespace Electron
 
 #define UDF_ARGS__ Electron::RawEnvironment* env, Electron::UDFContext* context, Electron::UDFValue* out
