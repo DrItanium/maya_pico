@@ -379,7 +379,7 @@
          (unmake-instance ?f2)
          (modify-instance ?f
                           (role ?role)
-                          (contents $?rest)))
+                          (body $?rest)))
 
 
 (defrule assume-class-pattern-match
@@ -393,7 +393,7 @@
          (unmake-instance ?f2)
          (modify-instance ?f
                           (pattern-match ?role)
-                          (contents $?rest)))
+                          (body $?rest)))
 
 
 (defclass deftemplate-declaration 
@@ -443,3 +443,142 @@
                         (description ?str)
                         (title ?class-name)
                         (body ?rest)))
+
+(defrule associate-parent-class-types
+         ?f <- (object (is-a defclass-declaration)
+                       (inherits $?a ?curr $?b))
+         (object (is-a defclass-declaration)
+                 (title ?curr)
+                 (name ?name))
+         =>
+         (modify-instance ?f 
+                          (inherits ?a ?name ?b)))
+
+(defclass slot-declaration 
+  (is-a USER)
+  (role abstract)
+  (pattern-match non-reactive)
+  (slot title
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot visibility
+        (type SYMBOL)
+        (allowed-values private
+                        public)
+        (storage local)
+        (visibility public))
+  (slot storage 
+        (type SYMBOL)
+        (allowed-values local 
+                        shared)
+        (storage local)
+        (visibility public))
+  (multislot facets
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
+(defclass single-slot-declaration 
+  (is-a slot-declaration)
+  (role concrete)
+  (pattern-match reactive))
+(defclass multislot-declaration 
+  (is-a slot-declaration)
+  (role concrete)
+  (pattern-match reactive))
+
+(defrule generate-single-field-slot
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents slot|single-slot
+                                 ?title
+                                 $?facets))
+         =>
+         (unmake-instance ?f)
+         (make-instance ?name of single-slot-declaration
+                        (title ?title)
+                        (facets $?facets)))
+
+(defrule generate-multislot 
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents multislot 
+                                 ?title
+                                 $?facets))
+         =>
+         (unmake-instance ?f)
+         (make-instance ?name of multislot-declaration 
+                        (title ?title)
+                        (facets $?facets)))
+
+
+
+(defrule associate-single-slot-facet:storage
+         ?f <- (object (is-a slot-declaration)
+                       (name ?name)
+                       (facets $?a ?facet $?b))
+         ?f2 <- (object (is-a container)
+                        (name ?facet)
+                        (contents storage ?kind))
+         =>
+         (unmake-instance ?f2)
+         (modify-instance ?f
+                          (storage ?kind)
+                          (facets $?a $?b)))
+
+(defrule associate-single-slot-facet:visibility
+         ?f <- (object (is-a slot-declaration)
+                       (name ?name)
+                       (facets $?a ?facet $?b))
+         ?f2 <- (object (is-a container)
+                        (name ?facet)
+                        (contents visibility ?kind))
+         =>
+         (unmake-instance ?f2)
+         (modify-instance ?f
+                          (visibility ?kind)
+                          (facets $?a $?b)))
+
+(defclass assigned-conditional-element
+  (is-a USER)
+  (slot parent
+        (type INSTANCE)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot alias
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot pattern-ce
+        (storage local)
+        (visibility public)
+        (default ?NONE)))
+
+(defrule make-assigned-conditional-element
+         ?f <- (object (is-a defrule-declaration)
+                       (name ?name)
+                       (left-hand-side $?a ?b <- ?c $?d))
+         ?f2 <- (object (is-a atomic-value)
+                        (name ?b)
+                        (kind SF_VARIABLE)
+                        (value ?value))
+         ?f3 <- (object (is-a container)
+                        (name ?c)
+                        (parent ?name))
+         =>
+         (unmake-instance ?f2)
+         (bind ?container
+               (make-instance of assigned-conditional-element
+                              (parent ?name)
+                              (alias ?value)
+                              (pattern-ce ?c)))
+         (modify-instance ?f3 
+                          (parent (instance-name ?container)))
+         (modify-instance ?f 
+                          (left-hand-side ?a 
+                                          ?container
+                                          ?d)))
