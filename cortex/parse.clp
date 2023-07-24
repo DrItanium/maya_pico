@@ -381,3 +381,17 @@
                    "Target parser: " ?name crlf
                    "Mismatched container: " ?v crlf)
          (halt))
+
+(defrule raise-symbols-out-of-atoms
+         (stage (current hoisting))
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (contents $?a ?sym-ref $?b))
+         ?k <- (object (is-a atomic-value)
+                       (name ?sym-ref)
+                       (kind SYMBOL)
+                       (value ?sym))
+         =>
+         (unmake-instance ?k)
+         (modify-instance ?f 
+                          (contents ?a ?sym ?b)))
