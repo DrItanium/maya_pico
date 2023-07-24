@@ -23,7 +23,6 @@
 
 (defclass container
   (is-a USER)
-  (role concrete)
   (multislot contents
              (storage local)
              (visibility public))
@@ -35,7 +34,6 @@
         (allowed-symbols FALSE)))
 (defclass atomic-value
   (is-a USER)
-  (role concrete)
   (slot kind
         (type SYMBOL)
         (storage local)
@@ -54,7 +52,6 @@
 
 (defclass file-container
   (is-a container)
-  (role concrete)
   (slot file-name
         (type LEXEME)
         (storage local)
@@ -178,7 +175,6 @@
              )
 (defclass defrule-declaration
   (is-a USER)
-  (role concrete)
   (slot title
         (type SYMBOL)
         (storage local)
@@ -195,11 +191,11 @@
              (storage local)
              (visibility public)))
 
-(defrule generate-defrule-with-documentation
+(defrule generate-defrule
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
-                       (contents ?decl ?title ?doc-string $?lhs ?arrow $?rhs))
+                       (contents ?decl ?title $?lhs ?arrow $?rhs))
          ?f2 <- (object (is-a atomic-value)
                         (name ?decl)
                         (kind SYMBOL)
@@ -208,39 +204,6 @@
                         (name ?title)
                         (kind SYMBOL)
                         (value ?rule-name))
-         ?f4 <- (object (is-a atomic-value)
-                        (name ?doc-string)
-                        (kind STRING)
-                        (value ?docs))
-         ?f5 <- (object (is-a atomic-value)
-                        (name ?arrow)
-                        (kind SYMBOL)
-                        (value =>))
-         =>
-         (unmake-instance ?f ?f2 ?f3 ?f4 ?f5)
-         (make-instance ?name of defrule-declaration
-                        (title ?rule-name)
-                        (description ?docs)
-                        (left-hand-side ?lhs)
-                        (right-hand-side ?rhs)))
-
-
-(defrule generate-defrule-without-documentation
-         ?f <- (object (is-a container)
-                       (parent ~FALSE)
-                       (name ?name)
-                       (contents ?decl ?title ?doc-string $?lhs ?arrow $?rhs))
-         ?f2 <- (object (is-a atomic-value)
-                        (name ?decl)
-                        (kind SYMBOL)
-                        (value defrule))
-         ?f3 <- (object (is-a atomic-value)
-                        (name ?title)
-                        (kind SYMBOL)
-                        (value ?rule-name))
-         ?f4 <- (object (is-a atomic-value)
-                        (name ?doc-string)
-                        (kind ~STRING))
          ?f5 <- (object (is-a atomic-value)
                         (name ?arrow)
                         (kind SYMBOL)
@@ -250,6 +213,19 @@
          (make-instance ?name of defrule-declaration
                         (title ?rule-name)
                         (description "")
-                        (left-hand-side ?doc-string 
-                                        ?lhs)
+                        (left-hand-side ?lhs)
                         (right-hand-side ?rhs)))
+(defrule move-doc-string-out
+         ?f <- (object (is-a defrule-declaration)
+                       (left-hand-side ?first $?rest))
+         ?k <- (object (is-a atomic-value)
+                       (name ?first)
+                       (kind STRING)
+                       (value ?doc-string))
+         =>
+         (modify-instance ?f
+                          (left-hand-side ?rest)
+                          (description ?doc-string))
+         (unmake-instance ?k))
+
+
