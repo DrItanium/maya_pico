@@ -21,19 +21,34 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(defclass container
+(defclass has-parent
   (is-a USER)
-  (multislot contents
-             (storage local)
-             (visibility public))
   (slot parent
-        (type SYMBOL
+        (type SYMBOL 
               INSTANCE)
+        (allowed-symbols FALSE)
+        (storage local)
+        (visibility public)))
+(defclass has-title
+  (is-a USER)
+  (slot title
+        (type SYMBOL)
         (storage local)
         (visibility public)
-        (allowed-symbols FALSE)))
-(defclass atomic-value
+        (default ?NONE)))
+(defclass has-description
   (is-a USER)
+  (slot description
+        (type STRING)
+        (storage local)
+        (visibility public)))
+(defclass container
+  (is-a has-parent)
+  (multislot contents
+             (storage local)
+             (visibility public)))
+(defclass atomic-value
+  (is-a has-parent)
   (slot kind
         (type SYMBOL)
         (storage local)
@@ -43,12 +58,7 @@
         (storage local)
         (visibility public)
         (default ?NONE))
-  (slot parent
-        (type SYMBOL
-              INSTANCE)
-        (storage local)
-        (visibility public)
-        (allowed-symbols FALSE)))
+  )
 
 (defclass file-container
   (is-a container)
@@ -174,16 +184,8 @@
                (return ?top))
              )
 (defclass defrule-declaration
-  (is-a USER)
-  (slot title
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot description
-        (type STRING)
-        (storage local)
-        (visibility public))
+  (is-a has-title
+        has-description)
   (multislot left-hand-side
              (storage local)
              (visibility public))
@@ -192,16 +194,8 @@
              (visibility public)))
 
 (defclass deffunction-declaration 
-  (is-a USER)
-  (slot title
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot description
-        (type STRING)
-        (storage local)
-        (visibility public))
+  (is-a has-title
+        has-description)
   (slot arguments
         (storage local)
         (visibility public)
@@ -293,16 +287,8 @@
                           (contents ?a ?sym ?b)))
 
 (defclass defclass-declaration 
-  (is-a USER)
-  (slot title
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot description
-        (type STRING)
-        (storage local)
-        (visibility public))
+  (is-a has-title
+        has-description)
   (multislot inherits
         (storage local)
         (visibility public)
@@ -397,16 +383,8 @@
 
 
 (defclass deftemplate-declaration 
-  (is-a USER)
-  (slot title
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot description
-        (type STRING)
-        (storage local)
-        (visibility public))
+  (is-a has-title
+        has-description)
   (multislot body
              (storage local)
              (visibility public)))
@@ -455,14 +433,9 @@
                           (inherits ?a ?name ?b)))
 
 (defclass slot-declaration 
-  (is-a USER)
+  (is-a has-title)
   (role abstract)
   (pattern-match non-reactive)
-  (slot title
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
   (slot visibility
         (type SYMBOL)
         (allowed-values private
@@ -541,13 +514,10 @@
          (modify-instance ?f
                           (visibility ?kind)
                           (facets $?a $?b)))
-
 (defclass assigned-conditional-element
-  (is-a USER)
+  (is-a has-parent)
   (slot parent
-        (type INSTANCE)
-        (storage local)
-        (visibility public)
+        (source composite)
         (default ?NONE))
   (slot alias
         (storage local)
