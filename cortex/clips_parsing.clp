@@ -23,6 +23,26 @@
 (defclass defrule-declaration
   (is-a has-title
         has-description)
+  (slot declare 
+        (type SYMBOL
+              INSTANCE)
+        (allowed-symbols FALSE)
+        (storage local)
+        (visibility public))
+  (slot salience
+        (type INTEGER
+              INSTANCE)
+        (range -10000 10000)
+        (storage local)
+        (visibility public)
+        (default-dynamic 0))
+  (slot auto-focus 
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public)
+        (default-dynamic FALSE))
   (multislot left-hand-side
              (storage local)
              (visibility public))
@@ -111,6 +131,20 @@
         (visibility public)
         (default ?NONE)))
 
+(defclass assertion-statement
+  (is-a container))
+
+(defclass fact-assertion
+  (is-a has-parent)
+  (slot first
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot rest 
+             (visibility public)
+             (storage local))
+  )
+
 (defrule generate-defrule
          (stage (current identify-structures))
          ?f <- (object (is-a container)
@@ -137,8 +171,57 @@
                           (left-hand-side ?rest)
                           (description ?doc-string))
          (unmake-instance ?k))
+(defrule move-declaration-out-of-rule-body
+         (stage (current identify-structures))
+         ?f <- (object (is-a defrule-declaration)
+                       (name ?rule)
+                       (declare FALSE)
+                       (left-hand-side ?declaration $?rest))
+         (object (is-a container)
+                 (name ?declaration)
+                 (contents declare
+                           $?))
+         =>
+         (modify-instance ?f
+                          (declare ?declaration)
+                          (left-hand-side $?rest)))
+(defrule record-salience-for-rule
+         (stage (current identify-structures))
+         ?f <- (object (is-a defrule-declaration)
+                       (name ?rule)
+                       (declare ?declaration))
+         (object (is-a container)
+                 (name ?declaration)
+                 (contents declare
+                           $?
+                           ?salience
+                           $?))
+         (object (is-a container)
+                 (name ?salience)
+                 (contents salience
+                           ?value))
+         =>
+         (modify-instance ?f
+                          (salience ?value)))
 
-
+(defrule record-auto-focus-for-rule
+         (stage (current identify-structures))
+         ?f <- (object (is-a defrule-declaration)
+                       (name ?rule)
+                       (declare ?declaration))
+         (object (is-a container)
+                 (name ?declaration)
+                 (contents declare
+                           $?
+                           ?auto-focus
+                           $?))
+         (object (is-a container)
+                 (name ?auto-focus)
+                 (contents auto-focus
+                           ?value))
+         =>
+         (modify-instance ?f
+                          (auto-focus ?value)))
 
 (defrule generate-deffunction-with-docstring
          (stage (current identify-structures))
@@ -396,3 +479,34 @@
                           (left-hand-side ?a 
                                           ?container
                                           ?d)))
+
+
+
+(defrule detect-assert-statements
+         (stage (current identify-structures))
+         ?f <- (object (is-a container)
+                       (contents assert 
+                                 $?containers)
+                       (name ?stmt)
+                       (parent ?parent))
+         =>
+         (unmake-instance ?f)
+         (make-instance ?stmt of assertion-statement
+                        (parent ?parent)
+                        (contents $?containers)))
+
+(defrule construct-fact-assertion-detection
+         (stage (current identify-structures))
+         (object (is-a assertion-statement)
+                 (contents $? ?container $?))
+         ?k <- (object (is-a container)
+                       (name ?container)
+                       (contents ?first $?rest)
+                       (parent ?parent))
+         =>
+         (unmake-instance ?k)
+         (make-instance ?container of fact-assertion
+                        (parent ?parent)
+                        (first ?first)
+                        (rest $?rest)))
+
