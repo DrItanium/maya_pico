@@ -394,3 +394,52 @@
          (modify-instance ?f
                           (pattern-match ?role)
                           (contents $?rest)))
+
+
+(defclass deftemplate-declaration 
+  (is-a USER)
+  (slot title
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot description
+        (type STRING)
+        (storage local)
+        (visibility public))
+  (multislot body
+             (storage local)
+             (visibility public)))
+
+(defrule generate-deftemplate-decl-without-docstring
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents deftemplate
+                                 ?class-name
+                                 $?rest))
+         =>
+         (unmake-instance ?f)
+         (make-instance ?name of deftemplate-declaration
+                        (title ?class-name)
+                        (description "")
+                        (body ?rest)))
+
+(defrule generate-deftemplate-decl-with-docstring
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents deftemplate
+                                 ?class-name
+                                 ?docstr
+                                 $?rest))
+         ?f3 <- (object (is-a atomic-value)
+                        (name ?docstr)
+                        (kind STRING)
+                        (value ?str))
+         =>
+         (unmake-instance ?f ?f3)
+         (make-instance ?name of deftemplate-declaration
+                        (description ?str)
+                        (title ?class-name)
+                        (body ?rest)))
