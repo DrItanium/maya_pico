@@ -224,5 +224,32 @@
                         (left-hand-side ?lhs)
                         (right-hand-side ?rhs)))
 
-                        
 
+(defrule generate-defrule-without-documentation
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents ?decl ?title ?doc-string $?lhs ?arrow $?rhs))
+         ?f2 <- (object (is-a atomic-value)
+                        (name ?decl)
+                        (kind SYMBOL)
+                        (value defrule))
+         ?f3 <- (object (is-a atomic-value)
+                        (name ?title)
+                        (kind SYMBOL)
+                        (value ?rule-name))
+         ?f4 <- (object (is-a atomic-value)
+                        (name ?doc-string)
+                        (kind ~STRING))
+         ?f5 <- (object (is-a atomic-value)
+                        (name ?arrow)
+                        (kind SYMBOL)
+                        (value =>))
+         =>
+         (unmake-instance ?f ?f2 ?f3 ?f5)
+         (make-instance ?name of defrule-declaration
+                        (title ?rule-name)
+                        (description "")
+                        (left-hand-side ?doc-string 
+                                        ?lhs)
+                        (right-hand-side ?rhs)))
