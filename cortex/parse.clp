@@ -291,3 +291,106 @@
          (unmake-instance ?k)
          (modify-instance ?f 
                           (contents ?a ?sym ?b)))
+
+(defclass defclass-declaration 
+  (is-a USER)
+  (slot title
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot description
+        (type STRING)
+        (storage local)
+        (visibility public))
+  (multislot inherits
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot role
+        (type SYMBOL)
+        (allowed-symbols concrete
+                         abstract)
+        (storage local)
+        (visibility public))
+  (slot pattern-match
+        (type SYMBOL)
+        (allowed-symbols reactive
+                         non-reactive)
+        (storage local)
+        (visibility public))
+  (multislot body
+             (storage local)
+             (visibility public)))
+
+(defrule generate-defclass-decl-without-docstring
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents defclass
+                                 ?class-name
+                                 ?is-a
+                                 $?rest))
+         ?f2 <- (object (is-a container)
+                        (name ?is-a)
+                        (contents is-a 
+                                  $?kinds))
+         =>
+         (unmake-instance ?f ?f2)
+         (make-instance ?name of defclass-declaration
+                        (title ?class-name)
+                        (description "")
+                        (inherits $?kinds)
+                        (body ?rest)))
+
+(defrule generate-defclass-decl-with-docstring
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents defclass
+                                 ?class-name
+                                 ?docstr
+                                 ?is-a
+                                 $?rest))
+         ?f3 <- (object (is-a atomic-value)
+                        (name ?docstr)
+                        (kind STRING)
+                        (value ?str))
+         ?f2 <- (object (is-a container)
+                        (name ?is-a)
+                        (contents is-a 
+                                  $?kinds))
+         =>
+         (unmake-instance ?f ?f2 ?f3)
+         (make-instance ?name of defclass-declaration
+                        (description ?str)
+                        (title ?class-name)
+                        (inherits $?kinds)
+                        (body ?rest)))
+
+(defrule assume-class-role
+         ?f <- (object (is-a defclass-declaration)
+                       (body ?first
+                             $?rest))
+         ?f2 <- (object (is-a container)
+                        (name ?first)
+                        (contents role ?role))
+         =>
+         (unmake-instance ?f2)
+         (modify-instance ?f
+                          (role ?role)
+                          (contents $?rest)))
+
+
+(defrule assume-class-pattern-match
+         ?f <- (object (is-a defclass-declaration)
+                       (body ?first
+                             $?rest))
+         ?f2 <- (object (is-a container)
+                        (name ?first)
+                        (contents pattern-match ?role))
+         =>
+         (unmake-instance ?f2)
+         (modify-instance ?f
+                          (pattern-match ?role)
+                          (contents $?rest)))
