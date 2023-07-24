@@ -21,6 +21,20 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+; temporary standalone hack for now
+(deftemplate stage
+             (slot current (type SYMBOL)
+                           (default ?NONE))
+             (multislot rest (type SYMBOL)
+                              (default ?NONE)))
+
+(defrule next-stage
+         (declare (salience -10000))
+         ?f <- (stage (rest ?next 
+                            $?rest))
+         =>
+         (modify ?f (current ?next)
+                    (rest ?rest)))
 (defclass has-parent
   (is-a USER)
   (slot parent
@@ -64,6 +78,96 @@
   (is-a container)
   (slot file-name
         (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE)))
+
+(defclass defrule-declaration
+  (is-a has-title
+        has-description)
+  (multislot left-hand-side
+             (storage local)
+             (visibility public))
+  (multislot right-hand-side
+             (storage local)
+             (visibility public)))
+
+(defclass deffunction-declaration 
+  (is-a has-title
+        has-description)
+  (slot arguments
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot body
+             (storage local)
+             (visibility public)))
+(defclass defclass-declaration 
+  (is-a has-title
+        has-description)
+  (multislot inherits
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot role
+        (type SYMBOL)
+        (allowed-symbols concrete
+                         abstract)
+        (storage local)
+        (visibility public))
+  (slot pattern-match
+        (type SYMBOL)
+        (allowed-symbols reactive
+                         non-reactive)
+        (storage local)
+        (visibility public))
+  (multislot body
+             (storage local)
+             (visibility public)))
+(defclass deftemplate-declaration 
+  (is-a has-title
+        has-description)
+  (multislot body
+             (storage local)
+             (visibility public)))
+(defclass slot-declaration 
+  (is-a has-title)
+  (role abstract)
+  (pattern-match non-reactive)
+  (slot visibility
+        (type SYMBOL)
+        (allowed-values private
+                        public)
+        (storage local)
+        (visibility public))
+  (slot storage 
+        (type SYMBOL)
+        (allowed-values local 
+                        shared)
+        (storage local)
+        (visibility public))
+  (multislot facets
+             (storage local)
+             (visibility public)
+             (default ?NONE)))
+(defclass single-slot-declaration 
+  (is-a slot-declaration)
+  (role concrete)
+  (pattern-match reactive))
+(defclass multislot-declaration 
+  (is-a slot-declaration)
+  (role concrete)
+  (pattern-match reactive))
+(defclass assigned-conditional-element
+  (is-a has-parent)
+  (slot parent
+        (source composite)
+        (default ?NONE))
+  (slot alias
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot pattern-ce
         (storage local)
         (visibility public)
         (default ?NONE)))
@@ -183,28 +287,189 @@
                                 (contents ?children))
                (return ?top))
              )
-(defclass defrule-declaration
-  (is-a has-title
-        has-description)
-  (multislot left-hand-side
-             (storage local)
-             (visibility public))
-  (multislot right-hand-side
-             (storage local)
-             (visibility public)))
-
-(defclass deffunction-declaration 
-  (is-a has-title
-        has-description)
-  (slot arguments
+(defclass parser
+  (is-a USER)
+  (slot top-element
+        (type INSTANCE)
+        (storage local)
+        (visibility public))
+  (slot current-element
+        (type INSTANCE)
+        (storage local)
+        (visibility public))
+  (slot path
+        (type LEXEME)
         (storage local)
         (visibility public)
         (default ?NONE))
-  (multislot body
+  (slot id
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default-dynamic (gensym*)))
+  (slot valid
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public))
+  (slot parsed 
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public))
+  (slot parsing 
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public))
+  (multislot current-token
              (storage local)
-             (visibility public)))
+             (visibility public))
+  (message-handler init after))
+(defmessage-handler parser init after
+                    ()
+                    (bind ?self:valid
+                          (open ?self:path
+                                ?self:id
+                                "r"))
+                    (bind ?self:parsing
+                          ?self:valid)
+                    (bind ?self:top-element
+                          (make-instance of file-container
+                                         (parent FALSE)
+                                         (file-name ?self:path)))
+                    (bind ?self:current-element
+                          ?self:top-element))
+
+(deffacts parsing-stages
+          (stage (current generate-files)
+                 (rest process-file
+                       sanity-check
+                       hoisting
+                       identify-structures)))
+(defrule generate-file-container
+         (stage (current generate-files))
+         ?f <- (parse file ?path)
+         =>
+         (retract ?f)
+         (make-instance of parser
+                        (path ?path)))
+
+(defrule read-token
+         (stage (current process-file))
+         ?f <- (object (is-a parser)
+                       (current-token)
+                       (parsing TRUE)
+                       (valid TRUE)
+                       (parsed FALSE)
+                       (id ?id))
+         =>
+         (modify-instance ?f 
+                          (current-token (next-token ?id))))
+
+(defrule stop-parsing-file
+         (stage (current process-file))
+         ?f <- (object (is-a parser)
+                       (current-token STOP $?)
+                       (parsing TRUE)
+                       (valid TRUE)
+                       (parsed FALSE)
+                       (id ?id))
+         =>
+         (close ?id)
+         (modify-instance ?f 
+                          (current-token)
+                          (parsing FALSE)
+                          (parsed TRUE)))
+
+(defrule make-new-target-container
+         (stage (current process-file))
+         ?f <- (object (is-a parser)
+                       (current-token LEFT_PARENTHESIS ?)
+                       (parsing TRUE)
+                       (valid TRUE)
+                       (parsed FALSE)
+                       (id ?id)
+                       (current-element ?target))
+         ?k <- (object (is-a container)
+                       (name ?target)
+                       (contents $?prior))
+         =>
+         (bind ?ncurr
+               (make-instance of container
+                              (parent ?target)))
+         (modify-instance ?f 
+                          (current-token)
+                          (current-element ?ncurr))
+         (modify-instance ?k
+                          (contents ?prior
+                                    ?ncurr)))
+(defrule leave-current-element:valid
+         (stage (current process-file))
+         ?f <- (object (is-a parser)
+                       (current-token RIGHT_PARENTHESIS ?)
+                       (parsing TRUE)
+                       (valid TRUE)
+                       (parsed FALSE)
+                       (id ?id)
+                       (current-element ?target))
+         (object (is-a container)
+                 (name ?target)
+                 (parent ?parent&~FALSE))
+         =>
+         (modify-instance ?f
+                          (current-token)
+                          (current-element ?parent)))
+
+(defrule leave-current-element:invalid-no-parent
+         (stage (current process-file))
+         ?f <- (object (is-a parser)
+                       (current-token RIGHT_PARENTHESIS $?)
+                       (parsing TRUE)
+                       (valid TRUE)
+                       (parsed FALSE)
+                       (id ?id)
+                       (path ?path)
+                       (current-element ?target)
+                       (name ?name))
+         (object (is-a container)
+                 (name ?target)
+                 (parent FALSE))
+         =>
+         (printout werror
+                   "ERROR: mismatched parens, found a right paren without a matching left paren" crlf
+                   "Target file: " ?path crlf
+                   "Target parser: " ?name crlf)
+         (halt))
+
+(defrule make-atomic-value 
+         (stage (current process-file))
+         ?f <- (object (is-a parser)
+                       (current-token ?kind&~LEFT_PARENTHESIS&~RIGHT_PARENTHESIS&~STOP ?value)
+                       (parsing TRUE)
+                       (valid TRUE)
+                       (parsed FALSE)
+                       (id ?id)
+                       (current-element ?target))
+         ?k <- (object (is-a container)
+                       (name ?target)
+                       (contents $?prior))
+         =>
+         (modify-instance ?f 
+                          (current-token))
+         (modify-instance ?k
+                          (contents ?prior
+                                    (make-instance of atomic-value
+                                                   (parent ?target)
+                                                   (kind ?kind)
+                                                   (value ?value)))))
+
 
 (defrule generate-defrule
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -217,6 +482,7 @@
                         (left-hand-side ?lhs)
                         (right-hand-side ?rhs)))
 (defrule move-doc-string-out
+         (stage (current identify-structures))
          ?f <- (object (is-a defrule-declaration)
                        (left-hand-side ?first $?rest))
          ?k <- (object (is-a atomic-value)
@@ -232,6 +498,7 @@
 
 
 (defrule generate-deffunction-with-docstring
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -255,6 +522,7 @@
                         (body $?body)))
 
 (defrule generate-deffunction-without-docstring
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -273,7 +541,7 @@
                         (body $?body)))
 
 (defrule raise-symbols-out-of-atoms
-         (declare (salience 10000))
+         (stage (current hoisting))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (contents $?a ?sym-ref $?b))
@@ -286,30 +554,9 @@
          (modify-instance ?f 
                           (contents ?a ?sym ?b)))
 
-(defclass defclass-declaration 
-  (is-a has-title
-        has-description)
-  (multislot inherits
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot role
-        (type SYMBOL)
-        (allowed-symbols concrete
-                         abstract)
-        (storage local)
-        (visibility public))
-  (slot pattern-match
-        (type SYMBOL)
-        (allowed-symbols reactive
-                         non-reactive)
-        (storage local)
-        (visibility public))
-  (multislot body
-             (storage local)
-             (visibility public)))
 
 (defrule generate-defclass-decl-without-docstring
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -330,6 +577,7 @@
                         (body ?rest)))
 
 (defrule generate-defclass-decl-with-docstring
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -355,6 +603,7 @@
                         (body ?rest)))
 
 (defrule assume-class-role
+         (stage (current identify-structures))
          ?f <- (object (is-a defclass-declaration)
                        (body ?first
                              $?rest))
@@ -369,6 +618,7 @@
 
 
 (defrule assume-class-pattern-match
+         (stage (current identify-structures))
          ?f <- (object (is-a defclass-declaration)
                        (body ?first
                              $?rest))
@@ -382,14 +632,9 @@
                           (body $?rest)))
 
 
-(defclass deftemplate-declaration 
-  (is-a has-title
-        has-description)
-  (multislot body
-             (storage local)
-             (visibility public)))
 
 (defrule generate-deftemplate-decl-without-docstring
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -404,6 +649,7 @@
                         (body ?rest)))
 
 (defrule generate-deftemplate-decl-with-docstring
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -423,6 +669,7 @@
                         (body ?rest)))
 
 (defrule associate-parent-class-types
+         (stage (current identify-structures))
          ?f <- (object (is-a defclass-declaration)
                        (inherits $?a ?curr $?b))
          (object (is-a defclass-declaration)
@@ -432,36 +679,9 @@
          (modify-instance ?f 
                           (inherits ?a ?name ?b)))
 
-(defclass slot-declaration 
-  (is-a has-title)
-  (role abstract)
-  (pattern-match non-reactive)
-  (slot visibility
-        (type SYMBOL)
-        (allowed-values private
-                        public)
-        (storage local)
-        (visibility public))
-  (slot storage 
-        (type SYMBOL)
-        (allowed-values local 
-                        shared)
-        (storage local)
-        (visibility public))
-  (multislot facets
-             (storage local)
-             (visibility public)
-             (default ?NONE)))
-(defclass single-slot-declaration 
-  (is-a slot-declaration)
-  (role concrete)
-  (pattern-match reactive))
-(defclass multislot-declaration 
-  (is-a slot-declaration)
-  (role concrete)
-  (pattern-match reactive))
 
 (defrule generate-single-field-slot
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -475,6 +695,7 @@
                         (facets $?facets)))
 
 (defrule generate-multislot 
+         (stage (current identify-structures))
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
@@ -490,6 +711,7 @@
 
 
 (defrule associate-single-slot-facet:storage
+         (stage (current identify-structures))
          ?f <- (object (is-a slot-declaration)
                        (name ?name)
                        (facets $?a ?facet $?b))
@@ -503,6 +725,7 @@
                           (facets $?a $?b)))
 
 (defrule associate-single-slot-facet:visibility
+         (stage (current identify-structures))
          ?f <- (object (is-a slot-declaration)
                        (name ?name)
                        (facets $?a ?facet $?b))
@@ -514,21 +737,10 @@
          (modify-instance ?f
                           (visibility ?kind)
                           (facets $?a $?b)))
-(defclass assigned-conditional-element
-  (is-a has-parent)
-  (slot parent
-        (source composite)
-        (default ?NONE))
-  (slot alias
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot pattern-ce
-        (storage local)
-        (visibility public)
-        (default ?NONE)))
+
 
 (defrule make-assigned-conditional-element
+         (stage (current identify-structures))
          ?f <- (object (is-a defrule-declaration)
                        (name ?name)
                        (left-hand-side $?a ?b <- ?c $?d))
