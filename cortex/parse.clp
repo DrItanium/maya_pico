@@ -176,4 +176,53 @@
                                 (contents ?children))
                (return ?top))
              )
+(defclass defrule-declaration
+  (is-a USER)
+  (role concrete)
+  (slot title
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot description
+        (type STRING)
+        (storage local)
+        (visibility public))
+  (multislot left-hand-side
+             (storage local)
+             (visibility public))
+  (multislot right-hand-side
+             (storage local)
+             (visibility public)))
+
+(defrule generate-defrule-with-documentation
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents ?decl ?title ?doc-string $?lhs ?arrow $?rhs))
+         ?f2 <- (object (is-a atomic-value)
+                        (name ?decl)
+                        (kind SYMBOL)
+                        (value defrule))
+         ?f3 <- (object (is-a atomic-value)
+                        (name ?title)
+                        (kind SYMBOL)
+                        (value ?rule-name))
+         ?f4 <- (object (is-a atomic-value)
+                        (name ?doc-string)
+                        (kind STRING)
+                        (value ?docs))
+         ?f5 <- (object (is-a atomic-value)
+                        (name ?arrow)
+                        (kind SYMBOL)
+                        (value =>))
+         =>
+         (unmake-instance ?f ?f2 ?f3 ?f4 ?f5)
+         (make-instance ?name of defrule-declaration
+                        (title ?rule-name)
+                        (description ?docs)
+                        (left-hand-side ?lhs)
+                        (right-hand-side ?rhs)))
+
+                        
 
