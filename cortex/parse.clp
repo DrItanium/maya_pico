@@ -191,25 +191,32 @@
              (storage local)
              (visibility public)))
 
+(defclass deffunction-declaration 
+  (is-a USER)
+  (slot title
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot description
+        (type STRING)
+        (storage local)
+        (visibility public))
+  (slot arguments
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot body
+             (storage local)
+             (visibility public)))
+
 (defrule generate-defrule
          ?f <- (object (is-a container)
                        (parent ~FALSE)
                        (name ?name)
-                       (contents ?decl ?title $?lhs ?arrow $?rhs))
-         ?f2 <- (object (is-a atomic-value)
-                        (name ?decl)
-                        (kind SYMBOL)
-                        (value defrule))
-         ?f3 <- (object (is-a atomic-value)
-                        (name ?title)
-                        (kind SYMBOL)
-                        (value ?rule-name))
-         ?f5 <- (object (is-a atomic-value)
-                        (name ?arrow)
-                        (kind SYMBOL)
-                        (value =>))
+                       (contents defrule ?rule-name $?lhs => $?rhs))
          =>
-         (unmake-instance ?f ?f2 ?f3 ?f5)
+         (unmake-instance ?f)
          (make-instance ?name of defrule-declaration
                         (title ?rule-name)
                         (description "")
@@ -229,3 +236,58 @@
          (unmake-instance ?k))
 
 
+
+(defrule generate-deffunction-with-docstring
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents deffunction
+                                 ?func-name
+                                 ?doc-string
+                                 ?args
+                                 $?body))
+         ?f4 <- (object (is-a atomic-value)
+                        (name ?doc-string)
+                        (kind STRING)
+                        (value ?str))
+         (object (is-a container)
+                 (name ?args))
+         =>
+         (unmake-instance ?f ?f4)
+         (make-instance ?name of deffunction-declaration
+                        (title ?func-name)
+                        (description ?str)
+                        (arguments ?args)
+                        (body $?body)))
+
+(defrule generate-deffunction-without-docstring
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (name ?name)
+                       (contents deffunction
+                                 ?func-name
+                                 ?args
+                                 $?body))
+         (object (is-a container)
+                 (name ?args))
+         =>
+         (unmake-instance ?f)
+         (make-instance ?name of deffunction-declaration
+                        (title ?func-name)
+                        (description "")
+                        (arguments ?args)
+                        (body $?body)))
+
+(defrule raise-symbols-out-of-atoms
+         (declare (salience 10000))
+         ?f <- (object (is-a container)
+                       (parent ~FALSE)
+                       (contents $?a ?sym-ref $?b))
+         ?k <- (object (is-a atomic-value)
+                       (name ?sym-ref)
+                       (kind SYMBOL)
+                       (value ?sym))
+         =>
+         (unmake-instance ?k)
+         (modify-instance ?f 
+                          (contents ?a ?sym ?b)))
