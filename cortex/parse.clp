@@ -21,20 +21,6 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-; temporary standalone hack for now
-(deftemplate stage
-             (slot current (type SYMBOL)
-                           (default ?NONE))
-             (multislot rest (type SYMBOL)
-                              (default ?NONE)))
-
-(defrule next-stage
-         (declare (salience -10000))
-         ?f <- (stage (rest ?next 
-                            $?rest))
-         =>
-         (modify ?f (current ?next)
-                    (rest ?rest)))
 (defclass has-parent
   (is-a USER)
   (slot parent
@@ -131,7 +117,8 @@
              (storage local)
              (visibility public)))
 (defclass slot-declaration 
-  (is-a has-title)
+  (is-a has-title
+        has-parent)
   (role abstract)
   (pattern-match non-reactive)
   (slot visibility
@@ -699,7 +686,7 @@
 (defrule generate-single-field-slot
          (stage (current identify-structures))
          ?f <- (object (is-a container)
-                       (parent ~FALSE)
+                       (parent ?parent&~FALSE)
                        (name ?name)
                        (contents slot|single-slot
                                  ?title
@@ -707,13 +694,14 @@
          =>
          (unmake-instance ?f)
          (make-instance ?name of single-slot-declaration
+                        (parent ?parent)
                         (title ?title)
                         (facets $?facets)))
 
 (defrule generate-multislot 
          (stage (current identify-structures))
          ?f <- (object (is-a container)
-                       (parent ~FALSE)
+                       (parent ?parent&~FALSE)
                        (name ?name)
                        (contents multislot 
                                  ?title
@@ -721,6 +709,7 @@
          =>
          (unmake-instance ?f)
          (make-instance ?name of multislot-declaration 
+                        (parent ?parent)
                         (title ?title)
                         (facets $?facets)))
 

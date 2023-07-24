@@ -29,7 +29,7 @@
 
 (defrule next-stage
          (declare (salience -10000))
-         ?f <- (stage (next ?next $?rest))
+         ?f <- (stage (rest ?next $?rest))
          =>
          (modify ?f (current ?next)
                     (rest ?rest)))
