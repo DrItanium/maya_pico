@@ -371,9 +371,10 @@
                           (current-token (next-token ?id))))
 
 (defrule stop-parsing-file
+         "If we see a stop token then just terminate immediately!"
          (stage (current process-file))
          ?f <- (object (is-a parser)
-                       (current-token STOP $?)
+                       (current-token STOP ?)
                        (parsing TRUE)
                        (valid TRUE)
                        (parsed FALSE)
@@ -444,7 +445,6 @@
                    "Target file: " ?path crlf
                    "Target parser: " ?name crlf)
          (halt))
-
 (defrule make-atomic-value 
          (stage (current process-file))
          ?f <- (object (is-a parser)
@@ -467,7 +467,23 @@
                                                    (kind ?kind)
                                                    (value ?value)))))
 
-
+(defrule found-lparen-mismatch-at-end
+         (stage (current sanity-check))
+         ?f <- (object (is-a parser)
+                       (parsing FALSE)
+                       (valid TRUE)
+                       (parsed TRUE)
+                       (path ?path)
+                       (top-element ?top)
+                       (current-element ?v&~?top)
+                       (name ?name))
+         =>
+         (printout werror
+                   "ERROR: mismatched parens, found a left paren without a matching right paren after finishing parsing" crlf
+                   "Target File: " ?path crlf
+                   "Target parser: " ?name crlf
+                   "Mismatched container: " ?v crlf)
+         (halt))
 (defrule generate-defrule
          (stage (current identify-structures))
          ?f <- (object (is-a container)
