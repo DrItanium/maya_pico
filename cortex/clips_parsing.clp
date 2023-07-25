@@ -20,9 +20,11 @@
 ;ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-(defclass defrule-declaration
+(defclass top-level-expression
   (is-a has-title
-        has-description)
+        has-description))
+(defclass defrule-expression
+  (is-a top-level-expression)
   (slot declare 
         (type SYMBOL
               INSTANCE)
@@ -50,9 +52,8 @@
              (storage local)
              (visibility public)))
 
-(defclass deffunction-declaration 
-  (is-a has-title
-        has-description)
+(defclass deffunction-expression 
+  (is-a top-level-expression)
   (slot arguments
         (storage local)
         (visibility public)
@@ -60,9 +61,8 @@
   (multislot body
              (storage local)
              (visibility public)))
-(defclass defclass-declaration 
-  (is-a has-title
-        has-description)
+(defclass defclass-expression 
+  (is-a top-level-expression)
   (multislot inherits
         (storage local)
         (visibility public)
@@ -82,13 +82,13 @@
   (multislot body
              (storage local)
              (visibility public)))
-(defclass deftemplate-declaration 
-  (is-a has-title
-        has-description)
+
+(defclass deftemplate-expression 
+  (is-a top-level-expression)
   (multislot body
              (storage local)
              (visibility public)))
-(defclass slot-declaration 
+(defclass slot-expression 
   (is-a has-title
         has-parent)
   (role abstract)
@@ -109,12 +109,12 @@
              (storage local)
              (visibility public)
              (default ?NONE)))
-(defclass single-slot-declaration 
-  (is-a slot-declaration)
+(defclass single-slot-expression 
+  (is-a slot-expression)
   (role concrete)
   (pattern-match reactive))
-(defclass multislot-declaration 
-  (is-a slot-declaration)
+(defclass multislot-expression 
+  (is-a slot-expression)
   (role concrete)
   (pattern-match reactive))
 (defclass assigned-conditional-element
@@ -153,14 +153,14 @@
                        (contents defrule ?rule-name $?lhs => $?rhs))
          =>
          (unmake-instance ?f)
-         (make-instance ?name of defrule-declaration
+         (make-instance ?name of defrule-expression
                         (title ?rule-name)
                         (description "")
                         (left-hand-side ?lhs)
                         (right-hand-side ?rhs)))
 (defrule move-doc-string-out
          (stage (current identify-structures))
-         ?f <- (object (is-a defrule-declaration)
+         ?f <- (object (is-a defrule-expression)
                        (left-hand-side ?first $?rest))
          ?k <- (object (is-a atomic-value)
                        (name ?first)
@@ -171,9 +171,9 @@
                           (left-hand-side ?rest)
                           (description ?doc-string))
          (unmake-instance ?k))
-(defrule move-declaration-out-of-rule-body
+(defrule move-expression-out-of-rule-body
          (stage (current identify-structures))
-         ?f <- (object (is-a defrule-declaration)
+         ?f <- (object (is-a defrule-expression)
                        (name ?rule)
                        (declare FALSE)
                        (left-hand-side ?declaration $?rest))
@@ -187,7 +187,7 @@
                           (left-hand-side $?rest)))
 (defrule record-salience-for-rule
          (stage (current identify-structures))
-         ?f <- (object (is-a defrule-declaration)
+         ?f <- (object (is-a defrule-expression)
                        (name ?rule)
                        (declare ?declaration))
          (object (is-a container)
@@ -206,7 +206,7 @@
 
 (defrule record-auto-focus-for-rule
          (stage (current identify-structures))
-         ?f <- (object (is-a defrule-declaration)
+         ?f <- (object (is-a defrule-expression)
                        (name ?rule)
                        (declare ?declaration))
          (object (is-a container)
@@ -241,7 +241,7 @@
                  (name ?args))
          =>
          (unmake-instance ?f ?f4)
-         (make-instance ?name of deffunction-declaration
+         (make-instance ?name of deffunction-expression
                         (title ?func-name)
                         (description ?str)
                         (arguments ?args)
@@ -260,7 +260,7 @@
                  (name ?args))
          =>
          (unmake-instance ?f)
-         (make-instance ?name of deffunction-declaration
+         (make-instance ?name of deffunction-expression
                         (title ?func-name)
                         (description "")
                         (arguments ?args)
@@ -283,7 +283,7 @@
                                   $?kinds))
          =>
          (unmake-instance ?f ?f2)
-         (make-instance ?name of defclass-declaration
+         (make-instance ?name of defclass-expression
                         (title ?class-name)
                         (description "")
                         (inherits $?kinds)
@@ -309,7 +309,7 @@
                                   $?kinds))
          =>
          (unmake-instance ?f ?f2 ?f3)
-         (make-instance ?name of defclass-declaration
+         (make-instance ?name of defclass-expression
                         (description ?str)
                         (title ?class-name)
                         (inherits $?kinds)
@@ -317,7 +317,7 @@
 
 (defrule assume-class-role
          (stage (current identify-structures))
-         ?f <- (object (is-a defclass-declaration)
+         ?f <- (object (is-a defclass-expression)
                        (body ?first
                              $?rest))
          ?f2 <- (object (is-a container)
@@ -332,7 +332,7 @@
 
 (defrule assume-class-pattern-match
          (stage (current identify-structures))
-         ?f <- (object (is-a defclass-declaration)
+         ?f <- (object (is-a defclass-expression)
                        (body ?first
                              $?rest))
          ?f2 <- (object (is-a container)
@@ -356,7 +356,7 @@
                                  $?rest))
          =>
          (unmake-instance ?f)
-         (make-instance ?name of deftemplate-declaration
+         (make-instance ?name of deftemplate-expression
                         (title ?class-name)
                         (description "")
                         (body ?rest)))
@@ -376,16 +376,16 @@
                         (value ?str))
          =>
          (unmake-instance ?f ?f3)
-         (make-instance ?name of deftemplate-declaration
+         (make-instance ?name of deftemplate-expression
                         (description ?str)
                         (title ?class-name)
                         (body ?rest)))
 
 (defrule associate-parent-class-types
          (stage (current identify-structures))
-         ?f <- (object (is-a defclass-declaration)
+         ?f <- (object (is-a defclass-expression)
                        (inherits $?a ?curr $?b))
-         (object (is-a defclass-declaration)
+         (object (is-a defclass-expression)
                  (title ?curr)
                  (name ?name))
          =>
@@ -403,7 +403,7 @@
                                  $?facets))
          =>
          (unmake-instance ?f)
-         (make-instance ?name of single-slot-declaration
+         (make-instance ?name of single-slot-expression
                         (parent ?parent)
                         (title ?title)
                         (facets $?facets)))
@@ -418,7 +418,7 @@
                                  $?facets))
          =>
          (unmake-instance ?f)
-         (make-instance ?name of multislot-declaration 
+         (make-instance ?name of multislot-expression 
                         (parent ?parent)
                         (title ?title)
                         (facets $?facets)))
@@ -427,7 +427,7 @@
 
 (defrule associate-single-slot-facet:storage
          (stage (current identify-structures))
-         ?f <- (object (is-a slot-declaration)
+         ?f <- (object (is-a slot-expression)
                        (name ?name)
                        (facets $?a ?facet $?b))
          ?f2 <- (object (is-a container)
@@ -441,7 +441,7 @@
 
 (defrule associate-single-slot-facet:visibility
          (stage (current identify-structures))
-         ?f <- (object (is-a slot-declaration)
+         ?f <- (object (is-a slot-expression)
                        (name ?name)
                        (facets $?a ?facet $?b))
          ?f2 <- (object (is-a container)
@@ -456,7 +456,7 @@
 
 (defrule make-assigned-conditional-element
          (stage (current identify-structures))
-         ?f <- (object (is-a defrule-declaration)
+         ?f <- (object (is-a defrule-expression)
                        (name ?name)
                        (left-hand-side $?a ?b <- ?c $?d))
          ?f2 <- (object (is-a atomic-value)
@@ -509,4 +509,37 @@
                         (parent ?parent)
                         (first ?first)
                         (rest $?rest)))
+
+(defclass defgeneric-expression
+  (is-a top-level-expression))
+
+(defrule construct-defgeneric-with-doc-string
+         (stage (current identify-structures))
+         ?f <- (object (is-a container)
+                       (name ?name)
+                       (contents defgeneric ?title 
+                                 ?str))
+         ?f2 <- (object (is-a atomic-value)
+                        (name ?str)
+                        (kind STRING)
+                        (value ?value))
+         =>
+         (unmake-instance ?f ?f2)
+         (make-instance ?name of defgeneric-expression
+                        (title ?title)
+                        (description ?value)))
+
+
+
+(defrule construct-defgeneric-without-doc-string
+         (stage (current identify-structures))
+         ?f <- (object (is-a container)
+                       (name ?name)
+                       (contents defgeneric ?title))
+         =>
+         (unmake-instance ?f)
+         (make-instance ?name of defgeneric-expression
+                        (title ?title)))
+
+
 
