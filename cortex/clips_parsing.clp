@@ -542,4 +542,21 @@
                         (title ?title)))
 
 
+(defclass deftemplate-expression
+  (is-a top-level-expression)
+  (multislot slots
+             (type INSTANCE)
+             (storage local)
+             (visibility public)))
+
+(defclass ordered-fact
+  (is-a container)
+  (slot first
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (multislot rest 
+             (visibility public)
+             (storage local)))
 

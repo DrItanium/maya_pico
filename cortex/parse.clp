@@ -222,7 +222,7 @@
                  (name ?target)
                  (parent FALSE))
          =>
-         (printout werror
+         (printout stderr
                    "ERROR: mismatched parens, found a right paren without a matching left paren" crlf
                    "Target file: " ?path crlf
                    "Target parser: " ?name crlf)
@@ -260,7 +260,7 @@
                        (current-element ?v&~?top)
                        (name ?name))
          =>
-         (printout werror
+         (printout stderr
                    "ERROR: mismatched parens, found a left paren without a matching right paren after finishing parsing" crlf
                    "Target File: " ?path crlf
                    "Target parser: " ?name crlf
