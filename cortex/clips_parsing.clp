@@ -142,8 +142,10 @@
         (default ?NONE))
   (multislot rest 
              (visibility public)
-             (storage local))
-  )
+             (storage local)))
+
+(defclass defgeneric-expression
+  (is-a top-level-expression))
 
 (defrule generate-defrule
          (stage (current identify-structures))
@@ -510,8 +512,6 @@
                         (first ?first)
                         (rest $?rest)))
 
-(defclass defgeneric-expression
-  (is-a top-level-expression))
 
 (defrule construct-defgeneric-with-doc-string
          (stage (current identify-structures))

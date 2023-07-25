@@ -47,6 +47,7 @@
   (multislot contents
              (storage local)
              (visibility public)))
+
 (defclass atomic-value
   (is-a has-parent)
   (slot kind
@@ -68,122 +69,6 @@
         (visibility public)
         (default ?NONE)))
 
-
-(deffunction display-tokenize
-             (?file ?out)
-             (bind ?depth
-                   0)
-             (while (neq (nth$ 1 
-                               (bind ?result 
-                                     (next-token ?file)))
-                         STOP) do
-                    (bind ?first
-                          (nth$ 1 
-                                ?result))
-                    (if (eq ?first 
-                            RIGHT_PARENTHESIS) then
-                      (bind ?depth 
-                            (- ?depth 1)))
-                    (loop-for-count (?i 1 ?depth) do
-                                    (printout ?out tab))
-                    (if (eq ?first 
-                            LEFT_PARENTHESIS) then
-                      (bind ?depth 
-                            (+ ?depth 1)))
-                    (printout ?out
-                              ?result crlf)
-                    )
-             )
-(deffunction inner-container
-             "keep collecting until we hit a right paren and return this object"
-             (?parent ?id)
-             (bind ?top 
-                   (make-instance of container
-                                  (parent ?parent)))
-             (bind ?children
-                   (create$))
-             (while (neq (nth$ 1 
-                               (bind ?result
-                                     (next-token ?id))) STOP) do
-                    (bind ?kind
-                          (nth$ 1 ?result))
-                    (bind ?value
-                          (nth$ 2 ?result))
-                    (switch ?kind
-                            (case LEFT_PARENTHESIS then
-                              (bind ?children
-                                    ?children
-                                    (inner-container (instance-name ?top)
-                                                     ?id)))
-                            (case RIGHT_PARENTHESIS then
-                              (modify-instance ?top
-                                               (contents ?children))
-                              (return (instance-name ?top)))
-                            (default (bind ?children
-                                           ?children
-                                           (make-instance of atomic-value
-                                                          (parent (instance-name ?top))
-                                                          (kind ?kind)
-                                                          (value ?value)))))
-                    )
-             (printout stderr 
-                       "Hit end of file before finishing expression!" crlf)
-             ; if we get here then an error has occurred and we need to display it as such
-             FALSE)
-
-
-(deffunction contain-file
-             (?file-name)
-             (if (not (open ?file-name 
-                            (bind ?file-id 
-                                  (gensym*))
-                            "r")) then
-               FALSE
-               else
-               (bind ?top
-                     (make-instance of file-container
-                                    (parent FALSE)
-                                    (file-name ?file-name)))
-               (bind ?children
-                     (create$))
-               (while (neq (nth$ 1 
-                                 (bind ?result
-                                       (next-token ?file-id)))
-                           STOP) do
-                      (bind ?kind
-                            (nth$ 1 ?result))
-                      (bind ?value
-                            (nth$ 2 ?result))
-                      (switch ?kind
-                              (case LEFT_PARENTHESIS then
-                                (bind ?out
-                                      (inner-container (instance-name ?top)
-                                                       ?file-id))
-                                (if ?out then
-                                  (bind ?children
-                                        ?children
-                                        ?out)
-                                  else
-                                  (printout stderr 
-                                            "Terminating early!" crlf)
-                                  (close ?file-id)
-                                  (return FALSE)))
-                              (case RIGHT_PARENTHESIS then
-                                (printout stderr
-                                          "Random right paren found!" crlf)
-                                (close ?file-id)
-                                (return FALSE))
-                              (default (bind ?children
-                                      ?children
-                                      (make-instance of atomic-value
-                                                     (parent (instance-name ?top))
-                                                     (kind ?kind)
-                                                     (value ?value))))))
-               (close ?file-id)
-               (modify-instance ?top
-                                (contents ?children))
-               (return ?top))
-             )
 (defclass parser
   (is-a USER)
   (slot top-element
