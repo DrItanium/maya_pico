@@ -41,7 +41,7 @@
  */
 namespace Neutron
 {
-    using CopyOption = boost::filesystem::copy_option;
+    using CopyOption = boost::filesystem::copy_options;
     using boost::filesystem::copy_file;
     using boost::filesystem::copy;
     using boost::filesystem::remove;
@@ -57,7 +57,7 @@ namespace Neutron
     using boost::filesystem::temp_directory_path;
     using boost::filesystem::absolute;
     using boost::filesystem::current_path;
-    using boost::filesystem::copy_option;
+    using boost::filesystem::copy_options;
 
     using PathVector = std::vector<Path>;
     using PathList = std::list<Path>;
