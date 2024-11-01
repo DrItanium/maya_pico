@@ -65,7 +65,7 @@ int main(
 #if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
    signal(SIGINT,CatchCtrlC);
 #endif
-
+   mainEnv->addToIncludePathFront(".");
    RerouteStdin(*mainEnv, argc, argv);
    CommandLoop(*mainEnv);
 
