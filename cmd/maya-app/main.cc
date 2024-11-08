@@ -137,6 +137,8 @@ int main(
         }
         bool enableRepl = vm["repl"].as<bool>();
         if (enableRepl) {
+            std::cout << "REPL MODE" << std::endl;
+            std::cout << "NOTE: begin and reset must be invoked manually" << std::endl;
             CommandLoop(mainEnv);
             return -1;
         } else {
