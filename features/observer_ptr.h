@@ -23,7 +23,6 @@
  */
 #ifndef Neutron_Features_Observer_Ptr_h__
 #define Neutron_Features_Observer_Ptr_h__
-//#ifdef __cpp_lib_experimental_observer_ptr
 #include <experimental/memory>
 
 namespace Neutron {
@@ -32,13 +31,8 @@ namespace Neutron {
      * @tparam T the type of the pointer to own
      * @see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3514.pdf
      */
-#ifdef __cpp_lib_experimental_observer_ptr
     template<typename T>
     using observer_ptr = std::experimental::observer_ptr<T>;
-#else
-    template<typename T>
-    using observer_ptr = T*;
-#endif
 #define X(name) \
     template<typename T> \
     using name ## _ptr = observer_ptr<T>

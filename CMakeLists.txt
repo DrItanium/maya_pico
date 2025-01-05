@@ -1,12 +1,20 @@
 cmake_minimum_required(VERSION 3.30)
+project(maya VERSION 6.40
+        LANGUAGES C CXX)
 find_package(Boost CONFIG)
+find_package(boost_regex REQUIRED)
+find_package(boost_filesystem REQUIRED)
+find_package(boost_system REQUIRED)
+find_package(boost_program_options REQUIRED)
 include(CheckIncludeFiles)
 include(CheckIncludeFileCXX)
-project(maya VERSION 6.40)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 if(Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
+endif()
+if (APPLE)
+add_compile_options(-fexperimental-library)
 endif()
 add_library(clips
 clips/agenda.c
@@ -349,7 +357,7 @@ clips/userdata.h
 clips/usrsetup.h
 clips/utility.h
 clips/watch.h)
-add_library(neutron 
+add_library(neutron
 	error/Exception.cc
 	error/Exception.h
 	debug/here.h
@@ -402,7 +410,7 @@ add_library(electron
 	electron/StringExtensions.h
 	electron/StringExtensions.cc
 	electron/MultifieldBuilder.cc
-	electron/MultifieldBuilder.h 
+	electron/MultifieldBuilder.h
 	electron/ArgumentConstructor.h
 	electron/ParsingExtensions.h
 	electron/ParsingExtensions.cc
@@ -412,9 +420,9 @@ target_link_libraries(maya PUBLIC
 		electron
 		neutron
 		clips
-		boost_regex
-		boost_filesystem
-		boost_system
+		Boost::regex
+		Boost::filesystem
+		Boost::system
 	)
 
 
@@ -423,10 +431,10 @@ target_link_libraries(maya-app PUBLIC
 		electron
 		neutron
 		clips
-		boost_regex
-		boost_filesystem
-		boost_system
-		boost_program_options
+		Boost::regex
+		Boost::filesystem
+		Boost::system
+		Boost::program_options
 		)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
