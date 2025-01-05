@@ -1,11 +1,13 @@
-cmake_minimum_required(VERSION 3.10)
-
+cmake_minimum_required(VERSION 3.30)
+find_package(Boost CONFIG)
 include(CheckIncludeFiles)
 include(CheckIncludeFileCXX)
 project(maya VERSION 6.40)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-find_package(Boost REQUIRED COMPONENTS filesystem system regex)
+if(Boost_FOUND)
+	include_directories(${Boost_INCLUDE_DIRS})
+endif()
 add_library(clips
 clips/agenda.c
 clips/analysis.c
