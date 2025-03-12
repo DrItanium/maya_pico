@@ -20,6 +20,7 @@
 ;ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+(include cortex/main-decl.clp)
 (include cortex/has-parent.clp)
 (include cortex/has-title.clp)
 (include cortex/has-description.clp)
@@ -49,6 +50,18 @@
 
 (defclass parser
   (is-a USER)
+  (slot path
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (access initialize-only)
+        (default ?NONE))
+  (slot id
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (access read-only)
+        (default-dynamic (gensym*)))
   (slot top-element
         (type INSTANCE)
         (storage local)
@@ -57,16 +70,6 @@
         (type INSTANCE)
         (storage local)
         (visibility public))
-  (slot path
-        (type LEXEME)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot id
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default-dynamic (gensym*)))
   (slot valid
         (type SYMBOL)
         (allowed-symbols FALSE
