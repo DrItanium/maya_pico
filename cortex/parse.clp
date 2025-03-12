@@ -20,33 +20,11 @@
 ;ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-(defclass has-parent
-  (is-a USER)
-  (slot parent
-        (type SYMBOL 
-              INSTANCE)
-        (allowed-symbols FALSE)
-        (storage local)
-        (visibility public)))
-(defclass has-title
-  (is-a USER)
-  (slot title
-        (type SYMBOL)
-        (storage local)
-        (visibility public)
-        (default ?NONE)))
-(defclass has-description
-  (is-a USER)
-  (slot description
-        (type STRING)
-        (storage local)
-        (visibility public)))
-(defclass container
-  (is-a has-parent)
-  (multislot contents
-             (storage local)
-             (visibility public)))
+(include cortex/has-parent.clp)
+(include cortex/has-title.clp)
+(include cortex/has-description.clp)
+(include cortex/container.clp)
+(include cortex/stage.clp)
 
 (defclass atomic-value
   (is-a has-parent)
