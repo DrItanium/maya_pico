@@ -173,7 +173,7 @@ parseModuleSyntaticSugarStatement(RawEnvironment* env, const char* readSource, c
 }
 bool
 parseUseModuleDeclStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-decl", "decl.clp");
+    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-decl", "module.clp");
 }
 
 bool
@@ -194,18 +194,6 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
     auto &theEnv = Environment::fromRaw(env);
     bool outcome = true;
     Token inputToken;
-    auto onSuccess = [readSource, &theEnv]() {
-        // make sure we consume the next token which should be a right paren :)
-        // If we don't do this then we will actually cause a parse error
-        Token tmp;
-        theEnv.getToken(readSource, tmp);
-        auto result = tmp.tknType != TokenType::RIGHT_PARENTHESIS_TOKEN;
-        if (tmp.tknType != TokenType::RIGHT_PARENTHESIS_TOKEN) {
-           theEnv.syntaxErrorMessage("include");
-        }
-        // logic must be inverted to work correctly with clips
-        return result;
-    };
     theEnv.getToken(readSource, inputToken);
     if (inputToken.tknType == TokenType::SYMBOL_TOKEN || inputToken.tknType == TokenType::STRING_TOKEN) {
         Neutron::Path basePath(inputToken.lexemeValue->contents);
