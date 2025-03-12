@@ -3,7 +3,7 @@
  * A C++ singleton which provides clips with access to an include path like in C.
  * This is meant to make the concept of an include easier.
  * @copyright
- * Copyright (c) 2015-2022 Parasoft Corporation
+ * Copyright (c) 2015-2025 Parasoft Corporation
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
