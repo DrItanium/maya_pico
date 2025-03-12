@@ -1235,6 +1235,7 @@ private:
     RawEnvironment* _env;
     IncludePathList _path;
     void* _importConstruct;
+    void* _useModuleConstruct;
     IncludedFilesSet _includedFiles;
     std::list<std::function<void()>> _externalAddressDeregistrationList;
 

@@ -40,13 +40,17 @@ void addToIncludeListBack(UDF_ARGS__) noexcept;
 void addToIncludeListFront(UDF_ARGS__) noexcept;
 bool parseIncludeStatement(RawEnvironment* env, const char* readSource);
 void clearIncludeCache(RawEnvironment* env, void* context) noexcept;
+bool parseReadModuleStatement(RawEnvironment* env, const char* readSource);
 
 
 void
 Environment::installIncludePathFunctions()
 {
     // not sure where to store this yet, no need for pretty print it looks like
-    _importConstruct = ::AddConstruct(_env, "include", "includes", parseIncludeStatement,
+    _importConstruct = ::AddConstruct(_env, 
+            "include", 
+            "includes", 
+            parseIncludeStatement,
             nullptr, nullptr, nullptr, nullptr,
             nullptr, nullptr, nullptr, nullptr, nullptr);
     addFunctionNoArgs("get-include-path", "b", getIncludeList, "getIncludeList");
