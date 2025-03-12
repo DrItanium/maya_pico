@@ -130,8 +130,7 @@ parseUseModuleStatement(RawEnvironment* env, const char* readSource) {
     theEnv.getToken(readSource, inputToken);
     if (inputToken.tknType == TokenType::SYMBOL_TOKEN || inputToken.tknType == TokenType::STRING_TOKEN) {
         std::string moduleName(inputToken.lexemeValue->contents);
-        Neutron::Path modulesFolder("modules");
-        Neutron::Path targetModulePath = modulesFolder / moduleName;
+        Neutron::Path targetModulePath(moduleName);
         auto fn = [&theEnv, &targetModulePath](const std::string& file) {
             if (Neutron::Path targetFile = targetModulePath / file; Neutron::exists(targetFile)) {
                 std::stringstream ss;
