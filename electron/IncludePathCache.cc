@@ -26,6 +26,7 @@
 #include "electron/Environment.h"
 #include "electron/MultifieldBuilder.h"
 #include "error/Exception.h"
+#include <sstream>
 extern "C" {
 #include "clips/clips.h"
 #include "clips/prcdrpsr.h"
@@ -40,7 +41,7 @@ void addToIncludeListBack(UDF_ARGS__) noexcept;
 void addToIncludeListFront(UDF_ARGS__) noexcept;
 bool parseIncludeStatement(RawEnvironment* env, const char* readSource);
 void clearIncludeCache(RawEnvironment* env, void* context) noexcept;
-bool parseReadModuleStatement(RawEnvironment* env, const char* readSource);
+bool parseUseModuleStatement(RawEnvironment* env, const char* readSource);
 
 
 void
@@ -57,6 +58,13 @@ Environment::installIncludePathFunctions()
     addFunction("add-to-include-path-back", "b", 1, 1, "sy;sy", addToIncludeListBack, "addToIncludeListBack");
     addFunction("add-to-include-path-front", "b", 1, 1, "sy;sy", addToIncludeListFront, "addToIncludeListFront");
     addClearFunction("clear_include_cache", clearIncludeCache, 0, nullptr);
+
+    _useModuleConstruct = ::AddConstruct(_env,
+            "use-module",
+            "use-modules",
+            parseUseModuleStatement,
+            nullptr, nullptr, nullptr, nullptr,
+            nullptr, nullptr, nullptr, nullptr, nullptr);
 }
 
 void
@@ -64,10 +72,8 @@ clearIncludeCache(RawEnvironment* env, void*) noexcept {
     auto& theEnv = Environment::fromRaw(env);
     theEnv.clearIncludedFileSet();
 }
-
 void
-addToIncludeListBack(UDF_ARGS__) noexcept
-{
+addToIncludeListBack(UDF_ARGS__) noexcept {
     auto &theEnv = Environment::fromRaw(env);
     UDFValue arg;
     if (!theEnv.firstArgument(context, LEXEME_BITS, &arg)) {
@@ -81,8 +87,7 @@ addToIncludeListBack(UDF_ARGS__) noexcept
 
 
 void
-addToIncludeListFront(UDF_ARGS__) noexcept
-{
+addToIncludeListFront(UDF_ARGS__) noexcept {
     auto &theEnv = Environment::fromRaw(env);
     UDFValue arg;
     if (!theEnv.firstArgument(context, LEXEME_BITS, &arg)) {
@@ -108,6 +113,60 @@ getIncludeList(UDF_ARGS__) noexcept
 }
 
 bool
+parseUseModuleStatement(RawEnvironment* env, const char* readSource) {
+    ::GCBlock frame;
+    GCBlockStart(env, &frame);
+    bool outcome = true;
+    auto &theEnv = Environment::fromRaw(env);
+    // use module is syntatic sugar for the following conditional include statements
+    // (use-module ?name)
+    // (include modules/?name/module.clp)
+    // (include modules/?name/types.clp)
+    // (include modules/?name/logic.clp)
+
+    // This this code needs to actually setup a router with each file found, we instead could just create
+    // the entries as needed. But first we need to construct the paths themselves
+    Token inputToken;
+    theEnv.getToken(readSource, inputToken);
+    if (inputToken.tknType == TokenType::SYMBOL_TOKEN || inputToken.tknType == TokenType::STRING_TOKEN) {
+        std::string moduleName(inputToken.lexemeValue->contents);
+        std::stringstream moduleBulder, typeBuilder, logicBuilder;
+        moduleBulder << "(include modules/" << moduleName << "/module.clp)";
+        typeBuilder << "(include modules/" << moduleName << "/types.clp)";
+        logicBuilder << "(include modules/" << moduleName << "/logic.clp)";
+
+        auto fn = [&theEnv, &moduleName](const std::string& file) {
+            std::stringstream ss;
+            ss << "(include modules/" << moduleName << "/" << file << ".clp)";
+            std::string str = ss.str();
+            switch (::Build(theEnv.getRawEnvironment(), str.c_str())) {
+                case ::BuildError ::BE_CONSTRUCT_NOT_FOUND_ERROR:
+                    theEnv.syntaxErrorMessage("read-module_noconstruct");
+                    return true;
+                case ::BuildError ::BE_COULD_NOT_BUILD_ERROR:
+                    theEnv.syntaxErrorMessage("read-module_could_not_build");
+                    return true;
+                case ::BuildError ::BE_PARSING_ERROR:
+                    theEnv.syntaxErrorMessage("read-module_parsing_error");
+                    return true;
+                default:
+                    return false;
+            }
+        };
+        // we want to try and load each case but make sure that they are all run
+        auto foundAtLeastOne = fn("module");
+        foundAtLeastOne |= fn("types");
+        foundAtLeastOne |= fn("logic");
+        outcome = !foundAtLeastOne;
+    } else {
+        theEnv.syntaxErrorMessage("read-module");
+    }
+    ::GCBlockEnd(env, &frame);
+    ::CallPeriodicTasks(env);
+    return outcome;
+}
+
+bool
 parseIncludeStatement(RawEnvironment* env, const char* readSource)
 {
     ::GCBlock frame;
@@ -115,7 +174,7 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
     auto &theEnv = Environment::fromRaw(env);
     bool outcome = true;
     Token inputToken;
-    auto onSuccess = [readSource, &theEnv]() { 
+    auto onSuccess = [readSource, &theEnv]() {
         // make sure we consume the next token which should be a right paren :)
         // If we don't do this then we will actually cause a parse error
         Token tmp;
@@ -221,6 +280,7 @@ bool
 Environment::fileAlreadyIncluded(const Neutron::Path& p) {
     return _includedFiles.count(p);
 }
+
 
 
 } // end namespace Electron
