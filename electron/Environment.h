@@ -1014,6 +1014,7 @@ public:
      * A generalized method for reporting errors during file open operations
      */
     void openErrorMessage(const std::string& name, const std::string& message);
+    void cantFindItemErrorMessage(const std::string& name, const std::string& message, bool useQuotes = true);
     Instance* instanceNameToAddress(Lexeme*) noexcept;
     UnmakeInstanceError unmakeInstance(Instance* i) noexcept;
 

@@ -130,36 +130,45 @@ parseUseModuleStatement(RawEnvironment* env, const char* readSource) {
     theEnv.getToken(readSource, inputToken);
     if (inputToken.tknType == TokenType::SYMBOL_TOKEN || inputToken.tknType == TokenType::STRING_TOKEN) {
         std::string moduleName(inputToken.lexemeValue->contents);
-        std::stringstream moduleBulder, typeBuilder, logicBuilder;
-        moduleBulder << "(include modules/" << moduleName << "/module.clp)";
-        typeBuilder << "(include modules/" << moduleName << "/types.clp)";
-        logicBuilder << "(include modules/" << moduleName << "/logic.clp)";
-
-        auto fn = [&theEnv, &moduleName](const std::string& file) {
-            std::stringstream ss;
-            ss << "(include modules/" << moduleName << "/" << file << ".clp)";
-            std::string str = ss.str();
-            switch (::Build(theEnv.getRawEnvironment(), str.c_str())) {
-                case ::BuildError ::BE_CONSTRUCT_NOT_FOUND_ERROR:
-                    theEnv.syntaxErrorMessage("read-module_noconstruct");
-                    return true;
-                case ::BuildError ::BE_COULD_NOT_BUILD_ERROR:
-                    theEnv.syntaxErrorMessage("read-module_could_not_build");
-                    return true;
-                case ::BuildError ::BE_PARSING_ERROR:
-                    theEnv.syntaxErrorMessage("read-module_parsing_error");
-                    return true;
-                default:
-                    return false;
+        Neutron::Path modulesFolder("modules");
+        Neutron::Path targetModulePath = modulesFolder / moduleName;
+        auto fn = [&theEnv, &targetModulePath](const std::string& file) {
+            if (Neutron::Path targetFile = targetModulePath / file; Neutron::exists(targetFile)) {
+                std::stringstream ss;
+                ss << "(include "<< targetFile << ")";
+                std::string str = ss.str();
+                switch (::Build(theEnv.getRawEnvironment(), str.c_str())) {
+                    case ::BuildError ::BE_CONSTRUCT_NOT_FOUND_ERROR:
+                        theEnv.syntaxErrorMessage("use-module:construct-not-found");
+                        return false;
+                    case ::BuildError ::BE_COULD_NOT_BUILD_ERROR:
+                        theEnv.syntaxErrorMessage("use-module:build-error");
+                        return false;
+                    case ::BuildError ::BE_PARSING_ERROR:
+                        theEnv.syntaxErrorMessage("use-module:parsing-error");
+                        return false;
+                    default:
+                        return true;
+                }
+            } else {
+                return false;
             }
         };
-        // we want to try and load each case but make sure that they are all run
-        auto foundAtLeastOne = fn("module");
-        foundAtLeastOne |= fn("types");
-        foundAtLeastOne |= fn("logic");
-        outcome = !foundAtLeastOne;
+        if (!Neutron::exists(targetModulePath)) {
+            theEnv.openErrorMessage("use-module", targetModulePath.string());
+        } else {
+            // we want to try and load each case but make sure that they are all run
+            auto foundAtLeastOne = fn("module.clp");
+            foundAtLeastOne |= fn("types.clp");
+            foundAtLeastOne |= fn("logic.clp");
+            if (!foundAtLeastOne) {
+                theEnv.cantFindItemErrorMessage("module", moduleName);
+            } else {
+                outcome = false;
+            }
+        }
     } else {
-        theEnv.syntaxErrorMessage("read-module");
+        theEnv.syntaxErrorMessage("use-module");
     }
     ::GCBlockEnd(env, &frame);
     ::CallPeriodicTasks(env);

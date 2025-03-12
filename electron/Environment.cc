@@ -342,6 +342,11 @@ Environment::openErrorMessage(const std::string& name, const std::string& messag
     ::OpenErrorMessage(_env, name.c_str(), message.c_str());
 }
 
+void
+Environment::cantFindItemErrorMessage(const std::string& name, const std::string& message, bool useQuotes) {
+    ::CantFindItemErrorMessage(_env, name.c_str(), message.c_str(), useQuotes);
+}
+
 Instance*
 Environment::instanceNameToAddress(Lexeme* lexeme) noexcept
 {
