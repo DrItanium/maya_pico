@@ -41,8 +41,9 @@ void addToIncludeListBack(UDF_ARGS__) noexcept;
 void addToIncludeListFront(UDF_ARGS__) noexcept;
 bool parseIncludeStatement(RawEnvironment* env, const char* readSource);
 void clearIncludeCache(RawEnvironment* env, void* context) noexcept;
-bool parseUseModuleStatement(RawEnvironment* env, const char* readSource);
-
+bool parseUseModuleDeclStatement(RawEnvironment* env, const char* readSource);
+bool parseUseModuleTypeStatement(RawEnvironment* env, const char* readSource);
+bool parseUseModuleLogicStatement(RawEnvironment* env, const char* readSource);
 
 void
 Environment::installIncludePathFunctions()
@@ -59,12 +60,26 @@ Environment::installIncludePathFunctions()
     addFunction("add-to-include-path-front", "b", 1, 1, "sy;sy", addToIncludeListFront, "addToIncludeListFront");
     addClearFunction("clear_include_cache", clearIncludeCache, 0, nullptr);
 
-    _useModuleConstruct = ::AddConstruct(_env,
-            "use-module",
-            "use-modules",
-            parseUseModuleStatement,
-            nullptr, nullptr, nullptr, nullptr,
-            nullptr, nullptr, nullptr, nullptr, nullptr);
+
+    _useModuleDeclConstruct = ::AddConstruct(_env,
+                                             "use-module-decl",
+                                             "use-module-decls",
+                                             parseUseModuleDeclStatement,
+                                             nullptr, nullptr, nullptr, nullptr,
+                                             nullptr, nullptr, nullptr, nullptr, nullptr);
+    _useModuleTypeConstruct = ::AddConstruct(_env,
+                                             "use-module-type",
+                                             "use-module-types",
+                                             parseUseModuleTypeStatement,
+                                             nullptr, nullptr, nullptr, nullptr,
+                                             nullptr, nullptr, nullptr, nullptr, nullptr);
+    _useModuleLogicConstruct = ::AddConstruct(_env,
+                                              "use-module-logic",
+                                              "use-module-logics",
+                                              parseUseModuleLogicStatement,
+                                              nullptr, nullptr, nullptr, nullptr,
+                                              nullptr, nullptr, nullptr, nullptr, nullptr);
+
 }
 
 void
@@ -111,70 +126,64 @@ getIncludeList(UDF_ARGS__) noexcept
 
     out->multifieldValue = mb.create();
 }
-
 bool
-parseUseModuleStatement(RawEnvironment* env, const char* readSource) {
+onParseSuccess(Environment& theEnv, const char*readSource, const std::string& func) {
+    Token tmp;
+    theEnv.getToken(readSource, tmp);
+    auto result = tmp.tknType != TokenType::RIGHT_PARENTHESIS_TOKEN;
+    if (tmp.tknType != TokenType::RIGHT_PARENTHESIS_TOKEN) {
+        theEnv.syntaxErrorMessage(func);
+    }
+    return result;
+}
+bool
+parseModuleSyntaticSugarStatement(RawEnvironment* env, const char* readSource, const std::string& func, const std::string& file) {
     ::GCBlock frame;
     GCBlockStart(env, &frame);
     bool outcome = true;
     auto &theEnv = Environment::fromRaw(env);
-    // use module is syntatic sugar for the following conditional include statements
-    // (use-module ?path)
-    // (include ?path/module.clp)
-    // (include ?path/types.clp)
-    // (include ?path/logic.clp)
-    //
-    // the include construct does all of the heavy lifting here instead of duplicating behavior
-
-    // This this code needs to actually setup a router with each file found, we instead could just create
-    // the entries as needed. But first we need to construct the paths themselves
     Token inputToken;
     theEnv.getToken(readSource, inputToken);
     if (inputToken.tknType == TokenType::SYMBOL_TOKEN || inputToken.tknType == TokenType::STRING_TOKEN) {
         std::string moduleName(inputToken.lexemeValue->contents);
         Neutron::Path targetModulePath(moduleName);
-        auto fn = [&theEnv, &targetModulePath](const std::string& file) {
+        if (!Neutron::exists(targetModulePath)) {
+            theEnv.openErrorMessage(func, targetModulePath.string());
+        } else {
             if (Neutron::Path targetFile = targetModulePath / file; Neutron::exists(targetFile)) {
                 std::stringstream ss;
                 ss << "(include "<< targetFile << ")";
                 std::string str = ss.str();
                 switch (::Build(theEnv.getRawEnvironment(), str.c_str())) {
-                    case ::BuildError ::BE_CONSTRUCT_NOT_FOUND_ERROR:
-                        theEnv.syntaxErrorMessage("use-module:construct-not-found");
-                        return false;
-                    case ::BuildError ::BE_COULD_NOT_BUILD_ERROR:
-                        theEnv.syntaxErrorMessage("use-module:build-error");
-                        return false;
-                    case ::BuildError ::BE_PARSING_ERROR:
-                        theEnv.syntaxErrorMessage("use-module:parsing-error");
-                        return false;
+                    case BuildError::BE_NO_ERROR:
+                        outcome = onParseSuccess(theEnv, readSource, func);
+                        break;
                     default:
-                        return true;
+                        theEnv.syntaxErrorMessage(func);
+                        break;
                 }
-            } else {
-                return false;
-            }
-        };
-        if (!Neutron::exists(targetModulePath)) {
-            theEnv.openErrorMessage("use-module", targetModulePath.string());
-        } else {
-            auto foundAtLeastOne = false;
-            for (const std::string& value : { "module.clp", "types.clp", "logic.clp" }) {
-                foundAtLeastOne |= fn(value);
-            }
-            // we want to try and load each case but make sure that they are all run
-            if (!foundAtLeastOne) {
-                theEnv.cantFindItemErrorMessage("module", moduleName);
-            } else {
-                outcome = false;
             }
         }
     } else {
-        theEnv.syntaxErrorMessage("use-module");
+        theEnv.syntaxErrorMessage(func);
     }
     ::GCBlockEnd(env, &frame);
     ::CallPeriodicTasks(env);
     return outcome;
+}
+bool
+parseUseModuleDeclStatement(RawEnvironment* env, const char* readSource) {
+    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-decl", "decl.clp");
+}
+
+bool
+parseUseModuleTypeStatement(RawEnvironment* env, const char* readSource) {
+    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-type", "type.clp");
+}
+
+bool
+parseUseModuleLogicStatement(RawEnvironment* env, const char* readSource) {
+    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-logic", "logic.clp");
 }
 
 bool
@@ -245,7 +254,7 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
                         break;
                     case ::LoadError::LE_NO_ERROR:
                         theEnv.addPathToIncludedFileSet(targetPrefix);
-                        outcome = onSuccess();
+                        outcome = onParseSuccess(theEnv, readSource, "include");
                         break;
                     default:
                         outcome = false;
@@ -254,7 +263,7 @@ parseIncludeStatement(RawEnvironment* env, const char* readSource)
             } else {
                 // make sure that we still continue execution even though we
                 // already saw this file
-                outcome = onSuccess();
+                outcome = onParseSuccess(theEnv, readSource, "include");
             }
         }  else {
             theEnv.openErrorMessage("include", basePath.string());
