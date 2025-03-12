@@ -119,10 +119,12 @@ parseUseModuleStatement(RawEnvironment* env, const char* readSource) {
     bool outcome = true;
     auto &theEnv = Environment::fromRaw(env);
     // use module is syntatic sugar for the following conditional include statements
-    // (use-module ?name)
-    // (include modules/?name/module.clp)
-    // (include modules/?name/types.clp)
-    // (include modules/?name/logic.clp)
+    // (use-module ?path)
+    // (include ?path/module.clp)
+    // (include ?path/types.clp)
+    // (include ?path/logic.clp)
+    //
+    // the include construct does all of the heavy lifting here instead of duplicating behavior
 
     // This this code needs to actually setup a router with each file found, we instead could just create
     // the entries as needed. But first we need to construct the paths themselves
@@ -156,10 +158,11 @@ parseUseModuleStatement(RawEnvironment* env, const char* readSource) {
         if (!Neutron::exists(targetModulePath)) {
             theEnv.openErrorMessage("use-module", targetModulePath.string());
         } else {
+            auto foundAtLeastOne = false;
+            for (const std::string& value : { "module.clp", "types.clp", "logic.clp" }) {
+                foundAtLeastOne |= fn(value);
+            }
             // we want to try and load each case but make sure that they are all run
-            auto foundAtLeastOne = fn("module.clp");
-            foundAtLeastOne |= fn("types.clp");
-            foundAtLeastOne |= fn("logic.clp");
             if (!foundAtLeastOne) {
                 theEnv.cantFindItemErrorMessage("module", moduleName);
             } else {
