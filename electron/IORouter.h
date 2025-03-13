@@ -1,8 +1,7 @@
 /**
  * @file * C++ wrapper functions for building electron environments
  * @copyright
- * (C) Copyright Parasoft Corporation 2020. All rights reserved.
- * Copyright (c) 2015-2022 Parasoft Corporation
+ * Copyright (c) 2015-2025 Parasoft Corporation
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -65,7 +64,7 @@ public:
      * @param onExit the function that performs an action when the router is shutdown
      */
     IORouter(const std::string& name, int priority, QueryFunction onQuery = nullptr, WriteFunction onWrite = nullptr, ReadFunction onRead = nullptr, UnreadFunction onUnread = nullptr, ExitFunction onExit = nullptr) noexcept;
-    virtual ~IORouter();
+    virtual ~IORouter() = default;
     bool respondsTo(Environment& env, const char* logicalName) noexcept;
     void write(Environment& env, const char* logicalName, const char* str) noexcept;
     void exit(Environment& env, int code) noexcept;

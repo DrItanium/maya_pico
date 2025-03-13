@@ -2,7 +2,7 @@
  * @file
  * IORouter wrapper implementation
  * @copyright
- * Copyright (c) 2015-2022 Parasoft Corporation
+ * Copyright (c) 2015-2025 Parasoft Corporation
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -114,7 +114,6 @@ IORouter::IORouter(const std::string& name,
 {
 }
 
-IORouter::~IORouter() { }
 
 bool
 IORouter::respondsTo(Environment& env, const char* logicalName) noexcept
