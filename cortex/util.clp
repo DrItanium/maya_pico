@@ -24,12 +24,3 @@
              (?looking-for $?in)
              (not (neq ?looking-for
                        (expand$ ?in))))
-(defgeneric empty$)
-
-(defmethod empty$
-  ((?list MULTIFIELD))
-  (= (length$ ?list) 0))
-
-(defmethod empty$
-           ($?entries)
-           (empty$ ?entries))
