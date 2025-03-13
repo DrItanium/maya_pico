@@ -29,9 +29,25 @@ extern "C" {
 }
 namespace Electron
 {
+
+static void multifieldEmpty(UDF_ARGS__);
+
 void
 InitializeMultifieldExtensions(RawEnvironment* env)
 {
+    auto& theEnv = Environment::fromRaw(env);
+    theEnv.addFunction("empty$", "b", 1, 1, "m;m", multifieldEmpty, "multifieldEmpty");
+}
 
+void
+multifieldEmpty(UDF_ARGS__)
+{
+    auto& theEnv = Environment::fromRaw(env);
+    UDFValue arg0;
+    if (!theEnv.firstArgument(context, ArgumentBits::Multifield, &arg0)) {
+        out->lexemeValue = theEnv.falseSymbol();
+    } else {
+        out->lexemeValue = theEnv.createBool(arg0.multifieldValue->length == 0);
+    }
 }
 } // end namespace Electron
