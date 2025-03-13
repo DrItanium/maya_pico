@@ -60,6 +60,21 @@ Environment::installIncludePathFunctions()
     addFunction("add-to-include-path-front", "b", 1, 1, "sy;sy", addToIncludeListFront, "addToIncludeListFront");
     addClearFunction("clear_include_cache", clearIncludeCache, 0, nullptr);
 
+    // these routines are used to make include a little easier to manage when it comes to creating modules which
+    // are enclosed as follows:
+    // ?module-name/module.clp - module declaration
+    // ?module-name/types.clp - module type, decls etc
+    // ?module-name/logic.clp - module logic rules
+    //
+    // These routines just call the include function with the appropriate file name appended to the module name
+    // Originally, I was going to have a single construct which did all three but I remember that the way that matching works requires that we define things in the following order:
+    // 1. modules
+    // 2. types
+    // 3. logic/rules
+    // Failing to follow this order will result in cases where some rules do not match everything properly.
+    // This is especially true with objects since subtypes may not be applied to a given rule if it comes before.
+    // This may be a bug or a bad assumption but I have found it is a good idea to follow this order.
+    // It has prevented potentially hard to find bugs in commercial CLIPS code I maintain at work
 
     _useModuleDeclConstruct = ::AddConstruct(_env,
                                              "use-module-decl",
