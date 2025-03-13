@@ -26,6 +26,7 @@
 #include "electron/StringExtensions.h"
 #include "electron/FileSystemExtensions.h"
 #include "electron/ParsingExtensions.h"
+#include "electron/MultifieldExtensions.h"
 
 extern "C" {
 #include "clips/clips.h"
@@ -48,6 +49,7 @@ Environment::Environment() : _env(::CreateEnvironment())
     InitializeStringExtensions(_env);
     InitializeFilesystemExtensions(_env);
     InitializeParsingExtensions(_env);
+    InitializeMultifieldExtensions(_env);
 }
 
 Environment::~Environment()

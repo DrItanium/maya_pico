@@ -414,7 +414,9 @@ add_library(electron
 	electron/ArgumentConstructor.h
 	electron/ParsingExtensions.h
 	electron/ParsingExtensions.cc
-		)
+        electron/MultifieldExtensions.cc
+        electron/MultifieldExtensions.h
+)
 add_executable(maya cmd/maya/main.cc)
 target_link_libraries(maya PUBLIC
 		electron
