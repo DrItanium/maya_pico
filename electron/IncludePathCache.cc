@@ -59,42 +59,6 @@ Environment::installIncludePathFunctions()
     addFunction("add-to-include-path-back", "b", 1, 1, "sy;sy", addToIncludeListBack, "addToIncludeListBack");
     addFunction("add-to-include-path-front", "b", 1, 1, "sy;sy", addToIncludeListFront, "addToIncludeListFront");
     addClearFunction("clear_include_cache", clearIncludeCache, 0, nullptr);
-
-    // these routines are used to make include a little easier to manage when it comes to creating modules which
-    // are enclosed as follows:
-    // ?module-name/module.clp - module declaration
-    // ?module-name/types.clp - module type, decls etc
-    // ?module-name/logic.clp - module logic rules
-    //
-    // These routines just call the include function with the appropriate file name appended to the module name
-    // Originally, I was going to have a single construct which did all three but I remember that the way that matching works requires that we define things in the following order:
-    // 1. modules
-    // 2. types
-    // 3. logic/rules
-    // Failing to follow this order will result in cases where some rules do not match everything properly.
-    // This is especially true with objects since subtypes may not be applied to a given rule if it comes before.
-    // This may be a bug or a bad assumption but I have found it is a good idea to follow this order.
-    // It has prevented potentially hard to find bugs in commercial CLIPS code I maintain at work
-
-    _useModuleDeclConstruct = ::AddConstruct(_env,
-                                             "need-package-decl",
-                                             "need-package-decls",
-                                             parseUseModuleDeclStatement,
-                                             nullptr, nullptr, nullptr, nullptr,
-                                             nullptr, nullptr, nullptr, nullptr, nullptr);
-    _useModuleTypeConstruct = ::AddConstruct(_env,
-                                             "need-package-types",
-                                             "need-multiple-package-types",
-                                             parseUseModuleTypeStatement,
-                                             nullptr, nullptr, nullptr, nullptr,
-                                             nullptr, nullptr, nullptr, nullptr, nullptr);
-    _useModuleLogicConstruct = ::AddConstruct(_env,
-                                              "need-package-logic",
-                                              "need-package-logics",
-                                              parseUseModuleLogicStatement,
-                                              nullptr, nullptr, nullptr, nullptr,
-                                              nullptr, nullptr, nullptr, nullptr, nullptr);
-
 }
 
 void
@@ -150,57 +114,6 @@ onParseSuccess(Environment& theEnv, const char*readSource, const std::string& fu
         theEnv.syntaxErrorMessage(func);
     }
     return result;
-}
-bool
-parseModuleSyntaticSugarStatement(RawEnvironment* env, const char* readSource, const std::string& func, const std::string& file) {
-    ::GCBlock frame;
-    GCBlockStart(env, &frame);
-    bool outcome = true;
-    auto &theEnv = Environment::fromRaw(env);
-    Token inputToken;
-    theEnv.getToken(readSource, inputToken);
-    if (inputToken.tknType == TokenType::SYMBOL_TOKEN || inputToken.tknType == TokenType::STRING_TOKEN) {
-        std::string moduleName(inputToken.lexemeValue->contents);
-        Neutron::Path targetModulePath(moduleName);
-        if (!Neutron::exists(targetModulePath)) {
-            theEnv.openErrorMessage(func, targetModulePath.string());
-        } else {
-            if (Neutron::Path targetFile = targetModulePath / file; Neutron::exists(targetFile)) {
-                std::stringstream ss;
-                ss << "(include "<< targetFile << ")";
-                std::string str = ss.str();
-                auto code = ::Build(theEnv.getRawEnvironment(), str.c_str());
-                switch (code) {
-                    case BuildError::BE_NO_ERROR:
-                    case BuildError::BE_COULD_NOT_BUILD_ERROR: /* this can be from the thing already being included */
-                        outcome = onParseSuccess(theEnv, readSource, func);
-                        break;
-                    default:
-                        theEnv.syntaxErrorMessage(func);
-                        break;
-                }
-            }
-        }
-    } else {
-        theEnv.syntaxErrorMessage(func);
-    }
-    ::GCBlockEnd(env, &frame);
-    ::CallPeriodicTasks(env);
-    return outcome;
-}
-bool
-parseUseModuleDeclStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "need-package-decl", "module.clp");
-}
-
-bool
-parseUseModuleTypeStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "need-package-types", "types.clp");
-}
-
-bool
-parseUseModuleLogicStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "need-package-logic", "logic.clp");
 }
 
 bool
