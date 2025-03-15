@@ -48,3 +48,24 @@
 
 (defgeneric MAIN::parse-file
             "Parse the given CLIPS file and return the result as a file-container instance")
+
+(defmethod MAIN::parse-file
+  ((?path LEXEME))
+  (bind ?result
+        FALSE)
+  (bind ?id
+        (gensym*))
+  (with-open-file (?path ?id "r")
+    (bind ?result
+          (make-instance of file-container
+                         (file-name ?path)))
+    (while (neq (bind ?value
+                 (next-token ?id)) 
+  ?result)
+
+(defmethod MAIN::parse-file
+  ((?container container)
+   (?file-handle SYMBOL))
+  (while 
+
+
