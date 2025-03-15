@@ -37,8 +37,7 @@
   (slot value
         (storage local)
         (visibility public)
-        (default ?NONE))
-  )
+        (default ?NONE)))
 
 (defclass file-container
   (is-a container)
@@ -47,6 +46,8 @@
         (storage local)
         (visibility public)
         (default ?NONE)))
+
+
 
 (defclass parser
   (is-a USER)
@@ -106,6 +107,10 @@
                                          (file-name ?self:path)))
                     (bind ?self:current-element
                           ?self:top-element))
+
+(deffunction MAIN::request-file-parse
+             (?path)
+             (assert (parse file ?path)))
 
 (deffacts parsing-stages
           (stage (current generate-files)
@@ -248,16 +253,3 @@
                    "Mismatched container: " ?v crlf)
          (halt))
 
-(defrule raise-symbols-out-of-atoms
-         (stage (current hoisting))
-         ?f <- (object (is-a container)
-                       (parent ~FALSE)
-                       (contents $?a ?sym-ref $?b))
-         ?k <- (object (is-a atomic-value)
-                       (name ?sym-ref)
-                       (kind SYMBOL)
-                       (value ?sym))
-         =>
-         (unmake-instance ?k)
-         (modify-instance ?f 
-                          (contents ?a ?sym ?b)))
