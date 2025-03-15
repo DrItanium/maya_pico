@@ -189,6 +189,7 @@
                  (name ?target)
                  (parent ?parent&~FALSE))
          =>
+         ; at this point, if we want to actually send this element off for processing then it would make a lot of sense!
          (modify-instance ?f
                           (current-token)
                           (current-element ?parent)))
@@ -213,6 +214,24 @@
                    "Target file: " ?path crlf
                    "Target parser: " ?name crlf)
          (halt))
+(defrule found-lparen-mismatch-at-end
+         (stage (current sanity-check))
+         ?f <- (object (is-a parser)
+                       (parsing FALSE)
+                       (valid TRUE)
+                       (parsed TRUE)
+                       (path ?path)
+                       (top-element ?top)
+                       (current-element ?v&~?top)
+                       (name ?name))
+         =>
+         (printout stderr
+                   "ERROR: mismatched parens, found a left paren without a matching right paren after finishing parsing" crlf
+                   "Target File: " ?path crlf
+                   "Target parser: " ?name crlf
+                   "Mismatched container: " ?v crlf)
+         (halt))
+
 (defrule make-atomic-value 
          (stage (current process-file))
          ?f <- (object (is-a parser)
@@ -234,22 +253,4 @@
                                                    (parent ?target)
                                                    (kind ?kind)
                                                    (value ?value)))))
-
-(defrule found-lparen-mismatch-at-end
-         (stage (current sanity-check))
-         ?f <- (object (is-a parser)
-                       (parsing FALSE)
-                       (valid TRUE)
-                       (parsed TRUE)
-                       (path ?path)
-                       (top-element ?top)
-                       (current-element ?v&~?top)
-                       (name ?name))
-         =>
-         (printout stderr
-                   "ERROR: mismatched parens, found a left paren without a matching right paren after finishing parsing" crlf
-                   "Target File: " ?path crlf
-                   "Target parser: " ?name crlf
-                   "Mismatched container: " ?v crlf)
-         (halt))
 
