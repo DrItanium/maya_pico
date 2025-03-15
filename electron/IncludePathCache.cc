@@ -77,20 +77,20 @@ Environment::installIncludePathFunctions()
     // It has prevented potentially hard to find bugs in commercial CLIPS code I maintain at work
 
     _useModuleDeclConstruct = ::AddConstruct(_env,
-                                             "use-module-decl",
-                                             "use-module-decls",
+                                             "need-package-decl",
+                                             "need-package-decls",
                                              parseUseModuleDeclStatement,
                                              nullptr, nullptr, nullptr, nullptr,
                                              nullptr, nullptr, nullptr, nullptr, nullptr);
     _useModuleTypeConstruct = ::AddConstruct(_env,
-                                             "use-module-type",
-                                             "use-module-types",
+                                             "need-package-types",
+                                             "need-multiple-package-types",
                                              parseUseModuleTypeStatement,
                                              nullptr, nullptr, nullptr, nullptr,
                                              nullptr, nullptr, nullptr, nullptr, nullptr);
     _useModuleLogicConstruct = ::AddConstruct(_env,
-                                              "use-module-logic",
-                                              "use-module-logics",
+                                              "need-package-logic",
+                                              "need-package-logics",
                                               parseUseModuleLogicStatement,
                                               nullptr, nullptr, nullptr, nullptr,
                                               nullptr, nullptr, nullptr, nullptr, nullptr);
@@ -169,8 +169,10 @@ parseModuleSyntaticSugarStatement(RawEnvironment* env, const char* readSource, c
                 std::stringstream ss;
                 ss << "(include "<< targetFile << ")";
                 std::string str = ss.str();
-                switch (::Build(theEnv.getRawEnvironment(), str.c_str())) {
+                auto code = ::Build(theEnv.getRawEnvironment(), str.c_str());
+                switch (code) {
                     case BuildError::BE_NO_ERROR:
+                    case BuildError::BE_COULD_NOT_BUILD_ERROR: /* this can be from the thing already being included */
                         outcome = onParseSuccess(theEnv, readSource, func);
                         break;
                     default:
@@ -188,17 +190,17 @@ parseModuleSyntaticSugarStatement(RawEnvironment* env, const char* readSource, c
 }
 bool
 parseUseModuleDeclStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-decl", "module.clp");
+    return parseModuleSyntaticSugarStatement(env, readSource, "need-package-decl", "module.clp");
 }
 
 bool
 parseUseModuleTypeStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-type", "type.clp");
+    return parseModuleSyntaticSugarStatement(env, readSource, "need-package-types", "types.clp");
 }
 
 bool
 parseUseModuleLogicStatement(RawEnvironment* env, const char* readSource) {
-    return parseModuleSyntaticSugarStatement(env, readSource, "use-module-logic", "logic.clp");
+    return parseModuleSyntaticSugarStatement(env, readSource, "need-package-logic", "logic.clp");
 }
 
 bool
