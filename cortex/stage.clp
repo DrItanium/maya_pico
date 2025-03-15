@@ -21,13 +21,13 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(deftemplate stage
+(deftemplate MAIN::stage
              (slot current (type SYMBOL)
                            (default ?NONE))
              (multislot rest (type SYMBOL)
                               (default ?NONE)))
 
-(defrule next-stage
+(defrule MAIN::next-stage
          (declare (salience -10000))
          ?f <- (stage (rest ?next $?rest))
          =>

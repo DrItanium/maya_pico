@@ -22,7 +22,7 @@
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 (include cortex/has-parent.clp)
 
-(defclass container
+(defclass MAIN::container
   (is-a has-parent)
   (multislot contents
              (storage local)
