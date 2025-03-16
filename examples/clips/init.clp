@@ -89,6 +89,10 @@
         (storage local)
         (visibility public)
         (default ?NONE))
+  (slot top-element
+        (type INSTANCE)
+        (storage local)
+        (visibility public))
   (slot current-element
         (type INSTANCE)
         (storage local)
@@ -113,7 +117,22 @@
         (visibility public))
   (multislot current-token
              (storage local)
-             (visibility public)))
+             (visibility public))
+  (message-handler init after))
+(defmessage-handler MAIN::parser init after
+                    ()
+                    (bind ?self:parent
+                          (bind ?self:current-element
+                                (make-instance of translation-unit
+                                               (path ?self:path))))
+                    (bind ?self:parsing
+                          (bind ?self:valid
+                                (open ?self:path
+                                      ?self:id
+                                      "r"))))
+
+
+
 
 
 
@@ -130,7 +149,27 @@
                         (type SYMBOL)
                         (default ?NONE)))
 
-;(deffacts MAIN::parse-stages
-;          (stage (current startup)
-;                 (rest 
+(deffacts MAIN::parse-stages
+          (stage (current startup)
+                 (rest generate-translation-unit
+                       parse-translation-unit)))
+(defrule MAIN::next-stage
+         (declare (salience -10000))
+         ?f <- (stage (rest ?next $?rest))
+         =>
+         (modify ?f
+                 (current ?next)
+                 (rest ?rest)))
+
+(defrule MAIN::construct-translation-unit
+         (stage (current generate-translation-unit))
+         ?f <- (parse-request (path ?path))
+         =>
+         (retract ?f)
+         (make-instance of parser
+                        (path ?path)))
+
+
+
+
 
