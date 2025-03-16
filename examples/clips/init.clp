@@ -28,12 +28,7 @@
 
              )
 
-; The first thing to do is define the fact used to describe the file to parse
-(deftemplate MAIN::parse-request
-             (slot path
-                   (type LEXEME)
-                   (default ?NONE)))
-; other core concepts
+; core concepts
 (defclass MAIN::has-parent
   "allows a parent/child relationship from the child to the parent"
   (is-a USER)
@@ -59,9 +54,83 @@
 (defclass MAIN::translation-unit
   "A special case of an expression where the parent is always false"
   (is-a expression)
+  (slot path
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
   (slot parent
         (source composite)
         (storage shared)
         (access read-only)
         (create-accessor read)
         (default FALSE)))
+
+
+(defclass MAIN::atom
+  "If it isn't an expression, then it is an atom"
+  (is-a has-parent)
+  (slot value
+        (storage local)
+        (visibility public)
+        (default ?NONE)))
+
+; now define the parser
+(defclass MAIN::parser
+  (is-a has-parent) ; in this case, the parent is the translation unit
+  (slot router-id
+        (type SYMBOL)
+        (storage local)
+        (visibility public)
+        (access initialize-only)
+        (default-dynamic (gensym*)))
+  (slot path
+        (type LEXEME)
+        (storage local)
+        (visibility public)
+        (default ?NONE))
+  (slot current-element
+        (type INSTANCE)
+        (storage local)
+        (visibility public))
+  (slot valid
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public))
+  (slot parsed 
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public))
+  (slot parsing 
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE)
+        (storage local)
+        (visibility public))
+  (multislot current-token
+             (storage local)
+             (visibility public)))
+
+
+
+(deftemplate MAIN::parse-request
+             (slot path
+                   (type LEXEME)
+                   (default ?NONE)))
+
+(deftemplate MAIN::stage
+             (slot current
+                   (type SYMBOL)
+                   (default ?NONE))
+             (multislot rest
+                        (type SYMBOL)
+                        (default ?NONE)))
+
+;(deffacts MAIN::parse-stages
+;          (stage (current startup)
+;                 (rest 
+
