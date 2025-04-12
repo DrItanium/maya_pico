@@ -191,7 +191,24 @@ int _unlink(char* name) {
     return -1;
 }
 
-
+extern "C"
+int _stat(const char* name, struct stat* st) {
+    auto f = pathToFS((const char**)&name);
+    if (f) {
+        fs::FSStat s;
+        if (!f->stat(name, &s)) {
+            return -1;
+        }
+        bzero(st, sizeof(*st));
+        st->st_size = s.size;
+        st->st_blksize = s.blocksize;
+        st->st_ctim.tv_sec = s.ctime;
+        st->st_atim.tv_sec = s.atime;
+        st->st_mode = s.isDir ? S_IFDIR : S_IFREG;
+        return 0;
+    }
+    return -1;
+}
 
 
 // CLIPS/Maya application body
