@@ -29,8 +29,8 @@
 #include "electron/MultifieldExtensions.h"
 
 extern "C" {
-#include "clips/clips.h"
-#include "clips/factfile.h"
+#include "clips.h"
+#include "factfile.h"
 }
 
 namespace Electron

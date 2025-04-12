@@ -47,9 +47,9 @@
 #include "electron/ArgumentConstructor.h"
 
 extern "C" {
-    #include "clips/clips.h"
-    #include "clips/miscfun.h"
-    #include "clips/factfile.h"
+    #include "clips.h"
+    #include "miscfun.h"
+    #include "factfile.h"
 }
 
 namespace Electron

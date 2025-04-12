@@ -23,7 +23,7 @@
  */
 #include "electron/MultifieldBuilder.h"
 extern "C" {
-#include "clips/clips.h"
+#include "clips.h"
 }
 
 namespace Electron

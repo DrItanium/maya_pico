@@ -27,7 +27,7 @@
 #include "fs/path.h"
 #include <string>
 extern "C" {
-#include "clips/clips.h"
+#include "clips.h"
 }
 
 

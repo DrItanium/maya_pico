@@ -28,9 +28,9 @@
 #include "error/Exception.h"
 #include <sstream>
 extern "C" {
-#include "clips/clips.h"
-#include "clips/prcdrpsr.h"
-#include "clips/pprint.h"
+#include "clips.h"
+#include "prcdrpsr.h"
+#include "pprint.h"
 }
 
 namespace Electron

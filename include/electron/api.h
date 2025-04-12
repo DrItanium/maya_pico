@@ -29,7 +29,7 @@
 #include "electron/StringExtensions.h"
 
 extern "C" {
-#include "clips/clips.h"
+#include "clips.h"
 }
 
 
