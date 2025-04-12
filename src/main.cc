@@ -32,27 +32,116 @@ extern "C" {
     #include "clips.h"
 }
 #include "electron/Environment.h"
-#include <VFS.h>
+//#include <VFS.h>
 #include <LittleFS.h>
 #include <SDFS.h>
 #include <SemiFS.h>
+#include <FS.h>
+#include <FSImpl.h>
+#include <list>
+#include <map>
+// need the FILENOs for stdin/stdout/stderr
+#include <unistd.h>
 
-#if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-#include <signal.h>
-#endif
 
-/***************************************/
-/* LOCAL INTERNAL FUNCTION DEFINITIONS */
-/***************************************/
+// so the VFS implementation takes over the newlib syscalls so we need to work
+// within its confines. So a new custom filesystem for stdin and stdout need to
+// be handled? Not actually possible if VFS is used. The file handles start at
+// 3 so 0, 1, and 2 are ignored. What I need to do is actually implement my own
+// copy of the VFS to make it possible to handle all of this. Or I need to make
+// a custom file which wraps the stdin/out/err devices I want but open them
+// through the VFS implementation
+//
 
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   static void                    CatchCtrlC(int);
-#endif
+// taken from VFS.cpp/h but updated for my purposes
+struct Entry{
+    Entry(const char* p, FS* f) : path(p), fs(f) { }
+    const char* path;
+    FS *fs;
+};
 
-/***************************************/
-/* LOCAL INTERNAL VARIABLE DEFINITIONS */
-/***************************************/
+namespace {
+    static FS* root = nullptr;
+    static std::list<Entry> mountPoints;
+    static std::map<int, File> files;
+    static int fd = 3;
+} // end namespace 
 
+class CLIPSVFSClass {
+    CLIPSVFSClass() = default;
+    void root(FS& fs) noexcept {
+        ::root = &fs;
+    }
+    void map(const char* path, FS& fs) {
+        mountPoints.emplace_back(Entry{strdup(path), &fs});
+    }
+};
+
+namespace {
+    static FS* pathToFS(const char** name) {
+        const char* nm = *name;
+        for (const auto& a : mountPoints) {
+            if (!strncmp(a.path, nm, strlen(a.path))) {
+                *name += strlen(a.path);
+                return a.fs;
+            }
+        }
+        return ::root;
+    }
+}
+extern "C"
+int 
+_open(char* file, int flags, int /*mode*/) {
+    const char* nm = file;
+    auto fs = pathToFS(&nm);
+    if (!fs) {
+        return -1;
+    }
+    const char *md = "r";
+    flags &= O_RDONLY | O_WRONLY | O_CREAT | O_TRUNC | O_APPEND | O_RDWR;
+    if (flags == O_RDONLY) {
+        md = "r";
+    } else if (flags == (O_WRONLY | O_CREAT | O_TRUNC)) {
+        md = "w";
+    } else if (flags == (O_WRONLY | O_CREAT | O_APPEND)) {
+        md = "a";
+    } else if (flags == O_RDWR) {
+        md = "r+";
+    } else if (flags == (O_RDWR | O_CREAT | O_TRUNC)) {
+        md = "w+";
+    } else if (flags == (O_RDWR | O_CREAT | O_APPEND)) {
+        md = "a+";
+    }
+    File f = fs->open(nm, md);
+    if (!f) {
+        return -1;
+    }
+    files.insert({fd, f});
+    return fd++;
+}
+static_assert(STDOUT_FILENO < 3, "the stdout filehandle is not right!");
+static_assert(STDERR_FILENO < 3, "the stderr filehandle is not right!");
+static_assert(STDIN_FILENO < 3, "the stdin filehandle is not right!");
+extern "C"
+ssize_t _write(int fd, const void* buf, size_t count) {
+    switch (fd) {
+        case STDOUT_FILENO:
+            return Serial.write((const char*)buf, count);
+        case STDERR_FILENO:
+/// @todo implement a debug error stream at some point
+            return Serial.write((const char*)buf, count);
+        default: {
+                     auto f = files.find(fd);
+                     if (f == files.end()) {
+                         return 0;
+                     }
+                     return f->second.write((const char*)buf, count);
+                 }
+    }
+}
+
+
+// CLIPS/Maya application body
 Electron::Environment* mainEnv = nullptr;
 
 void 
@@ -68,8 +157,9 @@ void
 setup() {
     LittleFS.begin();
     SDFS.begin();
-    VFS.map("/lfs", LittleFS);
-    VFS.map("/sd", SDFS);
+
+    //VFS.map("/lfs", LittleFS);
+    //VFS.map("/sd", SDFS);
 
     Serial.begin(9600);
 
@@ -84,40 +174,3 @@ loop() {
     digitalWrite(LED_BUILTIN, HIGH);
     delay(1000);
 }
-
-#if 0
-/****************************************/
-/* main: Starts execution of the expert */
-/*   system development environment.    */
-/****************************************/
-int main(
-  int argc,
-  char *argv[])
-  {
-      // need to allocate and destroy it ahead of time to make sure we don't
-      // have dangling memory references
-    mainEnv = new Electron::Environment();
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
-   signal(SIGINT,CatchCtrlC);
-#endif
-   mainEnv->addToIncludePathFront(".");
-   RerouteStdin(*mainEnv, argc, argv);
-   CommandLoop(*mainEnv);
-
-    delete mainEnv;
-   return -1;
-  }
-
-#if UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC || DARWIN
-/***************/
-/* CatchCtrlC: */
-/***************/
-static void CatchCtrlC(
-  int sgnl)
-  {
-   SetHaltExecution(*mainEnv,true);
-   CloseAllBatchSources(*mainEnv);
-   signal(SIGINT,CatchCtrlC);
-  }
-#endif
-#endif
