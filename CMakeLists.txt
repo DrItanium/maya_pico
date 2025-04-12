@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
-project(maya C CXX ASM)
 include(pico_sdk_import.cmake)
+project(maya C CXX ASM)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
 pico_sdk_init()
@@ -407,17 +407,9 @@ add_library(electron
         electron/MultifieldExtensions.cc
         electron/MultifieldExtensions.h
 )
-add_executable(maya cmd/maya/main.cc)
-
-pico_add_extra_outputs(maya)
-pico_enable_stdio_usb(maya 1)
-target_link_libraries(maya PUBLIC
-		electron
-		neutron
-		clips
-		pico_stdlib
-	)
-
+add_executable(maya 
+	cmd/maya/main.cc
+)
 
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
@@ -427,3 +419,14 @@ target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
+
+pico_enable_stdio_usb(maya 1)
+pico_add_extra_outputs(maya)
+target_link_libraries(maya 
+		electron
+		neutron
+		clips
+		pico_stdlib
+	)
+
+
