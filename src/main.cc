@@ -264,6 +264,10 @@ Electron::Environment* mainEnv = nullptr;
 
 void 
 setup1() {
+    Serial.begin();
+    while (!Serial) {
+        delay(10);
+    }
     mainEnv = new Electron::Environment();
     CommandLoop(*mainEnv);
 }
@@ -278,8 +282,6 @@ setup() {
 
     VFS.map("/lfs", LittleFS);
     VFS.map("/sd", SDFS);
-
-    Serial.begin();
 
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
