@@ -68,6 +68,7 @@ namespace {
 } // end namespace 
 
 class CLIPSVFSClass {
+    public:
     CLIPSVFSClass() = default;
     void root(FS& fs) noexcept {
         ::root = &fs;
@@ -210,6 +211,26 @@ int _stat(const char* name, struct stat* st) {
     return -1;
 }
 
+extern "C" 
+int _fstat(int fd, struct stat *st) {
+    auto f = files.find(fd);
+    if (f == files.end()) {
+        return -1; // FD not found
+    }
+    fs::FSStat s;
+    if (!f->second.stat(&s)) {
+        return -1;
+    }
+    bzero(st, sizeof(*st));
+    st->st_size = s.size;
+    st->st_blksize = s.blocksize;
+    st->st_ctim.tv_sec = s.ctime;
+    st->st_ctim.tv_sec = s.ctime;
+    st->st_mode = s.isDir ? S_IFDIR : S_IFREG;
+    return 0;
+}
+
+CLIPSVFSClass VFS;
 
 // CLIPS/Maya application body
 Electron::Environment* mainEnv = nullptr;
@@ -228,8 +249,8 @@ setup() {
     LittleFS.begin();
     SDFS.begin();
 
-    //VFS.map("/lfs", LittleFS);
-    //VFS.map("/sd", SDFS);
+    VFS.map("/lfs", LittleFS);
+    VFS.map("/sd", SDFS);
 
     Serial.begin(9600);
 
