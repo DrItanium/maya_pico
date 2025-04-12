@@ -170,6 +170,7 @@
 #include "envrnmnt.h"
 #include "memalloc.h"
 #include "sysdep.h"
+#include <Arduino.h>
 
 /********************/
 /* ENVIRONMENT DATA */

@@ -146,7 +146,13 @@ Environment *CreateEnvironmentDriver(
    struct environmentData *theEnvironment;
    void *theData;
 
-   theEnvironment = (struct environmentData *) malloc(sizeof(struct environmentData));
+   theEnvironment = (struct environmentData *) 
+#ifndef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+       (sizeof(struct environmentData));
 
    if (theEnvironment == NULL)
      {
@@ -154,7 +160,13 @@ Environment *CreateEnvironmentDriver(
       return NULL;
      }
 
-   theData = malloc(sizeof(void *) * MAXIMUM_ENVIRONMENT_POSITIONS);
+   theData = 
+#ifndef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+       (sizeof(void *) * MAXIMUM_ENVIRONMENT_POSITIONS);
 
    if (theData == NULL)
      {
@@ -175,7 +187,13 @@ Environment *CreateEnvironmentDriver(
    /* Allocate storage for the cleanup functions. */
    /*=============================================*/
 
-   theData = malloc(sizeof(void (*)(struct environmentData *)) * MAXIMUM_ENVIRONMENT_POSITIONS);
+   theData = 
+#ifndef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+       (sizeof(void (*)(struct environmentData *)) * MAXIMUM_ENVIRONMENT_POSITIONS);
 
    if (theData == NULL)
      {

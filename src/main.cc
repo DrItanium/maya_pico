@@ -26,12 +26,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
+#include <Arduino.h>
 #include "platform/os.h"
 extern "C" {
     #include "clips.h"
 }
 #include "electron/Environment.h"
+#include <VFS.h>
+#include <LittleFS.h>
+#include <SDFS.h>
 
 #if   UNIX_V || LINUX || DARWIN || UNIX_7 || WIN_GCC || WIN_MVC
 #include <signal.h>
@@ -50,7 +53,7 @@ extern "C" {
 /***************************************/
 
 Electron::Environment* mainEnv = nullptr;
-
+#if 0
 /****************************************/
 /* main: Starts execution of the expert */
 /*   system development environment.    */
@@ -85,3 +88,38 @@ static void CatchCtrlC(
    signal(SIGINT,CatchCtrlC);
   }
 #endif
+#endif
+
+void 
+setup1() {
+    mainEnv = new Electron::Environment();
+    CommandLoop(*mainEnv);
+}
+void
+loop1() {
+
+}
+void
+setup() {
+    LittleFS.begin();
+    SDFS.begin();
+    VFS.map("/lfs", LittleFS);
+    VFS.map("/sd", SDFS);
+
+    Serial.begin(9600);
+    while (!Serial) {
+        delay(20);
+    }
+
+    printf("Donuts\n");
+    pinMode(LED_BUILTIN, OUTPUT);
+    digitalWrite(LED_BUILTIN, LOW);
+}
+
+void
+loop() {
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(1000);
+}

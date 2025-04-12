@@ -69,10 +69,17 @@
 #if WIN_MVC
 #include <malloc.h>
 #endif
+#ifndef USE_GENERIC_MALLOC
+#include <Arduino.h>
+#endif
 
 #define STRICT_ALIGN_SIZE sizeof(double)
 
+#ifdef USE_GENERIC_MALLOC
 #define SpecialMalloc(sz) malloc((STD_SIZE) sz)
+#else
+#define SpecialMalloc(sz) pmalloc((STD_SIZE) sz)
+#endif
 #define SpecialFree(ptr) free(ptr)
 
 /********************************************/
@@ -87,7 +94,12 @@ void InitializeMemory(
 
 #if (MEM_TABLE_SIZE > 0)
    MemoryData(theEnv)->MemoryTable = (struct memoryPtr **)
-                 malloc((STD_SIZE) (sizeof(struct memoryPtr *) * MEM_TABLE_SIZE));
+#ifdef USE_GENERIC_MALLOC
+                 malloc
+#else
+                 pmalloc
+#endif
+                 ((STD_SIZE) (sizeof(struct memoryPtr *) * MEM_TABLE_SIZE));
 
    if (MemoryData(theEnv)->MemoryTable == NULL)
      {
@@ -114,22 +126,46 @@ void *genalloc(
   size_t size)
   {
    void *memPtr;
-
-   memPtr = malloc(size);
+   memPtr = 
+#ifdef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+   (size);
 
    if (memPtr == NULL)
      {
       ReleaseMem(theEnv,(long long) ((size * 5 > 4096) ? size * 5 : 4096));
-      memPtr = malloc(size);
+      memPtr = 
+#ifdef USE_GENERIC_MALLOC
+      malloc
+#else
+      pmalloc
+#endif
+      (size);
+
       if (memPtr == NULL)
         {
          ReleaseMem(theEnv,-1);
-         memPtr = malloc(size);
+         memPtr = 
+#ifdef USE_GENERIC_MALLOC
+             malloc
+#else
+             pmalloc
+#endif
+             (size);
          while (memPtr == NULL)
            {
             if ((*MemoryData(theEnv)->OutOfMemoryCallback)(theEnv,size))
               return NULL;
-            memPtr = malloc(size);
+            memPtr = 
+#ifdef USE_GENERIC_MALLOC
+                malloc
+#else
+                pmalloc
+#endif
+                (size);
            }
         }
      }

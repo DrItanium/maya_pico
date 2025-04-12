@@ -98,6 +98,7 @@
 #include "sysdep.h"
 
 #include "utility.h"
+#include <Arduino.h>
 
 #define MAX_EPHEMERAL_COUNT 1000L
 #define MAX_EPHEMERAL_SIZE 10240L
@@ -1571,7 +1572,13 @@ char *SBCopy(
   {
    char *stringCopy;
 
-   stringCopy = (char *) malloc(strlen(theSB->contents) + 1);
+   stringCopy = (char *) 
+#ifdef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+       (strlen(theSB->contents) + 1);
    strcpy(stringCopy,theSB->contents);
 
    return stringCopy;

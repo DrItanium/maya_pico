@@ -122,6 +122,7 @@
 #endif
 
 #include "envrnmnt.h"
+#include <Arduino.h>
 
 #define SIZE_ENVIRONMENT_HASH  131
 
@@ -159,7 +160,13 @@ bool AllocateEnvironmentData(
    /* Allocate the data. */
    /*====================*/
 
-   theEnvironment->theData[position] = malloc(size);
+   theEnvironment->theData[position] = 
+#ifdef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+       (size);
    if (theEnvironment->theData[position] == NULL)
      {
       printf("\n[ENVRNMNT4] Environment data position %d could not be allocated.\n",position);
@@ -220,7 +227,13 @@ bool AddEnvironmentCleanupFunction(
   {
    struct environmentCleanupFunction *newPtr, *currentPtr, *lastPtr = NULL;
 
-   newPtr = (struct environmentCleanupFunction *) malloc(sizeof(struct environmentCleanupFunction));
+   newPtr = (struct environmentCleanupFunction *) 
+#ifdef USE_GENERIC_MALLOC
+       malloc
+#else
+       pmalloc
+#endif
+       (sizeof(struct environmentCleanupFunction));
    if (newPtr == NULL)
      { return false; }
 
