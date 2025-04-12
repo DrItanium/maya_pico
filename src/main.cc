@@ -107,11 +107,7 @@ setup() {
     VFS.map("/sd", SDFS);
 
     Serial.begin(9600);
-    while (!Serial) {
-        delay(20);
-    }
 
-    printf("Donuts\n");
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
 }
