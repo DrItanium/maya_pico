@@ -128,15 +128,20 @@ ssize_t
 _write(int fd, const void* buf, size_t count) {
     switch (fd) {
         case STDOUT_FILENO:
-        case STDERR_FILENO:
-            return Serial.write((const char*)buf, count);
-        default: {
-                     auto f = files.find(fd);
-                     if (f == files.end()) {
-                         return 0;
-                     }
-                     return f->second.write((const char*)buf, count);
-                 }
+        case STDERR_FILENO: 
+            {
+                auto rval = Serial.write((const char*)buf, count);
+                Serial.flush();
+                return rval;
+            }
+        default: 
+            {
+                auto f = files.find(fd);
+                if (f == files.end()) {
+                    return 0;
+                }
+                return f->second.write((const char*)buf, count);
+            }
     }
 }
 
@@ -170,10 +175,32 @@ _lseek(int fd, int ptr, int dir) {
     return f->second.seek(ptr, d) ? 0 : 1;
 
 }
+int
+waitForLegalCharacter() {
+    int rawConsoleValue = Serial.read();
+    while (rawConsoleValue == -1) {
+        rawConsoleValue = Serial.read();
+    }
+    return rawConsoleValue;
+}
+// taken from my i960 cortex newlib impl
+ssize_t 
+stdinRead(char* buffer, size_t nbyte) {
+    ssize_t numRead = 0;
+    for (size_t i = 0; i < nbyte; ++i) {
+        buffer[i] = static_cast<char>(waitForLegalCharacter());
+        ++numRead;
+        if ((buffer[i] == '\n') || (buffer[i] == '\r')) {
+            return numRead;
+        }
+    }
+    return numRead;
+}
 
 extern "C"
 int _read(int fd, char* buf, int size) {
     if (fd == STDIN_FILENO) {
+        // we want a blocking implementation
         return Serial.readBytes(buf, size);
     } 
     auto f = files.find(fd);
@@ -252,7 +279,7 @@ setup() {
     VFS.map("/lfs", LittleFS);
     VFS.map("/sd", SDFS);
 
-    Serial.begin(9600);
+    Serial.begin();
 
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
