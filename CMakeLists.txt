@@ -1,21 +1,10 @@
-cmake_minimum_required(VERSION 3.30)
-project(maya VERSION 6.40
-        LANGUAGES C CXX)
-find_package(Boost CONFIG)
-find_package(boost_regex REQUIRED)
-#find_package(boost_filesystem REQUIRED)
-find_package(boost_system REQUIRED)
-find_package(boost_program_options REQUIRED)
-include(CheckIncludeFiles)
-include(CheckIncludeFileCXX)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-if(Boost_FOUND)
-	include_directories(${Boost_INCLUDE_DIRS})
-endif()
-if (APPLE)
-add_compile_options(-fexperimental-library)
-endif()
+cmake_minimum_required(VERSION 3.13)
+project(maya C CXX ASM)
+include(pico_sdk_import.cmake)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+pico_sdk_init()
+
 add_library(clips
 clips/agenda.c
 clips/analysis.c
@@ -358,6 +347,7 @@ clips/usrsetup.h
 clips/utility.h
 clips/watch.h)
 add_library(neutron
+	fs/path.h
 	error/Exception.cc
 	error/Exception.h
 	debug/here.h
@@ -418,24 +408,17 @@ add_library(electron
         electron/MultifieldExtensions.h
 )
 add_executable(maya cmd/maya/main.cc)
+
+pico_add_extra_outputs(maya)
+pico_enable_stdio_usb(maya 1)
 target_link_libraries(maya PUBLIC
 		electron
 		neutron
 		clips
-		Boost::regex
-		Boost::system
+		pico_stdlib
 	)
 
 
-add_executable(maya-app cmd/maya-app/main.cc)
-target_link_libraries(maya-app PUBLIC
-		electron
-		neutron
-		clips
-		Boost::regex
-		Boost::system
-		Boost::program_options
-		)
 target_include_directories(maya PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(electron PUBLIC "${PROJECT_SRC_DIR}"
@@ -444,7 +427,3 @@ target_include_directories(neutron PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(clips PUBLIC "${PROJECT_SRC_DIR}"
 		"${CMAKE_CURRENT_BINARY_DIR}")
-target_include_directories(maya-app PUBLIC "${PROJECT_SRC_DIR}"
-		"${CMAKE_CURRENT_BINARY_DIR}")
-install(TARGETS maya DESTINATION bin)
-install(TARGETS maya-app DESTINATION bin)
