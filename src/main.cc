@@ -126,9 +126,7 @@ extern "C"
 ssize_t _write(int fd, const void* buf, size_t count) {
     switch (fd) {
         case STDOUT_FILENO:
-            return Serial.write((const char*)buf, count);
         case STDERR_FILENO:
-/// @todo implement a debug error stream at some point
             return Serial.write((const char*)buf, count);
         default: {
                      auto f = files.find(fd);
