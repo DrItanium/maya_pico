@@ -123,7 +123,8 @@ static_assert(STDOUT_FILENO < 3, "the stdout filehandle is not right!");
 static_assert(STDERR_FILENO < 3, "the stderr filehandle is not right!");
 static_assert(STDIN_FILENO < 3, "the stdin filehandle is not right!");
 extern "C"
-ssize_t _write(int fd, const void* buf, size_t count) {
+ssize_t 
+_write(int fd, const void* buf, size_t count) {
     switch (fd) {
         case STDOUT_FILENO:
         case STDERR_FILENO:
@@ -137,6 +138,60 @@ ssize_t _write(int fd, const void* buf, size_t count) {
                  }
     }
 }
+
+extern "C" 
+int 
+_close(int fd) {
+    // no difference from the VFS impl
+    auto f = files.find(fd);
+    if (f == files.end()) {
+        return -1;
+    }
+    f->second.close();
+    files.erase(f);
+    return 0;
+}
+
+extern "C"
+int
+_lseek(int fd, int ptr, int dir) {
+    auto f = files.find(fd);
+    if (f == files.end()) {
+        return -1;
+    }
+    SeekMode d = SeekSet;
+    if (dir == SEEK_CUR) {
+        d = SeekCur;
+    } else if (dir == SEEK_END) {
+        d = SeekEnd;
+    }
+
+    return f->second.seek(ptr, d) ? 0 : 1;
+
+}
+
+extern "C"
+int _read(int fd, char* buf, int size) {
+    if (fd == STDIN_FILENO) {
+        return Serial.readBytes(buf, size);
+    } 
+    auto f = files.find(fd);
+    if (f == files.end()) {
+        return -1; // FD not found
+    }
+    return f->second.read((uint8_t*)buf, size);
+}
+
+extern "C"
+int _unlink(char* name) {
+    auto f = pathToFS((const char**)&name);
+    if (f) {
+        return f->remove(name) ? 0 : -1;
+    }
+    return -1;
+}
+
+
 
 
 // CLIPS/Maya application body
