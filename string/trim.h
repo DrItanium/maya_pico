@@ -25,9 +25,9 @@
 #ifndef string_trim_h__ // {
 #define string_trim_h__
 
-#include <boost/algorithm/string/trim.hpp>
+//#include <boost/algorithm/string/trim.hpp>
 namespace Neutron {
-using boost::algorithm::trim;
+//using boost::algorithm::trim;
 } // namespace Neutron
 
 #endif // } string_trim_h__

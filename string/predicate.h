@@ -25,21 +25,21 @@
 #define string_predicate_h__
 
 #include <string>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/classification.hpp>
+//#include <boost/algorithm/string/predicate.hpp>
+//#include <boost/algorithm/string/classification.hpp>
 
 namespace Neutron {
 
-using boost::algorithm::is_any_of;
+//using boost::algorithm::is_any_of;
 
 inline bool hasPrefix(const std::string& str, const std::string& prefix)
 {
-    return boost::algorithm::starts_with(str, prefix);
+    return str.starts_with(prefix);
 }
 
 inline bool hasSuffix(const std::string& str, const std::string& suffix)
 {
-    return boost::algorithm::ends_with(str, suffix);
+    return str.ends_with(suffix);
 }
 
 } // namespace Neutron

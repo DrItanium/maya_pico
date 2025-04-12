@@ -22,21 +22,21 @@
  *
  */
 
-#include "boost/tokenizer.hpp"
+//#include "boost/tokenizer.hpp"
 
 namespace Neutron
 {
   /// @todo: there are more template arguments but we don't need them right now
-  using boost::keep_empty_tokens;
-  template<typename Char>
-  using CharSeparator = boost::char_separator<Char>;
-  template<typename TokenizerFunc>
-  using Tokenizer = boost::tokenizer<TokenizerFunc>;
-  template<typename Char>
-  using CharTokenizer = Tokenizer<CharSeparator<Char>>;
+  //using boost::keep_empty_tokens;
+  //template<typename Char>
+  //using CharSeparator = boost::char_separator<Char>;
+  //template<typename TokenizerFunc>
+  //using Tokenizer = boost::tokenizer<TokenizerFunc>;
+  //template<typename Char>
+  //using CharTokenizer = Tokenizer<CharSeparator<Char>>;
   /**
    * A character tokenizer that operates on chars
    */
-  using SingleCharTokenizer = CharTokenizer<char>;
-  using SingleCharSeparator = CharSeparator<char>;
+  //using SingleCharTokenizer = CharTokenizer<char>;
+  //using SingleCharSeparator = CharSeparator<char>;
 } // Neutron

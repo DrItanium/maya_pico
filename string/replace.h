@@ -24,12 +24,12 @@
 #ifndef string_replace_h__ // {
 #define string_replace_h__
 
-#include <boost/algorithm/string/regex.hpp>
-#include <boost/algorithm/string/replace.hpp>
+//#include <boost/algorithm/string/regex.hpp>
+//#include <boost/algorithm/string/replace.hpp>
 
 namespace Neutron {
-using boost::algorithm::replace_all_copy;
-using boost::algorithm::replace_all_regex_copy;
+//using boost::algorithm::replace_all_copy;
+//using boost::algorithm::replace_all_regex_copy;
 } // namespace Neutron
 
 #endif // } string_replace_h__

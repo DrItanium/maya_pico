@@ -42,8 +42,8 @@ namespace Electron
 static void hasPrefix(UDF_ARGS__);
 static void hasSuffix(UDF_ARGS__);
 static void splitOnce(UDF_ARGS__);
-static void replaceAll(UDF_ARGS__);
-static void replaceRegexAll(UDF_ARGS__);
+//static void replaceAll(UDF_ARGS__);
+//static void replaceRegexAll(UDF_ARGS__);
 
 void
 InitializeStringExtensions(RawEnvironment* env)
@@ -52,8 +52,8 @@ InitializeStringExtensions(RawEnvironment* env)
     theEnv.addFunction("has-prefix", "b", 2, 2, "sy;sy;sy", hasPrefix, "hasPrefix");
     theEnv.addFunction("has-suffix", "b", 2, 2, "sy;sy;sy", hasSuffix, "hasSuffix");
     theEnv.addFunction("split-once", "mb", 2, 2, "sy;sy;sy", splitOnce, "splitOnce");
-    theEnv.addFunction("replace-all", "sy", 3, 3, "sy;sy;sy;sy", replaceAll, "replaceAll");
-    theEnv.addFunction("replace-regex-all", "sy", 3, 3, "sy;sy;sy;sy", replaceRegexAll, "replaceRegexAll");
+    //theEnv.addFunction("replace-all", "sy", 3, 3, "sy;sy;sy;sy", replaceAll, "replaceAll");
+    //theEnv.addFunction("replace-regex-all", "sy", 3, 3, "sy;sy;sy;sy", replaceRegexAll, "replaceRegexAll");
 }
 
 void
@@ -120,7 +120,7 @@ hasSuffix(UDF_ARGS__)
     std::string prefix(arg1.lexemeValue->contents);
     out->lexemeValue = theEnv.createBool(Neutron::hasSuffix(str, prefix));
 }
-
+#if 0
 void
 replaceAll(UDF_ARGS__)
 {
@@ -172,5 +172,6 @@ replaceRegexAll(UDF_ARGS__)
     auto result = Neutron::replace_all_regex_copy(str, Neutron::regex(find), replacement);
     out->lexemeValue = theEnv.createString(result);
 }
+#endif
 
 } // end namespace Electron

@@ -22,14 +22,14 @@
  *
  */
 
-#include "boost/regex.hpp"
+//#include "boost/regex.hpp"
 
 namespace Neutron
 {
-    using boost::regex;
-    using boost::cmatch;
-    using boost::regex_match;
-    using boost::regex_replace;
+    //using boost::regex;
+    //using boost::cmatch;
+    //using boost::regex_match;
+    //using boost::regex_replace;
 } // namespace Neutron
 
 // end of file

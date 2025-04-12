@@ -24,10 +24,10 @@
 #ifndef string_join_h__ // {
 #define string_join_h__
 
-#include <boost/algorithm/string/join.hpp>
+//#include <boost/algorithm/string/join.hpp>
 
 namespace Neutron {
-using boost::algorithm::join;
+//using boost::algorithm::join;
 } // namespace Neutron
 
 #endif // } string_join_h__

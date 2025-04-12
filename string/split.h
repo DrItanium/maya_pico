@@ -24,10 +24,10 @@
 #ifndef string_split_h__ // {
 #define string_split_h__
 
-#include <boost/algorithm/string/split.hpp>
+//#include <boost/algorithm/string/split.hpp>
 
 namespace Neutron {
-using boost::algorithm::split;
+//using boost::algorithm::split;
 } // namespace Neutron
 
 #endif // } string_split_h__
