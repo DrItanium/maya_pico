@@ -3,7 +3,7 @@ project(maya VERSION 6.40
         LANGUAGES C CXX)
 find_package(Boost CONFIG)
 find_package(boost_regex REQUIRED)
-find_package(boost_filesystem REQUIRED)
+#find_package(boost_filesystem REQUIRED)
 find_package(boost_system REQUIRED)
 find_package(boost_program_options REQUIRED)
 include(CheckIncludeFiles)
@@ -423,7 +423,6 @@ target_link_libraries(maya PUBLIC
 		neutron
 		clips
 		Boost::regex
-		Boost::filesystem
 		Boost::system
 	)
 
@@ -434,7 +433,6 @@ target_link_libraries(maya-app PUBLIC
 		neutron
 		clips
 		Boost::regex
-		Boost::filesystem
 		Boost::system
 		Boost::program_options
 		)
