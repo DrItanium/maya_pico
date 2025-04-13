@@ -188,6 +188,8 @@ ssize_t
 stdinRead(char* buffer, size_t nbyte) {
     ssize_t numRead = 0;
     for (size_t i = 0; i < nbyte; ++i) {
+        // this needs to be a blocking implementation to make sure that we
+        // don't run into problems
         buffer[i] = static_cast<char>(waitForLegalCharacter());
         ++numRead;
         if ((buffer[i] == '\n') || (buffer[i] == '\r')) {
@@ -200,8 +202,7 @@ stdinRead(char* buffer, size_t nbyte) {
 extern "C"
 int _read(int fd, char* buf, int size) {
     if (fd == STDIN_FILENO) {
-        // we want a blocking implementation
-        return Serial.readBytes(buf, size);
+        return stdinRead(buf, size);
     } 
     auto f = files.find(fd);
     if (f == files.end()) {
@@ -259,8 +260,9 @@ int _fstat(int fd, struct stat *st) {
 
 CLIPSVFSClass VFS;
 
+// the clips REPL and system take up one entire core while the other is free
+// for other tasks
 // CLIPS/Maya application body
-Electron::Environment* mainEnv = nullptr;
 
 void 
 setup1() {
@@ -268,12 +270,12 @@ setup1() {
     while (!Serial) {
         delay(10);
     }
-    mainEnv = new Electron::Environment();
-    CommandLoop(*mainEnv);
 }
 void
 loop1() {
-
+    auto mainEnv = new Electron::Environment(); 
+    CommandLoop(*mainEnv);
+    delete mainEnv;
 }
 void
 setup() {
